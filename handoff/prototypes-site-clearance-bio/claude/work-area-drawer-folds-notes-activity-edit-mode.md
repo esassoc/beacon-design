@@ -287,6 +287,7 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 .esa-icon--lg{--_icon-size:var(--icon-size-lg,24px)}
 .esa-icon--xl{--_icon-size:var(--icon-size-xl,28px)}
 .esa-icon svg{width:var(--_icon-size);height:var(--_icon-size);display:block}
+.bcn-key-value__key .esa-icon{color:var(--color-content-default-tertiary)}
 .breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
 .page-layout__title h1 .esa-icon{color:var(--page-title-icon-color,var(--bcn-gray-1000));flex-shrink:0}
 ```

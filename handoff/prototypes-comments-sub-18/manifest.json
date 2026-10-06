@@ -1,0 +1,2133 @@
+{
+  "name": "comments-submission",
+  "url": "http://localhost:4399/beacon-design/prototypes/comments/sub-18/",
+  "theme": "beacon",
+  "generatedFrom": "spec",
+  "sections": [
+    {
+      "label": "Number and pager",
+      "tag": "div",
+      "selector": ".page-layout__utilities",
+      "html": "<div class=\"page-layout__utilities\">\n  <div\n    class=\"bcn-rp\"\n    data-record-pager=\"\"\n    data-kind=\"submission\"\n    data-current=\"sub-18\"\n    data-base=\"/beacon-design/prototypes/comments\"\n  >\n    <span\n      class=\"esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm esa-button--icon-only\"\n      ><a\n        class=\"esa-button__native typography-microcopy-xs\"\n        href=\"/beacon-design/prototypes/comments/sub-19\"\n        role=\"button\"\n        aria-label=\"Previous submission\"\n        title=\"S-019 Frances Ilyin\"\n        data-rp-prev=\"true\"\n        ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n          ><svg\n            width=\"16\"\n            height=\"16\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <path d=\"m15 18-6-6 6-6\"></path></svg></span></a></span\n    ><span\n      class=\"esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm esa-button--icon-only\"\n      ><button\n        class=\"esa-button__native typography-microcopy-xs\"\n        type=\"button\"\n        aria-label=\"All submissions\"\n        title=\"All submissions\"\n        data-rp-open=\"true\"\n        data-glyph=\"list\"\n      >\n        <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n          ><svg\n            width=\"16\"\n            height=\"16\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            aria-hidden=\"true\"\n          >\n            <path d=\"M3 12h.01\"></path>\n            <path d=\"M3 18h.01\"></path>\n            <path d=\"M3 6h.01\"></path>\n            <path d=\"M8 12h13\"></path>\n            <path d=\"M8 18h13\"></path>\n            <path d=\"M8 6h13\"></path></svg\n        ></span></button></span\n    ><span\n      class=\"esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm esa-button--icon-only\"\n      ><a\n        class=\"esa-button__native typography-microcopy-xs\"\n        href=\"/beacon-design/prototypes/comments/sub-17\"\n        role=\"button\"\n        aria-label=\"Next submission\"\n        title=\"S-017 Kelsey Arnaud\"\n        data-rp-next=\"true\"\n        ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n          ><svg\n            width=\"16\"\n            height=\"16\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <path d=\"m9 18 6-6-6-6\"></path></svg></span></a></span\n    ><esa-side-dialog\n      heading=\"Submissions\"\n      position=\"right\"\n      show-close-button=\"true\"\n      data-rp-panel=\"true\"\n      size=\"md\"\n      ><div class=\"bcn-rp__body\">\n        <esa-button-toggle\n          size=\"sm\"\n          label=\"Status\"\n          data-rp-filter=\"true\"\n        ></esa-button-toggle>\n        <ul class=\"bcn-rp__list\" role=\"list\" data-rp-list=\"\">\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-29\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-029</span\n              ><span class=\"bcn-rp__name\">Anton Kowalczyk</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"slate\"></span>Process and\n                  outreach</span\n                ><span\n                  class=\"bcn-rp__more\"\n                  title=\"Nighttime operations, Flight paths, Health\"\n                  >+3</span\n                ></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-28\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-028</span\n              ><span class=\"bcn-rp__name\">Gwen Halvorsen</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"violet\"></span>Nighttime\n                  operations</span\n                ><span class=\"bcn-rp__more\" title=\"Aircraft noise, Process and outreach\"\n                  >+2</span\n                ></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-27\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-027</span\n              ><span class=\"bcn-rp__name\">Yvette Garrow</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"violet\"></span>Nighttime\n                  operations</span\n                ><span class=\"bcn-rp__more\" title=\"Health\">+1</span></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-26\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-026</span\n              ><span class=\"bcn-rp__name\">Dorian Wexley</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"crimson\"></span>Health</span\n                ></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-25\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-025</span\n              ><span class=\"bcn-rp__name\">Ingrid Solheim</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"violet\"></span>Nighttime\n                  operations</span\n                ><span class=\"bcn-rp__more\" title=\"Process and outreach, Health\"\n                  >+2</span\n                ></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-24\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-024</span\n              ><span class=\"bcn-rp__name\">Marcus Delacroix</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"crimson\"></span>Health</span\n                ><span class=\"bcn-rp__more\" title=\"Nighttime operations\">+1</span></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-23\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-023</span\n              ><span class=\"bcn-rp__name\">Rosalind Pike</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"grass\"></span>Noise\n                  measurement</span\n                ><span class=\"bcn-rp__more\" title=\"Nighttime operations\">+1</span></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-22\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__glyph\" data-state=\"done\" aria-hidden=\"true\"\n                  ><svg\n                    width=\"14\"\n                    height=\"14\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    aria-hidden=\"true\"\n                  >\n                    <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                    <path d=\"m9 12 2 2 4-4\"></path></svg></span></span\n              ><span class=\"bcn-rp__no\">S-022</span\n              ><span class=\"bcn-rp__name\">Benjamin Achterberg</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"done\">Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"blue\"></span>Flight\n                  paths</span\n                ><span class=\"bcn-rp__more\" title=\"Nighttime operations\">+1</span></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-21\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-021</span\n              ><span class=\"bcn-rp__name\">Celeste Marquardt</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"slate\"></span>Process and\n                  outreach</span\n                ><span class=\"bcn-rp__more\" title=\"Nighttime operations, Aircraft noise\"\n                  >+2</span\n                ></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-20\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-020</span\n              ><span class=\"bcn-rp__name\">Hollis Greer</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"crimson\"></span>Health</span\n                ><span class=\"bcn-rp__more\" title=\"Flight paths\">+1</span></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-19\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-019</span\n              ><span class=\"bcn-rp__name\">Frances Ilyin</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"crimson\"></span>Health</span\n                ><span\n                  class=\"bcn-rp__more\"\n                  title=\"Nighttime operations, Process and outreach\"\n                  >+2</span\n                ></span\n              ></a\n            >\n          </li>\n          <li>\n            <a\n              class=\"bcn-rp__row\"\n              href=\"/beacon-design/prototypes/comments/sub-18\"\n              aria-current=\"page\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-018</span\n              ><span class=\"bcn-rp__name\">Simone Dubrow</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"violet\"></span>Nighttime\n                  operations</span\n                ><span\n                  class=\"bcn-rp__more\"\n                  title=\"Health, Flight paths, Process and outreach\"\n                  >+3</span\n                ></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-17\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__glyph\" data-state=\"done\" aria-hidden=\"true\"\n                  ><svg\n                    width=\"14\"\n                    height=\"14\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    aria-hidden=\"true\"\n                  >\n                    <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                    <path d=\"m9 12 2 2 4-4\"></path></svg></span></span\n              ><span class=\"bcn-rp__no\">S-017</span\n              ><span class=\"bcn-rp__name\">Kelsey Arnaud</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"done\">Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"grass\"></span>Noise\n                  measurement</span\n                ><span\n                  class=\"bcn-rp__more\"\n                  title=\"Aircraft noise, Flight paths, Process and outreach\"\n                  >+3</span\n                ></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-16\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__glyph\" data-state=\"done\" aria-hidden=\"true\"\n                  ><svg\n                    width=\"14\"\n                    height=\"14\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    aria-hidden=\"true\"\n                  >\n                    <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                    <path d=\"m9 12 2 2 4-4\"></path></svg></span></span\n              ><span class=\"bcn-rp__no\">S-016</span\n              ><span class=\"bcn-rp__name\">Minh Vo</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"done\">Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"grass\"></span>Noise\n                  measurement</span\n                ><span class=\"bcn-rp__more\" title=\"Sound insulation\">+1</span></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-15\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-015</span\n              ><span class=\"bcn-rp__name\">Nora Kessling</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"blue\"></span>Flight\n                  paths</span\n                ></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-14\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-014</span\n              ><span class=\"bcn-rp__name\">Grant Holloway</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"blue\"></span>Flight\n                  paths</span\n                ></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-13\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-013</span\n              ><span class=\"bcn-rp__name\">Priya Ramaswamy</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"grass\"></span>Noise\n                  measurement</span\n                ><span class=\"bcn-rp__more\" title=\"Flight paths\">+1</span></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-12\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__glyph\" data-state=\"done\" aria-hidden=\"true\"\n                  ><svg\n                    width=\"14\"\n                    height=\"14\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    aria-hidden=\"true\"\n                  >\n                    <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                    <path d=\"m9 12 2 2 4-4\"></path></svg></span></span\n              ><span class=\"bcn-rp__no\">S-012</span\n              ><span class=\"bcn-rp__name\">Evelyn Marchetti</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"done\">Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"slate\"></span>Process and\n                  outreach</span\n                ><span class=\"bcn-rp__more\" title=\"Aircraft noise, Flight paths\"\n                  >+2</span\n                ></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-11\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__glyph\" data-state=\"done\" aria-hidden=\"true\"\n                  ><svg\n                    width=\"14\"\n                    height=\"14\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    aria-hidden=\"true\"\n                  >\n                    <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                    <path d=\"m9 12 2 2 4-4\"></path></svg></span></span\n              ><span class=\"bcn-rp__no\">S-011</span\n              ><span class=\"bcn-rp__name\">Margaret Tolliver</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"done\">Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"blue\"></span>Flight\n                  paths</span\n                ></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-10\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-010</span\n              ><span class=\"bcn-rp__name\">Leonard Fairweather</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"amber\"></span>Aircraft\n                  noise</span\n                ><span class=\"bcn-rp__more\" title=\"Flight paths\">+1</span></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-09\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-009</span\n              ><span class=\"bcn-rp__name\">Owen Castellano, Hillcrest Trail Runners</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"amber\"></span>Aircraft\n                  noise</span\n                ><span class=\"bcn-rp__more\" title=\"Flight paths\">+1</span></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-08\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__glyph\" data-state=\"done\" aria-hidden=\"true\"\n                  ><svg\n                    width=\"14\"\n                    height=\"14\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    aria-hidden=\"true\"\n                  >\n                    <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                    <path d=\"m9 12 2 2 4-4\"></path></svg></span></span\n              ><span class=\"bcn-rp__no\">S-008</span\n              ><span class=\"bcn-rp__name\">Evelyn Marchetti</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"done\">Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"slate\"></span>Process and\n                  outreach</span\n                ><span class=\"bcn-rp__more\" title=\"Aircraft noise\">+1</span></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-07\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__glyph\" data-state=\"done\" aria-hidden=\"true\"\n                  ><svg\n                    width=\"14\"\n                    height=\"14\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    aria-hidden=\"true\"\n                  >\n                    <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                    <path d=\"m9 12 2 2 4-4\"></path></svg></span></span\n              ><span class=\"bcn-rp__no\">S-007</span\n              ><span class=\"bcn-rp__name\">Walt Brandvold</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"done\">Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"amber\"></span>Aircraft\n                  noise</span\n                ><span class=\"bcn-rp__more\" title=\"Flight paths\">+1</span></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-06\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-006</span\n              ><span class=\"bcn-rp__name\">Walt Brandvold</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"amber\"></span>Aircraft\n                  noise</span\n                ><span class=\"bcn-rp__more\" title=\"Flight paths\">+1</span></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-05\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__glyph\" data-state=\"done\" aria-hidden=\"true\"\n                  ><svg\n                    width=\"14\"\n                    height=\"14\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    aria-hidden=\"true\"\n                  >\n                    <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                    <path d=\"m9 12 2 2 4-4\"></path></svg></span></span\n              ><span class=\"bcn-rp__no\">S-005</span\n              ><span class=\"bcn-rp__name\">Darlene Vukovich</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"done\">Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"orange\"></span>Sound\n                  insulation</span\n                ></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-04\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-004</span\n              ><span class=\"bcn-rp__name\">Harriet Okafor</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"amber\"></span>Aircraft\n                  noise</span\n                ><span class=\"bcn-rp__more\" title=\"Flight paths\">+1</span></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-03\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-003</span\n              ><span class=\"bcn-rp__name\">Theo Lindqvist</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"amber\"></span>Aircraft\n                  noise</span\n                ><span class=\"bcn-rp__more\" title=\"Flight paths\">+1</span></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-02\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__glyph\" data-state=\"done\" aria-hidden=\"true\"\n                  ><svg\n                    width=\"14\"\n                    height=\"14\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    aria-hidden=\"true\"\n                  >\n                    <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                    <path d=\"m9 12 2 2 4-4\"></path></svg></span></span\n              ><span class=\"bcn-rp__no\">S-002</span\n              ><span class=\"bcn-rp__name\"\n                >Gordon Ashby, South Sound Clean Skies Alliance</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"done\">Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"grass\"></span>Noise\n                  measurement</span\n                ><span class=\"bcn-rp__more\" title=\"Health\">+1</span></span\n              ></a\n            >\n          </li>\n          <li>\n            <a class=\"bcn-rp__row\" href=\"/beacon-design/prototypes/comments/sub-01\"\n              ><span class=\"bcn-rp__mark\"\n                ><span class=\"bcn-rp__unread\" aria-hidden=\"true\"></span></span\n              ><span class=\"bcn-rp__no\">S-001</span\n              ><span class=\"bcn-rp__name\">Lorraine Whitcomb</span\n              ><span class=\"bcn-rp__meta\"\n                ><span class=\"bcn-rp__status\" data-state=\"open\">Not Reviewed</span\n                ><span class=\"bcn-rp__topic\"\n                  ><span class=\"bcn-topic-dot\" data-family=\"grass\"></span>Noise\n                  measurement</span\n                ></span\n              ></a\n            >\n          </li>\n        </ul>\n      </div></esa-side-dialog\n    >\n  </div>\n  <script\n    type=\"module\"\n    src=\"/beacon-design/_astro/BcnRecordPager.astro_astro_type_script_index_0_lang.znQ9dXbv.js\"\n  ></script>\n</div>",
+      "css": ".typography-microcopy-xs {\n  font-family: var(--typography-microcopy-xs-font-family);\n  font-size: var(--typography-microcopy-xs-font-size);\n  font-weight: var(--typography-microcopy-xs-font-weight);\n  line-height: var(--typography-microcopy-xs-line-height);\n  letter-spacing: var(--typography-microcopy-xs-letter-spacing);\n}\n.typography-microcopy-xs-subtle {\n  font-family: var(--typography-microcopy-xs-subtle-font-family);\n  font-size: var(--typography-microcopy-xs-subtle-font-size);\n  font-weight: var(--typography-microcopy-xs-subtle-font-weight);\n  line-height: var(--typography-microcopy-xs-subtle-line-height);\n  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);\n}\n.typography-microcopy-xs-strong {\n  font-family: var(--typography-microcopy-xs-strong-font-family);\n  font-size: var(--typography-microcopy-xs-strong-font-size);\n  font-weight: var(--typography-microcopy-xs-strong-font-weight);\n  line-height: var(--typography-microcopy-xs-strong-line-height);\n  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);\n}\n.bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-help-bar .esa-icon-button {\n  color: var(--bcn-helpbar-fg-muted);\n  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);\n}\n.bcn-help-bar .esa-icon-button:hover,\n.bcn-help-bar .esa-icon-button:focus-visible {\n  color: var(--bcn-helpbar-fg);\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.topbar__right .esa-icon-button {\n  color: var(--color-content-default-secondary);\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.bcn-topic-dot {\n  background: var(--_ink, var(--bcn-topic-slate-ink));\n  border-radius: 50%;\n  flex: none;\n  width: 0.625rem;\n  height: 0.625rem;\n  display: inline-block;\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"amber\"] {\n  --_ink: var(--bcn-topic-amber-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"blue\"] {\n  --_ink: var(--bcn-topic-blue-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"violet\"] {\n  --_ink: var(--bcn-topic-violet-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"grass\"] {\n  --_ink: var(--bcn-topic-grass-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"orange\"] {\n  --_ink: var(--bcn-topic-orange-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"crimson\"] {\n  --_ink: var(--bcn-topic-crimson-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"slate\"] {\n  --_ink: var(--bcn-topic-slate-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"none\"] {\n  --_ink: var(--color-content-default-tertiary);\n}\n.bcn-topic-dot[data-shade] {\n  background: var(--_hl);\n  box-shadow: inset 0 0 0 1.5px var(--_ink);\n}\n.bcn-topic-dot[data-family=\"none\"] {\n  box-shadow: none;\n  border: 1.5px dashed var(--_ink);\n  background: 0 0;\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"amber\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-amber-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"amber\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-amber-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"amber\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-amber-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"amber\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-amber-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"blue\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-blue-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"blue\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-blue-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"blue\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-blue-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"blue\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-blue-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"violet\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-violet-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"violet\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-violet-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"violet\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-violet-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"violet\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-violet-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"grass\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-grass-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"grass\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-grass-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"grass\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-grass-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"grass\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-grass-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"orange\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-orange-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"orange\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-orange-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"orange\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-orange-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"orange\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-orange-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"crimson\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-crimson-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"crimson\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-crimson-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"crimson\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-crimson-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"crimson\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-crimson-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"slate\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-slate-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"slate\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-slate-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"slate\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-slate-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"slate\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-slate-4);\n}\n.esa-button {\n  --_btn-pad-y: var(--spacing-300, 0.75rem);\n  --_btn-padding-x: var(--spacing-300, 0.75rem);\n  --_btn-radius: var(--button-radius-md, 0.5rem);\n  --_accent: var(--color-background-brand, #46a758);\n  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);\n  --_on: var(--color-content-default-knockout, #fcfcfc);\n  --_accent-text: var(--_accent);\n  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);\n  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);\n  display: inline-block;\n}\n.esa-button--xs {\n  --_btn-pad-y: var(--spacing-200, 0.5rem);\n  --_btn-padding-x: var(--spacing-200, 0.5rem);\n  --_btn-radius: var(--button-radius-xs, 4px);\n}\n.esa-button--sm {\n  --_btn-pad-y: var(--spacing-250, 0.625rem);\n  --_btn-padding-x: var(--spacing-250, 0.625rem);\n  --_btn-radius: var(--button-radius-sm, 4px);\n}\n.esa-button--lg {\n  --_btn-pad-y: var(--spacing-400, 1rem);\n  --_btn-padding-x: var(--spacing-400, 1rem);\n  --_btn-radius: var(--button-radius-lg, 8px);\n}\n.esa-button--variant-primary {\n  --_accent-text: var(--color-content-brand);\n}\n.esa-button--variant-secondary {\n  --_accent: var(--color-background-brand-muted);\n  --_accent-hover: var(--color-background-brand-muted-hover);\n  --_on: var(--color-content-on-brand-muted, var(--color-content-default));\n  --_accent-text: var(--color-content-brand);\n  --_accent-border: var(--color-border-default-strong, #bbb);\n}\n.esa-button--variant-danger {\n  --_accent: var(--color-background-utility-danger);\n  --_accent-hover: var(--color-background-utility-danger-hover);\n  --_accent-text: var(--color-content-utility-danger);\n}\n.esa-button--variant-success {\n  --_accent: var(--color-background-utility-success);\n  --_accent-hover: var(--color-background-utility-success-hover);\n  --_on: var(--color-content-on-utility-success);\n  --_accent-text: var(--color-content-utility-success);\n}\n.esa-button--variant-warning {\n  --_accent: var(--color-background-utility-warning);\n  --_accent-hover: var(--color-background-utility-warning-hover);\n  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));\n  --_accent-text: var(--color-content-utility-warning);\n}\n.esa-button--variant-info {\n  --_accent: var(--color-background-utility-info);\n  --_accent-hover: var(--color-background-utility-info-hover);\n  --_accent-text: var(--color-content-utility-info);\n}\n.esa-button--variant-ai {\n  --_accent: var(--color-background-ai);\n  --_accent-hover: var(--color-background-ai-hover);\n  --_accent-text: var(--color-content-ai);\n}\n.esa-button--appearance-fill .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent-border, transparent);\n}\n.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-fill.esa-button--active .esa-button__native {\n  background: var(--_accent-hover);\n}\n.esa-button--appearance-outline .esa-button__native,\n.esa-button--appearance-dashed .esa-button__native {\n  color: var(--_accent-text);\n  border-color: var(--_accent);\n  background: 0 0;\n}\n.esa-button--appearance-dashed .esa-button__native {\n  border-style: dashed;\n}\n.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {\n  background: var(--_btn-tint-hover);\n}\n.esa-button--appearance-outline.esa-button--active .esa-button__native,\n.esa-button--appearance-dashed.esa-button--active .esa-button__native {\n  background: var(--_btn-tint-active);\n}\n.esa-button--appearance-soft .esa-button__native {\n  background: color-mix(\n    in srgb,\n    var(--color-background-elevation-sunken, #f0f0f0) 45%,\n    var(--color-background-elevation-raised, #fcfcfc)\n  );\n  color: var(--_accent-text);\n  border-color: var(--color-border-default-strong, #bbb);\n}\n.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-soft.esa-button--active .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent);\n}\n.esa-button--variant-ghost .esa-button__native {\n  color: var(--color-content-default, #202020);\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,\n.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {\n  border-color: var(--color-border-default, #cecece);\n}\n.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),\n.esa-button--variant-ghost.esa-button--active .esa-button__native {\n  background: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-button--variant-chrome .esa-button__native {\n  color: inherit;\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),\n.esa-button--variant-chrome.esa-button--active .esa-button__native,\n.esa-button--variant-chrome.esa-button--current .esa-button__native {\n  background: var(\n    --button-chrome-bg-hover,\n    color-mix(in srgb, currentColor 14%, transparent)\n  );\n}\n.esa-button--variant-chrome .esa-button__native:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__native {\n  justify-content: center;\n  align-items: center;\n  gap: var(--spacing-200, 8px);\n  width: 100%;\n  padding-block: var(--_btn-pad-y);\n  padding-inline: var(--_btn-padding-x);\n  border: var(--border-width-default, 1px) solid transparent;\n  border-radius: var(--_btn-radius);\n  cursor: pointer;\n  transition:\n    background var(--transition-fast, 0.15s ease),\n    border-color var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n  text-decoration: none;\n  display: inline-flex;\n}\n.esa-button__native:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n}\n.esa-button--disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n  pointer-events: none;\n}\n.esa-button--icon-only .esa-button__native {\n  padding-inline: var(--_btn-pad-y);\n  aspect-ratio: 1;\n}\nsummary.esa-button {\n  cursor: pointer;\n  list-style: none;\n}\nsummary.esa-button::-webkit-details-marker {\n  display: none;\n}\nsummary.esa-button:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n  border-radius: var(--_btn-radius);\n}\nsummary.esa-button--variant-chrome:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__label {\n  white-space: nowrap;\n}\n.esa-button__label--hidden {\n  clip-path: inset(50%);\n  white-space: nowrap;\n  width: 1px;\n  height: 1px;\n  position: absolute;\n  overflow: hidden;\n}\n.esa-button__spinner {\n  width: 1em;\n  height: 1em;\n  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);\n  border: 2px solid;\n  border-right-color: #0000;\n  border-radius: 50%;\n  display: inline-block;\n}\n.typography-microcopy-xs {\n  font-family: var(--typography-microcopy-xs-font-family);\n  font-size: var(--typography-microcopy-xs-font-size);\n  font-weight: var(--typography-microcopy-xs-font-weight);\n  line-height: var(--typography-microcopy-xs-line-height);\n  letter-spacing: var(--typography-microcopy-xs-letter-spacing);\n}\n.typography-microcopy-xs-subtle {\n  font-family: var(--typography-microcopy-xs-subtle-font-family);\n  font-size: var(--typography-microcopy-xs-subtle-font-size);\n  font-weight: var(--typography-microcopy-xs-subtle-font-weight);\n  line-height: var(--typography-microcopy-xs-subtle-line-height);\n  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);\n}\n.typography-microcopy-xs-strong {\n  font-family: var(--typography-microcopy-xs-strong-font-family);\n  font-size: var(--typography-microcopy-xs-strong-font-size);\n  font-weight: var(--typography-microcopy-xs-strong-font-weight);\n  line-height: var(--typography-microcopy-xs-strong-line-height);\n  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);\n}\n.bcn-key-value__key .esa-icon {\n  color: var(--color-content-default-tertiary);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon--md {\n  --_icon-size: var(--icon-size-md, 20px);\n}\n.esa-icon--lg {\n  --_icon-size: var(--icon-size-lg, 24px);\n}\n.esa-icon--xl {\n  --_icon-size: var(--icon-size-xl, 28px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.bcn-rp {\n  align-items: center;\n  gap: var(--spacing-100);\n  display: inline-flex;\n}\n.bcn-rp__body {\n  gap: var(--spacing-400);\n  flex-direction: column;\n  display: flex;\n}\n.bcn-rp__list {\n  margin: 0 calc(-1 * var(--spacing-200));\n  padding: 0;\n  list-style: none;\n}\n.bcn-rp .bcn-rp__row {\n  column-gap: var(--spacing-200);\n  padding: var(--spacing-200);\n  border-radius: var(--radius-md);\n  color: var(--color-content-default);\n  grid-template-columns: 1rem 3.75rem minmax(0, 1fr);\n  align-items: baseline;\n  row-gap: 2px;\n  text-decoration: none;\n  display: grid;\n}\n.bcn-rp .bcn-rp__row:hover {\n  background: var(--color-background-elevation-sunken);\n}\n.bcn-rp .bcn-rp__row[aria-current] {\n  background: var(--color-background-elevation-sunken);\n  box-shadow: inset 0 0 0 1px var(--color-border-default);\n}\n.bcn-rp .bcn-rp__row:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);\n  outline-offset: -2px;\n}\n.bcn-rp .bcn-rp__mark {\n  justify-content: center;\n  align-self: center;\n  display: inline-flex;\n}\n.bcn-rp .bcn-rp__unread {\n  background: var(--color-background-brand);\n  border-radius: 50%;\n  width: 0.5rem;\n  height: 0.5rem;\n}\n.bcn-rp .bcn-rp__glyph {\n  color: var(--color-content-secondary);\n  display: inline-flex;\n}\n.bcn-rp .bcn-rp__glyph[data-state=\"done\"] {\n  color: var(--color-content-success, var(--color-content-default));\n}\n.bcn-rp .bcn-rp__no {\n  font-size: var(--typography-label-sm-font-size);\n  font-variant-numeric: tabular-nums;\n  color: var(--color-content-secondary);\n}\n.bcn-rp .bcn-rp__name {\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-font-weight-medium, 500);\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n}\n.bcn-rp .bcn-rp__row[aria-current] .bcn-rp__name {\n  font-weight: var(--typography-font-weight-semibold);\n}\n.bcn-rp .bcn-rp__meta {\n  align-items: center;\n  gap: var(--spacing-100) var(--spacing-300);\n  font-size: var(--typography-label-sm-font-size);\n  color: var(--color-content-secondary);\n  flex-wrap: wrap;\n  grid-column: 3;\n  display: flex;\n}\n.bcn-rp .bcn-rp__status[data-state=\"open\"] {\n  color: var(--color-content-default);\n  font-weight: var(--typography-font-weight-semibold);\n}\n.bcn-rp .bcn-rp__topic {\n  align-items: center;\n  gap: var(--spacing-100);\n  display: inline-flex;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}\n.page-layout__utilities {\n  gap: var(--spacing-200);\n  display: flex;\n}",
+      "guide": {
+        "intent": "The H1 names the submitter with the submission's number (S-018) trailing as a neutral badge. Upper right, the record pager: Previous, Contents, Next, through submissions in the inbox's own order (newest first), so a reviewer works the queue without going back to the list.",
+        "decisions": [
+          "Numbers: submissions S-018, comments C-018.001 (submission.passage, in reading order), responses R-004. Display numbers for the prototype; the build decides how they are stored.",
+          "The pager walks the inbox order (newest first). Between Previous and Next, a contents button opens a side panel (esa-side-dialog) of every submission: status mark, number, name, then its status in words and its first topic (+N, named on hover). A status filter (esa-button-toggle: All / Not Reviewed / Reviewed, each with its count) heads the list; the current submission is marked; [ and ] step from the keyboard."
+        ],
+        "acceptance": [
+          "The first and last submissions disable the button that has nowhere to go.",
+          "Filtering the contents panel to Reviewed lists only reviewed submissions; the counts on the filter add up to All."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--animation-spin",
+          "value": ".75s linear infinite",
+          "tier": "semantic"
+        },
+        {
+          "name": "--bcn-gray-1000",
+          "value": "#000",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-400",
+          "value": "#989898",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-500",
+          "value": "#7c7c7c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-950",
+          "value": "#292929",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-fg",
+          "value": "#ffffffeb",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-fg-muted",
+          "value": "#ffffffb8",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-hover-bg",
+          "value": "#ffffff1a",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-1",
+          "value": "#ffee9c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-2",
+          "value": "#f3d673",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-3",
+          "value": "#e9c162",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-4",
+          "value": "#e2a336",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-ink",
+          "value": "#ab6400",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-1",
+          "value": "#d5efff",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-2",
+          "value": "#acd8fc",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-3",
+          "value": "#8ec8f6",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-4",
+          "value": "#5eb1ef",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-ink",
+          "value": "#0d74ce",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-1",
+          "value": "#fedce7",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-2",
+          "value": "#f3bed1",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-3",
+          "value": "#eaacc3",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-4",
+          "value": "#e093b2",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-ink",
+          "value": "#cb1d63",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-1",
+          "value": "#daf1db",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-2",
+          "value": "#b2ddb5",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-3",
+          "value": "#94ce9a",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-4",
+          "value": "#65ba74",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-ink",
+          "value": "#2a7e3b",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-1",
+          "value": "#ffdfb5",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-2",
+          "value": "#ffc182",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-3",
+          "value": "#f5ae73",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-4",
+          "value": "#ec9455",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-ink",
+          "value": "#cc4e00",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-1",
+          "value": "#e0e1e6",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-2",
+          "value": "#d9d9e0",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-3",
+          "value": "#cdced6",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-4",
+          "value": "#b9bbc6",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-ink",
+          "value": "#60646c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-1",
+          "value": "#ebe4ff",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-2",
+          "value": "#d4cafe",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-3",
+          "value": "#c2b5f5",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-4",
+          "value": "#aa99ec",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-ink",
+          "value": "#6550b9",
+          "tier": "component"
+        },
+        {
+          "name": "--border-width-default",
+          "value": "1px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--button-chrome-bg-hover",
+          "value": "color-mix(in srgb, currentColor 14%, transparent)",
+          "tier": "component"
+        },
+        {
+          "name": "--button-on-warning",
+          "value": "#fff",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-lg",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-md",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-sm",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-xs",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--color-background-ai",
+          "value": "#699cc6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-ai-hover",
+          "value": "#4c75a9",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-muted",
+          "value": "#eef5f4",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-muted-hover",
+          "value": "#b9d6d2",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-danger",
+          "value": "#ce2c31",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-danger-hover",
+          "value": "#641723",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-info",
+          "value": "#228be6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-info-hover",
+          "value": "#113264",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-success",
+          "value": "#2e7571",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-success-hover",
+          "value": "#193b2d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-warning",
+          "value": "#f59e0b",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-warning-hover",
+          "value": "#ffba18",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-strong",
+          "value": "#bdbdbd",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-ai",
+          "value": "#7d5e54",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-knockout",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-on-brand-muted",
+          "value": "#203c25",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-on-utility-success",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-on-utility-warning",
+          "value": "#4f3422",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-secondary",
+          "value": "#525252",
+          "tier": "component"
+        },
+        {
+          "name": "--color-content-success",
+          "value": "#218358",
+          "tier": "component"
+        },
+        {
+          "name": "--color-content-utility-danger",
+          "value": "#ce2c31",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-info",
+          "value": "#0d74ce",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-success",
+          "value": "#218358",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-warning",
+          "value": "#ab6400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--focus-ring-color",
+          "value": "#3e9b4f",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-offset",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-width",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-lg",
+          "value": "24px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-md",
+          "value": "20px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-sm",
+          "value": "16px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-xl",
+          "value": "28px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-xs",
+          "value": "14px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-md",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--spacing-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-250",
+          "value": ".625rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-medium",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-semibold",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-line-height",
+          "value": "1",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-line-height",
+          "value": "1",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-subtle-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-subtle-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-subtle-font-weight",
+          "value": "350",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-subtle-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-subtle-line-height",
+          "value": "1",
+          "tier": "semantic"
+        }
+      ],
+      "claudePath": "claude/number-and-pager.md",
+      "repoPath": "public/handoff/prototypes-comments-sub-18/claude/number-and-pager.md"
+    },
+    {
+      "label": "Rail",
+      "tag": "div",
+      "selector": "[data-submission-rail]",
+      "apply": [
+        {
+          "click": "[data-sr-item=\"c-048\"]"
+        }
+      ],
+      "html": "<div class=\"bcn-sr stack\" data-gap=\"md\" data-submission-rail=\"sub-18\">\n  <div class=\"esa-card esa-card--outlined esa-card--padding-compact\">\n    <div class=\"esa-card__header\">\n      <div class=\"esa-card__header-content\">\n        <div class=\"esa-card__titles\">\n          <h3 class=\"esa-card__title typography-title-sm-strong\">Details</h3>\n        </div>\n      </div>\n    </div>\n    <div class=\"esa-card__body typography-body-md\">\n      <div class=\"bcn-sr__facts\">\n        <div class=\"bcn-key-value\" data-size=\"sm\" data-layout=\"stack\">\n          <span class=\"bcn-key-value__key typography-label-sm\"\n            ><span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\"\n              ><svg\n                width=\"14\"\n                height=\"14\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\"></path>\n                <circle cx=\"12\" cy=\"7\" r=\"4\"></circle></svg></span\n            >Submitter</span\n          ><span class=\"bcn-key-value__val typography-label-sm-strong\"\n            >Simone Dubrow</span\n          >\n        </div>\n        <div class=\"bcn-key-value\" data-size=\"sm\" data-layout=\"stack\">\n          <span class=\"bcn-key-value__key typography-label-sm\"\n            ><span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\"\n              ><svg\n                width=\"14\"\n                height=\"14\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path\n                  d=\"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0\"\n                ></path>\n                <circle cx=\"12\" cy=\"10\" r=\"3\"></circle></svg></span\n            >City</span\n          ><span class=\"bcn-key-value__val typography-label-sm-strong\">Seattle</span>\n        </div>\n        <div class=\"bcn-key-value\" data-size=\"sm\" data-layout=\"stack\">\n          <span class=\"bcn-key-value__key typography-label-sm\"\n            ><span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\"\n              ><svg\n                width=\"14\"\n                height=\"14\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"M8 2v4\"></path>\n                <path d=\"M16 2v4\"></path>\n                <rect width=\"18\" height=\"18\" x=\"3\" y=\"4\" rx=\"2\"></rect>\n                <path d=\"M3 10h18\"></path></svg></span\n            >Received</span\n          ><span class=\"bcn-key-value__val typography-label-sm-strong\"\n            >July 18, 2026</span\n          >\n        </div>\n        <div class=\"bcn-key-value\" data-size=\"sm\" data-layout=\"stack\">\n          <span class=\"bcn-key-value__key typography-label-sm\"\n            ><span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\"\n              ><svg\n                width=\"14\"\n                height=\"14\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <polyline points=\"22 12 16 12 14 15 10 15 8 12 2 12\"></polyline>\n                <path\n                  d=\"M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z\"\n                ></path></svg></span\n            >Channel</span\n          ><span class=\"bcn-key-value__val typography-label-sm-strong\">Web form</span>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class=\"esa-card esa-card--outlined esa-card--padding-compact\">\n    <div class=\"esa-card__header\">\n      <div class=\"esa-card__header-content\">\n        <div class=\"esa-card__titles\">\n          <h3 class=\"esa-card__title typography-title-sm-strong\">Comments</h3>\n        </div>\n      </div>\n    </div>\n    <div class=\"esa-card__body typography-body-md\">\n      <ol\n        class=\"bcn-sr__outline\"\n        role=\"list\"\n        aria-label=\"Comments in Reading Order\"\n        data-sr-outline=\"\"\n      >\n        <li>\n          <button type=\"button\" class=\"bcn-sr__item\" data-sr-item=\"c-045\">\n            <span class=\"bcn-sr__note\">C-018.001</span\n            ><span class=\"bcn-sr__dots\"\n              ><span\n                class=\"bcn-topic-dot\"\n                data-family=\"violet\"\n                data-shade=\"2\"\n              ></span></span\n            ><span class=\"bcn-sr__sub\">Overnight flights</span\n            ><span class=\"bcn-sr__state\" data-state=\"draft\"\n              ><svg\n                width=\"13\"\n                height=\"13\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                aria-hidden=\"true\"\n              >\n                <path\n                  d=\"m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2\"\n                ></path>\n                <path\n                  d=\"M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z\"\n                ></path>\n                <path d=\"M8 18h1\"></path></svg\n              >Draft</span\n            ><span class=\"bcn-sr__quote\"\n              >There is a new pattern of planes all night, at about 1:30, 2 and 4 a.m. and\n              then steadily after that, sometimes only seconds apart.</span\n            >\n          </button>\n        </li>\n        <li>\n          <button type=\"button\" class=\"bcn-sr__item\" data-sr-item=\"c-046\">\n            <span class=\"bcn-sr__note\">C-018.002</span\n            ><span class=\"bcn-sr__dots\"\n              ><span\n                class=\"bcn-topic-dot\"\n                data-family=\"crimson\"\n                data-shade=\"1\"\n              ></span></span\n            ><span class=\"bcn-sr__sub\">Sleep disruption</span\n            ><span class=\"bcn-sr__state\" data-state=\"draft\"\n              ><svg\n                width=\"13\"\n                height=\"13\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                aria-hidden=\"true\"\n              >\n                <path\n                  d=\"m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2\"\n                ></path>\n                <path\n                  d=\"M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z\"\n                ></path>\n                <path d=\"M8 18h1\"></path></svg\n              >Draft</span\n            ><span class=\"bcn-sr__quote\"\n              >My sleep has been broken for months, and I've had illness, anxiety, stress,\n              headaches and trouble getting through the day</span\n            >\n          </button>\n        </li>\n        <li>\n          <button type=\"button\" class=\"bcn-sr__item\" data-sr-item=\"c-047\">\n            <span class=\"bcn-sr__note\">C-018.003</span\n            ><span class=\"bcn-sr__dots\"\n              ><span\n                class=\"bcn-topic-dot\"\n                data-family=\"violet\"\n                data-shade=\"1\"\n              ></span></span\n            ><span class=\"bcn-sr__sub\">Late Night Noise Limitation Program</span\n            ><span class=\"bcn-sr__state\" data-state=\"draft\"\n              ><svg\n                width=\"13\"\n                height=\"13\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                aria-hidden=\"true\"\n              >\n                <path\n                  d=\"m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2\"\n                ></path>\n                <path\n                  d=\"M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z\"\n                ></path>\n                <path d=\"M8 18h1\"></path></svg\n              >Draft</span\n            ><span class=\"bcn-sr__quote\"\n              >Someone should recognize that the program is not working and make it\n              mandatory.</span\n            >\n          </button>\n        </li>\n        <li>\n          <button type=\"button\" class=\"bcn-sr__item\" data-sr-item=\"c-048\" aria-current=\"\">\n            <span class=\"bcn-sr__note\">C-018.004</span\n            ><span class=\"bcn-sr__dots\"\n              ><span class=\"bcn-topic-dot\" data-family=\"blue\" data-shade=\"1\"></span></span\n            ><span class=\"bcn-sr__sub\">Elliott Bay route</span\n            ><span class=\"bcn-sr__state\" data-state=\"draft\"\n              ><svg\n                width=\"13\"\n                height=\"13\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                aria-hidden=\"true\"\n              >\n                <path\n                  d=\"m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2\"\n                ></path>\n                <path\n                  d=\"M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z\"\n                ></path>\n                <path d=\"M8 18h1\"></path></svg\n              >Draft</span\n            ><span class=\"bcn-sr__quote\"\n              >We are surrounded by water, so why aren't planes flying over it, where\n              fewer people would be bothered?</span\n            >\n          </button>\n        </li>\n        <li>\n          <button type=\"button\" class=\"bcn-sr__item\" data-sr-item=\"c-049\">\n            <span class=\"bcn-sr__note\">C-018.005</span\n            ><span class=\"bcn-sr__dots\"\n              ><span\n                class=\"bcn-topic-dot\"\n                data-family=\"slate\"\n                data-shade=\"1\"\n              ></span></span\n            ><span class=\"bcn-sr__sub\">Unanswered complaints</span\n            ><span class=\"bcn-sr__state\" data-state=\"none\"\n              ><svg\n                width=\"13\"\n                height=\"13\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                aria-hidden=\"true\"\n              >\n                <path\n                  d=\"M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z\"\n                ></path>\n                <path d=\"M14 2v4a2 2 0 0 0 2 2h4\"></path>\n                <path d=\"M9 15h6\"></path></svg\n              >No Response</span\n            ><span class=\"bcn-sr__quote\"\n              >being told that summer winds make it quieter is just another excuse meant\n              to placate us.</span\n            >\n          </button>\n        </li>\n      </ol>\n    </div>\n  </div>\n</div>",
+      "css": ".typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-label-sm {\n  font-family: var(--typography-label-sm-font-family);\n  font-size: var(--typography-label-sm-font-size);\n  font-weight: var(--typography-label-sm-font-weight);\n  line-height: var(--typography-label-sm-line-height);\n  letter-spacing: var(--typography-label-sm-letter-spacing);\n}\n.typography-label-sm-strong {\n  font-family: var(--typography-label-sm-strong-font-family);\n  font-size: var(--typography-label-sm-strong-font-size);\n  font-weight: var(--typography-label-sm-strong-font-weight);\n  line-height: var(--typography-label-sm-strong-line-height);\n  letter-spacing: var(--typography-label-sm-strong-letter-spacing);\n}\n.typography-title-sm-strong {\n  font-family: var(--typography-title-sm-strong-font-family);\n  font-size: var(--typography-title-sm-strong-font-size);\n  font-weight: var(--typography-title-sm-strong-font-weight);\n  line-height: var(--typography-title-sm-strong-line-height);\n  letter-spacing: var(--typography-title-sm-strong-letter-spacing);\n}\n.bcn-sr {\n  top: var(--spacing-400);\n  position: sticky;\n}\n.bcn-sr__facts {\n  gap: var(--spacing-300) var(--spacing-400);\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  display: grid;\n}\n.bcn-sr__outline {\n  margin: 0 calc(-1 * var(--spacing-200));\n  max-height: 60vh;\n  padding: 0;\n  list-style: none;\n  position: relative;\n  overflow-y: auto;\n}\n.bcn-sr__outline .bcn-sr__item {\n  all: unset;\n  box-sizing: border-box;\n  align-items: center;\n  column-gap: var(--spacing-150, 0.375rem);\n  width: 100%;\n  padding: var(--spacing-150, 0.375rem) var(--spacing-200);\n  border-radius: var(--radius-100);\n  cursor: pointer;\n  grid-template-columns: auto auto minmax(0, 1fr) auto;\n  row-gap: 2px;\n  display: grid;\n}\n.bcn-sr__outline .bcn-sr__item:hover {\n  background: var(\n    --color-background-default-hover,\n    var(--color-background-elevation-sunken)\n  );\n}\n.bcn-sr__outline .bcn-sr__item[aria-current] {\n  background: var(--color-background-brand-subtle);\n}\n.bcn-sr__outline .bcn-sr__item:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);\n  outline-offset: -2px;\n}\n.bcn-sr__outline .bcn-sr__sub {\n  font-size: var(--typography-label-sm-strong-font-size);\n  font-weight: var(--typography-label-sm-strong-font-weight);\n  color: var(--color-content-default);\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n}\n.bcn-sr__outline .bcn-sr__state {\n  color: var(--color-content-secondary);\n  white-space: nowrap;\n  align-items: center;\n  gap: 3px;\n  font-size: 0.8125rem;\n  display: inline-flex;\n}\n.bcn-sr__outline .bcn-sr__state[data-state=\"planned\"] {\n  color: var(--color-content-success, var(--color-content-default));\n}\n.bcn-sr__outline .bcn-sr__note {\n  font-variant-numeric: tabular-nums;\n  color: var(--color-content-secondary);\n  font-size: 0.8125rem;\n}\n.bcn-sr__outline .bcn-sr__dots {\n  gap: 2px;\n  display: inline-flex;\n}\n.bcn-sr__outline .bcn-sr__quote {\n  color: var(--color-content-secondary);\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n  grid-column: 3/-1;\n  font-size: 0.8125rem;\n  line-height: 1.35;\n  display: -webkit-box;\n  overflow: hidden;\n}\n.bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-help-bar .esa-icon-button {\n  color: var(--bcn-helpbar-fg-muted);\n  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);\n}\n.bcn-help-bar .esa-icon-button:hover,\n.bcn-help-bar .esa-icon-button:focus-visible {\n  color: var(--bcn-helpbar-fg);\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.esa-card {\n  --_card-bg: var(--card-bg, var(--color-background-elevation-raised, #fcfcfc));\n  --_card-border: var(--card-border-color, var(--color-border-default, #cecece));\n  --_card-radius: var(--radius-md, 0.5rem);\n  --_card-padding: var(--spacing-500, 1.5rem);\n  --_card-header-bg: var(--card-header-bg, transparent);\n  --_card-header-color: var(--color-content-default, #202020);\n  --_card-header-border: var(--color-border-default-subtle, #d9d9d9);\n  --_card-meta-label-color: var(--color-content-default-secondary, #646464);\n  --_card-meta-label-size: var(--typography-label-sm-font-size, 0.875rem);\n  --_card-meta-value-size: var(--typography-label-md-font-size, 0.9375rem);\n  background: var(--_card-bg);\n  border: var(--border-width-default, 1px) solid var(--_card-border);\n  border-radius: var(--_card-radius);\n  display: block;\n  overflow: hidden;\n}\n.esa-card--outlined {\n  --_card-border: var(--color-border-default, #cecece);\n}\n.esa-card--elevated {\n  --_card-border: transparent;\n  box-shadow: var(--elevation-2, 0 2px 12px 0 #0000000a);\n}\n.esa-card--filled {\n  --_card-bg: var(--color-background-elevation-sunken, #f0f0f0);\n  --_card-border: transparent;\n}\n.esa-card--header-primary .esa-card__header {\n  --_card-header-bg: var(--color-background-brand, #46a758);\n  --_card-header-color: var(--color-content-default-knockout, #fcfcfc);\n}\n.esa-card--header-muted .esa-card__header {\n  --_card-header-bg: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-card--padding-none {\n  --_card-padding: 0;\n}\n.esa-card--padding-compact {\n  --_card-padding: var(--spacing-300, 0.75rem);\n}\n.esa-card--padding-spacious {\n  --_card-padding: var(--spacing-700, 3rem);\n}\n.esa-card__header {\n  padding: var(--spacing-400, 1rem) var(--_card-padding);\n  background: var(--_card-header-bg);\n  color: var(--_card-header-color);\n  border-bottom: var(--border-width-default, 1px) solid var(--_card-header-border);\n  justify-content: space-between;\n  align-items: center;\n  min-height: 56px;\n  display: flex;\n}\n.esa-card__header-content {\n  align-items: center;\n  gap: var(--spacing-300, 0.75rem);\n  display: flex;\n}\n.esa-card__titles {\n  gap: var(--spacing-050, 0.125rem);\n  flex-direction: column;\n  display: flex;\n}\n.esa-card__title {\n  color: inherit;\n  margin: 0;\n}\n.esa-card__subtitle {\n  color: var(--color-content-default-secondary, #646464);\n  margin: 0;\n}\n.esa-card--header-primary .esa-card__subtitle {\n  color: var(--color-content-on-brand, #fffc);\n}\n.esa-card__meta {\n  gap: var(--spacing-100, 0.25rem) var(--spacing-500, 1.5rem);\n  margin: var(--spacing-050, 0.125rem) 0 0;\n  flex-wrap: wrap;\n  display: flex;\n}\n.esa-card__meta-pair {\n  align-items: baseline;\n  gap: var(--spacing-100, 0.25rem);\n  min-width: 0;\n  display: flex;\n}\n.esa-card__meta dt {\n  font-size: var(--_card-meta-label-size);\n  font-weight: var(--font-weight-medium, 500);\n  color: var(--_card-meta-label-color);\n}\n.esa-card__meta dd {\n  font-size: var(--_card-meta-value-size);\n  color: inherit;\n  margin: 0;\n}\n.esa-card--header-primary .esa-card__meta dt {\n  color: #fffc;\n}\n.esa-card__icon {\n  color: inherit;\n  flex-shrink: 0;\n}\n.esa-card__actions {\n  align-items: center;\n  gap: var(--spacing-200, 0.5rem);\n  display: flex;\n}\n.esa-card__body {\n  padding: var(--_card-padding);\n}\n.esa-card__footer {\n  padding: var(--spacing-300, 0.75rem) var(--_card-padding);\n  border-top: var(--border-width-default, 1px) solid var(--_card-header-border);\n  background: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-staging__item .esa-card {\n  overflow: visible;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__item[data-receiving] .esa-card {\n  border-color: var(--color-background-brand-muted);\n  background: color-mix(in srgb, var(--color-background-brand-muted) 5%, transparent);\n}\n.bcn-ev-targets__item[data-blocked] .esa-card {\n  opacity: 0.45;\n}\n.bcn-ev-targets__item .esa-card {\n  overflow: visible;\n}\n.topbar__right .esa-icon-button {\n  color: var(--color-content-default-secondary);\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.bcn-topic-dot {\n  background: var(--_ink, var(--bcn-topic-slate-ink));\n  border-radius: 50%;\n  flex: none;\n  width: 0.625rem;\n  height: 0.625rem;\n  display: inline-block;\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"amber\"] {\n  --_ink: var(--bcn-topic-amber-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"blue\"] {\n  --_ink: var(--bcn-topic-blue-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"violet\"] {\n  --_ink: var(--bcn-topic-violet-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"grass\"] {\n  --_ink: var(--bcn-topic-grass-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"orange\"] {\n  --_ink: var(--bcn-topic-orange-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"crimson\"] {\n  --_ink: var(--bcn-topic-crimson-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"slate\"] {\n  --_ink: var(--bcn-topic-slate-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"none\"] {\n  --_ink: var(--color-content-default-tertiary);\n}\n.bcn-topic-dot[data-shade] {\n  background: var(--_hl);\n  box-shadow: inset 0 0 0 1.5px var(--_ink);\n}\n.bcn-topic-dot[data-family=\"none\"] {\n  box-shadow: none;\n  border: 1.5px dashed var(--_ink);\n  background: 0 0;\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"amber\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-amber-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"amber\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-amber-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"amber\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-amber-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"amber\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-amber-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"blue\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-blue-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"blue\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-blue-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"blue\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-blue-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"blue\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-blue-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"violet\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-violet-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"violet\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-violet-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"violet\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-violet-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"violet\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-violet-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"grass\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-grass-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"grass\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-grass-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"grass\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-grass-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"grass\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-grass-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"orange\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-orange-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"orange\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-orange-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"orange\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-orange-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"orange\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-orange-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"crimson\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-crimson-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"crimson\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-crimson-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"crimson\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-crimson-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"crimson\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-crimson-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"slate\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-slate-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"slate\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-slate-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"slate\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-slate-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"slate\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-slate-4);\n}\n.typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-label-sm {\n  font-family: var(--typography-label-sm-font-family);\n  font-size: var(--typography-label-sm-font-size);\n  font-weight: var(--typography-label-sm-font-weight);\n  line-height: var(--typography-label-sm-line-height);\n  letter-spacing: var(--typography-label-sm-letter-spacing);\n}\n.typography-label-sm-strong {\n  font-family: var(--typography-label-sm-strong-font-family);\n  font-size: var(--typography-label-sm-strong-font-size);\n  font-weight: var(--typography-label-sm-strong-font-weight);\n  line-height: var(--typography-label-sm-strong-line-height);\n  letter-spacing: var(--typography-label-sm-strong-letter-spacing);\n}\n.typography-title-sm-strong {\n  font-family: var(--typography-title-sm-strong-font-family);\n  font-size: var(--typography-title-sm-strong-font-size);\n  font-weight: var(--typography-title-sm-strong-font-weight);\n  line-height: var(--typography-title-sm-strong-line-height);\n  letter-spacing: var(--typography-title-sm-strong-letter-spacing);\n}\n.bcn-key-value {\n  flex-direction: column;\n  gap: 2px;\n  display: flex;\n}\n.bcn-key-value[data-layout=\"row\"] {\n  align-items: baseline;\n  column-gap: var(--spacing-300);\n  grid-template-columns: 6.5rem minmax(0, 1fr);\n  display: grid;\n}\n.bcn-key-value__key {\n  font-size: var(--typography-label-md-font-size);\n  font-weight: var(--typography-font-weight-medium);\n  color: var(--form-label-color);\n}\n.bcn-key-value__val {\n  font-size: var(--typography-label-md-font-size);\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default);\n}\n.bcn-key-value__hint {\n  color: var(--color-content-default-tertiary);\n  font-size: 0.75rem;\n}\n.bcn-key-value__key {\n  align-items: center;\n  gap: var(--spacing-100);\n  display: inline-flex;\n}\n.bcn-key-value__key .esa-icon {\n  color: var(--color-content-default-tertiary);\n}\n.bcn-key-value[data-size=\"sm\"] .bcn-key-value__key {\n  font-size: var(--typography-label-sm-font-size);\n  font-weight: var(--typography-label-sm-font-weight);\n  color: var(--color-content-secondary);\n}\n.bcn-key-value[data-size=\"sm\"] .bcn-key-value__val {\n  font-size: var(--typography-label-sm-strong-font-size);\n  font-weight: var(--typography-label-sm-strong-font-weight);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon--md {\n  --_icon-size: var(--icon-size-md, 20px);\n}\n.esa-icon--lg {\n  --_icon-size: var(--icon-size-lg, 24px);\n}\n.esa-icon--xl {\n  --_icon-size: var(--icon-size-xl, 28px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}\n.stack {\n  --gap: var(--spacing-400, 1rem);\n  gap: var(--gap);\n  flex-direction: column;\n  display: flex;\n}\n.stack[data-split] > [data-split] {\n  margin-block-end: auto;\n}",
+      "guide": {
+        "intent": "The submission's rail, right of the text, as the Lists page carries its details rail. Details: submitter, organization when there is one, city, received, channel. Comments: an outline of every highlighted passage in reading order: its number (C-018.003), the swatch and name of each subtopic it is filed under, its state (Planned, Draft, No Response) and its first two lines.",
+        "decisions": [
+          "The outline and the text are one selection: click an item and its highlight activates, scrolls into view and opens the comment panel; click a highlight (or J / K) and the outline marks that item.",
+          "Passages are numbered C-submission.passage in reading order (C-018.001, C-018.002 ...), the notation the panel titles itself with. Adding a passage before others renumbers the ones after it; stored numbers are for the build to decide.",
+          "No planned count here: Andy found \"0 of 3 planned\" unclear; the state on each item carries it.",
+          "The rail stays in view as the text scrolls (sticky)."
+        ],
+        "gotchas": [
+          "Scroll the outline list, never scrollIntoView an item: that also moves the page and cancels the scroll that brings the passage into view."
+        ],
+        "acceptance": [
+          "Click an outline item: the passage scrolls to the middle of the view, rings, and the panel opens on it; the item is marked.",
+          "Click a highlight in the text: its outline item is marked."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--bcn-gray-1000",
+          "value": "#000",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-400",
+          "value": "#989898",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-500",
+          "value": "#7c7c7c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-950",
+          "value": "#292929",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-fg",
+          "value": "#ffffffeb",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-fg-muted",
+          "value": "#ffffffb8",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-hover-bg",
+          "value": "#ffffff1a",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-1",
+          "value": "#ffee9c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-2",
+          "value": "#f3d673",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-3",
+          "value": "#e9c162",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-4",
+          "value": "#e2a336",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-ink",
+          "value": "#ab6400",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-1",
+          "value": "#d5efff",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-2",
+          "value": "#acd8fc",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-3",
+          "value": "#8ec8f6",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-4",
+          "value": "#5eb1ef",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-ink",
+          "value": "#0d74ce",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-1",
+          "value": "#fedce7",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-2",
+          "value": "#f3bed1",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-3",
+          "value": "#eaacc3",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-4",
+          "value": "#e093b2",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-ink",
+          "value": "#cb1d63",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-1",
+          "value": "#daf1db",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-2",
+          "value": "#b2ddb5",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-3",
+          "value": "#94ce9a",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-4",
+          "value": "#65ba74",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-ink",
+          "value": "#2a7e3b",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-1",
+          "value": "#ffdfb5",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-2",
+          "value": "#ffc182",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-3",
+          "value": "#f5ae73",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-4",
+          "value": "#ec9455",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-ink",
+          "value": "#cc4e00",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-1",
+          "value": "#e0e1e6",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-2",
+          "value": "#d9d9e0",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-3",
+          "value": "#cdced6",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-4",
+          "value": "#b9bbc6",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-ink",
+          "value": "#60646c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-1",
+          "value": "#ebe4ff",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-2",
+          "value": "#d4cafe",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-3",
+          "value": "#c2b5f5",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-4",
+          "value": "#aa99ec",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-ink",
+          "value": "#6550b9",
+          "tier": "component"
+        },
+        {
+          "name": "--border-width-default",
+          "value": "1px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--card-bg",
+          "value": "#fcfcfc",
+          "tier": "component"
+        },
+        {
+          "name": "--card-border-color",
+          "value": "#dcdcdc",
+          "tier": "component"
+        },
+        {
+          "name": "--card-header-bg",
+          "value": "transparent",
+          "tier": "component"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-muted",
+          "value": "#eef5f4",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-subtle",
+          "value": "#effefb",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-default-hover",
+          "value": "#e8e8e8",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-danger",
+          "value": "#ce2c31",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-subtle",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-knockout",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-on-brand",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-secondary",
+          "value": "#525252",
+          "tier": "component"
+        },
+        {
+          "name": "--color-content-success",
+          "value": "#218358",
+          "tier": "component"
+        },
+        {
+          "name": "--elevation-2",
+          "value": "0 2px 12px 0 #0000000a",
+          "tier": "semantic"
+        },
+        {
+          "name": "--focus-ring-color",
+          "value": "#3e9b4f",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-width",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--font-weight-medium",
+          "value": "500",
+          "tier": "component"
+        },
+        {
+          "name": "--form-label-color",
+          "value": "#525252",
+          "tier": "component"
+        },
+        {
+          "name": "--gap",
+          "value": "1rem",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-lg",
+          "value": "24px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-md",
+          "value": "20px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-sm",
+          "value": "16px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-xl",
+          "value": "28px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-xs",
+          "value": "14px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-md",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--spacing-050",
+          "value": ".125rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-150",
+          "value": ".375rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-500",
+          "value": "1.5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-700",
+          "value": "3rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--typography-body-md-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-weight",
+          "value": "350",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-medium",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-semibold",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-size",
+          "value": "clamp(.8125rem, .71rem + .5vw, 1.0625rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        }
+      ],
+      "claudePath": "claude/rail.md",
+      "repoPath": "public/handoff/prototypes-comments-sub-18/claude/rail.md"
+    },
+    {
+      "label": "Highlighted text",
+      "tag": "div",
+      "selector": "[data-submission-text]",
+      "html": "<div class=\"bcn-st\" data-submission-text=\"sub-18\">\n  <div class=\"bcn-st__body typography-body-lg\" data-st-body=\"\">\n    <p data-off=\"0\">\n      I've lived in central Seattle for many years and have watched the number of planes\n      overhead climb, with roughly four flight paths now in use.\n      <mark\n        class=\"bcn-hl\"\n        data-cid=\"c-045\"\n        data-family=\"violet\"\n        data-shade=\"2\"\n        tabindex=\"0\"\n        title=\"Nighttime operations: Overnight flights\"\n        aria-label=\"Nighttime operations: Overnight flights\"\n        >There is a new pattern of planes all night, at about 1:30, 2 and 4 a.m. and then\n        steadily after that, sometimes only seconds apart.</mark\n      >\n      <mark\n        class=\"bcn-hl\"\n        data-cid=\"c-046\"\n        data-family=\"crimson\"\n        data-shade=\"1\"\n        tabindex=\"0\"\n        title=\"Health: Sleep disruption\"\n        aria-label=\"Health: Sleep disruption\"\n        >My sleep has been broken for months, and I've had illness, anxiety, stress,\n        headaches and trouble getting through the day</mark\n      >, plus the long-term health risks of loud noise and lost sleep, all because of\n      Sea-Tac and the growing number of flights at every hour.\n    </p>\n    <p data-off=\"532\">\n      I understand there is a late night noise program that has existed for years, and\n      that it is voluntary. That alone is absurd: it leaves airlines to decide where they\n      fly rather than putting residents first, which I assumed was the airport's job. Late\n      night flights should not keep increasing.\n      <mark\n        class=\"bcn-hl\"\n        data-cid=\"c-047\"\n        data-family=\"violet\"\n        data-shade=\"1\"\n        tabindex=\"0\"\n        title=\"Nighttime operations: Late Night Noise Limitation Program\"\n        aria-label=\"Nighttime operations: Late Night Noise Limitation Program\"\n        >Someone should recognize that the program is not working and make it\n        mandatory.</mark\n      >\n      <mark\n        class=\"bcn-hl\"\n        data-cid=\"c-048\"\n        data-family=\"blue\"\n        data-shade=\"1\"\n        tabindex=\"0\"\n        title=\"Flight paths: Elliott Bay route\"\n        aria-label=\"Flight paths: Elliott Bay route\"\n        >We are surrounded by water, so why aren't planes flying over it, where fewer\n        people would be bothered?</mark\n      >\n      The loop from south to north and back south again makes no sense and only adds noise\n      and traffic. The noise grows by the day, nobody is getting enough sleep, and\n      <mark\n        class=\"bcn-hl\"\n        data-cid=\"c-049\"\n        data-family=\"slate\"\n        data-shade=\"1\"\n        tabindex=\"0\"\n        title=\"Process and outreach: Unanswered complaints\"\n        aria-label=\"Process and outreach: Unanswered complaints\"\n        >being told that summer winds make it quieter is just another excuse meant to\n        placate us.</mark\n      >\n      I am deeply upset by what is happening, and I urge that your noise study make\n      changes that ease the burden on our neighborhood, which is carrying far more than\n      its share.\n    </p>\n  </div>\n  <span\n    class=\"bcn-st__grip\"\n    data-topic-ink=\"\"\n    data-st-grip=\"start\"\n    hidden=\"\"\n    aria-hidden=\"true\"\n  ></span\n  ><span\n    class=\"bcn-st__grip\"\n    data-topic-ink=\"\"\n    data-st-grip=\"end\"\n    hidden=\"\"\n    aria-hidden=\"true\"\n  ></span>\n</div>",
+      "css": ".typography-body-lg {\n  font-family: var(--typography-body-lg-font-family);\n  font-size: var(--typography-body-lg-font-size);\n  font-weight: var(--typography-body-lg-font-weight);\n  line-height: var(--typography-body-lg-line-height);\n  letter-spacing: var(--typography-body-lg-letter-spacing);\n}\n.bcn-st {\n  position: relative;\n}\n.bcn-st__body {\n  font-family: var(--font-decorative, var(--typography-font-family-sans));\n  color: var(--color-content-default);\n}\n.bcn-st__body p {\n  margin: 0 0 var(--spacing-400) 0;\n  max-width: 68ch;\n}\n.bcn-st__body p:last-child {\n  margin-bottom: 0;\n}\n.bcn-st__body mark.bcn-hl {\n  cursor: pointer;\n}\n.bcn-st__body mark.bcn-hl:hover {\n  box-shadow: inset 0 -2px 0 var(--_ink);\n}\n.bcn-st__body mark.bcn-hl:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);\n  outline-offset: 1px;\n}\n.bcn-st__body mark.bcn-hl[data-active] {\n  outline: 2px solid var(--_ink);\n  outline-offset: 1px;\n}\n.bcn-st__grip {\n  --_ink: var(--color-content-default);\n  background: var(--_ink);\n  cursor: ew-resize;\n  touch-action: none;\n  z-index: 1;\n  width: 2px;\n  margin-left: -1px;\n  position: absolute;\n}\n.bcn-st__grip:after {\n  content: \"\";\n  background: var(--_ink);\n  border: 2px solid var(--color-background-elevation-raised);\n  border-radius: 50%;\n  width: 12px;\n  height: 12px;\n  position: absolute;\n  left: 50%;\n  transform: translate(-50%);\n}\n.bcn-st__grip[data-st-grip=\"start\"]:after {\n  top: -10px;\n}\n.bcn-st__grip[data-st-grip=\"end\"]:after {\n  bottom: -10px;\n}\n.bcn-st__grip:before {\n  content: \"\";\n  position: absolute;\n  inset: -6px -10px;\n}\n.bcn-st[data-dragging] .bcn-st__body {\n  user-select: none;\n  cursor: ew-resize;\n}\nmark.bcn-hl {\n  --_hl: var(--bcn-topic-slate-1);\n  background: var(--_hl);\n  color: inherit;\n  border-radius: var(--radius-xs, 2px);\n  -webkit-box-decoration-break: clone;\n  box-decoration-break: clone;\n  padding: 0.08em 0.12em;\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"amber\"] {\n  --_ink: var(--bcn-topic-amber-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"blue\"] {\n  --_ink: var(--bcn-topic-blue-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"violet\"] {\n  --_ink: var(--bcn-topic-violet-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"grass\"] {\n  --_ink: var(--bcn-topic-grass-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"orange\"] {\n  --_ink: var(--bcn-topic-orange-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"crimson\"] {\n  --_ink: var(--bcn-topic-crimson-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"slate\"] {\n  --_ink: var(--bcn-topic-slate-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"none\"] {\n  --_ink: var(--color-content-default-tertiary);\n}\nmark.bcn-hl[data-family=\"none\"] {\n  --_hl: transparent;\n  outline: 1.5px dashed var(--color-border-default);\n  outline-offset: -1px;\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"amber\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-amber-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"amber\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-amber-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"amber\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-amber-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"amber\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-amber-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"blue\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-blue-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"blue\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-blue-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"blue\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-blue-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"blue\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-blue-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"violet\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-violet-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"violet\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-violet-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"violet\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-violet-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"violet\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-violet-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"grass\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-grass-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"grass\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-grass-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"grass\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-grass-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"grass\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-grass-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"orange\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-orange-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"orange\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-orange-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"orange\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-orange-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"orange\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-orange-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"crimson\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-crimson-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"crimson\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-crimson-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"crimson\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-crimson-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"crimson\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-crimson-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"slate\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-slate-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"slate\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-slate-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"slate\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-slate-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"slate\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-slate-4);\n}\n.typography-body-lg {\n  font-family: var(--typography-body-lg-font-family);\n  font-size: var(--typography-body-lg-font-size);\n  font-weight: var(--typography-body-lg-font-weight);\n  line-height: var(--typography-body-lg-line-height);\n  letter-spacing: var(--typography-body-lg-letter-spacing);\n}",
+      "guide": {
+        "intent": "The submission in Beacon's document voice (Besley, body-lg) with each passage painted as a highlighter stroke: topic = hue family, subtopic = shade (a passage filed under several subtopics paints in its first). Hover underlines a passage in its family ink; the active one rings in it. Drag the grips at either end of the active passage to resize it; select free text to add one.",
+        "decisions": [
+          "Highlight, not brackets, is the metaphor (brief). box-decoration-break: clone keeps each wrapped line a clean stroke.",
+          "Offsets are derived from the comment's quote, never stored; a resized or added comment keeps a start hint only when its quote occurs twice.",
+          "Resize snaps to whole words and stops at a paragraph break or the next passage. A new selection is trimmed to the free text the same way. Passages never overlap.",
+          "Highlights are focusable; Enter opens the panel. J / K step through them in text order."
+        ],
+        "gotchas": [
+          "Paint on the client from the working state; each paragraph carries its start offset (data-off) so a DOM point maps back to a text offset.",
+          "During a drag, hide the grip from hit testing (pointer-events: none) before caretPositionFromPoint, or the grip finds itself.",
+          "Open the panel for a selection AFTER the drag's click: opened on mouseup, the modal reads that click as outside it and light-dismisses at once."
+        ],
+        "acceptance": [
+          "Dragging across free text opens the panel as New comment, and it stays open.",
+          "Selecting part of an existing passage does not create an overlapping one."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--bcn-topic-amber-1",
+          "value": "#ffee9c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-2",
+          "value": "#f3d673",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-3",
+          "value": "#e9c162",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-4",
+          "value": "#e2a336",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-ink",
+          "value": "#ab6400",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-1",
+          "value": "#d5efff",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-2",
+          "value": "#acd8fc",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-3",
+          "value": "#8ec8f6",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-4",
+          "value": "#5eb1ef",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-ink",
+          "value": "#0d74ce",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-1",
+          "value": "#fedce7",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-2",
+          "value": "#f3bed1",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-3",
+          "value": "#eaacc3",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-4",
+          "value": "#e093b2",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-ink",
+          "value": "#cb1d63",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-1",
+          "value": "#daf1db",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-2",
+          "value": "#b2ddb5",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-3",
+          "value": "#94ce9a",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-4",
+          "value": "#65ba74",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-ink",
+          "value": "#2a7e3b",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-1",
+          "value": "#ffdfb5",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-2",
+          "value": "#ffc182",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-3",
+          "value": "#f5ae73",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-4",
+          "value": "#ec9455",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-ink",
+          "value": "#cc4e00",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-1",
+          "value": "#e0e1e6",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-2",
+          "value": "#d9d9e0",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-3",
+          "value": "#cdced6",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-4",
+          "value": "#b9bbc6",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-ink",
+          "value": "#60646c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-1",
+          "value": "#ebe4ff",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-2",
+          "value": "#d4cafe",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-3",
+          "value": "#c2b5f5",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-4",
+          "value": "#aa99ec",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-ink",
+          "value": "#6550b9",
+          "tier": "component"
+        },
+        {
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--focus-ring-color",
+          "value": "#3e9b4f",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-width",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--font-decorative",
+          "value": "\"Besley\", serif",
+          "tier": "component"
+        },
+        {
+          "name": "--radius-xs",
+          "value": ".125rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--typography-body-lg-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-lg-font-size",
+          "value": "clamp(.875rem, .77rem + .52vw, 1.125rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-lg-font-weight",
+          "value": "350",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-lg-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-lg-line-height",
+          "value": "1.8",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-family-sans",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        }
+      ],
+      "claudePath": "claude/highlighted-text.md",
+      "repoPath": "public/handoff/prototypes-comments-sub-18/claude/highlighted-text.md"
+    },
+    {
+      "label": "Comment panel",
+      "tag": "esa-side-dialog",
+      "selector": "[data-cp-panel]",
+      "apply": [
+        {
+          "click": "mark[data-cid=\"c-045\"]"
+        }
+      ],
+      "html": "<esa-side-dialog\n  heading=\"Comment\"\n  position=\"right\"\n  show-close-button=\"true\"\n  data-cp-panel=\"true\"\n  size=\"md\"\n  open=\"\"\n  ><div class=\"stack\" data-gap=\"lg\" data-cp=\"record\">\n    <blockquote class=\"bcn-cp__quote typography-body-md\">\n      <mark class=\"bcn-hl\" data-cp-quote=\"\" data-family=\"violet\" data-shade=\"2\"\n        >There is a new pattern of planes all night, at about 1:30, 2 and 4 a.m. and then\n        steadily after that, sometimes only seconds apart.</mark\n      >\n    </blockquote>\n    <section class=\"stack\" data-gap=\"xs\" aria-labelledby=\"bcn-cp-topics\">\n      <div class=\"bcn-cp__head\">\n        <h3 id=\"bcn-cp-topics\" class=\"typography-label-md-strong\">Topics</h3>\n        <span\n          class=\"esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only\"\n          ><button\n            class=\"esa-button__native typography-microcopy-xs\"\n            type=\"button\"\n            aria-label=\"Add Topics\"\n            title=\"Add Topics\"\n            data-cp-add-topic=\"true\"\n          >\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n              ><svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"M5 12h14\"></path>\n                <path d=\"M12 5v14\"></path></svg\n            ></span></button\n        ></span>\n      </div>\n      <ul class=\"bcn-cp__cards\" role=\"list\" data-cp-topics=\"\">\n        <li class=\"bcn-cp__card\">\n          <span class=\"bcn-topic-dot\" data-family=\"violet\" data-shade=\"2\"></span\n          ><span class=\"bcn-cp__name\">Nighttime operations › Overnight flights</span\n          ><button\n            type=\"button\"\n            class=\"bcn-cp__x\"\n            aria-label=\"Remove Nighttime operations › Overnight flights\"\n            data-cp-rm-topic=\"c-045\"\n          >\n            <svg\n              width=\"14\"\n              height=\"14\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              aria-hidden=\"true\"\n            >\n              <path d=\"M18 6 6 18\"></path>\n              <path d=\"m6 6 12 12\"></path>\n            </svg>\n          </button>\n        </li>\n      </ul>\n    </section>\n    <section class=\"stack\" data-gap=\"xs\" aria-labelledby=\"bcn-cp-responses\">\n      <div class=\"bcn-cp__head\">\n        <h3 id=\"bcn-cp-responses\" class=\"typography-label-md-strong\">Responses</h3>\n        <esa-dropdown-menu position=\"below-end\" width=\"auto\" data-cp-resp-menu=\"true\"\n          ><span\n            class=\"esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only\"\n            ><button\n              class=\"esa-button__native typography-microcopy-xs\"\n              type=\"button\"\n              aria-label=\"Add a response\"\n              title=\"Add a response\"\n              aria-haspopup=\"menu\"\n              aria-expanded=\"false\"\n              aria-controls=\"menu\"\n            >\n              <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                ><svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <path d=\"M5 12h14\"></path>\n                  <path d=\"M12 5v14\"></path></svg\n              ></span></button></span\n        ></esa-dropdown-menu>\n      </div>\n      <ul class=\"bcn-cp__cards\" role=\"list\" data-cp-responses=\"\">\n        <li class=\"bcn-cp__card\">\n          <esa-tooltip\n            text=\"Draft: planned once it is accepted\"\n            position=\"above\"\n            align=\"center\"\n            ><span\n              class=\"bcn-cp__glyph\"\n              data-state=\"draft\"\n              role=\"img\"\n              aria-label=\"Draft: planned once it is accepted\"\n              ><svg\n                width=\"14\"\n                height=\"14\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                aria-hidden=\"true\"\n              >\n                <path\n                  d=\"m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2\"\n                ></path>\n                <path\n                  d=\"M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z\"\n                ></path>\n                <path d=\"M8 18h1\"></path></svg></span></esa-tooltip\n          ><a\n            class=\"bcn-cp__name\"\n            href=\"/beacon-design/prototypes/comments/response?id=r-04\"\n            >Late Night Noise Limitation Program and Overnight Flights</a\n          ><button\n            type=\"button\"\n            class=\"bcn-cp__x\"\n            aria-label=\"Unlink Late Night Noise Limitation Program and Overnight Flights\"\n            data-cp-rm-resp=\"r-04\"\n          >\n            <svg\n              width=\"14\"\n              height=\"14\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              aria-hidden=\"true\"\n            >\n              <path d=\"M18 6 6 18\"></path>\n              <path d=\"m6 6 12 12\"></path>\n            </svg>\n          </button>\n        </li>\n      </ul>\n    </section>\n  </div>\n  <div class=\"cluster\" data-gap=\"sm\" data-cp=\"removed\" hidden=\"\">\n    <span class=\"typography-body-md\">Comment removed</span\n    ><span\n      class=\"esa-button esa-button--variant-secondary esa-button--appearance-soft esa-button--sm\"\n      ><button\n        class=\"esa-button__native typography-microcopy-xs\"\n        type=\"button\"\n        data-cp-undo=\"true\"\n      >\n        <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n          ><svg\n            width=\"16\"\n            height=\"16\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\"></path>\n            <path d=\"M3 3v5h5\"></path></svg></span\n        ><span class=\"esa-button__label\">Undo</span>\n      </button></span\n    >\n  </div>\n  <div slot=\"footer\" class=\"bcn-cp__foot\">\n    <span class=\"cluster\" data-gap=\"xs\" data-cp-foot=\"edit\"\n      ><span\n        class=\"esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm esa-button--icon-only\"\n        ><button\n          class=\"esa-button__native typography-microcopy-xs\"\n          type=\"button\"\n          aria-label=\"Previous comment (K)\"\n          title=\"Previous comment (K)\"\n          data-cp-prev=\"true\"\n        >\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m15 18-6-6 6-6\"></path></svg\n          ></span></button></span\n      ><span\n        class=\"esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm esa-button--icon-only\"\n        ><button\n          class=\"esa-button__native typography-microcopy-xs\"\n          type=\"button\"\n          aria-label=\"Next comment (J)\"\n          title=\"Next comment (J)\"\n          data-cp-next=\"true\"\n        >\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m9 18 6-6-6-6\"></path></svg\n          ></span></button></span></span\n    ><span class=\"bcn-cp__end\" data-cp-foot=\"edit\"\n      ><span\n        class=\"esa-button esa-button--variant-danger esa-button--appearance-outline esa-button--sm\"\n        ><button\n          class=\"esa-button__native typography-microcopy-xs\"\n          type=\"button\"\n          data-cp-remove=\"true\"\n        >\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"M3 6h18\"></path>\n              <path d=\"M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6\"></path>\n              <path d=\"M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2\"></path>\n              <line x1=\"10\" x2=\"10\" y1=\"11\" y2=\"17\"></line>\n              <line x1=\"14\" x2=\"14\" y1=\"11\" y2=\"17\"></line></svg></span\n          ><span class=\"esa-button__label\">Remove</span>\n        </button></span\n      ></span\n    ><span class=\"cluster bcn-cp__end\" data-gap=\"xs\" data-cp-foot=\"add\" hidden=\"\"\n      ><span\n        class=\"esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm\"\n        ><button\n          class=\"esa-button__native typography-microcopy-xs\"\n          type=\"button\"\n          data-cp-add=\"true\"\n        >\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"M5 12h14\"></path>\n              <path d=\"M12 5v14\"></path></svg></span\n          ><span class=\"esa-button__label\">Add Comment</span>\n        </button></span\n      ><span\n        class=\"esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm\"\n        ><button\n          class=\"esa-button__native typography-microcopy-xs\"\n          type=\"button\"\n          data-cp-add-cancel=\"true\"\n        >\n          <span class=\"esa-button__label\">Cancel</span>\n        </button></span\n      ></span\n    ><span class=\"cluster bcn-cp__end\" data-gap=\"xs\" data-cp-foot=\"removed\" hidden=\"\"\n      ><span\n        class=\"esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm\"\n        ><button\n          class=\"esa-button__native typography-microcopy-xs\"\n          type=\"button\"\n          data-cp-done=\"true\"\n        >\n          <span class=\"esa-button__label\">Close</span>\n        </button></span\n      ></span\n    >\n  </div></esa-side-dialog\n>",
+      "css": ".typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.typography-microcopy-xs {\n  font-family: var(--typography-microcopy-xs-font-family);\n  font-size: var(--typography-microcopy-xs-font-size);\n  font-weight: var(--typography-microcopy-xs-font-weight);\n  line-height: var(--typography-microcopy-xs-line-height);\n  letter-spacing: var(--typography-microcopy-xs-letter-spacing);\n}\n.typography-microcopy-xs-subtle {\n  font-family: var(--typography-microcopy-xs-subtle-font-family);\n  font-size: var(--typography-microcopy-xs-subtle-font-size);\n  font-weight: var(--typography-microcopy-xs-subtle-font-weight);\n  line-height: var(--typography-microcopy-xs-subtle-line-height);\n  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);\n}\n.typography-microcopy-xs-strong {\n  font-family: var(--typography-microcopy-xs-strong-font-family);\n  font-size: var(--typography-microcopy-xs-strong-font-size);\n  font-weight: var(--typography-microcopy-xs-strong-font-weight);\n  line-height: var(--typography-microcopy-xs-strong-line-height);\n  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);\n}\n.bcn-st__body mark.bcn-hl {\n  cursor: pointer;\n}\n.bcn-st__body mark.bcn-hl:hover {\n  box-shadow: inset 0 -2px 0 var(--_ink);\n}\n.bcn-st__body mark.bcn-hl:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);\n  outline-offset: 1px;\n}\n.bcn-st__body mark.bcn-hl[data-active] {\n  outline: 2px solid var(--_ink);\n  outline-offset: 1px;\n}\n.bcn-cp__quote {\n  font-family: var(--font-decorative, var(--typography-font-family-sans));\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-cp__head {\n  justify-content: space-between;\n  align-items: center;\n  gap: var(--spacing-200);\n  display: flex;\n}\n.bcn-cp__head h3 {\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-cp__cards {\n  gap: var(--spacing-100);\n  flex-direction: column;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n  display: flex;\n}\n.bcn-cp__cards .bcn-cp__card {\n  align-items: center;\n  gap: var(--spacing-200);\n  min-height: 2.25rem;\n  padding: 0 var(--spacing-100) 0 var(--spacing-300);\n  background: var(--color-background-elevation-raised);\n  border: var(--border-width-default, 1px) solid var(--color-border-default);\n  border-radius: var(--radius-sm);\n  font-size: var(--typography-label-sm-font-size);\n  color: var(--color-content-default);\n  display: flex;\n}\n.bcn-cp__cards .bcn-cp__name {\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  min-width: 0;\n  color: inherit;\n  flex: 1;\n  overflow: hidden;\n}\n.bcn-cp__cards a.bcn-cp__name {\n  text-decoration: none;\n}\n.bcn-cp__cards a.bcn-cp__name:hover {\n  text-decoration: underline;\n}\n.bcn-cp__cards esa-tooltip {\n  display: inline-flex;\n}\n.bcn-cp__cards .bcn-cp__glyph {\n  color: var(--color-content-secondary);\n  display: inline-flex;\n}\n.bcn-cp__cards .bcn-cp__glyph[data-state=\"planned\"] {\n  color: var(--color-content-success, var(--color-content-default));\n}\n.bcn-cp__cards .bcn-cp__x {\n  all: unset;\n  border-radius: var(--radius-sm);\n  width: 1.75rem;\n  height: 1.75rem;\n  color: var(--color-content-default-tertiary);\n  cursor: pointer;\n  flex: none;\n  place-items: center;\n  display: inline-grid;\n}\n.bcn-cp__cards .bcn-cp__x:hover {\n  color: var(--color-content-default);\n  background: var(\n    --color-background-default-hover,\n    var(--color-background-elevation-sunken)\n  );\n}\n.bcn-cp__cards .bcn-cp__x:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);\n  outline-offset: 0;\n}\n.bcn-cp__foot {\n  justify-content: space-between;\n  align-items: center;\n  gap: var(--spacing-200);\n  width: 100%;\n  display: flex;\n}\n.bcn-cp__end {\n  margin-left: auto;\n}\n.bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-help-bar .esa-icon-button {\n  color: var(--bcn-helpbar-fg-muted);\n  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);\n}\n.bcn-help-bar .esa-icon-button:hover,\n.bcn-help-bar .esa-icon-button:focus-visible {\n  color: var(--bcn-helpbar-fg);\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.topbar__right .esa-icon-button {\n  color: var(--color-content-default-secondary);\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\nmark.bcn-hl {\n  --_hl: var(--bcn-topic-slate-1);\n  background: var(--_hl);\n  color: inherit;\n  border-radius: var(--radius-xs, 2px);\n  -webkit-box-decoration-break: clone;\n  box-decoration-break: clone;\n  padding: 0.08em 0.12em;\n}\n.bcn-topic-dot {\n  background: var(--_ink, var(--bcn-topic-slate-ink));\n  border-radius: 50%;\n  flex: none;\n  width: 0.625rem;\n  height: 0.625rem;\n  display: inline-block;\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"amber\"] {\n  --_ink: var(--bcn-topic-amber-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"blue\"] {\n  --_ink: var(--bcn-topic-blue-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"violet\"] {\n  --_ink: var(--bcn-topic-violet-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"grass\"] {\n  --_ink: var(--bcn-topic-grass-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"orange\"] {\n  --_ink: var(--bcn-topic-orange-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"crimson\"] {\n  --_ink: var(--bcn-topic-crimson-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"slate\"] {\n  --_ink: var(--bcn-topic-slate-ink);\n}\n:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family=\"none\"] {\n  --_ink: var(--color-content-default-tertiary);\n}\n.bcn-topic-dot[data-shade] {\n  background: var(--_hl);\n  box-shadow: inset 0 0 0 1.5px var(--_ink);\n}\n.bcn-topic-dot[data-family=\"none\"] {\n  box-shadow: none;\n  border: 1.5px dashed var(--_ink);\n  background: 0 0;\n}\nmark.bcn-hl[data-family=\"none\"] {\n  --_hl: transparent;\n  outline: 1.5px dashed var(--color-border-default);\n  outline-offset: -1px;\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"amber\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-amber-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"amber\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-amber-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"amber\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-amber-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"amber\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-amber-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"blue\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-blue-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"blue\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-blue-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"blue\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-blue-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"blue\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-blue-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"violet\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-violet-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"violet\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-violet-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"violet\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-violet-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"violet\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-violet-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"grass\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-grass-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"grass\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-grass-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"grass\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-grass-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"grass\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-grass-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"orange\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-orange-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"orange\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-orange-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"orange\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-orange-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"orange\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-orange-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"crimson\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-crimson-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"crimson\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-crimson-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"crimson\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-crimson-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"crimson\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-crimson-4);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"slate\"][data-shade=\"1\"] {\n  --_hl: var(--bcn-topic-slate-1);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"slate\"][data-shade=\"2\"] {\n  --_hl: var(--bcn-topic-slate-2);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"slate\"][data-shade=\"3\"] {\n  --_hl: var(--bcn-topic-slate-3);\n}\n:is(mark.bcn-hl, .bcn-topic-dot)[data-family=\"slate\"][data-shade=\"4\"] {\n  --_hl: var(--bcn-topic-slate-4);\n}\n.esa-button {\n  --_btn-pad-y: var(--spacing-300, 0.75rem);\n  --_btn-padding-x: var(--spacing-300, 0.75rem);\n  --_btn-radius: var(--button-radius-md, 0.5rem);\n  --_accent: var(--color-background-brand, #46a758);\n  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);\n  --_on: var(--color-content-default-knockout, #fcfcfc);\n  --_accent-text: var(--_accent);\n  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);\n  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);\n  display: inline-block;\n}\n.esa-button--xs {\n  --_btn-pad-y: var(--spacing-200, 0.5rem);\n  --_btn-padding-x: var(--spacing-200, 0.5rem);\n  --_btn-radius: var(--button-radius-xs, 4px);\n}\n.esa-button--sm {\n  --_btn-pad-y: var(--spacing-250, 0.625rem);\n  --_btn-padding-x: var(--spacing-250, 0.625rem);\n  --_btn-radius: var(--button-radius-sm, 4px);\n}\n.esa-button--lg {\n  --_btn-pad-y: var(--spacing-400, 1rem);\n  --_btn-padding-x: var(--spacing-400, 1rem);\n  --_btn-radius: var(--button-radius-lg, 8px);\n}\n.esa-button--variant-primary {\n  --_accent-text: var(--color-content-brand);\n}\n.esa-button--variant-secondary {\n  --_accent: var(--color-background-brand-muted);\n  --_accent-hover: var(--color-background-brand-muted-hover);\n  --_on: var(--color-content-on-brand-muted, var(--color-content-default));\n  --_accent-text: var(--color-content-brand);\n  --_accent-border: var(--color-border-default-strong, #bbb);\n}\n.esa-button--variant-danger {\n  --_accent: var(--color-background-utility-danger);\n  --_accent-hover: var(--color-background-utility-danger-hover);\n  --_accent-text: var(--color-content-utility-danger);\n}\n.esa-button--variant-success {\n  --_accent: var(--color-background-utility-success);\n  --_accent-hover: var(--color-background-utility-success-hover);\n  --_on: var(--color-content-on-utility-success);\n  --_accent-text: var(--color-content-utility-success);\n}\n.esa-button--variant-warning {\n  --_accent: var(--color-background-utility-warning);\n  --_accent-hover: var(--color-background-utility-warning-hover);\n  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));\n  --_accent-text: var(--color-content-utility-warning);\n}\n.esa-button--variant-info {\n  --_accent: var(--color-background-utility-info);\n  --_accent-hover: var(--color-background-utility-info-hover);\n  --_accent-text: var(--color-content-utility-info);\n}\n.esa-button--variant-ai {\n  --_accent: var(--color-background-ai);\n  --_accent-hover: var(--color-background-ai-hover);\n  --_accent-text: var(--color-content-ai);\n}\n.esa-button--appearance-fill .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent-border, transparent);\n}\n.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-fill.esa-button--active .esa-button__native {\n  background: var(--_accent-hover);\n}\n.esa-button--appearance-outline .esa-button__native,\n.esa-button--appearance-dashed .esa-button__native {\n  color: var(--_accent-text);\n  border-color: var(--_accent);\n  background: 0 0;\n}\n.esa-button--appearance-dashed .esa-button__native {\n  border-style: dashed;\n}\n.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {\n  background: var(--_btn-tint-hover);\n}\n.esa-button--appearance-outline.esa-button--active .esa-button__native,\n.esa-button--appearance-dashed.esa-button--active .esa-button__native {\n  background: var(--_btn-tint-active);\n}\n.esa-button--appearance-soft .esa-button__native {\n  background: color-mix(\n    in srgb,\n    var(--color-background-elevation-sunken, #f0f0f0) 45%,\n    var(--color-background-elevation-raised, #fcfcfc)\n  );\n  color: var(--_accent-text);\n  border-color: var(--color-border-default-strong, #bbb);\n}\n.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-soft.esa-button--active .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent);\n}\n.esa-button--variant-ghost .esa-button__native {\n  color: var(--color-content-default, #202020);\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,\n.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {\n  border-color: var(--color-border-default, #cecece);\n}\n.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),\n.esa-button--variant-ghost.esa-button--active .esa-button__native {\n  background: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-button--variant-chrome .esa-button__native {\n  color: inherit;\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),\n.esa-button--variant-chrome.esa-button--active .esa-button__native,\n.esa-button--variant-chrome.esa-button--current .esa-button__native {\n  background: var(\n    --button-chrome-bg-hover,\n    color-mix(in srgb, currentColor 14%, transparent)\n  );\n}\n.esa-button--variant-chrome .esa-button__native:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__native {\n  justify-content: center;\n  align-items: center;\n  gap: var(--spacing-200, 8px);\n  width: 100%;\n  padding-block: var(--_btn-pad-y);\n  padding-inline: var(--_btn-padding-x);\n  border: var(--border-width-default, 1px) solid transparent;\n  border-radius: var(--_btn-radius);\n  cursor: pointer;\n  transition:\n    background var(--transition-fast, 0.15s ease),\n    border-color var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n  text-decoration: none;\n  display: inline-flex;\n}\n.esa-button__native:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n}\n.esa-button--disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n  pointer-events: none;\n}\n.esa-button--icon-only .esa-button__native {\n  padding-inline: var(--_btn-pad-y);\n  aspect-ratio: 1;\n}\nsummary.esa-button {\n  cursor: pointer;\n  list-style: none;\n}\nsummary.esa-button::-webkit-details-marker {\n  display: none;\n}\nsummary.esa-button:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n  border-radius: var(--_btn-radius);\n}\nsummary.esa-button--variant-chrome:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__label {\n  white-space: nowrap;\n}\n.esa-button__label--hidden {\n  clip-path: inset(50%);\n  white-space: nowrap;\n  width: 1px;\n  height: 1px;\n  position: absolute;\n  overflow: hidden;\n}\n.esa-button__spinner {\n  width: 1em;\n  height: 1em;\n  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);\n  border: 2px solid;\n  border-right-color: #0000;\n  border-radius: 50%;\n  display: inline-block;\n}\n.typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-label-md-strong {\n  font-family: var(--typography-label-md-strong-font-family);\n  font-size: var(--typography-label-md-strong-font-size);\n  font-weight: var(--typography-label-md-strong-font-weight);\n  line-height: var(--typography-label-md-strong-line-height);\n  letter-spacing: var(--typography-label-md-strong-letter-spacing);\n}\n.typography-microcopy-xs {\n  font-family: var(--typography-microcopy-xs-font-family);\n  font-size: var(--typography-microcopy-xs-font-size);\n  font-weight: var(--typography-microcopy-xs-font-weight);\n  line-height: var(--typography-microcopy-xs-line-height);\n  letter-spacing: var(--typography-microcopy-xs-letter-spacing);\n}\n.typography-microcopy-xs-subtle {\n  font-family: var(--typography-microcopy-xs-subtle-font-family);\n  font-size: var(--typography-microcopy-xs-subtle-font-size);\n  font-weight: var(--typography-microcopy-xs-subtle-font-weight);\n  line-height: var(--typography-microcopy-xs-subtle-line-height);\n  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);\n}\n.typography-microcopy-xs-strong {\n  font-family: var(--typography-microcopy-xs-strong-font-family);\n  font-size: var(--typography-microcopy-xs-strong-font-size);\n  font-weight: var(--typography-microcopy-xs-strong-font-weight);\n  line-height: var(--typography-microcopy-xs-strong-line-height);\n  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);\n}\n.bcn-key-value__key .esa-icon {\n  color: var(--color-content-default-tertiary);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon--md {\n  --_icon-size: var(--icon-size-md, 20px);\n}\n.esa-icon--lg {\n  --_icon-size: var(--icon-size-lg, 24px);\n}\n.esa-icon--xl {\n  --_icon-size: var(--icon-size-xl, 28px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}\n.stack {\n  --gap: var(--spacing-400, 1rem);\n  gap: var(--gap);\n  flex-direction: column;\n  display: flex;\n}\n.stack[data-split] > [data-split] {\n  margin-block-end: auto;\n}\n.cluster {\n  --gap: var(--spacing-300, 0.75rem);\n  --align: center;\n  --justify: flex-start;\n  gap: var(--gap);\n  align-items: var(--align);\n  justify-content: var(--justify);\n  flex-wrap: wrap;\n  display: flex;\n}",
+      "guide": {
+        "intent": "One passage in the standard slide-in side panel (esa-side-dialog), titled with its number: \"Comment C-018.001\". The passage in its highlight, then two groups of slim read-only cards. Topics: every \"Topic › Subtopic\" it is filed under, each with a remove; + opens a stacked picker. Responses: every response it is linked to, its state as a glyph (accepted = file-check, draft = file-pen-line), the title linking to the response, each with a remove; + offers Link a Response (the picker) or New Response. Footer: Previous / Next far left, Remove (danger outline) right, behind a confirm.",
+        "decisions": [
+          "Several topics and several responses per passage (Andy, 2026-10-05). A topic filing is a comment over the same passage, the copy the topic index's Duplicate to makes, so the topic index and burn-down count it there; responses are shared by every filing of the passage.",
+          "The picker is a second esa-side-dialog stacked over the panel; the panel steps back 30px (its --side-dialog-inset) while it is open. Search over a checklist, multi-select, Add. What the passage already has is checked and fixed.",
+          "Removing the last topic files the passage under Unfiled; it stays on the record.",
+          "Edits apply as they are made: no Save. Remove is guarded by esa-confirm-dialog (danger) and leaves \"Comment removed\" with Undo.",
+          "New response is offered only for a filed passage: a new response is drafted from its filing.",
+          "Closing the panel leaves the highlight active, so its end grips stay up for a resize."
+        ],
+        "gotchas": [
+          "esa-side-dialog fires close only on a person's dismissal: restore the parent's inset yourself when Add / Cancel closes the picker.",
+          "esa-checkbox names itself from aria-label; the row's text is not a <label> for it, so a row click sets checked itself."
+        ],
+        "acceptance": [
+          "Add two topics in one pass: two cards appear, the outline lists both names, the topic index shows the passage under each.",
+          "Link a response, then New response: three response cards; remove one: it unlinks from every filing.",
+          "Remove: confirm, then \"Comment removed\" with Undo; Undo restores the passage with its topics and responses.",
+          "Select text: the panel opens as New comment with the helper's topic and response as cards, editable before Add comment."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--animation-spin",
+          "value": ".75s linear infinite",
+          "tier": "semantic"
+        },
+        {
+          "name": "--bcn-gray-1000",
+          "value": "#000",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-400",
+          "value": "#989898",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-500",
+          "value": "#7c7c7c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-950",
+          "value": "#292929",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-fg",
+          "value": "#ffffffeb",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-fg-muted",
+          "value": "#ffffffb8",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-hover-bg",
+          "value": "#ffffff1a",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-1",
+          "value": "#ffee9c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-2",
+          "value": "#f3d673",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-3",
+          "value": "#e9c162",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-4",
+          "value": "#e2a336",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-amber-ink",
+          "value": "#ab6400",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-1",
+          "value": "#d5efff",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-2",
+          "value": "#acd8fc",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-3",
+          "value": "#8ec8f6",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-4",
+          "value": "#5eb1ef",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-blue-ink",
+          "value": "#0d74ce",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-1",
+          "value": "#fedce7",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-2",
+          "value": "#f3bed1",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-3",
+          "value": "#eaacc3",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-4",
+          "value": "#e093b2",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-crimson-ink",
+          "value": "#cb1d63",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-1",
+          "value": "#daf1db",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-2",
+          "value": "#b2ddb5",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-3",
+          "value": "#94ce9a",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-4",
+          "value": "#65ba74",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-grass-ink",
+          "value": "#2a7e3b",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-1",
+          "value": "#ffdfb5",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-2",
+          "value": "#ffc182",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-3",
+          "value": "#f5ae73",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-4",
+          "value": "#ec9455",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-orange-ink",
+          "value": "#cc4e00",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-1",
+          "value": "#e0e1e6",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-2",
+          "value": "#d9d9e0",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-3",
+          "value": "#cdced6",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-4",
+          "value": "#b9bbc6",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-slate-ink",
+          "value": "#60646c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-1",
+          "value": "#ebe4ff",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-2",
+          "value": "#d4cafe",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-3",
+          "value": "#c2b5f5",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-4",
+          "value": "#aa99ec",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-topic-violet-ink",
+          "value": "#6550b9",
+          "tier": "component"
+        },
+        {
+          "name": "--border-width-default",
+          "value": "1px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--button-chrome-bg-hover",
+          "value": "color-mix(in srgb, currentColor 14%, transparent)",
+          "tier": "component"
+        },
+        {
+          "name": "--button-on-warning",
+          "value": "#fff",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-lg",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-md",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-sm",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-xs",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--color-background-ai",
+          "value": "#699cc6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-ai-hover",
+          "value": "#4c75a9",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-muted",
+          "value": "#eef5f4",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-muted-hover",
+          "value": "#b9d6d2",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-default-hover",
+          "value": "#e8e8e8",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-danger",
+          "value": "#ce2c31",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-danger-hover",
+          "value": "#641723",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-info",
+          "value": "#228be6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-info-hover",
+          "value": "#113264",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-success",
+          "value": "#2e7571",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-success-hover",
+          "value": "#193b2d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-warning",
+          "value": "#f59e0b",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-warning-hover",
+          "value": "#ffba18",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-strong",
+          "value": "#bdbdbd",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-ai",
+          "value": "#7d5e54",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-knockout",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-on-brand-muted",
+          "value": "#203c25",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-on-utility-success",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-on-utility-warning",
+          "value": "#4f3422",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-secondary",
+          "value": "#525252",
+          "tier": "component"
+        },
+        {
+          "name": "--color-content-success",
+          "value": "#218358",
+          "tier": "component"
+        },
+        {
+          "name": "--color-content-utility-danger",
+          "value": "#ce2c31",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-info",
+          "value": "#0d74ce",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-success",
+          "value": "#218358",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-warning",
+          "value": "#ab6400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--focus-ring-color",
+          "value": "#3e9b4f",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-offset",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-width",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--font-decorative",
+          "value": "\"Besley\", serif",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-lg",
+          "value": "24px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-md",
+          "value": "20px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-sm",
+          "value": "16px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-xl",
+          "value": "28px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-xs",
+          "value": "14px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-sm",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-xs",
+          "value": ".125rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--spacing-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-250",
+          "value": ".625rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-weight",
+          "value": "350",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-family-sans",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-md-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-line-height",
+          "value": "1",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-line-height",
+          "value": "1",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-subtle-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-subtle-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-subtle-font-weight",
+          "value": "350",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-subtle-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-subtle-line-height",
+          "value": "1",
+          "tier": "semantic"
+        }
+      ],
+      "claudePath": "claude/comment-panel.md",
+      "repoPath": "public/handoff/prototypes-comments-sub-18/claude/comment-panel.md"
+    }
+  ]
+}

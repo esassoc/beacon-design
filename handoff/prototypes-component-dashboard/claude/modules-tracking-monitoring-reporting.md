@@ -641,6 +641,9 @@ The three work areas as equal cards, each rolling up this component's actions of
   line-height: var(--typography-label-md-strong-line-height);
   letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-stat {
   --_stat-value-color: var(--stat-value-color, var(--color-content-default, #202020));
   --_stat-value-font: var(

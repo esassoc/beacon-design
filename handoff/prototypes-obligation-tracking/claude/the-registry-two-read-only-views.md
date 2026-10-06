@@ -319,7 +319,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="1 obligations">1</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -341,7 +344,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -447,7 +450,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="1 obligations">1</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -469,7 +475,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -597,7 +603,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="12 obligations">12</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -619,7 +628,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -1309,7 +1318,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="24 obligations">24</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -1331,7 +1343,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -2744,7 +2756,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="14 obligations">14</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -2766,7 +2781,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -3577,7 +3592,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="30 obligations">30</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -3599,7 +3617,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -5328,7 +5346,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="4 obligations">4</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -5350,7 +5371,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -5624,7 +5645,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="10 obligations">10</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -5646,7 +5670,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -6291,7 +6315,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="8 obligations">8</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -6313,7 +6340,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -6874,7 +6901,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="2 obligations">2</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -6896,7 +6926,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -7060,7 +7090,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="14 obligations">14</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -7082,7 +7115,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -7998,7 +8031,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="14 obligations">14</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -8020,7 +8056,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -8941,7 +8977,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="6 obligations">6</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -8963,7 +9002,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -9336,7 +9375,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="3 obligations">3</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -9358,7 +9400,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -9558,7 +9600,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="8 obligations">8</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -9580,7 +9625,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -10038,7 +10083,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="4 obligations">4</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -10060,7 +10108,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -10324,7 +10372,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="5 obligations">5</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -10346,7 +10397,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -10646,7 +10697,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="6 obligations">6</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -10668,7 +10722,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -11056,7 +11110,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="4 obligations">4</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -11078,7 +11135,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -11389,7 +11446,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="2 obligations">2</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -11411,7 +11471,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -11589,7 +11649,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="8 obligations">8</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -11611,7 +11674,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -12057,7 +12120,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="10 obligations">10</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -12079,7 +12145,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -12666,7 +12732,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="12 obligations">12</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -12688,7 +12757,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -13356,7 +13425,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="6 obligations">6</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -13378,7 +13450,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -13766,7 +13838,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="1 obligations">1</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -13788,7 +13863,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -13923,7 +13998,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="11 obligations">11</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -13945,7 +14023,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -14563,7 +14641,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="5 obligations">5</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -14585,7 +14666,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -14925,7 +15006,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="5 obligations">5</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -14947,7 +15031,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -15292,7 +15376,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="6 obligations">6</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -15314,7 +15401,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -15665,7 +15752,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="2 obligations">2</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -15687,7 +15777,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -15841,7 +15931,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="4 obligations">4</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -15863,7 +15956,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -16130,7 +16223,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="1 obligations">1</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -16152,7 +16248,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -16252,7 +16348,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="6 obligations">6</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -16274,7 +16373,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -16658,7 +16757,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="4 obligations">4</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -16680,7 +16782,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -16927,7 +17029,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="2 obligations">2</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -16949,7 +17054,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -17137,7 +17242,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="7 obligations">7</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -17159,7 +17267,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -17553,7 +17661,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="5 obligations">5</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -17575,7 +17686,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -17874,7 +17985,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="20 obligations">20</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -17896,7 +18010,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -19126,7 +19240,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="3 obligations">3</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -19148,7 +19265,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -19362,7 +19479,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="6 obligations">6</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -19384,7 +19504,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -19733,7 +19853,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="2 obligations">2</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -19755,7 +19878,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -19937,7 +20060,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="5 obligations">5</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -19959,7 +20085,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -20320,7 +20446,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="16 obligations">16</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -20342,7 +20471,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -21375,7 +21504,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="5 obligations">5</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -21397,7 +21529,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -21712,7 +21844,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="5 obligations">5</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -21734,7 +21869,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -22093,7 +22228,10 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 ><span data-swo-count="sub"
                   ><span class="bcn-swcb" aria-label="4 obligations">4</span></span
                 ><span class="bcn-swot__verbs"
-                  ><esa-tooltip text="Expand to requirements" position="above"
+                  ><esa-tooltip
+                    text="Expand to requirements"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -22115,7 +22253,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                           <path d="m7 15 5 5 5-5"></path>
                           <path d="m7 9 5-5 5 5"></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Collapse" position="above"
+                  ><esa-tooltip text="Collapse" position="above" align="center"
                     ><button
                       type="button"
                       class="bcn-swot__verb"
@@ -22378,7 +22516,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -22482,7 +22620,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -22586,7 +22724,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -22721,7 +22859,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -22825,7 +22963,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -22929,7 +23067,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -23093,7 +23231,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -23197,7 +23335,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -23299,7 +23437,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -23434,7 +23572,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -23618,7 +23756,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >People and qualifications › Designated biologists and monitors</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -23696,7 +23834,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -23787,7 +23925,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >People and qualifications › Designated biologists and monitors</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -23865,7 +24003,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -23955,7 +24093,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >People and qualifications › Designated biologists and monitors</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -24052,7 +24190,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                     >Agency reporting and approvals › Species sightings and CNDDB
                     reporting</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -24130,7 +24268,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -24220,7 +24358,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Agency and biologist access</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -24315,7 +24453,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >People and qualifications › Designated biologists and monitors</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -24442,7 +24580,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Agency and biologist access</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -24518,7 +24656,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -24671,7 +24809,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Agency and biologist access</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -24749,7 +24887,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -24839,7 +24977,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Agency and biologist access</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -24915,7 +25053,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -25005,7 +25143,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Trash and food waste</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -25081,7 +25219,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -25202,7 +25340,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -25297,7 +25435,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -25375,7 +25513,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -25496,7 +25634,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat avoidance and work footprint</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -25574,7 +25712,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -25695,7 +25833,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -25802,7 +25940,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -25892,7 +26030,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Access routes and parking</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -26029,7 +26167,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -26119,7 +26257,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Access routes and parking</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -26214,7 +26352,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Access routes and parking</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -26310,7 +26448,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Access routes and parking</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -26388,7 +26526,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -26509,7 +26647,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife entrapment</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -26587,7 +26725,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -26679,7 +26817,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Refueling and equipment servicing</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -26774,7 +26912,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Refueling and equipment servicing</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -26869,7 +27007,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Refueling and equipment servicing</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -26945,7 +27083,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -27066,7 +27204,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Spill prevention and response</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -27144,7 +27282,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -27234,7 +27372,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Agency and biologist access</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -27312,7 +27450,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -27402,7 +27540,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat avoidance and work footprint</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -27480,7 +27618,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -27570,7 +27708,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat avoidance and work footprint</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -27646,7 +27784,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -27750,7 +27888,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -27840,7 +27978,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Fire prevention</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -27936,7 +28074,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Fire prevention</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -28063,7 +28201,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Fire prevention</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -28139,7 +28277,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -28241,7 +28379,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -28345,7 +28483,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -28436,7 +28574,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat impact tracking</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -28608,7 +28746,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -28699,7 +28837,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat impact tracking</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -28775,7 +28913,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -28877,7 +29015,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -29043,7 +29181,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -29164,7 +29302,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat avoidance and work footprint</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -29242,7 +29380,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -29394,7 +29532,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat avoidance and work footprint</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -29472,7 +29610,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -29563,7 +29701,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat impact tracking</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -29703,7 +29841,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -29794,7 +29932,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Compliance inspections and records</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -29889,7 +30027,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Compliance inspections and records</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -29967,7 +30105,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -30069,7 +30207,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -30171,7 +30309,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -30273,7 +30411,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -30406,7 +30544,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -30510,7 +30648,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -30614,7 +30752,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -30780,7 +30918,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -30977,7 +31115,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -31174,7 +31312,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -31278,7 +31416,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -31369,7 +31507,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Operations monitoring and studies</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -31447,7 +31585,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -31580,7 +31718,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -31682,7 +31820,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -31815,7 +31953,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -31979,7 +32117,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -32144,7 +32282,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -32248,7 +32386,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -32383,7 +32521,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -32551,7 +32689,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -32655,7 +32793,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -32757,7 +32895,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -32893,7 +33031,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -32997,7 +33135,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -33101,7 +33239,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -33192,7 +33330,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Biological performance criteria</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -33270,7 +33408,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -33423,7 +33561,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Operations monitoring and studies</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -33501,7 +33639,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -33606,7 +33744,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -33708,7 +33846,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -33812,7 +33950,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -33902,7 +34040,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -33998,7 +34136,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Operations monitoring and studies</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -34076,7 +34214,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -34166,7 +34304,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Biological performance criteria</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -34307,7 +34445,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -34411,7 +34549,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -34515,7 +34653,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -34606,7 +34744,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >People and qualifications › Qualified specialists</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -34684,7 +34822,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -34819,7 +34957,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -34921,7 +35059,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -35023,7 +35161,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -35127,7 +35265,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -35262,7 +35400,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -35366,7 +35504,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -35470,7 +35608,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -35574,7 +35712,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -35678,7 +35816,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -35844,7 +35982,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -36010,7 +36148,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -36145,7 +36283,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -36297,7 +36435,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Fish screens</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -36373,7 +36511,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -36475,7 +36613,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -36566,7 +36704,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Fish screens</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -36675,7 +36813,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -36808,7 +36946,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -36943,7 +37081,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -37033,7 +37171,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -37096,7 +37234,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -37192,7 +37330,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -37299,7 +37437,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -37389,7 +37527,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -37498,7 +37636,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -37588,7 +37726,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -37683,7 +37821,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -37761,7 +37899,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -37882,7 +38020,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Pesticides and rodenticides</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -37945,7 +38083,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Pesticides and rodenticides</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -38072,7 +38210,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Pesticides and rodenticides</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -38135,7 +38273,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Pesticides and rodenticides</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -38213,7 +38351,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -38303,7 +38441,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Pesticides and rodenticides</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -38379,7 +38517,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -38512,7 +38650,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -38602,7 +38740,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Work hours</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -38728,7 +38866,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Work hours</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -38824,7 +38962,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -38900,7 +39038,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -38990,7 +39128,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Lighting › Lighting near habitat and waters</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -39085,7 +39223,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Lighting › Lighting near habitat and waters</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -39161,7 +39299,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -39251,7 +39389,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Lighting › Lighting near habitat and waters</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -39347,7 +39485,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Lighting › Lighting near habitat and waters</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -39425,7 +39563,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -39547,7 +39685,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Lighting › Lighting near habitat and waters</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -39623,7 +39761,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -39713,7 +39851,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Speed limits</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -39776,7 +39914,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Speed limits</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -39871,7 +40009,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Speed limits</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -39934,7 +40072,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Speed limits</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -40029,7 +40167,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Speed limits</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -40124,7 +40262,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Speed limits</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -40200,7 +40338,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -40290,7 +40428,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Facility design and siting</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -40428,7 +40566,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -40518,7 +40656,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -40613,7 +40751,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -40709,7 +40847,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -40804,7 +40942,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -40880,7 +41018,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="6 requirements">6</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -40971,7 +41109,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife entrapment</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -41129,7 +41267,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife entrapment</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -41224,7 +41362,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -41319,7 +41457,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -41397,7 +41535,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -41488,7 +41626,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife entrapment</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -41583,7 +41721,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife entrapment</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -41678,7 +41816,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife entrapment</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -41756,7 +41894,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="7 requirements">7</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -41877,7 +42015,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -41972,7 +42110,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -42067,7 +42205,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -42162,7 +42300,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -42257,7 +42395,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -42352,7 +42490,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Stormwater and discharges</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -42430,7 +42568,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -42521,7 +42659,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Facility design and siting</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -42630,7 +42768,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -42751,7 +42889,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Facility design and siting</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -42827,7 +42965,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="6 requirements">6</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -42918,7 +43056,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -43013,7 +43151,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -43139,7 +43277,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -43234,7 +43372,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -43329,7 +43467,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -43407,7 +43545,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="5 requirements">5</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -43559,7 +43697,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Invasive species</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -43654,7 +43792,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Invasive species</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -43749,7 +43887,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Invasive species</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -43827,7 +43965,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -43960,7 +44098,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -44050,7 +44188,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Invasive species</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -44126,7 +44264,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="5 requirements">5</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -44216,7 +44354,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Pets, firearms and campfires</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -44311,7 +44449,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Trash and food waste</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -44406,7 +44544,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Trash and food waste</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -44532,7 +44670,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Trash and food waste</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -44610,7 +44748,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="10 requirements">10</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -44733,7 +44871,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Hazardous materials</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -44828,7 +44966,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Hazardous materials</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -44923,7 +45061,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Hazardous materials</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -45049,7 +45187,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Hazardous materials</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -45144,7 +45282,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Hazardous materials</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -45239,7 +45377,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Hazardous materials</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -45334,7 +45472,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Spill prevention and response</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -45443,7 +45581,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="15 requirements">15</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -45657,7 +45795,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Hazardous materials</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -45752,7 +45890,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Hazardous materials</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -45847,7 +45985,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Spill prevention and response</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -45942,7 +46080,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Refueling and equipment servicing</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -46038,7 +46176,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Refueling and equipment servicing</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -46133,7 +46271,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Spill prevention and response</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -46228,7 +46366,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Spill prevention and response</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -46323,7 +46461,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Spill prevention and response</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -46418,7 +46556,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Spill prevention and response</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -46559,7 +46697,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -46663,7 +46801,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -46799,7 +46937,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="7 requirements">7</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -46982,7 +47120,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Stormwater and discharges</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -47155,7 +47293,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="15 requirements">15</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -47277,7 +47415,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -47372,7 +47510,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -47467,7 +47605,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -47562,7 +47700,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -47657,7 +47795,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -47752,7 +47890,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -47848,7 +47986,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -47943,7 +48081,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -48038,7 +48176,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -48133,7 +48271,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Hazards › Hazardous materials</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -48228,7 +48366,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -48323,7 +48461,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -48418,7 +48556,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -48513,7 +48651,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -48591,7 +48729,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="7 requirements">7</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -48712,7 +48850,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -48808,7 +48946,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -48936,7 +49074,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -49064,7 +49202,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -49140,7 +49278,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -49230,7 +49368,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -49306,7 +49444,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -49427,7 +49565,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Air quality › Fugitive dust</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -49490,7 +49628,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Air quality › Fugitive dust</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -49553,7 +49691,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Air quality › Fugitive dust</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -49616,7 +49754,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Air quality › Fugitive dust</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -49679,7 +49817,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Air quality › Fugitive dust</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -49742,7 +49880,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Air quality › Fugitive dust</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -49805,7 +49943,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Air quality › Fugitive dust</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -49868,7 +50006,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Air quality › Fugitive dust</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -49931,7 +50069,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Air quality › Fugitive dust</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -49994,7 +50132,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Air quality › Fugitive dust</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -50057,7 +50195,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Air quality › Fugitive dust</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -50120,7 +50258,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Air quality › Fugitive dust</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -50246,7 +50384,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Speed limits</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -50324,7 +50462,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -50490,7 +50628,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -50612,7 +50750,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › In-water work</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -50707,7 +50845,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › In-water work</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -50785,7 +50923,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="7 requirements">7</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -50875,7 +51013,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › In-water work</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -50970,7 +51108,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Noise and vibration › Pile driving and underwater sound</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -51096,7 +51234,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Noise and vibration › Pile driving and underwater sound</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -51192,7 +51330,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Noise and vibration › Pile driving and underwater sound</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -51330,7 +51468,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -51420,7 +51558,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › In-water work</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -51515,7 +51653,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Noise and vibration › Pile driving and underwater sound</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -51591,7 +51729,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="11 requirements">11</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -51712,7 +51850,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Noise and vibration › Pile driving and underwater sound</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -51807,7 +51945,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Noise and vibration › Pile driving and underwater sound</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -51902,7 +52040,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Noise and vibration › Pile driving and underwater sound</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -51997,7 +52135,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Noise and vibration › Pile driving and underwater sound</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -52155,7 +52293,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Noise and vibration › Pile driving and underwater sound</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -52250,7 +52388,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Noise and vibration › Pile driving and underwater sound</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -52345,7 +52483,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Noise and vibration › Pile driving and underwater sound</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -52440,7 +52578,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Noise and vibration › Pile driving and underwater sound</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -52516,7 +52654,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -52618,7 +52756,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="7 requirements">7</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -52832,7 +52970,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Fish › Fish rescue and salvage</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -52958,7 +53096,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Agency and biologist access</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -53034,7 +53172,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="11 requirements">11</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -53155,7 +53293,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Barge and vessel operations</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -53218,7 +53356,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Barge and vessel operations</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -53281,7 +53419,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Barge and vessel operations</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -53344,7 +53482,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Barge and vessel operations</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -53407,7 +53545,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Barge and vessel operations</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -53470,7 +53608,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Barge and vessel operations</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -53597,7 +53735,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Invasive species</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -53723,7 +53861,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Barge and vessel operations</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -53954,7 +54092,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="5 requirements">5</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -54075,7 +54213,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Dewatering</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -54171,7 +54309,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Fish › Fish rescue and salvage</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -54266,7 +54404,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Dewatering</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -54375,7 +54513,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -54479,7 +54617,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -54569,7 +54707,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat avoidance and work footprint</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -54664,7 +54802,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -54759,7 +54897,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -54837,7 +54975,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -54927,7 +55065,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Speed limits</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -55036,7 +55174,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -55126,7 +55264,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -55221,7 +55359,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -55331,7 +55469,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="5 requirements">5</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -55421,7 +55559,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -55516,7 +55654,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -55611,7 +55749,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -55706,7 +55844,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Access routes and parking</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -55815,7 +55953,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -55999,7 +56137,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -56077,7 +56215,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -56198,7 +56336,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -56274,7 +56412,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -56364,7 +56502,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -56459,7 +56597,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -56522,7 +56660,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -56648,7 +56786,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -56726,7 +56864,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="9 requirements">9</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -56847,7 +56985,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -56942,7 +57080,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -57037,7 +57175,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -57132,7 +57270,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -57227,7 +57365,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -57290,7 +57428,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -57385,7 +57523,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -57481,7 +57619,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -57576,7 +57714,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -57639,7 +57777,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -57715,7 +57853,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -57805,7 +57943,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -57883,7 +58021,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -57974,7 +58112,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -58069,7 +58207,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -58164,7 +58302,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -58240,7 +58378,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -58330,7 +58468,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -58426,7 +58564,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Work hours</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -58504,7 +58642,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -58594,7 +58732,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Lighting › Lighting near habitat and waters</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -58689,7 +58827,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -58767,7 +58905,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -58857,7 +58995,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -58952,7 +59090,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -59047,7 +59185,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -59154,7 +59292,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -59244,7 +59382,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -59402,7 +59540,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -59480,7 +59618,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -59601,7 +59739,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -59710,7 +59848,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -59814,7 +59952,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -59904,7 +60042,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -59982,7 +60120,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -60086,7 +60224,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -60207,7 +60345,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -60285,7 +60423,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -60375,7 +60513,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -60453,7 +60591,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -60557,7 +60695,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -60678,7 +60816,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -60785,7 +60923,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -60875,7 +61013,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -60953,7 +61091,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -61043,7 +61181,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -61150,7 +61288,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -61240,7 +61378,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Fish › Fish rescue and salvage</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -61349,7 +61487,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -61453,7 +61591,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -61544,7 +61682,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Invasive species</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -61684,7 +61822,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="5 requirements">5</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -61867,7 +62005,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -61962,7 +62100,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -62040,7 +62178,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="7 requirements">7</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -62130,7 +62268,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat avoidance and work footprint</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -62225,7 +62363,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -62351,7 +62489,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -62446,7 +62584,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Air quality › Fugitive dust</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -62541,7 +62679,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -62636,7 +62774,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -62714,7 +62852,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -62804,7 +62942,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Access routes and parking</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -62899,7 +63037,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Speed limits</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -62994,7 +63132,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -63072,7 +63210,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="8 requirements">8</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -63255,7 +63393,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -63350,7 +63488,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -63476,7 +63614,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -63585,7 +63723,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="9 requirements">9</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -63675,7 +63813,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -63770,7 +63908,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -63896,7 +64034,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -63991,7 +64129,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -64086,7 +64224,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -64181,7 +64319,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -64276,7 +64414,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -64371,7 +64509,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -64447,7 +64585,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -64537,7 +64675,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -64615,7 +64753,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -64705,7 +64843,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -64801,7 +64939,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -64879,7 +65017,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -65015,7 +65153,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="9 requirements">9</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -65105,7 +65243,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -65232,7 +65370,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -65359,7 +65497,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -65455,7 +65593,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -65518,7 +65656,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -65613,7 +65751,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -65708,7 +65846,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -65803,7 +65941,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -65879,7 +66017,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="8 requirements">8</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -66000,7 +66138,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Dewatering</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -66095,7 +66233,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Dewatering</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -66222,7 +66360,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Dewatering</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -66393,7 +66531,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="13 requirements">13</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -66545,7 +66683,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -66640,7 +66778,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -66735,7 +66873,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -66830,7 +66968,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -66925,7 +67063,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -66988,7 +67126,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -67115,7 +67253,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -67210,7 +67348,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -67305,7 +67443,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -67400,7 +67538,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -67509,7 +67647,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="6 requirements">6</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -67631,7 +67769,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -67726,7 +67864,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -67899,7 +68037,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -67989,7 +68127,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -68131,7 +68269,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="">1 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -68221,7 +68359,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water › Erosion and sediment control</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -68316,7 +68454,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -68379,7 +68517,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -68488,7 +68626,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -68578,7 +68716,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -68657,7 +68795,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="11 requirements">11</span
             ><span class="bcn-swc__gap" data-swc-gap="">1 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -68747,7 +68885,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -68810,7 +68948,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat avoidance and work footprint</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -68905,7 +69043,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -69032,7 +69170,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Access routes and parking</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -69128,7 +69266,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -69191,7 +69329,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -69254,7 +69392,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Amphibians</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -69349,7 +69487,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -69445,7 +69583,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -69571,7 +69709,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -69634,7 +69772,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -69697,7 +69835,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -69823,7 +69961,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -69901,7 +70039,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -70023,7 +70161,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Restoration</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -70101,7 +70239,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -70205,7 +70343,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -70295,7 +70433,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -70358,7 +70496,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -70454,7 +70592,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -70563,7 +70701,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -70685,7 +70823,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -70824,7 +70962,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -70914,7 +71052,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -70992,7 +71130,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -71083,7 +71221,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -71180,7 +71318,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -71319,7 +71457,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -71409,7 +71547,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Fish › Fish rescue and salvage</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -71487,7 +71625,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -71591,7 +71729,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -71681,7 +71819,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Access routes and parking</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -71809,7 +71947,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -71904,7 +72042,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Air quality › Fugitive dust</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -71982,7 +72120,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -72072,7 +72210,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -72181,7 +72319,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -72347,7 +72485,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -72513,7 +72651,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -72634,7 +72772,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -72729,7 +72867,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -72807,7 +72945,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -72897,7 +73035,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -72992,7 +73130,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -73055,7 +73193,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -73133,7 +73271,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="5 requirements">5</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -73285,7 +73423,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -73411,7 +73549,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -73489,7 +73627,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -73579,7 +73717,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -73705,7 +73843,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -73783,7 +73921,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -73873,7 +74011,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -74013,7 +74151,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -74103,7 +74241,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat avoidance and work footprint</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -74166,7 +74304,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Amphibians and reptiles › Giant garter snake</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -74262,7 +74400,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -74388,7 +74526,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -74466,7 +74604,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="5 requirements">5</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -74556,7 +74694,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -74651,7 +74789,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -74778,7 +74916,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -74874,7 +75012,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Facility design and siting</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -74952,7 +75090,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -75074,7 +75212,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -75152,7 +75290,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="5 requirements">5</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -75274,7 +75412,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -75445,7 +75583,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -75535,7 +75673,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -75662,7 +75800,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -75740,7 +75878,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -75876,7 +76014,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -76075,7 +76213,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -76212,7 +76350,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -76335,7 +76473,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -76430,7 +76568,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -76537,7 +76675,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="6 requirements">6</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -76628,7 +76766,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat avoidance and work footprint</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -76724,7 +76862,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -76851,7 +76989,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -76947,7 +77085,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -77054,7 +77192,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="6 requirements">6</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -77144,7 +77282,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -77239,7 +77377,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -77335,7 +77473,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -77463,7 +77601,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -77571,7 +77709,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="5 requirements">5</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -77661,7 +77799,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat avoidance and work footprint</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -77757,7 +77895,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -77884,7 +78022,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -77994,7 +78132,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -78084,7 +78222,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -78179,7 +78317,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -78275,7 +78413,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -78385,7 +78523,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -78476,7 +78614,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -78572,7 +78710,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -78668,7 +78806,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -78746,7 +78884,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -78867,7 +79005,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat avoidance and work footprint</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -78930,7 +79068,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -78993,7 +79131,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -79071,7 +79209,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -79161,7 +79299,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -79256,7 +79394,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -79334,7 +79472,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -79455,7 +79593,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >People and qualifications › Designated biologists and monitors</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -79533,7 +79671,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="6 requirements">6</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -79654,7 +79792,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Wildlife encounters and handling</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -79856,7 +79994,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -79946,7 +80084,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat avoidance and work footprint</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -80009,7 +80147,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat avoidance and work footprint</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -80104,7 +80242,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Bumble bees and monarchs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -80244,7 +80382,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="6 requirements">6</span
             ><span class="bcn-swc__gap" data-swc-gap="">2 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -80365,7 +80503,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Bumble bees and monarchs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -80522,7 +80660,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Bumble bees and monarchs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -80618,7 +80756,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Bumble bees and monarchs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -80696,7 +80834,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -80800,7 +80938,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -80964,7 +81102,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -81054,7 +81192,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Bumble bees and monarchs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -81223,7 +81361,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -81344,7 +81482,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Bumble bees and monarchs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -81470,7 +81608,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Bumble bees and monarchs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -81548,7 +81686,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -81638,7 +81776,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Bumble bees and monarchs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -81734,7 +81872,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Bumble bees and monarchs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -81874,7 +82012,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -81964,7 +82102,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -82059,7 +82197,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -82154,7 +82292,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Vegetation removal</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -82230,7 +82368,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="5 requirements">5</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -82320,7 +82458,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Bumble bees and monarchs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -82477,7 +82615,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Bumble bees and monarchs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -82586,7 +82724,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -82770,7 +82908,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Agency reporting and approvals › Take and injury reporting</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -82848,7 +82986,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -82938,7 +83076,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat avoidance and work footprint</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -83034,7 +83172,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >People and qualifications › Designated biologists and monitors</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -83130,7 +83268,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >People and qualifications › Designated biologists and monitors</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -83225,7 +83363,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Bumble bees and monarchs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -83301,7 +83439,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -83496,7 +83634,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="8 requirements">8</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -83586,7 +83724,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Special-status plants</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -83681,7 +83819,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Special-status plants</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -83808,7 +83946,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >People and qualifications › Designated biologists and monitors</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -83903,7 +84041,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Exclusion fencing and ESAs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -84060,7 +84198,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Special-status plants</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -84138,7 +84276,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -84228,7 +84366,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Special-status plants</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -84354,7 +84492,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Special-status plants</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -84430,7 +84568,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="5 requirements">5</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -84583,7 +84721,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >People and qualifications › Designated biologists and monitors</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -84646,7 +84784,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Bumble bees and monarchs</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -84786,7 +84924,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="5 requirements">5</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -84876,7 +85014,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Fish screens</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -84971,7 +85109,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Fish screens</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -85066,7 +85204,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Fish screens</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -85206,7 +85344,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -85296,7 +85434,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Fish screens</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -85405,7 +85543,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="6 requirements">6</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -85495,7 +85633,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -85621,7 +85759,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -85716,7 +85854,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -85811,7 +85949,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -85920,7 +86058,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="5 requirements">5</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -86010,7 +86148,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -86105,7 +86243,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -86200,7 +86338,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -86295,7 +86433,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -86390,7 +86528,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -86468,7 +86606,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -86558,7 +86696,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -86653,7 +86791,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -86731,7 +86869,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="10 requirements">10</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -86821,7 +86959,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -86916,7 +87054,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -87011,7 +87149,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -87107,7 +87245,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -87202,7 +87340,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -87297,7 +87435,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -87392,7 +87530,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -87487,7 +87625,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -87582,7 +87720,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -87677,7 +87815,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -87755,7 +87893,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="7 requirements">7</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -87847,7 +87985,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Operations coordination and data</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -87943,7 +88081,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Operations coordination and data</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -88040,7 +88178,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Operations coordination and data</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -88103,7 +88241,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Operations coordination and data</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -88199,7 +88337,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Operations coordination and data</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -88295,7 +88433,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Operations coordination and data</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -88422,7 +88560,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Operations coordination and data</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -88500,7 +88638,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -88604,7 +88742,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -88695,7 +88833,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Operations coordination and data</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -88821,7 +88959,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Operations coordination and data</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -88897,7 +89035,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -88987,7 +89125,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -89063,7 +89201,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -89153,7 +89291,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -89249,7 +89387,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -89327,7 +89465,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -89419,7 +89557,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -89515,7 +89653,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -89625,7 +89763,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -89715,7 +89853,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -89793,7 +89931,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -89895,7 +90033,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -89987,7 +90125,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Biological performance criteria</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -90063,7 +90201,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -90153,7 +90291,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Biological performance criteria</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -90232,7 +90370,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -90334,7 +90472,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -90424,7 +90562,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Biological performance criteria</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -90520,7 +90658,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Biological performance criteria</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -90596,7 +90734,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -90686,7 +90824,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Biological performance criteria</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -90764,7 +90902,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -90869,7 +91007,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -90960,7 +91098,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Biological performance criteria</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -91038,7 +91176,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -91128,7 +91266,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Biological performance criteria</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -91206,7 +91344,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="10 requirements">10</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -91296,7 +91434,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Mitigation lands</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -91422,7 +91560,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Mitigation lands</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -91717,7 +91855,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -91821,7 +91959,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -91942,7 +92080,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Habitat protection › Habitat avoidance and work footprint</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -92020,7 +92158,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -92153,7 +92291,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -92319,7 +92457,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -92421,7 +92559,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="8 requirements">8</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -92573,7 +92711,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Restoration</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -92637,7 +92775,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Plants and invertebrates › Special-status plants</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -92700,7 +92838,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Restoration</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -92796,7 +92934,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Restoration</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -92892,7 +93030,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Restoration</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -92955,7 +93093,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Restoration</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -93050,7 +93188,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Restoration</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -93145,7 +93283,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Restoration</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -93241,7 +93379,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Restoration</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -93319,7 +93457,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -93409,7 +93547,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Restoration</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -93536,7 +93674,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Restoration</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -93614,7 +93752,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -93766,7 +93904,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Site conduct › Facility design and siting</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -93844,7 +93982,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -93965,7 +94103,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -94043,7 +94181,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -94147,7 +94285,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -94237,7 +94375,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -94332,7 +94470,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -94427,7 +94565,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Birds › Nesting birds</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -94505,7 +94643,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="5 requirements">5</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -94657,7 +94795,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Mitigation lands</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -94784,7 +94922,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Mitigation lands</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -94862,7 +95000,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -95028,7 +95166,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -95119,7 +95257,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Operations monitoring and studies</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -95215,7 +95353,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -95293,7 +95431,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -95426,7 +95564,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -95547,7 +95685,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Water operations › Diversion limits and bypass flows</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -95625,7 +95763,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -95729,7 +95867,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -95864,7 +96002,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -96062,7 +96200,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -96197,7 +96335,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="5 requirements">5</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -96423,7 +96561,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -96525,7 +96663,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -96627,7 +96765,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -96729,7 +96867,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -96862,7 +97000,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -96952,7 +97090,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Mitigation lands</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -97028,7 +97166,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -97130,7 +97268,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -97232,7 +97370,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -97334,7 +97472,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -97467,7 +97605,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -97631,7 +97769,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -97721,7 +97859,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Mitigation lands</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -97816,7 +97954,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Mitigation funding</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -97892,7 +98030,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -97983,7 +98121,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Mitigation lands</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -98152,7 +98290,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -98256,7 +98394,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="2 requirements">2</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -98391,7 +98529,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -98493,7 +98631,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -98595,7 +98733,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -98699,7 +98837,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -98801,7 +98939,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -98905,7 +99043,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -99007,7 +99145,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="4 requirements">4</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -99097,7 +99235,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Mitigation funding</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -99223,7 +99361,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Mitigation funding</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -99318,7 +99456,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Mitigation funding</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -99394,7 +99532,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -99496,7 +99634,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="1 requirements">1</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -99600,7 +99738,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -99764,7 +99902,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
             ><span class="bcn-swcb" aria-label="3 requirements">3</span
             ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
             ><span class="bcn-swc__verbs"
-              ><esa-tooltip text="Expand to obligations" position="above"
+              ><esa-tooltip text="Expand to obligations" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-swc__verb"
@@ -99887,7 +100025,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                   ><span class="bcn-swc__filing" data-swc-filing=""
                     >Mitigation and restoration › Mitigation lands</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Edit" position="above"
+                    ><esa-tooltip text="Edit" position="above" align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"

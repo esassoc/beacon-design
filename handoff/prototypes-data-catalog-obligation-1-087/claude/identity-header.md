@@ -414,6 +414,9 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--color-content-default-secondary, #646464);
   flex-shrink: 0;
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);

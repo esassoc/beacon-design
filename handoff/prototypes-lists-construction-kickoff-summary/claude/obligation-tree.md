@@ -54,7 +54,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
         ><span data-list-count="cat"
           ><span class="bcn-swcb" aria-label="23 obligations">23</span></span
         ><span class="bcn-lot__verbs"
-          ><esa-tooltip text="Rename for this list" position="above"
+          ><esa-tooltip text="Rename for this list" position="above" align="center"
             ><button
               type="button"
               class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -108,7 +108,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
             ><span data-list-count="sub"
               ><span class="bcn-swcb" aria-label="3 obligations">3</span></span
             ><span class="bcn-lot__verbs"
-              ><esa-tooltip text="Rename for this list" position="above"
+              ><esa-tooltip text="Rename for this list" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -134,7 +134,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                         d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                       ></path></svg
                   ></span></button></esa-tooltip
-              ><esa-tooltip text="Expand to implementations" position="above"
+              ><esa-tooltip
+                text="Expand to implementations"
+                position="above"
+                align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -218,7 +221,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     <mark class="bcn-lot__hit">Fire Suppression</mark> Supplies On Site</button
                   ><span class="bcn-loc__edited" data-list-edited=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -226,7 +232,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -252,7 +261,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -358,7 +370,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Vegetation clearing method for fire prevention</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -366,7 +381,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -392,7 +410,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -514,7 +535,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Vegetation Clearing Method for Fire Prevention</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -522,7 +546,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -548,7 +575,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -659,7 +689,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
             ><span data-list-count="sub"
               ><span class="bcn-swcb" aria-label="8 obligations">8</span></span
             ><span class="bcn-lot__verbs"
-              ><esa-tooltip text="Rename for this list" position="above"
+              ><esa-tooltip text="Rename for this list" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -685,7 +715,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                         d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                       ></path></svg
                   ></span></button></esa-tooltip
-              ><esa-tooltip text="Expand to implementations" position="above"
+              ><esa-tooltip
+                text="Expand to implementations"
+                position="above"
+                align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -770,7 +803,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Concrete Washwater Containment</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -778,7 +814,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -804,7 +843,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -926,7 +968,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Contaminated Soil Segregation and Removal</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -934,7 +979,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -960,7 +1008,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -1082,7 +1133,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Database of historic contamination and hazardous materials inspections</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -1090,7 +1144,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -1116,7 +1173,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -1222,7 +1282,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Hazardous Materials Container Labeling</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -1230,7 +1293,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -1256,7 +1322,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -1378,7 +1447,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Hazardous Materials in Designated Storage</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -1386,7 +1458,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -1412,7 +1487,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -1518,7 +1596,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Hazardous Materials Storage Duration Limit</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -1526,7 +1607,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -1552,7 +1636,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -1690,7 +1777,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Material Safety Data Sheets provided to site personnel</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -1698,7 +1788,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -1724,7 +1817,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -1862,7 +1958,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Petroleum Storage Containment</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -1870,7 +1969,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -1896,7 +1998,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -2007,7 +2112,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
             ><span data-list-count="sub"
               ><span class="bcn-swcb" aria-label="5 obligations">5</span></span
             ><span class="bcn-lot__verbs"
-              ><esa-tooltip text="Rename for this list" position="above"
+              ><esa-tooltip text="Rename for this list" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -2033,7 +2138,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                         d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                       ></path></svg
                   ></span></button></esa-tooltip
-              ><esa-tooltip text="Expand to implementations" position="above"
+              ><esa-tooltip
+                text="Expand to implementations"
+                position="above"
+                align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -2118,7 +2226,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Daily contaminant leak check and maintenance of vehicles and equipment</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -2126,7 +2237,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -2152,7 +2266,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -2275,7 +2392,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                     Daily inspection of equipment in contact with water for petroleum
                     leaks</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -2283,7 +2403,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -2309,7 +2432,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -2415,7 +2541,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Fuel Transfer Containment</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -2423,7 +2552,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -2449,7 +2581,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -2571,7 +2706,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Refueling Practices</button
                   ><span class="bcn-loc__edited" data-list-edited=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -2579,7 +2717,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -2605,7 +2746,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -2743,7 +2887,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Refueling Setback from Water</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -2751,7 +2898,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -2777,7 +2927,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -2872,7 +3025,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
             ><span data-list-count="sub"
               ><span class="bcn-swcb" aria-label="7 obligations">7</span></span
             ><span class="bcn-lot__verbs"
-              ><esa-tooltip text="Rename for this list" position="above"
+              ><esa-tooltip text="Rename for this list" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -2898,7 +3051,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                         d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                       ></path></svg
                   ></span></button></esa-tooltip
-              ><esa-tooltip text="Expand to implementations" position="above"
+              ><esa-tooltip
+                text="Expand to implementations"
+                position="above"
+                align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -2983,7 +3139,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Equipment Cleaning Before Water Contact</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -2991,7 +3150,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -3017,7 +3179,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -3123,7 +3288,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Oil Absorbent Booms in Place</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -3131,7 +3299,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -3157,7 +3328,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -3295,7 +3469,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Spill Containment and Response</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -3303,7 +3480,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -3329,7 +3509,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -3467,7 +3650,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Spill Kits On Site</button
                   ><span class="bcn-loc__edited" data-list-edited=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -3475,7 +3661,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -3501,7 +3690,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -3639,7 +3831,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Spill Kits On Site</button
                   ><span class="bcn-loc__edited" data-list-edited=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -3647,7 +3842,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -3673,7 +3871,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -3811,7 +4012,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Spill Response</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -3819,7 +4023,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -3845,7 +4052,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -3967,7 +4177,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Staging Area Spill Containment</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -3975,7 +4188,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -4001,7 +4217,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -4098,7 +4317,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
         ><span data-list-count="cat"
           ><span class="bcn-swcb" aria-label="4 obligations">4</span></span
         ><span class="bcn-lot__verbs"
-          ><esa-tooltip text="Rename for this list" position="above"
+          ><esa-tooltip text="Rename for this list" position="above" align="center"
             ><button
               type="button"
               class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -4152,7 +4371,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
             ><span data-list-count="sub"
               ><span class="bcn-swcb" aria-label="4 obligations">4</span></span
             ><span class="bcn-lot__verbs"
-              ><esa-tooltip text="Rename for this list" position="above"
+              ><esa-tooltip text="Rename for this list" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -4178,7 +4397,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                         d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                       ></path></svg
                   ></span></button></esa-tooltip
-              ><esa-tooltip text="Expand to implementations" position="above"
+              ><esa-tooltip
+                text="Expand to implementations"
+                position="above"
+                align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -4263,7 +4485,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Access road location assessment before visual barrier installation</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -4271,7 +4496,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -4297,7 +4525,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -4403,7 +4634,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Intake Lighting Restricted from the River Channel</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -4411,7 +4645,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -4437,7 +4674,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -4575,7 +4815,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Lighting Color Near Habitat</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -4583,7 +4826,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -4609,7 +4855,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -4747,7 +4996,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Night Lighting Spill Control</button
                   ><span class="bcn-loc__edited" data-list-edited=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -4755,7 +5007,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -4781,7 +5036,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -4910,7 +5168,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
         ><span data-list-count="cat"
           ><span class="bcn-swcb" aria-label="18 obligations">18</span></span
         ><span class="bcn-lot__verbs"
-          ><esa-tooltip text="Rename for this list" position="above"
+          ><esa-tooltip text="Rename for this list" position="above" align="center"
             ><button
               type="button"
               class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -4964,7 +5222,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
             ><span data-list-count="sub"
               ><span class="bcn-swcb" aria-label="5 obligations">5</span></span
             ><span class="bcn-lot__verbs"
-              ><esa-tooltip text="Rename for this list" position="above"
+              ><esa-tooltip text="Rename for this list" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -4990,7 +5248,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                         d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                       ></path></svg
                   ></span></button></esa-tooltip
-              ><esa-tooltip text="Expand to implementations" position="above"
+              ><esa-tooltip
+                text="Expand to implementations"
+                position="above"
+                align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -5075,7 +5336,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Equipment Confined to Access Routes</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -5083,7 +5347,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -5109,7 +5376,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -5215,7 +5485,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Equipment confined to designated access routes</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -5223,7 +5496,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -5249,7 +5525,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -5387,7 +5666,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Equipment Storage Setback from Aquatic Habitat</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -5395,7 +5677,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -5421,7 +5706,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -5543,7 +5831,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Staging Area Confinement</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -5551,7 +5842,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -5577,7 +5871,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -5699,7 +5996,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Use of Established Access Routes</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -5707,7 +6007,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -5733,7 +6036,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -5860,7 +6166,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
             ><span data-list-count="sub"
               ><span class="bcn-swcb" aria-label="1 obligations">1</span></span
             ><span class="bcn-lot__verbs"
-              ><esa-tooltip text="Rename for this list" position="above"
+              ><esa-tooltip text="Rename for this list" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -5886,7 +6192,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                         d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                       ></path></svg
                   ></span></button></esa-tooltip
-              ><esa-tooltip text="Expand to implementations" position="above"
+              ><esa-tooltip
+                text="Expand to implementations"
+                position="above"
+                align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -5971,7 +6280,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     No Pets, Campfires or Firearms On Site</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -5979,7 +6291,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -6005,7 +6320,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -6100,7 +6418,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
             ><span data-list-count="sub"
               ><span class="bcn-swcb" aria-label="6 obligations">6</span></span
             ><span class="bcn-lot__verbs"
-              ><esa-tooltip text="Rename for this list" position="above"
+              ><esa-tooltip text="Rename for this list" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -6126,7 +6444,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                         d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                       ></path></svg
                   ></span></button></esa-tooltip
-              ><esa-tooltip text="Expand to implementations" position="above"
+              ><esa-tooltip
+                text="Expand to implementations"
+                position="above"
+                align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -6211,7 +6532,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Nighttime Speed Limit</button
                   ><span class="bcn-loc__edited" data-list-edited=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -6219,7 +6543,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -6245,7 +6572,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -6351,7 +6681,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Paved Road Speed Limit</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -6359,7 +6692,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -6385,7 +6721,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -6523,7 +6862,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Speed Limit Near Habitat</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -6531,7 +6873,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -6557,7 +6902,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -6679,7 +7027,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Speed Limit Posting</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -6687,7 +7038,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -6713,7 +7067,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -6851,7 +7208,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Unpaved Road Speed Limit</button
                   ><span class="bcn-loc__edited" data-list-edited=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -6859,7 +7219,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -6885,7 +7248,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -7023,7 +7389,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Wildlife Crossing Signage</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -7031,7 +7400,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -7057,7 +7429,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -7152,7 +7527,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
             ><span data-list-count="sub"
               ><span class="bcn-swcb" aria-label="4 obligations">4</span></span
             ><span class="bcn-lot__verbs"
-              ><esa-tooltip text="Rename for this list" position="above"
+              ><esa-tooltip text="Rename for this list" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -7178,7 +7553,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                         d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                       ></path></svg
                   ></span></button></esa-tooltip
-              ><esa-tooltip text="Expand to implementations" position="above"
+              ><esa-tooltip
+                text="Expand to implementations"
+                position="above"
+                align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -7263,7 +7641,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Covered Food Waste Containers</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -7271,7 +7652,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -7297,7 +7681,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -7435,7 +7822,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Trash Abatement</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -7443,7 +7833,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -7469,7 +7862,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -7607,7 +8003,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Trash Load Covering</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -7615,7 +8014,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -7641,7 +8043,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -7779,7 +8184,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Trash Removal Cadence</button
                   ><span class="bcn-loc__edited" data-list-edited=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -7787,7 +8195,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -7813,7 +8224,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -7924,7 +8338,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
             ><span data-list-count="sub"
               ><span class="bcn-swcb" aria-label="2 obligations">2</span></span
             ><span class="bcn-lot__verbs"
-              ><esa-tooltip text="Rename for this list" position="above"
+              ><esa-tooltip text="Rename for this list" position="above" align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -7950,7 +8364,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                         d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                       ></path></svg
                   ></span></button></esa-tooltip
-              ><esa-tooltip text="Expand to implementations" position="above"
+              ><esa-tooltip
+                text="Expand to implementations"
+                position="above"
+                align="center"
                 ><button
                   type="button"
                   class="bcn-lot__verb bcn-lot__verb--quiet"
@@ -8035,7 +8452,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Daytime Work Hour Limit</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -8043,7 +8463,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -8069,7 +8492,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -8207,7 +8633,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   >
                     Night Vehicle Travel Caution</button
                   ><span class="bcn-loc__edited" data-list-edited="" hidden=""
-                    ><esa-tooltip text="Has its own list wording" position="above"
+                    ><esa-tooltip
+                      text="Has its own list wording"
+                      position="above"
+                      align="center"
                       ><span
                         class="bcn-loc__dot"
                         role="img"
@@ -8215,7 +8644,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                       ></span></esa-tooltip></span
                   ><span data-list-count="obligation"
                     ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
-                  ><esa-tooltip text="Move or retitle for this list" position="above"
+                  ><esa-tooltip
+                    text="Move or retitle for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -8241,7 +8673,10 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                           ></path></svg
                       ></span></button></esa-tooltip
-                  ><esa-tooltip text="Duplicate for this list" position="above"
+                  ><esa-tooltip
+                    text="Duplicate for this list"
+                    position="above"
+                    align="center"
                     ><button
                       type="button"
                       class="bcn-loc__verb"
@@ -9471,6 +9906,9 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   min-width: 18px;
   padding: 2px var(--spacing-100);
   font-size: var(--font-size-050);
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);

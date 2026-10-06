@@ -267,7 +267,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-001"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -291,7 +294,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-001"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -317,7 +320,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-001"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -394,7 +397,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-002"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -418,7 +424,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-002"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -444,7 +450,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-002"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -521,7 +527,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-003"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -545,7 +554,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-003"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -571,7 +580,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-003"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -648,7 +657,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-004"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -672,7 +684,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-004"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -698,7 +710,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-004"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -775,7 +787,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-005"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -799,7 +814,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-005"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -825,7 +840,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-005"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -900,7 +915,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-006"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -924,7 +942,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-006"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -950,7 +968,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-006"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1027,7 +1045,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-007"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1051,7 +1072,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-007"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1077,7 +1098,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-007"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1154,7 +1175,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-008"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1178,7 +1202,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-008"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1204,7 +1228,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-008"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1281,7 +1305,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-009"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1305,7 +1332,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-009"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1331,7 +1358,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-009"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1408,7 +1435,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-010"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1432,7 +1462,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-010"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1458,7 +1488,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-010"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1535,7 +1565,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-011"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1559,7 +1592,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-011"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1585,7 +1618,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-011"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1659,7 +1692,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-012"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1683,7 +1719,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-012"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1709,7 +1745,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-012"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1785,7 +1821,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-013"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1809,7 +1848,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-013"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1835,7 +1874,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-013"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1911,7 +1950,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-014"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1935,7 +1977,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-014"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -1961,7 +2003,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-014"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2037,7 +2079,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-015"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2061,7 +2106,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-015"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2087,7 +2132,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-015"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2163,7 +2208,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-016"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2187,7 +2235,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-016"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2213,7 +2261,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-016"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2289,7 +2337,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-017"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2313,7 +2364,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-017"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2339,7 +2390,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-017"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2415,7 +2466,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-018"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2439,7 +2493,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-018"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2465,7 +2519,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-018"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2541,7 +2595,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-019"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2565,7 +2622,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-019"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2591,7 +2648,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-019"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2665,7 +2722,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-020"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2689,7 +2749,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-020"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2715,7 +2775,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-020"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2791,7 +2851,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-021"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2815,7 +2878,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-021"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2841,7 +2904,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-021"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2917,7 +2980,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-022"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2941,7 +3007,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-022"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -2967,7 +3033,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-022"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3041,7 +3107,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-023"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3065,7 +3134,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-023"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3091,7 +3160,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-023"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3165,7 +3234,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-024"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3189,7 +3261,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-024"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3215,7 +3287,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-024"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3291,7 +3363,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-025"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3315,7 +3390,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-025"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3341,7 +3416,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-025"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3415,7 +3490,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-026"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3439,7 +3517,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-026"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3465,7 +3543,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-026"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3541,7 +3619,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-027"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3565,7 +3646,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-027"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3591,7 +3672,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-027"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3667,7 +3748,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-028"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3691,7 +3775,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-028"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3717,7 +3801,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-028"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3793,7 +3877,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-029"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3817,7 +3904,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-029"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3843,7 +3930,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-029"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3919,7 +4006,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-030"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3943,7 +4033,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-030"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -3969,7 +4059,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-030"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4045,7 +4135,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-031"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4069,7 +4162,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-031"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4095,7 +4188,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-031"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4171,7 +4264,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-032"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4195,7 +4291,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-032"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4221,7 +4317,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-032"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4297,7 +4393,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-033"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4321,7 +4420,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-033"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4347,7 +4446,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-033"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4421,7 +4520,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-034"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4445,7 +4547,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-034"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4471,7 +4573,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-034"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4547,7 +4649,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-035"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4571,7 +4676,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-035"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4597,7 +4702,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-035"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4673,7 +4778,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-036"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4697,7 +4805,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-036"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4723,7 +4831,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-036"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4799,7 +4907,10 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     ></span
                   ></span
                 ><span class="bcn-sw-row__acts"
-                  ><esa-tooltip text="Apply to this component" position="top"
+                  ><esa-tooltip
+                    text="Apply to this component"
+                    position="top"
+                    align="center"
                     ><span data-sw-apply="cc-037"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4823,7 +4934,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                             >
                               <path d="M20 6 9 17l-5-5"></path></svg
                           ></span></button></span></span></esa-tooltip
-                  ><esa-tooltip text="Not applicable" position="top"
+                  ><esa-tooltip text="Not applicable" position="top" align="center"
                     ><span data-sw-dismiss="cc-037"
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4849,7 +4960,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span></span></esa-tooltip
                   ><span class="bcn-sw-row__undo"
-                    ><esa-tooltip text="Undo this decision" position="top"
+                    ><esa-tooltip text="Undo this decision" position="top" align="center"
                       ><span data-sw-undo="cc-037"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -4914,17 +5025,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               August 31).
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">4 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
@@ -4946,11 +5057,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
                   >Ground disturbance occurs within the nesting season window at all shaft
@@ -4970,15 +5081,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               survey the work area within 24 hours prior to ground disturbance.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">6 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
@@ -5000,11 +5111,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
                   >Shaft footprint is within 200 feet of Bouldin Island agricultural
@@ -5026,17 +5137,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               materials and required stop-work procedures.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
@@ -5058,11 +5169,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
                   >Standard for all ground-disturbing components.</span
@@ -5081,15 +5192,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               one acre.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">SWRCB Water Quality Certification</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">3 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 18, 2025</span>
               </div>
@@ -5111,11 +5222,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
                   >Disturbance footprint exceeds one acre across the work areas.</span
@@ -5134,17 +5245,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               sensitive receptor.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Dec 2, 2025</span>
               </div>
@@ -5166,11 +5277,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
                   >Residences on Bouldin Island Road are within 1,000 feet.</span
@@ -5189,17 +5300,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               not exceed 15 miles per hour.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">3 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Dec 2, 2025</span>
               </div>
@@ -5221,11 +5332,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
                   >Unpaved access roads serve every work area.</span
@@ -5246,17 +5357,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               within 30 days of completion.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Dec 16, 2025</span>
               </div>
@@ -5278,11 +5389,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
                   >Directly governs this component’s exploration program.</span
@@ -5301,15 +5412,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               access.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">5 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
@@ -5318,11 +5429,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               <h4 class="bcn-sw-prev__efftitle">Creates no actions on this component</h4>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
                   >No tidal marsh restoration occurs within this component.</span
@@ -5342,15 +5453,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               verified by field measurement prior to and following each maintenance event.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">4 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
@@ -5359,11 +5470,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               <h4 class="bcn-sw-prev__efftitle">Creates no actions on this component</h4>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
                   >No intake or screening structure in this component.</span
@@ -5381,15 +5492,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               shall not exceed background by more than 5 NTU.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">SWRCB Water Quality Certification</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">3 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 18, 2025</span>
               </div>
@@ -5398,11 +5509,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               <h4 class="bcn-sw-prev__efftitle">Creates no actions on this component</h4>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
                   >No in-water work in this component.</span
@@ -5420,17 +5531,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               addressing vehicle queuing, flagging, and levee road load limits.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Dec 2, 2025</span>
               </div>
@@ -5439,11 +5550,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               <h4 class="bcn-sw-prev__efftitle">Creates no actions on this component</h4>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""
                   >No barge landing associated with this shaft.</span
@@ -5462,15 +5573,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               the young have fledged or the nest has failed.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">4 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
@@ -5492,11 +5603,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -5512,17 +5623,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               site access, with annual refresher training thereafter.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
@@ -5544,11 +5655,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -5565,15 +5676,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               work area prior to disturbance.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">3 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
@@ -5594,11 +5705,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -5617,15 +5728,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               disturbance.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">4 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
@@ -5647,11 +5758,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -5668,15 +5779,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               construction.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">3 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
@@ -5698,11 +5809,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -5719,17 +5830,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               work resumes.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 4, 2025</span>
               </div>
@@ -5751,11 +5862,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -5771,17 +5882,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               monitored by a qualified archaeologist and a Native American monitor.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">3 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 18, 2025</span>
               </div>
@@ -5803,11 +5914,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -5823,15 +5934,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               for turbidity and pH prior to release to any surface water.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">SWRCB Water Quality Certification</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">3 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 18, 2025</span>
               </div>
@@ -5852,11 +5963,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -5872,15 +5983,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               quarterly and within 48 hours of any qualifying rain event.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">SWRCB Water Quality Certification</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Nov 18, 2025</span>
               </div>
@@ -5901,11 +6012,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -5923,17 +6034,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               approved by the resource agencies within one growing season of disturbance.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">3 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Dec 2, 2025</span>
               </div>
@@ -5955,11 +6066,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -5975,17 +6086,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               entry, and imported fill shall be certified free of noxious weed propagules.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Dec 2, 2025</span>
               </div>
@@ -6006,11 +6117,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -6026,17 +6137,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               segments shall be inspected monthly for load-related damage.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Dec 2, 2025</span>
               </div>
@@ -6058,11 +6169,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -6078,17 +6189,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               sensitive receptor property line between 10 PM and 7 AM.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Dec 16, 2025</span>
               </div>
@@ -6110,11 +6221,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -6132,15 +6243,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               by deformation monitoring before, during, and after drilling.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">USACE Section 404 Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">3 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Dec 16, 2025</span>
               </div>
@@ -6161,11 +6272,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -6181,15 +6292,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               discharge to surface water or to the levee prism is permitted.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">USACE Section 404 Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Dec 16, 2025</span>
               </div>
@@ -6211,11 +6322,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -6232,15 +6343,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               States.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">USACE Section 404 Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Dec 16, 2025</span>
               </div>
@@ -6262,11 +6373,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -6283,15 +6394,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               submittal.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">USACE Section 404 Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">4 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Jan 8, 2026</span>
               </div>
@@ -6312,11 +6423,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -6333,15 +6444,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               submit within 5 working days.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">3 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Jan 8, 2026</span>
               </div>
@@ -6363,11 +6474,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -6384,15 +6495,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               action area.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">CDFW Incidental Take Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">3 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Feb 24, 2026</span>
               </div>
@@ -6401,11 +6512,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               <h4 class="bcn-sw-prev__efftitle">Creates no actions on this component</h4>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -6423,17 +6534,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               buffer until the young have fledged.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Feb 24, 2026</span>
               </div>
@@ -6454,11 +6565,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -6475,15 +6586,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               location.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">SWRCB Water Quality Certification</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">3 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Mar 3, 2026</span>
               </div>
@@ -6504,11 +6615,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -6524,17 +6635,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               emission standards, verified by equipment list prior to mobilization.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Mar 3, 2026</span>
               </div>
@@ -6555,11 +6666,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -6576,17 +6687,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               sensitive.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Mar 10, 2026</span>
               </div>
@@ -6607,11 +6718,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -6628,15 +6739,15 @@ The surface that actually settles applicability: a wide side drawer listing the 
               geologist.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val">USACE Section 404 Permit</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Mar 10, 2026</span>
               </div>
@@ -6645,11 +6756,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               <h4 class="bcn-sw-prev__efftitle">Creates no actions on this component</h4>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -6665,17 +6776,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               normal construction, monitored continuously during impact activities.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">3 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Mar 17, 2026</span>
               </div>
@@ -6697,11 +6808,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               </ul>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -6720,17 +6831,17 @@ The surface that actually settles applicability: a wide side drawer listing the 
               habitat.
             </p>
             <div class="bcn-sw-prev__facts">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Source document</span
                 ><span class="bcn-key-value__val"
                   >Delta Conveyance Project Final EIR</span
                 >
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Requirements</span
                 ><span class="bcn-key-value__val">2 requirements</span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Added to the project</span
                 ><span class="bcn-key-value__val">Mar 17, 2026</span>
               </div>
@@ -6739,11 +6850,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
               <h4 class="bcn-sw-prev__efftitle">Creates no actions on this component</h4>
             </section>
             <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Decision</span
                 ><span class="bcn-sw-prev__decval" data-sw-prev-decval=""></span>
               </div>
-              <div class="bcn-key-value">
+              <div class="bcn-key-value" data-size="md" data-layout="stack">
                 <span class="bcn-key-value__key">Rationale</span
                 ><span class="bcn-sw-prev__rationale" data-sw-prev-rationale=""></span>
               </div>
@@ -7751,25 +7862,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-md-strong-line-height);
   letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
 }
-.bcn-key-value {
-  flex-direction: column;
-  gap: 2px;
-  display: flex;
-}
-.bcn-key-value__key {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-medium);
-  color: var(--form-label-color);
-}
-.bcn-key-value__val {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-}
-.bcn-key-value__hint {
-  color: var(--color-content-default-tertiary);
-  font-size: 0.75rem;
-}
 .esa-empty-state {
   --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
   --_empty-gap: var(--spacing-200, 0.5rem);
@@ -7816,6 +7908,48 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .esa-empty-state__actions:empty {
   display: none;
+}
+.bcn-key-value {
+  flex-direction: column;
+  gap: 2px;
+  display: flex;
+}
+.bcn-key-value[data-layout="row"] {
+  align-items: baseline;
+  column-gap: var(--spacing-300);
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  display: grid;
+}
+.bcn-key-value__key {
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--form-label-color);
+}
+.bcn-key-value__val {
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+}
+.bcn-key-value__hint {
+  color: var(--color-content-default-tertiary);
+  font-size: 0.75rem;
+}
+.bcn-key-value__key {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__key {
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  color: var(--color-content-secondary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__val {
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
 }
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
@@ -8229,6 +8363,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-on-utility-success`: #fcfcfc _(semantic)_
 - `--color-content-on-utility-warning`: #4f3422 _(semantic)_
+- `--color-content-secondary`: #525252 _(component)_
 - `--color-content-utility-danger`: #ce2c31 _(semantic)_
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
@@ -8306,6 +8441,8 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-label-md-strong-font-weight`: 550 _(semantic)_
 - `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
 - `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
+- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-font-weight`: 500 _(semantic)_
 - `--typography-label-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
 - `--typography-label-sm-strong-font-weight`: 550 _(semantic)_

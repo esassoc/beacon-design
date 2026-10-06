@@ -51,15 +51,15 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
   ></script>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnSwFilterRow.astro_astro_type_script_index_0_lang.EHzWe1vC.js"
+    src="/beacon-design/_astro/BcnSwFilterRow.astro_astro_type_script_index_0_lang.C8SgbOxC.js"
   ></script>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnSwObligationsTree.astro_astro_type_script_index_0_lang.QH4A4jbP.js"
+    src="/beacon-design/_astro/BcnSwObligationsTree.astro_astro_type_script_index_0_lang.DlYPhUu3.js"
   ></script>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnSwChainTree.astro_astro_type_script_index_0_lang.fmSWHJQ6.js"
+    src="/beacon-design/_astro/BcnSwChainTree.astro_astro_type_script_index_0_lang.ms7hO-Ek.js"
   ></script>
   <script
     type="module"
@@ -8464,7 +8464,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="1 obligations">1</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -8486,7 +8489,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -8595,7 +8598,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="1 obligations">1</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -8617,7 +8623,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -8755,7 +8761,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >12</span
                         ></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -8777,7 +8786,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -9515,7 +9524,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >24</span
                         ></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -9537,7 +9549,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -11043,7 +11055,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >14</span
                         ></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -11065,7 +11080,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -11928,7 +11943,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >30</span
                         ></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -11950,7 +11968,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -13787,7 +13805,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="4 obligations">4</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -13809,7 +13830,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -14108,7 +14129,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >10</span
                         ></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -14130,7 +14154,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -14808,7 +14832,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="8 obligations">8</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -14830,7 +14857,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -15421,7 +15448,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="2 obligations">2</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -15443,7 +15473,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -15621,7 +15651,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >14</span
                         ></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -15643,7 +15676,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -16612,7 +16645,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >14</span
                         ></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -16634,7 +16670,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -17606,7 +17642,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="6 obligations">6</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -17628,7 +17667,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -18027,7 +18066,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="3 obligations">3</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -18049,7 +18091,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -18259,7 +18301,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="8 obligations">8</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -18281,7 +18326,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -18774,7 +18819,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="4 obligations">4</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -18796,7 +18844,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -19077,7 +19125,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="5 obligations">5</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -19099,7 +19150,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -19416,7 +19467,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="6 obligations">6</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -19438,7 +19492,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -19851,7 +19905,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="4 obligations">4</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -19873,7 +19930,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -20198,7 +20255,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="2 obligations">2</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -20220,7 +20280,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -20406,7 +20466,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="8 obligations">8</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -20428,7 +20491,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -20906,7 +20969,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >10</span
                         ></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -20928,7 +20994,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -21556,7 +21622,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >12</span
                         ></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -21578,7 +21647,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -22296,7 +22365,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="6 obligations">6</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -22318,7 +22390,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -22731,7 +22803,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="1 obligations">1</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -22753,7 +22828,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -22894,7 +22969,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >11</span
                         ></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -22916,7 +22994,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -23574,7 +23652,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="5 obligations">5</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -23596,7 +23677,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -23957,7 +24038,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="5 obligations">5</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -23979,7 +24063,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -24339,7 +24423,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="6 obligations">6</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -24361,7 +24448,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -24734,7 +24821,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="2 obligations">2</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -24756,7 +24846,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -24916,7 +25006,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="4 obligations">4</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -24938,7 +25031,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -25218,7 +25311,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="1 obligations">1</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -25240,7 +25336,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -25347,7 +25443,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="6 obligations">6</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -25369,7 +25468,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -25774,7 +25873,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="4 obligations">4</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -25796,7 +25898,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -26059,7 +26161,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="2 obligations">2</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -26081,7 +26186,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -26280,7 +26385,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="7 obligations">7</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -26302,7 +26410,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -26721,7 +26829,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="5 obligations">5</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -26743,7 +26854,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -27063,7 +27174,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >20</span
                         ></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -27085,7 +27199,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -28387,7 +28501,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="3 obligations">3</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -28409,7 +28526,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -28637,7 +28754,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="6 obligations">6</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -28659,7 +28779,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -29032,7 +29152,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="2 obligations">2</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -29054,7 +29177,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -29243,7 +29366,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="5 obligations">5</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -29265,7 +29391,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -29647,7 +29773,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >16</span
                         ></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -29669,7 +29798,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -30763,7 +30892,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="5 obligations">5</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -30785,7 +30917,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -31119,7 +31251,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="5 obligations">5</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -31141,7 +31276,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -31517,7 +31652,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                       ><span data-swo-count="sub"
                         ><span class="bcn-swcb" aria-label="4 obligations">4</span></span
                       ><span class="bcn-swot__verbs"
-                        ><esa-tooltip text="Expand to requirements" position="above"
+                        ><esa-tooltip
+                          text="Expand to requirements"
+                          position="above"
+                          align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -31539,7 +31677,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 <path d="m7 15 5 5 5-5"></path>
                                 <path d="m7 9 5-5 5 5"></path></svg
                             ></span></button></esa-tooltip
-                        ><esa-tooltip text="Collapse" position="above"
+                        ><esa-tooltip text="Collapse" position="above" align="center"
                           ><button
                             type="button"
                             class="bcn-swot__verb"
@@ -31817,7 +31955,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -31923,7 +32064,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -32029,7 +32173,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -32168,7 +32315,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -32275,7 +32425,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -32381,7 +32534,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -32554,7 +32710,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -32660,7 +32819,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -32764,7 +32926,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -32904,7 +33069,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -33098,7 +33266,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >People and qualifications › Designated biologists and
                           monitors</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -33176,7 +33344,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -33271,7 +33442,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >People and qualifications › Designated biologists and
                           monitors</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -33349,7 +33520,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -33442,7 +33616,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >People and qualifications › Designated biologists and
                           monitors</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -33542,7 +33716,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >Agency reporting and approvals › Species sightings and CNDDB
                           reporting</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -33620,7 +33794,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -33712,7 +33889,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Agency and biologist access</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -33810,7 +33987,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >People and qualifications › Designated biologists and
                           monitors</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -33941,7 +34118,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Agency and biologist access</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -34017,7 +34194,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -34176,7 +34356,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Agency and biologist access</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -34254,7 +34434,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -34346,7 +34529,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Agency and biologist access</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -34422,7 +34605,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -34515,7 +34701,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Trash and food waste</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -34593,7 +34779,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -34720,7 +34909,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -34817,7 +35006,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -34895,7 +35084,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -35020,7 +35212,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat avoidance and work footprint</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -35098,7 +35290,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -35224,7 +35419,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -35334,7 +35529,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -35427,7 +35625,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Access routes and parking</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -35569,7 +35767,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -35662,7 +35863,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Access routes and parking</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -35759,7 +35960,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Access routes and parking</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -35857,7 +36058,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Access routes and parking</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -35935,7 +36136,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -36063,7 +36267,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife entrapment</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -36141,7 +36345,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -36235,7 +36442,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Refueling and equipment servicing</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -36332,7 +36539,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Refueling and equipment servicing</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -36430,7 +36637,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Refueling and equipment servicing</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -36508,7 +36715,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -36634,7 +36844,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Spill prevention and response</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -36712,7 +36922,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -36804,7 +37017,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Agency and biologist access</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -36882,7 +37095,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -36975,7 +37191,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat avoidance and work footprint</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -37053,7 +37269,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -37146,7 +37365,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat avoidance and work footprint</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -37224,7 +37443,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -37330,7 +37552,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -37423,7 +37648,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Fire prevention</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -37521,7 +37746,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Fire prevention</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -37652,7 +37877,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Fire prevention</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -37730,7 +37955,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -37836,7 +38064,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -37942,7 +38173,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -38036,7 +38270,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat impact tracking</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -38216,7 +38450,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -38309,7 +38546,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat impact tracking</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -38387,7 +38624,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -38491,7 +38731,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -38663,7 +38906,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -38788,7 +39034,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat avoidance and work footprint</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -38866,7 +39112,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -39024,7 +39273,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat avoidance and work footprint</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -39102,7 +39351,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -39195,7 +39447,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat impact tracking</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -39339,7 +39591,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -39432,7 +39687,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Compliance inspections and records</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -39529,7 +39784,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Compliance inspections and records</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -39607,7 +39862,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -39711,7 +39969,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -39815,7 +40076,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -39921,7 +40185,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -40058,7 +40325,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -40165,7 +40435,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -40271,7 +40544,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -40443,7 +40719,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -40650,7 +40929,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -40858,7 +41140,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -40965,7 +41250,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -41059,7 +41347,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Operations monitoring and studies</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -41137,7 +41425,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -41277,7 +41568,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -41384,7 +41678,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -41521,7 +41818,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -41693,7 +41993,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -41866,7 +42169,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -41972,7 +42278,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -42112,7 +42421,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -42286,7 +42598,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -42392,7 +42707,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -42498,7 +42816,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -42638,7 +42959,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -42744,7 +43068,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -42851,7 +43178,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -42944,7 +43274,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Biological performance criteria</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -43022,7 +43352,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -43182,7 +43515,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Operations monitoring and studies</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -43260,7 +43593,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -43367,7 +43703,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -43473,7 +43812,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -43579,7 +43921,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -43672,7 +44017,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -43771,7 +44116,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Operations monitoring and studies</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -43849,7 +44194,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -43943,7 +44291,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Biological performance criteria</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -44089,7 +44437,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -44195,7 +44546,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -44301,7 +44655,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -44394,7 +44751,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >People and qualifications › Qualified specialists</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -44472,7 +44829,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -44611,7 +44971,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -44717,7 +45080,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -44821,7 +45187,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -44927,7 +45296,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -45066,7 +45438,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -45172,7 +45547,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -45278,7 +45656,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -45384,7 +45765,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -45490,7 +45874,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -45662,7 +46049,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -45834,7 +46224,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -45973,7 +46366,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -46131,7 +46527,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Fish screens</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -46207,7 +46603,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -46313,7 +46712,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -46406,7 +46808,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Fish screens</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -46517,7 +46919,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -46654,7 +47059,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -46793,7 +47201,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -46885,7 +47296,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -46948,7 +47359,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -47046,7 +47457,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -47158,7 +47569,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -47251,7 +47665,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -47362,7 +47776,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -47454,7 +47871,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -47552,7 +47969,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -47630,7 +48047,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -47756,7 +48176,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Pesticides and rodenticides</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -47819,7 +48239,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Pesticides and rodenticides</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -47951,7 +48371,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Pesticides and rodenticides</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -48014,7 +48434,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Pesticides and rodenticides</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -48092,7 +48512,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -48184,7 +48607,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Pesticides and rodenticides</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -48260,7 +48683,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -48397,7 +48823,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -48489,7 +48918,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Work hours</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -48620,7 +49049,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Work hours</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -48718,7 +49147,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -48796,7 +49225,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -48888,7 +49320,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Lighting › Lighting near habitat and waters</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -48985,7 +49417,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Lighting › Lighting near habitat and waters</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -49063,7 +49495,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -49156,7 +49591,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Lighting › Lighting near habitat and waters</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -49254,7 +49689,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Lighting › Lighting near habitat and waters</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -49332,7 +49767,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -49459,7 +49897,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Lighting › Lighting near habitat and waters</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -49537,7 +49975,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -49629,7 +50070,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Speed limits</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -49692,7 +50133,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Speed limits</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -49789,7 +50230,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Speed limits</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -49852,7 +50293,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Speed limits</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -49949,7 +50390,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Speed limits</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -50046,7 +50487,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Speed limits</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -50124,7 +50565,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -50216,7 +50660,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Facility design and siting</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -50359,7 +50803,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -50451,7 +50898,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -50548,7 +50995,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -50646,7 +51093,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -50743,7 +51190,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -50821,7 +51268,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="6 requirements">6</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -50914,7 +51364,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife entrapment</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -51078,7 +51528,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife entrapment</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -51175,7 +51625,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -51272,7 +51722,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -51350,7 +51800,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -51443,7 +51896,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife entrapment</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -51540,7 +51993,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife entrapment</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -51637,7 +52090,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife entrapment</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -51715,7 +52168,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="7 requirements">7</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -51841,7 +52297,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -51939,7 +52395,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -52036,7 +52492,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -52133,7 +52589,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -52230,7 +52686,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -52327,7 +52783,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Stormwater and discharges</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -52405,7 +52861,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -52499,7 +52958,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Facility design and siting</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -52610,7 +53069,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -52737,7 +53199,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Facility design and siting</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -52813,7 +53275,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="6 requirements">6</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -52906,7 +53371,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -53003,7 +53468,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -53134,7 +53599,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -53231,7 +53696,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -53328,7 +53793,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -53406,7 +53871,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="5 requirements">5</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -53565,7 +54033,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Invasive species</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -53662,7 +54130,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Invasive species</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -53759,7 +54227,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Invasive species</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -53837,7 +54305,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -53976,7 +54447,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -54068,7 +54542,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Invasive species</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -54144,7 +54618,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="5 requirements">5</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -54237,7 +54714,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Pets, firearms and campfires</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -54334,7 +54811,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Trash and food waste</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -54431,7 +54908,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Trash and food waste</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -54561,7 +55038,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Trash and food waste</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -54639,7 +55116,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="10 requirements">10</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -54766,7 +55246,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Hazardous materials</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -54864,7 +55344,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Hazardous materials</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -54961,7 +55441,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Hazardous materials</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -55092,7 +55572,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Hazardous materials</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -55189,7 +55669,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Hazardous materials</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -55286,7 +55766,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Hazardous materials</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -55383,7 +55863,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Spill prevention and response</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -55495,7 +55975,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="15 requirements">15</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -55720,7 +56203,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Hazardous materials</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -55817,7 +56300,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Hazardous materials</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -55914,7 +56397,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Spill prevention and response</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -56011,7 +56494,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Refueling and equipment servicing</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -56109,7 +56592,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Refueling and equipment servicing</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -56206,7 +56689,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Spill prevention and response</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -56303,7 +56786,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Spill prevention and response</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -56400,7 +56883,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Spill prevention and response</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -56497,7 +56980,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Spill prevention and response</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -56642,7 +57125,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -56748,7 +57234,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -56888,7 +57377,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="7 requirements">7</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -57079,7 +57571,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Stormwater and discharges</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -57258,7 +57750,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="15 requirements">15</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -57384,7 +57879,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -57481,7 +57976,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -57578,7 +58073,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -57675,7 +58170,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -57772,7 +58267,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -57869,7 +58364,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -57967,7 +58462,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -58064,7 +58559,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -58161,7 +58656,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -58258,7 +58753,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Hazards › Hazardous materials</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -58355,7 +58850,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -58453,7 +58948,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -58550,7 +59045,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -58647,7 +59142,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -58725,7 +59220,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="7 requirements">7</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -58852,7 +59350,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -58950,7 +59448,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -59083,7 +59581,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -59215,7 +59713,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -59293,7 +59791,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -59385,7 +59886,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -59461,7 +59962,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -59586,7 +60090,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Air quality › Fugitive dust</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -59649,7 +60153,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Air quality › Fugitive dust</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -59712,7 +60216,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Air quality › Fugitive dust</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -59775,7 +60279,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Air quality › Fugitive dust</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -59838,7 +60342,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Air quality › Fugitive dust</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -59901,7 +60405,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Air quality › Fugitive dust</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -59964,7 +60468,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Air quality › Fugitive dust</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -60027,7 +60531,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Air quality › Fugitive dust</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -60090,7 +60594,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Air quality › Fugitive dust</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -60153,7 +60657,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Air quality › Fugitive dust</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -60216,7 +60720,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Air quality › Fugitive dust</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -60279,7 +60783,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Air quality › Fugitive dust</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -60409,7 +60913,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Speed limits</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -60487,7 +60991,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -60659,7 +61166,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -60785,7 +61295,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › In-water work</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -60882,7 +61392,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › In-water work</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -60960,7 +61470,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="7 requirements">7</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -61052,7 +61565,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › In-water work</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -61149,7 +61662,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Noise and vibration › Pile driving and underwater sound</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -61280,7 +61793,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Noise and vibration › Pile driving and underwater sound</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -61378,7 +61891,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Noise and vibration › Pile driving and underwater sound</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -61522,7 +62035,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -61614,7 +62130,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › In-water work</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -61711,7 +62227,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Noise and vibration › Pile driving and underwater sound</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -61789,7 +62305,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="11 requirements">11</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -61914,7 +62433,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Noise and vibration › Pile driving and underwater sound</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -62011,7 +62530,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Noise and vibration › Pile driving and underwater sound</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -62108,7 +62627,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Noise and vibration › Pile driving and underwater sound</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -62205,7 +62724,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Noise and vibration › Pile driving and underwater sound</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -62370,7 +62889,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Noise and vibration › Pile driving and underwater sound</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -62468,7 +62987,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Noise and vibration › Pile driving and underwater sound</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -62565,7 +63084,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Noise and vibration › Pile driving and underwater sound</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -62663,7 +63182,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Noise and vibration › Pile driving and underwater sound</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -62739,7 +63258,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -62843,7 +63365,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="7 requirements">7</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -63067,7 +63592,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Fish › Fish rescue and salvage</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -63197,7 +63722,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Agency and biologist access</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -63273,7 +63798,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="11 requirements">11</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -63398,7 +63926,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Barge and vessel operations</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -63461,7 +63989,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Barge and vessel operations</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -63524,7 +64052,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Barge and vessel operations</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -63587,7 +64115,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Barge and vessel operations</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -63650,7 +64178,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Barge and vessel operations</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -63713,7 +64241,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Barge and vessel operations</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -63845,7 +64373,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Invasive species</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -63976,7 +64504,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Barge and vessel operations</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -64219,7 +64747,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="5 requirements">5</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -64344,7 +64875,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Dewatering</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -64443,7 +64974,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Fish › Fish rescue and salvage</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -64541,7 +65072,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Dewatering</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -64652,7 +65183,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -64758,7 +65292,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -64850,7 +65387,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat avoidance and work footprint</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -64947,7 +65484,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -65044,7 +65581,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -65122,7 +65659,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -65214,7 +65754,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Speed limits</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -65325,7 +65865,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -65418,7 +65961,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -65516,7 +66059,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -65629,7 +66172,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="5 requirements">5</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -65722,7 +66268,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -65819,7 +66365,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -65916,7 +66462,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -66013,7 +66559,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Access routes and parking</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -66125,7 +66671,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -66318,7 +66867,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -66396,7 +66945,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -66522,7 +67074,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -66598,7 +67150,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -66690,7 +67245,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -66788,7 +67343,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -66851,7 +67406,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -66982,7 +67537,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -67060,7 +67615,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="9 requirements">9</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -67186,7 +67744,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -67283,7 +67841,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -67381,7 +67939,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -67478,7 +68036,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -67577,7 +68135,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -67641,7 +68199,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -67738,7 +68296,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -67836,7 +68394,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -67934,7 +68492,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -67997,7 +68555,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -68073,7 +68631,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -68165,7 +68726,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -68243,7 +68804,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -68336,7 +68900,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -68434,7 +68998,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -68531,7 +69095,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -68609,7 +69173,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -68701,7 +69268,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -68799,7 +69366,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Work hours</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -68877,7 +69444,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -68969,7 +69539,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Lighting › Lighting near habitat and waters</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -69067,7 +69637,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -69145,7 +69715,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -69237,7 +69810,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -69334,7 +69907,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -69431,7 +70004,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -69542,7 +70115,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -69634,7 +70210,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -69799,7 +70375,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -69877,7 +70453,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -70002,7 +70581,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -70113,7 +70692,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -70219,7 +70801,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -70311,7 +70896,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -70389,7 +70974,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -70496,7 +71084,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -70621,7 +71212,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -70699,7 +71290,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -70791,7 +71385,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -70869,7 +71463,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -70975,7 +71572,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -71100,7 +71700,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -71212,7 +71812,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -71304,7 +71907,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -71382,7 +71985,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -71474,7 +72080,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -71585,7 +72191,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -71678,7 +72287,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Fish › Fish rescue and salvage</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -71789,7 +72398,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -71895,7 +72507,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -71988,7 +72603,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Invasive species</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -72132,7 +72747,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="5 requirements">5</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -72324,7 +72942,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -72422,7 +73040,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -72500,7 +73118,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="7 requirements">7</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -72593,7 +73214,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat avoidance and work footprint</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -72691,7 +73312,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -72822,7 +73443,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -72920,7 +73541,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Air quality › Fugitive dust</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -73018,7 +73639,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -73116,7 +73737,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -73194,7 +73815,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -73286,7 +73910,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Access routes and parking</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -73383,7 +74007,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Speed limits</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -73480,7 +74104,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -73558,7 +74182,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="8 requirements">8</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -73751,7 +74378,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -73848,7 +74475,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -73978,7 +74605,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -74089,7 +74716,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="9 requirements">9</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -74181,7 +74811,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -74279,7 +74909,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -74411,7 +75041,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -74508,7 +75138,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -74605,7 +75235,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -74702,7 +75332,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -74799,7 +75429,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -74896,7 +75526,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -74972,7 +75602,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -75064,7 +75697,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -75142,7 +75775,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -75234,7 +75870,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -75333,7 +75969,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -75411,7 +76047,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -75551,7 +76190,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="9 requirements">9</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -75644,7 +76286,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -75775,7 +76417,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -75906,7 +76548,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -76004,7 +76646,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -76067,7 +76709,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -76164,7 +76806,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -76261,7 +76903,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -76358,7 +77000,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -76436,7 +77078,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="8 requirements">8</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -76561,7 +77206,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Dewatering</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -76659,7 +77304,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Dewatering</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -76790,7 +77435,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Dewatering</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -76969,7 +77614,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="13 requirements">13</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -77128,7 +77776,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -77226,7 +77874,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -77323,7 +77971,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -77420,7 +78068,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -77517,7 +78165,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -77580,7 +78228,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -77711,7 +78359,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -77808,7 +78456,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -77906,7 +78554,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -78003,7 +78651,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -78115,7 +78763,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="6 requirements">6</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -78242,7 +78893,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -78339,7 +78990,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -78518,7 +79169,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -78610,7 +79264,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -78756,7 +79410,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="">1 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -78848,7 +79505,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water › Erosion and sediment control</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -78945,7 +79602,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -79008,7 +79665,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -79119,7 +79776,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -79211,7 +79871,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -79290,7 +79950,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="11 requirements">11</span
                   ><span class="bcn-swc__gap" data-swc-gap="">1 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -79382,7 +80045,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -79445,7 +80108,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat avoidance and work footprint</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -79542,7 +80205,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -79673,7 +80336,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Access routes and parking</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -79771,7 +80434,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -79835,7 +80498,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -79898,7 +80561,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Amphibians</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -79995,7 +80658,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -80093,7 +80756,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -80224,7 +80887,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -80287,7 +80950,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -80350,7 +81013,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -80481,7 +81144,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -80559,7 +81222,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -80685,7 +81351,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Restoration</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -80763,7 +81429,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -80870,7 +81539,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -80963,7 +81635,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -81026,7 +81698,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -81124,7 +81796,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -81235,7 +81907,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -81362,7 +82037,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -81507,7 +82182,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -81600,7 +82278,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -81678,7 +82356,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -81771,7 +82452,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -81870,7 +82551,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -82015,7 +82696,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -82107,7 +82791,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Fish › Fish rescue and salvage</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -82185,7 +82869,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -82291,7 +82978,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -82384,7 +83074,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Access routes and parking</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -82516,7 +83206,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -82614,7 +83304,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Air quality › Fugitive dust</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -82692,7 +83382,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -82785,7 +83478,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -82897,7 +83590,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -83070,7 +83766,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -83243,7 +83942,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -83370,7 +84072,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -83467,7 +84169,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -83545,7 +84247,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -83637,7 +84342,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -83734,7 +84439,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -83797,7 +84502,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -83875,7 +84580,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="5 requirements">5</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -84036,7 +84744,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -84168,7 +84876,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -84246,7 +84954,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -84338,7 +85049,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -84468,7 +85179,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -84546,7 +85257,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -84638,7 +85352,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -84784,7 +85498,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -84877,7 +85594,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat avoidance and work footprint</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -84940,7 +85657,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Amphibians and reptiles › Giant garter snake</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -85038,7 +85755,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -85170,7 +85887,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -85248,7 +85965,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="5 requirements">5</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -85340,7 +86060,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -85438,7 +86158,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -85570,7 +86290,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -85668,7 +86388,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Facility design and siting</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -85746,7 +86466,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -85873,7 +86596,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -85951,7 +86674,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="5 requirements">5</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -86077,7 +86803,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -86256,7 +86982,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -86348,7 +87077,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -86480,7 +87209,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -86558,7 +87287,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -86698,7 +87430,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -86905,7 +87640,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -87046,7 +87784,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -87173,7 +87914,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -87271,7 +88012,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -87380,7 +88121,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="6 requirements">6</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -87473,7 +88217,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat avoidance and work footprint</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -87571,7 +88315,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -87702,7 +88446,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -87800,7 +88544,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -87910,7 +88654,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="6 requirements">6</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -88003,7 +88750,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -88101,7 +88848,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -88199,7 +88946,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -88331,7 +89078,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -88443,7 +89190,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="5 requirements">5</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -88536,7 +89286,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat avoidance and work footprint</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -88634,7 +89384,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -88765,7 +89515,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -88877,7 +89627,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -88970,7 +89723,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -89067,7 +89820,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -89165,7 +89918,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -89277,7 +90030,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -89370,7 +90126,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -89468,7 +90224,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -89566,7 +90322,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -89644,7 +90400,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -89769,7 +90528,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat avoidance and work footprint</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -89832,7 +90591,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -89895,7 +90654,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -89973,7 +90732,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -90065,7 +90827,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -90162,7 +90924,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -90240,7 +91002,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -90366,7 +91131,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >People and qualifications › Designated biologists and
                           monitors</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -90444,7 +91209,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="6 requirements">6</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -90569,7 +91337,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Wildlife encounters and handling</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -90779,7 +91547,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -90871,7 +91642,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat avoidance and work footprint</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -90934,7 +91705,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat avoidance and work footprint</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -91031,7 +91802,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Bumble bees and monarchs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -91175,7 +91946,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="6 requirements">6</span
                   ><span class="bcn-swc__gap" data-swc-gap="">2 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -91302,7 +92076,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Bumble bees and monarchs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -91465,7 +92239,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Bumble bees and monarchs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -91563,7 +92337,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Bumble bees and monarchs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -91641,7 +92415,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -91747,7 +92524,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -91920,7 +92700,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -92012,7 +92795,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Bumble bees and monarchs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -92187,7 +92970,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -92312,7 +93098,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Bumble bees and monarchs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -92442,7 +93228,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Bumble bees and monarchs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -92520,7 +93306,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -92612,7 +93401,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Bumble bees and monarchs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -92710,7 +93499,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Bumble bees and monarchs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -92854,7 +93643,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -92946,7 +93738,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -93043,7 +93835,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -93140,7 +93932,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Vegetation removal</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -93216,7 +94008,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="5 requirements">5</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -93308,7 +94103,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Bumble bees and monarchs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -93471,7 +94266,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Bumble bees and monarchs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -93582,7 +94377,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -93775,7 +94573,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >Agency reporting and approvals › Take and injury
                           reporting</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -93853,7 +94651,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -93945,7 +94746,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat avoidance and work footprint</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -94045,7 +94846,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >People and qualifications › Designated biologists and
                           monitors</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -94144,7 +94945,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >People and qualifications › Designated biologists and
                           monitors</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -94241,7 +95042,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Bumble bees and monarchs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -94319,7 +95120,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -94524,7 +95328,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="8 requirements">8</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -94616,7 +95423,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Special-status plants</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -94713,7 +95520,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Special-status plants</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -94845,7 +95652,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >People and qualifications › Designated biologists and
                           monitors</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -94942,7 +95749,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Exclusion fencing and ESAs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -95105,7 +95912,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Special-status plants</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -95183,7 +95990,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -95275,7 +96085,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Special-status plants</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -95406,7 +96216,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Special-status plants</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -95482,7 +96292,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="5 requirements">5</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -95642,7 +96455,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                           >People and qualifications › Designated biologists and
                           monitors</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -95705,7 +96518,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Bumble bees and monarchs</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -95849,7 +96662,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="5 requirements">5</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -95941,7 +96757,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Fish screens</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -96039,7 +96855,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Fish screens</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -96136,7 +96952,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Fish screens</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -96280,7 +97096,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -96372,7 +97191,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Fish screens</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -96483,7 +97302,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="6 requirements">6</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -96575,7 +97397,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -96706,7 +97528,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -96803,7 +97625,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -96900,7 +97722,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -97011,7 +97833,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="5 requirements">5</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -97103,7 +97928,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -97201,7 +98026,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -97298,7 +98123,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -97395,7 +98220,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -97492,7 +98317,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -97570,7 +98395,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -97662,7 +98490,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -97759,7 +98587,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -97837,7 +98665,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="10 requirements">10</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -97931,7 +98762,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -98028,7 +98859,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -98125,7 +98956,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -98223,7 +99054,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -98321,7 +99152,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -98418,7 +99249,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -98515,7 +99346,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -98612,7 +99443,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -98709,7 +99540,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -98806,7 +99637,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -98884,7 +99715,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="7 requirements">7</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -98978,7 +99812,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Operations coordination and data</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -99076,7 +99910,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Operations coordination and data</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -99175,7 +100009,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Operations coordination and data</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -99238,7 +100072,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Operations coordination and data</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -99336,7 +100170,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Operations coordination and data</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -99434,7 +100268,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Operations coordination and data</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -99565,7 +100399,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Operations coordination and data</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -99643,7 +100477,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -99749,7 +100586,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -99842,7 +100682,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Operations coordination and data</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -99974,7 +100814,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Operations coordination and data</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -100050,7 +100890,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -100143,7 +100986,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -100219,7 +101062,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -100311,7 +101157,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -100410,7 +101256,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -100488,7 +101334,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -100582,7 +101431,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -100681,7 +101530,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -100793,7 +101642,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -100885,7 +101737,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -100964,7 +101816,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -101071,7 +101926,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -101165,7 +102023,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Biological performance criteria</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -101243,7 +102101,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -101335,7 +102196,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Biological performance criteria</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -101414,7 +102275,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -101521,7 +102385,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -101615,7 +102482,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Biological performance criteria</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -101714,7 +102581,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Biological performance criteria</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -101792,7 +102659,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -101884,7 +102754,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Biological performance criteria</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -101962,7 +102832,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -102069,7 +102942,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -102162,7 +103038,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Biological performance criteria</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -102240,7 +103116,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -102332,7 +103211,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Biological performance criteria</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -102410,7 +103289,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="10 requirements">10</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -102503,7 +103385,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Mitigation lands</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -102633,7 +103515,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Mitigation lands</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -102943,7 +103825,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -103050,7 +103935,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -103175,7 +104063,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Habitat protection › Habitat avoidance and work footprint</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -103253,7 +104141,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -103392,7 +104283,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -103566,7 +104460,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -103672,7 +104569,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="8 requirements">8</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -103830,7 +104730,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Restoration</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -103894,7 +104794,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Plants and invertebrates › Special-status plants</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -103958,7 +104858,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Restoration</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -104056,7 +104956,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Restoration</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -104154,7 +105054,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Restoration</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -104217,7 +105117,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Restoration</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -104314,7 +105214,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Restoration</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -104412,7 +105312,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Restoration</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -104510,7 +105410,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Restoration</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -104588,7 +105488,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -104680,7 +105583,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Restoration</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -104811,7 +105714,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Restoration</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -104889,7 +105792,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -105047,7 +105953,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Site conduct › Facility design and siting</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -105125,7 +106031,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -105250,7 +106159,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -105328,7 +106237,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -105434,7 +106346,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -105526,7 +106441,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -105623,7 +106538,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -105720,7 +106635,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Birds › Nesting birds</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -105798,7 +106713,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="5 requirements">5</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -105956,7 +106874,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Mitigation lands</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -106088,7 +107006,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Mitigation lands</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -106166,7 +107084,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -106339,7 +107260,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -106432,7 +107356,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Operations monitoring and studies</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -106530,7 +107454,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -106608,7 +107532,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -106748,7 +107675,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -106873,7 +107803,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Water operations › Diversion limits and bypass flows</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -106951,7 +107881,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -107057,7 +107990,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -107197,7 +108133,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -107403,7 +108342,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -107544,7 +108486,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="5 requirements">5</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -107781,7 +108726,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -107888,7 +108836,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -107994,7 +108945,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -108098,7 +109052,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -108237,7 +109194,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -108329,7 +109289,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Mitigation lands</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -108407,7 +109367,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -108511,7 +109474,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -108616,7 +109582,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -108720,7 +109689,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -108859,7 +109831,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -109029,7 +110004,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -109121,7 +110099,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Mitigation lands</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -109218,7 +110196,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Mitigation funding</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -109296,7 +110274,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -109389,7 +110370,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Mitigation lands</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -109566,7 +110547,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -109672,7 +110656,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="2 requirements">2</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -109811,7 +110798,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -109917,7 +110907,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -110023,7 +111016,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -110129,7 +111125,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -110235,7 +111234,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -110342,7 +111344,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -110446,7 +111451,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="4 requirements">4</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -110538,7 +111546,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Mitigation funding</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -110668,7 +111676,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Mitigation funding</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -110765,7 +111773,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Mitigation funding</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -110841,7 +111849,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -110945,7 +111956,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="1 requirements">1</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -111051,7 +112065,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -111223,7 +112240,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                   ><span class="bcn-swcb" aria-label="3 requirements">3</span
                   ><span class="bcn-swc__gap" data-swc-gap="" hidden="">0 orphaned</span
                   ><span class="bcn-swc__verbs"
-                    ><esa-tooltip text="Expand to obligations" position="above"
+                    ><esa-tooltip
+                      text="Expand to obligations"
+                      position="above"
+                      align="center"
                       ><button
                         type="button"
                         class="bcn-swc__verb"
@@ -111350,7 +112370,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         ><span class="bcn-swc__filing" data-swc-filing=""
                           >Mitigation and restoration › Mitigation lands</span
                         ><span class="bcn-swc__verbs"
-                          ><esa-tooltip text="Edit" position="above"
+                          ><esa-tooltip text="Edit" position="above" align="center"
                             ><button
                               type="button"
                               class="bcn-swc__verb"
@@ -113294,6 +114314,42 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-swot__foot-end:empty {
   display: none;
 }
+.bcn-swsc__menu {
+  vertical-align: baseline;
+  display: inline-block;
+}
+.bcn-swsc {
+  align-items: center;
+  gap: var(--spacing-100);
+  padding: 2px var(--spacing-200);
+  background: color-mix(in srgb, var(--color-content-default) 5%, transparent);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  line-height: inherit;
+  cursor: pointer;
+  border: 1px solid #0000;
+  border-radius: 6px;
+  transition: background 0.12s;
+  display: inline-flex;
+}
+.bcn-swsc:hover {
+  background: color-mix(in srgb, var(--color-content-default) 10%, transparent);
+}
+.bcn-swsc:focus-visible {
+  outline: 2px solid var(--color-background-brand);
+  outline-offset: 2px;
+}
+.bcn-swsc__label {
+  text-align: left;
+  min-width: 0;
+}
+.bcn-swsc__chevron {
+  color: var(--color-content-default-tertiary);
+  flex-shrink: 0;
+  display: inline-flex;
+}
 .esa-alert-box {
   --_alert-bg: var(--color-background-utility-info-subtle, #fbfdff);
   --_alert-border: var(--color-border-utility-info, #acd8fc);
@@ -113368,42 +114424,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .esa-alert-box__dismiss:focus-visible {
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
-}
-.bcn-swsc__menu {
-  vertical-align: baseline;
-  display: inline-block;
-}
-.bcn-swsc {
-  align-items: center;
-  gap: var(--spacing-100);
-  padding: 2px var(--spacing-200);
-  background: color-mix(in srgb, var(--color-content-default) 5%, transparent);
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  color: inherit;
-  line-height: inherit;
-  cursor: pointer;
-  border: 1px solid #0000;
-  border-radius: 6px;
-  transition: background 0.12s;
-  display: inline-flex;
-}
-.bcn-swsc:hover {
-  background: color-mix(in srgb, var(--color-content-default) 10%, transparent);
-}
-.bcn-swsc:focus-visible {
-  outline: 2px solid var(--color-background-brand);
-  outline-offset: 2px;
-}
-.bcn-swsc__label {
-  text-align: left;
-  min-width: 0;
-}
-.bcn-swsc__chevron {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  display: inline-flex;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

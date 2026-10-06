@@ -594,6 +594,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -667,6 +668,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -741,6 +743,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -813,6 +816,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -886,6 +890,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -1081,6 +1086,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -1154,6 +1160,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -1228,6 +1235,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -1301,6 +1309,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -1374,6 +1383,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -1569,6 +1579,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -1642,6 +1653,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -1715,6 +1727,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -1787,6 +1800,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -1983,6 +1997,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -2056,6 +2071,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -2130,6 +2146,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -2301,6 +2318,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -2496,6 +2514,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -2568,6 +2587,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -2641,6 +2661,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -2836,6 +2857,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -2909,6 +2931,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -2983,6 +3006,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -3056,6 +3080,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -3251,6 +3276,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -3323,6 +3349,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -3612,6 +3639,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -3685,6 +3713,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -3758,6 +3787,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -3952,6 +3982,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -4124,6 +4155,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -4196,6 +4228,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -4392,6 +4425,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -4465,6 +4499,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -4537,6 +4572,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -4731,6 +4767,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -4803,6 +4840,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -5036,6 +5074,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -5228,6 +5267,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -5300,6 +5340,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -5495,6 +5536,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -5568,6 +5610,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -5800,6 +5843,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -5872,6 +5916,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -6068,6 +6113,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -6260,6 +6306,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -6457,6 +6504,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -6529,6 +6577,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -6759,6 +6808,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -6832,6 +6882,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -7268,6 +7319,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -7342,6 +7394,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -7414,6 +7467,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -7487,6 +7541,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -7682,6 +7737,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -7756,6 +7812,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -7829,6 +7886,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -7902,6 +7960,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -8098,6 +8157,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -8172,6 +8232,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -8367,6 +8428,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -8441,6 +8503,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -8514,6 +8577,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -8803,6 +8867,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -8876,6 +8941,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -8949,6 +9015,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip
@@ -9145,6 +9212,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -9341,6 +9409,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -9761,6 +9830,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -9834,6 +9904,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -9908,6 +9979,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -10103,6 +10175,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -10176,6 +10249,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -10250,6 +10324,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -10446,6 +10521,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -10519,6 +10595,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -10593,6 +10670,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -10788,6 +10866,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -10861,6 +10940,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -10935,6 +11015,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -11131,6 +11212,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -11327,6 +11409,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -11785,6 +11868,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -11858,6 +11942,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -12054,6 +12139,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -12127,6 +12213,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -12322,6 +12409,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -12519,6 +12607,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -12715,6 +12804,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -12788,6 +12878,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -12984,6 +13075,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -13180,6 +13272,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record made the obligation owed"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="triggered"
                                   >Triggered</span
                                 ></esa-tooltip
@@ -13410,6 +13503,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                               ><esa-tooltip
                                 text="This record shows the obligation being met"
                                 position="above"
+                                align="center"
                                 ><span class="bcn-foc__relation" data-relation="evidence"
                                   >Evidence</span
                                 ></esa-tooltip

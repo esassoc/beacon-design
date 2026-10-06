@@ -93,6 +93,7 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
               ><esa-tooltip
                 text="Least-advanced covering permit — its status sets this segment's status"
                 position="top"
+                align="center"
                 ><span class="sd-permit__gating" data-gating-tag="" hidden=""
                   >Gating</span
                 ></esa-tooltip
@@ -144,6 +145,7 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
               ><esa-tooltip
                 text="Least-advanced covering permit — its status sets this segment's status"
                 position="top"
+                align="center"
                 ><span class="sd-permit__gating" data-gating-tag="" hidden=""
                   >Gating</span
                 ></esa-tooltip
@@ -195,6 +197,7 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
               ><esa-tooltip
                 text="Least-advanced covering permit — its status sets this segment's status"
                 position="top"
+                align="center"
                 ><span class="sd-permit__gating" data-gating-tag="" hidden=""
                   >Gating</span
                 ></esa-tooltip
@@ -246,6 +249,7 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
               ><esa-tooltip
                 text="Least-advanced covering permit — its status sets this segment's status"
                 position="top"
+                align="center"
                 ><span class="sd-permit__gating" data-gating-tag="" hidden=""
                   >Gating</span
                 ></esa-tooltip
@@ -660,6 +664,9 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
 }
 .bcn-status-chip {
   align-items: center;

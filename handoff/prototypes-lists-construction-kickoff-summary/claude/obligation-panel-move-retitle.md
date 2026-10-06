@@ -409,6 +409,9 @@ The side panel for one obligation ON THIS LIST. It offers exactly three things: 
   gap: var(--spacing-200);
   display: inline-flex;
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);

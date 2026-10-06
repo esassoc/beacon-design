@@ -644,6 +644,9 @@ esa-tab-layout::part(tabs),
   height: var(--_icon-size);
   display: block;
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }

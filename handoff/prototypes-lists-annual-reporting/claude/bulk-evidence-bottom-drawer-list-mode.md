@@ -329,6 +329,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               position="below"
                               data-staging-attached=""
                               hidden=""
+                              align="center"
                               ><span class="bcn-countchip__stack"
                                 ><span class="bcn-countchip__icon" aria-hidden="true"
                                   ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -513,6 +514,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               position="below"
                               data-staging-attached=""
                               hidden=""
+                              align="center"
                               ><span class="bcn-countchip__stack"
                                 ><span class="bcn-countchip__icon" aria-hidden="true"
                                   ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -680,6 +682,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               position="below"
                               data-staging-attached=""
                               hidden=""
+                              align="center"
                               ><span class="bcn-countchip__stack"
                                 ><span class="bcn-countchip__icon" aria-hidden="true"
                                   ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -848,6 +851,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               position="below"
                               data-staging-attached=""
                               hidden=""
+                              align="center"
                               ><span class="bcn-countchip__stack"
                                 ><span class="bcn-countchip__icon" aria-hidden="true"
                                   ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -1040,6 +1044,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               position="below"
                               data-staging-attached=""
                               hidden=""
+                              align="center"
                               ><span class="bcn-countchip__stack"
                                 ><span class="bcn-countchip__icon" aria-hidden="true"
                                   ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -1208,6 +1213,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               position="below"
                               data-staging-attached=""
                               hidden=""
+                              align="center"
                               ><span class="bcn-countchip__stack"
                                 ><span class="bcn-countchip__icon" aria-hidden="true"
                                   ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -1376,6 +1382,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               position="below"
                               data-staging-attached=""
                               hidden=""
+                              align="center"
                               ><span class="bcn-countchip__stack"
                                 ><span class="bcn-countchip__icon" aria-hidden="true"
                                   ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -1544,6 +1551,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               position="below"
                               data-staging-attached=""
                               hidden=""
+                              align="center"
                               ><span class="bcn-countchip__stack"
                                 ><span class="bcn-countchip__icon" aria-hidden="true"
                                   ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -1711,6 +1719,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               position="below"
                               data-staging-attached=""
                               hidden=""
+                              align="center"
                               ><span class="bcn-countchip__stack"
                                 ><span class="bcn-countchip__icon" aria-hidden="true"
                                   ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -1879,6 +1888,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               position="below"
                               data-staging-attached=""
                               hidden=""
+                              align="center"
                               ><span class="bcn-countchip__stack"
                                 ><span class="bcn-countchip__icon" aria-hidden="true"
                                   ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -2054,6 +2064,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               position="below"
                               data-staging-attached=""
                               hidden=""
+                              align="center"
                               ><span class="bcn-countchip__stack"
                                 ><span class="bcn-countchip__icon" aria-hidden="true"
                                   ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -2209,6 +2220,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               position="below"
                               data-staging-attached=""
                               hidden=""
+                              align="center"
                               ><span class="bcn-countchip__stack"
                                 ><span class="bcn-countchip__icon" aria-hidden="true"
                                   ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -2364,6 +2376,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               position="below"
                               data-staging-attached=""
                               hidden=""
+                              align="center"
                               ><span class="bcn-countchip__stack"
                                 ><span class="bcn-countchip__icon" aria-hidden="true"
                                   ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -2519,6 +2532,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               position="below"
                               data-staging-attached=""
                               hidden=""
+                              align="center"
                               ><span class="bcn-countchip__stack"
                                 ><span class="bcn-countchip__icon" aria-hidden="true"
                                   ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -2825,6 +2839,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -2973,6 +2988,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -3119,6 +3135,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -3267,6 +3284,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -3449,6 +3467,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -3637,6 +3656,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -3822,6 +3842,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -3969,6 +3990,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -4115,6 +4137,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -4290,6 +4313,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -4436,6 +4460,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -4582,6 +4607,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -4730,6 +4756,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -4876,6 +4903,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -5056,6 +5084,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -5202,6 +5231,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -5350,6 +5380,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -5496,6 +5527,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -5642,6 +5674,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -5788,6 +5821,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -5936,6 +5970,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -6084,6 +6119,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                   position="below"
                                   data-action-evcount=""
                                   hidden="true"
+                                  align="center"
                                   ><span class="bcn-countchip__stack"
                                     ><span class="bcn-countchip__icon" aria-hidden="true"
                                       ><span
@@ -9003,6 +9039,9 @@ summary.esa-button--variant-chrome:focus-visible {
 .esa-empty-state__actions:empty {
   display: none;
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -9031,6 +9070,13 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
+  flex-shrink: 0;
 }
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
@@ -9195,13 +9241,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .esa-alert-box__dismiss:focus-visible {
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
-  flex-shrink: 0;
 }
 ```
 

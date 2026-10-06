@@ -179,39 +179,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   background: 0 0;
   border-color: #0000;
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
 .bcn-mkt-section {
   --_section-pad: clamp(48px, 8vw, 96px);
   padding-block: var(--_section-pad);
@@ -350,6 +317,39 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   top: 0;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
 }
 ```
 

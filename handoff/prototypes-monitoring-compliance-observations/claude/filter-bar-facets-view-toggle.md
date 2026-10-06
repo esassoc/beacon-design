@@ -551,6 +551,9 @@ summary.esa-button--variant-chrome:focus-visible {
 .esa-filter-clear-button__label {
   white-space: nowrap;
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .bcn-filterbar {
   background: var(--color-background-elevation-raised);
   border: 1px solid var(--color-border-default);

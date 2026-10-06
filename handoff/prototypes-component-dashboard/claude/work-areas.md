@@ -5973,6 +5973,7 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 .typography-microcopy-xs-strong{font-family:var(--typography-microcopy-xs-strong-font-family);font-size:var(--typography-microcopy-xs-strong-font-size);font-weight:var(--typography-microcopy-xs-strong-font-weight);line-height:var(--typography-microcopy-xs-strong-line-height);letter-spacing:var(--typography-microcopy-xs-strong-letter-spacing)}
 .typography-title-strong{font-family:var(--typography-title-strong-font-family);font-size:var(--typography-title-strong-font-size);font-weight:var(--typography-title-strong-font-weight);line-height:var(--typography-title-strong-line-height);letter-spacing:var(--typography-title-strong-letter-spacing)}
 .typography-title-sm-strong{font-family:var(--typography-title-sm-strong-font-family);font-size:var(--typography-title-sm-strong-font-size);font-weight:var(--typography-title-sm-strong-font-weight);line-height:var(--typography-title-sm-strong-line-height);letter-spacing:var(--typography-title-sm-strong-letter-spacing)}
+.bcn-key-value__key .esa-icon{color:var(--color-content-default-tertiary)}
 .bcn-gchrome__search{align-items:center;gap:var(--spacing-100);min-inline-size:15rem;display:inline-flex}
 .bcn-gchrome__search esa-text-field{inline-size:100%}
 .bcn-gfoot__count{font-size:var(--font-size-150);color:var(--color-content-default-secondary);font-variant-numeric:tabular-nums}

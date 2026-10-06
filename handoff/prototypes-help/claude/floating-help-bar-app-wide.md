@@ -67,6 +67,7 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
     text="Attach Evidence of Compliance"
     position="above"
     data-evidence-trigger="true"
+    align="center"
     ><span
       class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
       ><button

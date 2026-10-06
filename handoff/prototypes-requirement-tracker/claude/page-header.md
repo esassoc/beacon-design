@@ -220,6 +220,9 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
   --_icon-size: 12px;
   opacity: 0.75;
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-collapsible__summary .esa-icon {
   color: var(--color-content-default-secondary, #646464);
   flex-shrink: 0;

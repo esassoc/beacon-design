@@ -47,19 +47,19 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
   </div>
   <div class="wa">
     <div class="od__meta">
-      <div class="bcn-key-value">
+      <div class="bcn-key-value" data-size="md" data-layout="stack">
         <span class="bcn-key-value__key">Species code</span
         ><span class="wa__kv-val" id="obs-code">SWHA</span>
       </div>
-      <div class="bcn-key-value">
+      <div class="bcn-key-value" data-size="md" data-layout="stack">
         <span class="bcn-key-value__key">Kind</span
         ><span class="wa__kv-val" id="obs-kind">Nesting bird</span>
       </div>
-      <div class="bcn-key-value">
+      <div class="bcn-key-value" data-size="md" data-layout="stack">
         <span class="bcn-key-value__key">Buffer</span
         ><span class="wa__kv-val" id="obs-buffer">2,640 ft</span>
       </div>
-      <div class="bcn-key-value">
+      <div class="bcn-key-value" data-size="md" data-layout="stack">
         <span class="bcn-key-value__key">First observed</span
         ><span class="wa__kv-val" id="obs-first">May 18, 2026</span>
       </div>
@@ -1335,25 +1335,6 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--color-content-default-secondary, #646464);
   flex-shrink: 0;
 }
-.bcn-key-value {
-  flex-direction: column;
-  gap: 2px;
-  display: flex;
-}
-.bcn-key-value__key {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-medium);
-  color: var(--form-label-color);
-}
-.bcn-key-value__val {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-}
-.bcn-key-value__hint {
-  color: var(--color-content-default-tertiary);
-  font-size: 0.75rem;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -1382,6 +1363,48 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.bcn-key-value {
+  flex-direction: column;
+  gap: 2px;
+  display: flex;
+}
+.bcn-key-value[data-layout="row"] {
+  align-items: baseline;
+  column-gap: var(--spacing-300);
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  display: grid;
+}
+.bcn-key-value__key {
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--form-label-color);
+}
+.bcn-key-value__val {
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+}
+.bcn-key-value__hint {
+  color: var(--color-content-default-tertiary);
+  font-size: 0.75rem;
+}
+.bcn-key-value__key {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__key {
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  color: var(--color-content-secondary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__val {
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
 }
 .bcn-status-chip {
   align-items: center;
@@ -1558,6 +1581,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-on-utility-success`: #fcfcfc _(semantic)_
 - `--color-content-on-utility-warning`: #4f3422 _(semantic)_
+- `--color-content-secondary`: #525252 _(component)_
 - `--color-content-utility-danger`: #ce2c31 _(semantic)_
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
@@ -1597,6 +1621,10 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-font-weight-medium`: 500 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-font-weight`: 500 _(semantic)_
+- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
 - `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-microcopy-md-font-weight`: 500 _(semantic)_

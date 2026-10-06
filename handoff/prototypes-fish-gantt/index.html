@@ -166,6 +166,219 @@
         --typography-microcopy-xs-subtle-line-height: 1;
       }
 
+      :host {
+        display: contents;
+      }
+      dialog.esa-confirm-dialog {
+        position: relative;
+        border: none;
+        padding: 0;
+        margin: auto;
+        width: var(--confirm-dialog-width, 360px);
+        max-width: calc(100vw - 2rem);
+        background: var(--color-background-elevation-floating, #fcfcfc);
+        color: var(--color-content-default, #202020);
+        border-radius: var(--radius-lg, 0.75rem);
+        box-shadow:
+          0 20px 60px rgba(0, 0, 0, 0.15),
+          0 4px 16px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
+      }
+      :host {
+        display: inline-block;
+      }
+      .esa-dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      .esa-dropdown__trigger {
+        display: inline-block;
+      }
+      *,
+      :before,
+      :after {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: var(--typography-font-family-sans, system-ui, sans-serif);
+        font-weight: var(--typography-font-weight-regular, 350);
+        color: var(--color-content-default, #3d3d3d);
+        background: var(--color-background-elevation-raised, #fff);
+        -webkit-font-smoothing: antialiased;
+        margin: 0;
+      }
+      button {
+        cursor: pointer;
+        background: 0 0;
+        border: 0;
+        font-family: inherit;
+      }
+      a {
+        color: var(--color-content-link, #005862);
+        text-decoration: none;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+        margin: 0;
+      }
+      .page-layout {
+        min-height: calc(100vh - 52px);
+        padding: var(--spacing-600);
+        background: var(--bcn-gray-50);
+        box-sizing: border-box;
+        flex-direction: column;
+        display: flex;
+      }
+      .page-layout__bleed,
+      .page-layout section {
+        width: 100%;
+      }
+      .breadcrumbs {
+        padding: var(--spacing-400) 0;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-400);
+        display: flex;
+      }
+      .breadcrumbs__items {
+        gap: var(--spacing-100);
+        flex-wrap: wrap;
+        align-items: center;
+        display: flex;
+      }
+      .breadcrumbs__items .esa-icon {
+        color: var(--bcn-gray-400);
+      }
+      .breadcrumb-item {
+        color: var(--bcn-gray-600);
+        text-transform: capitalize;
+        font-size: 0.875rem;
+      }
+      a.breadcrumb-item {
+        text-decoration: none;
+      }
+      .page-layout__container {
+        flex-direction: column;
+        display: flex;
+      }
+      .page-layout__title {
+        border-bottom: 1px solid var(--bcn-gray-200);
+        padding: var(--spacing-500) 0;
+        box-sizing: border-box;
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+      }
+      .page-layout__title-main {
+        align-items: center;
+        gap: var(--spacing-400);
+        min-width: 0;
+        display: flex;
+      }
+      .page-layout__title h1 {
+        align-items: center;
+        gap: var(--spacing-300);
+        font-family: var(--font-decorative);
+        font-weight: var(--typography-font-weight-bold);
+        font-size: var(--font-size-500);
+        color: var(--bcn-gray-1000);
+        margin: 0;
+        display: flex;
+      }
+      .page-layout__title h1 .esa-icon {
+        color: var(--page-title-icon-color, var(--bcn-gray-1000));
+        flex-shrink: 0;
+      }
+      .page-layout__utilities {
+        gap: var(--spacing-200);
+        display: flex;
+      }
+      .page-layout__content {
+        padding: var(--spacing-500) 0;
+        min-height: 70vh;
+        position: relative;
+      }
+      .typography-body-md {
+        font-family: var(--typography-body-md-font-family);
+        font-size: var(--typography-body-md-font-size);
+        font-weight: var(--typography-body-md-font-weight);
+        line-height: var(--typography-body-md-line-height);
+        letter-spacing: var(--typography-body-md-letter-spacing);
+      }
+      .typography-microcopy-xs-subtle {
+        font-family: var(--typography-microcopy-xs-subtle-font-family);
+        font-size: var(--typography-microcopy-xs-subtle-font-size);
+        font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+        line-height: var(--typography-microcopy-xs-subtle-line-height);
+        letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+      }
+      .typography-body-sm {
+        font-family: var(--typography-body-sm-font-family);
+        font-size: var(--typography-body-sm-font-size);
+        font-weight: var(--typography-body-sm-font-weight);
+        line-height: var(--typography-body-sm-line-height);
+        letter-spacing: var(--typography-body-sm-letter-spacing);
+      }
+      .typography-microcopy-xs-strong {
+        font-family: var(--typography-microcopy-xs-strong-font-family);
+        font-size: var(--typography-microcopy-xs-strong-font-size);
+        font-weight: var(--typography-microcopy-xs-strong-font-weight);
+        line-height: var(--typography-microcopy-xs-strong-line-height);
+        letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+      }
+      .typography-microcopy-xs {
+        font-family: var(--typography-microcopy-xs-font-family);
+        font-size: var(--typography-microcopy-xs-font-size);
+        font-weight: var(--typography-microcopy-xs-font-weight);
+        line-height: var(--typography-microcopy-xs-line-height);
+        letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+      }
+      .typography-label-xs {
+        font-family: var(--typography-label-xs-font-family);
+        font-size: var(--typography-label-xs-font-size);
+        font-weight: var(--typography-label-xs-font-weight);
+        line-height: var(--typography-label-xs-line-height);
+        letter-spacing: var(--typography-label-xs-letter-spacing);
+      }
+      .typography-label-md {
+        font-family: var(--typography-label-md-font-family);
+        font-size: var(--typography-label-md-font-size);
+        font-weight: var(--typography-label-md-font-weight);
+        line-height: var(--typography-label-md-line-height);
+        letter-spacing: var(--typography-label-md-letter-spacing);
+      }
+      .typography-microcopy-md-strong {
+        font-family: var(--typography-microcopy-md-strong-font-family);
+        font-size: var(--typography-microcopy-md-strong-font-size);
+        font-weight: var(--typography-microcopy-md-strong-font-weight);
+        line-height: var(--typography-microcopy-md-strong-line-height);
+        letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+      }
+      .typography-microcopy-md {
+        font-family: var(--typography-microcopy-md-font-family);
+        font-size: var(--typography-microcopy-md-font-size);
+        font-weight: var(--typography-microcopy-md-font-weight);
+        line-height: var(--typography-microcopy-md-line-height);
+        letter-spacing: var(--typography-microcopy-md-letter-spacing);
+      }
+      :host {
+        --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
+        --_popover-border: var(--color-border-default, #cecece);
+        --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+        --_popover-radius: var(--radius-md, 0.5rem);
+        --_popover-padding: var(--spacing-300, 0.75rem);
+        --_popover-arrow-size: 8px;
+        --_popover-color: var(--color-content-default, #202020);
+        display: inline-block;
+      }
+      .esa-popover-anchor {
+        position: relative;
+        display: inline-block;
+      }
       .modern-layout {
         flex-direction: column;
         height: 100vh;
@@ -977,448 +1190,6 @@
         transform: translate(-50%);
         box-shadow: 0 -12px 48px -12px #00000052;
       }
-      :host {
-        --_field-padding-y: var(--spacing-300, 0.75rem);
-        --_field-padding-x: var(--spacing-300, 0.75rem);
-        --_field-radius: var(--radius-md, 0.5rem);
-        --_field-border-color: var(--form-border-color, #cecece);
-        display: block;
-      }
-      :host([size="sm"]) {
-        --_field-padding-y: var(--spacing-250, 0.625rem);
-        --_field-padding-x: var(--spacing-250, 0.625rem);
-        --_field-radius: var(--radius-sm, 0.25rem);
-      }
-      .field {
-        display: flex;
-        flex-direction: column;
-      }
-      .control {
-        display: flex;
-        align-items: stretch;
-        /* NO HEIGHT. The box is as tall as the input inside it, which is its line
-         box plus its padding. A px height could not grow with rem text, so it
-         clipped — and this rule used to pair one with overflow:hidden, which is
-         what made the clipping silent. See semantic/size.json.
-
-         line-height 1 is what leaves padding as the only variable: at 1.6 there
-         is a third term (0.6 x font-size of leading) that nobody chose and that
-         grows faster than either input. Everything else — face, size, weight,
-         tracking — still comes from .typography-body-* on this element and
-         inherits to the input and the affixes below. */
-        background: var(--color-background-field, transparent);
-        border: var(--form-border-width, 1px) solid var(--_field-border-color);
-        border-radius: var(--_field-radius);
-        box-sizing: border-box;
-        transition:
-          border-color var(--transition-fast, 150ms ease),
-          box-shadow var(--transition-fast, 150ms ease);
-      }
-      .input {
-        flex: 1 1 auto;
-        min-width: 0;
-        width: 100%;
-        /* No height: 100%. It used to resolve against .control's fixed height, which
-         meant this padding was ABSORBED into that height rather than adding to it.
-         With no fixed parent it would compute to auto anyway; removing it makes the
-         padding load-bearing, which is the point. .control is align-items:stretch,
-         so the affixes still match this element's height. */
-        padding: var(--_field-padding-y) var(--_field-padding-x);
-        /* A native control does not inherit type by default — this is what opts it
-         into the composite already resolved on .control. */
-        font: inherit;
-        color: var(--form-text-color, #202020);
-        background: transparent;
-        border: none;
-        outline: none;
-        box-sizing: border-box;
-      }
-      .input::placeholder {
-        color: var(--form-placeholder-color, #838383);
-      }
-      .help,
-      .error {
-        margin: 0;
-      }
-      .error {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-100, 4px);
-        color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
-      }
-      .help {
-        color: var(--form-help-color, #838383);
-      }
-      .label {
-        color: var(--form-label-color, #646464);
-        margin-block-end: var(--form-label-gap, 4px);
-      }
-      .required {
-        color: var(--color-content-utility-danger, #ce2c31);
-        margin-inline-start: 2px;
-      }
-      .help.is-shown,
-      .error.is-shown {
-        margin-block-start: var(--form-help-gap, 4px);
-      }
-      :host {
-        --_dialog-bg: var(--color-background-elevation-floating, #fcfcfc);
-        --_dialog-border-radius: var(--radius-lg, 0.75rem);
-        --_dialog-padding: var(--spacing-500, 1.5rem);
-        --_dialog-header-border: var(--color-border-default-subtle, #d9d9d9);
-        /* Header/footer surface tints. These were --dialog-header-bg /
-         --dialog-footer-bg, declared in no token file — a hook offered on the
-         strength of a fallback nobody had asked to override. Folded to their
-         literal default 2026-08-16; --dialog-* is a live namespace, so they come
-         back as declarations the day a spoke actually wants to frame the body. */
-        --_dialog-header-bg: transparent;
-        --_dialog-footer-bg: transparent;
-        --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
-        --_dialog-width: var(--dialog-width, 480px);
-        --_dialog-max-height: 85vh;
-      }
-      :host([size="sm"]) {
-        --_dialog-width: var(--dialog-width-sm, 360px);
-      }
-      dialog.esa-dialog {
-        /* UA reset. The UA sheet gives <dialog> a solid border, 1em padding and
-         'max-width/max-height: calc(100% - 6px - 2em)'; without clearing those the
-         panel renders inside a second, smaller box. */
-        border: none;
-        padding: 0;
-        margin: auto;
-        background: var(--_dialog-bg);
-        color: var(--color-content-default, #202020);
-        border-radius: var(--_dialog-border-radius);
-        box-shadow: var(--_dialog-shadow);
-        width: var(--_dialog-width);
-        max-width: 100vw;
-        max-height: var(--_dialog-max-height);
-        overflow: hidden;
-        font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
-      }
-      .typography-body-md {
-        font-family: var(--typography-body-md-font-family);
-        font-size: var(--typography-body-md-font-size);
-        font-weight: var(--typography-body-md-font-weight);
-        line-height: var(--typography-body-md-line-height);
-        letter-spacing: var(--typography-body-md-letter-spacing);
-      }
-      .typography-microcopy-xs-subtle {
-        font-family: var(--typography-microcopy-xs-subtle-font-family);
-        font-size: var(--typography-microcopy-xs-subtle-font-size);
-        font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-        line-height: var(--typography-microcopy-xs-subtle-line-height);
-        letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-      }
-      .typography-body-sm {
-        font-family: var(--typography-body-sm-font-family);
-        font-size: var(--typography-body-sm-font-size);
-        font-weight: var(--typography-body-sm-font-weight);
-        line-height: var(--typography-body-sm-line-height);
-        letter-spacing: var(--typography-body-sm-letter-spacing);
-      }
-      .typography-microcopy-xs-strong {
-        font-family: var(--typography-microcopy-xs-strong-font-family);
-        font-size: var(--typography-microcopy-xs-strong-font-size);
-        font-weight: var(--typography-microcopy-xs-strong-font-weight);
-        line-height: var(--typography-microcopy-xs-strong-line-height);
-        letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-      }
-      .typography-microcopy-xs {
-        font-family: var(--typography-microcopy-xs-font-family);
-        font-size: var(--typography-microcopy-xs-font-size);
-        font-weight: var(--typography-microcopy-xs-font-weight);
-        line-height: var(--typography-microcopy-xs-line-height);
-        letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-      }
-      .typography-label-xs {
-        font-family: var(--typography-label-xs-font-family);
-        font-size: var(--typography-label-xs-font-size);
-        font-weight: var(--typography-label-xs-font-weight);
-        line-height: var(--typography-label-xs-line-height);
-        letter-spacing: var(--typography-label-xs-letter-spacing);
-      }
-      .typography-label-md {
-        font-family: var(--typography-label-md-font-family);
-        font-size: var(--typography-label-md-font-size);
-        font-weight: var(--typography-label-md-font-weight);
-        line-height: var(--typography-label-md-line-height);
-        letter-spacing: var(--typography-label-md-letter-spacing);
-      }
-      .typography-microcopy-md-strong {
-        font-family: var(--typography-microcopy-md-strong-font-family);
-        font-size: var(--typography-microcopy-md-strong-font-size);
-        font-weight: var(--typography-microcopy-md-strong-font-weight);
-        line-height: var(--typography-microcopy-md-strong-line-height);
-        letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
-      }
-      .typography-microcopy-md {
-        font-family: var(--typography-microcopy-md-font-family);
-        font-size: var(--typography-microcopy-md-font-size);
-        font-weight: var(--typography-microcopy-md-font-weight);
-        line-height: var(--typography-microcopy-md-line-height);
-        letter-spacing: var(--typography-microcopy-md-letter-spacing);
-      }
-      :host {
-        --_width: var(--side-dialog-width, 400px);
-      }
-      dialog.panel {
-        --_inset: var(--side-dialog-inset, 16px);
-        position: fixed;
-        top: var(--_inset);
-        bottom: var(--_inset);
-        inset-inline: auto;
-        height: auto;
-        margin: 0;
-        border: none;
-        padding: 0;
-        width: min(var(--_width), calc(100vw - var(--_inset) * 2));
-        max-width: none;
-        max-height: none;
-        background: var(--color-background-elevation-raised, #fcfcfc);
-        color: var(--color-content-default, #202020);
-        border-radius: var(--radius-md, 0.5rem);
-        box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
-        outline: none;
-        overflow: hidden;
-        /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
-         second dialog on top) — ease the reposition instead of jumping. */
-        transition:
-          top 220ms ease,
-          right 220ms ease,
-          bottom 220ms ease,
-          left 220ms ease;
-      }
-      :host([position="right"]) dialog.panel {
-        right: var(--_inset);
-        animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
-      }
-      :host {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-100, 4px);
-        --_pad-y: var(--spacing-300, 0.75rem);
-        --_padding-x: var(--spacing-300, 0.75rem);
-        --_radius: var(--radius-md, 0.5rem);
-        --_border-width: var(--form-border-width, 1px);
-        --_border-color: var(--form-border-color, #cecece);
-        --_icon-size: 18px;
-      }
-      .group {
-        display: inline-flex;
-        width: fit-content;
-        max-width: 100%;
-        gap: 2px;
-        padding: 2px;
-        background: var(--color-background-elevation-sunken, #f0f0f0);
-        border: var(--_border-width) solid var(--_border-color);
-        border-radius: var(--_radius);
-      }
-      :host([size="sm"]) {
-        --_pad-y: var(--spacing-250, 0.625rem);
-        --_padding-x: var(--spacing-250, 0.625rem);
-        --_radius: var(--radius-sm, 0.25rem);
-        --_icon-size: 16px;
-      }
-      .option {
-        appearance: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: var(--spacing-150, 6px);
-        /* Was calc(height - 4px) to compensate for the track's 2px padding. With no
-         height token the segment is its own text plus padding, and the track wraps
-         it — the compensation has nothing left to compensate for. */
-        padding: var(--_pad-y) var(--_padding-x);
-        color: var(--color-content-default-secondary, #646464);
-        background: transparent;
-        border: 0;
-        border-radius: calc(var(--_radius) - 2px);
-        cursor: pointer;
-        user-select: none;
-        white-space: nowrap;
-        transition:
-          background-color var(--transition-fast, 150ms ease),
-          color var(--transition-fast, 150ms ease),
-          box-shadow var(--transition-fast, 150ms ease);
-      }
-      .option--selected {
-        background: var(--color-background-elevation-raised, #fcfcfc);
-        color: var(--color-content-brand, #2a7e3b);
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-      }
-      .option__icon {
-        width: var(--_icon-size);
-        height: var(--_icon-size);
-        flex-shrink: 0;
-      }
-      .esa-button {
-        --_btn-pad-y: var(--spacing-300, 0.75rem);
-        --_btn-padding-x: var(--spacing-300, 0.75rem);
-        --_btn-radius: var(--button-radius-md, 0.5rem);
-        --_accent: var(--color-background-brand, #46a758);
-        --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-        --_on: var(--color-content-default-knockout, #fcfcfc);
-        --_accent-text: var(--_accent);
-        --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-        --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-        display: inline-block;
-      }
-      .esa-button__native {
-        justify-content: center;
-        align-items: center;
-        gap: var(--spacing-200, 8px);
-        width: 100%;
-        padding-block: var(--_btn-pad-y);
-        padding-inline: var(--_btn-padding-x);
-        border: var(--border-width-default, 1px) solid transparent;
-        border-radius: var(--_btn-radius);
-        cursor: pointer;
-        transition:
-          background var(--transition-fast, 0.15s ease),
-          border-color var(--transition-fast, 0.15s ease);
-        -webkit-appearance: none;
-        appearance: none;
-        text-decoration: none;
-        display: inline-flex;
-      }
-      .esa-button--appearance-fill .esa-button__native {
-        background: var(--_accent);
-        color: var(--_on);
-        border-color: var(--_accent-border, transparent);
-      }
-      .esa-button--variant-chrome .esa-button__native {
-        color: inherit;
-        background: 0 0;
-        border-color: #0000;
-      }
-      .esa-button--icon-only .esa-button__native {
-        padding-inline: var(--_btn-pad-y);
-        aspect-ratio: 1;
-      }
-      .esa-button--appearance-outline .esa-button__native,
-      .esa-button--appearance-dashed .esa-button__native {
-        color: var(--_accent-text);
-        border-color: var(--_accent);
-        background: 0 0;
-      }
-      .esa-button--variant-ghost .esa-button__native {
-        color: var(--color-content-default, #202020);
-        background: 0 0;
-        border-color: #0000;
-      }
-      .esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
-      .esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
-        border-color: var(--color-border-default, #cecece);
-      }
-      .esa-button__label {
-        white-space: nowrap;
-      }
-      .esa-button--xs {
-        --_btn-pad-y: var(--spacing-200, 0.5rem);
-        --_btn-padding-x: var(--spacing-200, 0.5rem);
-        --_btn-radius: var(--button-radius-xs, 4px);
-      }
-      .esa-button--sm {
-        --_btn-pad-y: var(--spacing-250, 0.625rem);
-        --_btn-padding-x: var(--spacing-250, 0.625rem);
-        --_btn-radius: var(--button-radius-sm, 4px);
-      }
-      .esa-button--appearance-dashed .esa-button__native {
-        border-style: dashed;
-      }
-      .esa-button--variant-danger {
-        --_accent: var(--color-background-utility-danger);
-        --_accent-hover: var(--color-background-utility-danger-hover);
-        --_accent-text: var(--color-content-utility-danger);
-      }
-      .esa-button--appearance-soft .esa-button__native {
-        background: color-mix(
-          in srgb,
-          var(--color-background-elevation-sunken, #f0f0f0) 45%,
-          var(--color-background-elevation-raised, #fcfcfc)
-        );
-        color: var(--_accent-text);
-        border-color: var(--color-border-default-strong, #bbb);
-      }
-      .esa-button--variant-primary {
-        --_accent-text: var(--color-content-brand);
-      }
-      .esa-button--disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        pointer-events: none;
-      }
-      :host {
-        display: inline-block;
-      }
-      .esa-tooltip-anchor {
-        position: relative;
-        display: inline-flex;
-      }
-      .visually-hidden {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        margin: -1px;
-        padding: 0;
-        border: 0;
-        overflow: hidden;
-        white-space: nowrap;
-        clip: rect(0 0 0 0);
-        clip-path: inset(50%);
-      }
-      .typography-microcopy-md {
-        font-family: var(--typography-microcopy-md-font-family);
-        font-size: var(--typography-microcopy-md-font-size);
-        font-weight: var(--typography-microcopy-md-font-weight);
-        line-height: var(--typography-microcopy-md-line-height);
-        letter-spacing: var(--typography-microcopy-md-letter-spacing);
-      }
-      .typography-microcopy-2xs {
-        font-family: var(--typography-microcopy-2xs-font-family);
-        font-size: var(--typography-microcopy-2xs-font-size);
-        font-weight: var(--typography-microcopy-2xs-font-weight);
-        line-height: var(--typography-microcopy-2xs-line-height);
-        letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
-      }
-      .typography-microcopy-xs {
-        font-family: var(--typography-microcopy-xs-font-family);
-        font-size: var(--typography-microcopy-xs-font-size);
-        font-weight: var(--typography-microcopy-xs-font-weight);
-        line-height: var(--typography-microcopy-xs-line-height);
-        letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-      }
-      :host {
-        display: contents;
-      }
-      dialog.esa-confirm-dialog {
-        position: relative;
-        border: none;
-        padding: 0;
-        margin: auto;
-        width: var(--confirm-dialog-width, 360px);
-        max-width: calc(100vw - 2rem);
-        background: var(--color-background-elevation-floating, #fcfcfc);
-        color: var(--color-content-default, #202020);
-        border-radius: var(--radius-lg, 0.75rem);
-        box-shadow:
-          0 20px 60px rgba(0, 0, 0, 0.15),
-          0 4px 16px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
-      }
-      :host {
-        display: inline-block;
-      }
-      .esa-dropdown {
-        position: relative;
-        display: inline-block;
-      }
-      .esa-dropdown__trigger {
-        display: inline-block;
-      }
       .bcn-gantt-coa {
         font-family: var(--typography-font-family-mono);
         font-size: var(--font-size-100);
@@ -2143,56 +1914,40 @@
         display: flex;
       }
       :host {
-        --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
-        --_popover-border: var(--color-border-default, #cecece);
-        --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-        --_popover-radius: var(--radius-md, 0.5rem);
-        --_popover-padding: var(--spacing-300, 0.75rem);
-        --_popover-arrow-size: 8px;
-        --_popover-color: var(--color-content-default, #202020);
-        display: inline-block;
+        --_dialog-bg: var(--color-background-elevation-floating, #fcfcfc);
+        --_dialog-border-radius: var(--radius-lg, 0.75rem);
+        --_dialog-padding: var(--spacing-500, 1.5rem);
+        --_dialog-header-border: var(--color-border-default-subtle, #d9d9d9);
+        /* Header/footer surface tints. These were --dialog-header-bg /
+         --dialog-footer-bg, declared in no token file — a hook offered on the
+         strength of a fallback nobody had asked to override. Folded to their
+         literal default 2026-08-16; --dialog-* is a live namespace, so they come
+         back as declarations the day a spoke actually wants to frame the body. */
+        --_dialog-header-bg: transparent;
+        --_dialog-footer-bg: transparent;
+        --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+        --_dialog-width: var(--dialog-width, 480px);
+        --_dialog-max-height: 85vh;
       }
-      .esa-popover-anchor {
-        position: relative;
-        display: inline-block;
+      :host([size="sm"]) {
+        --_dialog-width: var(--dialog-width-sm, 360px);
       }
-      .esa-icon {
-        --_icon-size: var(--icon-size-md, 20px);
-        width: var(--_icon-size);
-        height: var(--_icon-size);
-        color: inherit;
-        justify-content: center;
-        align-items: center;
-        display: inline-flex;
-      }
-      .esa-icon--xs {
-        --_icon-size: var(--icon-size-xs, 14px);
-      }
-      .esa-icon svg {
-        width: var(--_icon-size);
-        height: var(--_icon-size);
-        display: block;
-      }
-      .esa-icon--sm {
-        --_icon-size: var(--icon-size-sm, 16px);
-      }
-      .esa-icon--md {
-        --_icon-size: var(--icon-size-md, 20px);
-      }
-      .esa-icon--lg {
-        --_icon-size: var(--icon-size-lg, 24px);
-      }
-      .bcn-rrep {
-        gap: var(--spacing-300);
-        flex-direction: column;
-        display: flex;
-      }
-      .bcn-rrep__list {
-        flex-direction: column;
-        display: flex;
-      }
-      .bcn-rrep__add {
-        align-self: flex-start;
+      dialog.esa-dialog {
+        /* UA reset. The UA sheet gives <dialog> a solid border, 1em padding and
+         'max-width/max-height: calc(100% - 6px - 2em)'; without clearing those the
+         panel renders inside a second, smaller box. */
+        border: none;
+        padding: 0;
+        margin: auto;
+        background: var(--_dialog-bg);
+        color: var(--color-content-default, #202020);
+        border-radius: var(--_dialog-border-radius);
+        box-shadow: var(--_dialog-shadow);
+        width: var(--_dialog-width);
+        max-width: 100vw;
+        max-height: var(--_dialog-max-height);
+        overflow: hidden;
+        font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
       }
       :host {
         display: block;
@@ -2238,7 +1993,8 @@
          The tight leading comes from FIELD_TYPE picking a microcopy-*-subtle rung,
          whose composite declares the line-height for us — there is deliberately no
          line-height declaration in this rule, because one here would outrank the
-         composite rather than agree with it. A static padding offset was the other option and
+         composite rather than agree with it. (.input--trigger below does restate
+         it as normal, for the button-versus-input reason given there.) A static padding offset was the other option and
          is wrong: leading scales with the fluid type (27px at 1600, 22px at 375) and
          is re-pointable by a theme, so an offset would cancel it at exactly one
          viewport. esa-textarea stays on a body-* composite on purpose — it is
@@ -2257,7 +2013,21 @@
       .input--trigger {
         display: block;
         text-align: start;
-        font: inherit;
+        /* Only the family is restated. The composite class on this same element
+         already sets size, weight and tracking; the font shorthand that used to
+         sit here came later in the sheet and reset all of them to the host's,
+         which made the trigger a step larger than esa-text-field at the same size
+         and broke the filter-row alignment the two are meant to share. */
+        font-family: inherit;
+        /* Leading is the one composite term a BUTTON and an INPUT read differently.
+         The composite's line-height 1 is honoured by this button, but a native
+         single-line input never lays its text out shorter than the font's normal
+         line box (Chrome, WebKit), so esa-text-field's box is font-normal plus
+         padding whatever the composite says. Measured 2026-09-14: 3.5px shorter
+         at sm, 4.5px at md, 5.5px at lg. normal here puts the trigger on the
+         same floor the input is already on — same font, same normal, same box —
+         at every size and in every browser, with no px offset to drift. */
+        line-height: normal;
         min-width: 0;
         white-space: nowrap;
         overflow: hidden;
@@ -2297,112 +2067,357 @@
       .input--placeholder {
         color: var(--form-placeholder-color, #838383);
       }
-      *,
-      :before,
-      :after {
-        box-sizing: border-box;
+      .typography-microcopy-md {
+        font-family: var(--typography-microcopy-md-font-family);
+        font-size: var(--typography-microcopy-md-font-size);
+        font-weight: var(--typography-microcopy-md-font-weight);
+        line-height: var(--typography-microcopy-md-line-height);
+        letter-spacing: var(--typography-microcopy-md-letter-spacing);
       }
-      body {
-        font-family: var(--typography-font-family-sans, system-ui, sans-serif);
-        font-weight: var(--typography-font-weight-regular, 350);
-        color: var(--color-content-default, #3d3d3d);
-        background: var(--color-background-elevation-raised, #fff);
-        -webkit-font-smoothing: antialiased;
-        margin: 0;
+      .typography-microcopy-2xs {
+        font-family: var(--typography-microcopy-2xs-font-family);
+        font-size: var(--typography-microcopy-2xs-font-size);
+        font-weight: var(--typography-microcopy-2xs-font-weight);
+        line-height: var(--typography-microcopy-2xs-line-height);
+        letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
       }
-      button {
-        cursor: pointer;
-        background: 0 0;
-        border: 0;
-        font-family: inherit;
+      .typography-microcopy-xs {
+        font-family: var(--typography-microcopy-xs-font-family);
+        font-size: var(--typography-microcopy-xs-font-size);
+        font-weight: var(--typography-microcopy-xs-font-weight);
+        line-height: var(--typography-microcopy-xs-line-height);
+        letter-spacing: var(--typography-microcopy-xs-letter-spacing);
       }
-      a {
-        color: var(--color-content-link, #005862);
-        text-decoration: none;
+      .esa-icon {
+        --_icon-size: var(--icon-size-md, 20px);
+        width: var(--_icon-size);
+        height: var(--_icon-size);
+        color: inherit;
+        justify-content: center;
+        align-items: center;
+        display: inline-flex;
       }
-      img {
-        max-width: 100%;
+      .esa-icon--xs {
+        --_icon-size: var(--icon-size-xs, 14px);
+      }
+      .esa-icon svg {
+        width: var(--_icon-size);
+        height: var(--_icon-size);
         display: block;
       }
-      :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-        margin: 0;
+      .esa-icon--sm {
+        --_icon-size: var(--icon-size-sm, 16px);
       }
-      .page-layout {
-        min-height: calc(100vh - 52px);
-        padding: var(--spacing-600);
-        background: var(--bcn-gray-50);
-        box-sizing: border-box;
-        flex-direction: column;
-        display: flex;
+      .esa-icon--md {
+        --_icon-size: var(--icon-size-md, 20px);
       }
-      .page-layout__bleed,
-      .page-layout section {
-        width: 100%;
+      .esa-icon--lg {
+        --_icon-size: var(--icon-size-lg, 24px);
       }
-      .breadcrumbs {
-        padding: var(--spacing-400) 0;
-        justify-content: space-between;
-        align-items: center;
-        gap: var(--spacing-400);
-        display: flex;
-      }
-      .breadcrumbs__items {
-        gap: var(--spacing-100);
-        flex-wrap: wrap;
-        align-items: center;
-        display: flex;
-      }
-      .breadcrumbs__items .esa-icon {
-        color: var(--bcn-gray-400);
-      }
-      .breadcrumb-item {
-        color: var(--bcn-gray-600);
-        text-transform: capitalize;
-        font-size: 0.875rem;
-      }
-      a.breadcrumb-item {
-        text-decoration: none;
-      }
-      .page-layout__container {
-        flex-direction: column;
-        display: flex;
-      }
-      .page-layout__title {
-        border-bottom: 1px solid var(--bcn-gray-200);
-        padding: var(--spacing-500) 0;
-        box-sizing: border-box;
-        justify-content: space-between;
-        align-items: center;
-        display: flex;
-      }
-      .page-layout__title-main {
-        align-items: center;
-        gap: var(--spacing-400);
-        min-width: 0;
-        display: flex;
-      }
-      .page-layout__title h1 {
-        align-items: center;
+      .bcn-rrep {
         gap: var(--spacing-300);
-        font-family: var(--font-decorative);
-        font-weight: var(--typography-font-weight-bold);
-        font-size: var(--font-size-500);
-        color: var(--bcn-gray-1000);
-        margin: 0;
+        flex-direction: column;
         display: flex;
       }
-      .page-layout__title h1 .esa-icon {
-        color: var(--page-title-icon-color, var(--bcn-gray-1000));
+      .bcn-rrep__list {
+        flex-direction: column;
+        display: flex;
+      }
+      .bcn-rrep__add {
+        align-self: flex-start;
+      }
+      :host {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-100, 4px);
+        --_pad-y: var(--spacing-300, 0.75rem);
+        --_padding-x: var(--spacing-300, 0.75rem);
+        --_radius: var(--radius-md, 0.5rem);
+        --_border-width: var(--form-border-width, 1px);
+        --_border-color: var(--form-border-color, #cecece);
+        --_icon-size: 18px;
+      }
+      .group {
+        display: inline-flex;
+        width: fit-content;
+        max-width: 100%;
+        gap: 2px;
+        padding: 2px;
+        background: var(--color-background-elevation-sunken, #f0f0f0);
+        border: var(--_border-width) solid var(--_border-color);
+        border-radius: var(--_radius);
+      }
+      :host([size="sm"]) {
+        --_pad-y: var(--spacing-250, 0.625rem);
+        --_padding-x: var(--spacing-250, 0.625rem);
+        --_radius: var(--radius-sm, 0.25rem);
+        --_icon-size: 16px;
+      }
+      .option {
+        appearance: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-150, 6px);
+        /* Was calc(height - 4px) to compensate for the track's 2px padding. With no
+         height token the segment is its own text plus padding, and the track wraps
+         it — the compensation has nothing left to compensate for. */
+        padding: var(--_pad-y) var(--_padding-x);
+        color: var(--color-content-default-secondary, #646464);
+        background: transparent;
+        border: 0;
+        border-radius: calc(var(--_radius) - 2px);
+        cursor: pointer;
+        user-select: none;
+        white-space: nowrap;
+        transition:
+          background-color var(--transition-fast, 150ms ease),
+          color var(--transition-fast, 150ms ease),
+          box-shadow var(--transition-fast, 150ms ease);
+      }
+      .option--selected {
+        background: var(--color-background-elevation-raised, #fcfcfc);
+        color: var(--color-content-brand, #2a7e3b);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+      }
+      .option__icon {
+        width: var(--_icon-size);
+        height: var(--_icon-size);
         flex-shrink: 0;
       }
-      .page-layout__utilities {
-        gap: var(--spacing-200);
-        display: flex;
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        border: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
       }
-      .page-layout__content {
-        padding: var(--spacing-500) 0;
-        min-height: 70vh;
+      :host {
+        display: inline-block;
+      }
+      .esa-tooltip-anchor {
         position: relative;
+        display: inline-flex;
+      }
+      :host {
+        --_width: var(--side-dialog-width, 400px);
+      }
+      dialog.panel {
+        --_inset: var(--side-dialog-inset, 16px);
+        position: fixed;
+        top: var(--_inset);
+        bottom: var(--_inset);
+        inset-inline: auto;
+        height: auto;
+        margin: 0;
+        border: none;
+        padding: 0;
+        width: min(var(--_width), calc(100vw - var(--_inset) * 2));
+        max-width: none;
+        max-height: none;
+        background: var(--color-background-elevation-raised, #fcfcfc);
+        color: var(--color-content-default, #202020);
+        border-radius: var(--radius-md, 0.5rem);
+        box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
+        outline: none;
+        overflow: hidden;
+        /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
+         second dialog on top) — ease the reposition instead of jumping. */
+        transition:
+          top 220ms ease,
+          right 220ms ease,
+          bottom 220ms ease,
+          left 220ms ease;
+      }
+      :host([position="right"]) dialog.panel {
+        right: var(--_inset);
+        animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
+      }
+      :host {
+        --_field-padding-y: var(--spacing-300, 0.75rem);
+        --_field-padding-x: var(--spacing-300, 0.75rem);
+        --_field-radius: var(--radius-md, 0.5rem);
+        --_field-border-color: var(--form-border-color, #cecece);
+        display: block;
+      }
+      :host([size="sm"]) {
+        --_field-padding-y: var(--spacing-250, 0.625rem);
+        --_field-padding-x: var(--spacing-250, 0.625rem);
+        --_field-radius: var(--radius-sm, 0.25rem);
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+      }
+      .control {
+        display: flex;
+        align-items: stretch;
+        /* NO HEIGHT. The box is as tall as the input inside it, which is its line
+         box plus its padding. A px height could not grow with rem text, so it
+         clipped — and this rule used to pair one with overflow:hidden, which is
+         what made the clipping silent. See semantic/size.json.
+
+         line-height 1 is what leaves padding as the only variable: at 1.6 there
+         is a third term (0.6 x font-size of leading) that nobody chose and that
+         grows faster than either input. Everything else — face, size, weight,
+         tracking — still comes from .typography-body-* on this element and
+         inherits to the input and the affixes below. */
+        background: var(--color-background-field, transparent);
+        border: var(--form-border-width, 1px) solid var(--_field-border-color);
+        border-radius: var(--_field-radius);
+        box-sizing: border-box;
+        transition:
+          border-color var(--transition-fast, 150ms ease),
+          box-shadow var(--transition-fast, 150ms ease);
+      }
+      .input {
+        flex: 1 1 auto;
+        min-width: 0;
+        width: 100%;
+        /* No height: 100%. It used to resolve against .control's fixed height, which
+         meant this padding was ABSORBED into that height rather than adding to it.
+         With no fixed parent it would compute to auto anyway; removing it makes the
+         padding load-bearing, which is the point. .control is align-items:stretch,
+         so the affixes still match this element's height. */
+        padding: var(--_field-padding-y) var(--_field-padding-x);
+        /* A native control does not inherit type by default — this is what opts it
+         into the composite already resolved on .control. */
+        font: inherit;
+        color: var(--form-text-color, #202020);
+        background: transparent;
+        border: none;
+        outline: none;
+        box-sizing: border-box;
+      }
+      .input::placeholder {
+        color: var(--form-placeholder-color, #838383);
+      }
+      .help,
+      .error {
+        margin: 0;
+      }
+      .error {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-100, 4px);
+        color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
+      }
+      .help {
+        color: var(--form-help-color, #838383);
+      }
+      .label {
+        color: var(--form-label-color, #646464);
+        margin-block-end: var(--form-label-gap, 4px);
+      }
+      .required {
+        color: var(--color-content-utility-danger, #ce2c31);
+        margin-inline-start: 2px;
+      }
+      .help.is-shown,
+      .error.is-shown {
+        margin-block-start: var(--form-help-gap, 4px);
+      }
+      .esa-button {
+        --_btn-pad-y: var(--spacing-300, 0.75rem);
+        --_btn-padding-x: var(--spacing-300, 0.75rem);
+        --_btn-radius: var(--button-radius-md, 0.5rem);
+        --_accent: var(--color-background-brand, #46a758);
+        --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+        --_on: var(--color-content-default-knockout, #fcfcfc);
+        --_accent-text: var(--_accent);
+        --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+        --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+        display: inline-block;
+      }
+      .esa-button__native {
+        justify-content: center;
+        align-items: center;
+        gap: var(--spacing-200, 8px);
+        width: 100%;
+        padding-block: var(--_btn-pad-y);
+        padding-inline: var(--_btn-padding-x);
+        border: var(--border-width-default, 1px) solid transparent;
+        border-radius: var(--_btn-radius);
+        cursor: pointer;
+        transition:
+          background var(--transition-fast, 0.15s ease),
+          border-color var(--transition-fast, 0.15s ease);
+        -webkit-appearance: none;
+        appearance: none;
+        text-decoration: none;
+        display: inline-flex;
+      }
+      .esa-button--appearance-fill .esa-button__native {
+        background: var(--_accent);
+        color: var(--_on);
+        border-color: var(--_accent-border, transparent);
+      }
+      .esa-button--variant-chrome .esa-button__native {
+        color: inherit;
+        background: 0 0;
+        border-color: #0000;
+      }
+      .esa-button--icon-only .esa-button__native {
+        padding-inline: var(--_btn-pad-y);
+        aspect-ratio: 1;
+      }
+      .esa-button--appearance-outline .esa-button__native,
+      .esa-button--appearance-dashed .esa-button__native {
+        color: var(--_accent-text);
+        border-color: var(--_accent);
+        background: 0 0;
+      }
+      .esa-button--variant-ghost .esa-button__native {
+        color: var(--color-content-default, #202020);
+        background: 0 0;
+        border-color: #0000;
+      }
+      .esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+      .esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+        border-color: var(--color-border-default, #cecece);
+      }
+      .esa-button__label {
+        white-space: nowrap;
+      }
+      .esa-button--xs {
+        --_btn-pad-y: var(--spacing-200, 0.5rem);
+        --_btn-padding-x: var(--spacing-200, 0.5rem);
+        --_btn-radius: var(--button-radius-xs, 4px);
+      }
+      .esa-button--sm {
+        --_btn-pad-y: var(--spacing-250, 0.625rem);
+        --_btn-padding-x: var(--spacing-250, 0.625rem);
+        --_btn-radius: var(--button-radius-sm, 4px);
+      }
+      .esa-button--appearance-dashed .esa-button__native {
+        border-style: dashed;
+      }
+      .esa-button--variant-danger {
+        --_accent: var(--color-background-utility-danger);
+        --_accent-hover: var(--color-background-utility-danger-hover);
+        --_accent-text: var(--color-content-utility-danger);
+      }
+      .esa-button--appearance-soft .esa-button__native {
+        background: color-mix(
+          in srgb,
+          var(--color-background-elevation-sunken, #f0f0f0) 45%,
+          var(--color-background-elevation-raised, #fcfcfc)
+        );
+        color: var(--_accent-text);
+        border-color: var(--color-border-default-strong, #bbb);
+      }
+      .esa-button--variant-primary {
+        --_accent-text: var(--color-content-brand);
+      }
+      .esa-button--disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
       }
       html,
       .modern-layout__content {
@@ -11595,7 +11610,7 @@
                   </div>
                   <script
                     type="module"
-                    src="/beacon-design/_astro/BcnWorkBreakdown.astro_astro_type_script_index_0_lang.DoQjASuj.js"
+                    src="/beacon-design/_astro/BcnWorkBreakdown.astro_astro_type_script_index_0_lang.CTgFjRCw.js"
                   ></script>
                 </div>
                 <div id="view-roles" hidden="">
@@ -12236,7 +12251,7 @@
                   </div>
                   <script
                     type="module"
-                    src="/beacon-design/_astro/BcnRolesMatrix.astro_astro_type_script_index_0_lang.BUFfFSv_.js"
+                    src="/beacon-design/_astro/BcnRolesMatrix.astro_astro_type_script_index_0_lang.WISLb8Jl.js"
                   ></script>
                 </div>
                 <div id="view-readiness" hidden="">
@@ -15797,7 +15812,7 @@
           ></script>
           <script
             type="module"
-            src="/beacon-design/_astro/BcnNodeEdit.astro_astro_type_script_index_0_lang.D_yp5xDO.js"
+            src="/beacon-design/_astro/BcnNodeEdit.astro_astro_type_script_index_0_lang.kdUnTa5f.js"
           ></script>
           <esa-side-dialog
             id="node-drawer"
@@ -31796,6 +31811,7 @@
           text="Attach Evidence of Compliance"
           position="above"
           data-evidence-trigger="true"
+          align="center"
           ><span
             class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
             ><button
@@ -31915,7 +31931,7 @@
       </div>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.rnozUMkB.js"
+        src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.BrGmwhrs.js"
       ></script>
       <!-- ── Drawer (parent) ── --><esa-side-dialog
         class="bcn-gd"
@@ -34807,6 +34823,7 @@
                                     position="below"
                                     data-staging-attached=""
                                     hidden=""
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -34991,6 +35008,7 @@
                                     position="below"
                                     data-staging-attached=""
                                     hidden=""
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -35158,6 +35176,7 @@
                                     position="below"
                                     data-staging-attached=""
                                     hidden=""
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -35326,6 +35345,7 @@
                                     position="below"
                                     data-staging-attached=""
                                     hidden=""
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -35516,6 +35536,7 @@
                                     position="below"
                                     data-staging-attached=""
                                     hidden=""
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -35684,6 +35705,7 @@
                                     position="below"
                                     data-staging-attached=""
                                     hidden=""
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -35852,6 +35874,7 @@
                                     position="below"
                                     data-staging-attached=""
                                     hidden=""
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -36020,6 +36043,7 @@
                                     position="below"
                                     data-staging-attached=""
                                     hidden=""
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -36187,6 +36211,7 @@
                                     position="below"
                                     data-staging-attached=""
                                     hidden=""
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -36355,6 +36380,7 @@
                                     position="below"
                                     data-staging-attached=""
                                     hidden=""
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -36530,6 +36556,7 @@
                                     position="below"
                                     data-staging-attached=""
                                     hidden=""
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -36683,6 +36710,7 @@
                                     position="below"
                                     data-staging-attached=""
                                     hidden=""
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -36836,6 +36864,7 @@
                                     position="below"
                                     data-staging-attached=""
                                     hidden=""
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -36989,6 +37018,7 @@
                                     position="below"
                                     data-staging-attached=""
                                     hidden=""
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -37286,6 +37316,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -37430,6 +37461,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -37574,6 +37606,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -37718,6 +37751,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -37892,6 +37926,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -38067,6 +38102,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -38242,6 +38278,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -38387,6 +38424,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -38531,6 +38569,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -38700,6 +38739,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -38844,6 +38884,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -38988,6 +39029,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -39134,6 +39176,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -39278,6 +39321,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -39450,6 +39494,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -39594,6 +39639,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -39738,6 +39784,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -39882,6 +39929,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -40026,6 +40074,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -40170,6 +40219,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -40316,6 +40366,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -40460,6 +40511,7 @@
                                         position="below"
                                         data-action-evcount=""
                                         hidden="true"
+                                        align="center"
                                         ><span class="bcn-countchip__stack"
                                           ><span class="bcn-countchip__icon" aria-hidden="true"
                                             ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -40718,7 +40770,7 @@
       >
       <script
         type="module"
-        src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DRypsSwm.js"
+        src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.CgAsKejG.js"
       ></script>
     </div>
   </body>

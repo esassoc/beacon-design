@@ -159,6 +159,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   flex-wrap: wrap;
   display: flex;
 }
+.bcn-demo__lede {
+  color: var(--color-content-default-secondary);
+  margin: 0;
+}
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
   font-size: var(--typography-microcopy-md-font-size);
@@ -172,10 +176,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   font-weight: var(--typography-body-md-font-weight);
   line-height: var(--typography-body-md-line-height);
   letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.bcn-demo__lede {
-  color: var(--color-content-default-secondary);
-  margin: 0;
 }
 ```
 

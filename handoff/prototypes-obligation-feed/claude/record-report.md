@@ -120,7 +120,10 @@ The open record as one contained report: a pale grey header band with the source
                 ><span class="bcn-loc__title bcn-foc__title"
                   >Ongoing demonstration of mitigation performance during the permit
                   term</span
-                ><esa-tooltip text="This record made the obligation owed" position="above"
+                ><esa-tooltip
+                  text="This record made the obligation owed"
+                  position="above"
+                  align="center"
                   ><span class="bcn-foc__relation" data-relation="triggered"
                     >Triggered</span
                   ></esa-tooltip
@@ -191,7 +194,10 @@ The open record as one contained report: a pale grey header band with the source
                 ><span class="bcn-loc__title bcn-foc__title"
                   >Biological Monitor daily communication and immediate reports to the
                   Designated Biologist</span
-                ><esa-tooltip text="This record made the obligation owed" position="above"
+                ><esa-tooltip
+                  text="This record made the obligation owed"
+                  position="above"
+                  align="center"
                   ><span class="bcn-foc__relation" data-relation="triggered"
                     >Triggered</span
                   ></esa-tooltip
@@ -262,7 +268,10 @@ The open record as one contained report: a pale grey header band with the source
                 <span class="bcn-loc__class">Notify</span
                 ><span class="bcn-loc__title bcn-foc__title"
                   >Covered Species Encounter Reporting to the Biologist</span
-                ><esa-tooltip text="This record made the obligation owed" position="above"
+                ><esa-tooltip
+                  text="This record made the obligation owed"
+                  position="above"
+                  align="center"
                   ><span class="bcn-foc__relation" data-relation="triggered"
                     >Triggered</span
                   ></esa-tooltip
@@ -332,7 +341,10 @@ The open record as one contained report: a pale grey header band with the source
                 <span class="bcn-loc__class">Adhere</span
                 ><span class="bcn-loc__title bcn-foc__title"
                   >Avoidance Measures in Unmapped Habitat</span
-                ><esa-tooltip text="This record made the obligation owed" position="above"
+                ><esa-tooltip
+                  text="This record made the obligation owed"
+                  position="above"
+                  align="center"
                   ><span class="bcn-foc__relation" data-relation="triggered"
                     >Triggered</span
                   ></esa-tooltip
@@ -403,7 +415,10 @@ The open record as one contained report: a pale grey header band with the source
                 <span class="bcn-loc__class">Adhere</span
                 ><span class="bcn-loc__title bcn-foc__title"
                   >Work Stoppage on Covered Species Encounter</span
-                ><esa-tooltip text="This record made the obligation owed" position="above"
+                ><esa-tooltip
+                  text="This record made the obligation owed"
+                  position="above"
+                  align="center"
                   ><span class="bcn-foc__relation" data-relation="triggered"
                     >Triggered</span
                   ></esa-tooltip

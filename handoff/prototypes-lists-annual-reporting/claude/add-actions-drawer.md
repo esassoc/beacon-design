@@ -6298,6 +6298,9 @@ Checkbox drawer of every action not on the list, in Action Type folders, with se
   padding: 2px var(--spacing-100);
   font-size: var(--font-size-050);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -6456,6 +6459,13 @@ details[open] > .bcn-lao__row .bcn-lao__chevron {
   flex-wrap: wrap;
   display: flex;
 }
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
+  flex-shrink: 0;
+}
 .esa-filter-clear-button {
   --_clear-text: var(--color-content-default-secondary, #646464);
   --_clear-text-hover: var(
@@ -6493,13 +6503,6 @@ details[open] > .bcn-lao__row .bcn-lao__chevron {
 }
 .esa-filter-clear-button__label {
   white-space: nowrap;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
-  flex-shrink: 0;
 }
 ```
 

@@ -239,6 +239,9 @@ The quiet utility rail: four links that open component-data side panels via the 
 .bcn-sw__head .esa-icon {
   color: var(--color-content-default-secondary);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);

@@ -1343,35 +1343,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-292" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">WTR-8202-F</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Jun 17</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">LR Access -Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -1788,39 +1788,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-317" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">WTR-8202-F</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 28</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">RDMT-Road Overlays-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val"
             >Permit Paid - site clearance 9/23 - then drill</span
@@ -2197,35 +2197,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRAI-DH-010" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">WTR-8202-F</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 18</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Rail</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -2642,35 +2642,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRAI-DH-011" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">WTR-8202-F</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 17</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Rail</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -3090,35 +3090,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRAI-DH-013" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">WTR-8202-F</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 17</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Rail</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -3538,39 +3538,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-294" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">WTR-8202-F</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 28 – Sep 29</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Hand auger</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">LR Access -Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val">Owner Flood Field - Possible Hand Auger</span>
         </div>
@@ -4062,35 +4062,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRAI-DH-014" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">WTR-8202-F</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Jun 17</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Rail</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -4505,35 +4505,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRAI-DH-006" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">WTR-8202-F</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Jun 18</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Rail</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -4953,39 +4953,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRAI-DH-008" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">WTR-8202-F</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 28 – Sep 29</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Hand auger</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Rail</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val">Owner Flood Field - Possible Hand Auger</span>
         </div>
@@ -5478,39 +5478,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRAI-DH-009" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">WTR-8202-F</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 28 – Sep 29</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Hand auger</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Rail</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val">Owner Flood Field - Possible Hand Auger</span>
         </div>
@@ -6003,35 +6003,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRAI-DH-012" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">WTR-8202-F</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 18</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Rail</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -6451,39 +6451,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCPWR-DH-001" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">WTR-8202-F</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">TBD</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 4</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">75 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Power (PG&amp;E) LR-Design 100%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val">Field Flood - GGS Zone (Oct 1)- Harvest</span>
         </div>
@@ -6493,39 +6493,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCTR2-DH-100" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">STATE-7220-M</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Bio Stop</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">250 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">TR 2-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val"
             >Bio Stop - emailed no work this season SC</span
@@ -6537,39 +6537,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCTR2-CPT-099" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">STATE-7220-M</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Bio Stop</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">CPT</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">200 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">TR 2-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val"
             >Bio Stop - emailed no work this season SC</span
@@ -6581,35 +6581,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCTR2-CPT-102" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">STATE-7220-M</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 28 – Sep 29</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">CPT</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">250 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">TR 2-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -7102,35 +7102,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-246" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">SJC-0481</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 4 – Sep 9</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 7</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">150 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">LR Access -Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">8/28 - 11/30/2026</span>
         </div>
@@ -7873,35 +7873,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-248" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">SJC-0481</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 28</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">LR Access -Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">8/28 - 11/30/2026</span>
         </div>
@@ -8321,35 +8321,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-253" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">SJC-0481</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 28</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">LR Access -Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">8/28 - 11/30/2026</span>
         </div>
@@ -8763,35 +8763,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-255" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">SJC-0481</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 28</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">LR Access -Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">8/28 - 11/30/2026</span>
         </div>
@@ -9208,35 +9208,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCTR4-DH-004">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">SJC-0481</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 31 – Sep 15</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 8</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">250 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">TR 4-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">8/28 - 11/30/2026</span>
         </div>
@@ -11270,35 +11270,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCTR4-DH-008" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">SJC-0481</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 31 – Sep 10</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">250 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">TR 4-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">8/28 - 11/30/2026</span>
         </div>
@@ -12858,39 +12858,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCSHF-DH-103" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">SJC-0481</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">TBD</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 8</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">250 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">TR 4-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">8/28 - 11/30/2026</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val"
             >After October 1 Harvest / Bio Zone Travel</span
@@ -12902,39 +12902,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCSHF-DH-098" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">SJC-0481</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">TBD</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">250 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">TR 4-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">8/28 - 11/30/2026</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val"
             >After October 1 Harvest / Bio Zone Travel</span
@@ -12946,39 +12946,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCSHF-DH-092" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 4 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">SJC-0481</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">San Joaquin</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">TBD</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 8</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">250 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">TR 4-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">8/28 - 11/30/2026</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val"
             >After October 1 Harvest / Bio Zone Travel</span
@@ -12990,35 +12990,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCBPP-DH-039" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 5 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">PWR-8063</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Alameda</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Jun 1 – Jun 11</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 1</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">250 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Beth. PP&amp;SB-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -14739,35 +14739,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCBPP-DH-036" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 5 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">PWR-8063</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Alameda</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Jun 1 – Jun 12</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 3</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">250 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Beth. PP&amp;SB-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -16654,35 +16654,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCBPP-DH-034" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 5 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">PWR-8063</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Alameda</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Jun 16 – Jun 25</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 3</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">250 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Beth. PP&amp;SB-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -18243,35 +18243,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCSHF-DH-144" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 5 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">PWR-8063</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Alameda</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Jun 12 – Jun 30</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 4</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">200 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">TR 4-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -20647,35 +20647,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCBPP-DH-003" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 5 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">PWR-8063</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Alameda</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Jul 13 – Jul 22</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 3</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">250 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Beth. PP&amp;SB-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -22231,35 +22231,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCBPP-DH-066" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 5 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">PWR-8064</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Alameda</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Jun 15 – Jun 25</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 6</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">250 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Beth. PP&amp;SB-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -23983,35 +23983,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCBPP-DH-019" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 5 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">PWR-8063</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Alameda</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Jul 6 – Jul 15</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 7</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">250 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Beth. PP&amp;SB-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -25570,35 +25570,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCBPP-CPT-035" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 5 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">PWR-8063</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Alameda</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Jul 23 – Jul 24</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">CPT</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">250 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Beth. PP&amp;SB-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -26181,35 +26181,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCIN3-DH-016" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 5 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">SAC-0058</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Jul 21 – Jul 27</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 2</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">150 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Intake 3(B)-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -27276,35 +27276,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCTR2-DH-010" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 5 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">SAC-2484</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 17 – Aug 31</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 3</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">200 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">TR 2-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -29351,35 +29351,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-131" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 5 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">SAC-2851</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Jun 25</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">50 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Power (SMUD) Twin Cities-Design 100%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -29796,35 +29796,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCTR1-DH-008" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 5 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">SAC-0274</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Jun 16 – Jun 30</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 2</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">200 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">TR 1 - Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -31874,41 +31874,41 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCTR1-DH-056" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 5 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">STATE-7220-A</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">TBD</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 3</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">200 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val"
             >TR 1 - Design 30% (Note: property change)</span
           >
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val"
             >Bio Stop Pos - Mow Plan - need clearance</span
@@ -31920,35 +31920,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCTR2-DH-029" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 5 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">STATE-7220-B</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 24 – Sep 3</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 4</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">200 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">TR 2-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -33669,35 +33669,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCTR2-CPT-024" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 5 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">STATE-7220-B</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 4</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">CPT</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">200 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">TR 2-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -34117,35 +34117,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-184" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">Batch 5 (TEP)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">SAC-2484</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 21</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">4/1 - 11/30/2026</span>
         </div>
@@ -34562,35 +34562,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCTR2-DH-012" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 25 – Sep 2</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 7</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">200 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">TR 2-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">Caltrans</span>
         </div>
@@ -35986,35 +35986,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCTR2-DH-015" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 12 – Aug 19</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 7</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">200 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">TR 2-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">Caltrans</span>
         </div>
@@ -37246,35 +37246,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCTR2-DH-017" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Jul 29 – Aug 7</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 7</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">200 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">TR 2-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">Caltrans</span>
         </div>
@@ -38835,35 +38835,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCLEV-DH-015" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 19 – Aug 20</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 8</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">50 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
@@ -39446,39 +39446,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCLEV-DH-026" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 11</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 7</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">50 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val">Franklin</span>
         </div>
@@ -39895,39 +39895,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-158" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 2</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Hand auger</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val">Franklin</span>
         </div>
@@ -40343,35 +40343,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-166" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 20</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 8</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
@@ -40791,35 +40791,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-171" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 14</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 8</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
@@ -41239,35 +41239,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-172" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 13</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 8</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
@@ -41687,35 +41687,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-177" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 21</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
@@ -42135,35 +42135,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-178" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 20</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 5</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
@@ -42581,39 +42581,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-156" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 1</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Hand auger</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val">Franklin</span>
         </div>
@@ -43032,39 +43032,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-157" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 1</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Hand auger</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val">Franklin</span>
         </div>
@@ -43484,35 +43484,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-168" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 17</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 8</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
@@ -43932,35 +43932,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-169" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 17</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 8</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
@@ -44377,39 +44377,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-175" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 8</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Hand auger</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val">Franklin</span>
         </div>
@@ -44826,39 +44826,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-176" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 9</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Hand auger</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val">Franklin</span>
         </div>
@@ -45272,39 +45272,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-160" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 3</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Hand auger</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val">Franklin</span>
         </div>
@@ -45718,39 +45718,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-161" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 3</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Hand auger</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val">Franklin</span>
         </div>
@@ -46170,39 +46170,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-162" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 4</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Hand auger</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val">Franklin</span>
         </div>
@@ -46621,35 +46621,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-170" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 14</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 8</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
@@ -47069,39 +47069,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-174" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 8</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Hand auger</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val">Franklin</span>
         </div>
@@ -47518,39 +47518,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-159" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 2</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Hand auger</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val">Franklin</span>
         </div>
@@ -47967,35 +47967,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-173" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 13</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 8</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
@@ -48415,39 +48415,39 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-164" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Sep 4</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Hand auger</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Field notes</span
           ><span class="bcn-key-value__val">Franklin</span>
         </div>
@@ -48867,35 +48867,35 @@ One hole: location facts, every pre-drilling document in due-date order with its
   <div data-fd-body="DCRDS-DH-167" hidden="">
     <div class="stack bcn-fd-checklist" data-gap="lg">
       <div class="bcn-fd-checklist__facts">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Agreement</span
           ><span class="bcn-key-value__val">ROW (2026)</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Property</span
           ><span class="bcn-key-value__val">State or County</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">County</span
           ><span class="bcn-key-value__val">Sacramento</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Drilling</span
           ><span class="bcn-key-value__val">Aug 18</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Rig</span
           ><span class="bcn-key-value__val">Rig 8</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Depth</span
           ><span class="bcn-key-value__val">15 ft</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Activity</span
           ><span class="bcn-key-value__val">Twin Cities Advanced Work-Design 30%</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Access window</span
           ><span class="bcn-key-value__val">County</span>
         </div>
@@ -49611,6 +49611,12 @@ One hole: location facts, every pre-drilling document in due-date order with its
   gap: 2px;
   display: flex;
 }
+.bcn-key-value[data-layout="row"] {
+  align-items: baseline;
+  column-gap: var(--spacing-300);
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  display: grid;
+}
 .bcn-key-value__key {
   font-size: var(--typography-label-md-font-size);
   font-weight: var(--typography-font-weight-medium);
@@ -49624,6 +49630,23 @@ One hole: location facts, every pre-drilling document in due-date order with its
 .bcn-key-value__hint {
   color: var(--color-content-default-tertiary);
   font-size: 0.75rem;
+}
+.bcn-key-value__key {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__key {
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  color: var(--color-content-secondary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__val {
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
 }
 .bcn-status-chip {
   align-items: center;
@@ -49723,6 +49746,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--color-content-on-utility-danger`: #fcfcfc _(semantic)_
+- `--color-content-secondary`: #525252 _(component)_
 - `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
 - `--form-label-color`: #525252 _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
@@ -49743,6 +49767,10 @@ One hole: location facts, every pre-drilling document in due-date order with its
 - `--typography-font-weight-regular`: 350 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-font-weight`: 500 _(semantic)_
+- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
 - `--typography-title-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-title-strong-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
 - `--typography-title-strong-font-weight`: 550 _(semantic)_

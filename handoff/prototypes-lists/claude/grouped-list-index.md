@@ -32,7 +32,7 @@ Every list, filed under the registry it draws from, in setup order: Commitments,
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnSwFilterRow.astro_astro_type_script_index_0_lang.EHzWe1vC.js"
+    src="/beacon-design/_astro/BcnSwFilterRow.astro_astro_type_script_index_0_lang.C8SgbOxC.js"
   ></script>
   <div class="stack" data-gap="2xl">
     <section

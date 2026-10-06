@@ -425,6 +425,9 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--color-background-brand-muted-hover);
   background: color-mix(in srgb, var(--color-background-brand-muted) 10%, transparent);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-collapsible__summary .esa-icon {
   color: var(--color-content-default-secondary, #646464);
   flex-shrink: 0;

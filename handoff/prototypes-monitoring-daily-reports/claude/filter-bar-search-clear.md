@@ -462,6 +462,9 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-sm-strong-line-height);
   letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-filter-clear-button {
   --_clear-text: var(--color-content-default-secondary, #646464);
   --_clear-text-hover: var(

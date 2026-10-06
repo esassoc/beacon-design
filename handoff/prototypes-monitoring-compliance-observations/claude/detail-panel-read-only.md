@@ -69,44 +69,44 @@ An esa-side-dialog showing one observation in full — header chips for severity
     </div>
     <div class="bcn-detail__grid">
       <span id="ov-detail-category"
-        ><div class="bcn-key-value">
+        ><div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Category</span
           ><span class="bcn-key-value__val">Stormwater / BMP Maintenance</span>
         </div></span
       ><span id="ov-detail-area"
-        ><div class="bcn-key-value">
+        ><div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Area</span
           ><span class="bcn-key-value__val">South Array — Block B</span>
         </div></span
       ><span id="ov-detail-inspector"
-        ><div class="bcn-key-value">
+        ><div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Inspector</span
           ><span class="bcn-key-value__val">R. Delgado</span>
         </div></span
       ><span id="ov-detail-reported"
-        ><div class="bcn-key-value">
+        ><div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Reported</span
           ><span class="bcn-key-value__val">Jul 29, 2026</span>
         </div></span
       ><span id="ov-detail-resolved"
-        ><div class="bcn-key-value">
+        ><div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Resolved</span
           ><span class="bcn-key-value__val">—</span>
         </div></span
       ><span id="ov-detail-age"
-        ><div class="bcn-key-value">
+        ><div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Days active</span
           ><span class="bcn-key-value__val">7d</span>
         </div></span
       ><span id="ov-detail-reviewed"
-        ><div class="bcn-key-value">
+        ><div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">ESA QC reviewed</span
           ><span class="bcn-key-value__val">Yes</span>
         </div></span
       >
     </div>
     <span id="ov-detail-description"
-      ><div class="bcn-key-value">
+      ><div class="bcn-key-value" data-size="md" data-layout="stack">
         <span class="bcn-key-value__key">Description</span
         ><span class="bcn-key-value__val"
           >Silt fence down for ~40 ft along the Block B swale after last week's wind
@@ -125,6 +125,12 @@ An esa-side-dialog showing one observation in full — header chips for severity
   gap: 2px;
   display: flex;
 }
+.bcn-key-value[data-layout="row"] {
+  align-items: baseline;
+  column-gap: var(--spacing-300);
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  display: grid;
+}
 .bcn-key-value__key {
   font-size: var(--typography-label-md-font-size);
   font-weight: var(--typography-font-weight-medium);
@@ -138,6 +144,23 @@ An esa-side-dialog showing one observation in full — header chips for severity
 .bcn-key-value__hint {
   color: var(--color-content-default-tertiary);
   font-size: 0.75rem;
+}
+.bcn-key-value__key {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__key {
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  color: var(--color-content-secondary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__val {
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
 }
 .bcn-status-chip {
   align-items: center;
@@ -200,15 +223,22 @@ An esa-side-dialog showing one observation in full — header chips for severity
 ## Tokens
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--color-content-secondary`: #525252 _(component)_
 - `--font-decorative`: "Besley", serif _(component)_
 - `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
 - `--form-label-color`: #525252 _(component)_
 - `--radius-full`: 9999px _(primitive)_
+- `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
+- `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-font-weight`: 500 _(semantic)_
+- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_

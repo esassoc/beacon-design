@@ -681,6 +681,9 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-md-strong-line-height);
   letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);

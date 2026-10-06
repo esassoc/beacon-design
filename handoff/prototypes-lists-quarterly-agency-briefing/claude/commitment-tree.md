@@ -66,7 +66,7 @@ One flat list of commitments in code order. Each card keeps its REQUIREMENT rows
               >Phase 2 Project Operations Report</span
             ><span data-list-count="member"
               ><span class="bcn-swcb" aria-label="1 requirements">1</span></span
-            ><esa-tooltip text="Open commitment" position="above"
+            ><esa-tooltip text="Open commitment" position="above" align="center"
               ><a
                 class="bcn-loc__verb"
                 href="/beacon-design/prototypes/data-catalog-commitment?id=COA%207.5"
@@ -167,7 +167,7 @@ One flat list of commitments in code order. Each card keeps its REQUIREMENT rows
               >Tracking Habitat Feature Disturbances and GIS Reporting</span
             ><span data-list-count="member"
               ><span class="bcn-swcb" aria-label="4 requirements">4</span></span
-            ><esa-tooltip text="Open commitment" position="above"
+            ><esa-tooltip text="Open commitment" position="above" align="center"
               ><a
                 class="bcn-loc__verb"
                 href="/beacon-design/prototypes/data-catalog-commitment?id=COA%2010.3"
@@ -314,7 +314,7 @@ One flat list of commitments in code order. Each card keeps its REQUIREMENT rows
               >Reporting Approved Habitat Maps</span
             ><span data-list-count="member"
               ><span class="bcn-swcb" aria-label="1 requirements">1</span></span
-            ><esa-tooltip text="Open commitment" position="above"
+            ><esa-tooltip text="Open commitment" position="above" align="center"
               ><a
                 class="bcn-loc__verb"
                 href="/beacon-design/prototypes/data-catalog-commitment?id=COA%2010.5"
@@ -415,7 +415,7 @@ One flat list of commitments in code order. Each card keeps its REQUIREMENT rows
               >Monthly Compliance Report</span
             ><span data-list-count="member"
               ><span class="bcn-swcb" aria-label="1 requirements">1</span></span
-            ><esa-tooltip text="Open commitment" position="above"
+            ><esa-tooltip text="Open commitment" position="above" align="center"
               ><a
                 class="bcn-loc__verb"
                 href="/beacon-design/prototypes/data-catalog-commitment?id=COA%2010.12"
@@ -516,7 +516,7 @@ One flat list of commitments in code order. Each card keeps its REQUIREMENT rows
               >Annual Status Report</span
             ><span data-list-count="member"
               ><span class="bcn-swcb" aria-label="1 requirements">1</span></span
-            ><esa-tooltip text="Open commitment" position="above"
+            ><esa-tooltip text="Open commitment" position="above" align="center"
               ><a
                 class="bcn-loc__verb"
                 href="/beacon-design/prototypes/data-catalog-commitment?id=COA%2010.13"
@@ -617,7 +617,7 @@ One flat list of commitments in code order. Each card keeps its REQUIREMENT rows
               >Final Mitigation Report</span
             ><span data-list-count="member"
               ><span class="bcn-swcb" aria-label="1 requirements">1</span></span
-            ><esa-tooltip text="Open commitment" position="above"
+            ><esa-tooltip text="Open commitment" position="above" align="center"
               ><a
                 class="bcn-loc__verb"
                 href="/beacon-design/prototypes/data-catalog-commitment?id=COA%2010.15"
@@ -718,7 +718,7 @@ One flat list of commitments in code order. Each card keeps its REQUIREMENT rows
               >Mitigation Status Report Before ITP Expiration</span
             ><span data-list-count="member"
               ><span class="bcn-swcb" aria-label="1 requirements">1</span></span
-            ><esa-tooltip text="Open commitment" position="above"
+            ><esa-tooltip text="Open commitment" position="above" align="center"
               ><a
                 class="bcn-loc__verb"
                 href="/beacon-design/prototypes/data-catalog-commitment?id=COA%2010.15.1"
@@ -819,7 +819,7 @@ One flat list of commitments in code order. Each card keeps its REQUIREMENT rows
               >Monitoring Plan and Report Review and Finalization Process</span
             ><span data-list-count="member"
               ><span class="bcn-swcb" aria-label="1 requirements">1</span></span
-            ><esa-tooltip text="Open commitment" position="above"
+            ><esa-tooltip text="Open commitment" position="above" align="center"
               ><a
                 class="bcn-loc__verb"
                 href="/beacon-design/prototypes/data-catalog-commitment?id=COA%2010.18.1"
@@ -920,7 +920,7 @@ One flat list of commitments in code order. Each card keeps its REQUIREMENT rows
               >Hydraulic Testing Reports</span
             ><span data-list-count="member"
               ><span class="bcn-swcb" aria-label="1 requirements">1</span></span
-            ><esa-tooltip text="Open commitment" position="above"
+            ><esa-tooltip text="Open commitment" position="above" align="center"
               ><a
                 class="bcn-loc__verb"
                 href="/beacon-design/prototypes/data-catalog-commitment?id=COA%2010.27.3"
@@ -1021,7 +1021,7 @@ One flat list of commitments in code order. Each card keeps its REQUIREMENT rows
               >Covered Species Capture, Handling, and Reporting</span
             ><span data-list-count="member"
               ><span class="bcn-swcb" aria-label="2 requirements">2</span></span
-            ><esa-tooltip text="Open commitment" position="above"
+            ><esa-tooltip text="Open commitment" position="above" align="center"
               ><a
                 class="bcn-loc__verb"
                 href="/beacon-design/prototypes/data-catalog-commitment?id=COA%2011.3"
@@ -1137,7 +1137,7 @@ One flat list of commitments in code order. Each card keeps its REQUIREMENT rows
               >Written Incident Report for CTS Take or Injury</span
             ><span data-list-count="member"
               ><span class="bcn-swcb" aria-label="1 requirements">1</span></span
-            ><esa-tooltip text="Open commitment" position="above"
+            ><esa-tooltip text="Open commitment" position="above" align="center"
               ><a
                 class="bcn-loc__verb"
                 href="/beacon-design/prototypes/data-catalog-commitment?id=COA%2011.52.4"
@@ -1238,7 +1238,7 @@ One flat list of commitments in code order. Each card keeps its REQUIREMENT rows
               >Written Incident Report for GGS Take or Injury</span
             ><span data-list-count="member"
               ><span class="bcn-swcb" aria-label="1 requirements">1</span></span
-            ><esa-tooltip text="Open commitment" position="above"
+            ><esa-tooltip text="Open commitment" position="above" align="center"
               ><a
                 class="bcn-loc__verb"
                 href="/beacon-design/prototypes/data-catalog-commitment?id=COA%2011.68.4"
@@ -2412,6 +2412,9 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   min-width: 18px;
   padding: 2px var(--spacing-100);
   font-size: var(--font-size-050);
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);

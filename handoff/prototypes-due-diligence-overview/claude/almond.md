@@ -827,46 +827,46 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </div>
                     <div class="esa-card__body typography-body-md">
                       <div class="stack" data-gap="xs">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Developer</span
                           ><span class="bcn-key-value__val">Beale</span>
                         </div>
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Location</span
                           ><span class="bcn-key-value__val">Kern County, CA</span>
                         </div>
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Site address</span
                           ><span class="bcn-key-value__val"
                             >14250 Stockyard Road, Mojave, CA 93501 (unincorporated Kern
                             County)</span
                           >
                         </div>
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Capacity</span
                           ><span class="bcn-key-value__val">180 MW critical IT load (Phase 1)</span>
                         </div>
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Footprint</span
                           ><span class="bcn-key-value__val">340 ac</span>
                         </div>
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">APNs</span
                           ><span class="bcn-key-value__val"
                             >237-104-007, 237-104-008, 237-104-011, 237-104-014</span
                           >
                         </div>
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Lead agency</span
                           ><span class="bcn-key-value__val"
                             >Kern County Planning and Natural Resources Department</span
                           >
                         </div>
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Created</span
                           ><span class="bcn-key-value__val">2026-06-02 by P. Anand</span>
                         </div>
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Last GIS sync</span
                           ><span class="bcn-key-value__val">2026-08-18</span>
                         </div>
@@ -1352,6 +1352,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       text="Attach Evidence of Compliance"
       position="above"
       data-evidence-trigger="true"
+      align="center"
       ><span
         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
         ><button
@@ -1470,7 +1471,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.rnozUMkB.js"
+    src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.BrGmwhrs.js"
   ></script>
   <!-- ── Drawer (parent) ── --><esa-side-dialog
     class="bcn-gd"
@@ -4349,6 +4350,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -4531,6 +4533,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -4696,6 +4699,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -4862,6 +4866,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -5044,6 +5049,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -5209,6 +5215,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -5375,6 +5382,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -5540,6 +5548,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -5705,6 +5714,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -5870,6 +5880,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -6042,6 +6053,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -6193,6 +6205,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -6344,6 +6357,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -6495,6 +6509,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -6789,6 +6804,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -6930,6 +6946,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7071,6 +7088,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7212,6 +7230,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7382,6 +7401,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7553,6 +7573,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7724,6 +7745,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7865,6 +7887,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8006,6 +8029,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8171,6 +8195,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8312,6 +8337,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8453,6 +8479,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8596,6 +8623,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8737,6 +8765,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8905,6 +8934,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9046,6 +9076,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9187,6 +9218,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9328,6 +9360,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9469,6 +9502,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9610,6 +9644,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9753,6 +9788,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9894,6 +9930,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -10145,75 +10182,82 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   >
   <script
     type="module"
-    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DRypsSwm.js"
+    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.CgAsKejG.js"
   ></script>
 </div>
 ```
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
 }
-.typography-title-sm-strong {
-  font-family: var(--typography-title-sm-strong-font-family);
-  font-size: var(--typography-title-sm-strong-font-size);
-  font-weight: var(--typography-title-sm-strong-font-weight);
-  line-height: var(--typography-title-sm-strong-line-height);
-  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
+.esa-button__native {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  display: inline-flex;
 }
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
 }
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
 }
-.typography-title {
-  font-family: var(--typography-title-font-family);
-  font-size: var(--typography-title-font-size);
-  font-weight: var(--typography-title-font-weight);
-  line-height: var(--typography-title-line-height);
-  letter-spacing: var(--typography-title-letter-spacing);
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
 }
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+  background: 0 0;
 }
-.typography-label-xs-strong {
-  font-family: var(--typography-label-xs-strong-font-family);
-  font-size: var(--typography-label-xs-strong-font-size);
-  font-weight: var(--typography-label-xs-strong-font-weight);
-  line-height: var(--typography-label-xs-strong-line-height);
-  letter-spacing: var(--typography-label-xs-strong-letter-spacing);
+.esa-button--variant-ghost .esa-button__native {
+  color: var(--color-content-default, #202020);
+  background: 0 0;
+  border-color: #0000;
 }
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border-default, #cecece);
 }
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
+.esa-button--sm {
+  --_btn-pad-y: var(--spacing-250, 0.625rem);
+  --_btn-padding-x: var(--spacing-250, 0.625rem);
+  --_btn-radius: var(--button-radius-sm, 4px);
 }
 .modern-layout {
   flex-direction: column;
@@ -11108,6 +11152,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   font-weight: var(--typography-font-weight-medium);
   color: var(--form-label-color);
 }
+.bcn-key-value__key {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
 .bcn-key-value__val {
   font-size: var(--typography-label-md-font-size);
   font-weight: var(--typography-font-weight-semibold);
@@ -11169,132 +11218,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 .esa-progress-bar--warning {
   --_progress-fill-bg: var(--color-background-utility-warning, #ffc53d);
-}
-.page-layout {
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-  flex-direction: column;
-  display: flex;
-}
-.page-layout__bleed,
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-400);
-  display: flex;
-}
-.breadcrumbs__items {
-  gap: var(--spacing-100);
-  flex-wrap: wrap;
-  align-items: center;
-  display: flex;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__container {
-  flex-direction: column;
-  display: flex;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  box-sizing: border-box;
-  justify-content: space-between;
-  align-items: center;
-  display: flex;
-}
-.page-layout__title-main {
-  align-items: center;
-  gap: var(--spacing-400);
-  min-width: 0;
-  display: flex;
-}
-.page-layout__title h1 {
-  align-items: center;
-  gap: var(--spacing-300);
-  font-family: var(--font-decorative);
-  font-weight: var(--typography-font-weight-bold);
-  font-size: var(--font-size-500);
-  color: var(--bcn-gray-1000);
-  margin: 0;
-  display: flex;
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
-  flex-shrink: 0;
-}
-.page-layout__utilities {
-  gap: var(--spacing-200);
-  display: flex;
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  gap: var(--gap);
-  flex-direction: column;
-  display: flex;
-}
-.grid {
-  --gap: var(--spacing-400, 1rem);
-  --grid-min: 16rem;
-  gap: var(--gap);
-  grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min), 100%), 1fr));
-  display: grid;
-}
-.repel {
-  --gap: var(--spacing-400, 1rem);
-  --align: center;
-  gap: var(--gap);
-  align-items: var(--align);
-  flex-wrap: wrap;
-  justify-content: space-between;
-  display: flex;
-}
-.sidebar {
-  --gap: var(--spacing-500, 1.5rem);
-  --sidebar-width: 18rem;
-  --sidebar-content-min: 60%;
-  gap: var(--gap);
-  flex-wrap: wrap;
-  display: flex;
-}
-.sidebar > :first-child {
-  flex-basis: var(--sidebar-width);
-  flex-grow: 1;
-}
-.cluster {
-  --gap: var(--spacing-300, 0.75rem);
-  --align: center;
-  --justify: flex-start;
-  gap: var(--gap);
-  align-items: var(--align);
-  justify-content: var(--justify);
-  flex-wrap: wrap;
-  display: flex;
-}
-.sidebar > :last-child {
-  min-inline-size: var(--sidebar-content-min);
-  flex-grow: 999;
-  flex-basis: 0;
 }
 .bcn-dds {
   --grid-min: 13rem;
@@ -11448,75 +11371,191 @@ a.breadcrumb-item {
 .ov-activity li:last-child {
   border-bottom: none;
 }
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
 }
-.esa-button__native {
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-200, 8px);
+.page-layout {
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+  flex-direction: column;
+  display: flex;
+}
+.page-layout__bleed,
+.page-layout section {
   width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
+}
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-400);
+  display: flex;
+}
+.breadcrumbs__items {
+  gap: var(--spacing-100);
+  flex-wrap: wrap;
+  align-items: center;
+  display: flex;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
   text-decoration: none;
-  display: inline-flex;
 }
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
+.page-layout__container {
+  flex-direction: column;
+  display: flex;
 }
-.esa-button--variant-chrome .esa-button__native {
-  color: inherit;
-  background: 0 0;
-  border-color: #0000;
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  box-sizing: border-box;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
 }
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
+.page-layout__title-main {
+  align-items: center;
+  gap: var(--spacing-400);
+  min-width: 0;
+  display: flex;
 }
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  color: var(--_accent-text);
-  border-color: var(--_accent);
-  background: 0 0;
+.page-layout__title h1 {
+  align-items: center;
+  gap: var(--spacing-300);
+  font-family: var(--font-decorative);
+  font-weight: var(--typography-font-weight-bold);
+  font-size: var(--font-size-500);
+  color: var(--bcn-gray-1000);
+  margin: 0;
+  display: flex;
 }
-.esa-button--variant-ghost .esa-button__native {
-  color: var(--color-content-default, #202020);
-  background: 0 0;
-  border-color: #0000;
+.page-layout__title h1 .esa-icon {
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
+  flex-shrink: 0;
 }
-.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border-default, #cecece);
+.page-layout__utilities {
+  gap: var(--spacing-200);
+  display: flex;
 }
-.esa-button__label {
-  white-space: nowrap;
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
 }
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  gap: var(--gap);
+  flex-direction: column;
+  display: flex;
 }
-.esa-button--sm {
-  --_btn-pad-y: var(--spacing-250, 0.625rem);
-  --_btn-padding-x: var(--spacing-250, 0.625rem);
-  --_btn-radius: var(--button-radius-sm, 4px);
+.grid {
+  --gap: var(--spacing-400, 1rem);
+  --grid-min: 16rem;
+  gap: var(--gap);
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min), 100%), 1fr));
+  display: grid;
+}
+.repel {
+  --gap: var(--spacing-400, 1rem);
+  --align: center;
+  gap: var(--gap);
+  align-items: var(--align);
+  flex-wrap: wrap;
+  justify-content: space-between;
+  display: flex;
+}
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  gap: var(--gap);
+  flex-wrap: wrap;
+  display: flex;
+}
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
+}
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
+  flex-wrap: wrap;
+  display: flex;
+}
+.sidebar > :last-child {
+  min-inline-size: var(--sidebar-content-min);
+  flex-grow: 999;
+  flex-basis: 0;
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-title-sm-strong {
+  font-family: var(--typography-title-sm-strong-font-family);
+  font-size: var(--typography-title-sm-strong-font-size);
+  font-weight: var(--typography-title-sm-strong-font-weight);
+  line-height: var(--typography-title-sm-strong-line-height);
+  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
+}
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-title {
+  font-family: var(--typography-title-font-family);
+  font-size: var(--typography-title-font-size);
+  font-weight: var(--typography-title-font-weight);
+  line-height: var(--typography-title-line-height);
+  letter-spacing: var(--typography-title-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-xs-strong {
+  font-family: var(--typography-label-xs-strong-font-family);
+  font-size: var(--typography-label-xs-strong-font-size);
+  font-weight: var(--typography-label-xs-strong-font-weight);
+  line-height: var(--typography-label-xs-strong-line-height);
+  letter-spacing: var(--typography-label-xs-strong-letter-spacing);
 }
 .typography-label-md {
   font-family: var(--typography-label-md-font-family);
@@ -11525,9 +11564,12 @@ a.breadcrumb-item {
   line-height: var(--typography-label-md-line-height);
   letter-spacing: var(--typography-label-md-letter-spacing);
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
 ```
 

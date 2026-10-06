@@ -23,30 +23,30 @@ The list's identity card: name, description, type, created, last updated, member
     </div>
     <div class="esa-card__body typography-body-md">
       <div class="stack" data-gap="md">
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Name</span
           ><span class="bcn-key-value__val">Construction Kickoff Summary</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Description</span
           ><span class="bcn-key-value__val"
             >Issued to each prime contractor at kickoff, and re-issued when a permit
             amendment changes a duty.</span
           >
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Type</span
           ><span class="bcn-key-value__val">Obligation list</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Created</span
           ><span class="bcn-key-value__val">Aug 19, 2026</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Last updated</span
           ><span class="bcn-key-value__val">Sep 12, 2026</span>
         </div>
-        <div class="bcn-key-value">
+        <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Obligations</span
           ><span class="bcn-key-value__val">45</span>
         </div>
@@ -238,6 +238,12 @@ The list's identity card: name, description, type, created, last updated, member
   gap: 2px;
   display: flex;
 }
+.bcn-key-value[data-layout="row"] {
+  align-items: baseline;
+  column-gap: var(--spacing-300);
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  display: grid;
+}
 .bcn-key-value__key {
   font-size: var(--typography-label-md-font-size);
   font-weight: var(--typography-font-weight-medium);
@@ -251,6 +257,23 @@ The list's identity card: name, description, type, created, last updated, member
 .bcn-key-value__hint {
   color: var(--color-content-default-tertiary);
   font-size: 0.75rem;
+}
+.bcn-key-value__key {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__key {
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  color: var(--color-content-secondary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__val {
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
 }
 .stack {
   --gap: var(--spacing-400, 1rem);
@@ -279,6 +302,7 @@ The list's identity card: name, description, type, created, last updated, member
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--color-content-on-brand`: #fcfcfc _(semantic)_
+- `--color-content-secondary`: #525252 _(component)_
 - `--elevation-2`: 0 2px 12px 0 #0000000a _(semantic)_
 - `--font-weight-medium`: 500 _(component)_
 - `--form-label-color`: #525252 _(component)_
@@ -300,6 +324,9 @@ The list's identity card: name, description, type, created, last updated, member
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-font-weight`: 500 _(semantic)_
+- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
 - `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-title-sm-strong-font-size`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(semantic)_
 - `--typography-title-sm-strong-font-weight`: 550 _(semantic)_

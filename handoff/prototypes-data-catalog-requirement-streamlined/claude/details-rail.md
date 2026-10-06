@@ -36,11 +36,11 @@ The Details rail module (esa-collapsible): Default Assignee + a fixed Project sc
     ><span class="esa-collapsible__title">Details</span>
   </summary>
   <div class="esa-collapsible__body typography-body-md">
-    <div class="bcn-key-value">
+    <div class="bcn-key-value" data-size="md" data-layout="stack">
       <span class="bcn-key-value__key">Default Assignee</span
       ><span class="bcn-key-value__val">Sarah Kim</span>
     </div>
-    <div class="bcn-key-value">
+    <div class="bcn-key-value" data-size="md" data-layout="stack">
       <span class="bcn-key-value__key">Scope</span
       ><span class="bcn-key-value__val">Project</span
       ><span class="bcn-key-value__hint"
@@ -122,9 +122,14 @@ The Details rail module (esa-collapsible): Default Assignee + a fixed Project sc
 .typography-body-md{font-family:var(--typography-body-md-font-family);font-size:var(--typography-body-md-font-size);font-weight:var(--typography-body-md-font-weight);line-height:var(--typography-body-md-line-height);letter-spacing:var(--typography-body-md-letter-spacing)}
 .typography-label-sm-strong{font-family:var(--typography-label-sm-strong-font-family);font-size:var(--typography-label-sm-strong-font-size);font-weight:var(--typography-label-sm-strong-font-weight);line-height:var(--typography-label-sm-strong-line-height);letter-spacing:var(--typography-label-sm-strong-letter-spacing)}
 .bcn-key-value{flex-direction:column;gap:2px;display:flex}
+.bcn-key-value[data-layout=row]{align-items:baseline;column-gap:var(--spacing-300);grid-template-columns:6.5rem minmax(0,1fr);display:grid}
 .bcn-key-value__key{font-size:var(--typography-label-md-font-size);font-weight:var(--typography-font-weight-medium);color:var(--form-label-color)}
 .bcn-key-value__val{font-size:var(--typography-label-md-font-size);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default)}
 .bcn-key-value__hint{color:var(--color-content-default-tertiary);font-size:.75rem}
+.bcn-key-value__key{align-items:center;gap:var(--spacing-100);display:inline-flex}
+.bcn-key-value__key .esa-icon{color:var(--color-content-default-tertiary)}
+.bcn-key-value[data-size=sm] .bcn-key-value__key{font-size:var(--typography-label-sm-font-size);font-weight:var(--typography-label-sm-font-weight);color:var(--color-content-secondary)}
+.bcn-key-value[data-size=sm] .bcn-key-value__val{font-size:var(--typography-label-sm-strong-font-size);font-weight:var(--typography-label-sm-strong-font-weight)}
 .esa-collapsible{border:var(--border-width-default,1px) solid var(--color-border-default,#cecece);border-radius:var(--radius-md,.5rem);background:var(--color-background-elevation-raised,#fcfcfc)}
 .esa-collapsible--flush{background:0 0;border:none;border-radius:0}
 .esa-collapsible--flush>.esa-collapsible__summary,.esa-collapsible--flush>.esa-collapsible__body{padding-inline:0}
@@ -164,6 +169,7 @@ The Details rail module (esa-collapsible): Default Assignee + a fixed Project sc
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--color-content-secondary`: #525252 _(component)_
 - `--font-size-300`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(primitive)_
 - `--form-label-color`: #525252 _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
@@ -172,6 +178,7 @@ The Details rail module (esa-collapsible): Default Assignee + a fixed Project sc
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-md`: .25rem _(semantic)_
+- `--spacing-100`: .25rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
@@ -183,6 +190,8 @@ The Details rail module (esa-collapsible): Default Assignee + a fixed Project sc
 - `--typography-font-weight-medium`: 500 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-font-weight`: 500 _(semantic)_
 - `--typography-label-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
 - `--typography-label-sm-strong-font-weight`: 550 _(semantic)_

@@ -670,6 +670,9 @@ summary.esa-button--variant-chrome:focus-visible {
   height: var(--_icon-size);
   display: block;
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .bcn-status-chip {
   align-items: center;
   gap: var(--spacing-150);

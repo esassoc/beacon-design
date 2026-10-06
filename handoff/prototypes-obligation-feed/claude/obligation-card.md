@@ -23,7 +23,10 @@ One obligation linked to the record: a flat Lists slim card with the class chip,
     <span class="bcn-loc__class">Notify</span
     ><span class="bcn-loc__title bcn-foc__title"
       >Ongoing demonstration of mitigation performance during the permit term</span
-    ><esa-tooltip text="This record made the obligation owed" position="above"
+    ><esa-tooltip
+      text="This record made the obligation owed"
+      position="above"
+      align="center"
       ><span class="bcn-foc__relation" data-relation="triggered"
         >Triggered</span
       ></esa-tooltip

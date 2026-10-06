@@ -194,6 +194,9 @@ The Notifications rail module: rule-phrasing trigger rows (Coming up / Due / Pas
 .bcn-ntoggle__title .esa-icon {
   color: var(--color-content-default);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-collapsible__summary .esa-icon {
   color: var(--color-content-default-secondary, #646464);
   flex-shrink: 0;
