@@ -1,0 +1,261 @@
+---
+// <BcnSubmissionText> — one submission's text, with each comment painted as a
+// highlighter passage: topic = hue family, subtopic = shade (--bcn-topic-* in
+// theme-beacon.css). The text is the submitter's own words, so it reads in Beacon's
+// document voice (Besley) at body-lg.
+//
+// Direct manipulation lives here; deciding what a highlight MEANS does not. This
+// component paints, reports which highlight is active and what text is selected, and
+// owns the two resize handles. The action surface beside it listens and acts.
+//
+// Contract, on `document`:
+//   in   comments:change    (comments-store)       repaint
+//   in   comments:activate  detail: id | null      make a highlight active (from the panel)
+//   out  comments:active    detail: { id }         a highlight was clicked / Enter'd; null clears
+//   out  comments:selection detail: { start, end, quote } | null   free text selected
+//
+// Resize: the active highlight shows a grip at each end. Dragging one moves that end to
+// the word under the pointer, live; release saves through comments-store.resize. Ends
+// snap to whole words and stop at a paragraph break or the next comment.
+//
+// bcn-lego-checked: no esa- lego renders inline text ranges (esa-popover's anchor is an
+// inline-block wrapper that would break a multi-line passage, and stamps label type);
+// Beacon has no inline highlight (its PDF capture draws absolute boxes over pdf.js, with
+// 8px resize handles, ported here as the two end grips); bcn-submission-text is the
+// reusable home for any "passages of a document tagged by category" surface.
+interface Props {
+  submissionId: string;
+}
+import '../../styles/bcn-comment-topics.css';
+const { submissionId } = Astro.props;
+---
+
+<div class="bcn-st" data-submission-text={submissionId}>
+  <div class="bcn-st__body typography-body-lg" data-st-body></div>
+  <span class="bcn-st__grip" data-topic-ink data-st-grip="start" hidden aria-hidden="true"></span>
+  <span class="bcn-st__grip" data-topic-ink data-st-grip="end" hidden aria-hidden="true"></span>
+</div>
+
+<script>
+  import { paint, offsetAt, offsetFromPoint, clipToFree, submissionText, spansOf } from './comment-highlights';
+  import { resize, getState } from './comments-store';
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-submission-text]')) {
+    const sid = root.dataset.submissionText!;
+    const body = root.querySelector<HTMLElement>('[data-st-body]')!;
+    const grips = {
+      start: root.querySelector<HTMLElement>('[data-st-grip="start"]')!,
+      end: root.querySelector<HTMLElement>('[data-st-grip="end"]')!,
+    };
+    let active: string | null = null;
+    let drag: { which: 'start' | 'end'; start: number; end: number } | null = null;
+
+    const emit = (name: string, detail: unknown) =>
+      document.dispatchEvent(new CustomEvent(name, { detail }));
+
+    const placeGrips = () => {
+      const marks = body.querySelectorAll<HTMLElement>(`mark[data-cid="${active}"]`);
+      if (!active || !marks.length) {
+        grips.start.hidden = grips.end.hidden = true;
+        return;
+      }
+      const box = root.getBoundingClientRect();
+      const first = marks[0].getClientRects()[0];
+      const lastRects = marks[marks.length - 1].getClientRects();
+      const last = lastRects[lastRects.length - 1];
+      const family = marks[0].dataset.family!;
+      for (const [g, r, x] of [[grips.start, first, first.left], [grips.end, last, last.right]] as const) {
+        g.hidden = false;
+        g.dataset.family = family;
+        g.style.left = `${x - box.left}px`;
+        g.style.top = `${r.top - box.top}px`;
+        g.style.height = `${r.height}px`;
+      }
+    };
+
+    const render = (preview?: { id: string; start: number; end: number }) => {
+      if (preview) {
+        // Live drag: paint the dragged comment at its proposed range without saving,
+        // then put the stored range back — the store stays the source of truth.
+        const c = getState().comments.find((x) => x.id === preview.id);
+        if (c) {
+          const saved = { quote: c.quote, at: c.at };
+          c.quote = submissionText(sid).slice(preview.start, preview.end);
+          c.at = preview.start;
+          body.innerHTML = paint(sid, active);
+          c.quote = saved.quote;
+          c.at = saved.at;
+        }
+      } else {
+        body.innerHTML = paint(sid, active);
+      }
+      placeGrips();
+    };
+
+    const activate = (id: string | null, announce = true) => {
+      active = id;
+      render();
+      if (announce) emit('comments:active', id ? { id } : null);
+    };
+
+    body.addEventListener('click', (e) => {
+      const sel = getSelection();
+      if (sel && !sel.isCollapsed) return;
+      const mark = (e.target as Element).closest<HTMLElement>('mark[data-cid]');
+      activate(mark ? mark.dataset.cid! : null);
+    });
+    body.addEventListener('keydown', (e) => {
+      const mark = (e.target as Element).closest<HTMLElement>('mark[data-cid]');
+      if (mark && (e.key === 'Enter' || e.key === ' ')) {
+        e.preventDefault();
+        activate(mark.dataset.cid!);
+      }
+    });
+
+    // Select free text to add a comment.
+    body.addEventListener('mouseup', () => {
+      const sel = getSelection();
+      if (!sel || sel.isCollapsed || !sel.rangeCount) {
+        emit('comments:selection', null);
+        return;
+      }
+      const r = sel.getRangeAt(0);
+      const a = offsetAt(body, r.startContainer, r.startOffset);
+      const b = offsetAt(body, r.endContainer, r.endOffset);
+      if (a < 0 || b < 0) return;
+      const { start, end } = clipToFree(sid, a, b);
+      if (end - start < 3) {
+        emit('comments:selection', null);
+        return;
+      }
+      emit('comments:selection', { start, end, quote: submissionText(sid).slice(start, end) });
+    });
+
+    // Drag a grip to resize the active comment.
+    for (const which of ['start', 'end'] as const) {
+      const grip = grips[which];
+      grip.addEventListener('pointerdown', (e) => {
+        const s = spansOf(sid).find((x) => x.c.id === active);
+        if (!s) return;
+        e.preventDefault();
+        grip.setPointerCapture(e.pointerId);
+        drag = { which, start: s.start, end: s.end };
+        root.dataset.dragging = '';
+      });
+      grip.addEventListener('pointermove', (e) => {
+        if (!drag || !active) return;
+        grip.style.pointerEvents = 'none'; // so the hit test finds the text beneath
+        const off = offsetFromPoint(body, e.clientX, e.clientY);
+        grip.style.pointerEvents = '';
+        if (off < 0) return;
+        const proposal = drag.which === 'start'
+          ? clipToFree(sid, Math.min(off, drag.end - 1), drag.end, active)
+          : clipToFree(sid, drag.start, Math.max(off, drag.start + 1), active);
+        if (proposal.end - proposal.start < 3) return;
+        drag.start = proposal.start;
+        drag.end = proposal.end;
+        render({ id: active, ...proposal });
+      });
+      grip.addEventListener('pointerup', () => {
+        if (!drag || !active) return;
+        const { start, end } = drag;
+        drag = null;
+        delete root.dataset.dragging;
+        resize(active, submissionText(sid).slice(start, end), start);
+      });
+    }
+
+    document.addEventListener('comments:activate', (e) => activate((e as CustomEvent<string | null>).detail, false));
+    document.addEventListener('comments:change', (e) => {
+      const d = (e as CustomEvent<{ kind: string; commentId?: string }>).detail;
+      if (d.kind === 'add' && d.commentId) active = d.commentId;
+      if (active && !getState().comments.some((c) => c.id === active)) active = null;
+      render();
+    });
+    addEventListener('resize', placeGrips);
+
+    render();
+  }
+</script>
+
+<style>
+  .bcn-st {
+    position: relative;
+  }
+
+  .bcn-st__body {
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    color: var(--color-content-default);
+  }
+
+  .bcn-st__body :global(p) {
+    margin: 0 0 var(--spacing-400) 0;
+    max-width: 68ch;
+  }
+
+  .bcn-st__body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  /* Look and shades come from bcn-comment-topics.css; this adds the interaction. */
+  .bcn-st__body :global(mark.bcn-hl) {
+    cursor: pointer;
+  }
+
+  /* Hover underlines in the family ink; it is a pointer cue, not the focus ring. */
+  .bcn-st__body :global(mark.bcn-hl:hover) {
+    box-shadow: inset 0 -2px 0 var(--_ink);
+  }
+
+  .bcn-st__body :global(mark.bcn-hl:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 1px;
+  }
+
+  /* The active passage rings in its own family ink. */
+  .bcn-st__body :global(mark.bcn-hl[data-active]) {
+    outline: 2px solid var(--_ink);
+    outline-offset: 1px;
+  }
+
+
+  /* Resize grips: a bar the height of the line with a knob, at each end of the active
+     passage — the text-editor selection handle people already know. */
+  .bcn-st__grip {
+    --_ink: var(--color-content-default);
+    position: absolute;
+    width: 2px;
+    margin-left: -1px;
+    background: var(--_ink);
+    cursor: ew-resize;
+    touch-action: none;
+    z-index: 1;
+  }
+
+  .bcn-st__grip::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--_ink);
+    border: 2px solid var(--color-background-elevation-raised);
+    transform: translateX(-50%);
+  }
+
+  .bcn-st__grip[data-st-grip='start']::after { top: -10px; }
+  .bcn-st__grip[data-st-grip='end']::after { bottom: -10px; }
+
+  /* A wider invisible hit area so the 2px bar is easy to catch. */
+  .bcn-st__grip::before {
+    content: '';
+    position: absolute;
+    inset: -6px -10px;
+  }
+
+  .bcn-st[data-dragging] .bcn-st__body {
+    user-select: none;
+    cursor: ew-resize;
+  }
+</style>

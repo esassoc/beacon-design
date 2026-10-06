@@ -1,0 +1,218 @@
+---
+// <BcnResponseEditor> — one response's letter, in a block editor modeled on WordPress's
+// (TipTap; the editor is ported in part from beacon-dashboard). "/" inserts a block, the
+// Response Library among them; the + at an empty line opens the same inserter with a
+// search field; the block toolbar sits over the selected block: type switcher, move
+// up / down, Bold / Italic, Options (add before / after, duplicate, delete). Alt+F10
+// reaches the toolbar; ⌘S saves.
+//
+// Selecting text raises a small bubble under it: Bold, Italic, Note and Aldo. Note and
+// Aldo open BcnNoteComposer under the selection: a new internal note, or a prompt that
+// rewrites only the selection (response-editor/bubble). Open notes are numbered in the text as
+// footnotes; their threads read below the letter, in the default slot (BcnResponseNotes).
+//
+// The response is named by ?id=. Its title becomes the page H1 (the route is one static
+// page, so the layout renders "Response" and this replaces it once the store is read).
+//
+// Contract, on `document`:
+//   out  response:dirty    detail: { dirty }        an edit since the last save
+//   in   response:save                              save now (the rail's Save)
+//   out  response:saved    detail: { at }           after a save
+//   in   response:replace  detail: { doc }          put a whole new document in (Aldo);
+//                                                   one undoable step in the editor
+//   in   response:insert   detail: { doc }          blocks at the caret, or at the end
+//                                                   when the letter is not focused
+//   out  response:note-order  detail: { ids }       open notes in reading order
+//   out  response:note-focus  detail: { id }        a noted span or its number clicked
+//   in   response:note-select detail: { id }        select that note's span
+//   in   response:note-order-request                re-send the order
+//   in   response:note-hover   detail: { id|null }  light a note's passage
+//
+// bcn-lego-checked: no esa- lego is a rich-text editor. The frame IS esa-card; the block
+// toolbar's controls ARE esa-button (rendered here at build time, glyphs swapped in at
+// runtime, as beacon-dashboard's lego templates do) and its menus ARE esa-dropdown-menu;
+// the inserter's search IS esa-text-field. The inserter panel, the + and the document
+// typography are the editor's own (beacon-dashboard BpDoc / BpBlockToolbar: no lego is
+// driven from a caret with a typed filter). Checked Beacon (its rich text is a plain
+// Quill field, no blocks). bcn-response-editor is the home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnAldoMark from './BcnAldoMark.astro';
+import BcnNoteComposer from './BcnNoteComposer.astro';
+import '../../styles/bcn-comment-topics.css';
+import '../../styles/bcn-response-editor.css';
+---
+
+<div class="bcn-re" data-response-editor>
+  <EsaCard padding="spacious">
+    <div class="bcn-re__pane" data-re-pane>
+      <div class="bcn-bt" role="toolbar" aria-label="Block Tools" data-bt hidden>
+        <span class="bcn-bt__seg">
+          <esa-dropdown-menu position="below-start" width="auto" data-bt-type>
+            <EsaButton variant="ghost" size="sm" icon="x" iconOnly label="Block Type" data-bt-type-btn data-glyph="paragraph" />
+          </esa-dropdown-menu>
+        </span>
+        <span class="bcn-bt__seg">
+          <EsaButton variant="ghost" size="sm" icon="chevron-up" iconOnly label="Move Up" data-bt-up />
+          <EsaButton variant="ghost" size="sm" icon="chevron-down" iconOnly label="Move Down" data-bt-down />
+        </span>
+        <span class="bcn-bt__seg">
+          <EsaButton variant="ghost" size="sm" icon="x" iconOnly label="Bold (⌘B)" data-bt-bold data-glyph="bold" />
+          <EsaButton variant="ghost" size="sm" icon="x" iconOnly label="Italic (⌘I)" data-bt-italic data-glyph="italic" />
+        </span>
+        <span class="bcn-bt__seg">
+          <esa-dropdown-menu position="below-end" width="auto" data-bt-more>
+            <EsaButton variant="ghost" size="sm" icon="x" iconOnly label="Options" data-glyph="more" />
+          </esa-dropdown-menu>
+        </span>
+      </div>
+      <span class="bcn-bt__plus" data-bt-plus hidden>
+        <EsaButton variant="secondary" size="xs" icon="plus" iconOnly label="Add Block" />
+      </span>
+      <div class="bcn-sb" role="toolbar" aria-label="Selection Tools" data-sb-bubble hidden>
+        <span class="bcn-sb__row" data-sb="tools">
+          <EsaButton variant="ghost" size="sm" icon="x" iconOnly label="Bold (⌘B)" data-sb-bold data-glyph="bold" />
+          <EsaButton variant="ghost" size="sm" icon="x" iconOnly label="Italic (⌘I)" data-sb-italic data-glyph="italic" />
+          <span class="bcn-sb__rule" aria-hidden="true"></span>
+          <EsaButton variant="ghost" size="sm" icon="x" data-sb-note data-glyph="message">Note</EsaButton>
+          <EsaButton variant="ghost" size="sm" data-sb-aldo><span class="bcn-sb__aldo"><BcnAldoMark size="sm" />Rewrite with Aldo</span></EsaButton>
+        </span>
+        <div class="bcn-sb__compose" data-sb="compose" hidden><BcnNoteComposer /></div>
+        <span class="bcn-sb__row" data-sb="done" hidden>
+          <BcnAldoMark size="sm" />
+          <span class="bcn-sb__result" data-sb-result role="status"></span>
+          <EsaButton variant="ghost" size="sm" icon="rotate-ccw" data-sb-undo>Undo</EsaButton>
+          <EsaButton variant="secondary" appearance="outline" size="sm" data-sb-done>Keep</EsaButton>
+        </span>
+      </div>
+      <div data-re-doc></div>
+    </div>
+    <slot />
+  </EsaCard>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dropdown-menu';
+  import '@esa/ecology/esa-text-field';
+  import type { Editor, JSONContent } from '@tiptap/core';
+  import { createResponseEditor, docParagraphs, mountBlockToolbar, paragraphsDoc } from './response-editor';
+  import { mountSelectionBubble } from './response-editor/bubble';
+  import { blockTexts, flashNewBlocks } from './response-editor/changed';
+  import { noteRanges, openNoteOrder, placeNotes, refreshNotes } from './response-editor/notes';
+  import { addNote, currentResponseId, notesOf, responseNo, responseOf, saveDoc } from './comments-store';
+
+  const root = document.querySelector<HTMLElement>('[data-response-editor]');
+  const id = currentResponseId();
+  const r = responseOf(id);
+  const h1 = document.querySelector('.page-layout__title h1');
+  if (h1?.lastChild) h1.lastChild.textContent = r ? r.title : 'Response not found';
+  if (r) document.title = `${responseNo(id)} ${r.title}`;
+  // The record number trails the H1 (BcnRecordId in the title-badge slot) and ends the
+  // breadcrumbs.
+  const idText = document.querySelector('[data-record-id] .esa-badge__text');
+  if (idText) idText.textContent = r ? responseNo(id) : '';
+  const lastCrumb = document.querySelector('nav.breadcrumbs [aria-current="page"]');
+  if (r && lastCrumb) lastCrumb.textContent = responseNo(id);
+
+  if (root && r) {
+    const pane = root.querySelector<HTMLElement>('[data-re-pane]')!;
+    let dirty = false;
+    const setDirty = (d: boolean) => {
+      if (d === dirty) return;
+      dirty = d;
+      document.dispatchEvent(new CustomEvent('response:dirty', { detail: { dirty } }));
+    };
+
+    const editor: Editor = createResponseEditor(root.querySelector<HTMLElement>('[data-re-doc]')!, {
+      content: (r.doc as JSONContent | undefined) ?? paragraphsDoc(r.body),
+      label: 'Response Text',
+      onUpdate: () => {
+        setDirty(true);
+        emitOrder();
+      },
+      isResolved: (nid) => notesOf(id).find((n) => n.id === nid)?.resolved ?? false,
+    });
+    const isResolved = (nid: string) => notesOf(id).find((n) => n.id === nid)?.resolved ?? false;
+    // Open notes in reading order, and every placed note's passage as it reads now.
+    const emitOrder = () => {
+      const texts: Record<string, string> = {};
+      for (const [nid, r] of noteRanges(editor.state.doc)) texts[nid] = editor.state.doc.textBetween(r.from, r.to, ' ');
+      document.dispatchEvent(new CustomEvent('response:note-order', { detail: { ids: openNoteOrder(editor, isResolved), texts } }));
+    };
+    mountBlockToolbar(editor, {
+      bar: root.querySelector<HTMLElement>('[data-bt]')!,
+      plus: root.querySelector<HTMLElement>('[data-bt-plus]')!,
+      pane,
+    });
+    mountSelectionBubble(editor, {
+      bubble: root.querySelector<HTMLElement>('[data-sb-bubble]')!,
+      pane,
+      onNote: (quote, text) => addNote(id, quote, text),
+    });
+
+    // ---- notes ----
+    // Notes the document does not carry yet (seeded, or added and not saved) are placed
+    // on their quote.
+    placeNotes(editor, notesOf(id));
+    // The footnote list mounts after this script; give it the order once it listens.
+    queueMicrotask(emitOrder);
+    document.addEventListener('response:note-order-request', emitOrder);
+    document.addEventListener('comments:change', () => {
+      refreshNotes(editor);
+      emitOrder();
+    });
+    editor.view.dom.addEventListener('click', (e) => {
+      const t = e.target as Element;
+      const ref = t.closest<HTMLElement>('[data-note-ref]');
+      const span = t.closest<HTMLElement>('.bcn-note:not(.is-resolved)');
+      const nid = ref?.dataset.noteRef ?? span?.dataset.note;
+      if (nid && editor.state.selection.empty) document.dispatchEvent(new CustomEvent('response:note-focus', { detail: { id: nid } }));
+    });
+    // A footnote card hovered or focused lights its passage.
+    document.addEventListener('response:note-hover', (e) => {
+      const nid = (e as CustomEvent<{ id: string | null }>).detail.id;
+      for (const el of editor.view.dom.querySelectorAll<HTMLElement>('.bcn-note')) el.classList.toggle('is-lit', !!nid && el.dataset.note === nid);
+    });
+    document.addEventListener('response:note-select', (e) => {
+      const r = noteRanges(editor.state.doc).get((e as CustomEvent<{ id: string }>).detail.id);
+      if (r) editor.chain().focus().setTextSelection(r).scrollIntoView().run();
+    });
+
+    const save = () => {
+      saveDoc(id, editor.getJSON(), docParagraphs(editor));
+      setDirty(false);
+      document.dispatchEvent(new CustomEvent('response:saved', { detail: { at: responseOf(id)?.savedAt } }));
+    };
+    document.addEventListener('response:save', save);
+    addEventListener('keydown', (e) => {
+      if (e.key === 's' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        save();
+      }
+    });
+    document.addEventListener('response:replace', (e) => {
+      const doc = (e as CustomEvent<{ doc: JSONContent }>).detail.doc;
+      // One transaction over the whole document, so ⌘Z takes Aldo's draft back out; the
+      // blocks Aldo wrote anew are washed in his tint as they land.
+      const before = blockTexts(editor);
+      editor.chain().focus().selectAll().insertContent(doc.content ?? []).setTextSelection(1).run();
+      flashNewBlocks(editor, before);
+      setDirty(true);
+    });
+    document.addEventListener('response:insert', (e) => {
+      const blocks = (e as CustomEvent<{ doc: JSONContent[] }>).detail.doc;
+      const chain = editor.chain();
+      if (editor.isFocused) chain.insertContent(blocks);
+      else chain.insertContentAt(editor.state.doc.content.size, blocks);
+      chain.focus().scrollIntoView().run();
+      setDirty(true);
+    });
+    // A response accepted elsewhere on the page (the rail) keeps its text; a redraft
+    // the store made is not ours to overwrite.
+    addEventListener('beforeunload', (e) => {
+      if (dirty) e.preventDefault();
+    });
+    // Expose the document for the page's Aldo prompt: the current blocks as JSON.
+    (root as HTMLElement & { getDoc?: () => JSONContent }).getDoc = () => editor.getJSON();
+  }
+</script>

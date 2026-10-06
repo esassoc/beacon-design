@@ -1,0 +1,89 @@
+/* bcn-comment-topics — ONE definition of how a comment's topic looks.
+ *
+ * Topic = hue family, subtopic = shade (--bcn-topic-{family}-{1..4} in theme-beacon.css).
+ * Three surfaces paint it — the submission reader, the inbox's By topic view, and the
+ * response page's comment list — so the map lives here once instead of three copies.
+ *
+ *   mark.bcn-hl[data-family][data-shade]   a highlighted passage
+ *   .bcn-topic-dot[data-family]            the family swatch beside a topic's name
+ *   .bcn-topic-dot[data-family][data-shade] a subtopic's swatch: its highlight shade,
+ *                                          ringed in the family ink
+ *   [data-family='none']                   Unfiled: no family, a dashed empty ring
+ *   any [data-family] element in these     gets --_ink, the family's text-safe step
+ *
+ * bcn-lego-checked: no esa- highlight or category-swatch lego; checked Beacon (its PDF
+ * capture hard-codes box hexes, its --bcn-mark-* are single solids with no shades).
+ */
+
+mark.bcn-hl {
+  --_hl: var(--bcn-topic-slate-1);
+  background: var(--_hl);
+  color: inherit;
+  padding: 0.08em 0.12em;
+  border-radius: var(--radius-xs, 2px);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.bcn-topic-dot {
+  display: inline-block;
+  flex: none;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--_ink, var(--bcn-topic-slate-ink));
+}
+
+:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family='amber'] { --_ink: var(--bcn-topic-amber-ink); }
+:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family='blue'] { --_ink: var(--bcn-topic-blue-ink); }
+:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family='violet'] { --_ink: var(--bcn-topic-violet-ink); }
+:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family='grass'] { --_ink: var(--bcn-topic-grass-ink); }
+:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family='orange'] { --_ink: var(--bcn-topic-orange-ink); }
+:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family='crimson'] { --_ink: var(--bcn-topic-crimson-ink); }
+:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family='slate'] { --_ink: var(--bcn-topic-slate-ink); }
+:is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family='none'] { --_ink: var(--color-content-default-tertiary); }
+
+.bcn-topic-dot[data-shade] {
+  background: var(--_hl);
+  box-shadow: inset 0 0 0 1.5px var(--_ink);
+}
+
+.bcn-topic-dot[data-family='none'] {
+  background: transparent;
+  box-shadow: none;
+  border: 1.5px dashed var(--_ink);
+}
+mark.bcn-hl[data-family='none'] {
+  --_hl: transparent;
+  outline: 1.5px dashed var(--color-border-default);
+  outline-offset: -1px;
+}
+
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='amber'][data-shade='1'] { --_hl: var(--bcn-topic-amber-1); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='amber'][data-shade='2'] { --_hl: var(--bcn-topic-amber-2); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='amber'][data-shade='3'] { --_hl: var(--bcn-topic-amber-3); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='amber'][data-shade='4'] { --_hl: var(--bcn-topic-amber-4); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='blue'][data-shade='1'] { --_hl: var(--bcn-topic-blue-1); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='blue'][data-shade='2'] { --_hl: var(--bcn-topic-blue-2); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='blue'][data-shade='3'] { --_hl: var(--bcn-topic-blue-3); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='blue'][data-shade='4'] { --_hl: var(--bcn-topic-blue-4); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='violet'][data-shade='1'] { --_hl: var(--bcn-topic-violet-1); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='violet'][data-shade='2'] { --_hl: var(--bcn-topic-violet-2); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='violet'][data-shade='3'] { --_hl: var(--bcn-topic-violet-3); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='violet'][data-shade='4'] { --_hl: var(--bcn-topic-violet-4); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='grass'][data-shade='1'] { --_hl: var(--bcn-topic-grass-1); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='grass'][data-shade='2'] { --_hl: var(--bcn-topic-grass-2); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='grass'][data-shade='3'] { --_hl: var(--bcn-topic-grass-3); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='grass'][data-shade='4'] { --_hl: var(--bcn-topic-grass-4); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='orange'][data-shade='1'] { --_hl: var(--bcn-topic-orange-1); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='orange'][data-shade='2'] { --_hl: var(--bcn-topic-orange-2); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='orange'][data-shade='3'] { --_hl: var(--bcn-topic-orange-3); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='orange'][data-shade='4'] { --_hl: var(--bcn-topic-orange-4); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='crimson'][data-shade='1'] { --_hl: var(--bcn-topic-crimson-1); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='crimson'][data-shade='2'] { --_hl: var(--bcn-topic-crimson-2); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='crimson'][data-shade='3'] { --_hl: var(--bcn-topic-crimson-3); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='crimson'][data-shade='4'] { --_hl: var(--bcn-topic-crimson-4); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='slate'][data-shade='1'] { --_hl: var(--bcn-topic-slate-1); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='slate'][data-shade='2'] { --_hl: var(--bcn-topic-slate-2); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='slate'][data-shade='3'] { --_hl: var(--bcn-topic-slate-3); }
+:is(mark.bcn-hl, .bcn-topic-dot)[data-family='slate'][data-shade='4'] { --_hl: var(--bcn-topic-slate-4); }

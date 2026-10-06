@@ -1,0 +1,232 @@
+---
+// <BcnCommentBurnDown> — the comment period's progress, stated in the affirmative: two
+// meters that FILL as the work gets done.
+//
+//   comments planned       comments whose response link a person has accepted
+//   submissions reviewed   submissions where a person has accepted a response for, or
+//                          changed, at least one comment (the inbox's unread mark is
+//                          the same fact, inverted)
+//
+// Each is "N of M" over its own bar, so the two never share a scale they don't have.
+// Reads comments-store, so it is the same figure on every page; on a change the
+// numbers count up to their new value, which is what makes accepting a 21-comment
+// response visibly fill the first meter.
+//
+// size="sm" sets the two meters side by side at body-sm (the period strip); md stacks
+// them (the response page's accept panel).
+//
+// Hovering or focusing the comments meter opens a breakdown by topic: each topic's
+// dot, "N of M planned", and a small bar filled in the topic's own ink. The summary
+// bar itself stays one color: seven hues in a 4px bar read as noise, and at 12 of 84
+// most segments would be slivers. The breakdown is where color earns its place.
+//
+// bcn-lego-checked: esa-stat carries one value per tile with no bar, and esa-progress-bar
+// carries a bar with a percentage, not a counted "N of M" noun; this composes
+// esa-progress-bar under a counted figure. Checked Beacon (no burn-down; the tracker
+// summary counts are static tiles). Bound to comments-store. The breakdown IS
+// esa-popover (hover) holding esa-progress-bar clones, each re-pointing the success
+// fill token to its topic's ink.
+import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
+import '../../styles/bcn-comment-topics.css';
+
+interface Props {
+  size?: 'sm' | 'md';
+}
+const { size = 'md' } = Astro.props;
+const text = size === 'sm' ? 'typography-body-sm' : 'typography-body-md';
+const METERS = [
+  { key: 'planned', noun: 'comments planned', label: 'Comments with a Planned Response' },
+  { key: 'reviewed', noun: 'submissions reviewed', label: 'Submissions Reviewed' },
+] as const;
+---
+
+<div class={`bcn-cbd ${size === 'sm' ? 'cluster' : 'stack'}`} data-gap={size === 'sm' ? 'lg' : 'md'} data-size={size} data-burn-down>
+  {METERS.map((m) => {
+    const meter = (
+      <div class="bcn-cbd__meter stack" data-gap="xs" data-meter={m.key} data-label={m.label} tabindex={m.key === 'planned' ? 0 : undefined}>
+        <p class={`bcn-cbd__fig ${text}`}>
+          <span class="bcn-cbd__n" data-bd={m.key}>0</span> of <span data-bd-total={m.key}>0</span>{' '}
+          <span>{m.noun}</span>
+        </p>
+        <EsaProgressBar value={0} size="sm" variant="success" showValue={false} />
+      </div>
+    );
+    return m.key === 'planned' ? (
+      <esa-popover trigger="hover" position="bottom" label="Comments Planned by Topic" class="bcn-cbd__pop">
+        {meter}
+        <div slot="content" class="bcn-cbd__topics" data-bd-topics></div>
+      </esa-popover>
+    ) : meter;
+  })}
+  <template data-bd-row>
+    <div class="bcn-cbd__trow" data-topic-ink>
+      <span class="bcn-topic-dot"></span>
+      <span class="bcn-cbd__tname" data-name></span>
+      <span class="bcn-cbd__tn" data-n></span>
+      <span class="bcn-cbd__tof" data-of></span>
+      <EsaProgressBar value={0} size="sm" variant="success" showValue={false} />
+    </div>
+  </template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-popover';
+  import { burnDown, getState, isPlanned, topicOf, topics, UNFILED } from './comments-store';
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-burn-down]')) {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const meters = [...root.querySelectorAll<HTMLElement>('[data-meter]')].map((el) => {
+      const key = el.dataset.meter as 'planned' | 'reviewed';
+      const bar = el.querySelector<HTMLElement>('[role="progressbar"]');
+      bar?.setAttribute('aria-label', el.dataset.label ?? '');
+      return {
+        key,
+        n: el.querySelector<HTMLElement>(`[data-bd="${key}"]`)!,
+        total: el.querySelector<HTMLElement>(`[data-bd-total="${key}"]`)!,
+        bar,
+        fill: el.querySelector<HTMLElement>('.esa-progress-bar__fill'),
+      };
+    });
+
+    const tween = (el: HTMLElement, to: number) => {
+      const from = Number(el.textContent) || 0;
+      if (from === to || reduce) {
+        el.textContent = String(to);
+        return;
+      }
+      el.dataset.moving = '';
+      const t0 = performance.now();
+      const dur = Math.min(1200, 300 + Math.abs(to - from) * 40);
+      const step = (t: number) => {
+        const k = Math.min(1, (t - t0) / dur);
+        const e = 1 - Math.pow(1 - k, 3);
+        el.textContent = String(Math.round(from + (to - from) * e));
+        if (k < 1) requestAnimationFrame(step);
+        else delete el.dataset.moving;
+      };
+      requestAnimationFrame(step);
+    };
+
+    const paint = (animate: boolean) => {
+      const b = burnDown();
+      const figures = {
+        planned: { n: b.comments - b.unplanned, of: b.comments },
+        reviewed: { n: b.submissions - b.untouched, of: b.submissions },
+      };
+      for (const m of meters) {
+        const f = figures[m.key];
+        if (animate) tween(m.n, f.n);
+        else m.n.textContent = String(f.n);
+        m.total.textContent = String(f.of);
+        const pct = Math.round((f.n / Math.max(1, f.of)) * 100);
+        m.bar?.setAttribute('aria-valuenow', String(pct));
+        if (m.fill) m.fill.style.width = `${pct}%`;
+      }
+    };
+
+    // The breakdown: one row per topic (Unfiled last, when it holds anything).
+    const box = root.querySelector<HTMLElement>('[data-bd-topics]');
+    const tpl = root.querySelector<HTMLTemplateElement>('[data-bd-row]');
+    const breakdown = () => {
+      if (!box || !tpl) return;
+      const all = getState().comments;
+      const ids = [...topics().map((t) => t.id), ...(all.some((c) => c.topicId === UNFILED) ? [UNFILED] : [])];
+      box.replaceChildren(
+        ...ids.map((id) => {
+          const t = topicOf(id);
+          const cs = all.filter((c) => c.topicId === id);
+          const n = cs.filter(isPlanned).length;
+          const row = tpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+          row.dataset.family = t.family;
+          row.querySelector<HTMLElement>('.bcn-topic-dot')!.dataset.family = t.family;
+          row.querySelector('[data-name]')!.textContent = t.name;
+          row.querySelector('[data-n]')!.textContent = String(n);
+          row.querySelector('[data-of]')!.textContent = `of ${cs.length}`;
+          const pct = Math.round((n / Math.max(1, cs.length)) * 100);
+          const bar = row.querySelector<HTMLElement>('[role="progressbar"]');
+          bar?.setAttribute('aria-valuenow', String(pct));
+          bar?.setAttribute('aria-label', `${t.name}: comments planned`);
+          const fill = row.querySelector<HTMLElement>('.esa-progress-bar__fill');
+          if (fill) fill.style.width = `${pct}%`;
+          return row;
+        }),
+      );
+    };
+
+    paint(false);
+    breakdown();
+    document.addEventListener('comments:change', () => {
+      paint(true);
+      breakdown();
+    });
+  }
+</script>
+
+<style>
+  .bcn-cbd[data-size='sm'] .bcn-cbd__meter {
+    width: 13rem;
+  }
+
+  .bcn-cbd__fig {
+    margin: 0;
+    color: var(--color-content-secondary);
+    white-space: nowrap;
+  }
+
+  .bcn-cbd__n {
+    color: var(--color-content-default);
+    font-weight: var(--typography-font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+    transition: color 200ms ease-out;
+  }
+
+  .bcn-cbd__n[data-moving] {
+    color: var(--color-content-success, var(--color-content-brand));
+  }
+
+  .bcn-cbd__meter[tabindex] { cursor: default; border-radius: var(--radius-100); }
+  .bcn-cbd__meter[tabindex]:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 4px;
+  }
+  .bcn-cbd__pop { display: block; }
+
+  /* The by-topic breakdown in the popover: dense, and the figures line up — the
+     planned count right-aligned in its own column, "of M" left-aligned in the next. */
+  .bcn-cbd__topics {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto 4rem;
+    align-items: center;
+    column-gap: var(--spacing-200);
+    row-gap: var(--spacing-150, 0.375rem);
+    min-width: 17rem;
+    padding: var(--spacing-050, 0.125rem) 0;
+    /* adherence-allow: font-too-small — a hover breakdown is meta; 13px is the meta floor */
+    font-size: 0.8125rem;
+    line-height: 1.25;
+    color: var(--color-content-default);
+  }
+  .bcn-cbd__topics :global(.bcn-cbd__trow) { display: contents; }
+  .bcn-cbd__topics :global(:is(.bcn-cbd__tn, .bcn-cbd__tof)) {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .bcn-cbd__topics :global(.bcn-cbd__tn) {
+    text-align: right;
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-cbd__topics :global(.bcn-cbd__tof) {
+    margin-left: calc(-1 * var(--spacing-100));
+    color: var(--color-content-secondary);
+  }
+  /* Each row's bar fills in its topic's ink: re-point the success fill token. */
+  .bcn-cbd__topics :global(.bcn-cbd__trow) { --color-background-utility-success: var(--_ink); }
+
+  .bcn-cbd :global(.esa-progress-bar__fill) {
+    transition: width 900ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-cbd :global(.esa-progress-bar__fill) { transition: none; }
+  }
+</style>

@@ -1,0 +1,137 @@
+---
+// <BcnResponseIndex> — the Responses tab beside Inbox and Topic index: every response in
+// the period as a slim row, the way the inbox lists submissions. Drafts first (the work
+// still to do), then Accepted.
+//
+// A row: the state glyph (draft = file-pen-line, accepted = file-check), the record
+// number (R-004), the title, and the topic it answers (its swatch and name). The row
+// opens the response.
+//
+// Live from comments-store: a link, a new response or an Accept moves rows at once.
+//
+// bcn-lego-checked: rows are links in a list, the inbox's own anatomy (BcnSubmissionInbox
+// row), not a table: esa- has no list-row lego, and AG Grid's chrome (search, record
+// count, export) is weight a twelve-row list does not carry. Checked Beacon (its
+// response lists are ui-table; the mail-style row is this module's pattern). Glyphs
+// are the shared comment-glyphs; the topic swatch is bcn-comment-topics.css.
+import { withBase } from '../../lib/base';
+import { COMMENTS_BASE } from '../../data/comments-nav';
+import '../../styles/bcn-comment-topics.css';
+---
+
+<div class="bcn-ri" data-response-index data-base={withBase(COMMENTS_BASE)}></div>
+
+<script>
+  import { responseNo, responseOrder, topicOf } from './comments-store';
+  import { glyph } from './comment-glyphs';
+
+  const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-response-index]')) {
+    const base = root.dataset.base!.replace(/\/$/, '');
+
+    const render = () => {
+      const rs = responseOrder();
+      const group = (label: string, list: typeof rs) =>
+        !list.length
+          ? ''
+          : `<section class="bcn-ri__group"><h3 class="bcn-ri__label typography-label-sm-strong">${label}</h3><ul class="bcn-ri__list" role="list">` +
+            list
+              .map((r) => {
+                const t = topicOf(r.topicId);
+                return (
+                  `<li><a class="bcn-ri__row" href="${base}/response?id=${r.id}">` +
+                  `<span class="bcn-ri__state" data-state="${r.accepted ? 'accepted' : 'draft'}" role="img" aria-label="${r.accepted ? 'Accepted' : 'Draft'}">${glyph(r.accepted ? 'file-check' : 'file-pen-line', 16)}</span>` +
+                  `<span class="bcn-ri__no typography-body-sm">${responseNo(r.id)}</span>` +
+                  `<span class="bcn-ri__title typography-body-md">${esc(r.title)}</span>` +
+                  `<span class="bcn-ri__topic typography-body-sm"><span class="bcn-topic-dot" data-family="${t.family}"></span>${esc(t.name)}</span>` +
+                  `</a></li>`
+                );
+              })
+              .join('') +
+            `</ul></section>`;
+      root.innerHTML = group('Drafts', rs.filter((r) => !r.accepted)) + group('Accepted', rs.filter((r) => r.accepted));
+    };
+
+    document.addEventListener('comments:change', render);
+    render();
+  }
+</script>
+
+<style>
+  .bcn-ri {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+  }
+
+  .bcn-ri :global(.bcn-ri__label) {
+    margin: 0 0 var(--spacing-200);
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-ri :global(.bcn-ri__list) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: var(--color-background-elevation-raised);
+    border: var(--border-width-default, 1px) solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .bcn-ri :global(.bcn-ri__list > li + li) {
+    border-top: var(--border-width-default, 1px) solid var(--color-border-subtle, var(--color-border-default));
+  }
+
+  /* One row: state, number, title, topic. */
+  .bcn-ri :global(.bcn-ri__row) {
+    display: grid;
+    grid-template-columns: 1rem 3.75rem minmax(0, 1fr) 13rem;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-200) var(--spacing-400);
+    color: var(--color-content-default);
+    text-decoration: none;
+  }
+
+  .bcn-ri :global(.bcn-ri__row:hover) {
+    background: var(--color-background-default-hover, var(--color-background-elevation-sunken));
+  }
+
+  .bcn-ri :global(.bcn-ri__row:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: -2px;
+  }
+
+  .bcn-ri :global(.bcn-ri__state) {
+    display: inline-flex;
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-ri :global(.bcn-ri__state[data-state='accepted']) {
+    color: var(--color-content-success, var(--color-content-default));
+  }
+
+  .bcn-ri :global(.bcn-ri__title) {
+    font-weight: var(--typography-font-weight-semibold);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .bcn-ri :global(.bcn-ri__topic) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150, 0.375rem);
+    min-width: 0;
+    color: var(--color-content-secondary);
+    white-space: nowrap;
+  }
+
+  .bcn-ri :global(.bcn-ri__no) {
+    color: var(--color-content-secondary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+</style>

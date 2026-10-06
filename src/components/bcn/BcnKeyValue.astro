@@ -9,21 +9,38 @@
 // value is the prominent answer (semibold + primary). A <slot> lets a host pass rich
 // value content (links, pills) in place of the plain `value` string.
 //
+//
+// size="sm" is the compact strip form (a period's dates over a card's edge): label and
+// value one type step down, an optional glyph leading the label.
+//
 // bcn-lego-checked: no esa-* key/value (description-list) lego — checked Ecology and
 // Beacon. bcn-key-value codifies the label -> value -> hint tier used in the dialog's
 // Details and Notifications sections.
+
+import EsaIcon from '@esa/ecology/esa-icon.astro';
 
 interface Props {
   label: string;
   value?: string;
   hint?: string;
+  /** esa-icon name leading the label. */
+  icon?: string;
+  /** Custom Lucide paths when the icon is off-registry. */
+  iconPaths?: string;
+  size?: 'sm' | 'md';
+  /** row: label left, value right on one baseline (a narrow rail's fact list). */
+  layout?: 'stack' | 'row';
 }
-const { label, value, hint } = Astro.props;
+const { label, value, hint, icon, iconPaths, size = 'md', layout = 'stack' } = Astro.props;
+const sm = size === 'sm';
 ---
 
-<div class="bcn-key-value">
-  <span class="bcn-key-value__key">{label}</span>
-  {value && <span class="bcn-key-value__val">{value}</span>}
+<div class="bcn-key-value" data-size={size} data-layout={layout}>
+  <span class={`bcn-key-value__key${sm ? ' typography-label-sm' : ''}`}>
+    {icon && <EsaIcon name={icon} paths={iconPaths} size="xs" />}
+    {label}
+  </span>
+  {value && <span class={`bcn-key-value__val${sm ? ' typography-label-sm-strong' : ''}`}>{value}</span>}
   <slot />
   {hint && <span class="bcn-key-value__hint">{hint}</span>}
 </div>
@@ -31,6 +48,12 @@ const { label, value, hint } = Astro.props;
 <style>
   /* Sidebar key/value (read-only prod details) */
   .bcn-key-value { display: flex; flex-direction: column; gap: 2px; }
+  .bcn-key-value[data-layout='row'] {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    align-items: baseline;
+    column-gap: var(--spacing-300);
+  }
   /* Key mirrors esa-select's .field__label EXACTLY (clamped --typography-label-md-font-size,
      --typography-font-weight-medium 450, --form-label-color) so "Responsible Party"
      reads identically to the "Assignee" select label. Value is the prominent answer:
@@ -38,4 +61,17 @@ const { label, value, hint } = Astro.props;
   .bcn-key-value__key { font-size: var(--typography-label-md-font-size); font-weight: var(--typography-font-weight-medium); color: var(--form-label-color); }
   .bcn-key-value__val { font-size: var(--typography-label-md-font-size); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
   .bcn-key-value__hint { font-size: 0.75rem; color: var(--color-content-default-tertiary); }
+  .bcn-key-value__key { display: inline-flex; align-items: center; gap: var(--spacing-100); }
+  .bcn-key-value__key :global(.esa-icon) { color: var(--color-content-default-tertiary); }
+  /* sm: the label-sm tokens (the rules above out-rank the composite classes, so
+     the size is restated here); the key steps back to secondary ink. */
+  .bcn-key-value[data-size='sm'] .bcn-key-value__key {
+    font-size: var(--typography-label-sm-font-size);
+    font-weight: var(--typography-label-sm-font-weight);
+    color: var(--color-content-secondary);
+  }
+  .bcn-key-value[data-size='sm'] .bcn-key-value__val {
+    font-size: var(--typography-label-sm-strong-font-size);
+    font-weight: var(--typography-label-sm-strong-font-weight);
+  }
 </style>

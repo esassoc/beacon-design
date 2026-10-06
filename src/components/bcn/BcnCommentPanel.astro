@@ -1,0 +1,640 @@
+---
+// <BcnCommentPanel> — one highlighted passage, in the slide-in side panel every prototype
+// edits a record in. Its title is the passage's number: "Submission 18.003" is the
+// third passage, in reading order, of submission #18.
+//
+// Body       the passage in its highlight, then two groups of slim read-only cards:
+//   Topics      every "Topic › Subtopic" the passage is filed under, each with Remove.
+//               + opens the picker to file it under more.
+//   Responses   every response it is linked to, its state as a glyph (accepted / draft),
+//               each with Remove. + offers Link a response (the picker) or New response.
+// Footer     Previous / Next passage far left; Remove passage right, danger, behind a
+//            confirm. Edits apply as they are made: no Save.
+// Add        select free text: the same panel, titled New comment, with the helper's
+//            filing and response already in the groups; Add comment files it.
+// Removed    "Comment removed" with Undo, in the panel that held it.
+//
+// The picker is a SECOND esa-side-dialog stacked over this one (the parent steps back a
+// card, as the Help drawer's article reader): a search field over a checklist, Add.
+// Several can be checked at once; what the passage already has is checked and fixed.
+//
+// Closing the panel leaves the highlight active, so its end grips stay up for a resize.
+//
+// Contract, on `document`:
+//   in   comments:active / comments:selection / comments:change
+//   out  comments:activate  detail: id   (Previous / Next, after an add, after undo)
+//
+// bcn-lego-checked: both frames ARE esa-side-dialog (stacked as BcnGuidanceDrawer, the
+// parent's --side-dialog-inset re-pointed while the child is open); every button IS
+// esa-button; the guard IS esa-confirm-dialog (danger); the + menu IS esa-dropdown-menu;
+// the picker's field IS esa-text-field and its rows ARE esa-checkbox; state glyphs carry
+// esa-tooltip. The slim cards are not esa-card (whose header/body/footer chrome is the
+// weight these rows exist to shed) nor esa-pill (a chip; Andy asked for cards with the
+// full "Topic › Subtopic" and response titles); checked Beacon (its ui-chip lists are
+// pills). bcn-comment-panel is their home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { withBase } from '../../lib/base';
+import { COMMENTS_BASE } from '../../data/comments-nav';
+import '../../styles/bcn-comment-topics.css';
+
+interface Props {
+  submissionId: string;
+}
+const { submissionId } = Astro.props;
+---
+
+<div class="bcn-cp" data-comment-panel-root={submissionId} data-response-href={withBase(`${COMMENTS_BASE}/response`)}>
+  <esa-side-dialog heading="Comment" position="right" show-close-button data-cp-panel>
+    <div class="stack" data-gap="lg" data-cp="record">
+      <blockquote class="bcn-cp__quote typography-body-md">
+        <mark class="bcn-hl" data-cp-quote></mark>
+      </blockquote>
+
+      <section class="stack" data-gap="xs" aria-labelledby="bcn-cp-topics">
+        <div class="bcn-cp__head">
+          <h3 id="bcn-cp-topics" class="typography-label-md-strong">Topics</h3>
+          <EsaButton size="sm" variant="ghost" iconOnly icon="plus" label="Add Topics" data-cp-add-topic />
+        </div>
+        <ul class="bcn-cp__cards" role="list" data-cp-topics></ul>
+      </section>
+
+      <section class="stack" data-gap="xs" aria-labelledby="bcn-cp-responses">
+        <div class="bcn-cp__head">
+          <h3 id="bcn-cp-responses" class="typography-label-md-strong">Responses</h3>
+          <esa-dropdown-menu position="below-end" width="auto" data-cp-resp-menu>
+            <EsaButton size="sm" variant="ghost" iconOnly icon="plus" label="Add a response" />
+          </esa-dropdown-menu>
+        </div>
+        <ul class="bcn-cp__cards" role="list" data-cp-responses></ul>
+      </section>
+    </div>
+
+    <div class="cluster" data-gap="sm" data-cp="removed" hidden>
+      <span class="typography-body-md">Comment removed</span>
+      <EsaButton size="sm" variant="secondary" appearance="soft" icon="rotate-ccw" data-cp-undo>Undo</EsaButton>
+    </div>
+
+    <div slot="footer" class="bcn-cp__foot">
+      <span class="cluster" data-gap="xs" data-cp-foot="edit">
+        <EsaButton size="sm" variant="secondary" appearance="outline" iconOnly icon="chevron-left" label="Previous comment (K)" data-cp-prev />
+        <EsaButton size="sm" variant="secondary" appearance="outline" iconOnly icon="chevron-right" label="Next comment (J)" data-cp-next />
+      </span>
+      <span class="bcn-cp__end" data-cp-foot="edit">
+        <EsaButton size="sm" variant="danger" appearance="outline" icon="trash-2" data-cp-remove>Remove</EsaButton>
+      </span>
+      <span class="cluster bcn-cp__end" data-gap="xs" data-cp-foot="add" hidden>
+        <EsaButton size="sm" variant="primary" icon="plus" data-cp-add>Add Comment</EsaButton>
+        <EsaButton size="sm" variant="ghost" data-cp-add-cancel>Cancel</EsaButton>
+      </span>
+      <span class="cluster bcn-cp__end" data-gap="xs" data-cp-foot="removed" hidden>
+        <EsaButton size="sm" variant="secondary" appearance="outline" data-cp-done>Close</EsaButton>
+      </span>
+    </div>
+  </esa-side-dialog>
+
+  <esa-side-dialog heading="Add Topics" position="right" show-close-button data-cp-picker>
+    <div class="stack" data-gap="md">
+      <esa-text-field size="sm" label="Search" placeholder="e.g. sleep" data-cp-pick-q></esa-text-field>
+      <div class="bcn-cp__pick" data-cp-pick-list></div>
+    </div>
+    <div slot="footer" class="bcn-cp__foot">
+      <span class="cluster bcn-cp__end" data-gap="xs">
+        <EsaButton size="sm" variant="primary" data-cp-pick-ok>Add</EsaButton>
+        <EsaButton size="sm" variant="ghost" data-cp-pick-cancel>Cancel</EsaButton>
+      </span>
+    </div>
+  </esa-side-dialog>
+
+  <esa-confirm-dialog
+    heading="Remove This Comment?"
+    variant="danger"
+    confirm-label="Remove"
+    cancel-label="Cancel"
+    data-cp-confirm
+  ></esa-confirm-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-dropdown-menu';
+  import '@esa/ecology/esa-confirm-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-tooltip';
+  import {
+    add, addFilings, canUndo, getState, linkPassage, linkedTo, newResponse,
+    passageNote, passageOf, passages, removeFiling, removePassage, responseOf, responsesOf,
+    shadeOf, subtopicName, suggestFiling, suggestResponse, topicOf, topics, undo, unlinkPassage, UNFILED,
+  } from './comments-store';
+  import { glyph } from './comment-glyphs';
+
+  type Dialog = HTMLElement & { open: boolean; heading: string; message?: string };
+  type Field = HTMLElement & { value: string };
+  type Box = HTMLElement & { checked: boolean };
+  type Filing = { topicId: string; subtopicId: string };
+  type Mode = 'edit' | 'add' | 'removed';
+
+  const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const STACK_INSET = '30px';
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-comment-panel-root]')) {
+    const sid = root.dataset.commentPanelRoot!;
+    const responseHref = root.dataset.responseHref!;
+    const $ = <T extends HTMLElement = HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
+    const panel = $<Dialog>('[data-cp-panel]');
+    const picker = $<Dialog>('[data-cp-picker]');
+    const confirm = $<Dialog>('[data-cp-confirm]');
+    const quote = $('[data-cp-quote]');
+    const topicList = $('[data-cp-topics]');
+    const respList = $('[data-cp-responses]');
+    const pickList = $('[data-cp-pick-list]');
+    const pickQ = $<Field>('[data-cp-pick-q]');
+    const menu = $<HTMLElement & { items: { label: string; action?: string }[] }>('[data-cp-resp-menu]');
+    menu.items = [
+      { label: 'Link a Response', action: 'link' },
+      { label: 'New Response', action: 'new' },
+    ];
+
+    let mode: Mode = 'edit';
+    let active: string | null = null; // the filing the text paints this passage under
+    let lastRemoved: string | null = null;
+    // Add mode works on a draft until Add comment.
+    let draft: { start: number; end: number; quote: string; filings: Filing[]; responses: string[] } | null = null;
+    let picking: 'topics' | 'responses' = 'topics';
+
+    const setMode = (m: Mode) => {
+      mode = m;
+      $('[data-cp="record"]').hidden = m === 'removed';
+      $('[data-cp="removed"]').hidden = m !== 'removed';
+      for (const el of root.querySelectorAll<HTMLElement>('[data-cp-foot]')) el.hidden = el.dataset.cpFoot !== m;
+      // A new response is drafted from a filed comment, so it waits for Add comment.
+      menu.items = m === 'add'
+        ? [{ label: 'Link a Response', action: 'link' }]
+        : [{ label: 'Link a Response', action: 'link' }, { label: 'New Response', action: 'new' }];
+    };
+
+    // What the panel is showing, from the store or the draft.
+    const current = (): { quote: string; filings: (Filing & { id?: string })[]; responses: string[] } | null => {
+      if (mode === 'add' && draft) return { quote: draft.quote, filings: draft.filings, responses: draft.responses };
+      const group = active ? passageOf(active) : [];
+      if (!group.length) return null;
+      return {
+        quote: group[0].quote,
+        filings: group.map((c) => ({ id: c.id, topicId: c.topicId, subtopicId: c.subtopicId })),
+        responses: responsesOf(group[0]),
+      };
+    };
+
+    const removeBtn = (label: string, attrs: string) =>
+      `<button type="button" class="bcn-cp__x" aria-label="${esc(label)}" ${attrs}>${glyph('x', 14)}</button>`;
+
+    const render = () => {
+      const cur = current();
+      if (!cur) return;
+      const f0 = cur.filings[0];
+      quote.textContent = cur.quote;
+      quote.dataset.family = topicOf(f0?.topicId ?? UNFILED).family;
+      quote.dataset.shade = String(f0 ? shadeOf(f0.topicId, f0.subtopicId) : 1);
+      panel.heading = mode === 'add' ? 'New Comment' : `Comment ${passageNote(active!)}`;
+
+      topicList.innerHTML = cur.filings
+        .map((f, i) => {
+          const t = topicOf(f.topicId);
+          const name = f.topicId === UNFILED ? 'Unfiled' : `${t.name} › ${subtopicName(f.topicId, f.subtopicId)}`;
+          const unfiledOnly = f.topicId === UNFILED && cur.filings.length === 1;
+          return (
+            `<li class="bcn-cp__card">` +
+            `<span class="bcn-topic-dot" data-family="${t.family}" data-shade="${shadeOf(f.topicId, f.subtopicId)}"></span>` +
+            `<span class="bcn-cp__name">${esc(name)}</span>` +
+            (unfiledOnly ? '' : removeBtn(`Remove ${name}`, `data-cp-rm-topic="${f.id ?? i}"`)) +
+            `</li>`
+          );
+        })
+        .join('');
+
+      const accepted = (rid: string) => !!responseOf(rid)?.accepted;
+      respList.innerHTML = cur.responses
+        .map((rid) => {
+          const r = responseOf(rid);
+          if (!r) return '';
+          const tip = accepted(rid) ? 'Accepted: this comment is planned' : 'Draft: planned once it is accepted';
+          return (
+            `<li class="bcn-cp__card">` +
+            `<esa-tooltip text="${tip}"><span class="bcn-cp__glyph" data-state="${accepted(rid) ? 'planned' : 'draft'}" role="img" aria-label="${tip}">${glyph(accepted(rid) ? 'file-check' : 'file-pen-line', 14)}</span></esa-tooltip>` +
+            `<a class="bcn-cp__name" href="${responseHref}?id=${r.id}">${esc(r.title)}</a>` +
+            removeBtn(`Unlink ${r.title}`, `data-cp-rm-resp="${r.id}"`) +
+            `</li>`
+          );
+        })
+        .join('');
+    };
+
+    const openEdit = (id: string) => {
+      active = passageOf(id)[0]?.id ?? id;
+      draft = null;
+      setMode('edit');
+      render();
+      panel.open = true;
+    };
+
+    const scrollTo = (id: string) =>
+      document.querySelector<HTMLElement>(`[data-submission-text="${sid}"] mark[data-cid="${id}"]`)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+
+    document.addEventListener('comments:active', (e) => {
+      const id = (e as CustomEvent<{ id: string } | null>).detail?.id;
+      if (id) openEdit(id);
+    });
+
+    document.addEventListener('comments:selection', (e) => {
+      const d = (e as CustomEvent<{ start: number; end: number; quote: string } | null>).detail;
+      if (!d) return;
+      const f = suggestFiling(d.quote);
+      const r = suggestResponse(f.topicId, f.subtopicId);
+      draft = { ...d, filings: [f], responses: r ? [r] : [] };
+      active = null;
+      setMode('add');
+      render();
+      // Open after the drag's own click lands: opened on mouseup, the dialog reads that
+      // click as a click outside it and light-dismisses at once.
+      setTimeout(() => { panel.open = true; }, 0);
+    });
+
+    // ---- the cards ----------------------------------------------------------------------
+    topicList.addEventListener('click', (e) => {
+      const b = (e.target as Element).closest<HTMLElement>('[data-cp-rm-topic]');
+      if (!b) return;
+      const key = b.dataset.cpRmTopic!;
+      if (mode === 'add' && draft) {
+        draft.filings.splice(Number(key), 1);
+        if (!draft.filings.length) draft.filings.push({ topicId: UNFILED, subtopicId: UNFILED });
+        render();
+        return;
+      }
+      // Keep the panel on this passage when the removed filing is the one it tracks.
+      const rest = passageOf(key).filter((c) => c.id !== key);
+      if (key === active && rest.length) active = rest[0].id;
+      removeFiling(key);
+    });
+    respList.addEventListener('click', (e) => {
+      const b = (e.target as Element).closest<HTMLElement>('[data-cp-rm-resp]');
+      if (!b) return;
+      const rid = b.dataset.cpRmResp!;
+      if (mode === 'add' && draft) {
+        draft.responses = draft.responses.filter((r) => r !== rid);
+        render();
+      } else if (active) unlinkPassage(active, rid);
+    });
+
+    // ---- the picker ---------------------------------------------------------------------
+    const row = (value: string, label: string, checked: boolean, lead = '', meta = '') =>
+      `<div class="bcn-cp__opt" data-q="${esc(label.toLowerCase())}">` +
+      `<esa-checkbox size="sm" value="${value}" ${checked ? 'checked disabled' : ''} aria-label="${esc(label)}" data-cp-opt></esa-checkbox>` +
+      `${lead}<span class="bcn-cp__optname">${esc(label)}</span>${meta}</div>`;
+
+    const fillPicker = () => {
+      const cur = current();
+      if (!cur) return;
+      if (picking === 'topics') {
+        const have = new Set(cur.filings.map((f) => f.subtopicId));
+        pickList.innerHTML = topics()
+          .map((t) =>
+            `<div class="bcn-cp__group" data-group>` +
+            `<div class="bcn-cp__gname typography-label-sm-strong">${esc(t.name)}</div>` +
+            t.subtopics
+              .map((st) =>
+                row(`${t.id}|${st.id}`, st.name, have.has(st.id), `<span class="bcn-topic-dot" data-family="${t.family}" data-shade="${shadeOf(t.id, st.id)}"></span>`))
+              .join('') +
+            `</div>`)
+          .join('');
+      } else {
+        const have = new Set(cur.responses);
+        const topicId = cur.filings[0]?.topicId;
+        const rs = [...getState().responses].sort((a, b) =>
+          Number(b.topicId === topicId) - Number(a.topicId === topicId) || a.title.localeCompare(b.title));
+        pickList.innerHTML = `<div class="bcn-cp__group" data-group>${rs
+          .map((r) => row(r.id, r.title, have.has(r.id), '', `<span class="bcn-cp__optmeta">${linkedTo(r.id).length}</span>`))
+          .join('')}</div>`;
+      }
+      pickQ.value = '';
+      filterPicker();
+    };
+
+    const filterPicker = () => {
+      const q = (pickQ.value ?? '').trim().toLowerCase();
+      for (const g of pickList.querySelectorAll<HTMLElement>('[data-group]')) {
+        const groupHit = !!q && (g.querySelector('.bcn-cp__gname')?.textContent ?? '').toLowerCase().includes(q);
+        let any = false;
+        for (const o of g.querySelectorAll<HTMLElement>('[data-q]')) {
+          const hit = !q || groupHit || o.dataset.q!.includes(q);
+          o.hidden = !hit;
+          any ||= hit;
+        }
+        g.hidden = !any;
+      }
+    };
+    pickQ.addEventListener('input', filterPicker);
+    // The whole row toggles its checkbox (the lego names itself from aria-label, so the
+    // row's text is not a <label> for it).
+    pickList.addEventListener('click', (e) => {
+      const t = e.target as Element;
+      if (t.closest('esa-checkbox')) return;
+      const box = t.closest('.bcn-cp__opt')?.querySelector<Box>('esa-checkbox:not([disabled])');
+      if (box) box.checked = !box.checked;
+    });
+
+    const openPicker = (which: 'topics' | 'responses') => {
+      picking = which;
+      picker.heading = which === 'topics' ? 'Add topics' : 'Link responses';
+      fillPicker();
+      picker.open = true;
+      panel.style.setProperty('--side-dialog-inset', STACK_INSET);
+    };
+    // The lego fires `close` only when a person dismisses it (Esc, X, scrim), so a close
+    // from Add / Cancel restores the parent here too.
+    const closePicker = () => {
+      picker.open = false;
+      panel.style.removeProperty('--side-dialog-inset');
+    };
+    picker.addEventListener('close', () => panel.style.removeProperty('--side-dialog-inset'));
+    $('[data-cp-add-topic]').addEventListener('click', () => openPicker('topics'));
+    menu.addEventListener('menu-action', (e) => {
+      const action = (e as CustomEvent<string>).detail;
+      if (action === 'link') openPicker('responses');
+      else if (action === 'new' && active) {
+        const c = getState().comments.find((x) => x.id === active);
+        if (c) newResponse(c.id, subtopicName(c.topicId, c.subtopicId) || 'New response');
+      }
+    });
+    $('[data-cp-pick-cancel]').addEventListener('click', closePicker);
+    $('[data-cp-pick-ok]').addEventListener('click', () => {
+      const chosen = [...pickList.querySelectorAll<Box>('[data-cp-opt]')]
+        .filter((b) => b.checked && !b.hasAttribute('disabled'))
+        .map((b) => b.getAttribute('value')!);
+      closePicker();
+      if (!chosen.length) return;
+      if (picking === 'topics') {
+        const fs = chosen.map((v) => { const [topicId, subtopicId] = v.split('|'); return { topicId, subtopicId }; });
+        if (mode === 'add' && draft) {
+          draft.filings = [...draft.filings.filter((f) => f.topicId !== UNFILED), ...fs];
+          render();
+        } else if (active) addFilings(active, fs);
+      } else if (mode === 'add' && draft) {
+        draft.responses = [...new Set([...draft.responses, ...chosen])];
+        render();
+      } else if (active) linkPassage(active, chosen);
+    });
+
+    // ---- remove, add, undo ----------------------------------------------------------------
+    $('[data-cp-remove]').addEventListener('click', () => {
+      if (!active) return;
+      confirm.heading = `Remove Comment ${passageNote(active)}?`;
+      confirm.message = 'Its topics and response links come off with it.';
+      confirm.open = true;
+    });
+    confirm.addEventListener('confirm', () => {
+      if (!active) return;
+      lastRemoved = active;
+      removePassage(active);
+      active = null;
+      panel.heading = 'Comment';
+      setMode('removed');
+    });
+    $('[data-cp-undo]').addEventListener('click', () => { if (canUndo()) undo(); });
+    $('[data-cp-done]').addEventListener('click', () => { panel.open = false; });
+
+    $('[data-cp-add]').addEventListener('click', () => {
+      if (!draft) return;
+      const { start, quote: q, filings: fs, responses: rs } = draft;
+      draft = null;
+      getSelection()?.removeAllRanges();
+      const id = add(sid, q, start, fs, rs);
+      requestAnimationFrame(() => {
+        document.dispatchEvent(new CustomEvent('comments:activate', { detail: id }));
+        openEdit(id);
+      });
+    });
+    $('[data-cp-add-cancel]').addEventListener('click', () => { panel.open = false; });
+
+    // Closing keeps the highlight active (its grips resize it); a pending add is dropped.
+    panel.addEventListener('close', () => {
+      if (mode === 'add') {
+        draft = null;
+        getSelection()?.removeAllRanges();
+      }
+    });
+
+    document.addEventListener('comments:change', (e) => {
+      const d = (e as CustomEvent<{ kind: string }>).detail;
+      if (d.kind === 'undo' && lastRemoved && panel.open) {
+        const id = lastRemoved;
+        lastRemoved = null;
+        requestAnimationFrame(() => {
+          if (passageOf(id).length) {
+            document.dispatchEvent(new CustomEvent('comments:activate', { detail: id }));
+            openEdit(id);
+          } else panel.open = false;
+        });
+        return;
+      }
+      if (mode === 'edit' && active && panel.open && passageOf(active).length) {
+        // The text paints a passage under its first filing: keep that mark lit.
+        const lead = passageOf(active)[0].id;
+        if (lead !== active) {
+          active = lead;
+          document.dispatchEvent(new CustomEvent('comments:activate', { detail: lead }));
+        }
+        requestAnimationFrame(render);
+      }
+    });
+
+    // ---- walk the passages ------------------------------------------------------------
+    const step = (dir: 1 | -1) => {
+      const ids = passages(sid).map((g) => g[0].id);
+      if (!ids.length) return;
+      const i = active ? ids.indexOf(active) : -1;
+      const next = ids[(i + dir + ids.length) % ids.length];
+      document.dispatchEvent(new CustomEvent('comments:activate', { detail: next }));
+      openEdit(next);
+      scrollTo(next);
+    };
+    $('[data-cp-prev]').addEventListener('click', () => step(-1));
+    $('[data-cp-next]').addEventListener('click', () => step(1));
+    document.addEventListener('keydown', (e) => {
+      const target = e.target as HTMLElement;
+      if (picker.open || confirm.open) return;
+      if (target.closest('input, textarea, esa-select, esa-text-field, esa-textarea, esa-checkbox, [contenteditable]')) return;
+      if (e.key === 'j') step(1);
+      else if (e.key === 'k') step(-1);
+    });
+
+    // Open the comment named in ?c= (from the topic index).
+    const want = new URLSearchParams(location.search).get('c');
+    if (want) {
+      setTimeout(() => {
+        const lead = passageOf(want)[0]?.id ?? want;
+        document.dispatchEvent(new CustomEvent('comments:activate', { detail: lead }));
+        openEdit(lead);
+        scrollTo(lead);
+      }, 0);
+    }
+  }
+</script>
+
+<style>
+  .bcn-cp__quote {
+    margin: 0;
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    color: var(--color-content-default);
+  }
+
+  [data-cp][hidden],
+  [data-cp-foot][hidden] {
+    display: none;
+  }
+
+  .bcn-cp__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+  }
+
+  .bcn-cp__head h3 {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+
+  .bcn-cp__cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
+
+  /* A slim read-only card: glyph, name, remove. JS-built, so reached through :global(). */
+  .bcn-cp__cards :global(.bcn-cp__card) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-height: 2.25rem;
+    padding: 0 var(--spacing-100) 0 var(--spacing-300);
+    background: var(--color-background-elevation-raised);
+    border: var(--border-width-default, 1px) solid var(--color-border-default);
+    border-radius: var(--radius-sm);
+    font-size: var(--typography-label-sm-font-size);
+    color: var(--color-content-default);
+  }
+
+  .bcn-cp__cards :global(.bcn-cp__name) {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: inherit;
+  }
+
+  .bcn-cp__cards :global(a.bcn-cp__name) {
+    text-decoration: none;
+  }
+
+  .bcn-cp__cards :global(a.bcn-cp__name:hover) {
+    text-decoration: underline;
+  }
+
+  .bcn-cp__cards :global(esa-tooltip) {
+    display: inline-flex;
+  }
+
+  .bcn-cp__cards :global(.bcn-cp__glyph) {
+    display: inline-flex;
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-cp__cards :global(.bcn-cp__glyph[data-state='planned']) {
+    color: var(--color-content-success, var(--color-content-default));
+  }
+
+  .bcn-cp__cards :global(.bcn-cp__x) {
+    all: unset;
+    display: inline-grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    flex: none;
+    border-radius: var(--radius-sm);
+    color: var(--color-content-default-tertiary);
+    cursor: pointer;
+  }
+
+  .bcn-cp__cards :global(.bcn-cp__x:hover) {
+    color: var(--color-content-default);
+    background: var(--color-background-default-hover, var(--color-background-elevation-sunken));
+  }
+
+  .bcn-cp__cards :global(.bcn-cp__x:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 0;
+  }
+
+  /* The picker's checklist. */
+  .bcn-cp__pick {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+
+  .bcn-cp__pick :global(.bcn-cp__group) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bcn-cp__pick :global(.bcn-cp__group[hidden]),
+  .bcn-cp__pick :global(.bcn-cp__opt[hidden]) {
+    display: none;
+  }
+
+  .bcn-cp__pick :global(.bcn-cp__gname) {
+    padding-bottom: var(--spacing-100);
+    color: var(--color-content-default);
+  }
+
+  .bcn-cp__pick :global(.bcn-cp__opt) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-height: 2rem;
+    font-size: var(--typography-label-sm-font-size);
+    color: var(--color-content-default);
+    cursor: pointer;
+  }
+
+  .bcn-cp__pick :global(.bcn-cp__opt esa-checkbox) {
+    display: inline-flex;
+  }
+
+  .bcn-cp__pick :global(.bcn-cp__optname) {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .bcn-cp__pick :global(.bcn-cp__optmeta) {
+    color: var(--color-content-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Footer: walk the passages far left; the record's action right. */
+  .bcn-cp__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+    width: 100%;
+  }
+
+  .bcn-cp__end {
+    margin-left: auto;
+  }
+</style>

@@ -1,0 +1,83 @@
+---
+// One submission — the core screen of the Comments module. The submitter's text, with
+// each comment as a highlighter passage (topic = hue, subtopic = shade). Click a
+// highlight and its card opens in the margin: reclassify, reassign, start a new
+// response, remove. Drag a highlight's end grips to resize it; select text to add one.
+// Previous / Next walk the inbox in its own order (newest first).
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnRecordId from '../../../components/bcn/BcnRecordId.astro';
+import BcnRecordPager from '../../../components/bcn/BcnRecordPager.astro';
+import BcnSubmissionText from '../../../components/bcn/BcnSubmissionText.astro';
+import BcnCommentPanel from '../../../components/bcn/BcnCommentPanel.astro';
+import BcnSubmissionRail from '../../../components/bcn/BcnSubmissionRail.astro';
+import { COMMENT_PERIOD, SUBMISSIONS, SUBMITTERS } from '../../../data/comments';
+import type { Submission } from '../../../data/comments-types';
+import { commentsNav, COMMENTS_BASE, COMMENTS_PROJECT, submissionNoFor } from '../../../data/comments-nav';
+import { withBase } from '../../../lib/base';
+
+export function getStaticPaths() {
+  return SUBMISSIONS.map((s) => ({ params: { id: s.id }, props: { submission: s } }));
+}
+
+const { submission } = Astro.props as { submission: Submission };
+const who = SUBMITTERS.find((p) => p.id === submission.submitterId)!;
+const day = (iso: string) =>
+  new Date(`${iso}T12:00:00`).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+const no = submissionNoFor(submission.key);
+const title = `Submission from ${who.name}`;
+// Lucide glyphs off the hub registry.
+const BUILDING =
+  '<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>';
+const INBOX_GLYPH =
+  '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>';
+const facts = [
+  { label: 'Submitter', value: who.name, icon: 'user' },
+  ...(who.organization ? [{ label: 'Organization', value: who.organization, icon: 'building', iconPaths: BUILDING }] : []),
+  { label: 'City', value: who.city, icon: 'map-pin' },
+  { label: 'Received', value: day(submission.received), icon: 'calendar' },
+  { label: 'Channel', value: submission.channel, icon: 'inbox', iconPaths: INBOX_GLYPH },
+];
+---
+
+<!-- manifest:
+  layout: PageLayout > sidebar(end)                     # SPINE: the text, the rail on the right (as Lists)
+  sections:
+    - record number  -> bcn-record-id                  # S-018, trailing the H1
+    - walk the inbox -> bcn-record-pager               # Previous / contents / Next in inbox order, upper right; the contents a side panel with a status filter
+    - rail           -> bcn-submission-rail            # Details card; Highlights card: planned meter + outline, bi-directional with the text
+    - submission     -> esa-card                       # frames the text
+    - text           -> bcn-submission-text            # highlights, end grips, select-to-add
+    - comment panel  -> bcn-comment-panel              # esa-side-dialog on click: topic + response cards, stacked picker, guarded remove, prev / next; add on selection
+-->
+
+<AppShell title={title} tenantName={COMMENTS_PROJECT.tenant} projectName={COMMENTS_PROJECT.name} navSections={commentsNav()} activeNavId="comments">
+  <PageLayout
+    title={title}
+    breadcrumbs={[
+      { label: 'Planning', href: '#planning' },
+      { label: 'Comments', href: '#comments' },
+      { label: COMMENT_PERIOD.name, href: withBase(COMMENTS_BASE) },
+      { label: no },
+    ]}
+  >
+    <BcnRecordId slot="title-badge" value={no} />
+    <Fragment slot="utilities">
+      <BcnRecordPager kind="submission" current={submission.id} />
+    </Fragment>
+
+    {/* As on the Lists page: .sidebar keys its roles off first / last child and each
+        component emits its <script> in place, so both sides are wrapped, and the rail
+        comes first in the DOM with data-side="end" keeping it on the right. */}
+    <div class="sidebar" data-side="end" data-gap="lg" style="--sidebar-width: 20rem; --sidebar-content-min: 60%;">
+      <div><BcnSubmissionRail submissionId={submission.id} facts={facts} /></div>
+      <div>
+        <EsaCard padding="spacious">
+          <BcnSubmissionText submissionId={submission.id} />
+        </EsaCard>
+      </div>
+    </div>
+    <BcnCommentPanel submissionId={submission.id} />
+  </PageLayout>
+</AppShell>

@@ -215,6 +215,17 @@
   --bcn-aldo-100: #cfeceb;
   --bcn-aldo-600: #06736f;
 
+  /* Aldo prompt — the composer a person types guidance into. A floating tool, so it is
+     allowed presence: a deep layered shadow with an Aldo-green under-glow, and a faint
+     green wash on its bar. Raw values live here per token discipline. */
+  --bcn-aldo-prompt-shadow:
+    0 1px 2px rgba(16, 24, 32, 0.06),
+    0 10px 24px -6px rgba(16, 24, 32, 0.14),
+    0 28px 60px -18px rgba(8, 144, 139, 0.38);
+  --bcn-aldo-prompt-ring: rgba(8, 144, 139, 0.55);
+  --bcn-aldo-prompt-wash: linear-gradient(100deg, #e8f6f5 0%, #f3fbfa 55%, #ffffff 100%);
+  --bcn-aldo-prompt-shimmer: linear-gradient(90deg, transparent 0%, rgba(8, 144, 139, 0.9) 50%, transparent 100%);
+
   /* Floating help bar — dark glass chrome, deliberately distinct from the white UI
      (design-principles: floating tools invite expressiveness). The one dark surface
      in the app; raw values live here per token discipline. Pair with
@@ -267,6 +278,55 @@
   --bcn-mark-rose:     #be123c;
   --bcn-mark-brown:    #78503c;
   --bcn-mark-slate:    #475569;
+
+  /* ===== Response notes — internal notes on a response's text =====
+     A noted passage is highlighted, in the letter and on its footnote card; it deepens
+     a step while its card is hovered. The footnote numbers stay neutral badges. */
+  --bcn-note-tint:     var(--color-amber-3);
+  --bcn-note-tint-lit: var(--color-amber-5);
+
+  /* ===== Comment topics — highlighter shades (Planning > Comments) =====
+     A comment reads as a highlighted passage. Its TOPIC is the hue family, its
+     SUBTOPIC the shade within it (1 lightest → 4 deepest). The seven families are
+     spread around the wheel so no two read alike at a glance — blue and cyan were
+     too close in the first attempt, so measurement sits on grass. -ink is the
+     family's text-safe step, for swatch dots and the active highlight's ring.
+     Re-points of the palette, so no raw values here. */
+  --bcn-topic-amber-1:   var(--color-amber-4);
+  --bcn-topic-amber-2:   var(--color-amber-6);
+  --bcn-topic-amber-3:   var(--color-amber-7);
+  --bcn-topic-amber-4:   var(--color-amber-8);
+  --bcn-topic-amber-ink: var(--color-amber-11);
+  --bcn-topic-blue-1:    var(--color-blue-4);
+  --bcn-topic-blue-2:    var(--color-blue-6);
+  --bcn-topic-blue-3:    var(--color-blue-7);
+  --bcn-topic-blue-4:    var(--color-blue-8);
+  --bcn-topic-blue-ink:  var(--color-blue-11);
+  --bcn-topic-violet-1:  var(--color-violet-4);
+  --bcn-topic-violet-2:  var(--color-violet-6);
+  --bcn-topic-violet-3:  var(--color-violet-7);
+  --bcn-topic-violet-4:  var(--color-violet-8);
+  --bcn-topic-violet-ink: var(--color-violet-11);
+  --bcn-topic-grass-1:   var(--color-grass-4);
+  --bcn-topic-grass-2:   var(--color-grass-6);
+  --bcn-topic-grass-3:   var(--color-grass-7);
+  --bcn-topic-grass-4:   var(--color-grass-8);
+  --bcn-topic-grass-ink: var(--color-grass-11);
+  --bcn-topic-orange-1:  var(--color-orange-4);
+  --bcn-topic-orange-2:  var(--color-orange-6);
+  --bcn-topic-orange-3:  var(--color-orange-7);
+  --bcn-topic-orange-4:  var(--color-orange-8);
+  --bcn-topic-orange-ink: var(--color-orange-11);
+  --bcn-topic-crimson-1: var(--color-crimson-4);
+  --bcn-topic-crimson-2: var(--color-crimson-6);
+  --bcn-topic-crimson-3: var(--color-crimson-7);
+  --bcn-topic-crimson-4: var(--color-crimson-8);
+  --bcn-topic-crimson-ink: var(--color-crimson-11);
+  --bcn-topic-slate-1:   var(--color-slate-5);
+  --bcn-topic-slate-2:   var(--color-slate-6);
+  --bcn-topic-slate-3:   var(--color-slate-7);
+  --bcn-topic-slate-4:   var(--color-slate-8);
+  --bcn-topic-slate-ink: var(--color-slate-11);
 }
 
 /* ===== Smooth in-page scrolling — app-wide, canonical spot =====

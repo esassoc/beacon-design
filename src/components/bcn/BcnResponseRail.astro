@@ -1,0 +1,438 @@
+---
+// <BcnResponseRail> — the response page's rail, as the submission page carries one.
+//
+// Details    status (Draft / Accepted), the topic it answers, how many comments and
+//            submissions it answers (label-left rows), and whether the text is saved. Save writes the
+//            editor's document (⌘S does too); Accept response plans every linked
+//            comment at once, with one-step Undo.
+// Comments   every comment the response answers, grouped by submission, each by its
+//            passage number (18.003), swatch, subtopic and state. A row opens the
+//            comment in a side panel over this page (the page stays put): the passage in
+//            its paragraph, who sent it, its topics; J / K step through, Quote in
+//            Response puts it in the letter. The panel's title ("Comment C-018.003",
+//            with an external-link mark) is the one way out, to the submission.
+//
+// Contract, on `document`:
+//   in   response:dirty / response:saved   (bcn-response-editor)
+//   out  response:save                     (Save)
+//   out  response:insert  detail { doc }    a block for the letter (Quote in response)
+//   in   comments:change                   re-render
+//
+// bcn-lego-checked: frames ARE esa-card (outlined, titled, as BcnSubmissionRail), facts
+// ARE BcnKeyValue, actions ARE esa-button. The comment rows are links in a list, the
+// submission rail's outline anatomy; no esa- list-row lego. The comment panel IS
+// esa-side-dialog, as the submission page's. Checked Beacon (no response surface).
+// bcn-response-rail is the home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import { withBase } from '../../lib/base';
+import { COMMENTS_BASE } from '../../data/comments-nav';
+import '../../styles/bcn-comment-topics.css';
+---
+
+<div class="bcn-rr stack" data-gap="md" data-response-rail data-base={withBase(COMMENTS_BASE)}>
+  <EsaCard title="Details" variant="outlined" padding="compact">
+    <div class="bcn-rr__facts">
+      <BcnKeyValue size="sm" layout="row" label="Status"><span class="bcn-rr__val" data-rr-status></span></BcnKeyValue>
+      <BcnKeyValue size="sm" layout="row" label="Topic"><span class="bcn-rr__val" data-rr-topic></span></BcnKeyValue>
+      <BcnKeyValue size="sm" layout="row" label="Comments"><span class="bcn-rr__val" data-rr-comment-count></span></BcnKeyValue>
+      <BcnKeyValue size="sm" layout="row" label="Submissions"><span class="bcn-rr__val" data-rr-sub-count></span></BcnKeyValue>
+      <BcnKeyValue size="sm" layout="row" label="Saved"><span class="bcn-rr__val" data-rr-saved></span></BcnKeyValue>
+    </div>
+    <div slot="footer" class="bcn-rr__actions" data-rr-actions>
+      <span data-rr-accept-wrap><EsaButton size="sm" variant="primary" icon="check" data-rr-accept>Accept Response</EsaButton></span>
+      <span data-rr-undo-wrap hidden><EsaButton size="sm" variant="ghost" icon="rotate-ccw" data-rr-undo>Undo</EsaButton></span>
+      <EsaButton size="sm" variant="secondary" appearance="soft" icon="save" data-rr-save>Save</EsaButton>
+    </div>
+  </EsaCard>
+
+  <EsaCard title="Comments" variant="outlined" padding="compact">
+    <div class="bcn-rr__groups" data-rr-comments></div>
+  </EsaCard>
+
+  <esa-side-dialog position="right" show-close-button data-rr-panel>
+    <h2 slot="header" class="bcn-rr__panel-title typography-title">
+      <a class="bcn-rr__panel-link" href="#" data-rr-open title="Open the Submission"><span data-rr-title>Comment</span><EsaIcon name="external-link" size="sm" /></a>
+    </h2>
+    <div class="stack" data-gap="lg">
+      <p class="bcn-rr__from typography-label-sm" data-rr-from></p>
+      <blockquote class="bcn-rr__context typography-body-md" data-rr-context></blockquote>
+      <section class="stack" data-gap="xs" aria-labelledby="bcn-rr-topics">
+        <h3 id="bcn-rr-topics" class="typography-label-md-strong">Topics</h3>
+        <ul class="bcn-rr__list" role="list" data-rr-topics></ul>
+      </section>
+    </div>
+    <div slot="footer" class="bcn-rr__foot">
+      <span class="bcn-rr__foot-group">
+        <EsaButton size="sm" variant="secondary" appearance="outline" iconOnly icon="chevron-left" label="Previous comment (K)" data-rr-prev />
+        <EsaButton size="sm" variant="secondary" appearance="outline" iconOnly icon="chevron-right" label="Next comment (J)" data-rr-next />
+      </span>
+      <span class="bcn-rr__foot-group">
+        <EsaButton size="sm" variant="primary" icon="plus" data-rr-quote>Quote in Response</EsaButton>
+      </span>
+    </div>
+  </esa-side-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import { SUBMISSIONS, SUBMITTERS } from '../../data/comments';
+  import {
+    acceptResponse, canUndo, currentResponseId, isPlanned, linkedTo, passageNote, passageOf,
+    responseOf, shadeOf, startOf, submissionNo, subtopicName, topicOf, undo, UNFILED,
+  } from './comments-store';
+  import { glyph } from './comment-glyphs';
+
+  const root = document.querySelector<HTMLElement>('[data-response-rail]');
+  const id = currentResponseId();
+  if (root && responseOf(id)) {
+    const base = root.dataset.base!.replace(/\/$/, '');
+    const $ = <T extends HTMLElement = HTMLElement>(s: string) => root.querySelector<T>(s)!;
+    const native = (sel: string) => {
+      const el = $(sel);
+      return (el.matches('button') ? el : el.querySelector('button')) as HTMLButtonElement;
+    };
+    const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+    const panel = $<HTMLElement & { open: boolean; heading: string }>('[data-rr-panel]');
+    let order: string[] = [];
+    let active: string | null = null;
+    const time = (iso: string) => new Date(iso).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    let dirty = false;
+    let justAccepted = false;
+
+    // Save stays a live control (on the footer's gray, a disabled one read as missing);
+    // with nothing changed it stamps the time again.
+    const setSave = () => {
+      const r = responseOf(id)!;
+      $('[data-rr-saved]').textContent = dirty ? 'Unsaved changes' : r.savedAt ? time(r.savedAt) : 'No edits yet';
+      $('[data-rr-saved]').dataset.dirty = String(dirty);
+    };
+
+    const render = () => {
+      const r = responseOf(id)!;
+      const cs = linkedTo(id);
+      const subs = new Set(cs.map((c) => c.submissionId)).size;
+      const t = topicOf(r.topicId);
+      $('[data-rr-status]').innerHTML =
+        `<span class="bcn-rr__state" data-state="${r.accepted ? 'accepted' : 'draft'}">${glyph(r.accepted ? 'file-check' : 'file-pen-line', 14)}${r.accepted ? 'Accepted' : 'Draft'}</span>`;
+      $('[data-rr-topic]').innerHTML = `<span class="bcn-rr__topic"><span class="bcn-topic-dot" data-family="${t.family}"></span>${esc(t.name)}</span>`;
+      $('[data-rr-comment-count]').textContent = String(cs.length);
+      $('[data-rr-sub-count]').textContent = String(subs);
+      $('[data-rr-accept-wrap]').hidden = r.accepted;
+      $('[data-rr-undo-wrap]').hidden = !(justAccepted && canUndo());
+      setSave();
+
+      // One row per passage (a passage filed under two subtopics answers once).
+      const seen = new Set<string>();
+      const bySub = new Map<string, typeof cs>();
+      for (const c of cs) {
+        const lead = passageOf(c.id)[0]?.id ?? c.id;
+        if (seen.has(lead)) continue;
+        seen.add(lead);
+        bySub.set(c.submissionId, [...(bySub.get(c.submissionId) ?? []), c]);
+      }
+      const groups = [...bySub.entries()].sort(
+        (a, b) => SUBMISSIONS.find((s) => s.id === a[0])!.key - SUBMISSIONS.find((s) => s.id === b[0])!.key,
+      );
+      order = groups.flatMap(([, list]) => list.map((c) => c.id));
+      $('[data-rr-comments]').innerHTML = groups
+        .map(([sid, list]) => {
+          const s = SUBMISSIONS.find((x) => x.id === sid)!;
+          const p = SUBMITTERS.find((x) => x.id === s.submitterId)!;
+          return (
+            `<section class="bcn-rr__group"><h3 class="bcn-rr__sub typography-label-sm-strong">${submissionNo(s.id)} ${esc(p.name)}</h3><ul class="bcn-rr__list" role="list">` +
+            list
+              .map((c) => {
+                const name = c.topicId === UNFILED ? 'Unfiled' : subtopicName(c.topicId, c.subtopicId);
+                const planned = isPlanned(c);
+                return (
+                  `<li><button type="button" class="bcn-rr__row" data-cid="${c.id}" aria-current="${c.id === active}" title="${esc(c.quote)}">` +
+                  `<span class="bcn-rr__note">${passageNote(c.id)}</span>` +
+                  `<span class="bcn-topic-dot" data-family="${topicOf(c.topicId).family}" data-shade="${shadeOf(c.topicId, c.subtopicId)}"></span>` +
+                  `<span class="bcn-rr__name">${esc(name)}</span>` +
+                  `<span class="bcn-rr__glyph" data-state="${planned ? 'accepted' : 'draft'}" role="img" aria-label="${planned ? 'Planned' : 'Not planned yet'}">${glyph(planned ? 'file-check' : 'file-pen-line', 13)}</span>` +
+                  `</button></li>`
+                );
+              })
+              .join('') +
+            `</ul></section>`
+          );
+        })
+        .join('');
+    };
+
+    // ---- the comment panel ----
+    const fmtDate = (d: string) =>
+      new Date(`${d}T12:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const show = (cid: string) => {
+      const filings = passageOf(cid);
+      const c = filings[0];
+      if (!c) return;
+      active = cid;
+      const s = SUBMISSIONS.find((x) => x.id === c.submissionId)!;
+      const p = SUBMITTERS.find((x) => x.id === s.submitterId)!;
+      $('[data-rr-title]').textContent = `Comment ${passageNote(c.id)}`;
+      $('[data-rr-from]').textContent = [submissionNo(s.id), p.name, p.organization, p.city, fmtDate(s.received)].filter(Boolean).join(' · ');
+      // The passage in its paragraph, marked in its first filing's colours.
+      const at = startOf(c);
+      const from = Math.max(0, s.text.lastIndexOf('\n', at) + 1);
+      const end = s.text.indexOf('\n', at + c.quote.length);
+      const to = end === -1 ? s.text.length : end;
+      $('[data-rr-context]').innerHTML =
+        esc(s.text.slice(from, at)) +
+        `<mark class="bcn-hl" data-family="${topicOf(c.topicId).family}" data-shade="${shadeOf(c.topicId, c.subtopicId)}">${esc(c.quote)}</mark>` +
+        esc(s.text.slice(at + c.quote.length, to));
+      $('[data-rr-topics]').innerHTML = filings
+        .map((f) => {
+          const t = topicOf(f.topicId);
+          const name = f.topicId === UNFILED ? 'Unfiled' : `${t.name} › ${subtopicName(f.topicId, f.subtopicId)}`;
+          return `<li class="bcn-rr__topic-row"><span class="bcn-topic-dot" data-family="${t.family}" data-shade="${shadeOf(f.topicId, f.subtopicId)}"></span>${esc(name)}</li>`;
+        })
+        .join('');
+      $('[data-rr-open]').setAttribute('href', `${base}/${s.id}?c=${c.id}`);
+      const i = order.indexOf(cid);
+      native('[data-rr-prev]').disabled = i <= 0;
+      native('[data-rr-next]').disabled = i === -1 || i >= order.length - 1;
+      for (const row of root.querySelectorAll<HTMLElement>('[data-cid]')) row.setAttribute('aria-current', String(row.dataset.cid === cid));
+      panel.open = true;
+    };
+    const step = (d: -1 | 1) => {
+      const i = active ? order.indexOf(active) : -1;
+      const next = order[i + d];
+      if (next) show(next);
+    };
+    $('[data-rr-comments]').addEventListener('click', (e) => {
+      const row = (e.target as Element).closest<HTMLElement>('[data-cid]');
+      if (row) show(row.dataset.cid!);
+    });
+    native('[data-rr-prev]').addEventListener('click', () => step(-1));
+    native('[data-rr-next]').addEventListener('click', () => step(1));
+    panel.addEventListener('keydown', (e) => {
+      if ((e.target as Element).closest('input, textarea, [contenteditable]')) return;
+      if (e.key === 'j') step(1);
+      else if (e.key === 'k') step(-1);
+    });
+    panel.addEventListener('close', () => {
+      active = null;
+      for (const row of root.querySelectorAll<HTMLElement>('[data-cid]')) row.setAttribute('aria-current', 'false');
+    });
+    native('[data-rr-quote]').addEventListener('click', () => {
+      const c = active ? passageOf(active)[0] : null;
+      if (!c) return;
+      const s = SUBMISSIONS.find((x) => x.id === c.submissionId)!;
+      const para = (text: string) => ({ type: 'paragraph', content: [{ type: 'text', text }] });
+      document.dispatchEvent(new CustomEvent('response:insert', {
+        detail: { doc: [{ type: 'blockquote', content: [para(c.quote)] }, para(`Comment ${passageNote(c.id)} (${submissionNo(s.id)}): `)] },
+      }));
+      panel.open = false;
+      active = null;
+      render();
+    });
+
+    native('[data-rr-save]').addEventListener('click', () => document.dispatchEvent(new CustomEvent('response:save')));
+    native('[data-rr-accept]').addEventListener('click', () => {
+      acceptResponse(id);
+      justAccepted = true;
+      render();
+    });
+    native('[data-rr-undo]').addEventListener('click', () => {
+      undo();
+      justAccepted = false;
+      render();
+    });
+    document.addEventListener('response:dirty', (e) => {
+      dirty = (e as CustomEvent<{ dirty: boolean }>).detail.dirty;
+      setSave();
+    });
+    document.addEventListener('response:saved', () => {
+      dirty = false;
+      setSave();
+    });
+    document.addEventListener('comments:change', render);
+    render();
+  }
+</script>
+
+<style>
+  .bcn-rr {
+    position: sticky;
+    top: var(--spacing-400);
+  }
+
+  .bcn-rr__facts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+
+  .bcn-rr__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100);
+  }
+
+  .bcn-rr__val {
+    font-size: var(--typography-label-sm-strong-font-size);
+    font-weight: var(--typography-label-sm-strong-font-weight);
+    color: var(--color-content-default);
+  }
+
+  .bcn-rr__val[data-dirty='true'] {
+    color: var(--color-content-utility-warning, var(--color-content-default));
+  }
+
+  .bcn-rr :global(.bcn-rr__state),
+  .bcn-rr :global(.bcn-rr__topic) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150, 0.375rem);
+    vertical-align: top;
+  }
+
+  .bcn-rr :global(.bcn-rr__state[data-state='accepted']) {
+    color: var(--color-content-success, var(--color-content-default));
+  }
+
+  [data-rr-actions] [hidden] {
+    display: none;
+  }
+
+  .bcn-rr__groups {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+
+  .bcn-rr :global(.bcn-rr__sub) {
+    margin: 0 0 var(--spacing-100);
+    color: var(--color-content-default);
+  }
+
+  .bcn-rr :global(.bcn-rr__list) {
+    list-style: none;
+    margin: 0 calc(-1 * var(--spacing-200));
+    padding: 0;
+  }
+
+  .bcn-rr :global(.bcn-rr__row) {
+    width: 100%;
+    border: 0;
+    background: none;
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--spacing-150, 0.375rem);
+    padding: var(--spacing-100) var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: var(--typography-label-sm-font-size);
+    color: var(--color-content-default);
+    text-decoration: none;
+  }
+
+  .bcn-rr :global(.bcn-rr__row:hover) {
+    background: var(--color-background-default-hover, var(--color-background-elevation-sunken));
+  }
+
+  .bcn-rr :global(.bcn-rr__row[aria-current='true']) {
+    background: var(--color-background-elevation-sunken);
+  }
+
+  .bcn-rr :global(.bcn-rr__row:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: -2px;
+  }
+
+  .bcn-rr :global(.bcn-rr__note) {
+    /* adherence-allow: font-too-small — the passage number is meta; 13px is the meta floor */
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-rr :global(.bcn-rr__name) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .bcn-rr :global(.bcn-rr__glyph) {
+    display: inline-flex;
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-rr :global(.bcn-rr__glyph[data-state='accepted']) {
+    color: var(--color-content-success, var(--color-content-default));
+  }
+
+  .bcn-rr__from {
+    margin: 0;
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-rr__context {
+    margin: 0;
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    color: var(--color-content-default);
+  }
+
+  .bcn-rr :global(.bcn-rr__topic-row) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-100) var(--spacing-200);
+    font-size: var(--typography-label-sm-font-size);
+    color: var(--color-content-default);
+  }
+
+  .bcn-rr__foot {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+    width: 100%;
+  }
+
+  .bcn-rr__panel-title {
+    margin: 0;
+  }
+
+  .bcn-rr__panel-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    color: var(--color-content-default);
+    text-decoration: none;
+  }
+
+  .bcn-rr__panel-link :global(.esa-icon) {
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-rr__panel-link:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  .bcn-rr__panel-link:hover :global(.esa-icon) {
+    color: var(--color-content-default);
+  }
+
+  .bcn-rr__panel-link:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset, 2px);
+    border-radius: var(--radius-sm);
+  }
+
+  .bcn-rr__foot-group {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100);
+  }
+</style>

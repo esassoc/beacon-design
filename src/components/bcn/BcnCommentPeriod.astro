@@ -1,0 +1,44 @@
+---
+// <BcnCommentPeriod> — the facts of the comment period the page is about, in one small
+// card under its title: when it opens and closes and its response format as label /
+// value pairs, and the two progress meters at their compact size beside them. Summary format rolls
+// many comments up to one response; letter format answers each submission.
+//
+// The page title IS the period's name; choosing another period happens elsewhere.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import BcnCommentBurnDown from './BcnCommentBurnDown.astro';
+import { COMMENT_PERIOD } from '../../data/comments';
+
+const day = (iso: string) =>
+  new Date(`${iso}T12:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+const FORMAT = { summary: 'Summary', letter: 'Letter by letter' } as const;
+// Lucide calendar-x: off the hub registry.
+const CALENDAR_X =
+  '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m14 14-4 4"/><path d="m10 14 4 4"/>';
+---
+
+<div data-comment-period>
+  <EsaCard padding="compact">
+    <div class="bcn-cper repel" data-gap="lg">
+      <div class="cluster" data-gap="xl">
+        <BcnKeyValue size="sm" icon="calendar" label="Opens" value={day(COMMENT_PERIOD.opens)} />
+        <BcnKeyValue size="sm" icon="calendar-x" iconPaths={CALENDAR_X} label="Closes" value={day(COMMENT_PERIOD.closes)} />
+        <BcnKeyValue size="sm" icon="file-text" label="Response Format" value={FORMAT[COMMENT_PERIOD.responseFormat]} />
+      </div>
+      <BcnCommentBurnDown size="sm" />
+    </div>
+  </EsaCard>
+</div>
+
+<style>
+  .bcn-cper {
+    align-items: flex-end;
+  }
+
+  /* esa-card clips its overflow (no hook for it); this card holds nothing full-bleed,
+     so it lets the progress breakdown popover hang below its edge. */
+  [data-comment-period] :global(.esa-card) {
+    overflow: visible;
+  }
+</style>

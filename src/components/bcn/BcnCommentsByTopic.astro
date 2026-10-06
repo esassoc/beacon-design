@@ -1,0 +1,266 @@
+---
+// <BcnCommentsByTopic> — the comment period's topic hierarchy, drawn the way the
+// Compliance Index draws its own (<BcnCiIndex>): one bordered panel of 13px rows,
+// TOPIC › SUBTOPIC › COMMENT, topics always open, subtopics folded until their chevron
+// opens them. A comment row points at its submission (number and submitter, linking to
+// the submission with that comment open), then a one-line excerpt, the response it is
+// linked to, and an icon for its state.
+//
+// The hierarchy is editable in place, on the setup-wizard registry tree's verbs: rename
+// a topic or subtopic, lock a topic, delete one (its comments go to Unfiled), add a
+// subtopic, lock a subtopic, and move or duplicate a single comment to any filing
+// through one typeahead picker. Guidance + Re-run
+// refiles everything not locked, in one step, with Undo — the compliance-index pattern
+// the Comments brief names for this view, given through <BcnAldoPrompt> so it reads as
+// what it is: asking Aldo to operate on the data.
+//
+// bcn-lego-checked: the tree rows are bcn-tree's row anatomy (no esa- tree lego:
+// esa-collapsible is one titled section, not a list of sections with rows); checked
+// Beacon (compliance-index-step is the nested list this mirrors). The guidance IS
+// bcn-aldo-prompt, Undo / Expand all ARE esa-button, the move and duplicate picker
+// IS esa-combobox (typeahead), the verb labels ARE esa-tooltip.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnAldoPrompt from './BcnAldoPrompt.astro';
+import { withBase } from '../../lib/base';
+import { COMMENTS_BASE } from '../../data/comments-nav';
+import '../../styles/bcn-tree.css';
+import '../../styles/bcn-comment-topics.css';
+---
+
+<section class="bcn-cbt stack" data-gap="xs" data-by-topic data-base={withBase(COMMENTS_BASE)}>
+  <BcnAldoPrompt
+    prompt="Give Aldo guidance on your topic index"
+    heading="Guide the Topic Index"
+    placeholder="e.g. Split nighttime operations by hour, and file vibration under health"
+    label="Guidance for the Topic Index"
+  />
+  <div class="bcn-cbt__tools">
+    <span class="bcn-cbt__status typography-body-sm" data-cbt-status hidden>
+      <span data-cbt-status-text></span>
+      <EsaButton size="sm" variant="ghost" data-cbt-undo>Undo</EsaButton>
+    </span>
+    <span class="bcn-cbt__verbs">
+      <EsaButton variant="ghost" size="xs" data-cbt-expand>Expand All</EsaButton>
+      <EsaButton variant="ghost" size="xs" data-cbt-collapse>Collapse All</EsaButton>
+    </span>
+  </div>
+  <div class="bcn-cbt__list" data-cbt-list></div>
+  <div class="bcn-cbt__picker" role="dialog" aria-label="Move To" data-cbt-picker hidden>
+    <esa-combobox size="sm" mode="autocomplete" label="Move To" placeholder="e.g. Elliott Bay" data-cbt-picker-field></esa-combobox>
+  </div>
+</section>
+
+<script>
+  import '@esa/ecology/esa-combobox';
+  import '@esa/ecology/esa-tooltip';
+  import { setupCommentsByTopic } from './comments-by-topic';
+  document.querySelectorAll<HTMLElement>('[data-by-topic]').forEach(setupCommentsByTopic);
+</script>
+
+<style>
+  .bcn-cbt { position: relative; }
+
+  /* The filing picker floats under the verb that opened it (positioned by script). */
+  .bcn-cbt__picker {
+    position: absolute;
+    z-index: 30;
+    width: 22rem;
+    padding: var(--spacing-300);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    box-shadow: var(--elevation-4);
+  }
+  .bcn-cbt__picker[hidden] { display: none; }
+
+  .bcn-cbt__tools {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    flex-wrap: wrap;
+    min-height: 2rem;
+  }
+
+  .bcn-cbt__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    color: var(--color-content-default);
+  }
+
+  .bcn-cbt__status[hidden] { display: none; }
+
+  .bcn-cbt__verbs {
+    display: inline-flex;
+    gap: var(--spacing-100);
+    margin-left: auto;
+  }
+
+  /* The Compliance Index's panel: one bordered surface, every line 13px. */
+  .bcn-cbt__list {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    font-size: 0.8125rem;
+    color: var(--color-content-default);
+  }
+
+  .bcn-cbt :global(.bcn-cbt__cat) { border-bottom: 1px solid var(--color-border-default); }
+  .bcn-cbt :global(.bcn-cbt__cat:last-child) {
+    border-bottom: none;
+    border-radius: 0 0 var(--radius-200) var(--radius-200);
+  }
+  .bcn-cbt :global(.bcn-cbt__cat:nth-child(even of .bcn-cbt__cat)) {
+    background: color-mix(in srgb, var(--color-background-elevation-sunken) 50%, var(--color-background-elevation-raised));
+  }
+  .bcn-cbt :global(.bcn-cbt__sub + .bcn-cbt__sub) { border-top: 1px solid var(--color-border-default-subtle); }
+
+  .bcn-cbt :global(.bcn-cbt__row) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-height: 34px;
+    padding: var(--spacing-100) var(--spacing-400);
+    line-height: 1.4;
+  }
+  .bcn-cbt :global(.bcn-cbt__row--cat) { font-weight: var(--typography-font-weight-semibold); }
+  .bcn-cbt :global(.bcn-cbt__row--sub) { padding-left: calc(var(--spacing-400) + 4px); cursor: pointer; }
+  .bcn-cbt :global(.bcn-cbt__row--sub:hover) { background: var(--color-background-default); }
+
+  .bcn-cbt :global(.bcn-cbt__chev) {
+    all: unset;
+    display: inline-flex;
+    flex-shrink: 0;
+    cursor: pointer;
+    color: var(--color-content-default-tertiary);
+    transition: transform 120ms ease;
+  }
+  .bcn-cbt :global(.bcn-cbt__chev[aria-expanded='true']) { transform: rotate(90deg); }
+  .bcn-cbt :global(.bcn-cbt__chev:disabled) { visibility: hidden; }
+  .bcn-cbt :global(.bcn-cbt__chev:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 2px;
+    border-radius: var(--radius-100);
+  }
+
+  .bcn-cbt :global(.bcn-cbt__name) {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+  .bcn-cbt :global(.bcn-cbt__name[contenteditable='true']) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    background: var(--color-background-elevation-raised);
+    cursor: text;
+    text-overflow: clip;
+  }
+
+  /* Right-hand verbs: bcn-tree's icon set. Quiet ones wait for hover or focus. */
+  .bcn-cbt :global(.bcn-cbt__verbs) {
+    display: inline-flex;
+    flex-shrink: 0;
+    gap: 2px;
+    min-width: 56px;
+    margin-left: auto;
+    justify-content: flex-end;
+  }
+  .bcn-cbt :global(.bcn-cbt__verbs esa-tooltip) { display: inline-flex; }
+  .bcn-cbt :global(.bcn-cbt__verb) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-100);
+    color: var(--color-content-default-tertiary);
+    cursor: pointer;
+  }
+  .bcn-cbt :global(.bcn-cbt__verb--quiet) { opacity: 0; transition: opacity 120ms ease; }
+  .bcn-cbt :global(:is(.bcn-cbt__row, .bcn-cbt__item):is(:hover, :focus-within) .bcn-cbt__verb--quiet) { opacity: 1; }
+  .bcn-cbt :global(.bcn-cbt__verb:hover) {
+    background: var(--color-background-default);
+    color: var(--color-content-default);
+  }
+  .bcn-cbt :global(.bcn-cbt__verb:focus-visible) {
+    opacity: 1;
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 1px;
+  }
+  .bcn-cbt :global(.bcn-cbt__verb--danger:hover) { color: var(--color-background-utility-danger); }
+  .bcn-cbt :global(.bcn-cbt__verb[aria-pressed='true']) { color: var(--color-content-default); }
+
+  /* Comment rows: submission, excerpt, response, state, verbs. */
+  .bcn-cbt :global(.bcn-cbt__items) {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 var(--spacing-200);
+  }
+  .bcn-cbt :global(.bcn-cbt__item) {
+    display: grid;
+    grid-template-columns: 3.5rem 10rem minmax(0, 1fr) minmax(0, 17rem) 56px;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-cbt :global(.bcn-cbt__item) {
+    min-height: 30px;
+    padding: 0 var(--spacing-400) 0 calc(var(--spacing-400) + 44px);
+  }
+  .bcn-cbt :global(.bcn-cbt__item + .bcn-cbt__item) { border-top: 1px solid var(--color-border-default-subtle); }
+  .bcn-cbt :global(.bcn-cbt__item:hover) { background: var(--color-background-default); }
+
+  .bcn-cbt :global(.bcn-cbt__key) {
+    color: var(--color-content-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-cbt :global(.bcn-cbt__who) {
+    color: var(--color-content-default);
+    font-weight: var(--typography-font-weight-semibold);
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-cbt :global(.bcn-cbt__who:hover) { text-decoration: underline; }
+  .bcn-cbt :global(.bcn-cbt__who:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 1px;
+    border-radius: 2px;
+  }
+  .bcn-cbt :global(:is(.bcn-cbt__excerpt, .bcn-cbt__resp)) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-cbt :global(.bcn-cbt__excerpt) { color: var(--color-content-secondary); }
+  .bcn-cbt :global(.bcn-cbt__resp) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    color: var(--color-content-default);
+    text-decoration: none;
+  }
+  .bcn-cbt :global(a.bcn-cbt__resp:hover .bcn-cbt__title) { text-decoration: underline; }
+  .bcn-cbt :global(.bcn-cbt__resp svg) { flex-shrink: 0; }
+  .bcn-cbt :global(.bcn-cbt__resp > span:last-child) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-cbt :global(.bcn-cbt__resp[data-state='draft'] svg) { color: var(--color-content-secondary); }
+  .bcn-cbt :global(.bcn-cbt__resp[data-state='planned'] svg) { color: var(--color-content-success, var(--color-content-default)); }
+  .bcn-cbt :global(.bcn-cbt__resp[data-state='none']) { color: var(--color-content-default-tertiary); }
+  .bcn-cbt :global(.bcn-cbt__resp esa-tooltip),
+  .bcn-cbt :global(.bcn-cbt__glyph) { display: inline-flex; flex-shrink: 0; }
+  .bcn-cbt :global(.bcn-cbt__resp) { min-width: 0; }
+
+  .bcn-cbt :global(.bcn-cbt__item[data-moved]) { animation: bcn-cbt-moved 1200ms ease-out; }
+  @keyframes bcn-cbt-moved {
+    from { background: var(--color-background-utility-success-subtle, var(--color-background-default)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-cbt :global(.bcn-cbt__item[data-moved]) { animation: none; }
+  }
+</style>
