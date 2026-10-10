@@ -9403,7 +9403,7 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-sm-strong-line-height);
   letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
 }
-.bcn-component-picker__trigger .esa-icon {
+.bcn-component-picker__trigger > .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
 }

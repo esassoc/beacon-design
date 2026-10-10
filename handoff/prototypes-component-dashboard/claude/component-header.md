@@ -276,72 +276,6 @@ The component's identity band: a full-width white bar carrying its mark, its nam
 .bcn-mod__link .esa-icon {
   color: var(--bcn-content-muted);
 }
-.bcn-entity-logo {
-  background: color-mix(in srgb, var(--_c) 12%, transparent);
-  color: var(--_c);
-  border: 1px solid color-mix(in srgb, var(--_c) 30%, transparent);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  line-height: 0;
-  display: inline-flex;
-  overflow: hidden;
-}
-.bcn-entity-logo[data-style="fill"] {
-  background: var(--_c);
-  color: var(--color-content-default-knockout);
-  border-color: #0000;
-}
-.bcn-entity-logo[data-style="image"] {
-  background: var(--color-background-elevation-sunken);
-  border-color: var(--color-border-default-subtle);
-}
-.bcn-entity-logo__img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-.bcn-entity-logo[data-size="sm"] {
-  width: 24px;
-  height: 24px;
-}
-.bcn-entity-logo[data-size="md"] {
-  --icon-size-sm: 18px;
-  width: 32px;
-  height: 32px;
-}
-.bcn-entity-logo[data-size="lg"] {
-  width: 48px;
-  height: 48px;
-}
-.bcn-entity-logo[data-size="xl"] {
-  --icon-size-xl: 36px;
-  width: 72px;
-  height: 72px;
-}
-.bcn-entity-logo[data-size="2xl"] {
-  --icon-size-xl: 44px;
-  width: 92px;
-  height: 92px;
-}
-.bcn-entity-logo[data-shape="rounded"][data-size="sm"],
-.bcn-entity-logo[data-shape="rounded"][data-size="md"] {
-  border-radius: var(--radius-200);
-}
-.bcn-entity-logo[data-shape="rounded"][data-size="lg"],
-.bcn-entity-logo[data-shape="rounded"][data-size="xl"],
-.bcn-entity-logo[data-shape="rounded"][data-size="2xl"] {
-  border-radius: var(--radius-400);
-}
-.bcn-entity-logo[data-shape="circle"] {
-  border-radius: var(--radius-full);
-}
-.bcn-entity-logo[data-variant="seal"] {
-  border: var(--bcn-seal-ring-width) solid var(--bcn-seal-ring-color);
-  box-shadow: var(--bcn-seal-shadow);
-  box-sizing: content-box;
-}
 .bcn-chd {
   gap: var(--spacing-300);
   padding: var(--spacing-200) var(--spacing-600);
@@ -680,6 +614,72 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-microcopy-md-strong-font-weight);
   line-height: var(--typography-microcopy-md-strong-line-height);
   letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+}
+.bcn-entity-logo {
+  background: color-mix(in srgb, var(--_c) 12%, transparent);
+  color: var(--_c);
+  border: 1px solid color-mix(in srgb, var(--_c) 30%, transparent);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+  display: inline-flex;
+  overflow: hidden;
+}
+.bcn-entity-logo[data-style="fill"] {
+  background: var(--_c);
+  color: var(--color-content-default-knockout);
+  border-color: #0000;
+}
+.bcn-entity-logo[data-style="image"] {
+  background: var(--color-background-elevation-sunken);
+  border-color: var(--color-border-default-subtle);
+}
+.bcn-entity-logo__img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.bcn-entity-logo[data-size="sm"] {
+  width: 24px;
+  height: 24px;
+}
+.bcn-entity-logo[data-size="md"] {
+  --icon-size-sm: 18px;
+  width: 32px;
+  height: 32px;
+}
+.bcn-entity-logo[data-size="lg"] {
+  width: 48px;
+  height: 48px;
+}
+.bcn-entity-logo[data-size="xl"] {
+  --icon-size-xl: 36px;
+  width: 72px;
+  height: 72px;
+}
+.bcn-entity-logo[data-size="2xl"] {
+  --icon-size-xl: 44px;
+  width: 92px;
+  height: 92px;
+}
+.bcn-entity-logo[data-shape="rounded"][data-size="sm"],
+.bcn-entity-logo[data-shape="rounded"][data-size="md"] {
+  border-radius: var(--radius-200);
+}
+.bcn-entity-logo[data-shape="rounded"][data-size="lg"],
+.bcn-entity-logo[data-shape="rounded"][data-size="xl"],
+.bcn-entity-logo[data-shape="rounded"][data-size="2xl"] {
+  border-radius: var(--radius-400);
+}
+.bcn-entity-logo[data-shape="circle"] {
+  border-radius: var(--radius-full);
+}
+.bcn-entity-logo[data-variant="seal"] {
+  border: var(--bcn-seal-ring-width) solid var(--bcn-seal-ring-color);
+  box-shadow: var(--bcn-seal-shadow);
+  box-sizing: content-box;
 }
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);

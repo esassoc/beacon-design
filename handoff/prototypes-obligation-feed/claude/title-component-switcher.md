@@ -73,7 +73,7 @@ The H1 "Obligations" with the standard project-component switcher inline beside 
       ></span>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnComponentPicker.astro_astro_type_script_index_0_lang.BkuXXS3g.js"
+        src="/beacon-design/_astro/BcnComponentPicker.astro_astro_type_script_index_0_lang.B8KqPPxD.js"
       ></script
     ></span>
   </div>
@@ -186,9 +186,81 @@ The H1 "Obligations" with the standard project-component switcher inline beside 
   background: var(--color-background-elevation-sunken, var(--color-background-default));
   color: var(--color-content-default);
 }
-.bcn-component-picker__trigger .esa-icon {
+.bcn-component-picker__trigger > .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
+}
+.bcn-component-picker__pop {
+  --_popover-padding: var(--spacing-150);
+  display: inline-flex;
+}
+.bcn-component-picker__trigger--mark {
+  gap: var(--spacing-200);
+  padding: var(--spacing-100) var(--spacing-200) var(--spacing-100) var(--spacing-100);
+  color: var(--color-content-default);
+  font-size: 0.875rem;
+  font-weight: 550;
+}
+.bcn-component-picker__tmark {
+  display: inline-flex;
+}
+.bcn-component-picker__tmark .bcn-entity-logo {
+  --icon-size-xs: 12px;
+  width: 20px;
+  height: 20px;
+}
+.bcn-component-picker__tmark[hidden] {
+  display: none;
+}
+.bcn-component-picker__panel {
+  flex-direction: column;
+  gap: 2px;
+  max-block-size: min(60vh, 520px);
+  min-inline-size: 340px;
+  display: flex;
+  overflow-y: auto;
+}
+.bcn-component-picker__opt {
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-200) var(--spacing-250) var(--spacing-200) var(--spacing-200);
+  border-radius: var(--radius-200);
+  font: inherit;
+  color: var(--color-content-default);
+  text-align: start;
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+  grid-template-columns: auto minmax(0, 1fr) 16px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.3;
+  display: grid;
+}
+.bcn-component-picker__opt:hover {
+  background: var(--color-background-elevation-sunken);
+}
+.bcn-component-picker__opt:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+  outline-offset: -2px;
+}
+.bcn-component-picker__opt[aria-selected="true"] {
+  background: color-mix(in srgb, var(--color-background-brand) 8%, transparent);
+  font-weight: 600;
+}
+.bcn-component-picker__optname {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  min-inline-size: 0;
+  overflow: hidden;
+}
+.bcn-component-picker__check {
+  color: var(--color-background-brand);
+  visibility: hidden;
+  display: inline-flex;
+}
+.bcn-component-picker__opt[aria-selected="true"] .bcn-component-picker__check {
+  visibility: visible;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -268,6 +340,8 @@ The H1 "Obligations" with the standard project-component switcher inline beside 
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--focus-ring-color`: #3e9b4f _(component)_
+- `--focus-ring-width`: 2px _(component)_
 - `--font-decorative`: "Besley", serif _(component)_
 - `--font-size-500`: clamp(1.125rem, .98rem + .72vw, 1.5rem) _(primitive)_
 - `--icon-size-lg`: 24px _(primitive)_
@@ -279,6 +353,7 @@ The H1 "Obligations" with the standard project-component switcher inline beside 
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
+- `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_

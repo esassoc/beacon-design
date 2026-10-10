@@ -680,7 +680,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </div>
                     </div>
                   </div>
-                  <div id="bd-summary-card" style="display: none">
+                  <div id="bd-summary-card" style="display: block">
                     <div class="esa-card">
                       <div class="esa-card__header">
                         <div class="esa-card__header-content">
@@ -695,19 +695,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="stack" data-gap="xs">
                           <div class="bcn-key-value" data-size="md" data-layout="stack">
                             <span class="bcn-key-value__key">Vertices</span
-                            ><span class="bcn-key-value__val">—</span>
+                            ><span class="bcn-key-value__val">4</span>
                           </div>
                           <div class="bcn-key-value" data-size="md" data-layout="stack">
                             <span class="bcn-key-value__key">Perimeter</span
-                            ><span class="bcn-key-value__val">—</span>
+                            ><span class="bcn-key-value__val">4.69 km · 15399 ft</span>
                           </div>
                           <div class="bcn-key-value" data-size="md" data-layout="stack">
                             <span class="bcn-key-value__key">Area</span
-                            ><span class="bcn-key-value__val">—</span>
+                            ><span class="bcn-key-value__val">341.0 ac · 1379996 m²</span>
                           </div>
                           <div class="bcn-key-value" data-size="md" data-layout="stack">
                             <span class="bcn-key-value__key">Centroid</span
-                            ><span class="bcn-key-value__val">—</span>
+                            ><span class="bcn-key-value__val">35.05170, -118.17600</span>
                           </div>
                           <div class="bcn-key-value" data-size="md" data-layout="stack">
                             <span class="bcn-key-value__key">Detected parcels</span
@@ -744,7 +744,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     >
                       <div
                         class="leaflet-pane leaflet-map-pane"
-                        style="transform: translate3d(75px, 0px, 0px)"
+                        style="transform: translate3d(0px, 0px, 0px)"
                       >
                         <div class="leaflet-pane leaflet-tile-pane">
                           <div class="leaflet-layer" style="z-index: 1; opacity: 1">
@@ -759,7 +759,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(172px, 129px, 0px);
+                                  transform: translate3d(247px, 129px, 0px);
                                   opacity: 1;
                                 "
                               /><img
@@ -769,7 +769,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(172px, -127px, 0px);
+                                  transform: translate3d(247px, -127px, 0px);
                                   opacity: 1;
                                 "
                               /><img
@@ -779,7 +779,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(-84px, 129px, 0px);
+                                  transform: translate3d(-9px, 129px, 0px);
                                   opacity: 1;
                                 "
                               /><img
@@ -789,7 +789,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(428px, 129px, 0px);
+                                  transform: translate3d(503px, 129px, 0px);
                                   opacity: 1;
                                 "
                               /><img
@@ -799,7 +799,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(172px, 385px, 0px);
+                                  transform: translate3d(247px, 385px, 0px);
                                   opacity: 1;
                                 "
                               /><img
@@ -809,7 +809,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(-84px, -127px, 0px);
+                                  transform: translate3d(-9px, -127px, 0px);
                                   opacity: 1;
                                 "
                               /><img
@@ -819,7 +819,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(428px, -127px, 0px);
+                                  transform: translate3d(503px, -127px, 0px);
                                   opacity: 1;
                                 "
                               /><img
@@ -829,7 +829,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(-84px, 385px, 0px);
+                                  transform: translate3d(-9px, 385px, 0px);
                                   opacity: 1;
                                 "
                               /><img
@@ -839,7 +839,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(428px, 385px, 0px);
+                                  transform: translate3d(503px, 385px, 0px);
                                   opacity: 1;
                                 "
                               />
@@ -852,8 +852,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             class="leaflet-zoom-animated"
                             width="814"
                             height="670"
-                            viewBox="-143 -56 814 670"
-                            style="transform: translate3d(-143px, -56px, 0px)"
+                            viewBox="-68 -56 814 670"
+                            style="transform: translate3d(-68.1861px, -55.4972px, 0px) scale(1)"
                           >
                             <g>
                               <path
@@ -866,7 +866,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 fill="#005862"
                                 fill-opacity="0.15"
                                 fill-rule="evenodd"
-                                d="M114 430L414 430L414 129L114 129z"
+                                d="M189 430L489 430L489 129L189 129z"
                               ></path>
                             </g>
                           </svg>
@@ -9988,6 +9988,48 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-alert-box__message {
   color: var(--_alert-text-color);
 }
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -10068,610 +10110,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   background-color: var(--color-background-elevation-raised);
   border-bottom-color: var(--color-border-default);
 }
-.leaflet-container {
-  overflow: hidden;
-}
-.leaflet-container {
-  -webkit-tap-highlight-color: transparent;
-}
-.leaflet-container {
-  outline-offset: 1px;
-  background: #ddd;
-}
-.leaflet-container {
-  font-family:
-    Helvetica Neue,
-    Arial,
-    Helvetica,
-    sans-serif;
-  font-size: 0.75rem;
-  line-height: 1.5;
-}
-.leaflet-grab {
-  cursor: -webkit-grab;
-  cursor: -moz-grab;
-  cursor: grab;
-}
-.leaflet-container.leaflet-touch-zoom {
-  -ms-touch-action: pan-x pan-y;
-  touch-action: pan-x pan-y;
-}
-.leaflet-container.leaflet-touch-drag {
-  -ms-touch-action: pinch-zoom;
-  touch-action: none;
-  touch-action: pinch-zoom;
-}
-.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
-  -ms-touch-action: none;
-  touch-action: none;
-}
-.leaflet-pane,
-.leaflet-tile,
-.leaflet-marker-icon,
-.leaflet-marker-shadow,
-.leaflet-tile-container,
-.leaflet-pane > svg,
-.leaflet-pane > canvas,
-.leaflet-zoom-box,
-.leaflet-image-layer,
-.leaflet-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.leaflet-pane {
-  z-index: 400;
-}
-.leaflet-tile-pane {
-  z-index: 200;
-}
-.leaflet-overlay-pane {
-  z-index: 400;
-}
-.leaflet-shadow-pane {
-  z-index: 500;
-}
-.leaflet-marker-pane {
-  z-index: 600;
-}
-.leaflet-tooltip-pane {
-  z-index: 650;
-}
-.leaflet-popup-pane {
-  z-index: 700;
-}
-.leaflet-popup-pane,
-.leaflet-control {
-  cursor: auto;
-}
-.leaflet-zoom-animated {
-  -webkit-transform-origin: 0 0;
-  -ms-transform-origin: 0 0;
-  transform-origin: 0 0;
-}
-.leaflet-top,
-.leaflet-bottom {
-  z-index: 1000;
-  pointer-events: none;
-  position: absolute;
-}
-.leaflet-top {
-  top: 0;
-}
-.leaflet-left {
-  left: 0;
-}
-.leaflet-control {
-  z-index: 800;
-  pointer-events: visiblePainted;
-  pointer-events: auto;
-  position: relative;
-}
-.leaflet-control {
-  float: left;
-  clear: both;
-}
-.leaflet-bar {
-  border-radius: 4px;
-  box-shadow: 0 1px 5px #000000a6;
-}
-.leaflet-top .leaflet-control {
-  margin-top: 10px;
-}
-.leaflet-left .leaflet-control {
-  margin-left: 10px;
-}
-.leaflet-touch .leaflet-control-attribution,
-.leaflet-touch .leaflet-control-layers,
-.leaflet-touch .leaflet-bar {
-  box-shadow: none;
-}
-.leaflet-touch .leaflet-control-layers,
-.leaflet-touch .leaflet-bar {
-  background-clip: padding-box;
-  border: 2px solid #0003;
-}
-.leaflet-control-zoom-in,
-.leaflet-control-zoom-out {
-  text-indent: 1px;
-  font:
-    700 18px Lucida Console,
-    Monaco,
-    monospace;
-}
-.leaflet-container a {
-  -webkit-tap-highlight-color: #33b5e566;
-}
-.leaflet-container a {
-  color: #0078a8;
-}
-.leaflet-bar a {
-  text-align: center;
-  color: #000;
-  background-color: #fff;
-  border-bottom: 1px solid #ccc;
-  width: 26px;
-  height: 26px;
-  line-height: 26px;
-  text-decoration: none;
-  display: block;
-}
-.leaflet-bar a,
-.leaflet-control-layers-toggle {
-  background-position: 50%;
-  background-repeat: no-repeat;
-  display: block;
-}
-.leaflet-touch .leaflet-control-zoom-in,
-.leaflet-touch .leaflet-control-zoom-out {
-  font-size: 22px;
-}
-.leaflet-bar a:first-child {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-}
-.leaflet-touch .leaflet-bar a {
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-}
-.leaflet-touch .leaflet-bar a:first-child {
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-}
-.leaflet-bar a:last-child {
-  border-bottom: none;
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-.leaflet-touch .leaflet-bar a:last-child {
-  border-bottom-right-radius: 2px;
-  border-bottom-left-radius: 2px;
-}
-.leaflet-right {
-  right: 0;
-}
-.leaflet-bottom {
-  bottom: 0;
-}
-.leaflet-control-attribution,
-.leaflet-control-scale-line {
-  color: #333;
-  padding: 0 5px;
-  line-height: 1.4;
-}
-.leaflet-right .leaflet-control {
-  float: right;
-}
-.leaflet-bottom .leaflet-control {
-  margin-bottom: 10px;
-}
-.leaflet-right .leaflet-control {
-  margin-right: 10px;
-}
-.leaflet-container .leaflet-control-attribution {
-  background: #fffc;
-  margin: 0;
-}
-.leaflet-control-attribution a {
-  text-decoration: none;
-}
-.leaflet-attribution-flag {
-  width: 1em;
-  height: 0.6669em;
-  vertical-align: baseline !important;
-  display: inline !important;
-}
-.leaflet-marker-icon,
-.leaflet-marker-shadow,
-.leaflet-image-layer,
-.leaflet-pane > svg path,
-.leaflet-tile-container {
-  pointer-events: none;
-}
-.leaflet-overlay-pane svg {
-  -moz-user-select: none;
-}
-.leaflet-map-pane svg {
-  z-index: 200;
-}
-svg.leaflet-zoom-animated {
-  will-change: transform;
-}
-.leaflet-container .leaflet-overlay-pane svg {
-  max-width: none !important;
-  max-height: none !important;
-}
-.leaflet-interactive {
-  cursor: pointer;
-}
-.leaflet-marker-icon.leaflet-interactive,
-.leaflet-image-layer.leaflet-interactive,
-.leaflet-pane > svg path.leaflet-interactive,
-svg.leaflet-image-layer.leaflet-interactive path {
-  pointer-events: visiblePainted;
-  pointer-events: auto;
-}
-.leaflet-tile,
-.leaflet-marker-icon,
-.leaflet-marker-shadow {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-.leaflet-tile {
-  filter: inherit;
-  visibility: hidden;
-}
-.leaflet-container .leaflet-marker-pane img,
-.leaflet-container .leaflet-shadow-pane img,
-.leaflet-container .leaflet-tile-pane img,
-.leaflet-container img.leaflet-image-layer,
-.leaflet-container .leaflet-tile {
-  width: auto;
-  padding: 0;
-  max-width: none !important;
-  max-height: none !important;
-}
-.leaflet-container img.leaflet-tile {
-  mix-blend-mode: plus-lighter;
-}
-.leaflet-tile::selection {
-  background: 0 0;
-}
-.leaflet-draw-section {
-  position: relative;
-}
-.leaflet-draw-toolbar {
-  margin-top: 12px;
-}
-.leaflet-draw-toolbar-top {
-  margin-top: 0;
-}
-.leaflet-draw-toolbar a {
-  background-image:
-    linear-gradient(#0000, #0000), url(/beacon-design/_astro/spritesheet.DpIxuf5L.svg);
-  background-repeat: no-repeat;
-  background-size: 300px 30px;
-  background-clip: padding-box;
-}
-.leaflet-draw a {
-  text-align: center;
-  text-decoration: none;
-  display: block;
-}
-.leaflet-draw-toolbar .leaflet-draw-draw-polygon {
-  background-position: -31px -2px;
-}
-.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polygon {
-  background-position: -29px -1px;
-}
-.leaflet-draw a .sr-only {
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  position: absolute;
-  overflow: hidden;
-}
-.leaflet-draw-toolbar .leaflet-draw-draw-rectangle {
-  background-position: -62px -2px;
-}
-.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-rectangle {
-  background-position: -60px -1px;
-}
-.leaflet-draw-actions {
-  white-space: nowrap;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 26px;
-}
-.leaflet-touch .leaflet-draw-actions {
-  left: 32px;
-}
-.leaflet-draw-toolbar .leaflet-draw-edit-edit {
-  background-position: -152px -2px;
-}
-.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-edit {
-  background-position: -150px -1px;
-}
-.leaflet-draw-toolbar .leaflet-draw-edit-remove {
-  background-position: -182px -2px;
-}
-.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-remove {
-  background-position: -180px -1px;
-}
-.page-layout {
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
+.bcn-key-value {
   flex-direction: column;
+  gap: 2px;
   display: flex;
 }
-.page-layout__bleed,
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-400);
-  display: flex;
-}
-.breadcrumbs__items {
-  gap: var(--spacing-100);
-  flex-wrap: wrap;
-  align-items: center;
-  display: flex;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__container {
-  flex-direction: column;
-  display: flex;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  box-sizing: border-box;
-  justify-content: space-between;
-  align-items: center;
-  display: flex;
-}
-.page-layout__title-main {
-  align-items: center;
-  gap: var(--spacing-400);
-  min-width: 0;
-  display: flex;
-}
-.page-layout__title h1 {
-  align-items: center;
-  gap: var(--spacing-300);
-  font-family: var(--font-decorative);
-  font-weight: var(--typography-font-weight-bold);
-  font-size: var(--font-size-500);
-  color: var(--bcn-gray-1000);
-  margin: 0;
-  display: flex;
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
-  flex-shrink: 0;
-}
-.page-layout__utilities {
-  gap: var(--spacing-200);
-  display: flex;
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  gap: var(--gap);
-  flex-direction: column;
-  display: flex;
-}
-.sidebar {
-  --gap: var(--spacing-500, 1.5rem);
-  --sidebar-width: 18rem;
-  --sidebar-content-min: 60%;
-  gap: var(--gap);
-  flex-wrap: wrap;
-  display: flex;
-}
-.sidebar > :first-child {
-  flex-basis: var(--sidebar-width);
-  flex-grow: 1;
-}
-.cluster {
-  --gap: var(--spacing-300, 0.75rem);
-  --align: center;
-  --justify: flex-start;
-  gap: var(--gap);
-  align-items: var(--align);
-  justify-content: var(--justify);
-  flex-wrap: wrap;
-  display: flex;
-}
-.repel {
-  --gap: var(--spacing-400, 1rem);
-  --align: center;
-  gap: var(--gap);
-  align-items: var(--align);
-  flex-wrap: wrap;
-  justify-content: space-between;
-  display: flex;
-}
-.sidebar > :last-child {
-  min-inline-size: var(--sidebar-content-min);
-  flex-grow: 999;
-  flex-basis: 0;
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
+.bcn-key-value__key {
   font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--form-label-color);
 }
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  justify-content: center;
+.bcn-key-value__key {
   align-items: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-  text-decoration: none;
+  gap: var(--spacing-100);
   display: inline-flex;
 }
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button--variant-chrome .esa-button__native {
-  color: inherit;
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  color: var(--_accent-text);
-  border-color: var(--_accent);
-  background: 0 0;
-}
-.esa-button--variant-ghost .esa-button__native {
-  color: var(--color-content-default, #202020);
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border-default, #cecece);
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
-}
-.typography-title-sm-strong {
-  font-family: var(--typography-title-sm-strong-font-family);
-  font-size: var(--typography-title-sm-strong-font-size);
-  font-weight: var(--typography-title-sm-strong-font-weight);
-  line-height: var(--typography-title-sm-strong-line-height);
-  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
+.bcn-key-value__val {
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
 }
 .modern-layout {
   flex-direction: column;
@@ -11502,6 +10959,569 @@ html,
   transform: translate(-50%);
   box-shadow: 0 -12px 48px -12px #00000052;
 }
+.leaflet-draw-section {
+  position: relative;
+}
+.leaflet-draw-toolbar {
+  margin-top: 12px;
+}
+.leaflet-draw-toolbar-top {
+  margin-top: 0;
+}
+.leaflet-draw-toolbar a {
+  background-image:
+    linear-gradient(#0000, #0000), url(/beacon-design/_astro/spritesheet.DpIxuf5L.svg);
+  background-repeat: no-repeat;
+  background-size: 300px 30px;
+  background-clip: padding-box;
+}
+.leaflet-draw a {
+  text-align: center;
+  text-decoration: none;
+  display: block;
+}
+.leaflet-draw-toolbar .leaflet-draw-draw-polygon {
+  background-position: -31px -2px;
+}
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polygon {
+  background-position: -29px -1px;
+}
+.leaflet-draw a .sr-only {
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  position: absolute;
+  overflow: hidden;
+}
+.leaflet-draw-toolbar .leaflet-draw-draw-rectangle {
+  background-position: -62px -2px;
+}
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-rectangle {
+  background-position: -60px -1px;
+}
+.leaflet-draw-actions {
+  white-space: nowrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 26px;
+}
+.leaflet-touch .leaflet-draw-actions {
+  left: 32px;
+}
+.leaflet-draw-toolbar .leaflet-draw-edit-edit {
+  background-position: -152px -2px;
+}
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-edit {
+  background-position: -150px -1px;
+}
+.leaflet-draw-toolbar .leaflet-draw-edit-remove {
+  background-position: -182px -2px;
+}
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-remove {
+  background-position: -180px -1px;
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+.page-layout {
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+  flex-direction: column;
+  display: flex;
+}
+.page-layout__bleed,
+.page-layout section {
+  width: 100%;
+}
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-400);
+  display: flex;
+}
+.breadcrumbs__items {
+  gap: var(--spacing-100);
+  flex-wrap: wrap;
+  align-items: center;
+  display: flex;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
+  text-decoration: none;
+}
+.page-layout__container {
+  flex-direction: column;
+  display: flex;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  box-sizing: border-box;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+.page-layout__title-main {
+  align-items: center;
+  gap: var(--spacing-400);
+  min-width: 0;
+  display: flex;
+}
+.page-layout__title h1 {
+  align-items: center;
+  gap: var(--spacing-300);
+  font-family: var(--font-decorative);
+  font-weight: var(--typography-font-weight-bold);
+  font-size: var(--font-size-500);
+  color: var(--bcn-gray-1000);
+  margin: 0;
+  display: flex;
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
+  flex-shrink: 0;
+}
+.page-layout__utilities {
+  gap: var(--spacing-200);
+  display: flex;
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  gap: var(--gap);
+  flex-direction: column;
+  display: flex;
+}
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  gap: var(--gap);
+  flex-wrap: wrap;
+  display: flex;
+}
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
+}
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
+  flex-wrap: wrap;
+  display: flex;
+}
+.repel {
+  --gap: var(--spacing-400, 1rem);
+  --align: center;
+  gap: var(--gap);
+  align-items: var(--align);
+  flex-wrap: wrap;
+  justify-content: space-between;
+  display: flex;
+}
+.sidebar > :last-child {
+  min-inline-size: var(--sidebar-content-min);
+  flex-grow: 999;
+  flex-basis: 0;
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+}
+.typography-title-sm-strong {
+  font-family: var(--typography-title-sm-strong-font-family);
+  font-size: var(--typography-title-sm-strong-font-size);
+  font-weight: var(--typography-title-sm-strong-font-weight);
+  line-height: var(--typography-title-sm-strong-line-height);
+  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
+}
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
+.leaflet-container {
+  overflow: hidden;
+}
+.leaflet-container {
+  -webkit-tap-highlight-color: transparent;
+}
+.leaflet-container {
+  outline-offset: 1px;
+  background: #ddd;
+}
+.leaflet-container {
+  font-family:
+    Helvetica Neue,
+    Arial,
+    Helvetica,
+    sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+.leaflet-grab {
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  cursor: grab;
+}
+.leaflet-container.leaflet-touch-zoom {
+  -ms-touch-action: pan-x pan-y;
+  touch-action: pan-x pan-y;
+}
+.leaflet-container.leaflet-touch-drag {
+  -ms-touch-action: pinch-zoom;
+  touch-action: none;
+  touch-action: pinch-zoom;
+}
+.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
+  -ms-touch-action: none;
+  touch-action: none;
+}
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.leaflet-pane {
+  z-index: 400;
+}
+.leaflet-tile-pane {
+  z-index: 200;
+}
+.leaflet-overlay-pane {
+  z-index: 400;
+}
+.leaflet-shadow-pane {
+  z-index: 500;
+}
+.leaflet-marker-pane {
+  z-index: 600;
+}
+.leaflet-tooltip-pane {
+  z-index: 650;
+}
+.leaflet-popup-pane {
+  z-index: 700;
+}
+.leaflet-popup-pane,
+.leaflet-control {
+  cursor: auto;
+}
+.leaflet-zoom-animated {
+  -webkit-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 1000;
+  pointer-events: none;
+  position: absolute;
+}
+.leaflet-top {
+  top: 0;
+}
+.leaflet-left {
+  left: 0;
+}
+.leaflet-control {
+  z-index: 800;
+  pointer-events: visiblePainted;
+  pointer-events: auto;
+  position: relative;
+}
+.leaflet-control {
+  float: left;
+  clear: both;
+}
+.leaflet-bar {
+  border-radius: 4px;
+  box-shadow: 0 1px 5px #000000a6;
+}
+.leaflet-top .leaflet-control {
+  margin-top: 10px;
+}
+.leaflet-left .leaflet-control {
+  margin-left: 10px;
+}
+.leaflet-touch .leaflet-control-attribution,
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+  box-shadow: none;
+}
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+  background-clip: padding-box;
+  border: 2px solid #0003;
+}
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  text-indent: 1px;
+  font:
+    700 18px Lucida Console,
+    Monaco,
+    monospace;
+}
+.leaflet-container a {
+  -webkit-tap-highlight-color: #33b5e566;
+}
+.leaflet-container a {
+  color: #0078a8;
+}
+.leaflet-bar a {
+  text-align: center;
+  color: #000;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  text-decoration: none;
+  display: block;
+}
+.leaflet-bar a,
+.leaflet-control-layers-toggle {
+  background-position: 50%;
+  background-repeat: no-repeat;
+  display: block;
+}
+.leaflet-touch .leaflet-control-zoom-in,
+.leaflet-touch .leaflet-control-zoom-out {
+  font-size: 22px;
+}
+.leaflet-bar a:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.leaflet-touch .leaflet-bar a {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+}
+.leaflet-touch .leaflet-bar a:first-child {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+.leaflet-bar a:last-child {
+  border-bottom: none;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.leaflet-touch .leaflet-bar a:last-child {
+  border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+.leaflet-right {
+  right: 0;
+}
+.leaflet-bottom {
+  bottom: 0;
+}
+.leaflet-control-attribution,
+.leaflet-control-scale-line {
+  color: #333;
+  padding: 0 5px;
+  line-height: 1.4;
+}
+.leaflet-right .leaflet-control {
+  float: right;
+}
+.leaflet-bottom .leaflet-control {
+  margin-bottom: 10px;
+}
+.leaflet-right .leaflet-control {
+  margin-right: 10px;
+}
+.leaflet-container .leaflet-control-attribution {
+  background: #fffc;
+  margin: 0;
+}
+.leaflet-control-attribution a {
+  text-decoration: none;
+}
+.leaflet-attribution-flag {
+  width: 1em;
+  height: 0.6669em;
+  vertical-align: baseline !important;
+  display: inline !important;
+}
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-image-layer,
+.leaflet-pane > svg path,
+.leaflet-tile-container {
+  pointer-events: none;
+}
+.leaflet-overlay-pane svg {
+  -moz-user-select: none;
+}
+.leaflet-map-pane svg {
+  z-index: 200;
+}
+svg.leaflet-zoom-animated {
+  will-change: transform;
+}
+.leaflet-container .leaflet-overlay-pane svg {
+  max-width: none !important;
+  max-height: none !important;
+}
+.leaflet-interactive {
+  cursor: pointer;
+}
+.leaflet-marker-icon.leaflet-interactive,
+.leaflet-image-layer.leaflet-interactive,
+.leaflet-pane > svg path.leaflet-interactive,
+svg.leaflet-image-layer.leaflet-interactive path {
+  pointer-events: visiblePainted;
+  pointer-events: auto;
+}
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.leaflet-tile {
+  filter: inherit;
+  visibility: hidden;
+}
+.leaflet-container .leaflet-marker-pane img,
+.leaflet-container .leaflet-shadow-pane img,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-image-layer,
+.leaflet-container .leaflet-tile {
+  width: auto;
+  padding: 0;
+  max-width: none !important;
+  max-height: none !important;
+}
+.leaflet-container img.leaflet-tile {
+  mix-blend-mode: plus-lighter;
+}
+.leaflet-tile::selection {
+  background: 0 0;
+}
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button__native {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  display: inline-flex;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+  background: 0 0;
+}
+.esa-button--variant-ghost .esa-button__native {
+  color: var(--color-content-default, #202020);
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border-default, #cecece);
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
 ```
 
 ## Tokens
@@ -11559,6 +11579,7 @@ html,
 | `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
 | `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
 | `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
+| `--form-label-color` | `#525252` | component |
 | `--icon-size-lg` | `24px` | primitive |
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-sm` | `16px` | primitive |

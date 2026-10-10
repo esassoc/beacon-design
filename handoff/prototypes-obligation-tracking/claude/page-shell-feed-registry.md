@@ -51,7 +51,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
   ></script>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnSwFilterRow.astro_astro_type_script_index_0_lang.C8SgbOxC.js"
+    src="/beacon-design/_astro/BcnSwFilterRow.astro_astro_type_script_index_0_lang.BBU0UrEC.js"
   ></script>
   <script
     type="module"

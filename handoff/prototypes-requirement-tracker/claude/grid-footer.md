@@ -141,6 +141,18 @@ Beacon's standard grid footer: "Download as CSV" (download glyph) on the left, "
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.bcn-disc__head .esa-icon {
+  color: var(--color-content-default-secondary);
+  flex-shrink: 0;
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -341,18 +353,6 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
-.bcn-disc__head .esa-icon {
-  color: var(--color-content-default-secondary);
-  flex-shrink: 0;
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
 .table-footer {
   justify-content: space-between;
   align-items: center;
@@ -406,6 +406,9 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .bcn-reqref__key .esa-icon {
   --_icon-size: 11px;
   color: var(--color-content-default-tertiary);
@@ -424,9 +427,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-reqref__footer .esa-button--color-ghost .esa-button__native:hover:not(:disabled) {
   color: var(--color-background-brand-muted-hover);
   background: color-mix(in srgb, var(--color-background-brand-muted) 10%, transparent);
-}
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
 }
 .esa-collapsible__summary .esa-icon {
   color: var(--color-content-default-secondary, #646464);
@@ -461,6 +461,13 @@ summary.esa-button--variant-chrome:focus-visible {
   height: var(--_icon-size);
   display: block;
 }
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
+  flex-shrink: 0;
+}
 .bcn-evidence-card__lead .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
@@ -476,13 +483,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-evidence-card__actions .esa-icon {
   width: 15px;
   height: 15px;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
-  flex-shrink: 0;
 }
 ```
 

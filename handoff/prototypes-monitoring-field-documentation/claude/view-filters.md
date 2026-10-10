@@ -617,13 +617,40 @@ summary.esa-button--variant-chrome:focus-visible {
   flex: 1;
   margin-left: 0;
 }
+.bcn-filterbar__scope {
+  margin-left: var(--spacing-600);
+}
+.bcn-filterbar__search--filters {
+  width: 20rem;
+  min-width: 0;
+  margin-left: 0;
+}
 .bcn-filterbar__sort {
   margin-left: var(--spacing-600);
-  --form-height-md: 32px;
   --typography-label-md-font-size: 14px;
 }
 .bcn-filterbar__sort esa-select {
+  --_field-padding-y: calc((32px - 1lh) / 2 - var(--form-border-width, 1px));
   width: 9rem;
+}
+.bcn-filterbar--compact {
+  --typography-microcopy-md-font-size: 14px;
+  --typography-microcopy-md-strong-font-size: 14px;
+  --typography-microcopy-md-subtle-font-size: 14px;
+}
+.bcn-filterbar--compact esa-button-toggle {
+  --_pad-y: calc((26px - 1lh) / 2);
+}
+.bcn-filterbar--compact esa-button-toggle[data-icons] {
+  --_icon-size: 14px;
+  --_pad-y: calc((26px - max(1lh, 14px)) / 2);
+}
+.bcn-filterbar--compact esa-text-field {
+  --_field-padding-y: calc((32px - 1.3em) / 2 - var(--form-border-width, 1px));
+}
+.bcn-filterbar--compact esa-switch-toggle {
+  align-items: center;
+  display: inline-flex;
 }
 .bcn-filterbar__clear {
   margin-left: auto;
@@ -729,6 +756,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
 - `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--form-border-width`: 1px _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-sm`: 16px _(primitive)_

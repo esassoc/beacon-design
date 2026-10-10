@@ -688,7 +688,7 @@ The H1 names the submitter with the submission's number (S-018) trailing as a ne
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnRecordPager.astro_astro_type_script_index_0_lang.znQ9dXbv.js"
+    src="/beacon-design/_astro/BcnRecordPager.astro_astro_type_script_index_0_lang.DsejG3QA.js"
   ></script>
 </div>
 ```

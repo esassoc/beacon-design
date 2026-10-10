@@ -529,7 +529,7 @@ The H1 is the response's title (title case) with its number (R-004) trailing as 
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnRecordPager.astro_astro_type_script_index_0_lang.znQ9dXbv.js"
+    src="/beacon-design/_astro/BcnRecordPager.astro_astro_type_script_index_0_lang.DsejG3QA.js"
   ></script>
 </div>
 ```

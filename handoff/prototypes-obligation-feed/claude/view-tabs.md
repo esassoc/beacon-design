@@ -14836,84 +14836,9 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
-.bcn-component-picker__trigger .esa-icon {
+.bcn-component-picker__trigger > .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
-}
-.bcn-swfr {
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-500);
-  border-top: 1px solid var(--color-border-default-subtle);
-  color: var(--color-content-default);
-  flex-wrap: wrap;
-  font-size: 0.8125rem;
-  display: flex;
-}
-.bcn-swfr--inset {
-  border-top: none;
-}
-.bcn-swfr--panel {
-  padding: var(--spacing-250) var(--spacing-400);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  background: var(--color-background-elevation-sunken);
-}
-.bcn-swfr--panel .bcn-swfr__search,
-.bcn-swfr--panel .bcn-swfr__picker {
-  --color-background-field: var(--color-background-elevation-raised);
-}
-.bcn-swfr__search {
-  flex: 180px;
-  max-width: 360px;
-}
-.bcn-swfr__picker {
-  flex: 0 180px;
-  min-width: 140px;
-}
-.bcn-swfr__verbs {
-  align-items: center;
-  gap: var(--spacing-200);
-  margin-left: auto;
-  display: inline-flex;
-}
-.bcn-swfr__verbs:empty {
-  display: none;
-}
-.bcn-file-row {
-  align-items: center;
-  gap: var(--spacing-200);
-  padding: var(--spacing-100) var(--spacing-300);
-  border: var(--form-border-width, 1px) solid var(--color-border-default);
-  border-radius: var(--radius-100);
-  background: var(--color-background-elevation-raised);
-  grid-template-columns: auto 1fr auto auto;
-  font-size: 0.875rem;
-  display: grid;
-}
-.bcn-file-row__icon {
-  color: var(--color-content-default-secondary);
-  display: inline-flex;
-}
-.bcn-file-row__name {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 0;
-  color: var(--color-content-default);
-  overflow: hidden;
-}
-.bcn-file-row__size {
-  color: var(--color-content-default-secondary);
-  white-space: nowrap;
-  font-size: 0.8125rem;
-}
-.bcn-file-row__actions {
-  align-items: center;
-  gap: var(--spacing-050);
-  display: inline-flex;
-}
-.bcn-file-row__act {
-  display: inline-flex;
 }
 .bcn-swcb {
   min-width: 22px;
@@ -14964,6 +14889,81 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.bcn-file-row {
+  align-items: center;
+  gap: var(--spacing-200);
+  padding: var(--spacing-100) var(--spacing-300);
+  border: var(--form-border-width, 1px) solid var(--color-border-default);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-raised);
+  grid-template-columns: auto 1fr auto auto;
+  font-size: 0.875rem;
+  display: grid;
+}
+.bcn-file-row__icon {
+  color: var(--color-content-default-secondary);
+  display: inline-flex;
+}
+.bcn-file-row__name {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  color: var(--color-content-default);
+  overflow: hidden;
+}
+.bcn-file-row__size {
+  color: var(--color-content-default-secondary);
+  white-space: nowrap;
+  font-size: 0.8125rem;
+}
+.bcn-file-row__actions {
+  align-items: center;
+  gap: var(--spacing-050);
+  display: inline-flex;
+}
+.bcn-file-row__act {
+  display: inline-flex;
+}
+.bcn-swfr {
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-500);
+  border-top: 1px solid var(--color-border-default-subtle);
+  color: var(--color-content-default);
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+  display: flex;
+}
+.bcn-swfr--inset {
+  border-top: none;
+}
+.bcn-swfr--panel {
+  padding: var(--spacing-250) var(--spacing-400);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-200);
+  background: var(--color-background-elevation-sunken);
+}
+.bcn-swfr--panel .bcn-swfr__search,
+.bcn-swfr--panel .bcn-swfr__picker {
+  --color-background-field: var(--color-background-elevation-raised);
+}
+.bcn-swfr__search {
+  flex: 180px;
+  max-width: 360px;
+}
+.bcn-swfr__picker {
+  flex: 0 180px;
+  min-width: 140px;
+}
+.bcn-swfr__verbs {
+  align-items: center;
+  gap: var(--spacing-200);
+  margin-left: auto;
+  display: inline-flex;
+}
+.bcn-swfr__verbs:empty {
+  display: none;
 }
 .esa-empty-state {
   --_empty-icon-size: var(--empty-state-icon-size-md, 48px);

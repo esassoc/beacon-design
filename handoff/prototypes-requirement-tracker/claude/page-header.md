@@ -208,6 +208,9 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .bcn-reqref__key .esa-icon {
   --_icon-size: 11px;
   color: var(--color-content-default-tertiary);
@@ -219,9 +222,6 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
 .bcn-reqref__ext .esa-icon {
   --_icon-size: 12px;
   opacity: 0.75;
-}
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
 }
 .esa-collapsible__summary .esa-icon {
   color: var(--color-content-default-secondary, #646464);
@@ -255,6 +255,37 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  box-sizing: border-box;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+.page-layout__title-main {
+  align-items: center;
+  gap: var(--spacing-400);
+  min-width: 0;
+  display: flex;
+}
+.page-layout__title h1 {
+  align-items: center;
+  gap: var(--spacing-300);
+  font-family: var(--font-decorative);
+  font-weight: var(--typography-font-weight-bold);
+  font-size: var(--font-size-500);
+  color: var(--bcn-gray-1000);
+  margin: 0;
+  display: flex;
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
+  flex-shrink: 0;
 }
 .esa-pill {
   --_pill-bg: var(--color-background-elevation-sunken, #f0f0f0);
@@ -364,37 +395,6 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
 .bcn-evidence-card__actions .esa-icon {
   width: 15px;
   height: 15px;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  box-sizing: border-box;
-  justify-content: space-between;
-  align-items: center;
-  display: flex;
-}
-.page-layout__title-main {
-  align-items: center;
-  gap: var(--spacing-400);
-  min-width: 0;
-  display: flex;
-}
-.page-layout__title h1 {
-  align-items: center;
-  gap: var(--spacing-300);
-  font-family: var(--font-decorative);
-  font-weight: var(--typography-font-weight-bold);
-  font-size: var(--font-size-500);
-  color: var(--bcn-gray-1000);
-  margin: 0;
-  display: flex;
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
-  flex-shrink: 0;
 }
 ```
 

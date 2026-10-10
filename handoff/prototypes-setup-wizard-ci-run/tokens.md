@@ -1,6 +1,6 @@
 # Token contract — prototypes-setup-wizard-ci-run
 
-The 113 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 118 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -65,6 +65,11 @@ The 113 design tokens this page actually uses, resolved to their final values fo
 | `--typography-microcopy-md-font-weight` | `500` |
 | `--typography-microcopy-md-letter-spacing` | `.01em` |
 | `--typography-microcopy-md-line-height` | `1` |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
+| `--typography-microcopy-xs-font-weight` | `500` |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` |
+| `--typography-microcopy-xs-line-height` | `1` |
 
 ## Component
 

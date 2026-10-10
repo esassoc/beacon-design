@@ -481,7 +481,7 @@ details[open] > summary .bcn-loc__chevron {
   color: #996400;
   background: #fff1d6;
 }
-.bcn-component-picker__trigger .esa-icon {
+.bcn-component-picker__trigger > .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
 }
