@@ -17,12 +17,17 @@
 //
 // Slots:
 //   lead    — optional; a labelled control group at the top-left (label via `leadLabel`).
+//   scope   — optional; a second labelled group beside it (label via `scopeLabel`), for a
+//             bar with two pivots (Actions: View, then Type).
 //   sort    — optional; a labelled group on the FILTERS band, after the dropdowns (label
 //             via `sortLabel`) — it shapes the list the way a facet does. Sort is
 //             its own slot rather than more markup in `lead` because the LABEL is the bar's
 //             to style — a page cannot carry its own CSS in this spoke, so a host stacking
 //             two groups into one slot would have no way to label the second one to match.
-//   search  — optional; the search control, pushed right on the top band.
+//   search  — optional; the search control, pushed right on the top band — or, with
+//             searchPlacement="filters", leading the filters band, for a bar whose top
+//             band is all pivots (Actions: view + type tabs) and whose search is one more
+//             way to narrow the list.
 //   default — the filter dropdowns; wrapped in esa-filter-container (the lego) for you.
 //   actions — optional; the clear-all, pinned right on the bottom band.
 //
@@ -39,21 +44,32 @@ import FilterContainer from '@esa/ecology/esa-filter-container.astro';
 interface Props {
   /** Label beside the lead slot, e.g. "View". Omitted renders no label. */
   leadLabel?: string;
+  /** Label beside the scope slot, e.g. "Type". Omitted renders no label. */
+  scopeLabel?: string;
   /** Label beside the sort slot. Omitted renders no label. */
   sortLabel?: string;
   /** Label for the filters band. */
   filtersLabel?: string;
+  /** Where the search slot renders: right of the top band (default) or first on the
+   *  filters band. */
+  searchPlacement?: 'top' | 'filters';
+  /** Every control on both bands lands on the facets' 32px — pivots, search, sort —
+   *  so the two bands read as one set. Off by default; existing bars keep their sizes. */
+  compact?: boolean;
 }
-const { leadLabel, sortLabel, filtersLabel = 'Filters' } = Astro.props;
+const { leadLabel, scopeLabel, sortLabel, filtersLabel = 'Filters', searchPlacement = 'top', compact = false } = Astro.props;
 
 const hasLead = Astro.slots.has('lead');
+const hasScope = Astro.slots.has('scope');
 const hasSort = Astro.slots.has('sort');
 const hasSearch = Astro.slots.has('search');
-const hasTop = hasLead || hasSearch;
+const searchOnTop = hasSearch && searchPlacement === 'top';
+const searchInFilters = hasSearch && searchPlacement === 'filters';
+const hasTop = hasLead || hasScope || searchOnTop;
 const hasActions = Astro.slots.has('actions');
 ---
 
-<div class="bcn-filterbar">
+<div class:list={['bcn-filterbar', compact && 'bcn-filterbar--compact']}>
   {
     hasTop && (
       <div class="bcn-filterbar__top">
@@ -63,7 +79,13 @@ const hasActions = Astro.slots.has('actions');
             <slot name="lead" />
           </div>
         )}
-        {hasSearch && (
+        {hasScope && (
+          <div class="bcn-filterbar__group bcn-filterbar__scope">
+            {scopeLabel && <span class="bcn-filterbar__label">{scopeLabel}</span>}
+            <slot name="scope" />
+          </div>
+        )}
+        {searchOnTop && (
           <div class:list={['bcn-filterbar__search', !hasLead && 'bcn-filterbar__search--alone']}>
             <slot name="search" />
           </div>
@@ -76,6 +98,11 @@ const hasActions = Astro.slots.has('actions');
     {/* Passing filtersLabel="" drops the label entirely — a bar whose facets are each
         labelled already has nothing for a leading "Filters" to add. */}
     {filtersLabel && <span class="bcn-filterbar__label">{filtersLabel}</span>}
+    {searchInFilters && (
+      <div class="bcn-filterbar__search bcn-filterbar__search--filters">
+        <slot name="search" />
+      </div>
+    )}
     <FilterContainer>
       <slot />
     </FilterContainer>
@@ -158,26 +185,77 @@ const hasActions = Astro.slots.has('actions');
     flex: 1;
   }
 
+  /* A second pivot is its own group: set apart like the sort, or its label reads as
+     one more option of the pivot before it. */
+  .bcn-filterbar__scope {
+    margin-left: var(--spacing-600);
+  }
+
+  /* On the filters band the search leads the facets at a facet's height, and keeps
+     to a width that leaves the row to them. */
+  .bcn-filterbar__search--filters {
+    margin-left: 0;
+    min-width: 0;
+    width: 20rem;
+  }
+
   /* Its own group, set apart from the facets — without the extra room it reads as one more
      dropdown in the filter row. */
   .bcn-filterbar__sort {
     margin-left: var(--spacing-600);
 
     /* Sibling controls must match exactly, and here they cannot by size name alone:
-       esa-filter-dropdown HARDCODES its heights (sm = 32px) instead of reading the
-       --form-height-* tokens, so a "sm" facet is 32px while every other sm control in this
-       theme is 28px, and a "md" select is 36px. Re-pointing the semantic form tokens, scoped
-       to this group, lands a md select (md padding, md radius) at exactly the facets' height
-       and type size. Worth a /request-lego: the dropdown should read the form tokens like
-       every other control. */
-    --form-height-md: 32px;
+       esa-filter-dropdown HARDCODES its heights (sm = 32px), while esa-select has no
+       height at all since the hub dropped fixed heights (2026-08-14) — its box is
+       content + padding, so a md select rendered 45px beside 32px facets. The select's
+       vertical padding is solved for the facets' 32px from its own line box (`1lh`
+       resolves inside the trigger, where the hook is read). --_field-padding-y is the
+       lego's private hook (the same one glyph fields ride); the old --form-height-md
+       re-point stopped doing anything when that token surface was deleted. Worth a
+       /request-lego: the dropdown and the select should share one height scale. */
     --typography-label-md-font-size: 14px;
+  }
+  .bcn-filterbar__sort :global(esa-select) {
+    --_field-padding-y: calc((32px - 1lh) / 2 - var(--form-border-width, 1px));
   }
 
   /* A select is a block-level field and would take the whole band; a two-option sort needs
      about as much room as the facet triggers beside it. */
   .bcn-filterbar__sort :global(esa-select) {
     width: 9rem;
+  }
+
+  /* Compact: one control height, the facets' 32px (esa-filter-dropdown hardcodes it).
+     The other legos have no height, only padding, so each is solved for 32px from its
+     own line box through its private padding hook — the sort select's technique above.
+     esa-button-toggle's segment sits inside a 2px-padded, 1px-bordered track, so the
+     segment itself is 26px; a segment is as tall as the taller of its text line and its
+     icon, and a CSS selector cannot see into the options, so a host whose toggle carries
+     icons marks it `data-icons`. Worth a /request-lego: one shared control-height scale. */
+  .bcn-filterbar--compact {
+    /* One text size too: esa-filter-dropdown sets 14px; the md toggle and field ride
+       viewport-clamped microcopy composites (15px+), stepped here to match. */
+    --typography-microcopy-md-font-size: 14px;
+    --typography-microcopy-md-strong-font-size: 14px;
+    --typography-microcopy-md-subtle-font-size: 14px;
+  }
+  .bcn-filterbar--compact :global(esa-button-toggle) {
+    --_pad-y: calc((26px - 1lh) / 2);
+  }
+  .bcn-filterbar--compact :global(esa-button-toggle[data-icons]) {
+    --_icon-size: 14px;
+    --_pad-y: calc((26px - max(1lh, 14px)) / 2);
+  }
+  /* An <input> is never shorter than its font's NORMAL line height (~1.3em in DM Sans),
+     whatever its line-height says, so the field is solved from that, not from 1lh. */
+  .bcn-filterbar--compact :global(esa-text-field) {
+    --_field-padding-y: calc((32px - 1.3em) / 2 - var(--form-border-width, 1px));
+  }
+  /* The switch host is inline, so its line box hangs a descender gap under the 24px
+     control and pulls it off the row's centre line. */
+  .bcn-filterbar--compact :global(esa-switch-toggle) {
+    display: inline-flex;
+    align-items: center;
   }
 
   .bcn-filterbar__clear {

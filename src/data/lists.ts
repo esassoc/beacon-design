@@ -455,7 +455,7 @@ const actionText = (a: WizardAction) => `${a.name} ${a.text} ${a.timing?.stated 
 /** A list's member predicate. Evaluated once, at module load. */
 type ActionPick = (a: WizardAction) => boolean;
 
-const DESK_TYPES = new Set<RequirementType>(['Reporting', 'Plan', 'ApprovalAndConsultation', 'Financial', 'Analysis', 'Design', 'Other']);
+export const DESK_TYPES = new Set<RequirementType>(['Reporting', 'Plan', 'ApprovalAndConsultation', 'Financial', 'Analysis', 'Design', 'Other']);
 
 const actionList = (
   l: Omit<ProjectList, 'type' | 'memberCount' | 'description'> & { description?: string; pick: ActionPick; limit?: number },

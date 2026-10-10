@@ -1,0 +1,252 @@
+---
+// <BcnActionCard> — one ACTION IMPLEMENTATION on the Actions board: an action carried
+// out on one component. Replaces prod's action-tracker-card, which nested "#1 Not
+// Started" implementation rows inside an action card (Andy, 2026-10-06: "on the board
+// should just be action implementations from here on out").
+//
+// ANATOMY
+//   ┌──────────────────────────────────────────┐
+//   │ COA 10.18  +2                      ⚑     │  commitment ids · flag
+//   │ Develop a Barge Operations Plan          │  the action's name, 2 lines max
+//   │ Plan · Pre-Construction +1 · #2          │  type · phase · occurrence
+//   │ ● Submitted to Agency                    │  status chip, merged board only
+//   │──────────────────────────────────────────│
+//   │ ▢ Jun 1, 2027            ⌇ 3  ▭ 1   (MC) │  due · evidence · comments · assignee
+//   └──────────────────────────────────────────┘
+//
+// Every line is a field of ActionImplementationTrackerDto (ClientCommitmentIDs,
+// IsFlagged, Name, RequirementType, the requirements' phases, SequenceNumber,
+// DueDate / CompletedDate, EvidenceCount, CommentCount, Assignee). The status chip
+// only shows on the merged board, where the column is the backbone category and the
+// workflow column would otherwise be invisible; on a workflow board the column IS the
+// status, so the chip would repeat it. The user switches lines off from the board's
+// Configure dialog (CardField in src/lib/action-board.ts).
+//
+// RENDERED AS TEMPLATES: the board's cards are built at runtime (columns are user
+// data), so this component authors the card once inside a <template> and the board
+// clones it (src/components/bcn/action-card.ts fills it). Clones keep the scoped-CSS
+// attribute, so the styles below reach them. The assignee roster is fixed, so one
+// esa-avatar per person is pre-rendered into a bank and cloned by name — the lego
+// stays the lego at runtime.
+//
+// bcn-lego-checked: esa-card is title/meta/body chrome for a content block, not a
+// draggable, clickable board tile with a stretched open target; Beacon prod's
+// action-tracker-card is the pattern ported (and reshaped per Andy). Composed inside:
+// BcnCommitmentBadge (ids), BcnStatusChip (status), esa-avatar (assignee), esa-icon
+// (glyphs). bcn-action-card is the reusable home for an implementation tile.
+import EsaAvatar from '@esa/ecology/esa-avatar.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+import { ASSIGNEES } from '../../data/action-tracking';
+
+const FLAG = '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/>';
+const PAPERCLIP = '<path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/>';
+const COMMENT = '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>';
+---
+
+<template data-acard-tpl>
+  <article class="bcn-acard" data-acard>
+    <div class="bcn-acard__top" data-acard-field="codes">
+      <span class="bcn-acard__codes" data-acard-codes>
+        <BcnCommitmentBadge code="" size="sm" />
+        <span data-acard-more><BcnCommitmentBadge code="" size="sm" tone="neutral" /></span>
+      </span>
+      <span class="bcn-acard__flag" data-acard-flag title="Flagged"><EsaIcon name="flag" paths={FLAG} size="xs" /></span>
+    </div>
+
+    <button type="button" class="bcn-acard__name" data-acard-open></button>
+
+    <div class="bcn-acard__meta" data-acard-meta></div>
+
+    <div data-acard-status hidden>
+      <BcnStatusChip status="custom" label="" hex="#9ca3af" />
+    </div>
+
+    <div class="bcn-acard__foot">
+      <span class="bcn-acard__due" data-acard-field="due" data-acard-due>
+        <EsaIcon name="calendar" size="xs" />
+        <span data-acard-due-text></span>
+      </span>
+      <span class="bcn-acard__counts">
+        <span class="bcn-acard__count" data-acard-field="evidence" data-acard-evidence>
+          <EsaIcon name="paperclip" paths={PAPERCLIP} size="xs" />
+          <span data-acard-n></span>
+        </span>
+        <span class="bcn-acard__count" data-acard-field="comments" data-acard-comments>
+          <EsaIcon name="message-square" paths={COMMENT} size="xs" />
+          <span data-acard-n></span>
+        </span>
+        <span class="bcn-acard__who" data-acard-field="assignee" data-acard-assignee></span>
+      </span>
+    </div>
+  </article>
+</template>
+
+{ASSIGNEES.map((name) => (
+  <template data-acard-avatar={name}>
+    <span class="bcn-acard__avatar" title={name}><EsaAvatar name={name} size="xs" /></span>
+  </template>
+))}
+
+<style>
+  /* TYPE (Andy, 2026-10-07: "a little thicker, a little smaller … use our variable font
+     weights"). DM Sans ships as a variable font (wght 100–1000, opsz 9–40), and Beacon's
+     "regular" is 350 — right for reading prose, too faint for a 13px line on a tile. So
+     the card sets its own ramp instead of borrowing composites, each a deliberate
+     hard-code: every --font-size-* is a viewport clamp, and a board tile has to land on
+     the same size on every monitor.
+       name  15px / 600 — between the semibold (550) and bold (650) tokens
+       meta  13px / 500 (medium) in secondary ink
+       due   13px / 550 (semibold); 650 when it is a warning
+       count 13px / 500, tabular figures so columns of cards line up
+     The name was meant to be label-md-strong already; the button's `all: unset`
+     out-ranked the class and handed it the inherited 16px / 350. */
+  .bcn-acard {
+    --_ink-meta: var(--color-content-default-secondary);
+    font-optical-sizing: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    padding: var(--spacing-300) var(--spacing-300) var(--spacing-250);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+  }
+  .bcn-acard:hover {
+    border-color: var(--color-border-default-strong, var(--color-border-default));
+    box-shadow: var(--elevation-1, 0 1px 2px rgb(0 0 0 / 0.06));
+  }
+  /* Not applicable reads as set aside: present, quiet. */
+  .bcn-acard[data-na] {
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-acard[data-na] .bcn-acard__name {
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-acard__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+    min-block-size: 20px;
+  }
+  .bcn-acard__codes {
+    display: inline-flex;
+    gap: var(--spacing-100);
+    min-inline-size: 0;
+    overflow: hidden;
+  }
+  .bcn-acard__flag {
+    display: inline-flex;
+    color: var(--color-content-utility-danger, var(--color-content-default-secondary));
+  }
+
+  /* The open target. Its ::after stretches over the whole tile so a click anywhere
+     opens the record, while keyboard focus lands on one real button. */
+  .bcn-acard__name {
+    all: unset;
+    font-family: var(--typography-font-family-sans);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    color: var(--color-content-default);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    cursor: inherit;
+  }
+  .bcn-acard__name::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+  .bcn-acard__name:focus-visible::after {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+
+  .bcn-acard__meta {
+    font-size: 0.8125rem;
+    font-weight: var(--typography-font-weight-medium);
+    line-height: 1.35;
+    color: var(--_ink-meta);
+  }
+
+  .bcn-acard__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+    padding-block-start: var(--spacing-200);
+    border-block-start: 1px solid var(--color-border-default);
+    min-block-size: 28px;
+  }
+  .bcn-acard__due,
+  .bcn-acard__count {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    font-size: 0.8125rem;
+    line-height: 1.3;
+    color: var(--_ink-meta);
+    white-space: nowrap;
+  }
+  .bcn-acard__due {
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-acard__count {
+    font-weight: var(--typography-font-weight-medium);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-acard__due[data-urgency='overdue'] {
+    color: var(--color-content-utility-danger);
+    font-weight: var(--typography-font-weight-bold);
+  }
+  .bcn-acard__due[data-urgency='due-soon'] {
+    color: var(--color-content-default);
+    font-weight: var(--typography-font-weight-bold);
+  }
+  .bcn-acard__due[data-empty] {
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-acard__counts {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-250);
+    margin-inline-start: auto;
+  }
+  .bcn-acard__count[data-zero] {
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-acard__who {
+    display: inline-flex;
+  }
+  .bcn-acard__avatar {
+    display: inline-flex;
+  }
+
+  /* While a card is in the air (board drag), the original leaves a hole. */
+  .bcn-acard[data-lifted] {
+    position: fixed;
+    z-index: 60;
+    pointer-events: none;
+    box-shadow: var(--elevation-4, 0 12px 28px rgb(0 0 0 / 0.18));
+    transform-origin: center;
+    rotate: 1.5deg;
+    cursor: grabbing;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+</style>

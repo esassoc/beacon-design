@@ -1,0 +1,128 @@
+---
+// <BcnActionFilters> — the one control strip over all three Actions views.
+//   top band    — the View pivot (Board | Table | Timeline) and the action-type tabs
+//                 (All actions + one per workflow), which scope every view;
+//   filters band — search, the Type / Phase / List facets, prod's N/A toggle, clear-all.
+// Sort, Frequency, Assignee and Due were cut (Andy, 2026-10-07); the list sorts by
+// due date. It writes the shared store (src/lib/action-board.ts) and renders no rows;
+// every view reads the same filtered set. `?view=` deep-links the pivot.
+//
+// bcn-lego-checked: every control is a lego — esa-button-toggle (View pivot, as on
+// BcnFieldDocFilters; type tabs), esa-text-field + esa-icon-button (search),
+// esa-filter-dropdown ×3, esa-switch-toggle (N/A, prod's toggle),
+// esa-filter-clear-button — all inside BcnFilterBar. This component owns no CSS.
+import EsaIconButton from '@esa/ecology/esa-button.astro';
+import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
+import BcnFilterBar from './BcnFilterBar.astro';
+import { FACETS } from '../../data/action-tracking';
+
+const facets: { key: keyof typeof FACETS; label: string }[] = [
+  { key: 'type', label: 'Type' },
+  { key: 'phase', label: 'Phase' },
+  { key: 'list', label: 'List' },
+];
+const viewOptions = [
+  { value: 'board', label: 'Board', icon: "<rect width='18' height='18' x='3' y='3' rx='2'/><path d='M8 7v7'/><path d='M12 7v4'/><path d='M16 7v9'/>" },
+  { value: 'table', label: 'Table', icon: "<path d='M12 3v18'/><rect width='18' height='18' x='3' y='3' rx='2'/><path d='M3 9h18'/><path d='M3 15h18'/>" },
+  { value: 'timeline', label: 'Timeline', icon: "<path d='M10 6h8'/><path d='M12 16h6'/><path d='M3 3v16a2 2 0 0 0 2 2h16'/><path d='M8 11h7'/>" },
+];
+---
+
+<div data-act-filters>
+  <BcnFilterBar leadLabel="View" scopeLabel="Type" searchPlacement="filters" compact>
+    <esa-button-toggle slot="lead" data-act-view data-icons value="board" size="md" data-options={JSON.stringify(viewOptions)}></esa-button-toggle>
+    <esa-button-toggle slot="scope" data-act-scope size="md" aria-label="Action types"></esa-button-toggle>
+
+    <esa-text-field
+      slot="search"
+      data-act-search
+      placeholder="Search action, commitment or assignee"
+      aria-label="Search actions"
+      size="md"></esa-text-field>
+    <span slot="search" data-act-search-clear hidden><EsaIconButton variant="chrome" iconOnly icon="x" label="Clear search" size="sm" /></span>
+
+    {facets.map((f) => (
+      <esa-filter-dropdown data-act-facet={f.key} label={f.label} multiple size="sm" data-options={JSON.stringify(FACETS[f.key])}></esa-filter-dropdown>
+    ))}
+    <esa-switch-toggle data-act-na size="sm" label="N/A"></esa-switch-toggle>
+
+    <span slot="actions" data-act-clear><FilterClearButton /></span>
+  </BcnFilterBar>
+</div>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-filter-dropdown';
+  import '@esa/ecology/esa-switch-toggle';
+  import { ACTION_VIEWS, initActionStore, setBoardScope, setFilters, setView, subscribe, state, type ActionState, type ActionView } from '../../lib/action-board';
+
+  type Opt = { value: string; label: string; icon?: string };
+  type DropdownEl = HTMLElement & { options: Opt[]; _selected: string[] };
+  type ValueEl = HTMLElement & { options: Opt[]; value: string };
+
+  const root = document.querySelector<HTMLElement>('[data-act-filters]');
+  if (root) {
+    initActionStore();
+
+    const viewEl = root.querySelector<ValueEl>('[data-act-view]')!;
+    viewEl.options = JSON.parse(viewEl.dataset.options || '[]');
+    viewEl.value = state.view;
+    viewEl.addEventListener('change', (e) => {
+      const next = (e as CustomEvent).detail?.value as ActionView;
+      if (ACTION_VIEWS.includes(next)) setView(next);
+    });
+
+    // Type tabs: "All actions" plus one per workflow. They are user data (the Configure
+    // dialog adds, renames and deletes workflows), so they re-sync on every workflow save.
+    const scopeEl = root.querySelector<ValueEl>('[data-act-scope]')!;
+    const syncScope = (s: ActionState) => {
+      scopeEl.options = [{ value: 'all', label: 'All actions' }, ...s.workflows.map((w) => ({ value: w.id, label: w.name }))];
+      scopeEl.value = s.boardScope;
+    };
+    // Options are a Lit property: set them only once the element has upgraded.
+    customElements.whenDefined('esa-button-toggle').then(() => {
+      syncScope(state);
+      subscribe((s, reason) => (reason === 'workflows' || reason === 'init') && syncScope(s));
+    });
+    scopeEl.addEventListener('change', (e) => setBoardScope(String((e as CustomEvent).detail?.value ?? 'all')));
+
+    const dropdowns = [...root.querySelectorAll<DropdownEl>('[data-act-facet]')];
+    for (const el of dropdowns) {
+      el.options = JSON.parse(el.dataset.options || '[]');
+      el.addEventListener('selection-change', (e) => {
+        const key = el.dataset.actFacet as keyof typeof state.filters.facets;
+        setFilters({ facets: { ...state.filters.facets, [key]: ((e as CustomEvent).detail?.value as string[]) ?? [] } });
+      });
+    }
+
+    const na = root.querySelector<HTMLElement & { checked: boolean }>('[data-act-na]')!;
+    na.addEventListener('change', () => setFilters({ showNotApplicable: !!na.checked }));
+
+    const search = root.querySelector<HTMLElement & { value: string }>('[data-act-search]')!;
+    const searchClear = root.querySelector<HTMLElement>('[data-act-search-clear]')!;
+    search.addEventListener('change', (e) => {
+      const v = String((e as CustomEvent).detail?.value ?? search.value ?? '');
+      searchClear.hidden = !v;
+      setFilters({ query: v.trim().toLowerCase() });
+    });
+    searchClear.addEventListener('click', () => {
+      search.value = '';
+      searchClear.hidden = true;
+      setFilters({ query: '' });
+    });
+
+    // Clear all: facets, search and N/A. The view and type tabs are not filters; they stay.
+    root.querySelector('[data-act-clear]')!.addEventListener('esa-filter-clear', () => {
+      dropdowns.forEach((el) => (el._selected = []));
+      search.value = '';
+      searchClear.hidden = true;
+      na.checked = false;
+      setFilters({
+        query: '',
+        showNotApplicable: false,
+        facets: { type: [], phase: [], assignee: [], frequency: [], due: [], list: [] },
+      });
+    });
+  }
+</script>

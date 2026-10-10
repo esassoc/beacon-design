@@ -1,0 +1,86 @@
+---
+// Actions — the redesign of prod's Compliance Tracking (Kanban / Timeline / Grid)
+// around the desk actions a compliance team carries out: plans, approvals and
+// consultations, reports (Andy, 2026-10-06). Three decisions shape it:
+//   · the board holds ACTION IMPLEMENTATIONS only, never the action over its children;
+//   · each project defines its own board COLUMNS per action type, every column mapped
+//     to prod's status backbone (Not Started / In Progress / Completed), configured in a
+//     dialog modeled on Jamie's monitoring-dashboard configure dialog;
+//   · the H1 reads "Actions" with the component switcher beside it, and every view sits
+//     under the shared filter bar.
+// Data: src/data/action-tracking.ts (fixture) → src/lib/action-board.ts (client store).
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnComponentPicker from '../../components/bcn/BcnComponentPicker.astro';
+import BcnActionFilters from '../../components/bcn/BcnActionFilters.astro';
+import BcnActionBoard from '../../components/bcn/BcnActionBoard.astro';
+import BcnActionTable from '../../components/bcn/BcnActionTable.astro';
+import BcnActionTimeline from '../../components/bcn/BcnActionTimeline.astro';
+import BcnBoardConfigDialog from '../../components/bcn/BcnBoardConfigDialog.astro';
+import BcnImplementationDialog from '../../components/bcn/BcnImplementationDialog.astro';
+import { BOARD_COMPONENTS, COMPONENT_MARKS, DEFAULT_WORKFLOWS, IMPLEMENTATIONS } from '../../data/action-tracking';
+import { STEP_GLYPH } from '../../data/setup-wizard';
+import { withBase } from '../../lib/base';
+
+const TRACKING_NAV = [
+  { id: 'tracking-actions', label: 'Actions', href: withBase('/prototypes/actions') },
+  { id: 'tracking-obligations', label: 'Obligations', href: withBase('/prototypes/obligation-feed') },
+  { id: 'tracking-permits', label: 'Permits', href: withBase('/prototypes/permit-tracking') },
+];
+
+const island = JSON.stringify({
+  implementations: IMPLEMENTATIONS,
+  workflows: DEFAULT_WORKFLOWS,
+  components: BOARD_COMPONENTS.map((c) => ({ id: c.id, name: c.name })),
+});
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout > stack(lg)                # SPINE
+  sections:
+    - title badge    -> bcn-component-picker               # the switcher beside the H1; scopes every view
+    - utilities      -> esa-button                         # Configure board, right of the title row; opens the config dialog
+    - controls       -> bcn-action-filters                 # View + type tabs; search, Type/Phase/List, N/A
+    - board          -> bcn-action-board                   # workflow columns of bcn-action-card; drag between columns
+    - table          -> bcn-action-table                   # AG Grid of the same implementations
+    - timeline       -> bcn-action-timeline                # due dates on a month axis, grouped by status
+    - configure      -> bcn-board-config-dialog            # per-type workflows: columns over the status backbone
+    - implementation -> bcn-implementation-dialog          # prod's upsert dialog, opened from any view
+-->
+
+<AppShell
+  title="Actions"
+  tenantName="DWR"
+  projectName="Delta Conveyance"
+  activeNavId="tracking-actions"
+  expandedSections={['tracking']}
+  sectionItems={{ tracking: TRACKING_NAV }}
+>
+  <PageLayout
+    title="Actions"
+    icon="radar"
+    iconPaths={STEP_GLYPH.radar}
+    iconColor="var(--color-content-brand)"
+    breadcrumbs={[{ label: 'Tracking', href: '#tracking' }, { label: 'Actions' }]}
+  >
+    <span slot="title-badge">
+      <BcnComponentPicker components={BOARD_COMPONENTS.map((c) => c.name)} marks={COMPONENT_MARKS} />
+    </span>
+    <span slot="utilities" data-aboard-configure>
+      <EsaButton variant="ghost" appearance="outline" size="sm" icon="settings">Configure board</EsaButton>
+    </span>
+
+    <script type="application/json" id="actions-data" set:html={island} />
+
+    <div class="stack" data-gap="lg">
+      <BcnActionFilters />
+      <BcnActionBoard />
+      <BcnActionTable />
+      <BcnActionTimeline />
+    </div>
+
+    <BcnBoardConfigDialog />
+    <BcnImplementationDialog />
+  </PageLayout>
+</AppShell>
