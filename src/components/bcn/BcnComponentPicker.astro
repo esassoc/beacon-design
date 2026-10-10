@@ -51,7 +51,19 @@
 // consumer's BY DESIGN, not a reinvention. Checked Beacon prod: the Angular app
 // scopes by component through a route, not a control, so there is no ui-* pattern
 // to port. bcn-component-picker is the reusable home.
+//
+// MARKS MODE (Andy, 2026-10-07): pass `marks` and the switcher wears each component's
+// identity mark, the glyph × color seal from the Component Dashboard (prod's
+// ComponentIdentityMark, ported from BcnEntityLogo). The trigger shows the active
+// component's seal beside its name; the panel becomes a listbox of seal + name rows with
+// the current one checked. esa-dropdown-menu cannot carry it — its items are label-only
+// and its `icon` renders a bullet dot — so this mode rides esa-popover, whose content
+// slot takes arbitrary markup, with the same start-alignment shim BcnWidgetMenu uses
+// for the popover's centred-only `bottom` position (hub ask open). Without `marks` the
+// picker is exactly what it was.
 import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnEntityLogo from './BcnEntityLogo.astro';
+import type { EntityMark } from '../../data/entity-marks';
 
 interface Props {
   /** The component register to offer. Rendered in the order given. */
@@ -59,9 +71,12 @@ interface Props {
   /** Falls back to components[0] when storage is empty or holds an unknown value. */
   active?: string;
   storageKey?: string;
+  /** Identity mark per component name. Supplying it switches the picker to marks mode. */
+  marks?: Record<string, EntityMark>;
 }
 
-const { components, active, storageKey = 'beacon.activeComponent' } = Astro.props;
+const { components, active, storageKey = 'beacon.activeComponent', marks } = Astro.props;
+const CHECK = '<path d="M20 6 9 17l-5-5"/>';
 
 // `chevron-down` ships in the hub registry; the paths are passed anyway as the
 // documented fallback for a spoke whose registry is behind.
@@ -80,14 +95,37 @@ const seeded = active && components.includes(active) ? active : (components[0] ?
   data-storage-key={storageKey}
   data-default={seeded}
 >
-  {/* The lego takes its trigger via the DEFAULT slot; `items` is set as a property
-      in the controller below, never as an attribute. */}
-  <esa-dropdown-menu position="below-start" data-component-picker-menu>
-    <button type="button" class="bcn-component-picker__trigger" aria-label="Switch component">
-      <span class="bcn-component-picker__label" data-component-picker-label>{seeded}</span>
-      <EsaIcon name="chevron-down" size="sm" paths={CHEVRON_DOWN} />
-    </button>
-  </esa-dropdown-menu>
+  {/* The menu lego takes its trigger via the DEFAULT slot; `items` is set as a
+      property in the controller below, never as an attribute. */}
+  {marks ? (
+    <esa-popover class="bcn-component-picker__pop" position="bottom" has-arrow="false" label="Components" data-component-picker-pop>
+      <button type="button" class="bcn-component-picker__trigger bcn-component-picker__trigger--mark" aria-haspopup="listbox" aria-label="Switch component">
+        {components.map((c) => (
+          <span class="bcn-component-picker__tmark" data-component-picker-tmark={c} hidden={c !== seeded}>
+            <BcnEntityLogo mark={marks[c]} size="sm" variant="seal" />
+          </span>
+        ))}
+        <span class="bcn-component-picker__label" data-component-picker-label>{seeded}</span>
+        <EsaIcon name="chevron-down" size="sm" paths={CHEVRON_DOWN} />
+      </button>
+      <div slot="content" class="bcn-component-picker__panel" role="listbox" aria-label="Components">
+        {components.map((c) => (
+          <button type="button" role="option" class="bcn-component-picker__opt" data-component-picker-opt={c} aria-selected={c === seeded ? 'true' : 'false'}>
+            <BcnEntityLogo mark={marks[c]} size="sm" variant="seal" />
+            <span class="bcn-component-picker__optname">{c}</span>
+            <span class="bcn-component-picker__check"><EsaIcon name="check" size="sm" paths={CHECK} /></span>
+          </button>
+        ))}
+      </div>
+    </esa-popover>
+  ) : (
+    <esa-dropdown-menu position="below-start" data-component-picker-menu>
+      <button type="button" class="bcn-component-picker__trigger" aria-label="Switch component">
+        <span class="bcn-component-picker__label" data-component-picker-label>{seeded}</span>
+        <EsaIcon name="chevron-down" size="sm" paths={CHEVRON_DOWN} />
+      </button>
+    </esa-dropdown-menu>
+  )}
 </span>
 
 <script>
@@ -95,7 +133,9 @@ const seeded = active && components.includes(active) ? active : (components[0] ?
   // module. Props arrive as data-* attributes on each root, so a second instance on
   // the same site needs nothing here.
   import '@esa/ecology/esa-dropdown-menu';
+  import '@esa/ecology/esa-popover';
 
+  type PopEl = HTMLElement & { open: boolean };
   type MenuEl = HTMLElement & { items: { label: string; action: string }[] };
 
   const DEFAULT_STORAGE_KEY = 'beacon.activeComponent';
@@ -122,8 +162,9 @@ const seeded = active && components.includes(active) ? active : (components[0] ?
 
   function setupComponentPicker(root: HTMLElement): void {
     const menu = root.querySelector<MenuEl>('[data-component-picker-menu]');
+    const pop = root.querySelector<PopEl>('[data-component-picker-pop]');
     const label = root.querySelector<HTMLElement>('[data-component-picker-label]');
-    if (!menu || !label) return;
+    if ((!menu && !pop) || !label) return;
 
     const components = parseComponents(root.dataset.components);
     if (!components.length) return;
@@ -132,7 +173,9 @@ const seeded = active && components.includes(active) ? active : (components[0] ?
     const seeded = root.dataset.default ?? '';
     let activeComponent = components.includes(seeded) ? seeded : components[0];
 
-    menu.items = components.map((c) => ({ label: c, action: c }));
+    if (menu) menu.items = components.map((c) => ({ label: c, action: c }));
+    const options = [...root.querySelectorAll<HTMLButtonElement>('[data-component-picker-opt]')];
+    const trigger = root.querySelector<HTMLButtonElement>('.bcn-component-picker__trigger')!;
 
     // ONE path for both the mount restore and a user selection. The equality guard
     // is what makes that safe: a restore that agrees with the server-rendered
@@ -142,6 +185,11 @@ const seeded = active && components.includes(active) ? active : (components[0] ?
       if (!components.includes(next) || next === activeComponent) return;
       activeComponent = next;
       label.textContent = next;
+      // Marks mode: the trigger wears the chosen component's seal, the list checks it.
+      root.querySelectorAll<HTMLElement>('[data-component-picker-tmark]').forEach((m) => {
+        m.hidden = m.dataset.componentPickerTmark !== next;
+      });
+      options.forEach((o) => o.setAttribute('aria-selected', String(o.dataset.componentPickerOpt === next)));
       try {
         localStorage.setItem(storageKey, next);
       } catch {
@@ -155,7 +203,44 @@ const seeded = active && components.includes(active) ? active : (components[0] ?
     const restored = readStored(storageKey, components);
     if (restored) apply(restored);
 
-    menu.addEventListener('menu-action', (ev) => {
+    if (pop) {
+      // esa-popover's anchor wraps its own panel, so a click inside the list would
+      // reach the anchor as a trigger click and toggle the popover straight back open.
+      // The list is light DOM, below the anchor: stopping the click here keeps it ours.
+      root.querySelector('.bcn-component-picker__panel')?.addEventListener('click', (e) => e.stopPropagation());
+      options.forEach((o, i) => {
+        o.addEventListener('click', () => {
+          apply(o.dataset.componentPickerOpt!);
+          pop.open = false;
+          trigger.focus();
+        });
+        // Arrow keys walk the list; Escape and outside-click are the popover's.
+        o.addEventListener('keydown', (e) => {
+          const step = e.key === 'ArrowDown' ? 1 : e.key === 'ArrowUp' ? -1 : 0;
+          const to = e.key === 'Home' ? 0 : e.key === 'End' ? options.length - 1 : step ? (i + step + options.length) % options.length : -1;
+          if (to < 0) return;
+          e.preventDefault();
+          options[to].focus();
+        });
+      });
+      // TEMPORARY SHIM, the same one BcnWidgetMenu carries: esa-popover's `bottom` is
+      // centred (`left: 50%; translateX(-50%)`) and the hub has no start/end position
+      // yet. A list hung centred under a title-row trigger reads as detached from it.
+      // Delete when the hub lands the position.
+      new MutationObserver(() => {
+        if (!pop.hasAttribute('open')) return;
+        // Focus moves into the list only for a keyboard open; a pointer open leaves it
+        // on the trigger so the selected row doesn't wear a focus ring nobody asked for.
+        const fromKeyboard = trigger.matches(':focus-visible');
+        requestAnimationFrame(() => {
+          const panel = pop.shadowRoot?.querySelector<HTMLElement>('.esa-popover');
+          if (panel) Object.assign(panel.style, { left: '0', right: 'auto', transform: 'none' });
+          if (fromKeyboard) (options.find((o) => o.getAttribute('aria-selected') === 'true') ?? options[0])?.focus();
+        });
+      }).observe(pop, { attributes: true, attributeFilter: ['open'] });
+    }
+
+    menu?.addEventListener('menu-action', (ev) => {
       // The lego sends the action STRING as `detail` (esa-dropdown-menu.ts:236), not
       // a `{ action }` object — site-clearance-bio's copy of this handler reads
       // `detail.action` and is dead against this version. Both shapes are accepted
@@ -180,7 +265,7 @@ const seeded = active && components.includes(active) ? active : (components[0] ?
         )
       : Promise.resolve();
 
-  void Promise.all([customElements.whenDefined('esa-dropdown-menu'), domReady]).then(() => {
+  void Promise.all([customElements.whenDefined('esa-dropdown-menu'), customElements.whenDefined('esa-popover'), domReady]).then(() => {
     document
       .querySelectorAll<HTMLElement>('[data-component-picker]')
       .forEach((root) => setupComponentPicker(root));
@@ -232,8 +317,89 @@ const seeded = active && components.includes(active) ? active : (components[0] ?
     background: var(--color-background-elevation-sunken, var(--color-background-default));
     color: var(--color-content-default);
   }
-  .bcn-component-picker__trigger :global(.esa-icon) {
+  /* Direct child only: the chevron. A seal's glyph sits deeper and keeps its own ink. */
+  .bcn-component-picker__trigger > :global(.esa-icon) {
     color: var(--color-content-default-tertiary);
     flex-shrink: 0;
+  }
+
+  /* ── Marks mode ──────────────────────────────────────────────────────────── */
+  .bcn-component-picker__pop {
+    display: inline-flex;
+    /* The panel rides the popover's padding; the rows carry their own. */
+    --_popover-padding: var(--spacing-150);
+  }
+  /* With a seal leading, the name is the identity rather than a quiet aside, so it
+     steps up to default ink and a firmer weight. */
+  .bcn-component-picker__trigger--mark {
+    gap: var(--spacing-200);
+    padding: var(--spacing-100) var(--spacing-200) var(--spacing-100) var(--spacing-100);
+    font-size: 0.875rem;
+    font-weight: 550;
+    color: var(--color-content-default);
+  }
+  .bcn-component-picker__tmark {
+    display: inline-flex;
+  }
+  /* The trigger's seal sits a notch under the logo's smallest step (24px): beside 14px
+     text a 24px seal plus its ring outweighs the name it tags (Andy, 2026-10-07). */
+  .bcn-component-picker__tmark :global(.bcn-entity-logo) {
+    width: 20px;
+    height: 20px;
+    --icon-size-xs: 12px;
+  }
+  .bcn-component-picker__tmark[hidden] {
+    display: none;
+  }
+
+  .bcn-component-picker__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-inline-size: 340px;
+    max-block-size: min(60vh, 520px);
+    overflow-y: auto;
+  }
+  .bcn-component-picker__opt {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) 16px;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-200) var(--spacing-250) var(--spacing-200) var(--spacing-200);
+    border: 0;
+    border-radius: var(--radius-200);
+    background: transparent;
+    font: inherit;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--color-content-default);
+    text-align: start;
+    cursor: pointer;
+  }
+  .bcn-component-picker__opt:hover {
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-component-picker__opt:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: -2px;
+  }
+  .bcn-component-picker__opt[aria-selected='true'] {
+    background: color-mix(in srgb, var(--color-background-brand) 8%, transparent);
+    font-weight: 600;
+  }
+  .bcn-component-picker__optname {
+    min-inline-size: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bcn-component-picker__check {
+    display: inline-flex;
+    color: var(--color-background-brand);
+    visibility: hidden;
+  }
+  .bcn-component-picker__opt[aria-selected='true'] .bcn-component-picker__check {
+    visibility: visible;
   }
 </style>

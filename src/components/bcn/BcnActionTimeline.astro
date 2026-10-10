@@ -1,0 +1,569 @@
+---
+// <BcnActionTimeline> — the Actions page's Timeline view. One row per action
+// implementation (one action carried out on one component, no nesting), plotted on a
+// month axis by its due date so a desk team sees what is coming and what is late.
+// Completed work sits at its completed date. Rows group by backbone status category
+// (Not Started, In Progress, Completed), each header carrying its count, then a final
+// "No due date" group that lists undated work with no marker.
+//
+// Store-driven: everything renders client-side from src/lib/action-board.ts
+// (visibleImpls), by cloning the <template>s below so the markup stays reviewable and
+// this file's scoped CSS reaches the clones. Shown only while state.view is
+// 'timeline'. Row or marker click → openImpl(id). On first show it scrolls so TODAY
+// sits in view with about a month of past to its left.
+//
+// Dense data surface: 14px labels, 13px meta (sanctioned hard-codes: the fluid
+// typography composites floor below 14px on narrow viewports).
+//
+// bcn-lego-checked: no esa-* lego draws a dated axis (esa-chart is a chart, not a
+// row-per-record gantt; esa-progress-bar is a single meter). Checked the spoke's
+// timelines: BcnFieldDocTimeline is a working-day column grid bound to the field-doc
+// fixture, BcnScheduleTimeline / BcnProjectTimeline are server-rendered over their own
+// data and cannot re-render from a client store. The bespoke part is the axis geometry
+// (sticky month header + sticky label column in one scroll box, positions from a --x
+// day offset), ported from BcnFieldDocTimeline. Commitment codes are BcnCommitmentBadge,
+// the empty result is esa-empty-state, the group chevron is esa-icon.
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+
+type Props = Record<string, never>;
+---
+
+<section class="bcn-atl" data-atl hidden aria-label="Actions timeline">
+  <div class="bcn-atl__module">
+    <div class="bcn-atl__scroll" data-atl-scroll tabindex="0" aria-label="Action implementations by due date">
+      <div class="bcn-atl__canvas" data-atl-canvas>
+        <div class="bcn-atl__head">
+          <div class="bcn-atl__corner">Action</div>
+          <div class="bcn-atl__axis" data-atl-months>
+            <span class="bcn-atl__today-flag" data-atl-today-flag>Today</span>
+          </div>
+        </div>
+        <div class="bcn-atl__body" data-atl-body>
+          <div class="bcn-atl__grid" data-atl-grid aria-hidden="true">
+            <span class="bcn-atl__today" />
+          </div>
+          <div data-atl-groups></div>
+        </div>
+      </div>
+    </div>
+    <div class="bcn-atl__empty" data-atl-empty hidden>
+      <EsaEmptyState title="No actions match" description="Clear a filter to see more." size="sm" />
+    </div>
+  </div>
+
+  <template data-atl-tpl="month">
+    <span class="bcn-atl__month"><span class="bcn-atl__month-name" data-atl-month-name></span></span>
+  </template>
+
+  <template data-atl-tpl="rule">
+    <span class="bcn-atl__rule"></span>
+  </template>
+
+  <template data-atl-tpl="group">
+    <details class="bcn-atl__group" open>
+      <summary class="bcn-atl__ghead">
+        <span class="bcn-atl__ghead-text">
+          <span class="bcn-atl__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+          <span class="bcn-atl__swatch" data-atl-swatch aria-hidden="true"></span>
+          <span class="bcn-atl__glabel" data-atl-glabel></span>
+          <span class="bcn-atl__gcount" data-atl-gcount></span>
+        </span>
+      </summary>
+      <div data-atl-rows></div>
+    </details>
+  </template>
+
+  <template data-atl-tpl="row">
+    <div class="bcn-atl__row" data-atl-row>
+      <div class="bcn-atl__label">
+        <a class="bcn-atl__name" data-atl-name href="#"></a>
+        <span class="bcn-atl__meta">
+          <span class="bcn-atl__code" data-atl-code><BcnCommitmentBadge code="COA" size="sm" /></span>
+          <span class="bcn-atl__status" data-atl-status></span>
+        </span>
+      </div>
+      <div class="bcn-atl__track">
+        <span class="bcn-atl__lag" data-atl-lag hidden></span>
+        <span class="bcn-atl__mark" data-atl-mark role="img" hidden></span>
+      </div>
+    </div>
+  </template>
+</section>
+
+<script>
+  import { initActionStore, openImpl, subscribe, visibleImpls, type ChangeReason, type ResolvedImpl } from '../../lib/action-board';
+  import { ACTIONS_TODAY, CATEGORIES, CATEGORY_META, daysOut, epochDay, fmtDate, type StatusCategory } from '../../data/action-status';
+
+  const root = document.querySelector<HTMLElement>('[data-atl]');
+  if (root) {
+    const q = <T extends Element>(sel: string, from: ParentNode = root) => from.querySelector<T>(sel)!;
+    const tpl = (name: string) =>
+      (q<HTMLTemplateElement>(`template[data-atl-tpl="${name}"]`).content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+
+    const scroller = q<HTMLElement>('[data-atl-scroll]');
+    const canvas = q<HTMLElement>('[data-atl-canvas]');
+    const monthsEl = q<HTMLElement>('[data-atl-months]');
+    const todayFlag = q<HTMLElement>('[data-atl-today-flag]');
+    const grid = q<HTMLElement>('[data-atl-grid]');
+    const groupsEl = q<HTMLElement>('[data-atl-groups]');
+    const emptyEl = q<HTMLElement>('[data-atl-empty]');
+
+    const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const TODAY = epochDay(ACTIONS_TODAY);
+    const [TY, TM] = ACTIONS_TODAY.split('-').map(Number);
+    const MAX_MONTHS = 18;
+    const PAST_MONTHS = 2;
+    const MAX_PAST_MONTHS = 6;
+    const LONG_GROUP = 8;
+
+    /** Month index (years × 12 + month0) ↔ first day of that month. */
+    const mIndex = (iso: string) => {
+      const [y, m] = iso.split('-').map(Number);
+      return y * 12 + (m - 1);
+    };
+    const mStart = (mi: number) => Math.floor(Date.UTC(Math.floor(mi / 12), mi % 12, 1) / 86_400_000);
+
+    /** Where the marker sits: completed work at its completed date, the rest at its due date. */
+    const markDate = (i: ResolvedImpl): string | null =>
+      i.category === 'Completed' ? (i.completedDate ?? i.dueDate) : i.dueDate;
+
+    const markTitle = (i: ResolvedImpl): string => {
+      const parts = [i.name];
+      if (i.category === 'Completed' && i.completedDate) parts.push(`Completed ${fmtDate(i.completedDate)}`);
+      if (i.dueDate) {
+        const late = i.urgency === 'overdue' ? -daysOut(i.dueDate) : 0;
+        parts.push(`Due ${fmtDate(i.dueDate)}${late ? `, ${late} ${late === 1 ? 'day' : 'days'} overdue` : ''}`);
+      }
+      return parts.join('\n');
+    };
+
+    // Which groups the user folded; survives re-renders. Undated work starts folded
+    // when the list is long.
+    const folded = new Set<string>();
+    const touched = new Set<string>();
+
+    let dayW = 4;
+    let axisStart = 0;
+    let placed = false;
+    let dirty = true;
+
+    function buildAxis(impls: ResolvedImpl[]) {
+      const dates = impls.map(markDate).filter((d): d is string => !!d);
+      const todayMi = TY * 12 + (TM - 1);
+      const earliest = dates.length ? Math.min(...dates.map(mIndex)) : todayMi;
+      const latest = dates.length ? Math.max(...dates.map(mIndex)) : todayMi;
+      const first = Math.max(todayMi - MAX_PAST_MONTHS, Math.min(todayMi - PAST_MONTHS, earliest));
+      const last = Math.min(first + MAX_MONTHS - 1, Math.max(todayMi + 2, latest));
+
+      axisStart = mStart(first);
+      const axisEnd = mStart(last + 1);
+      dayW = parseFloat(getComputedStyle(root!).getPropertyValue('--atl-day')) || 4;
+      root!.style.setProperty('--atl-days', String(axisEnd - axisStart));
+      root!.style.setProperty('--atl-today', String(TODAY - axisStart));
+
+      monthsEl.querySelectorAll('.bcn-atl__month').forEach((n) => n.remove());
+      grid.querySelectorAll('.bcn-atl__rule').forEach((n) => n.remove());
+      for (let mi = first; mi <= last; mi++) {
+        const x = mStart(mi) - axisStart;
+        const cell = tpl('month');
+        cell.style.setProperty('--x', String(x));
+        cell.style.setProperty('--span', String(mStart(mi + 1) - mStart(mi)));
+        const m = mi % 12;
+        const showYear = mi === first || m === 0;
+        q<HTMLElement>('[data-atl-month-name]', cell).textContent = `${MONTHS[m]}${showYear ? ` ${Math.floor(mi / 12)}` : ''}`;
+        monthsEl.insertBefore(cell, todayFlag);
+        if (mi > first) {
+          const rule = tpl('rule');
+          rule.style.setProperty('--x', String(x));
+          grid.append(rule);
+        }
+      }
+      return { lo: 0, hi: axisEnd - axisStart - 1 };
+    }
+
+    function buildRow(i: ResolvedImpl, span: { lo: number; hi: number }): HTMLElement {
+      const row = tpl('row');
+      row.dataset.id = i.id;
+      const name = q<HTMLAnchorElement>('[data-atl-name]', row);
+      name.textContent = i.name;
+      name.title = i.name;
+      name.href = `#${encodeURIComponent(i.id)}`;
+
+      const code = q<HTMLElement>('[data-atl-code]', row);
+      if (i.codes[0]) code.querySelector('.bcn-cbadge')!.textContent = i.codes[0];
+      else code.remove();
+      q<HTMLElement>('[data-atl-status]', row).textContent = i.column.name || CATEGORY_META[i.category].label;
+
+      const at = markDate(i);
+      if (at) {
+        const raw = epochDay(at) - axisStart;
+        const x = Math.min(span.hi, Math.max(span.lo, raw));
+        const mark = q<HTMLElement>('[data-atl-mark]', row);
+        const overdue = i.urgency === 'overdue';
+        mark.hidden = false;
+        mark.style.setProperty('--x', String(x));
+        mark.style.setProperty('--atl-tone', overdue ? 'var(--color-background-utility-danger)' : CATEGORY_META[i.category].tone);
+        mark.classList.toggle('is-clipped', x !== raw);
+        const t = markTitle(i);
+        mark.title = t;
+        mark.setAttribute('aria-label', t.replace('\n', '. '));
+        if (overdue) {
+          // How late, drawn: a hairline from the due date to today.
+          const lag = q<HTMLElement>('[data-atl-lag]', row);
+          lag.hidden = false;
+          lag.style.setProperty('--from', String(x));
+          lag.style.setProperty('--to', String(Math.min(span.hi, TODAY - axisStart)));
+        }
+      }
+      return row;
+    }
+
+    function buildGroup(key: string, label: string, tone: string | null, rows: ResolvedImpl[], span: { lo: number; hi: number }) {
+      const g = tpl('group') as HTMLDetailsElement;
+      g.dataset.group = key;
+      q<HTMLElement>('[data-atl-glabel]', g).textContent = label;
+      q<HTMLElement>('[data-atl-gcount]', g).textContent = String(rows.length);
+      const sw = q<HTMLElement>('[data-atl-swatch]', g);
+      if (tone) sw.style.setProperty('--atl-tone', tone);
+      else sw.remove();
+      if (!touched.has(key) && key === 'none' && rows.length > LONG_GROUP) folded.add(key);
+      g.open = !folded.has(key);
+      g.addEventListener('toggle', () => {
+        touched.add(key);
+        if (g.open) folded.delete(key);
+        else folded.add(key);
+      });
+      const host = q<HTMLElement>('[data-atl-rows]', g);
+      for (const i of rows) host.append(buildRow(i, span));
+      return g;
+    }
+
+    function render() {
+      const impls = visibleImpls();
+      emptyEl.hidden = impls.length > 0;
+      scroller.hidden = impls.length === 0;
+      groupsEl.replaceChildren();
+      if (!impls.length) return;
+
+      const span = buildAxis(impls);
+      const byDate = (a: ResolvedImpl, b: ResolvedImpl) =>
+        (markDate(a) ?? '').localeCompare(markDate(b) ?? '') || a.name.localeCompare(b.name);
+      const dated = impls.filter((i) => markDate(i));
+      const undated = impls.filter((i) => !markDate(i)).sort((a, b) => a.name.localeCompare(b.name));
+
+      const frag = document.createDocumentFragment();
+      for (const c of CATEGORIES as StatusCategory[]) {
+        const rows = dated.filter((i) => i.category === c).sort(byDate);
+        if (rows.length) frag.append(buildGroup(c, CATEGORY_META[c].label, CATEGORY_META[c].tone, rows, span));
+      }
+      if (undated.length) frag.append(buildGroup('none', 'No due date', null, undated, span));
+      groupsEl.append(frag);
+    }
+
+    // First show: about a month of past to the left of TODAY. Waits for a width, since
+    // the view may un-hide before its parent lays out.
+    const place = () => {
+      if (placed || scroller.clientWidth === 0) return;
+      scroller.scrollLeft = Math.max(0, (TODAY - axisStart - 30) * dayW);
+      placed = true;
+    };
+    new ResizeObserver(place).observe(scroller);
+
+    const RENDER: ChangeReason[] = ['init', 'view', 'scope', 'filters', 'component', 'impl', 'workflows'];
+    initActionStore();
+    subscribe((s, reason) => {
+      if (RENDER.includes(reason)) dirty = true;
+      root.hidden = s.view !== 'timeline';
+      if (root.hidden) return;
+      if (dirty) {
+        render();
+        dirty = false;
+      }
+      place();
+    });
+
+    // Row, name or marker → the implementation dialog. The group header toggles itself.
+    canvas.addEventListener('click', (e) => {
+      const row = (e.target as HTMLElement).closest<HTMLElement>('[data-atl-row]');
+      if (!row?.dataset.id) return;
+      e.preventDefault();
+      openImpl(row.dataset.id);
+    });
+  }
+</script>
+
+<style>
+  .bcn-atl {
+    --atl-day: 4px;
+    --atl-label: 320px;
+    --atl-row: 48px;
+    --atl-head: 32px;
+    --atl-mark-size: 10px;
+    --atl-line: var(--color-border-default-subtle);
+  }
+  .bcn-atl[hidden],
+  .bcn-atl [hidden] {
+    display: none;
+  }
+
+  .bcn-atl__module {
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-raised);
+    color: var(--color-content-default);
+    font-size: 14px;
+  }
+
+  /* One scroll box in both axes, so the month header and the label column both stick. */
+  .bcn-atl__scroll {
+    overflow: auto;
+    max-height: max(26rem, calc(100vh - 14rem));
+    border-radius: var(--radius-100);
+  }
+  .bcn-atl__scroll:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, var(--color-border-default-focus));
+    outline-offset: -2px;
+  }
+  .bcn-atl__canvas {
+    position: relative;
+    width: calc(var(--atl-label) + var(--atl-days, 0) * var(--atl-day));
+  }
+
+  /* ── Header ── */
+  .bcn-atl__head {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: grid;
+    grid-template-columns: var(--atl-label) calc(var(--atl-days, 0) * var(--atl-day));
+    height: var(--atl-head);
+    background: var(--color-background-default);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+  .bcn-atl__corner {
+    position: sticky;
+    left: 0;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    padding: 0 var(--spacing-300);
+    background: var(--color-background-default);
+    border-right: 1px solid var(--color-border-default);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-atl__axis {
+    position: relative;
+  }
+  .bcn-atl__month {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--x) * var(--atl-day));
+    width: calc(var(--span) * var(--atl-day));
+    display: flex;
+    align-items: center;
+    border-left: 1px solid var(--color-border-default);
+  }
+  .bcn-atl__month-name {
+    padding: 0 var(--spacing-200);
+    font-size: 13px;
+    font-weight: var(--typography-font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-atl__today-flag {
+    position: absolute;
+    bottom: 0;
+    left: calc(var(--atl-today, 0) * var(--atl-day));
+    transform: translateX(-50%);
+    z-index: 1;
+    padding: 0 var(--spacing-150);
+    border-radius: var(--radius-100) var(--radius-100) 0 0;
+    background: var(--color-background-utility-info);
+    color: var(--color-content-default-knockout);
+    font-size: 13px;
+    font-weight: var(--typography-font-weight-semibold);
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  /* ── Body + background rules ── */
+  .bcn-atl__body {
+    position: relative;
+  }
+  .bcn-atl__grid {
+    position: absolute;
+    inset: 0 0 0 var(--atl-label);
+    pointer-events: none;
+  }
+  .bcn-atl__rule {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--x) * var(--atl-day));
+    width: 1px;
+    background: var(--atl-line);
+  }
+  .bcn-atl__today {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--atl-today, 0) * var(--atl-day) - 1px);
+    width: 2px;
+    z-index: 1;
+    background: var(--color-background-utility-info);
+  }
+
+  /* ── Group headers ── */
+  .bcn-atl__ghead {
+    position: relative;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    height: 36px;
+    list-style: none;
+    cursor: pointer;
+    background: var(--color-background-default);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+  .bcn-atl__ghead::-webkit-details-marker {
+    display: none;
+  }
+  .bcn-atl__group + .bcn-atl__group .bcn-atl__ghead {
+    border-top: 1px solid var(--color-border-default);
+  }
+  .bcn-atl__ghead:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, var(--color-border-default-focus));
+    outline-offset: -2px;
+  }
+  .bcn-atl__ghead-text {
+    position: sticky;
+    left: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: 0 var(--spacing-300);
+    white-space: nowrap;
+  }
+  .bcn-atl__chevron {
+    display: inline-flex;
+    color: var(--color-content-default-secondary);
+    transition: transform 120ms ease;
+  }
+  .bcn-atl__group[open] > .bcn-atl__ghead .bcn-atl__chevron {
+    transform: rotate(90deg);
+  }
+  .bcn-atl__swatch {
+    width: var(--atl-mark-size);
+    height: var(--atl-mark-size);
+    border-radius: var(--radius-full);
+    background: var(--atl-tone);
+  }
+  .bcn-atl__glabel {
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-atl__gcount {
+    font-variant-numeric: tabular-nums;
+    color: var(--color-content-default-secondary);
+  }
+
+  /* ── Rows ── */
+  .bcn-atl__row {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--atl-label) calc(var(--atl-days, 0) * var(--atl-day));
+    height: var(--atl-row);
+    border-bottom: 1px solid var(--atl-line);
+    cursor: pointer;
+  }
+  .bcn-atl__row:hover .bcn-atl__label,
+  .bcn-atl__row:hover .bcn-atl__track {
+    background: color-mix(in srgb, var(--color-background-default-hover) 45%, var(--color-background-elevation-raised));
+  }
+  .bcn-atl__label {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    min-width: 0;
+    padding: 0 var(--spacing-300);
+    background: var(--color-background-elevation-raised);
+    border-right: 1px solid var(--color-border-default);
+  }
+  .bcn-atl__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
+    text-decoration: none;
+  }
+  .bcn-atl__name:hover {
+    text-decoration: underline;
+  }
+  .bcn-atl__name:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, var(--color-border-default-focus));
+    outline-offset: 1px;
+  }
+  .bcn-atl__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-width: 0;
+    font-size: 13px;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-atl__code {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+  .bcn-atl__status {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-atl__track {
+    position: relative;
+  }
+
+  /* ── Marks ── */
+  .bcn-atl__mark {
+    position: absolute;
+    top: calc(50% - var(--atl-mark-size) / 2);
+    left: calc(var(--x) * var(--atl-day) - var(--atl-mark-size) / 2 + var(--atl-day) / 2);
+    z-index: 2;
+    width: var(--atl-mark-size);
+    height: var(--atl-mark-size);
+    border-radius: var(--radius-full);
+    background: var(--atl-tone);
+    box-shadow: 0 0 0 2px var(--color-background-elevation-raised);
+  }
+  .bcn-atl__row:hover .bcn-atl__mark {
+    transform: scale(1.3);
+  }
+  /* Beyond the axis: pinned to the edge, ringed rather than filled. */
+  .bcn-atl__mark.is-clipped {
+    background: var(--color-background-elevation-raised);
+    box-shadow: inset 0 0 0 2px var(--atl-tone);
+  }
+  .bcn-atl__lag {
+    position: absolute;
+    top: calc(50% - 1px);
+    left: calc(var(--from) * var(--atl-day) + var(--atl-day) / 2);
+    width: calc((var(--to) - var(--from)) * var(--atl-day));
+    height: 2px;
+    z-index: 1;
+    background: color-mix(in srgb, var(--color-background-utility-danger) 40%, transparent);
+  }
+
+  .bcn-atl__empty {
+    padding: var(--spacing-600) var(--spacing-400);
+  }
+</style>

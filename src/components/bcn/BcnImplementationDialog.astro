@@ -1,0 +1,460 @@
+---
+// <BcnImplementationDialog> — the Actions page's action-implementation dialog, a port
+// of prod's action-implementation-upsert-dialog (standard layout; the streamlined
+// branch is not carried). Header: component, action name, requirement type, "Edit
+// Action data" and close. Tabs: Overview (Summary / Referenced Requirements /
+// Reference Files / Evidence of Compliance, beside a Details / Lists / Timing rail and
+// the change log) and Discussion. Footer: Save, Cancel.
+//
+// THE ONE CHANGE FROM PROD: Status offers the implementation's WORKFLOW columns (the
+// project's per-action-type board columns), grouped under the backbone category each
+// one maps to. Saving writes { columnId, category }.
+//
+// ONE pre-rendered shell, filled by ./implementation-dialog.ts on the store's
+// OPEN_EVENT. Variable-length parts are <template>s below, cloned at runtime.
+//
+// bcn-lego-checked: the shell IS esa-dialog (native <dialog>, top layer), the tabs ARE
+// esa-tab-layout, the rail sections and requirement blocks ARE esa-collapsible, the
+// fields ARE esa-combobox / esa-date-picker / esa-switch-toggle / esa-textarea, every
+// action IS esa-button, the empty evidence state IS esa-empty-state, the type IS
+// esa-badge. Spoke components carry the rest: BcnStatusSelect (status with live dot),
+// BcnKeyValue (key/value pairs), BcnCommitmentBadge, BcnEvidenceList, BcnChangeLog,
+// BcnDiscussion. Checked Ecology for a key/value row with trailing key actions (prod
+// kv-pair's keyRightTemplate) and found none; BcnKeyValue has no key-right slot, so the
+// main column's key rows are authored here. Checked Beacon: this is
+// action-implementation-upsert-dialog. The CSS below is the dialog's own geometry.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import { ICON_PATHS } from '@esa/ecology/icon-registry';
+import BcnKeyValue from './BcnKeyValue.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnStatusSelect from './BcnStatusSelect.astro';
+import BcnChangeLog from './BcnChangeLog.astro';
+import BcnDiscussion, { type DiscussionComment } from './BcnDiscussion.astro';
+import BcnEvidenceList, { type EvidenceItem } from './BcnEvidenceList.astro';
+import BcnEntityLogo from './BcnEntityLogo.astro';
+import { ASSIGNEES, COMPONENT_MARKS, TYPE_LABEL, FREQUENCY_LABEL } from '../../data/action-tracking';
+import type { EntityMark } from '../../data/entity-marks';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  /** The Assignee picker's roster. */
+  assignees?: string[];
+  /** Who the Discussion composer posts as. */
+  currentUser?: string;
+  /** Identity mark per component name; the header wears the open record's (Andy, 2026-10-07). */
+  marks?: Record<string, EntityMark>;
+}
+const { assignees = ASSIGNEES, currentUser = 'Maria Chen', marks = COMPONENT_MARKS } = Astro.props;
+
+const config = JSON.stringify({
+  typeLabel: TYPE_LABEL,
+  frequencyLabel: FREQUENCY_LABEL,
+  assignees,
+  listBase: withBase('/prototypes/lists/'),
+  actionBase: '#data-catalog/actions/',
+});
+
+// Lucide glyphs off the hub registry.
+const P = {
+  layers:
+    "<path d='M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z'/><path d='M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12'/><path d='M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17'/>",
+  messageSquare: "<path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/>",
+  list: "<path d='M8 6h13'/><path d='M8 12h13'/><path d='M8 18h13'/><path d='M3 6h.01'/><path d='M3 12h.01'/><path d='M3 18h.01'/>",
+  clock: "<circle cx='12' cy='12' r='10'/><path d='M12 6v6l4 2'/>",
+};
+const svg = (paths: string) =>
+  `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
+const tabs = JSON.stringify([
+  { label: 'Overview', icon: svg(ICON_PATHS['file-text']) },
+  { label: 'Discussion', icon: svg(P.messageSquare) },
+]);
+
+// Evidence pool: an implementation's count shows the first N, in the order a desk
+// deliverable accrues them (draft → submittal → agency → final → distribution).
+const evidencePool: EvidenceItem[] = [
+  { id: 'aid-eoc-1', title: 'Draft for Internal Review', notes: '', tags: ['Draft'], files: ['draft-rev-a.pdf', 'review-comment-matrix.xlsx'] },
+  { id: 'aid-eoc-2', title: 'Agency Submittal Transmittal', notes: 'Transmitted through the agency project portal.', tags: ['Submittal'], files: ['submittal-transmittal.pdf'] },
+  { id: 'aid-eoc-3', title: 'Agency Comment Letter', notes: 'Comments received; responses tracked in the comment matrix.', tags: ['Agency'], files: ['agency-comment-letter.pdf'] },
+  { id: 'aid-eoc-4', title: 'Response to Comments', notes: '', tags: ['Agency', 'Draft'], files: ['response-to-comments.pdf', 'draft-rev-b.pdf'] },
+  { id: 'aid-eoc-5', title: 'Final Signed Version', notes: 'Signed by the Environmental Lead.', tags: ['Final'], files: ['final-signed.pdf'] },
+  { id: 'aid-eoc-6', title: 'Distribution Record', notes: 'Copies sent to the construction contractor and the field office.', tags: ['Distribution'], files: ['distribution-record.pdf'] },
+];
+
+// Discussion pool, newest first. A thread of N comments is the N oldest.
+const commentPool: DiscussionComment[] = [
+  { author: 'Dana Whitfield', time: 'Sep 29, 2026 at 3:18 PM', text: 'The agency liaison confirmed they will accept the submittal electronically. Routing the final for signature this week.', edited: false, own: false },
+  { author: 'Maria Chen', time: 'Sep 22, 2026 at 10:04 AM', text: 'Internal review comments are addressed. The redline is on the evidence record.', edited: true, own: true },
+  { author: 'Luis Ortega', time: 'Sep 15, 2026 at 8:41 AM', text: 'Picking this up. The scope matches the component boundary, so the access road does not need a separate filing.', edited: false, own: false },
+];
+const threads = Array.from({ length: commentPool.length + 1 }, (_, n) => commentPool.slice(commentPool.length - n));
+
+const logSeed = [{ date: '–', events: [{ text: '–', emphasis: '–', by: '–' }] }];
+---
+
+<div class="bcn-aid" data-config={config}>
+  <esa-dialog class="bcn-aid__dialog" size="lg" show-close-button="false">
+    <div slot="header" class="bcn-aid__head">
+      <div class="bcn-aid__head-text">
+        <p class="bcn-aid__scope typography-label-md-strong">
+          {/* The component's identity seal sits with its name, above the title — a small
+              tag of whose record this is, not a header logo (Andy, 2026-10-07). One seal
+              per component is pre-rendered; the controller shows the open record's, and
+              prod's layers glyph stands in only when no mark exists. */}
+          <span class="bcn-aid__mark" aria-hidden="true">
+            {Object.entries(marks).map(([name, mark]) => (
+              <span data-aid-mark={name} hidden><BcnEntityLogo mark={mark} size="sm" variant="seal" /></span>
+            ))}
+          </span>
+          <span id="aid-scope-glyph"><EsaIcon name="layers" paths={P.layers} size="sm" /></span>
+          <span id="aid-component">–</span>
+        </p>
+        <h2 class="bcn-aid__title">
+          <span class="bcn-aid__title-name typography-heading-md" id="aid-title">–</span>
+          <span id="aid-type"><EsaBadge variant="secondary" size="sm" value="–" /></span>
+        </h2>
+      </div>
+      <div class="cluster bcn-aid__head-actions" data-gap="xs">
+        <EsaButton variant="ghost" size="sm" icon="external-link" href="#data-catalog/actions" target="_blank" rel="noopener" id="aid-edit-action">Edit Action data</EsaButton>
+        <EsaButton variant="chrome" iconOnly icon="x" label="Close dialog" size="sm" id="aid-close" />
+      </div>
+    </div>
+
+    <esa-tab-layout class="bcn-aid__tabs" tabs={tabs} active-index="0" size="md">
+      <!-- ── Overview ── -->
+      <div slot="panel-0" class="bcn-aid__stage bcn-aid__overview">
+        <div class="bcn-aid__main">
+          <section class="bcn-aid__kv">
+            <div class="bcn-aid__kv-head">
+              <h3 class="bcn-aid__kv-key typography-label-md-strong">Summary</h3>
+              <EsaButton variant="chrome" iconOnly icon="pencil" label="Edit Action Text" size="sm" id="aid-text-edit" />
+            </div>
+            <div id="aid-text-view" class="stack" data-gap="xs">
+              <p class="bcn-aid__text typography-body-md" id="aid-text"></p>
+              <p class="bcn-aid__notice typography-body-sm" id="aid-text-notice" hidden>
+                <EsaIcon name="info" size="xs" />
+                <span>This text has been customized from the original action.</span>
+              </p>
+            </div>
+            <div id="aid-text-editor" class="stack" data-gap="xs" hidden>
+              <esa-textarea id="aid-text-input" label="Action Text" rows="5" auto-resize max-rows="14"></esa-textarea>
+              <div class="cluster bcn-aid__end" data-gap="xs">
+                <EsaButton variant="ghost" appearance="outline" size="sm" id="aid-text-cancel">Cancel</EsaButton>
+                <EsaButton variant="ghost" size="sm" icon="rotate-ccw" id="aid-text-revert">Revert to Original</EsaButton>
+                <EsaButton variant="primary" size="sm" id="aid-text-done">Done</EsaButton>
+              </div>
+            </div>
+          </section>
+
+          <section class="bcn-aid__kv">
+            <div class="bcn-aid__kv-head">
+              <h3 class="bcn-aid__kv-key typography-label-md-strong">Referenced Requirements</h3>
+            </div>
+            <div class="stack" data-gap="sm" id="aid-requirements"></div>
+            <p class="bcn-aid__none typography-body-md" id="aid-requirements-none" hidden>No Requirements</p>
+          </section>
+
+          <section class="bcn-aid__kv">
+            <div class="bcn-aid__kv-head">
+              <h3 class="bcn-aid__kv-key typography-label-md-strong">Reference Files</h3>
+            </div>
+            <p class="bcn-aid__value typography-body-md">–</p>
+          </section>
+
+          <section class="bcn-aid__kv">
+            <div class="bcn-aid__kv-head">
+              <div class="bcn-aid__kv-keys">
+                <h3 class="bcn-aid__kv-key typography-label-md-strong">Evidence of Compliance</h3>
+                <p class="bcn-aid__kv-sub typography-body-sm" id="aid-eoc-expected"></p>
+              </div>
+              <div class="cluster" data-gap="2xs">
+                <EsaButton variant="chrome" iconOnly icon="plus" label="Add Evidence of Compliance in the drawer" size="sm" id="aid-eoc-add" />
+                <EsaButton variant="chrome" iconOnly icon="download" label="Download All Evidence of Compliance Files As .zip" size="sm" id="aid-eoc-zip" />
+              </div>
+            </div>
+            <div id="aid-eoc-list"><BcnEvidenceList items={evidencePool} /></div>
+            <div id="aid-eoc-empty" class="bcn-aid__empty" hidden>
+              <EsaEmptyState title="No Evidence of Compliance" size="sm">
+                <div class="cluster bcn-aid__center" data-gap="xs">
+                  <EsaButton variant="primary" size="sm" icon="plus" id="aid-eoc-new">Add New Evidence of Compliance</EsaButton>
+                  <EsaButton variant="ghost" appearance="outline" size="sm" id="aid-eoc-existing">Add Existing Evidence of Compliance</EsaButton>
+                </div>
+              </EsaEmptyState>
+            </div>
+          </section>
+        </div>
+
+        <aside class="bcn-aid__side">
+          <EsaCollapsible title="Details" icon="info" open>
+            <div id="aid-status"></div>
+            <div data-aid-kv="scope"><BcnKeyValue label="Scope" value="–" /></div>
+            <div data-aid-kv="activities"><BcnKeyValue label="Work Activities" value="–" /></div>
+            <div data-aid-kv="responsible"><BcnKeyValue label="Responsible Party" value="–" /></div>
+            <esa-combobox id="aid-assignee" label="Assignee" placeholder="Unassigned" size="md"></esa-combobox>
+            <div class="bcn-aid__na">
+              <esa-switch-toggle id="aid-na" label="Not Applicable"></esa-switch-toggle>
+            </div>
+          </EsaCollapsible>
+
+          <div id="aid-lists-section">
+            <EsaCollapsible title="Lists" icon="list" iconPaths={P.list} open>
+              <div class="stack" data-gap="xs" id="aid-lists"></div>
+            </EsaCollapsible>
+          </div>
+
+          <EsaCollapsible title="Timing" icon="clock" iconPaths={P.clock} open>
+            <div data-aid-kv="frequency"><BcnKeyValue label="Frequency" value="–" /></div>
+            <div data-aid-kv="milestone"><BcnKeyValue label="Milestone" value="–" /></div>
+            <BcnKeyValue label="Due Date">
+              <div class="cluster bcn-aid__due" data-gap="3xs" id="aid-due-view">
+                <span class="bcn-aid__due-value typography-label-md-strong" id="aid-due-value">Not set</span>
+                <span class="bcn-aid__due-original typography-body-sm" id="aid-due-original" hidden></span>
+                <EsaButton variant="chrome" iconOnly icon="rotate-ccw" label="Reset to calculated date" size="sm" id="aid-due-reset" />
+                <EsaButton variant="chrome" iconOnly icon="pencil" label="Edit due date" size="sm" id="aid-due-edit" />
+              </div>
+              <esa-date-picker id="aid-due-input" label="Due Date" size="md" hidden></esa-date-picker>
+            </BcnKeyValue>
+          </EsaCollapsible>
+
+          <EsaCollapsible title="Change Log" icon="history" open>
+            <div id="aid-log"></div>
+          </EsaCollapsible>
+        </aside>
+      </div>
+
+      <!-- ── Discussion: one pre-rendered thread per comment count ── -->
+      <div slot="panel-1" class="bcn-aid__stage bcn-aid__discussion">
+        {threads.map((comments, n) => (
+          <div data-aid-thread={n} hidden={n !== 0}>
+            <BcnDiscussion comments={comments} currentUser={currentUser} />
+          </div>
+        ))}
+      </div>
+    </esa-tab-layout>
+
+    <div slot="footer" class="cluster bcn-aid__foot" data-gap="xs">
+      <EsaButton variant="primary" icon="save" id="aid-save">Save</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" id="aid-cancel">Cancel</EsaButton>
+    </div>
+  </esa-dialog>
+
+  <!-- Runtime parts, cloned by the controller (clones keep their scoped-CSS ids). -->
+  <template data-aid-tpl="requirement">
+    <EsaCollapsible title="–">
+      <div class="bcn-aid__req">
+        <p class="bcn-aid__req-text" data-aid-req-text></p>
+        <div class="grid bcn-aid__req-kv" data-gap="sm">
+          <div data-aid-req-kv="phases"><BcnKeyValue label="Phases" value="–" /></div>
+          <div data-aid-req-kv="scope"><BcnKeyValue label="Scope" value="–" /></div>
+          <div data-aid-req-kv="activities"><BcnKeyValue label="Construction Activities" value="–" /></div>
+        </div>
+      </div>
+    </EsaCollapsible>
+  </template>
+  <template data-aid-tpl="code"><BcnCommitmentBadge code="–" size="sm" /></template>
+  <template data-aid-tpl="status"><BcnStatusSelect label="Status" options={[{ value: '–', label: '–', color: 'transparent' }]} /></template>
+  <template data-aid-tpl="status-group">
+    <li class="bcn-aid__opt-group" role="group">
+      <span class="bcn-aid__opt-group-label typography-label-sm" data-aid-group-label></span>
+      <ul class="bcn-aid__opt-group-list" role="none" data-aid-group-list></ul>
+    </li>
+  </template>
+  <template data-aid-tpl="list"><a class="bcn-aid__list-link typography-body-md" href="#">–</a></template>
+  <template data-aid-tpl="log"><BcnChangeLog days={logSeed} /></template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-tab-layout';
+  import '@esa/ecology/esa-combobox';
+  import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-file-list';
+  import { setupImplementationDialog } from './implementation-dialog';
+
+  const root = document.querySelector<HTMLElement>('.bcn-aid');
+  if (root) setupImplementationDialog(root);
+</script>
+
+<style>
+  /* Prod's dialog is a large, stable work surface: wide, a fixed ~86vh footprint that
+     never resizes between tabs or as sections open. The stage height is the frame
+     minus the header, tab strip and footer. */
+  .bcn-aid__dialog {
+    --dialog-width-lg: min(1900px, 94vw);
+    --_dialog-max-height: 86vh;
+    --_dialog-padding: 0;
+    --_dialog-bg: var(--color-background-elevation-raised, #fcfcfc);
+    --_aid-stage: max(360px, calc(86vh - 15rem));
+  }
+  @media (max-height: 860px) {
+    .bcn-aid__dialog {
+      --_dialog-max-height: 94vh;
+      --_aid-stage: max(320px, calc(94vh - 15rem));
+    }
+  }
+  /* The legos set their own display; inside this shell `hidden` must always win. */
+  .bcn-aid :global([hidden]) { display: none !important; }
+
+  /* ── Header ── */
+  .bcn-aid__head {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    min-width: 0;
+    padding: var(--spacing-500) var(--spacing-500) var(--spacing-400);
+  }
+  .bcn-aid__head-text { flex: 1; display: flex; flex-direction: column; gap: var(--spacing-150); min-width: 0; }
+  .bcn-aid__mark { display: inline-flex; flex: none; }
+  .bcn-aid__mark:not(:has(> :not([hidden]))) { display: none; }
+  .bcn-aid__scope {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: 0;
+    color: var(--color-content-default-secondary);
+    font-weight: 550;
+  }
+  .bcn-aid__title {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-300);
+    margin: 0;
+  }
+  .bcn-aid__title-name { color: var(--color-content-default); }
+  .bcn-aid__head-actions { flex: none; }
+
+  /* ── Tabs + stage ── */
+  .bcn-aid__tabs { display: block; }
+  .bcn-aid__stage { height: var(--_aid-stage); min-height: 0; }
+  .bcn-aid__overview {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+  }
+  .bcn-aid__main {
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-600);
+    padding: 0 var(--spacing-500) var(--spacing-500);
+  }
+  .bcn-aid__side {
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    padding: 0 var(--spacing-500) var(--spacing-500);
+  }
+  .bcn-aid__discussion {
+    overflow-y: auto;
+    padding: 0 var(--spacing-500) var(--spacing-500);
+  }
+  .bcn-aid__discussion > div { max-width: 56rem; }
+
+  /* ── Main column key/value rows (prod kv-pair, key with trailing actions) ── */
+  .bcn-aid__kv { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-aid__kv-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    padding-bottom: var(--spacing-200);
+    border-bottom: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-aid__kv-keys { display: flex; flex-direction: column; gap: var(--spacing-050); min-width: 0; }
+  .bcn-aid__kv-key { margin: 0; color: var(--color-content-default); }
+  .bcn-aid__kv-sub { margin: 0; color: var(--color-content-default-secondary); }
+  .bcn-aid__text { margin: 0; color: var(--color-content-default); white-space: pre-wrap; }
+  .bcn-aid__value { margin: 0; color: var(--color-content-default); }
+  .bcn-aid__none { margin: 0; font-style: italic; color: var(--color-content-default-secondary); }
+  .bcn-aid__notice {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: 0;
+    font-style: italic;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-aid__end { --justify: flex-end; }
+  .bcn-aid__center { --justify: center; }
+  .bcn-aid__empty {
+    padding: var(--spacing-500);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-md);
+    background: var(--color-background-elevation-sunken);
+  }
+
+  /* ── Requirement block ── */
+  .bcn-aid__req {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    padding: var(--spacing-400) var(--spacing-500);
+    border-radius: var(--radius-sm);
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-aid__req-text {
+    margin: 0;
+    font-family: var(--font-decorative);
+    font-size: 0.875rem; /* dense floor; the document voice, no composite carries Besley */
+    line-height: 1.6;
+    color: var(--color-content-default);
+  }
+  .bcn-aid__req-kv { --grid-min: 11rem; }
+
+  /* ── Rail ── */
+  .bcn-aid__na {
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-aid__list-link { color: var(--color-content-link); text-decoration: none; }
+  .bcn-aid__list-link:hover { color: var(--color-content-link-hover); text-decoration: underline; }
+  .bcn-aid__due-value { color: var(--color-content-default); }
+  .bcn-aid__due-value[data-empty] { font-style: italic; font-weight: var(--typography-font-weight-regular, 400); color: var(--color-content-default-secondary); }
+  .bcn-aid__due-original { color: var(--color-content-default-tertiary); }
+
+  /* Empty BcnKeyValue → prod's italic "None". */
+  [data-aid-kv][data-empty] :global(.bcn-key-value__val),
+  [data-aid-req-kv][data-empty] :global(.bcn-key-value__val) {
+    font-style: italic;
+    font-weight: var(--typography-font-weight-regular, 400);
+    color: var(--color-content-default-secondary);
+  }
+
+  /* Status options grouped by backbone category (cloned into BcnStatusSelect's menu). */
+  .bcn-aid__opt-group { list-style: none; }
+  .bcn-aid__opt-group + .bcn-aid__opt-group {
+    margin-top: var(--spacing-100);
+    padding-top: var(--spacing-100);
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-aid__opt-group-label {
+    display: block;
+    padding: var(--spacing-150) var(--spacing-300) var(--spacing-050);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-aid__opt-group-list { margin: 0; padding: 0; list-style: none; }
+
+  /* ── Footer: Windows order, right-aligned ── */
+  .bcn-aid__foot {
+    --justify: flex-end;
+    width: 100%;
+    padding: 0 var(--spacing-500);
+  }
+
+  @media (max-width: 960px) {
+    .bcn-aid__overview { grid-template-columns: 1fr; overflow-y: auto; }
+    .bcn-aid__main, .bcn-aid__side { overflow: visible; }
+  }
+</style>

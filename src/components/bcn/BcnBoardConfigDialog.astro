@@ -1,0 +1,327 @@
+---
+// <BcnBoardConfigDialog> — "Configure board": where a project defines its own board
+// columns per action type. Andy, 2026-10-06: users should "define their own statuses
+// and columns there, not just not started, in progress, or incomplete", taking cues
+// from Jamie's monitoring-dashboard configure dialog (BcnConfigDialog). The geometry is
+// that dialog's, inherited whole: a live PREVIEW on the left (the board as it will
+// read, with this component's real implementations in it), the OPTIONS in a 396px rail
+// on the right, one scroller, Windows footer.
+//
+// THE MODEL (src/data/action-status.ts): a WORKFLOW names the action types it covers
+// and an ordered list of COLUMNS; every column belongs to one backbone category
+// (Not Started / In Progress / Completed — prod's ActionImplementationStatus enum). The
+// options rail therefore groups columns under their category: a column can be renamed,
+// reordered inside its group, added, or deleted, and the board always reads left to
+// right through the lifecycle. A category keeps at least one column, so there is always
+// somewhere for "not started" and "done" to land. Deleting a column that holds work
+// asks where that work goes before it lets go of it.
+//
+// An action type belongs to exactly one workflow; ticking it in one unticks it in the
+// workflow that held it. Workflows are project-wide. The Cards switches are the one
+// per-person setting here: which lines a card shows.
+//
+// DUMB SHELL + CONTROLLER: this file renders the frame, the three category groups and
+// <template>s for every runtime row (column bar, preview column, preview stub);
+// board-config.ts owns the draft and fills them. No markup is built from strings.
+//
+// bcn-lego-checked: the shell is esa-dialog size="lg" with --dialog-width-lg re-pointed
+// (the documented knob, as BcnConfigDialog does); controls are esa-select,
+// esa-text-field, esa-checkbox-group, esa-switch-toggle and esa-button. The column bar
+// follows BcnConfigSections' bar (grip, field, trailing control) but cannot reuse it:
+// that component pre-renders a KNOWN set of sections at build time, and columns are
+// user data created at runtime. Checked Beacon prod: status is a fixed enum with no
+// configuration surface to port. bcn-board-config-dialog is the reusable home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { CATEGORIES, CATEGORY_META } from '../../data/action-status';
+import { FACETS } from '../../data/action-tracking';
+import { CARD_FIELDS } from '../../lib/action-board';
+
+const GRIP = '<circle cx="9" cy="5" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="19" r="1"/>';
+---
+
+<esa-dialog
+  id="actions-config-dialog"
+  data-bcfg
+  heading="Configure board"
+  size="lg"
+  show-close-button
+  data-types={JSON.stringify(FACETS.type)}
+  data-category-meta={JSON.stringify(CATEGORY_META)}
+  style="--dialog-width-lg: min(1320px, 94vw);"
+>
+  <div class="bcn-bcfg">
+    <div class="bcn-bcfg__preview">
+      <div class="bcn-bcfg__board" data-bcfg-preview></div>
+    </div>
+
+    <div class="bcn-bcfg__options stack" data-gap="lg">
+      <div class="bcn-bcfg__pick">
+        <esa-select data-bcfg-workflow label="Workflow" size="sm"></esa-select>
+        <span data-bcfg-new><EsaButton variant="ghost" appearance="outline" size="sm" icon="plus">New workflow</EsaButton></span>
+      </div>
+
+      <span class="bcn-bcfg__group typography-label-md-strong">Workflow</span>
+      <esa-text-field data-bcfg-name label="Name" size="sm"></esa-text-field>
+      <esa-checkbox-group data-bcfg-types label="Action types" size="sm"></esa-checkbox-group>
+
+      <span class="bcn-bcfg__group typography-label-md-strong">Columns</span>
+      {CATEGORIES.map((cat) => (
+        <div class="bcn-bcfg__cat stack" data-gap="xs" data-bcfg-cat={cat}>
+          <span class="bcn-bcfg__cathead">
+            <span class="bcn-bcfg__dot" style={`background: ${CATEGORY_META[cat].tone}`}></span>
+            <span class="typography-label-sm-strong">{CATEGORY_META[cat].label}</span>
+          </span>
+          <div class="bcn-bcfg__bars stack" data-gap="xs" data-bcfg-bars></div>
+          <span class="bcn-bcfg__add" data-bcfg-add={cat}>
+            <EsaButton variant="ghost" size="sm" icon="plus">Add column</EsaButton>
+          </span>
+        </div>
+      ))}
+
+      <span class="bcn-bcfg__group typography-label-md-strong">Cards</span>
+      <div class="stack" data-gap="sm">
+        {CARD_FIELDS.map((f) => (
+          <esa-switch-toggle data-bcfg-card={f.id} size="sm" label={f.label}></esa-switch-toggle>
+        ))}
+      </div>
+
+      <span data-bcfg-restore>
+        <EsaButton variant="ghost" size="sm" icon="rotate-ccw">Restore default workflows</EsaButton>
+      </span>
+    </div>
+  </div>
+
+  <div slot="footer" class="repel bcn-bcfg__foot" data-gap="md">
+    <span data-bcfg-delete-wf><EsaButton variant="danger" appearance="soft" size="sm">Delete workflow</EsaButton></span>
+    <span class="cluster" data-gap="sm">
+      <span data-bcfg-save><EsaButton variant="primary" size="sm">Save board</EsaButton></span>
+      <span data-bcfg-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
+    </span>
+  </div>
+
+  <!-- One column, as a row of the options rail. -->
+  <template data-bcfg-bar-tpl>
+    <div class="bcn-bcfg__bar" data-bcfg-bar>
+      <div class="bcn-bcfg__barrow">
+        <button type="button" class="bcn-bcfg__grip" data-bcfg-grip aria-label="Reorder column">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" set:html={GRIP} />
+        </button>
+        <esa-text-field class="bcn-bcfg__colname" data-bcfg-colname size="sm" aria-label="Column name"></esa-text-field>
+        <span class="bcn-bcfg__n typography-body-sm" data-bcfg-n></span>
+        <span data-bcfg-remove>
+          <EsaButton variant="ghost" size="sm" iconOnly icon="trash-2" label="Delete column" />
+        </span>
+      </div>
+      <div class="bcn-bcfg__move stack" data-gap="xs" data-bcfg-move hidden>
+        <esa-select data-bcfg-move-to size="sm" label=""></esa-select>
+        <span class="cluster" data-gap="xs">
+          <span data-bcfg-move-ok><EsaButton variant="danger" appearance="soft" size="sm">Delete and move</EsaButton></span>
+          <span data-bcfg-move-cancel><EsaButton variant="ghost" size="sm">Keep column</EsaButton></span>
+        </span>
+      </div>
+    </div>
+  </template>
+
+  <!-- One column of the preview board, and one card stub in it. -->
+  <template data-bcfg-pcol-tpl>
+    <div class="bcn-bcfg__pcol">
+      <span class="bcn-bcfg__phead">
+        <span class="bcn-bcfg__dot" data-bcfg-pdot></span>
+        <span class="bcn-bcfg__pname typography-label-sm-strong" data-bcfg-pname></span>
+        <span class="bcn-bcfg__pcount typography-body-sm" data-bcfg-pcount></span>
+      </span>
+      <div class="bcn-bcfg__plist" data-bcfg-plist></div>
+    </div>
+  </template>
+  <template data-bcfg-stub-tpl>
+    <div class="bcn-bcfg__stub typography-body-sm"></div>
+  </template>
+  <template data-bcfg-more-tpl>
+    <div class="bcn-bcfg__more typography-body-sm"></div>
+  </template>
+</esa-dialog>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-checkbox-group';
+  import '@esa/ecology/esa-switch-toggle';
+  import { setupBoardConfig } from './board-config';
+
+  const dialog = document.querySelector<HTMLElement>('[data-bcfg]');
+  if (dialog) setupBoardConfig(dialog);
+</script>
+
+<style>
+  /* Composition glue, BcnConfigDialog's geometry: preview 1fr, options 396px, the
+     body bleeding to the dialog's edges so the divider and the preview tint reach
+     them. One scroller (the dialog body) for both columns. */
+  .bcn-bcfg {
+    --_bleed: var(--spacing-500);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 396px;
+    align-items: stretch;
+    margin: calc(-1 * var(--_bleed));
+    min-block-size: min(72vh, 760px);
+  }
+  .bcn-bcfg__preview {
+    background: var(--color-background-elevation-sunken);
+    padding: var(--_bleed);
+    min-inline-size: 0;
+  }
+  .bcn-bcfg__options {
+    border-inline-start: 1px solid var(--color-border-default);
+    padding: var(--_bleed);
+    min-inline-size: 0;
+  }
+  @media (max-width: 900px) {
+    .bcn-bcfg {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .bcn-bcfg__options {
+      border-inline-start: 0;
+      border-block-start: 1px solid var(--color-border-default);
+    }
+  }
+
+  .bcn-bcfg__group {
+    color: var(--color-content-default);
+    padding-block-end: var(--spacing-150);
+    border-block-end: 1px solid var(--color-border-default);
+  }
+  .bcn-bcfg__pick {
+    display: flex;
+    align-items: end;
+    gap: var(--spacing-200);
+  }
+  .bcn-bcfg__pick esa-select {
+    flex: 1;
+  }
+
+  .bcn-bcfg__cathead {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-bcfg__dot {
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .bcn-bcfg__add {
+    align-self: start;
+  }
+
+  /* A column bar: grip · name field · count · delete. */
+  .bcn-bcfg__bar {
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    padding: var(--spacing-150) var(--spacing-200);
+  }
+  .bcn-bcfg__bar[data-dragging] {
+    border-color: var(--color-background-brand);
+    box-shadow: var(--elevation-2);
+  }
+  .bcn-bcfg__barrow {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  .bcn-bcfg__grip {
+    all: unset;
+    display: inline-flex;
+    padding: var(--spacing-100);
+    color: var(--color-content-default-tertiary);
+    cursor: grab;
+    touch-action: none;
+    border-radius: var(--radius-100);
+  }
+  .bcn-bcfg__grip:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+  .bcn-bcfg__colname {
+    flex: 1;
+    min-inline-size: 0;
+  }
+  .bcn-bcfg__n {
+    color: var(--color-content-default-secondary);
+    min-inline-size: 2ch;
+    text-align: end;
+  }
+  .bcn-bcfg__move {
+    padding-block-start: var(--spacing-200);
+    margin-block-start: var(--spacing-150);
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+
+  /* The preview board: the real board's column rhythm, scaled down. */
+  .bcn-bcfg__board {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(136px, 1fr);
+    gap: var(--spacing-200);
+    overflow-x: auto;
+    align-items: start;
+    padding-block-end: var(--spacing-200);
+  }
+  .bcn-bcfg__pcol {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    padding: var(--spacing-200);
+    background: var(--color-background-default);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-200);
+    min-inline-size: 0;
+  }
+  .bcn-bcfg__pcol[data-new] {
+    border-style: dashed;
+    border-color: var(--color-background-brand);
+  }
+  .bcn-bcfg__phead {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .bcn-bcfg__pname {
+    color: var(--color-content-default);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-bcfg__pcount {
+    margin-inline-start: auto;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-bcfg__plist {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
+  .bcn-bcfg__stub {
+    padding: var(--spacing-150) var(--spacing-200);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100);
+    color: var(--color-content-default);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-bcfg__more {
+    color: var(--color-content-default-secondary);
+    padding-inline: var(--spacing-200);
+  }
+
+  .bcn-bcfg [hidden] {
+    display: none;
+  }
+  .bcn-bcfg__foot {
+    inline-size: 100%;
+  }
+</style>

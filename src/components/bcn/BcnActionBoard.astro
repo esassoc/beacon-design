@@ -1,0 +1,287 @@
+---
+// <BcnActionBoard> — the Actions Kanban. One column per WORKFLOW COLUMN, one card per
+// action implementation (BcnActionCard). Columns are user data: each project defines a
+// workflow per action type (Plans: Drafting → Internal Review → Submitted to Agency …),
+// every column mapped to a backbone category (Not Started / In Progress / Completed)
+// so rollups keep one meaning of done.
+//
+// SCOPE: the type tabs on the filter bar (BcnActionFilters) pick the board. "All
+// actions" is the merged board, one column per backbone category, where each card
+// names its workflow column (no one workflow's columns can hold every type). A
+// workflow board shows that workflow's columns and only the types it covers.
+//
+// CONFIGURE: the trigger lives in the page header (the page's `utilities` slot, marked
+// data-aboard-configure); this controller opens the column editor
+// (BcnBoardConfigDialog) on the workflow in view.
+//
+// DRAG: pointer-based, the monitoring dashboard's model (lift past a 4px threshold,
+// the card follows the pointer, the column under it lights up, release commits,
+// Escape flies it home). A drop changes the card's COLUMN only; order inside a column
+// is the page's sort. On the merged board a drop lands in the first column of that
+// category in the card's own workflow. Keyboard users move a card from its dialog's
+// Status field.
+//
+// bcn-lego-checked: no esa-* lego is a board — esa-card is a content block,
+// esa-tab-layout is page tabs, nothing holds draggable columns. Checked Beacon prod
+// (compliance-tracking kanban): fixed three-status columns with no drag, the pattern
+// this replaces. bcn-action-board is the reusable home for the column geometry and drag.
+import BcnActionCard from './BcnActionCard.astro';
+import { TYPE_LABEL } from '../../data/action-tracking';
+
+---
+
+<section class="bcn-aboard" data-aboard data-type-label={JSON.stringify(TYPE_LABEL)} hidden>
+  <div class="bcn-aboard__cols" data-aboard-cols></div>
+
+  <template data-aboard-col-tpl>
+    <div class="bcn-aboard__col" data-aboard-col>
+      <header class="bcn-aboard__head">
+        <span class="bcn-aboard__dot" data-aboard-dot></span>
+        <span class="bcn-aboard__name typography-label-md-strong" data-aboard-name></span>
+        <span class="bcn-aboard__count typography-body-sm" data-aboard-count></span>
+      </header>
+      <div class="bcn-aboard__list" data-aboard-list></div>
+    </div>
+  </template>
+
+  <BcnActionCard />
+</section>
+
+<script>
+  import { ACTIONS_TODAY, CATEGORY_META, type BoardColumn } from '../../data/action-status';
+  import {
+    boardColumns,
+    initActionStore,
+    moveImpl,
+    openImpl,
+    subscribe,
+    visibleImpls,
+    workflowFor,
+    type ActionState,
+    type ResolvedImpl,
+  } from '../../lib/action-board';
+  import { renderCard } from './action-card';
+
+  const root = document.querySelector<HTMLElement>('[data-aboard]');
+  if (root) {
+    const store = initActionStore();
+    const typeLabel = JSON.parse(root.dataset.typeLabel || '{}') as Record<string, string>;
+    const colsEl = root.querySelector<HTMLElement>('[data-aboard-cols]')!;
+    const colTpl = root.querySelector<HTMLTemplateElement>('[data-aboard-col-tpl]')!;
+    let byId = new Map<string, ResolvedImpl>();
+    let columns: BoardColumn[] = [];
+
+    document.querySelector('[data-aboard-configure]')?.addEventListener('click', () => {
+      const id = store.boardScope === 'all' ? store.workflows[0]?.id : store.boardScope;
+      document.dispatchEvent(new CustomEvent('actions:configure', { detail: { workflowId: id } }));
+    });
+
+    const render = (s: ActionState) => {
+      const scoped = s.boardScope === 'all' ? null : s.workflows.find((w) => w.id === s.boardScope) ?? null;
+      const impls = visibleImpls();
+      byId = new Map(impls.map((i) => [i.id, i]));
+      columns = boardColumns();
+      const opts = { fields: s.cardFields, showStatus: !scoped, typeLabel };
+
+      const frag = document.createDocumentFragment();
+      for (const c of columns) {
+        const col = (colTpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+        col.dataset.colId = c.id;
+        col.querySelector<HTMLElement>('[data-aboard-dot]')!.style.background = CATEGORY_META[c.category].tone;
+        col.querySelector('[data-aboard-name]')!.textContent = c.name || CATEGORY_META[c.category].label;
+        const inCol = impls.filter((i) => (scoped ? i.column.id === c.id : i.category === c.category));
+        col.querySelector('[data-aboard-count]')!.textContent = String(inCol.length);
+        const list = col.querySelector<HTMLElement>('[data-aboard-list]')!;
+        for (const impl of inCol) list.append(renderCard(impl, opts, ACTIONS_TODAY));
+        frag.append(col);
+      }
+      colsEl.replaceChildren(frag);
+      colsEl.style.setProperty('--_cols', String(columns.length));
+      fit();
+    };
+
+    // The strip's offset from the viewport top (document position, so scrolling the
+    // page does not change it) sizes the columns to the viewport floor.
+    const fit = () => colsEl.style.setProperty('--_top', `${Math.round(colsEl.getBoundingClientRect().top + window.scrollY)}px`);
+    window.addEventListener('resize', fit);
+
+    subscribe((s) => {
+      root.hidden = s.view !== 'board';
+      if (!root.hidden) render(s);
+    });
+
+    /* ── Pointer drag ─────────────────────────────────────────────────── */
+    let drag: null | {
+      id: string;
+      card: HTMLElement;
+      startX: number;
+      startY: number;
+      dx: number;
+      dy: number;
+      lifted: boolean;
+      target: HTMLElement | null;
+      pointerId: number;
+    } = null;
+
+    const colAt = (x: number, y: number) =>
+      (document.elementFromPoint(x, y)?.closest('[data-aboard-col]') as HTMLElement | null) ?? null;
+
+    const targetColumn = (colEl: HTMLElement, impl: ResolvedImpl): BoardColumn | null => {
+      const c = columns.find((x) => x.id === colEl.dataset.colId);
+      if (!c) return null;
+      if (store.boardScope !== 'all') return c;
+      // Merged board: the backbone column resolves to the card's own workflow.
+      if (impl.category === c.category) return null;
+      return workflowFor(impl.type).columns.find((x) => x.category === c.category) ?? null;
+    };
+
+    colsEl.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      const card = (e.target as HTMLElement).closest<HTMLElement>('[data-acard]');
+      if (!card) return;
+      drag = { id: card.dataset.implId!, card, startX: e.clientX, startY: e.clientY, dx: 0, dy: 0, lifted: false, target: null, pointerId: e.pointerId };
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (!drag || e.pointerId !== drag.pointerId) return;
+      const dx = e.clientX - drag.startX;
+      const dy = e.clientY - drag.startY;
+      if (!drag.lifted) {
+        if (Math.hypot(dx, dy) < 4) return;
+        const r = drag.card.getBoundingClientRect();
+        const hole = document.createElement('div');
+        hole.className = 'bcn-aboard__hole';
+        hole.style.height = `${r.height}px`;
+        drag.card.before(hole);
+        drag.card.dataset.lifted = '';
+        Object.assign(drag.card.style, { left: `${r.left}px`, top: `${r.top}px`, width: `${r.width}px` });
+        document.body.append(drag.card);
+        document.body.classList.add('is-card-drag');
+        drag.lifted = true;
+      }
+      drag.card.style.translate = `${dx}px ${dy}px`;
+      const over = colAt(e.clientX, e.clientY);
+      if (over !== drag.target) {
+        drag.target?.removeAttribute('data-drop');
+        const impl = byId.get(drag.id);
+        if (over && impl && targetColumn(over, impl) && over.dataset.colId !== (store.boardScope === 'all' ? `cat-${impl.category}` : impl.column.id)) {
+          over.dataset.drop = '';
+          drag.target = over;
+        } else drag.target = null;
+      }
+    });
+
+    const end = (commit: boolean) => {
+      if (!drag) return;
+      const d = drag;
+      drag = null;
+      document.body.classList.remove('is-card-drag');
+      if (!d.lifted) return;
+      d.target?.removeAttribute('data-drop');
+      const impl = byId.get(d.id);
+      const to = commit && d.target && impl ? targetColumn(d.target, impl) : null;
+      d.card.remove();
+      // Swallow the click the release would otherwise fire on whatever sits beneath.
+      window.addEventListener('click', (ev) => ev.stopPropagation(), { capture: true, once: true });
+      if (to) moveImpl(d.id, to);
+      else render(store);
+    };
+    window.addEventListener('pointerup', (e) => drag && e.pointerId === drag.pointerId && end(true));
+    window.addEventListener('pointercancel', () => end(false));
+    window.addEventListener('keydown', (e) => e.key === 'Escape' && drag?.lifted && end(false));
+
+    // Click (no drag) opens the record.
+    colsEl.addEventListener('click', (e) => {
+      const card = (e.target as HTMLElement).closest<HTMLElement>('[data-acard]');
+      if (card) openImpl(card.dataset.implId!);
+    });
+  }
+</script>
+
+<style>
+  .bcn-aboard {
+    min-inline-size: 0;
+  }
+  .bcn-aboard[hidden] {
+    display: none;
+  }
+
+  /* Columns scroll sideways as one row; each holds a stable width so a long workflow
+     reads as a strip you pan, not a squeeze. Every column runs the full height to the
+     viewport floor and scrolls its own cards, so an empty column is as big a drop
+     target as a full one (Andy, 2026-10-07). --_top is the strip's offset from the top
+     of the viewport, measured by the controller. */
+  .bcn-aboard__cols {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(272px, 1fr);
+    gap: var(--spacing-300);
+    overflow-x: auto;
+    padding-block-end: var(--spacing-200);
+    align-items: stretch;
+    block-size: max(420px, calc(100dvh - var(--_top, 400px) - var(--spacing-500)));
+  }
+
+  .bcn-aboard__col {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+    min-block-size: 0;
+    /* A lighter well than the sunken token, with an edge a step darker than its fill so
+       the column reads as a lane, not a grey slab (Andy, 2026-10-07). Both are mixes of
+       semantic tokens, so they follow the theme. */
+    --_col-bg: color-mix(in srgb, var(--color-background-elevation-sunken) 55%, var(--color-background-default));
+    background: var(--_col-bg);
+    border: 1px solid color-mix(in srgb, var(--color-border-default) 60%, var(--color-border-default-subtle));
+    border-radius: var(--radius-300, var(--radius-200));
+    transition: background-color 120ms ease, border-color 120ms ease;
+  }
+  .bcn-aboard__col[data-drop] {
+    background: color-mix(in srgb, var(--color-background-brand) 8%, var(--_col-bg));
+    border-color: var(--color-background-brand);
+  }
+
+  .bcn-aboard__head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-300) var(--spacing-300) var(--spacing-200);
+  }
+  .bcn-aboard__dot {
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .bcn-aboard__name {
+    color: var(--color-content-default);
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-aboard__count {
+    color: var(--color-content-default-secondary);
+    margin-inline-start: auto;
+  }
+
+  .bcn-aboard__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: 0 var(--spacing-200) var(--spacing-200);
+    flex: 1;
+    min-block-size: 0;
+    overflow-y: auto;
+  }
+
+  :global(.bcn-aboard__hole) {
+    border: 1px dashed var(--color-border-default-strong);
+    border-radius: var(--radius-200);
+    background: transparent;
+  }
+  :global(body.is-card-drag) {
+    cursor: grabbing;
+    user-select: none;
+  }
+</style>

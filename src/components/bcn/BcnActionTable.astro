@@ -1,0 +1,328 @@
+---
+// <BcnActionTable> — the Table view of /prototypes/actions: one AG Grid row per ACTION
+// IMPLEMENTATION (an action carried out on one component). Flat on purpose: prod's
+// Grid nests implementations under an expand-chevron action row, and that nesting is
+// exactly what the redesign drops. No parent rows, no tree.
+//
+// It owns no data and no filters. Rows come from the page's action store
+// (src/lib/action-board.ts) through visibleImpls(), which has already applied the
+// component switcher, the page's filter bar, search, N/A and the sort, so this grid
+// carries no search header and no column filters: one filter surface per page. The
+// footer is the house strip (CSV + record count). Total is the component's set (with
+// N/A only when the toggle shows it); Filtered appears only when the bar narrows it.
+//
+// Shown only while state.view === 'table'. The grid mounts on FIRST show, because AG
+// Grid cannot measure a hidden container, and re-reads rowData on later changes.
+//
+// Status renders BcnStatusChip's markup (dot + tinted pill), toned by the column's
+// backbone category. The chip and the flag glyph are SSR'd once into <template>s and
+// cloned per cell, so the chip's global CSS ships with this component and no cell
+// hand-builds icon markup.
+//
+// bcn-lego-checked: no esa-* data-grid lego exists (esa-card is a box, esa-link-column
+// a card of bare links, esa-pagination pages rather than scrolls). Checked Beacon: its
+// Compliance Tracking Grid IS AG Grid, and this spoke ships that ported prod theme as a
+// shared kit (src/lib/beacon-grid.ts: beaconTheme + mountBeaconGrid), which is what
+// this composes. The shell is esa-card, the footer is bcn-grid-footer (esa-button), the
+// status cell is bcn-status-chip, the flag is esa-icon. The Action cell is a plain
+// link-styled <button> because it opens the implementation dialog in place rather than
+// navigating, and esa-button's chrome is too heavy for a 44px grid row.
+// bcn-action-table is the reusable home; its CSS is grid-host geometry plus the cell
+// looks AG Grid injects outside Astro's scope.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnGridFooter from './BcnGridFooter.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+import { TYPE_LABEL, FREQUENCY_LABEL } from '../../data/action-tracking';
+
+interface Props {
+  /** Accessible name for the table region. */
+  label?: string;
+  /** CSV download filename. */
+  csvName?: string;
+}
+const { label = 'Action implementations', csvName = 'action-implementations.csv' } = Astro.props;
+
+const labels = JSON.stringify({ type: TYPE_LABEL, frequency: FREQUENCY_LABEL });
+const FLAG_PATHS =
+  "<path d='M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z'/><line x1='4' y1='22' x2='4' y2='15'/>";
+---
+
+<section class="bcn-at" data-at aria-label={label} data-at-labels={labels} data-at-csv={csvName} hidden>
+  <EsaCard padding="compact">
+    <div class="bcn-at__host" data-at-host></div>
+
+    <Fragment slot="footer">
+      <BcnGridFooter prefix="at" total={0} />
+    </Fragment>
+  </EsaCard>
+
+  <template data-at-chip><BcnStatusChip status="" label="" hex="currentColor" /></template>
+  <template data-at-flag><EsaIcon name="flag" size="xs" label="Flagged" paths={FLAG_PATHS} /></template>
+</section>
+
+<script>
+  import type { ColDef, GridApi, GridOptions, ICellRendererParams } from 'ag-grid-community';
+  import { beaconTheme, mountBeaconGrid, type BeaconGridHandle } from '../../lib/beacon-grid';
+  import {
+    initActionStore,
+    subscribe,
+    visibleImpls,
+    componentImpls,
+    openImpl,
+    state,
+    type ChangeReason,
+    type ResolvedImpl,
+  } from '../../lib/action-board';
+  import { CATEGORY_META, fmtDate } from '../../data/action-status';
+
+  const RERENDER: ChangeReason[] = ['scope', 'filters', 'component', 'impl', 'workflows', 'view'];
+  const EN_DASH = '–';
+
+  for (const mount of document.querySelectorAll<HTMLElement>('[data-at]')) {
+    const labels: { type: Record<string, string>; frequency: Record<string, string> } = JSON.parse(
+      mount.dataset.atLabels || '{"type":{},"frequency":{}}',
+    );
+    const csvName = mount.dataset.atCsv || 'action-implementations.csv';
+    const chipTpl = mount.querySelector<HTMLTemplateElement>('[data-at-chip]');
+    const flagTpl = mount.querySelector<HTMLTemplateElement>('[data-at-flag]');
+
+    const clone = (tpl: HTMLTemplateElement | null) =>
+      (tpl?.content.firstElementChild?.cloneNode(true) as HTMLElement | undefined) ?? null;
+
+    /* ── Cells ─────────────────────────────────────────────────────────── */
+
+    // Opens the dialog in place; a button, because there is no page to navigate to.
+    function actionRenderer(p: ICellRendererParams<ResolvedImpl>) {
+      const wrap = document.createElement('span');
+      wrap.className = 'bcn-at__action';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'bcn-at__name';
+      btn.textContent = String(p.value ?? '');
+      btn.addEventListener('click', () => p.data && openImpl(p.data.id));
+      wrap.append(btn);
+      if (p.data?.flagged) {
+        const flag = clone(flagTpl);
+        if (flag) {
+          flag.classList.add('bcn-at__flag');
+          wrap.append(flag);
+        }
+      }
+      return wrap;
+    }
+
+    function statusRenderer(p: ICellRendererParams<ResolvedImpl>) {
+      const impl = p.data;
+      const chip = clone(chipTpl);
+      if (!impl || !chip) return '';
+      chip.dataset.status = impl.category;
+      chip.style.setProperty('--_chip', CATEGORY_META[impl.category].tone);
+      const lbl = chip.querySelector('.bcn-status-chip__label');
+      if (lbl) lbl.textContent = impl.column.name;
+      return chip;
+    }
+
+    /** First value + a quieter "+N" when the list runs longer. */
+    function firstPlusRenderer(list: (d: ResolvedImpl) => string[]) {
+      return (p: ICellRendererParams<ResolvedImpl>) => {
+        const xs = p.data ? list(p.data) : [];
+        if (!xs.length) return EN_DASH;
+        const el = document.createElement('span');
+        el.textContent = xs[0];
+        if (xs.length > 1) {
+          const more = document.createElement('span');
+          more.className = 'bcn-at__more';
+          more.textContent = `+${xs.length - 1}`;
+          el.append(' ', more);
+        }
+        return el;
+      };
+    }
+
+    const nullsLast = (a: string | null, b: string | null) =>
+      a === b ? 0 : a == null ? 1 : b == null ? -1 : a.localeCompare(b, undefined, { numeric: true });
+
+    const freqLabel = (d: ResolvedImpl) => {
+      const base = labels.frequency[d.frequency] ?? d.frequency;
+      return d.frequency === 'Recurring' || d.frequency === 'AsNeeded' ? `${base} #${d.sequence}` : base;
+    };
+
+    const columnDefs: ColDef<ResolvedImpl>[] = [
+      { headerName: 'Action', field: 'name', flex: 3, minWidth: 260, cellRenderer: actionRenderer },
+      {
+        headerName: 'Type',
+        colId: 'type',
+        valueGetter: (p) => (p.data ? (labels.type[p.data.type] ?? p.data.type) : ''),
+        flex: 1.1, minWidth: 130,
+      },
+      {
+        headerName: 'Commitment',
+        colId: 'codes',
+        valueGetter: (p) => p.data?.codes.join(', ') ?? '',
+        comparator: (_a, _b, na, nb) => nullsLast(na.data?.codes[0] ?? null, nb.data?.codes[0] ?? null),
+        cellRenderer: firstPlusRenderer((d) => d.codes),
+        flex: 0.9, minWidth: 110,
+      },
+      {
+        headerName: 'Status',
+        colId: 'status',
+        valueGetter: (p) => p.data?.column.name ?? '',
+        cellRenderer: statusRenderer,
+        cellClass: 'bcn-at__chip-cell',
+        flex: 1.3, minWidth: 150,
+      },
+      {
+        headerName: 'Phase',
+        colId: 'phase',
+        valueGetter: (p) => p.data?.phases.join(', ') ?? '',
+        comparator: (_a, _b, na, nb) => nullsLast(na.data?.phases[0] ?? null, nb.data?.phases[0] ?? null),
+        cellRenderer: firstPlusRenderer((d) => d.phases),
+        flex: 1.1, minWidth: 130,
+      },
+      {
+        headerName: 'Assignee',
+        field: 'assignee',
+        valueFormatter: (p) => p.value ?? 'Unassigned',
+        comparator: nullsLast,
+        cellClassRules: { 'bcn-at__quiet': (p) => !p.value },
+        flex: 1, minWidth: 120,
+      },
+      {
+        headerName: 'Frequency',
+        colId: 'frequency',
+        valueGetter: (p) => (p.data ? freqLabel(p.data) : ''),
+        flex: 0.8, minWidth: 100,
+      },
+      {
+        headerName: 'Due',
+        field: 'dueDate',
+        valueFormatter: (p) => (p.value ? fmtDate(p.value) : EN_DASH),
+        comparator: nullsLast,
+        cellClassRules: {
+          'bcn-at__overdue': (p) => p.data?.urgency === 'overdue',
+          'bcn-at__quiet': (p) => !p.value,
+        },
+        flex: 0.8, minWidth: 110,
+      },
+      { headerName: 'Evidence', field: 'evidence', type: 'numericColumn', width: 104 },
+    ];
+
+    // The page's filter bar is the one filter surface, so columns sort but don't filter.
+    // 14px rows: the dense floor, one step up from the shared kit's 13px.
+    const gridOptions: GridOptions<ResolvedImpl> = {
+      theme: beaconTheme.withParams({ dataFontSize: '14px', headerFontSize: '14px' }),
+      rowData: [],
+      columnDefs,
+      getRowId: (p) => p.data.id,
+      defaultColDef: {
+        sortable: true,
+        resizable: true,
+        filter: false,
+        suppressHeaderMenuButton: true,
+        tooltipValueGetter: (p) => p.valueFormatted ?? p.value,
+      },
+      tooltipShowDelay: 0,
+      tooltipShowMode: 'whenTruncated',
+      suppressCellFocus: false,
+    };
+
+    /** The whole set for this component; N/A counts only when the toggle shows it. */
+    const totalRows = () =>
+      componentImpls().filter((i) => state.filters.showNotApplicable || !i.notApplicable).length;
+
+    let grid: BeaconGridHandle<ResolvedImpl> | null = null;
+    let api: GridApi<ResolvedImpl> | null = null;
+
+    initActionStore();
+    subscribe((s, reason) => {
+      const show = s.view === 'table';
+      mount.hidden = !show;
+      if (!show) return;
+      if (!grid) {
+        grid = mountBeaconGrid<ResolvedImpl>({
+          mount,
+          prefix: 'at',
+          gridOptions: { ...gridOptions, rowData: visibleImpls() },
+          csvName,
+          totalRows,
+        });
+        api = grid?.api ?? null;
+        return;
+      }
+      if (reason === 'init' || RERENDER.includes(reason)) {
+        api?.setGridOption('rowData', visibleImpls());
+        grid.updateCounts();
+      }
+    });
+  }
+</script>
+
+<style>
+  /* bcn-lego-checked: grid-host geometry plus the cell looks AG Grid injects outside
+     Astro's scope (action button, flag, status-chip size, "+N", quiet and overdue
+     cells). The footer is bcn-grid-footer; the chip is bcn-status-chip. */
+
+  .bcn-at[hidden] {
+    display: none;
+  }
+
+  /* A stable footprint: the frame holds its height through every filter. */
+  .bcn-at__host {
+    inline-size: 100%;
+    block-size: calc(100vh - 320px);
+    min-block-size: 480px;
+  }
+
+  .bcn-at :global(.bcn-at__action) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+
+  .bcn-at :global(.bcn-at__name) {
+    all: unset;
+    cursor: pointer;
+    color: var(--color-content-link);
+    text-decoration: underline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-at :global(.bcn-at__name:hover) {
+    color: var(--color-content-link-hover);
+  }
+  .bcn-at :global(.bcn-at__name:focus-visible) {
+    outline: 2px solid var(--color-border-focus, currentColor);
+    outline-offset: 2px;
+    border-radius: var(--radius-100);
+  }
+
+  .bcn-at :global(.bcn-at__flag) {
+    flex-shrink: 0;
+    color: var(--color-content-utility-danger);
+  }
+
+  .bcn-at :global(.ag-cell.bcn-at__chip-cell) {
+    display: flex;
+    align-items: center;
+  }
+  /* BcnStatusChip ships at 12px; inside this grid it meets the 14px dense floor. */
+  .bcn-at :global(.bcn-status-chip) {
+    font-size: 0.875rem;
+    /* The grid's row line-height would otherwise stretch the pill to the row. */
+    line-height: 1.4;
+  }
+
+  .bcn-at :global(.bcn-at__more),
+  .bcn-at :global(.bcn-at__quiet) {
+    color: var(--color-content-default-tertiary);
+  }
+
+  .bcn-at :global(.bcn-at__overdue) {
+    color: var(--color-content-utility-danger);
+    font-weight: var(--typography-font-weight-medium);
+  }
+</style>

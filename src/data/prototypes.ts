@@ -165,6 +165,15 @@ export const prototypeGroups: PrototypeGroup[] = [
         status: 'in-progress',
       },
       {
+        slug: 'actions',
+        title: 'Actions',
+        description:
+          'The redesign of Compliance Tracking as Actions: one card per action implementation on a Kanban board whose columns each project defines per action type (Plans move Drafting, Internal Review, Submitted to Agency, Agency Comments, Approved), every column mapped to Not Started, In Progress or Completed. Configure board edits the workflows beside a live preview. Board, Table and Timeline views share one filter bar; the component switcher sits beside the H1; cards open the implementation dialog ported from prod.',
+        route: '/prototypes/actions',
+        createdAt: '2026-10-06',
+        status: 'in-progress',
+      },
+      {
         slug: 'obligation-feed',
         title: 'Obligations (feed)',
         description:
