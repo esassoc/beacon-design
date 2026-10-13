@@ -9,6 +9,10 @@
  *   .bcn-topic-dot[data-family][data-shade] a subtopic's swatch: its highlight shade,
  *                                          ringed in the family ink
  *   [data-family='none']                   Unfiled: no family, a dashed empty ring
+ *   [data-suggested]                       Aldo proposed it and no person has confirmed
+ *                                          it yet: DASHED in the family ink. Confirmed
+ *                                          is solid. The one mark for Aldo's work, on
+ *                                          highlights, dots, cards and avatars alike.
  *   any [data-family] element in these     gets --_ink, the family's text-safe step
  *
  * bcn-lego-checked: no esa- highlight or category-swatch lego; checked Beacon (its PDF
@@ -53,6 +57,52 @@ mark.bcn-hl {
   box-shadow: none;
   border: 1.5px dashed var(--_ink);
 }
+/* Aldo's proposals: dashed in the family ink. Highlights keep their fill (topic and
+   subtopic still read at a glance) and gain a dashed rule; dots go hollow. */
+mark.bcn-hl[data-suggested] {
+  outline: 1.5px dashed var(--_ink);
+  outline-offset: 0;
+}
+
+.bcn-topic-dot[data-suggested] {
+  /* A light wash of the family keeps the hue legible inside the dashed ring. */
+  background: color-mix(in srgb, var(--_ink) 22%, var(--color-background-elevation-raised));
+  box-shadow: none;
+  border: 1.5px dashed var(--_ink);
+  box-sizing: border-box;
+}
+
+/* Any other proposed thing (a card, an avatar ring): a dashed edge in neutral ink. */
+.bcn-proposal[data-suggested] {
+  border-style: dashed;
+  border-color: var(--color-content-default-tertiary);
+}
+
+.bcn-proposal-ring {
+  display: inline-flex;
+  border-radius: 50%;
+  padding: 1px;
+  border: 1.5px solid transparent;
+}
+
+.bcn-proposal-ring[data-suggested] {
+  border: 1.5px dashed var(--color-content-default-tertiary);
+}
+
+/* A person: avatar then name (assignees, experts). */
+.bcn-person {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150, 0.375rem);
+  min-width: 0;
+}
+
+.bcn-person__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 mark.bcn-hl[data-family='none'] {
   --_hl: transparent;
   outline: 1.5px dashed var(--color-border-default);

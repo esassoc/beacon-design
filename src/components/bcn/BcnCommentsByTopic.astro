@@ -52,6 +52,7 @@ import '../../styles/bcn-comment-topics.css';
 
 <script>
   import '@esa/ecology/esa-combobox';
+  import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-tooltip';
   import { setupCommentsByTopic } from './comments-by-topic';
   document.querySelectorAll<HTMLElement>('[data-by-topic]').forEach(setupCommentsByTopic);
@@ -94,6 +95,21 @@ import '../../styles/bcn-comment-topics.css';
     display: inline-flex;
     gap: var(--spacing-100);
     margin-left: auto;
+  }
+
+  /* A topic's expert: avatar and a compact select, ahead of the topic's verbs. */
+  .bcn-cbt :global(.bcn-cbt__expert) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150, 0.375rem);
+    margin-left: auto;
+    font-weight: var(--typography-font-weight-regular);
+  }
+  .bcn-cbt :global(.bcn-cbt__expert esa-select) {
+    width: 11rem;
+  }
+  .bcn-cbt :global(.bcn-cbt__expert + .bcn-cbt__verbs) {
+    margin-left: 0;
   }
 
   /* The Compliance Index's panel: one bordered surface, every line 13px. */

@@ -63,6 +63,7 @@ const Nouns = kind === 'submission' ? 'Submissions' : 'Responses';
     href: string;
     status: string;
     state: 'open' | 'done';
+    glyph?: string;
     topics: { name: string; family: string }[];
   }
 
@@ -110,8 +111,9 @@ const Nouns = kind === 'submission' ? 'Submissions' : 'Responses';
           no: responseNo(r.id),
           name: r.title,
           href: `${base}/response?id=${r.id}`,
-          status: r.accepted ? 'Accepted' : 'Draft',
-          state: r.accepted ? 'done' : 'open',
+          status: r.stage === 'done' ? 'Accepted' : r.stage === 'review' ? 'Final Review' : 'Draft',
+          state: r.stage === 'done' ? 'done' : 'open',
+          glyph: r.stage === 'done' ? 'file-check' : r.stage === 'review' ? 'file-search' : 'file-pen-line',
           topics: [{ name: t.name, family: t.family }],
         };
       });
@@ -122,7 +124,7 @@ const Nouns = kind === 'submission' ? 'Submissions' : 'Responses';
         ? r.state === 'open'
           ? '<span class="bcn-rp__unread" aria-hidden="true"></span>'
           : `<span class="bcn-rp__glyph" data-state="done" aria-hidden="true">${glyph('circle-check', 14)}</span>`
-        : `<span class="bcn-rp__glyph" data-state="${r.state}" aria-hidden="true">${glyph(r.state === 'done' ? 'file-check' : 'file-pen-line', 14)}</span>`;
+        : `<span class="bcn-rp__glyph" data-state="${r.state}" aria-hidden="true">${glyph(r.glyph ?? (r.state === 'done' ? 'file-check' : 'file-pen-line'), 14)}</span>`;
 
     const topicsHtml = (ts: Rec['topics']) => {
       const shown = ts.slice(0, 1)
@@ -151,7 +153,7 @@ const Nouns = kind === 'submission' ? 'Submissions' : 'Responses';
       setLink('[data-rp-prev]', i > 0 ? all[i - 1] : undefined);
       setLink('[data-rp-next]', i !== -1 && i < all.length - 1 ? all[i + 1] : undefined);
 
-      const statuses = kind === 'submission' ? ['Not Reviewed', 'Reviewed'] : ['Draft', 'Accepted'];
+      const statuses = kind === 'submission' ? ['Not Reviewed', 'Reviewed'] : ['Final Review', 'Draft', 'Accepted'];
       filter.options = [
         { label: `All ${all.length}`, value: 'all' },
         ...statuses.map((st) => ({ label: `${st} ${all.filter((r) => r.status === st).length}`, value: st })),

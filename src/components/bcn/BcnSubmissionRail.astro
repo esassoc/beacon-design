@@ -5,8 +5,13 @@
 // Details      who sent it and how: submitter, organization, city, received, channel.
 // Comments     an outline of every highlighted passage in reading order: its number
 //              (18.003, as the panel titles it), the swatch and name of each subtopic it
-//              is filed under, its state (Planned, Draft, No response) and the opening
+//              is filed under, its state (Planned, Final Review, Draft, No Response) and the opening
 //              of the passage.
+//
+// Aldo filed the submission as it arrived: a passage whose bounds and topic no person
+// has confirmed yet carries hollow, dashed dots (bcn-comment-topics.css). While any
+// remain, the Comments card's footer shows Aldo's mark, how many passages wait, and
+// Confirm All (one-step Undo after). Editing a passage confirms it too.
 //
 // The outline and the text are one selection. Click an item and its highlight
 // activates, scrolls into view and opens the comment panel; click a highlight (or J / K)
@@ -25,7 +30,9 @@
 // and neither selects inside a document. Checked Beacon (no document outline; its
 // annotation panel lists records, not passages). bcn-submission-rail is the home.
 import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnKeyValue from './BcnKeyValue.astro';
+import BcnAldoMark from './BcnAldoMark.astro';
 import '../../styles/bcn-comment-topics.css';
 
 interface Fact {
@@ -50,16 +57,26 @@ const { submissionId, facts } = Astro.props;
 
   <EsaCard title="Comments" variant="outlined" padding="compact">
     <ol class="bcn-sr__outline" role="list" aria-label="Comments in Reading Order" data-sr-outline></ol>
+    <div slot="footer" class="bcn-sr__aldo" data-sr-aldo>
+      <span class="bcn-sr__aldo-n" data-sr-aldo-state="open"><BcnAldoMark size="sm" /><span data-sr-aldo-n></span></span>
+      <span class="bcn-sr__aldo-n" data-sr-aldo-state="done" hidden><span data-sr-aldo-done></span></span>
+      <span data-sr-aldo-state="open"><EsaButton size="sm" variant="secondary" appearance="soft" icon="check" data-sr-confirm-all>Confirm All</EsaButton></span>
+      <span data-sr-aldo-state="done" hidden><EsaButton size="sm" variant="ghost" icon="rotate-ccw" data-sr-undo>Undo</EsaButton></span>
+    </div>
   </EsaCard>
 </div>
 
 <script>
-  import { isPlanned, passageNote, passageOf, passages, responsesOf, shadeOf, subtopicName, topicOf, UNFILED } from './comments-store';
+  import {
+    canUndo, confirmSubmission, isSuggested, passageNote, passageOf, passages,
+    shadeOf, stageOfComment, subtopicName, topicOf, undo, UNFILED,
+  } from './comments-store';
   import { glyph } from './comment-glyphs';
 
   const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
   const STATE = {
-    planned: { icon: 'file-check', word: 'Planned' },
+    done: { icon: 'file-check', word: 'Planned' },
+    review: { icon: 'file-search', word: 'Final Review' },
     draft: { icon: 'file-pen-line', word: 'Draft' },
     none: { icon: 'file-minus', word: 'No Response' },
   } as const;
@@ -67,7 +84,9 @@ const { submissionId, facts } = Astro.props;
   for (const root of document.querySelectorAll<HTMLElement>('[data-submission-rail]')) {
     const sid = root.dataset.submissionRail!;
     const outline = root.querySelector<HTMLElement>('[data-sr-outline]')!;
+    const aldo = root.querySelector<HTMLElement>('[data-sr-aldo]')!;
     let current: string | null = null;
+    let justConfirmed = 0;
 
     const mark = () => {
       for (const b of outline.querySelectorAll<HTMLElement>('[data-sr-item]')) {
@@ -89,13 +108,13 @@ const { submissionId, facts } = Astro.props;
       outline.innerHTML = passages(sid)
         .map((g) => {
           const c = g[0];
-          const key = isPlanned(c) ? 'planned' : responsesOf(c).length ? 'draft' : 'none';
+          const key = stageOfComment(c);
           const st = STATE[key];
           const names = g.map((x) => (x.topicId === UNFILED ? 'Unfiled' : subtopicName(x.topicId, x.subtopicId))).join(', ');
           return (
             `<li><button type="button" class="bcn-sr__item" data-sr-item="${c.id}">` +
             `<span class="bcn-sr__note">${passageNote(c.id)}</span>` +
-            `<span class="bcn-sr__dots">${g.map((x) => `<span class="bcn-topic-dot" data-family="${topicOf(x.topicId).family}" data-shade="${shadeOf(x.topicId, x.subtopicId)}"></span>`).join('')}</span>` +
+            `<span class="bcn-sr__dots">${g.map((x) => `<span class="bcn-topic-dot" data-family="${topicOf(x.topicId).family}" data-shade="${shadeOf(x.topicId, x.subtopicId)}"${isSuggested(x) ? ' data-suggested' : ''}></span>`).join('')}</span>` +
             `<span class="bcn-sr__sub">${esc(names)}</span>` +
             `<span class="bcn-sr__state" data-state="${key}">${glyph(st.icon, 13)}${st.word}</span>` +
             `<span class="bcn-sr__quote">${esc(c.quote)}</span>` +
@@ -104,7 +123,25 @@ const { submissionId, facts } = Astro.props;
         })
         .join('');
       mark();
+
+      // Aldo's footer: how many passages still wait on a person, and Confirm All.
+      const waiting = passages(sid).filter((g) => g.some(isSuggested)).length;
+      const done = !waiting && justConfirmed > 0 && canUndo();
+      // The card's footer band goes with it when there is nothing to confirm.
+      const band = aldo.closest<HTMLElement>('.esa-card__footer');
+      if (band) band.style.display = !waiting && !done ? 'none' : '';
+      for (const el of aldo.querySelectorAll<HTMLElement>('[data-sr-aldo-state]')) el.hidden = el.dataset.srAldoState !== (waiting ? 'open' : 'done');
+      aldo.querySelector('[data-sr-aldo-n]')!.textContent = `${waiting} suggested by Aldo`;
+      aldo.querySelector('[data-sr-aldo-done]')!.textContent = `Confirmed ${justConfirmed}`;
     };
+
+    aldo.querySelector('[data-sr-confirm-all]')!.addEventListener('click', () => {
+      justConfirmed = confirmSubmission(sid);
+    });
+    aldo.querySelector('[data-sr-undo]')!.addEventListener('click', () => {
+      justConfirmed = 0;
+      undo();
+    });
 
     outline.addEventListener('click', (e) => {
       const b = (e.target as Element).closest<HTMLElement>('[data-sr-item]');
@@ -127,7 +164,10 @@ const { submissionId, facts } = Astro.props;
       current = id ? (passageOf(id)[0]?.id ?? id) : null;
       mark();
     });
-    document.addEventListener('comments:change', () => requestAnimationFrame(render));
+    document.addEventListener('comments:change', (e) => {
+      if ((e as CustomEvent<{ kind: string }>).detail.kind !== 'confirm') justConfirmed = 0;
+      requestAnimationFrame(render);
+    });
     render();
   }
 </script>
@@ -145,12 +185,35 @@ const { submissionId, facts } = Astro.props;
     gap: var(--spacing-300) var(--spacing-400);
   }
 
+  .bcn-sr__aldo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+    width: 100%;
+  }
+
+  .bcn-sr__aldo [hidden] {
+    display: none;
+  }
+
+  .bcn-sr__aldo-n {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150, 0.375rem);
+    font-size: var(--typography-label-sm-font-size);
+    color: var(--color-content-default);
+  }
+
   .bcn-sr__outline {
     position: relative;
     list-style: none;
     margin: 0 calc(-1 * var(--spacing-200));
     padding: 0;
-    max-height: 60vh;
+    /* The rail is sticky, so it must fit the window or its footer (Confirm All) is
+       unreachable: the window less the app bar, the Details card and this card's
+       header and footer (~28rem). The outline scrolls inside that. */
+    max-height: max(10rem, calc(100dvh - 28rem));
     overflow-y: auto;
   }
 
@@ -197,7 +260,7 @@ const { submissionId, facts } = Astro.props;
     color: var(--color-content-secondary);
     white-space: nowrap;
   }
-  .bcn-sr__outline :global(.bcn-sr__state[data-state='planned']) {
+  .bcn-sr__outline :global(.bcn-sr__state[data-state='done']) {
     color: var(--color-content-success, var(--color-content-default));
   }
 

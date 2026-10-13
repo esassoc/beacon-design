@@ -1,0 +1,75 @@
+---
+// <BcnHandOffDialog> — choose who a response goes to next. Two uses, one dialog:
+//
+//   handoff   the drafter is done: Send to Final Review with the person chosen
+//             (the period's lead by default). The response moves to Final Review.
+//   reassign  give the response to someone else at the same stage.
+//
+// Contract, on `document`:
+//   in   response:handoff   detail { responseId, mode: 'handoff' | 'reassign' }
+//
+// The choice is a radio list, not a select: the team is a handful of people, so all show
+// at once, and esa-select's absolute menu is clipped by esa-dialog's scrolling body.
+//
+// bcn-lego-checked: the frame IS esa-dialog (size sm); the choice IS esa-radio-group over
+// the study team (name, role); the actions ARE esa-button. Checked Beacon (its assign
+// dialogs are ui-dialog over ui-select, the same legos). bcn-hand-off-dialog is the home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+---
+
+<esa-dialog heading="Send to Final Review" size="sm" data-hand-off>
+  <esa-radio-group size="sm" label="Reviewer" required data-ho-person></esa-radio-group>
+  <div slot="footer" class="cluster" data-gap="xs">
+    <EsaButton size="sm" variant="primary" icon="arrow-right" data-ho-ok>Send</EsaButton>
+    <EsaButton size="sm" variant="ghost" data-ho-cancel>Cancel</EsaButton>
+  </div>
+</esa-dialog>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-radio-group';
+  import { COMMENT_PERIOD } from '../../data/comments';
+  import { assign, handOff, people, responseOf } from './comments-store';
+
+  type Mode = 'handoff' | 'reassign';
+  const dlg = document.querySelector<HTMLElement & { open: boolean; heading: string }>('[data-hand-off]');
+  if (dlg) {
+    const pick = dlg.querySelector<HTMLElement & { value: string; label: string; options: { label: string; value: string }[]; errorText: string }>('[data-ho-person]')!;
+    const btn = (sel: string) => {
+      const el = dlg.querySelector<HTMLElement>(sel)!;
+      return (el.matches('button') ? el : el.querySelector('button')) as HTMLButtonElement;
+    };
+    const okLabel = dlg.querySelector<HTMLElement>('[data-ho-ok]')!;
+    let target: { responseId: string; mode: Mode } | null = null;
+
+    document.addEventListener('response:handoff', (e) => {
+      target = (e as CustomEvent<{ responseId: string; mode: Mode }>).detail;
+      const r = responseOf(target.responseId);
+      if (!r) return;
+      const handoff = target.mode === 'handoff';
+      dlg.heading = handoff ? 'Send to Final Review' : 'Reassign Response';
+      pick.label = handoff ? 'Reviewer' : 'Assign To';
+      // Hand-off goes to someone other than the drafter.
+      pick.options = people()
+        .filter((p) => !handoff || p.id !== r.assigneeId)
+        .map((p) => ({ label: `${p.name}, ${p.role}`, value: p.id }));
+      pick.value = handoff ? COMMENT_PERIOD.leadId === r.assigneeId ? '' : COMMENT_PERIOD.leadId : r.assigneeId;
+      pick.errorText = '';
+      const text = okLabel.querySelector('.esa-button__label') ?? okLabel;
+      text.textContent = handoff ? 'Send' : 'Reassign';
+      dlg.open = true;
+    });
+
+    btn('[data-ho-cancel]').addEventListener('click', () => { dlg.open = false; });
+    btn('[data-ho-ok]').addEventListener('click', () => {
+      if (!target) return;
+      if (!pick.value) {
+        pick.errorText = 'Choose a person.';
+        return;
+      }
+      if (target.mode === 'handoff') handOff(target.responseId, pick.value);
+      else assign(target.responseId, pick.value);
+      dlg.open = false;
+    });
+  }
+</script>

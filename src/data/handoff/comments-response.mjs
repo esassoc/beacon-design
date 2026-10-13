@@ -16,6 +16,18 @@ export default {
       acceptance: ['R-004 opens with Previous disabled (it answers the most comments) and Next on the following draft.', 'Filtering the contents panel to Accepted lists only accepted responses.'],
     },
     {
+      label: 'Record actions',
+      selector: '[data-response-actions]',
+      apply: [{ click: '[data-ra-menu] button' }],
+      intent: 'More, beside the pager: Edit Details (title and topic, in the New Response dialog) and Delete Response (danger, behind esa-confirm-dialog saying how many comments go back to No Response). Delete returns to the Responses tab.',
+      decisions: [
+        'Record actions sit in the page header, not the rail: an esa-dropdown-menu inside the rail card is clipped by the card.',
+        'Delete is not offered once accepted; Reopen first. Response numbers are fixed at creation, so deleting one never renumbers the rest.',
+        'A new topic re-routes the response to that topic\'s expert while its holder is still Aldo\'s suggestion.',
+      ],
+      acceptance: ['On R-012, Edit Details to Flight paths re-routes it to Mei Tanaka (dashed). Delete Response returns to the Responses tab without R-012; R-011 and R-010 keep their numbers.'],
+    },
+    {
       label: 'Rewrite with Aldo',
       selector: '[data-response-aldo]',
       intent: 'The whole-letter rewrite: the green Aldo bar opens a composer whose field takes references. "@" picks from the Response Library (past ESA responses, anonymized), "#" picks one of the comments this response answers by its comment number (C-018.001). Send replaces the letter with Aldo\'s draft in one undoable step; the bar then reads "Aldo rewrote the response from N references" with Undo.',
@@ -74,19 +86,25 @@ export default {
     {
       label: 'Rail',
       selector: '[data-response-rail]',
-      intent: 'Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a card footer of Accept Response (primary) and Save (secondary soft: a light fill and strong border, so it reads as a button on the sunken footer; always enabled, Saved says whether there is anything to save). Below, every comment the response answers, grouped by submission, by passage number, swatch, subtopic and state.',
+      intent: 'Details (Stage, Assigned To, Drafted By once handed on, Topic, Comments, Submissions, Saved) as label-left rows, with a card footer that follows the stage: Send to Final Review (Draft), Accept Response (Final Review) or Reopen (Accepted), and Save (secondary soft: a light fill and strong border, so it reads as a button on the sunken footer; always enabled, Saved says whether there is anything to save). Below, every comment the response answers, grouped by submission, by passage number, swatch, subtopic and state.',
       decisions: [
         'Accepting plans every linked comment at once, with one-step Undo. Whole-response accept only.',
+        'The response is the unit of assigned work, not the comment: one expert drafts R-004 and its accept plans all 21 comments. A comment with no open response belongs, by derivation, to its topic\'s expert.',
+        'Accept happens only at Final Review. In Draft the primary action is Send to Final Review: <BcnHandOffDialog> (esa-dialog + esa-radio-group over the team, not a select, whose menu the dialog body clips; the period lead by default) moves it to Final Review with the person chosen and records who drafted it.',
+        'Assigned To shows the holder (esa-avatar + name). While it is Aldo\'s routing to the topic expert the avatar has a dashed ring and a Confirm (check) verb; Reassign (pencil) opens the same dialog to change the holder at the same stage.',
+        'Drafted By carries Return to Drafter (arrow-left) in Final Review: back to Draft, held by the drafter again.',
+        'Reopen (Accepted) returns it to Final Review with the person who accepted it; its comments are no longer planned unless another accepted response answers them. It replaces Undo once the page is reloaded.',
+        'A response with no comments yet (New Response) shows esa-empty-state in the Comments card.',
         'A comment row does not leave the page: it opens the comment panel.',
       ],
-      acceptance: ['Accept on r-04 marks its 21 comments planned; Undo restores them.'],
+      acceptance: ['Accept on r-04 marks its 21 comments planned; Undo restores them. After a reload, Reopen does the same.', 'Return to Drafter on r-04 puts it in Draft with Ravi Anand and the primary action becomes Send to Final Review.', 'On R-012 (Draft, routed by Aldo to Ravi Anand) Send to Final Review with Dana Whitcomb moves it to Final Review, shows Drafted By Ravi Anand, and swaps the primary action to Accept Response.'],
     },
     {
       label: 'Comment panel',
       selector: '[data-rr-panel]',
       apply: [{ click: '[data-rr-comments] [data-cid]' }],
       intent: 'A side panel over the response page for one comment it answers. Its title, "Comment C-018.001" with an external-link glyph, is the one way out: a link to the submission with that comment open. Below: who sent it (S-018) and when, the passage highlighted in its paragraph, and its topics. Previous / Next (and J / K) step through the list; Quote in Response puts the passage into the letter as a quote.',
-      decisions: ['Read only: refiling and response links are edited on the submission page.'],
+      decisions: ['Unlink takes the comment off this response (it goes back to No Response unless another answers it). Refiling stays on the submission page.'],
     },
     {
       label: 'Drafted from',

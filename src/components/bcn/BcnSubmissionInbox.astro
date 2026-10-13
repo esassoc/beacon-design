@@ -10,8 +10,18 @@
 //   Topic index  <BcnCommentsByTopic>: the editable topic hierarchy, Compliance Index style.
 //   Responses    <BcnResponseIndex>: every response as a slim row, drafts first.
 //
-// "Reviewed" is the burn-down's word and the same fact: a person has accepted a response
-// for, or changed, at least one of the submission's comments.
+// "Reviewed" is the burn-down's word and the same fact: a person has confirmed, accepted
+// a response for, or changed, at least one of the submission's comments.
+//
+// Aldo filed every submission as it arrived. A topic whose passages in the submission
+// still wait on a person shows as a hollow, dashed dot (bcn-comment-topics.css); a
+// confirmed one is solid. So the inbox shows at a glance how much of Aldo's sorting
+// has been checked.
+//
+// All / Mine (esa-button-toggle, ?mine): Mine narrows the Inbox to submissions holding
+// a comment whose open work sits with the person at the keyboard (their response, or
+// their topic when it has none), and the Responses tab to the responses they hold.
+// The Topic Index is the whole hierarchy either way, so the switch steps aside there.
 //
 // The tab bar is esa-tab-layout as a bare switch (the Lists pattern,
 // <BcnListViewTabs>); the choice rides ?view=. Rows render from comments-store, so a
@@ -23,14 +33,19 @@
 // are the shared bcn-comment-topics.css swatch.
 import BcnCommentsByTopic from './BcnCommentsByTopic.astro';
 import BcnResponseIndex from './BcnResponseIndex.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import { withBase } from '../../lib/base';
 import { COMMENTS_BASE } from '../../data/comments-nav';
 import '../../styles/bcn-comment-topics.css';
 ---
 
 <div class="bcn-si stack" data-gap="md" data-inbox data-base={withBase(COMMENTS_BASE)}>
-  <esa-tab-layout appearance="underline" size="sm" data-inbox-tabs></esa-tab-layout>
+  <div class="bcn-si__bar">
+    <esa-tab-layout appearance="underline" size="sm" data-inbox-tabs></esa-tab-layout>
+    <esa-button-toggle size="sm" aria-label="Show" data-inbox-mine></esa-button-toggle>
+  </div>
   <div data-inbox-body></div>
+  <div data-inbox-none hidden><EsaEmptyState size="sm" title="Nothing assigned to you" description="Switch to All to see every submission." /></div>
   <div data-inbox-topic hidden><BcnCommentsByTopic /></div>
   <div data-inbox-responses hidden><BcnResponseIndex /></div>
 </div>
@@ -38,8 +53,9 @@ import '../../styles/bcn-comment-topics.css';
 <script>
   import '@esa/ecology/esa-tab-layout';
   import '@esa/ecology/esa-popover';
+  import '@esa/ecology/esa-button-toggle';
   import { SUBMISSIONS, SUBMITTERS } from '../../data/comments';
-  import { commentsOf, isTouched, submissionNo, submissionOrder, topicOf } from './comments-store';
+  import { commentsOf, isMineSubmission, isSuggested, isTouched, submissionNo, submissionOrder, topicOf } from './comments-store';
 
   // Lucide inbox and list-tree, inlined: esa-tab-layout takes tab icons as SVG strings.
   const svg = (paths: string) =>
@@ -69,9 +85,17 @@ import '../../styles/bcn-comment-topics.css';
 
   const asked = new URLSearchParams(location.search).get('view');
   let view: View = VIEWS.find((v) => v.id === asked)?.id ?? 'date';
+  let mine = new URLSearchParams(location.search).has('mine');
+  const mineToggle = root.querySelector<HTMLElement & { options: { label: string; value: string }[]; value: string }>('[data-inbox-mine]')!;
+  mineToggle.options = [
+    { label: 'All', value: 'all' },
+    { label: 'Mine', value: 'mine' },
+  ];
+  mineToggle.value = mine ? 'mine' : 'all';
 
   const byDate = () => {
-    const subs = submissionOrder();
+    const subs = submissionOrder().filter((s) => !mine || isMineSubmission(s.id));
+    if (!subs.length) return '';
     let html = '';
     let group = '';
     for (const s of subs) {
@@ -85,16 +109,21 @@ import '../../styles/bcn-comment-topics.css';
       const unread = !isTouched(s.id);
       // Distinct topics, most comments first; two dots, then a +N chip. The legend lists all.
       const tally = new Map<string, number>();
-      for (const c of commentsOf(s.id)) tally.set(c.topicId, (tally.get(c.topicId) ?? 0) + 1);
+      const waiting = new Set<string>();
+      for (const c of commentsOf(s.id)) {
+        tally.set(c.topicId, (tally.get(c.topicId) ?? 0) + 1);
+        if (isSuggested(c)) waiting.add(c.topicId);
+      }
       const ranked = [...tally.entries()].sort((a, b) => b[1] - a[1]);
       const ts = ranked.map(([id]) => topicOf(id));
+      const sugg = (id: string) => (waiting.has(id) ? ' data-suggested' : '');
       const legend = ranked
-        .map(([id, n]) => `<li><span class="bcn-topic-dot" data-family="${topicOf(id).family}"></span><span>${esc(topicOf(id).name)}</span><span class="bcn-si__legend-n">${n}</span></li>`)
+        .map(([id, n]) => `<li><span class="bcn-topic-dot" data-family="${topicOf(id).family}"${sugg(id)}></span><span>${esc(topicOf(id).name)}${waiting.has(id) ? ' <span class="bcn-si__legend-s">Suggested</span>' : ''}</span><span class="bcn-si__legend-n">${n}</span></li>`)
         .join('');
       const dots =
         `<esa-popover trigger="hover" position="bottom" class="bcn-si__stack">` +
         `<span class="bcn-si__dots" tabindex="0" aria-label="${esc(ts.map((t) => t.name).join(', '))}">` +
-        ts.slice(0, 2).map((t) => `<span class="bcn-topic-dot" data-family="${t.family}"></span>`).join('') +
+        ts.slice(0, 2).map((t) => `<span class="bcn-topic-dot" data-family="${t.family}"${sugg(t.id)}></span>`).join('') +
         (ts.length > 2 ? `<span class="bcn-si__more">+${ts.length - 2}</span>` : '') +
         `</span><ul slot="content" class="bcn-si__legend typography-body-sm" role="list">${legend}</ul></esa-popover>`;
       html +=
@@ -114,8 +143,23 @@ import '../../styles/bcn-comment-topics.css';
     body.hidden = view !== 'date';
     topicView.hidden = view !== 'topic';
     responsesView.hidden = view !== 'responses';
-    if (view === 'date') body.innerHTML = `<div class="bcn-si__months">${byDate()}</div>`;
+    mineToggle.hidden = view === 'topic';
+    if (view === 'date') {
+      const list = byDate();
+      body.innerHTML = list ? `<div class="bcn-si__months">${list}</div>` : '';
+    }
+    root.querySelector<HTMLElement>('[data-inbox-none]')!.hidden = view !== 'date' || !!body.innerHTML;
   };
+
+  mineToggle.addEventListener('change', () => {
+    mine = mineToggle.value === 'mine';
+    const url = new URL(location.href);
+    if (mine) url.searchParams.set('mine', '');
+    else url.searchParams.delete('mine');
+    history.replaceState(null, '', url.toString().replace('mine=&', 'mine&').replace(/mine=$/, 'mine'));
+    document.dispatchEvent(new CustomEvent('comments:mine', { detail: { mine } }));
+    render();
+  });
 
   tabs.tabs = VIEWS.map((v) => ({ label: v.label, icon: v.icon }));
   tabs.activeIndex = VIEWS.findIndex((v) => v.id === view);
@@ -132,6 +176,30 @@ import '../../styles/bcn-comment-topics.css';
 </script>
 
 <style>
+  /* Tabs left, All / Mine right, on the tabs' own rule. */
+  .bcn-si__bar {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--spacing-400);
+  }
+
+  .bcn-si__bar esa-tab-layout {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .bcn-si__bar esa-button-toggle {
+    margin-bottom: var(--spacing-150, 0.375rem);
+  }
+
+  .bcn-si__bar esa-button-toggle[hidden] {
+    display: none;
+  }
+
+  .bcn-si :global(.bcn-si__legend-s) {
+    color: var(--color-content-secondary);
+  }
+
   .bcn-si :global(.bcn-si__months) {
     display: flex;
     flex-direction: column;

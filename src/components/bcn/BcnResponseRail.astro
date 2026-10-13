@@ -1,15 +1,24 @@
 ---
 // <BcnResponseRail> — the response page's rail, as the submission page carries one.
 //
-// Details    status (Draft / Accepted), the topic it answers, how many comments and
-//            submissions it answers (label-left rows), and whether the text is saved. Save writes the
-//            editor's document (⌘S does too); Accept response plans every linked
-//            comment at once, with one-step Undo.
+// Details    stage (Draft / Final Review / Accepted), who holds it (ringed dashed while
+//            it is Aldo's routing to the topic's expert; Confirm or Reassign), who
+//            drafted it once handed on, the topic it answers, how many comments and
+//            submissions it answers (label-left rows), and whether the text is saved.
+//            The footer follows the stage, one main action each:
+//              Draft          Send to Final Review (<BcnHandOffDialog>)
+//              Final Review   Accept Response: plans every linked comment at once
+//                             (one-step Undo right after)
+//              Accepted       Reopen: back to Final Review; its comments unplanned
+//            Save writes the editor's document (⌘S does too). The people rows carry
+//            the assignment verbs: Assigned To has Confirm (while it is Aldo's routing)
+//            and Reassign; Drafted By has Return to Drafter (in Final Review). Edit
+//            Details and Delete live in the page header (<BcnResponseActions>).
 // Comments   every comment the response answers, grouped by submission, each by its
 //            passage number (18.003), swatch, subtopic and state. A row opens the
 //            comment in a side panel over this page (the page stays put): the passage in
 //            its paragraph, who sent it, its topics; J / K step through, Quote in
-//            Response puts it in the letter. The panel's title ("Comment C-018.003",
+//            Response puts it in the letter; Unlink takes it off this response. The panel's title ("Comment C-018.003",
 //            with an external-link mark) is the one way out, to the submission.
 //
 // Contract, on `document`:
@@ -26,7 +35,10 @@
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnKeyValue from './BcnKeyValue.astro';
+import BcnHandOffDialog from './BcnHandOffDialog.astro';
+import BcnNewResponseDialog from './BcnNewResponseDialog.astro';
 import { withBase } from '../../lib/base';
 import { COMMENTS_BASE } from '../../data/comments-nav';
 import '../../styles/bcn-comment-topics.css';
@@ -35,22 +47,48 @@ import '../../styles/bcn-comment-topics.css';
 <div class="bcn-rr stack" data-gap="md" data-response-rail data-base={withBase(COMMENTS_BASE)}>
   <EsaCard title="Details" variant="outlined" padding="compact">
     <div class="bcn-rr__facts">
-      <BcnKeyValue size="sm" layout="row" label="Status"><span class="bcn-rr__val" data-rr-status></span></BcnKeyValue>
+      <BcnKeyValue size="sm" layout="row" label="Stage"><span class="bcn-rr__val" data-rr-status></span></BcnKeyValue>
+      <BcnKeyValue size="sm" layout="row" label="Assigned To">
+        <span class="bcn-rr__who">
+          <span class="bcn-rr__val" data-rr-assignee></span>
+          <span class="bcn-rr__who-verbs" data-rr-who-verbs>
+            <span data-rr-confirm-wrap><EsaButton size="xs" variant="ghost" iconOnly icon="check" label="Confirm Assignment" data-rr-confirm /></span>
+            <EsaButton size="xs" variant="ghost" iconOnly icon="pencil" label="Reassign" data-rr-reassign />
+          </span>
+        </span>
+      </BcnKeyValue>
+      <div data-rr-drafted-wrap>
+        <BcnKeyValue size="sm" layout="row" label="Drafted By">
+          <span class="bcn-rr__who">
+            <span class="bcn-rr__val" data-rr-drafted></span>
+            <span class="bcn-rr__who-verbs" data-rr-return-wrap>
+              <EsaButton size="xs" variant="ghost" iconOnly icon="arrow-left" label="Return to Drafter" data-rr-return />
+            </span>
+          </span>
+        </BcnKeyValue>
+      </div>
       <BcnKeyValue size="sm" layout="row" label="Topic"><span class="bcn-rr__val" data-rr-topic></span></BcnKeyValue>
       <BcnKeyValue size="sm" layout="row" label="Comments"><span class="bcn-rr__val" data-rr-comment-count></span></BcnKeyValue>
       <BcnKeyValue size="sm" layout="row" label="Submissions"><span class="bcn-rr__val" data-rr-sub-count></span></BcnKeyValue>
       <BcnKeyValue size="sm" layout="row" label="Saved"><span class="bcn-rr__val" data-rr-saved></span></BcnKeyValue>
     </div>
     <div slot="footer" class="bcn-rr__actions" data-rr-actions>
+      <span data-rr-handoff-wrap><EsaButton size="sm" variant="primary" icon="arrow-right" data-rr-handoff>Send to Final Review</EsaButton></span>
       <span data-rr-accept-wrap><EsaButton size="sm" variant="primary" icon="check" data-rr-accept>Accept Response</EsaButton></span>
       <span data-rr-undo-wrap hidden><EsaButton size="sm" variant="ghost" icon="rotate-ccw" data-rr-undo>Undo</EsaButton></span>
+      <span data-rr-reopen-wrap><EsaButton size="sm" variant="secondary" appearance="outline" icon="rotate-ccw" data-rr-reopen>Reopen</EsaButton></span>
       <EsaButton size="sm" variant="secondary" appearance="soft" icon="save" data-rr-save>Save</EsaButton>
     </div>
   </EsaCard>
 
+
   <EsaCard title="Comments" variant="outlined" padding="compact">
     <div class="bcn-rr__groups" data-rr-comments></div>
+    <div data-rr-none hidden><EsaEmptyState size="xs" title="No comments yet" description="Link comments from a submission." /></div>
   </EsaCard>
+
+  <BcnHandOffDialog />
+  <BcnNewResponseDialog />
 
   <esa-side-dialog position="right" show-close-button data-rr-panel>
     <h2 slot="header" class="bcn-rr__panel-title typography-title">
@@ -70,6 +108,7 @@ import '../../styles/bcn-comment-topics.css';
         <EsaButton size="sm" variant="secondary" appearance="outline" iconOnly icon="chevron-right" label="Next comment (J)" data-rr-next />
       </span>
       <span class="bcn-rr__foot-group">
+        <EsaButton size="sm" variant="secondary" appearance="outline" icon="x" data-rr-unlink>Unlink</EsaButton>
         <EsaButton size="sm" variant="primary" icon="plus" data-rr-quote>Quote in Response</EsaButton>
       </span>
     </div>
@@ -80,10 +119,18 @@ import '../../styles/bcn-comment-topics.css';
   import '@esa/ecology/esa-side-dialog';
   import { SUBMISSIONS, SUBMITTERS } from '../../data/comments';
   import {
-    acceptResponse, canUndo, currentResponseId, isPlanned, linkedTo, passageNote, passageOf,
-    responseOf, shadeOf, startOf, submissionNo, subtopicName, topicOf, undo, UNFILED,
+    acceptResponse, assign, canUndo, currentResponseId, isPlanned, isSuggested, linkedTo, passageNote, passageOf,
+    reopenResponse, responseOf, returnToDrafter, shadeOf, startOf, submissionNo, subtopicName, topicOf, undo,
+    unlinkPassage, UNFILED,
   } from './comments-store';
   import { glyph } from './comment-glyphs';
+  import { person } from './team';
+
+  const STAGE = {
+    draft: { icon: 'file-pen-line', word: 'Draft' },
+    review: { icon: 'file-search', word: 'Final Review' },
+    done: { icon: 'file-check', word: 'Accepted' },
+  } as const;
 
   const root = document.querySelector<HTMLElement>('[data-response-rail]');
   const id = currentResponseId();
@@ -111,17 +158,29 @@ import '../../styles/bcn-comment-topics.css';
     };
 
     const render = () => {
-      const r = responseOf(id)!;
+      const r = responseOf(id);
+      if (!r) return; // deleted: the page is on its way back to the list
       const cs = linkedTo(id);
       const subs = new Set(cs.map((c) => c.submissionId)).size;
       const t = topicOf(r.topicId);
+      const st = STAGE[r.stage];
       $('[data-rr-status]').innerHTML =
-        `<span class="bcn-rr__state" data-state="${r.accepted ? 'accepted' : 'draft'}">${glyph(r.accepted ? 'file-check' : 'file-pen-line', 14)}${r.accepted ? 'Accepted' : 'Draft'}</span>`;
+        `<span class="bcn-rr__state" data-state="${r.stage === 'done' ? 'accepted' : r.stage}">${glyph(st.icon, 14)}${st.word}</span>`;
+      const suggested = r.assignment === 'suggested';
+      $('[data-rr-assignee]').innerHTML = person(r.assigneeId, suggested);
+      $('[data-rr-who-verbs]').hidden = r.stage === 'done';
+      $('[data-rr-confirm-wrap]').hidden = !suggested;
+      $('[data-rr-drafted-wrap]').hidden = !r.draftedBy;
+      $('[data-rr-drafted]').innerHTML = r.draftedBy ? person(r.draftedBy) : '';
+      $('[data-rr-handoff-wrap]').hidden = r.stage !== 'draft';
       $('[data-rr-topic]').innerHTML = `<span class="bcn-rr__topic"><span class="bcn-topic-dot" data-family="${t.family}"></span>${esc(t.name)}</span>`;
       $('[data-rr-comment-count]').textContent = String(cs.length);
+      $('[data-rr-none]').hidden = cs.length > 0;
       $('[data-rr-sub-count]').textContent = String(subs);
-      $('[data-rr-accept-wrap]').hidden = r.accepted;
+      $('[data-rr-accept-wrap]').hidden = r.stage !== 'review';
+      $('[data-rr-reopen-wrap]').hidden = r.stage !== 'done' || (justAccepted && canUndo());
       $('[data-rr-undo-wrap]').hidden = !(justAccepted && canUndo());
+      $('[data-rr-return-wrap]').hidden = r.stage !== 'review';
       setSave();
 
       // One row per passage (a passage filed under two subtopics answers once).
@@ -150,7 +209,7 @@ import '../../styles/bcn-comment-topics.css';
                 return (
                   `<li><button type="button" class="bcn-rr__row" data-cid="${c.id}" aria-current="${c.id === active}" title="${esc(c.quote)}">` +
                   `<span class="bcn-rr__note">${passageNote(c.id)}</span>` +
-                  `<span class="bcn-topic-dot" data-family="${topicOf(c.topicId).family}" data-shade="${shadeOf(c.topicId, c.subtopicId)}"></span>` +
+                  `<span class="bcn-topic-dot" data-family="${topicOf(c.topicId).family}" data-shade="${shadeOf(c.topicId, c.subtopicId)}"${isSuggested(c) ? ' data-suggested' : ''}></span>` +
                   `<span class="bcn-rr__name">${esc(name)}</span>` +
                   `<span class="bcn-rr__glyph" data-state="${planned ? 'accepted' : 'draft'}" role="img" aria-label="${planned ? 'Planned' : 'Not planned yet'}">${glyph(planned ? 'file-check' : 'file-pen-line', 13)}</span>` +
                   `</button></li>`
@@ -231,7 +290,20 @@ import '../../styles/bcn-comment-topics.css';
       render();
     });
 
+    native('[data-rr-unlink]').addEventListener('click', () => {
+      if (!active) return;
+      unlinkPassage(active, id);
+      panel.open = false;
+      active = null;
+    });
+    native('[data-rr-reopen]').addEventListener('click', () => reopenResponse(id));
+    native('[data-rr-return]').addEventListener('click', () => returnToDrafter(id));
     native('[data-rr-save]').addEventListener('click', () => document.dispatchEvent(new CustomEvent('response:save')));
+    native('[data-rr-handoff]').addEventListener('click', () =>
+      document.dispatchEvent(new CustomEvent('response:handoff', { detail: { responseId: id, mode: 'handoff' } })));
+    native('[data-rr-reassign]').addEventListener('click', () =>
+      document.dispatchEvent(new CustomEvent('response:handoff', { detail: { responseId: id, mode: 'reassign' } })));
+    native('[data-rr-confirm]').addEventListener('click', () => assign(id, responseOf(id)!.assigneeId));
     native('[data-rr-accept]').addEventListener('click', () => {
       acceptResponse(id);
       justAccepted = true;
@@ -256,10 +328,8 @@ import '../../styles/bcn-comment-topics.css';
 </script>
 
 <style>
-  .bcn-rr {
-    position: sticky;
-    top: var(--spacing-400);
-  }
+  /* Not sticky: the rail and <BcnDraftedFrom> under it are taller than a laptop screen,
+     and a pinned rail slid over the card beneath it. The column scrolls with the text. */
 
   .bcn-rr__facts {
     display: flex;
@@ -295,8 +365,25 @@ import '../../styles/bcn-comment-topics.css';
     color: var(--color-content-success, var(--color-content-default));
   }
 
-  [data-rr-actions] [hidden] {
+  [data-rr-actions] [hidden],
+  [data-response-rail] [data-rr-drafted-wrap][hidden],
+  [data-response-rail] [data-rr-confirm-wrap][hidden],
+  [data-response-rail] [data-rr-who-verbs][hidden],
+  [data-response-rail] [data-rr-return-wrap][hidden] {
     display: none;
+  }
+
+  /* The holder, then Confirm / Reassign as quiet icon verbs. */
+  .bcn-rr__who {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    min-width: 0;
+  }
+
+  .bcn-rr__who-verbs {
+    display: inline-flex;
+    align-items: center;
   }
 
   .bcn-rr__groups {

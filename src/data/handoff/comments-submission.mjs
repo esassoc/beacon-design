@@ -23,12 +23,14 @@ export default {
       label: 'Rail',
       selector: '[data-submission-rail]',
       apply: [{ click: '[data-sr-item="c-048"]' }],
-      intent: 'The submission\'s rail, right of the text, as the Lists page carries its details rail. Details: submitter, organization when there is one, city, received, channel. Comments: an outline of every highlighted passage in reading order: its number (C-018.003), the swatch and name of each subtopic it is filed under, its state (Planned, Draft, No Response) and its first two lines.',
+      intent: 'The submission\'s rail, right of the text, as the Lists page carries its details rail. Details: submitter, organization when there is one, city, received, channel. Comments: an outline of every highlighted passage in reading order: its number (C-018.003), the swatch and name of each subtopic it is filed under, its state (Planned, Final Review, Draft, No Response) and its first two lines. While Aldo\'s proposals remain, the Comments card\'s footer carries Aldo\'s mark, "N suggested by Aldo" and Confirm All.',
       decisions: [
+        'A passage whose bounds and topic no person has confirmed has hollow, DASHED dots; confirmed is solid (bcn-comment-topics.css [data-suggested]).',
+        'Confirm All accepts every proposal in the submission and leaves "Confirmed N" with Undo. The footer band goes when nothing waits.',
         'The outline and the text are one selection: click an item and its highlight activates, scrolls into view and opens the comment panel; click a highlight (or J / K) and the outline marks that item.',
         'Passages are numbered C-submission.passage in reading order (C-018.001, C-018.002 ...), the notation the panel titles itself with. Adding a passage before others renumbers the ones after it; stored numbers are for the build to decide.',
         'No planned count here: Andy found "0 of 3 planned" unclear; the state on each item carries it.',
-        'The rail stays in view as the text scrolls (sticky).',
+        'The rail stays in view as the text scrolls (sticky). It must fit the window, so the outline\'s height is the window less the rest of the rail and it scrolls inside; otherwise Confirm All falls off the bottom on a laptop.',
       ],
       gotchas: ['Scroll the outline list, never scrollIntoView an item: that also moves the page and cancels the scroll that brings the passage into view.'],
       acceptance: [
@@ -42,6 +44,7 @@ export default {
       intent: 'The submission in Beacon\'s document voice (Besley, body-lg) with each passage painted as a highlighter stroke: topic = hue family, subtopic = shade (a passage filed under several subtopics paints in its first). Hover underlines a passage in its family ink; the active one rings in it. Drag the grips at either end of the active passage to resize it; select free text to add one.',
       decisions: [
         'Highlight, not brackets, is the metaphor (brief). box-decoration-break: clone keeps each wrapped line a clean stroke.',
+        'Aldo\'s proposed passages keep their fill and gain a 1.5px DASHED rule in the family ink; a confirmed passage has none. The tooltip adds "(suggested by Aldo)". Resizing a passage confirms it.',
         'Offsets are derived from the comment\'s quote, never stored; a resized or added comment keeps a start hint only when its quote occurs twice.',
         'Resize snaps to whole words and stops at a paragraph break or the next passage. A new selection is trimmed to the free text the same way. Passages never overlap.',
         'Highlights are focusable; Enter opens the panel. J / K step through them in text order.',
@@ -57,8 +60,10 @@ export default {
       label: 'Comment panel',
       selector: '[data-cp-panel]',
       apply: [{ click: 'mark[data-cid="c-045"]' }],
-      intent: 'One passage in the standard slide-in side panel (esa-side-dialog), titled with its number: "Comment C-018.001". The passage in its highlight, then two groups of slim read-only cards. Topics: every "Topic › Subtopic" it is filed under, each with a remove; + opens a stacked picker. Responses: every response it is linked to, its state as a glyph (accepted = file-check, draft = file-pen-line), the title linking to the response, each with a remove; + offers Link a Response (the picker) or New Response. Footer: Previous / Next far left, Remove (danger outline) right, behind a confirm.',
+      intent: 'One passage in the standard slide-in side panel (esa-side-dialog), titled with its number: "Comment C-018.001". The passage in its highlight, then two groups of slim read-only cards. Topics: every "Topic › Subtopic" it is filed under, each with a remove; + opens a stacked picker. Responses: every response it is linked to, its state as a glyph (accepted = file-check, draft = file-pen-line), the title linking to the response, each with a remove; + offers Link a Response (the picker) or New Response. Footer: Previous / Next far left, Remove (danger outline) right, behind a confirm, and Confirm (primary) while the passage is still Aldo\'s proposal.',
       decisions: [
+        'A proposed passage draws dashed in the panel too: its highlight, its topic cards\' edges and dots. Confirm accepts it as is; any edit (topic added or removed) confirms it.',
+        'Each linked response card shows its stage glyph (draft, final review = file-search, accepted) and who holds it (esa-avatar, dashed ring while that is Aldo\'s routing).',
         'Several topics and several responses per passage (Andy, 2026-10-05). A topic filing is a comment over the same passage, the copy the topic index\'s Duplicate to makes, so the topic index and burn-down count it there; responses are shared by every filing of the passage.',
         'The picker is a second esa-side-dialog stacked over the panel; the panel steps back 30px (its --side-dialog-inset) while it is open. Search over a checklist, multi-select, Add. What the passage already has is checked and fixed.',
         'Removing the last topic files the passage under Unfiled; it stays on the record.',
