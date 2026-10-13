@@ -79,8 +79,9 @@ const { submissionId } = Astro.props;
         <EsaButton size="sm" variant="secondary" appearance="outline" iconOnly icon="chevron-left" label="Previous comment (K)" data-cp-prev />
         <EsaButton size="sm" variant="secondary" appearance="outline" iconOnly icon="chevron-right" label="Next comment (J)" data-cp-next />
       </span>
-      <span class="bcn-cp__end" data-cp-foot="edit">
+      <span class="cluster bcn-cp__end" data-gap="xs" data-cp-foot="edit">
         <EsaButton size="sm" variant="danger" appearance="outline" icon="trash-2" data-cp-remove>Remove</EsaButton>
+        <span data-cp-confirm-wrap><EsaButton size="sm" variant="primary" icon="check" data-cp-confirm-filing>Confirm</EsaButton></span>
       </span>
       <span class="cluster bcn-cp__end" data-gap="xs" data-cp-foot="add" hidden>
         <EsaButton size="sm" variant="primary" icon="plus" data-cp-add>Add Comment</EsaButton>
@@ -122,11 +123,14 @@ const { submissionId } = Astro.props;
   import '@esa/ecology/esa-checkbox';
   import '@esa/ecology/esa-tooltip';
   import {
-    add, addFilings, canUndo, getState, linkPassage, linkedTo, newResponse,
+    add, addFilings, canUndo, confirmPassage, getState, linkPassage, linkedTo, newResponse,
     passageNote, passageOf, passages, removeFiling, removePassage, responseOf, responsesOf,
     shadeOf, subtopicName, suggestFiling, suggestResponse, topicOf, topics, undo, unlinkPassage, UNFILED,
   } from './comments-store';
   import { glyph } from './comment-glyphs';
+  import { avatar } from './team';
+
+  const STAGE = { draft: 'Draft', review: 'Final Review', done: 'Accepted' } as const;
 
   type Dialog = HTMLElement & { open: boolean; heading: string; message?: string };
   type Field = HTMLElement & { value: string };
@@ -174,14 +178,15 @@ const { submissionId } = Astro.props;
     };
 
     // What the panel is showing, from the store or the draft.
-    const current = (): { quote: string; filings: (Filing & { id?: string })[]; responses: string[] } | null => {
-      if (mode === 'add' && draft) return { quote: draft.quote, filings: draft.filings, responses: draft.responses };
+    const current = (): { quote: string; filings: (Filing & { id?: string })[]; responses: string[]; suggested: boolean } | null => {
+      if (mode === 'add' && draft) return { quote: draft.quote, filings: draft.filings, responses: draft.responses, suggested: false };
       const group = active ? passageOf(active) : [];
       if (!group.length) return null;
       return {
         quote: group[0].quote,
         filings: group.map((c) => ({ id: c.id, topicId: c.topicId, subtopicId: c.subtopicId })),
         responses: responsesOf(group[0]),
+        suggested: group.some((c) => c.filing === 'suggested'),
       };
     };
 
@@ -195,6 +200,8 @@ const { submissionId } = Astro.props;
       quote.textContent = cur.quote;
       quote.dataset.family = topicOf(f0?.topicId ?? UNFILED).family;
       quote.dataset.shade = String(f0 ? shadeOf(f0.topicId, f0.subtopicId) : 1);
+      quote.toggleAttribute('data-suggested', cur.suggested);
+      $('[data-cp-confirm-wrap]').hidden = !cur.suggested;
       panel.heading = mode === 'add' ? 'New Comment' : `Comment ${passageNote(active!)}`;
 
       topicList.innerHTML = cur.filings
@@ -202,9 +209,10 @@ const { submissionId } = Astro.props;
           const t = topicOf(f.topicId);
           const name = f.topicId === UNFILED ? 'Unfiled' : `${t.name} › ${subtopicName(f.topicId, f.subtopicId)}`;
           const unfiledOnly = f.topicId === UNFILED && cur.filings.length === 1;
+          const sugg = cur.suggested ? ' data-suggested' : '';
           return (
-            `<li class="bcn-cp__card">` +
-            `<span class="bcn-topic-dot" data-family="${t.family}" data-shade="${shadeOf(f.topicId, f.subtopicId)}"></span>` +
+            `<li class="bcn-cp__card bcn-proposal"${sugg}${cur.suggested ? ' title="Suggested by Aldo"' : ''}>` +
+            `<span class="bcn-topic-dot" data-family="${t.family}" data-shade="${shadeOf(f.topicId, f.subtopicId)}"${sugg}></span>` +
             `<span class="bcn-cp__name">${esc(name)}</span>` +
             (unfiledOnly ? '' : removeBtn(`Remove ${name}`, `data-cp-rm-topic="${f.id ?? i}"`)) +
             `</li>`
@@ -217,11 +225,12 @@ const { submissionId } = Astro.props;
         .map((rid) => {
           const r = responseOf(rid);
           if (!r) return '';
-          const tip = accepted(rid) ? 'Accepted: this comment is planned' : 'Draft: planned once it is accepted';
+          const tip = accepted(rid) ? 'Accepted: this comment is planned' : `${STAGE[r.stage]}: planned once it is accepted`;
           return (
             `<li class="bcn-cp__card">` +
-            `<esa-tooltip text="${tip}"><span class="bcn-cp__glyph" data-state="${accepted(rid) ? 'planned' : 'draft'}" role="img" aria-label="${tip}">${glyph(accepted(rid) ? 'file-check' : 'file-pen-line', 14)}</span></esa-tooltip>` +
+            `<esa-tooltip text="${tip}"><span class="bcn-cp__glyph" data-state="${accepted(rid) ? 'planned' : 'draft'}" role="img" aria-label="${tip}">${glyph(accepted(rid) ? 'file-check' : r.stage === 'review' ? 'file-search' : 'file-pen-line', 14)}</span></esa-tooltip>` +
             `<a class="bcn-cp__name" href="${responseHref}?id=${r.id}">${esc(r.title)}</a>` +
+            (accepted(rid) ? '' : avatar(r.assigneeId, r.assignment === 'suggested')) +
             removeBtn(`Unlink ${r.title}`, `data-cp-rm-resp="${r.id}"`) +
             `</li>`
           );
@@ -400,6 +409,7 @@ const { submissionId } = Astro.props;
       setMode('removed');
     });
     $('[data-cp-undo]').addEventListener('click', () => { if (canUndo()) undo(); });
+    $('[data-cp-confirm-filing]').addEventListener('click', () => { if (active) confirmPassage(active); });
     $('[data-cp-done]').addEventListener('click', () => { panel.open = false; });
 
     $('[data-cp-add]').addEventListener('click', () => {
@@ -488,7 +498,8 @@ const { submissionId } = Astro.props;
   }
 
   [data-cp][hidden],
-  [data-cp-foot][hidden] {
+  [data-cp-foot][hidden],
+  [data-cp-confirm-wrap][hidden] {
     display: none;
   }
 
@@ -525,6 +536,12 @@ const { submissionId } = Astro.props;
     border-radius: var(--radius-sm);
     font-size: var(--typography-label-sm-font-size);
     color: var(--color-content-default);
+  }
+
+  /* Aldo's filing, not yet confirmed: the card's edge goes dashed (bcn-comment-topics.css). */
+  .bcn-cp__cards :global(.bcn-cp__card[data-suggested]) {
+    border-style: dashed;
+    border-color: var(--color-content-default-tertiary);
   }
 
   .bcn-cp__cards :global(.bcn-cp__name) {

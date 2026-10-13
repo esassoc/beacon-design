@@ -1,37 +1,67 @@
 ---
 // <BcnResponseIndex> — the Responses tab beside Inbox and Topic index: every response in
-// the period as a slim row, the way the inbox lists submissions. Drafts first (the work
-// still to do), then Accepted.
+// the period as a slim row, the way the inbox lists submissions, grouped by where it is
+// in review: Final Review, then Drafts (the work still to do), then Accepted.
 //
-// A row: the state glyph (draft = file-pen-line, accepted = file-check), the record
-// number (R-004), the title, and the topic it answers (its swatch and name). The row
-// opens the response.
+// A row: the state glyph (draft = file-pen-line, final review = file-search, accepted =
+// file-check), the record number (R-004), the title, the topic it answers (its swatch
+// and name), and who holds it (avatar and name; ringed dashed while that is Aldo's
+// routing and no person has confirmed it). Accepted rows drop the holder: the work is
+// done. The row opens the response.
 //
-// Live from comments-store: a link, a new response or an Accept moves rows at once.
+// New Response (top right) writes one from scratch: <BcnNewResponseDialog>. The All /
+// Mine switch is the inbox's (comments:mine, ?mine): Mine keeps the responses the
+// person at the keyboard holds.
+//
+// Live from comments-store: a link, a new response, a hand-off or an Accept moves rows.
 //
 // bcn-lego-checked: rows are links in a list, the inbox's own anatomy (BcnSubmissionInbox
 // row), not a table: esa- has no list-row lego, and AG Grid's chrome (search, record
 // count, export) is weight a twelve-row list does not carry. Checked Beacon (its
 // response lists are ui-table; the mail-style row is this module's pattern). Glyphs
-// are the shared comment-glyphs; the topic swatch is bcn-comment-topics.css.
+// are the shared comment-glyphs; the topic swatch is bcn-comment-topics.css; avatars are
+// esa-avatar clones from <BcnTeamAvatars>; the action IS esa-button.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnNewResponseDialog from './BcnNewResponseDialog.astro';
 import { withBase } from '../../lib/base';
 import { COMMENTS_BASE } from '../../data/comments-nav';
 import '../../styles/bcn-comment-topics.css';
 ---
 
-<div class="bcn-ri" data-response-index data-base={withBase(COMMENTS_BASE)}></div>
+<div class="bcn-ri stack" data-gap="md" data-response-index-root>
+  <div class="bcn-ri__bar">
+    <EsaButton size="sm" variant="primary" icon="plus" data-ri-new>New Response</EsaButton>
+  </div>
+  <div class="bcn-ri__groups" data-response-index data-base={withBase(COMMENTS_BASE)}></div>
+  <div data-ri-none hidden><EsaEmptyState size="sm" title="No responses assigned to you" description="Switch to All to see every response." /></div>
+  <BcnNewResponseDialog />
+</div>
 
 <script>
-  import { responseNo, responseOrder, topicOf } from './comments-store';
+  import { ME_ID, responseNo, responseOrder, topicOf } from './comments-store';
   import { glyph } from './comment-glyphs';
+  import { person } from './team';
 
   const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const STATE = {
+    review: { icon: 'file-search', word: 'Final Review' },
+    draft: { icon: 'file-pen-line', word: 'Draft' },
+    done: { icon: 'file-check', word: 'Accepted' },
+  } as const;
 
-  for (const root of document.querySelectorAll<HTMLElement>('[data-response-index]')) {
+  for (const host of document.querySelectorAll<HTMLElement>('[data-response-index-root]')) {
+    const root = host.querySelector<HTMLElement>('[data-response-index]')!;
+    const none = host.querySelector<HTMLElement>('[data-ri-none]')!;
     const base = root.dataset.base!.replace(/\/$/, '');
+    let mine = new URLSearchParams(location.search).has('mine');
+
+    const newBtn = host.querySelector<HTMLElement>('[data-ri-new]')!;
+    (newBtn.matches('button') ? newBtn : newBtn.querySelector('button'))!.addEventListener('click', () =>
+      document.dispatchEvent(new CustomEvent('response:new')));
 
     const render = () => {
-      const rs = responseOrder();
+      const rs = responseOrder().filter((r) => !mine || (r.assigneeId === ME_ID && r.stage !== 'done'));
       const group = (label: string, list: typeof rs) =>
         !list.length
           ? ''
@@ -39,27 +69,42 @@ import '../../styles/bcn-comment-topics.css';
             list
               .map((r) => {
                 const t = topicOf(r.topicId);
+                const st = STATE[r.stage];
                 return (
                   `<li><a class="bcn-ri__row" href="${base}/response?id=${r.id}">` +
-                  `<span class="bcn-ri__state" data-state="${r.accepted ? 'accepted' : 'draft'}" role="img" aria-label="${r.accepted ? 'Accepted' : 'Draft'}">${glyph(r.accepted ? 'file-check' : 'file-pen-line', 16)}</span>` +
+                  `<span class="bcn-ri__state" data-state="${r.stage}" role="img" aria-label="${st.word}">${glyph(st.icon, 16)}</span>` +
                   `<span class="bcn-ri__no typography-body-sm">${responseNo(r.id)}</span>` +
                   `<span class="bcn-ri__title typography-body-md">${esc(r.title)}</span>` +
                   `<span class="bcn-ri__topic typography-body-sm"><span class="bcn-topic-dot" data-family="${t.family}"></span>${esc(t.name)}</span>` +
+                  `<span class="bcn-ri__who typography-body-sm">${r.stage === 'done' ? '' : person(r.assigneeId, r.assignment === 'suggested')}</span>` +
                   `</a></li>`
                 );
               })
               .join('') +
             `</ul></section>`;
-      root.innerHTML = group('Drafts', rs.filter((r) => !r.accepted)) + group('Accepted', rs.filter((r) => r.accepted));
+      root.innerHTML =
+        group('Final Review', rs.filter((r) => r.stage === 'review')) +
+        group('Drafts', rs.filter((r) => r.stage === 'draft')) +
+        group('Accepted', rs.filter((r) => r.stage === 'done'));
+      none.hidden = !!rs.length;
     };
 
+    document.addEventListener('comments:mine', (e) => {
+      mine = (e as CustomEvent<{ mine: boolean }>).detail.mine;
+      render();
+    });
     document.addEventListener('comments:change', render);
     render();
   }
 </script>
 
 <style>
-  .bcn-ri {
+  .bcn-ri__bar {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .bcn-ri__groups {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-500);
@@ -84,10 +129,10 @@ import '../../styles/bcn-comment-topics.css';
     border-top: var(--border-width-default, 1px) solid var(--color-border-subtle, var(--color-border-default));
   }
 
-  /* One row: state, number, title, topic. */
+  /* One row: state, number, title, topic, holder. */
   .bcn-ri :global(.bcn-ri__row) {
     display: grid;
-    grid-template-columns: 1rem 3.75rem minmax(0, 1fr) 13rem;
+    grid-template-columns: 1rem 3.75rem minmax(0, 1fr) 13rem 10rem;
     align-items: center;
     gap: var(--spacing-300);
     padding: var(--spacing-200) var(--spacing-400);
@@ -109,7 +154,7 @@ import '../../styles/bcn-comment-topics.css';
     color: var(--color-content-secondary);
   }
 
-  .bcn-ri :global(.bcn-ri__state[data-state='accepted']) {
+  .bcn-ri :global(.bcn-ri__state[data-state='done']) {
     color: var(--color-content-success, var(--color-content-default));
   }
 
@@ -120,7 +165,8 @@ import '../../styles/bcn-comment-topics.css';
     text-overflow: ellipsis;
   }
 
-  .bcn-ri :global(.bcn-ri__topic) {
+  .bcn-ri :global(.bcn-ri__topic),
+  .bcn-ri :global(.bcn-ri__who) {
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-150, 0.375rem);

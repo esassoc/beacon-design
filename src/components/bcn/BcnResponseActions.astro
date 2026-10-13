@@ -1,0 +1,78 @@
+---
+// <BcnResponseActions> — the response page's record actions, in the page header beside
+// the pager: a More menu with Edit Details (title and topic, in <BcnNewResponseDialog>)
+// and Delete Response. Stage moves (Send to Final Review, Accept, Reopen) and the
+// assignment verbs live in <BcnResponseRail>; this is what changes the record itself.
+//
+// Delete is offered until the response is accepted (Reopen it first), behind a danger
+// confirm that says what happens to its comments: they keep their topics and go back
+// to No Response unless another response answers them. Then the page returns to the
+// Responses tab.
+//
+// Contract, on `document`:
+//   out  response:edit  detail { responseId }   (Edit Details)
+//
+// bcn-lego-checked: the menu IS esa-dropdown-menu over an esa-button trigger (as
+// BcnCommentExport, in the same header slot); the guard IS esa-confirm-dialog (danger),
+// as the comment panel's Remove. Checked Beacon (record actions are ui-dropdown-menu
+// items on the page header). bcn-response-actions is the home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { withBase } from '../../lib/base';
+import { COMMENTS_BASE } from '../../data/comments-nav';
+---
+
+<span data-response-actions data-base={withBase(COMMENTS_BASE)}>
+  <esa-dropdown-menu position="below-end" width="auto" data-ra-menu>
+    <EsaButton size="sm" variant="secondary" appearance="outline" iconRight="chevron-down">More</EsaButton>
+  </esa-dropdown-menu>
+  <esa-confirm-dialog
+    heading="Delete This Response?"
+    variant="danger"
+    confirm-label="Delete"
+    cancel-label="Cancel"
+    show-close-button
+    data-ra-delete
+  ></esa-confirm-dialog>
+</span>
+
+<script>
+  import '@esa/ecology/esa-dropdown-menu';
+  import '@esa/ecology/esa-confirm-dialog';
+  import { currentResponseId, deleteResponse, linkedTo, responseNo, responseOf } from './comments-store';
+
+  type Item = { label: string; action?: string; divider?: boolean; variant?: 'danger' };
+  const root = document.querySelector<HTMLElement>('[data-response-actions]');
+  const id = currentResponseId();
+  if (root && responseOf(id)) {
+    const base = root.dataset.base!.replace(/\/$/, '');
+    const menu = root.querySelector<HTMLElement & { items: Item[] }>('[data-ra-menu]')!;
+    const del = root.querySelector<HTMLElement & { open: boolean; message: string }>('[data-ra-delete]')!;
+
+    const render = () => {
+      const r = responseOf(id);
+      if (!r) return;
+      menu.items = [
+        { label: 'Edit Details', action: 'edit' },
+        ...(r.stage !== 'done' ? [{ divider: true, label: '' }, { label: 'Delete Response', action: 'delete', variant: 'danger' as const }] : []),
+      ];
+    };
+
+    menu.addEventListener('menu-action', (e) => {
+      const action = (e as CustomEvent<string>).detail;
+      if (action === 'edit') document.dispatchEvent(new CustomEvent('response:edit', { detail: { responseId: id } }));
+      if (action === 'delete') {
+        const n = linkedTo(id).length;
+        del.message = n
+          ? `${responseNo(id)} answers ${n} comment${n === 1 ? '' : 's'}. They keep their topics and go back to No Response unless another response answers them.`
+          : `${responseNo(id)} answers no comments yet.`;
+        del.open = true;
+      }
+    });
+    del.addEventListener('confirm', () => {
+      deleteResponse(id);
+      location.href = `${base}?view=responses`;
+    });
+    document.addEventListener('comments:change', render);
+    render();
+  }
+</script>

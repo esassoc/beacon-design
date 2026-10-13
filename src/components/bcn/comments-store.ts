@@ -11,20 +11,27 @@
 //
 // The burn-down is derived, never stored:
 //   unplanned  comments whose link a person has not accepted
-//   untouched  submissions where nobody has accepted or edited anything yet
+//   untouched  submissions where nobody has confirmed, accepted or edited anything yet
+//
+// Aldo's work is a state on the data, not a separate layer: every comment's filing
+// (its bounds and topic) and every response's assignment is `suggested` until a person
+// confirms it, and any edit a person makes confirms it. Re-run refiles only what is
+// still suggested; a person's call stands.
+//
+// Assignment: a response is the unit of work (see Response in comments-types). Its
+// assignee drafts it, hands it to a reviewer, and the reviewer accepts it. A comment
+// with no response yet is owned by its topic's expert (the period's topic → expert map).
 //
 // One-step undo: every mutation snapshots the state before it, and undo() restores that
 // one snapshot. Enough for "Accept 21 · Undo" and "Removed · Undo"; no history.
-import { COMMENTS, RESPONSE_NOTES, RESPONSES, SUBMISSIONS, TOPICS } from '../../data/comments';
+import { COMMENT_PERIOD, COMMENTS, PEOPLE, RESPONSE_NOTES, RESPONSES, SUBMISSIONS, TOPICS } from '../../data/comments';
 import { submissionNoFor } from '../../data/comments-nav';
-import type { Comment, Response, ResponseNote, Subtopic, Topic, TopicFamily } from '../../data/comments-types';
+import type { Comment, Person, Response, ResponseNote, ReviewStage, Subtopic, Topic, TopicFamily } from '../../data/comments-types';
 
 /** A comment as the client holds it: `at` is where its quote starts in the submission
  *  text when the quote occurs more than once. Offsets stay derived (indexOf) otherwise. */
 export interface LiveComment extends Comment {
   at?: number;
-  /** Filed by a person (added by selection), not by the parser. */
-  manual?: boolean;
   /** Responses linked beyond `responseId` (Andy, 2026-10-05: a passage can answer to
    *  several responses). responsesOf() is the one way to read the whole set. */
   more?: string[];
@@ -33,6 +40,8 @@ export interface LiveComment extends Comment {
 export interface LiveResponse extends Response {
   /** Created by a reviewer from a comment in this session. */
   created?: boolean;
+  /** Its record number (R-013), fixed at creation so deleting another never renumbers it. */
+  no?: number;
   /** The edited document (TipTap JSON) once a person saves it; `body` keeps its
    *  paragraphs as plain text for every surface that reads text. */
   doc?: unknown;
@@ -60,11 +69,13 @@ export interface CommentsState {
   edited: string[];
   /** Internal notes on response drafts (optional: states stored before notes had none). */
   notes?: ResponseNote[];
+  /** Topic id → expert (Person id). */
+  experts: Record<string, string>;
   seq: number;
 }
 
-const KEY = 'bcn-comments-v4';
-const UNDO_KEY = 'bcn-comments-v4-undo';
+const KEY = 'bcn-comments-v6';
+const UNDO_KEY = 'bcn-comments-v6-undo';
 
 /** Where deleted topics' comments go. Not a topic: it has no family and no response. */
 export const UNFILED = 'unfiled';
@@ -76,6 +87,7 @@ const fresh = (): CommentsState => ({
   topics: structuredClone(TOPICS),
   edited: [],
   notes: structuredClone(RESPONSE_NOTES),
+  experts: structuredClone(COMMENT_PERIOD.experts),
   seq: 0,
 });
 
@@ -109,7 +121,9 @@ export const getState = () => state;
 export type ChangeKind =
   | 'reclassify' | 'resize' | 'remove' | 'add' | 'link' | 'new-response'
   | 'accept' | 'redraft' | 'undo'
-  | 'rename' | 'lock' | 'delete-topic' | 'add-subtopic' | 'duplicate' | 'rerun' | 'note';
+  | 'rename' | 'lock' | 'delete-topic' | 'add-subtopic' | 'duplicate' | 'rerun' | 'note'
+  | 'confirm' | 'assign' | 'handoff' | 'expert'
+  | 'return' | 'reopen' | 'edit-response' | 'delete-response';
 
 export interface ChangeDetail {
   kind: ChangeKind;
@@ -230,31 +244,78 @@ export const passageNote = (commentId: string) => {
 };
 
 /** Responses in the order the Responses tab lists them (and the pager walks them):
- *  drafts first, then accepted; within each, most comments answered first. */
+ *  final review, then drafts, then accepted; within each, most comments answered first. */
 export const responseOrder = () => {
   const by = (a: LiveResponse, b: LiveResponse) => linkedTo(b.id).length - linkedTo(a.id).length || a.title.localeCompare(b.title);
-  return [...state.responses.filter((r) => !r.accepted).sort(by), ...state.responses.filter((r) => r.accepted).sort(by)];
+  return (['review', 'draft', 'done'] as const).flatMap((st) => state.responses.filter((r) => r.stage === st).sort(by));
 };
 
 /** Submissions in inbox order (newest first), as the inbox and the pager walk them. */
 export const submissionOrder = () => [...SUBMISSIONS].sort((a, b) => b.received.localeCompare(a.received) || b.key - a.key);
 
+/** A response's number: the fixture's from its id (r-04), a new one's as stored. */
+const numberOf = (r: LiveResponse) => r.no ?? Number(r.id.replace(/\D/g, ''));
+const nextNo = (s: CommentsState) => Math.max(0, ...s.responses.map(numberOf)) + 1;
+
 export const responseNo = (responseId: string) => {
-  const i = state.responses.findIndex((r) => r.id === responseId);
-  return i === -1 ? '' : `R-${pad(i + 1)}`;
+  const r = state.responses.find((x) => x.id === responseId);
+  return r ? `R-${pad(numberOf(r))}` : '';
 };
 
 // ---- burn-down ----------------------------------------------------------------------
 
 export const isTouched = (submissionId: string) =>
-  state.edited.includes(submissionId) || commentsOf(submissionId).some((c) => c.accepted);
+  state.edited.includes(submissionId) || commentsOf(submissionId).some((c) => c.accepted || c.filing === 'confirmed');
 
-export const burnDown = () => ({
-  unplanned: state.comments.filter((c) => !isPlanned(c)).length,
-  untouched: SUBMISSIONS.filter((s) => !isTouched(s.id)).length,
-  comments: state.comments.length,
-  submissions: SUBMISSIONS.length,
-});
+/** Where a comment stands, by its response: planned (accepted), in final review,
+ *  in draft, or no response yet. */
+export const stageOfComment = (c: LiveComment): ReviewStage | 'none' => {
+  if (isPlanned(c)) return 'done';
+  const rs = responsesOf(c).map((id) => responseOf(id)).filter((r): r is LiveResponse => !!r);
+  if (!rs.length) return 'none';
+  return rs.some((r) => r.stage === 'review') ? 'review' : 'draft';
+};
+
+export const burnDown = () => {
+  const by = { done: 0, review: 0, draft: 0, none: 0 };
+  for (const c of state.comments) by[stageOfComment(c)] += 1;
+  return {
+    unplanned: state.comments.filter((c) => !isPlanned(c)).length,
+    untouched: SUBMISSIONS.filter((s) => !isTouched(s.id)).length,
+    comments: state.comments.length,
+    submissions: SUBMISSIONS.length,
+    byStage: by,
+  };
+};
+
+// ---- Aldo's proposals ---------------------------------------------------------------
+
+export const isSuggested = (c: Comment) => c.filing === 'suggested';
+
+/** Does any filing of this submission still wait on a person? */
+export const hasSuggestions = (submissionId: string) => commentsOf(submissionId).some(isSuggested);
+
+// ---- the team ------------------------------------------------------------------------
+
+/** The person at the keyboard. */
+export const ME_ID = 'p-dana';
+export const people = (): Person[] => PEOPLE;
+export const personOf = (id: string | null | undefined): Person | null => PEOPLE.find((p) => p.id === id) ?? null;
+export const expertOf = (topicId: string): string | null => state.experts?.[topicId] ?? COMMENT_PERIOD.experts[topicId] ?? null;
+
+/** Who a comment's work sits with now: its open response's assignee, else (no response,
+ *  or only accepted ones) its topic's expert. */
+export const ownerOf = (c: LiveComment): string | null => {
+  const open = responsesOf(c).map((id) => responseOf(id)).find((r) => r && r.stage !== 'done');
+  return open ? open.assigneeId : expertOf(c.topicId);
+};
+
+/** The person at the keyboard's queue: responses they hold that are not done. */
+export const myResponses = () => state.responses.filter((r) => r.assigneeId === ME_ID && r.stage !== 'done');
+
+/** Submissions with a comment whose open work sits with me. */
+export const isMineSubmission = (submissionId: string) =>
+  commentsOf(submissionId).some((c) => !isPlanned(c) && ownerOf(c) === ME_ID);
 
 // ---- the quiet helper ---------------------------------------------------------------
 // The parser already filed every arriving comment. For a comment a person adds by
@@ -325,6 +386,30 @@ const touch = (s: CommentsState, submissionId: string) => {
   if (!s.edited.includes(submissionId)) s.edited.push(submissionId);
 };
 
+/** A person's edit confirms the passage: every filing over the same text. */
+const confirmIn = (s: CommentsState, c: LiveComment) => {
+  for (const x of s.comments) if (samePassage(x, c)) x.filing = 'confirmed';
+};
+
+/** Accept Aldo's proposal for one passage as it stands. */
+export const confirmPassage = (commentId: string) =>
+  commit({ kind: 'confirm', commentId }, (s) => {
+    const c = find(s, commentId);
+    if (!c) return;
+    confirmIn(s, c);
+    touch(s, c.submissionId);
+  });
+
+/** Accept every proposal in a submission. Returns how many passages it confirmed. */
+export const confirmSubmission = (submissionId: string) => {
+  const n = passages(submissionId).filter((g) => g.some(isSuggested)).length;
+  commit({ kind: 'confirm', cleared: n }, (s) => {
+    for (const c of s.comments) if (c.submissionId === submissionId) c.filing = 'confirmed';
+    touch(s, submissionId);
+  });
+  return n;
+};
+
 const find = (s: CommentsState, id: string) => s.comments.find((c) => c.id === id);
 
 export const reclassify = (commentId: string, topicId: string, subtopicId: string) =>
@@ -333,6 +418,7 @@ export const reclassify = (commentId: string, topicId: string, subtopicId: strin
     if (!c) return;
     c.topicId = topicId;
     c.subtopicId = subtopicId;
+    confirmIn(s, c);
     touch(s, c.submissionId);
   });
 
@@ -340,6 +426,8 @@ export const resize = (commentId: string, quote: string, at: number) =>
   commit({ kind: 'resize', commentId }, (s) => {
     const c = find(s, commentId);
     if (!c) return;
+    confirmIn(s, c);
+    for (const x of s.comments) if (x !== c && samePassage(x, c)) { x.quote = quote; x.at = at; }
     c.quote = quote;
     c.at = at;
     touch(s, c.submissionId);
@@ -368,7 +456,7 @@ export const add = (submissionId: string, quote: string, at: number, filingsIn?:
       s.comments.push({
         id: `c-n${s.seq}`, submissionId, quote, at, ...f,
         responseId: rs[0] ?? null, more: rs.slice(1),
-        accepted: rs.some((r) => s.responses.find((x) => x.id === r)?.accepted), manual: true,
+        accepted: rs.some((r) => s.responses.find((x) => x.id === r)?.accepted), filing: 'confirmed',
       });
     }
     touch(s, submissionId);
@@ -391,8 +479,9 @@ export const addFilings = (commentId: string, fs: Filing[]) => {
     }
     for (const f of todo) {
       s.seq += 1;
-      s.comments.push({ ...structuredClone(src), id: `c-n${s.seq}`, ...f, manual: true });
+      s.comments.push({ ...structuredClone(src), id: `c-n${s.seq}`, ...f });
     }
+    confirmIn(s, src);
     touch(s, src.submissionId);
   });
 };
@@ -405,6 +494,8 @@ export const removeFiling = (commentId: string) => {
   commit({ kind: 'reclassify', commentId }, (s) => {
     if (group.length > 1) s.comments = s.comments.filter((x) => x.id !== commentId);
     else unfile(find(s, commentId)!);
+    const rest = s.comments.find((x) => samePassage(x, c0));
+    if (rest) confirmIn(s, rest);
     touch(s, c0.submissionId);
   });
 };
@@ -490,7 +581,8 @@ export const newResponse = (commentId: string, title: string) => {
         `The study team has read this comment on ${sub.toLowerCase()} and will address it in the Noise Compatibility Program.`,
         'Findings will be shared at the next public workshop, ahead of the draft program.',
       ],
-      accepted: false, draftedFrom: [], created: true,
+      accepted: false, draftedFrom: [], created: true, no: nextNo(s),
+      stage: 'draft', assigneeId: expertOf(c.topicId) ?? ME_ID, assignment: 'suggested',
     });
     for (const p of passageOf(commentId)) {
       const cc = find(s, p.id)!;
@@ -501,21 +593,125 @@ export const newResponse = (commentId: string, title: string) => {
   return id;
 };
 
-/** Accept a response: every comment linked to it is planned at once. */
+/** Write a response from scratch: no comments yet, held by the person writing it.
+ *  Link comments to it from a submission, as with any other. Returns its id. */
+export const blankResponse = (topicId: string, title: string) => {
+  const id = `r-n${state.seq + 1}`;
+  commit({ kind: 'new-response', responseId: id }, (s) => {
+    s.seq += 1;
+    s.responses.push({
+      id, title: titleCase(title), topicId, body: [''], redraft: [''],
+      accepted: false, draftedFrom: [], created: true, no: nextNo(s),
+      stage: 'draft', assigneeId: ME_ID, assignment: 'confirmed',
+    });
+  });
+  return id;
+};
+
+/** Accept a response: every comment linked to it is planned at once, and a person has
+ *  now confirmed those comments' filings too. */
 export const acceptResponse = (responseId: string) => {
   const cleared = linkedTo(responseId).filter((c) => !c.accepted).length;
   commit({ kind: 'accept', responseId, cleared }, (s) => {
     const r = s.responses.find((x) => x.id === responseId);
     if (!r) return;
     r.accepted = true;
+    r.stage = 'done';
+    r.assignment = 'confirmed';
     for (const c of s.comments)
       if (responsesOf(c).includes(responseId)) {
         c.accepted = true;
+        c.filing = 'confirmed';
         touch(s, c.submissionId);
       }
   });
   return cleared;
 };
+
+// ---- assignment and hand-off ------------------------------------------------------------
+
+const findResponse = (s: CommentsState, id: string) => s.responses.find((x) => x.id === id);
+
+/** Give a response to someone (or confirm Aldo's routing by choosing the same person). */
+export const assign = (responseId: string, personId: string) =>
+  commit({ kind: 'assign', responseId }, (s) => {
+    const r = findResponse(s, responseId);
+    if (!r) return;
+    r.assigneeId = personId;
+    r.assignment = 'confirmed';
+  });
+
+/** The drafter is done: the response moves to final review with the next person. */
+export const handOff = (responseId: string, toId: string) =>
+  commit({ kind: 'handoff', responseId }, (s) => {
+    const r = findResponse(s, responseId);
+    if (!r) return;
+    r.draftedBy = r.assigneeId;
+    r.assigneeId = toId;
+    r.assignment = 'confirmed';
+    r.stage = 'review';
+  });
+
+/** The reviewer sends it back: the response returns to Draft with the person who drafted it. */
+export const returnToDrafter = (responseId: string) =>
+  commit({ kind: 'return', responseId }, (s) => {
+    const r = findResponse(s, responseId);
+    if (!r || r.stage !== 'review') return;
+    r.assigneeId = r.draftedBy ?? r.assigneeId;
+    r.draftedBy = undefined;
+    r.assignment = 'confirmed';
+    r.stage = 'draft';
+  });
+
+/** Undo an Accept after the fact: back to Final Review with the person who accepted it.
+ *  Its comments are no longer planned, unless another accepted response answers them. */
+export const reopenResponse = (responseId: string) =>
+  commit({ kind: 'reopen', responseId }, (s) => {
+    const r = findResponse(s, responseId);
+    if (!r || r.stage !== 'done') return;
+    r.accepted = false;
+    r.stage = 'review';
+    for (const c of s.comments)
+      if (responsesOf(c).includes(responseId)) {
+        setLinks(s, c, responsesOf(c));
+        touch(s, c.submissionId);
+      }
+  });
+
+/** Rename a response or move it to another topic. While the holder is still Aldo's
+ *  routing, a new topic re-routes it to that topic's expert. */
+export const editResponse = (responseId: string, title: string, topicId: string) =>
+  commit({ kind: 'edit-response', responseId }, (s) => {
+    const r = findResponse(s, responseId);
+    if (!r) return;
+    r.title = titleCase(title);
+    if (r.topicId !== topicId) {
+      r.topicId = topicId;
+      if (r.assignment === 'suggested') r.assigneeId = expertOf(topicId) ?? r.assigneeId;
+    }
+  });
+
+/** Delete a response that is not accepted (Reopen one first). Its comments lose the link;
+ *  any answered by nothing else go back to No Response. */
+export const deleteResponse = (responseId: string) =>
+  commit({ kind: 'delete-response', responseId }, (s) => {
+    const r = findResponse(s, responseId);
+    if (!r || r.stage === 'done') return;
+    s.responses = s.responses.filter((x) => x.id !== responseId);
+    for (const c of s.comments)
+      if (responsesOf(c).includes(responseId)) {
+        setLinks(s, c, responsesOf(c).filter((x) => x !== responseId));
+        touch(s, c.submissionId);
+      }
+  });
+
+/** Route a topic to an expert. Open responses Aldo routed (still suggested) follow. */
+export const setExpert = (topicId: string, personId: string) =>
+  commit({ kind: 'expert', topicId }, (s) => {
+    s.experts = { ...(s.experts ?? COMMENT_PERIOD.experts), [topicId]: personId };
+    for (const r of s.responses)
+      if (r.topicId === topicId && r.stage === 'draft' && r.assignment === 'suggested') r.assigneeId = personId;
+  });
 
 /** Swap in the prebuilt redraft. The guidance is kept on the response for the record;
  *  the prototype runs no model. Undo restores the previous text. */
@@ -616,7 +812,7 @@ export const rerun = (_guidance: string) => {
   const open = state.topics.filter((t) => !t.locked);
   const moves: { id: string; topicId: string; subtopicId: string }[] = [];
   for (const c of state.comments) {
-    if (c.manual) continue;
+    if (c.filing === 'confirmed') continue;
     if (isLocked(c.topicId, c.subtopicId)) continue;
     const best = bestFiling(c.quote, open);
     if (!best.score || best.subtopicId === c.subtopicId) continue;

@@ -44,10 +44,12 @@ export const paint = (submissionId: string, activeId: string | null) => {
         html += esc(text.slice(i, s.start));
         const t = topicOf(s.c.topicId);
         const label = `${t.name}: ${subtopicName(s.c.topicId, s.c.subtopicId)}`;
+        const tip = s.c.filing === 'suggested' ? `${label} (suggested by Aldo)` : label;
         html +=
           `<mark class="bcn-hl" data-cid="${s.c.id}" data-family="${t.family}" data-shade="${shadeOf(s.c.topicId, s.c.subtopicId)}"` +
           `${s.c.id === activeId ? ' data-active' : ''}${s.c.accepted && s.c.responseId ? ' data-planned' : ''}` +
-          ` tabindex="0" title="${esc(label)}" aria-label="${esc(label)}">${esc(text.slice(s.start, Math.min(s.end, end)))}</mark>`;
+          `${s.c.filing === 'suggested' ? ' data-suggested' : ''}` +
+          ` tabindex="0" title="${esc(tip)}" aria-label="${esc(tip)}">${esc(text.slice(s.start, Math.min(s.end, end)))}</mark>`;
         i = Math.min(s.end, end);
       }
       html += esc(text.slice(i, end));

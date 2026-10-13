@@ -11,6 +11,9 @@
 //                      anchored under the verb that opened it; duplicate files a copy
 //   Aldo guidance      <BcnAldoPrompt> submit refiles everything not locked
 //                      (comments-store rerun); its Undo is the store's one-step undo
+//   expert             each topic's subject-matter expert (avatar + esa-select): the
+//                      period's topic → expert map. Aldo routes a new response to it,
+//                      and Mine counts a comment with no response as its expert's
 //
 // Comment rows render only inside open branches.
 //
@@ -25,8 +28,10 @@ import {
   UNFILED, addFilings, addSubtopic, canUndo, deleteSubtopic, deleteTopic, filings, getState,
   isPlanned, reclassify, renameSubtopic, renameTopic, rerun, responseOf, shadeOf, toggleLock, toggleLockSubtopic,
   topicOf, topics, undo, type ChangeDetail, type LiveComment,
+  expertOf, people, setExpert,
 } from './comments-store';
 import { glyph as icon } from './comment-glyphs';
+import { avatar } from './team';
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
@@ -111,6 +116,7 @@ export function setupCommentsByTopic(root: HTMLElement): void {
         `<div class="bcn-cbt__row bcn-cbt__row--cat">` +
         `<span class="bcn-topic-dot" data-family="${t.family}"></span>` +
         `<span class="bcn-cbt__name" data-cbt-name="${t.id}">${esc(t.name)}</span>` +
+        `<span class="bcn-cbt__expert">${avatar(expertOf(t.id))}<esa-select size="sm" aria-label="${esc(`Expert for ${t.name}`)}" data-cbt-expert="${t.id}"></esa-select></span>` +
         topicVerbs +
         `</div>`;
       for (const st of t.subtopics) {
@@ -144,7 +150,17 @@ export function setupCommentsByTopic(root: HTMLElement): void {
       `</section>`;
 
     list.innerHTML = html;
+    const team = people().map((p) => ({ label: p.name, value: p.id }));
+    for (const sel of list.querySelectorAll<HTMLElement & { options: { label: string; value: string }[]; value: string }>('[data-cbt-expert]')) {
+      sel.options = team;
+      sel.value = expertOf(sel.dataset.cbtExpert!) ?? '';
+    }
   };
+
+  list.addEventListener('change', (e) => {
+    const sel = (e.target as Element).closest<HTMLElement & { value: string }>('[data-cbt-expert]');
+    if (sel?.value && sel.value !== expertOf(sel.dataset.cbtExpert!)) setExpert(sel.dataset.cbtExpert!, sel.value);
+  });
 
   /** Rows a verb just moved flash once; the mark clears after the animation. */
   const flash = (ids: Iterable<string>) => {

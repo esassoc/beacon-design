@@ -30,6 +30,24 @@ export interface Topic {
 
 export type ResponseFormat = 'summary' | 'letter';
 
+/** Someone on the study team: drafts responses, reviews them, owns topics. */
+export interface Person {
+  id: string;
+  name: string;
+  role: string;
+}
+
+/** Whose call a piece of work is so far. Aldo proposes (highlights, topics, an expert
+ *  for a response); a person confirms by accepting it or by changing it. One word for
+ *  the state everywhere, so every surface shows it the same way. */
+export type Proposal = 'suggested' | 'confirmed';
+
+/** Where a response is in the team's review:
+ *    draft    the assignee (the topic's expert) writes the initial response
+ *    review   handed to the next person to review and finalize
+ *    done     accepted: every comment linked to it is planned */
+export type ReviewStage = 'draft' | 'review' | 'done';
+
 export interface CommentPeriod {
   id: string;
   name: string;
@@ -38,6 +56,10 @@ export interface CommentPeriod {
   /** ISO date */
   closes: string;
   responseFormat: ResponseFormat;
+  /** Topic id → Person id: the subject-matter expert a topic's responses route to. */
+  experts: Record<string, string>;
+  /** Who finalizes by default: the person a draft is handed to for final review. */
+  leadId: string;
 }
 
 export interface Submitter {
@@ -72,6 +94,9 @@ export interface Comment {
   responseId: string | null;
   /** Link accepted by a person: the comment is planned. */
   accepted: boolean;
+  /** The passage's bounds and topic: proposed by Aldo as the submission arrived, or
+   *  confirmed by a person (accepted as is, or edited). */
+  filing: Proposal;
 }
 
 export interface Response {
@@ -82,9 +107,21 @@ export interface Response {
   body: string[];
   /** The draft a Redraft swaps in (prebuilt; the prototype runs no model). */
   redraft: string[];
-  accepted: boolean;
   /** PastResponse ids the draft drew on. */
   draftedFrom: string[];
+  /** The unit of assigned work is the response, not the comment: an expert drafts one
+   *  response for every comment linked to it, and its accept plans them all at once.
+   *  A comment with no response yet belongs, by derivation, to its topic's expert. */
+  stage: ReviewStage;
+  /** Who holds it now: the drafter in `draft`, the reviewer in `review`. */
+  assigneeId: string;
+  /** Aldo routes a new response to its topic's expert (suggested) until a person
+   *  confirms or reassigns it. */
+  assignment: Proposal;
+  /** Who wrote the initial response, once it has been handed on. */
+  draftedBy?: string;
+  /** Mirrors `stage === 'done'`; the store sets both together. */
+  accepted: boolean;
 }
 
 export interface PastResponse {

@@ -1,0 +1,90 @@
+---
+// <BcnCommentExport> — how the period's comments and responses leave the system: an
+// Export menu with Word and Excel. Both are built from comments-store as it stands, so
+// what downloads is what the team has done so far.
+//
+//   Word    every response, its text, and the comments it answers (by number,
+//           submitter and passage), as a .doc Word opens
+//   Excel   one row per comment: number, submitter, topic, subtopic, the passage,
+//           its response and the response's stage, as a .csv Excel opens
+//
+// bcn-lego-checked: the menu IS esa-dropdown-menu over an esa-button trigger. Checked
+// Beacon (its exports are ui-dropdown-menu items on a page action). bcn-comment-export
+// is the home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+---
+
+<esa-dropdown-menu position="below-end" width="auto" data-comment-export>
+  <EsaButton size="sm" variant="secondary" appearance="outline" icon="download" iconRight="chevron-down">Export</EsaButton>
+</esa-dropdown-menu>
+
+<script>
+  import '@esa/ecology/esa-dropdown-menu';
+  import { COMMENT_PERIOD, SUBMISSIONS, SUBMITTERS } from '../../data/comments';
+  import {
+    getState, linkedTo, passageNote, responseNo, responseOf, responseOrder, responsesOf, subtopicName, topicOf, UNFILED,
+  } from './comments-store';
+
+  const STAGE = { draft: 'Draft', review: 'Final Review', done: 'Accepted' } as const;
+  const menu = document.querySelector<HTMLElement & { items: { label: string; action: string }[] }>('[data-comment-export]');
+
+  const save = (name: string, type: string, body: string) => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([body], { type }));
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  };
+
+  const who = (submissionId: string) => {
+    const s = SUBMISSIONS.find((x) => x.id === submissionId)!;
+    return SUBMITTERS.find((p) => p.id === s.submitterId)!;
+  };
+
+  const csv = () => {
+    const cell = (v: string) => `"${v.replace(/"/g, '""')}"`;
+    const head = ['Comment', 'Submitter', 'Topic', 'Subtopic', 'Passage', 'Response', 'Response Title', 'Stage'];
+    const rows = getState().comments.map((c) => {
+      const r = responseOf(responsesOf(c)[0] ?? null);
+      return [
+        passageNote(c.id),
+        who(c.submissionId).name,
+        c.topicId === UNFILED ? 'Unfiled' : topicOf(c.topicId).name,
+        c.topicId === UNFILED ? '' : subtopicName(c.topicId, c.subtopicId),
+        c.quote,
+        r ? responseNo(r.id) : '',
+        r?.title ?? '',
+        r ? STAGE[r.stage] : 'No Response',
+      ];
+    });
+    return '﻿' + [head, ...rows].map((r) => r.map(cell).join(',')).join('\r\n');
+  };
+
+  const doc = () => {
+    const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    const sections = responseOrder().map((r) => {
+      const cs = linkedTo(r.id);
+      return (
+        `<h2>${responseNo(r.id)} ${esc(r.title)}</h2>` +
+        `<p><i>${esc(topicOf(r.topicId).name)} · ${STAGE[r.stage]}</i></p>` +
+        r.body.filter(Boolean).map((p) => `<p>${esc(p)}</p>`).join('') +
+        (cs.length
+          ? `<h3>Comments Answered</h3><ul>${cs.map((c) => `<li><b>${passageNote(c.id)}</b> ${esc(who(c.submissionId).name)}: “${esc(c.quote)}”</li>`).join('')}</ul>`
+          : '')
+      );
+    });
+    return `<html><head><meta charset="utf-8"><title>${esc(COMMENT_PERIOD.name)}</title></head><body><h1>${esc(COMMENT_PERIOD.name)}: Responses to Comments</h1>${sections.join('')}</body></html>`;
+  };
+
+  if (menu) {
+    menu.items = [
+      { label: 'Word (.doc)', action: 'word' },
+      { label: 'Excel (.csv)', action: 'excel' },
+    ];
+    menu.addEventListener('menu-action', (e) => {
+      const action = (e as CustomEvent<string>).detail;
+      if (action === 'word') save(`${COMMENT_PERIOD.name} - Responses.doc`, 'application/msword', doc());
+      if (action === 'excel') save(`${COMMENT_PERIOD.name} - Comments.csv`, 'text/csv;charset=utf-8', csv());
+    });
+  }
+</script>

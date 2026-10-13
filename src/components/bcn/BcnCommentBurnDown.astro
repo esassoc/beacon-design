@@ -15,7 +15,9 @@
 // size="sm" sets the two meters side by side at body-sm (the period strip); md stacks
 // them (the response page's accept panel).
 //
-// Hovering or focusing the comments meter opens a breakdown by topic: each topic's
+// Hovering or focusing the comments meter opens a breakdown: first by review stage
+// (every comment counted once, by its response: Accepted, Final Review, Draft, No
+// Response), then by topic: each topic's
 // dot, "N of M planned", and a small bar filled in the topic's own ink. The summary
 // bar itself stays one color: seven hues in a 4px bar read as noise, and at 12 of 84
 // most segments would be slivers. The breakdown is where color earns its place.
@@ -72,6 +74,14 @@ const METERS = [
 <script>
   import '@esa/ecology/esa-popover';
   import { burnDown, getState, isPlanned, topicOf, topics, UNFILED } from './comments-store';
+  import { glyph } from './comment-glyphs';
+
+  const STAGES = [
+    { key: 'done', icon: 'file-check', word: 'Accepted' },
+    { key: 'review', icon: 'file-search', word: 'Final Review' },
+    { key: 'draft', icon: 'file-pen-line', word: 'Draft' },
+    { key: 'none', icon: 'file-minus', word: 'No Response' },
+  ] as const;
 
   for (const root of document.querySelectorAll<HTMLElement>('[data-burn-down]')) {
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -131,7 +141,15 @@ const METERS = [
       if (!box || !tpl) return;
       const all = getState().comments;
       const ids = [...topics().map((t) => t.id), ...(all.some((c) => c.topicId === UNFILED) ? [UNFILED] : [])];
+      const by = burnDown().byStage;
+      const stages = document.createElement('div');
+      stages.className = 'bcn-cbd__stages';
+      stages.innerHTML = STAGES.map((st) =>
+        `<span class="bcn-cbd__sglyph" data-state="${st.key}">${glyph(st.icon, 13)}</span>` +
+        `<span>${st.word}</span><span class="bcn-cbd__tn">${by[st.key]}</span><span class="bcn-cbd__tof">of ${all.length}</span><span></span>`).join('') +
+        `<span class="bcn-cbd__rule"></span>`;
       box.replaceChildren(
+        stages,
         ...ids.map((id) => {
           const t = topicOf(id);
           const cs = all.filter((c) => c.topicId === id);
@@ -206,7 +224,21 @@ const METERS = [
     line-height: 1.25;
     color: var(--color-content-default);
   }
-  .bcn-cbd__topics :global(.bcn-cbd__trow) { display: contents; }
+  .bcn-cbd__topics :global(.bcn-cbd__trow),
+  .bcn-cbd__topics :global(.bcn-cbd__stages) { display: contents; }
+  .bcn-cbd__topics :global(.bcn-cbd__sglyph) {
+    display: inline-flex;
+    color: var(--color-content-secondary);
+  }
+  .bcn-cbd__topics :global(.bcn-cbd__sglyph[data-state='done']) {
+    color: var(--color-content-success, var(--color-content-default));
+  }
+  .bcn-cbd__topics :global(.bcn-cbd__rule) {
+    grid-column: 1 / -1;
+    height: 1px;
+    margin: var(--spacing-100) 0;
+    background: var(--color-border-default);
+  }
   .bcn-cbd__topics :global(:is(.bcn-cbd__tn, .bcn-cbd__tof)) {
     font-variant-numeric: tabular-nums;
     white-space: nowrap;

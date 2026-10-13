@@ -1,0 +1,82 @@
+---
+// <BcnNewResponseDialog> — a response's title and topic, in two uses:
+//
+//   new    write a response from scratch, not from a comment or the Response Library:
+//          Create opens it in the editor. It starts with no comments (link them from a
+//          submission, as with any response), in Draft, held by the person who made it.
+//   edit   Edit Details on an existing response: rename it, or move it to another
+//          topic (while its holder is still Aldo's routing, that re-routes it).
+//
+// Contract, on `document`:
+//   in   response:new                       open it empty
+//   in   response:edit  detail { responseId }  open it filled, Save in place of Create
+//
+// The topic is a radio list, not a select: seven topics fit on screen, so every choice
+// shows at once, and esa-select's absolute menu is clipped by esa-dialog's scrolling body.
+//
+// bcn-lego-checked: the frame IS esa-dialog (size sm); the fields ARE esa-text-field and
+// esa-radio-group; the actions ARE esa-button. Checked Beacon (its create dialogs are
+// ui-dialog over ui-form-field, the same legos). bcn-new-response-dialog is the home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { withBase } from '../../lib/base';
+import { COMMENTS_BASE } from '../../data/comments-nav';
+---
+
+<esa-dialog heading="New Response" size="sm" data-new-response data-href={withBase(`${COMMENTS_BASE}/response`)}>
+  <div class="stack" data-gap="md">
+    <esa-text-field size="sm" label="Title" placeholder="e.g. Helicopter and Seaplane Noise" required data-nr-title></esa-text-field>
+    <esa-radio-group size="sm" label="Topic" required data-nr-topic></esa-radio-group>
+  </div>
+  <div slot="footer" class="cluster" data-gap="xs">
+    <EsaButton size="sm" variant="primary" data-nr-create>Create</EsaButton>
+    <EsaButton size="sm" variant="ghost" data-nr-cancel>Cancel</EsaButton>
+  </div>
+</esa-dialog>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-radio-group';
+  import { blankResponse, editResponse, responseOf, topics } from './comments-store';
+
+  const dlg = document.querySelector<HTMLElement & { open: boolean; heading: string }>('[data-new-response]');
+  if (dlg) {
+    const title = dlg.querySelector<HTMLElement & { value: string; errorText: string }>('[data-nr-title]')!;
+    const topic = dlg.querySelector<HTMLElement & { value: string; options: { label: string; value: string }[]; errorText: string }>('[data-nr-topic]')!;
+    const btn = (sel: string) => {
+      const el = dlg.querySelector<HTMLElement>(sel)!;
+      return (el.matches('button') ? el : el.querySelector('button')) as HTMLButtonElement;
+    };
+
+    const okLabel = dlg.querySelector<HTMLElement>('[data-nr-create]')!;
+    let editing: string | null = null;
+    const open = (responseId: string | null) => {
+      const r = responseId ? responseOf(responseId) : null;
+      editing = r ? r.id : null;
+      dlg.heading = r ? 'Edit Details' : 'New Response';
+      (okLabel.querySelector('.esa-button__label') ?? okLabel).textContent = r ? 'Save' : 'Create';
+      topic.options = topics().map((t) => ({ label: t.name, value: t.id }));
+      title.value = r?.title ?? '';
+      topic.value = r?.topicId ?? '';
+      title.errorText = topic.errorText = '';
+      dlg.open = true;
+    };
+    document.addEventListener('response:new', () => open(null));
+    document.addEventListener('response:edit', (e) => open((e as CustomEvent<{ responseId: string }>).detail.responseId));
+
+    btn('[data-nr-cancel]').addEventListener('click', () => { dlg.open = false; });
+    btn('[data-nr-create]').addEventListener('click', () => {
+      title.errorText = title.value?.trim() ? '' : 'Enter a title.';
+      topic.errorText = topic.value ? '' : 'Choose a topic.';
+      if (title.errorText || topic.errorText) return;
+      if (editing) {
+        editResponse(editing, title.value, topic.value);
+        dlg.open = false;
+        return;
+      }
+      const id = blankResponse(topic.value, title.value);
+      dlg.open = false;
+      location.href = `${dlg.dataset.href}?id=${id}`;
+    });
+  }
+</script>

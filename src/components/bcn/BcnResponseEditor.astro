@@ -105,8 +105,14 @@ import '../../styles/bcn-response-editor.css';
   const id = currentResponseId();
   const r = responseOf(id);
   const h1 = document.querySelector('.page-layout__title h1');
-  if (h1?.lastChild) h1.lastChild.textContent = r ? r.title : 'Response not found';
-  if (r) document.title = `${responseNo(id)} ${r.title}`;
+  const setTitle = () => {
+    const now = responseOf(id);
+    if (h1?.lastChild) h1.lastChild.textContent = now ? now.title : 'Response not found';
+    if (now) document.title = `${responseNo(id)} ${now.title}`;
+  };
+  setTitle();
+  // Edit Details can rename it (and Undo un-rename it).
+  document.addEventListener('comments:change', setTitle);
   // The record number trails the H1 (BcnRecordId in the title-badge slot) and ends the
   // breadcrumbs.
   const idText = document.querySelector('[data-record-id] .esa-badge__text');

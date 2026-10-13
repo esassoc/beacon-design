@@ -9,6 +9,7 @@ import PageLayout from '../../../layouts/PageLayout.astro';
 import EsaCard from '@esa/ecology/esa-card.astro';
 import BcnRecordId from '../../../components/bcn/BcnRecordId.astro';
 import BcnRecordPager from '../../../components/bcn/BcnRecordPager.astro';
+import BcnTeamAvatars from '../../../components/bcn/BcnTeamAvatars.astro';
 import BcnSubmissionText from '../../../components/bcn/BcnSubmissionText.astro';
 import BcnCommentPanel from '../../../components/bcn/BcnCommentPanel.astro';
 import BcnSubmissionRail from '../../../components/bcn/BcnSubmissionRail.astro';
@@ -50,6 +51,7 @@ const facts = [
     - submission     -> esa-card                       # frames the text
     - text           -> bcn-submission-text            # highlights, end grips, select-to-add
     - comment panel  -> bcn-comment-panel              # esa-side-dialog on click: topic + response cards, stacked picker, guarded remove, prev / next; add on selection
+    - avatar bank (non-rendering) -> bcn-team-avatars   # <template> clones for script-built assignee / expert rows
 -->
 
 <AppShell title={title} tenantName={COMMENTS_PROJECT.tenant} projectName={COMMENTS_PROJECT.name} navSections={commentsNav()} activeNavId="comments">
@@ -79,5 +81,6 @@ const facts = [
       </div>
     </div>
     <BcnCommentPanel submissionId={submission.id} />
+    <BcnTeamAvatars />
   </PageLayout>
 </AppShell>

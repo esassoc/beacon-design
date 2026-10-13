@@ -7,6 +7,8 @@
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import BcnCommentPeriod from '../../../components/bcn/BcnCommentPeriod.astro';
+import BcnTeamAvatars from '../../../components/bcn/BcnTeamAvatars.astro';
+import BcnCommentExport from '../../../components/bcn/BcnCommentExport.astro';
 import BcnSubmissionInbox from '../../../components/bcn/BcnSubmissionInbox.astro';
 import { commentsNav, COMMENTS_PROJECT } from '../../../data/comments-nav';
 import { COMMENT_PERIOD } from '../../../data/comments';
@@ -15,8 +17,10 @@ import { COMMENT_PERIOD } from '../../../data/comments';
 <!-- manifest:
   layout: PageLayout > stack(lg)                      # SPINE
   sections:
+    - export         -> bcn-comment-export            # Export menu (utilities): Word / Excel from the store
     - period facts    -> bcn-comment-period          # opens, closes, response format + compact bcn-comment-burn-down
     - inbox           -> bcn-submission-inbox        # By date inbox / By topic bcn-comments-by-topic
+    - avatar bank (non-rendering) -> bcn-team-avatars   # <template> clones for script-built assignee / expert rows
 -->
 
 <AppShell title={COMMENT_PERIOD.name} tenantName={COMMENTS_PROJECT.tenant} projectName={COMMENTS_PROJECT.name} navSections={commentsNav()} activeNavId="comments">
@@ -26,9 +30,13 @@ import { COMMENT_PERIOD } from '../../../data/comments';
     iconColor="var(--color-content-brand)"
     breadcrumbs={[{ label: 'Planning', href: '#planning' }, { label: 'Comments', href: '#comments' }, { label: COMMENT_PERIOD.name }]}
   >
+    <Fragment slot="utilities">
+      <BcnCommentExport />
+    </Fragment>
     <div class="stack" data-gap="lg">
       <BcnCommentPeriod />
       <BcnSubmissionInbox />
     </div>
+    <BcnTeamAvatars />
   </PageLayout>
 </AppShell>

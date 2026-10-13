@@ -1,0 +1,18 @@
+---
+// <BcnTeamAvatars> — the Comments module's study team as a bank of pre-rendered
+// esa-avatars, one <template> per person, for rows the client builds at runtime
+// (assignees on responses, experts on topics). team.ts reads it: avatar(personId).
+//
+// esa-avatar is .astro (compile-time), so script cannot create one; this is the same
+// bank-and-clone the Actions board uses (BcnActionCard). Include it once per page.
+//
+// bcn-lego-checked: every avatar IS esa-avatar; the bank is only a carrier for
+// runtime clones, as BcnActionCard's. Checked Beacon (assignees are ui-avatar, the same
+// lego). bcn-team-avatars is the home for the Comments module's people.
+import EsaAvatar from '@esa/ecology/esa-avatar.astro';
+import { PEOPLE } from '../../data/comments';
+---
+
+{PEOPLE.map((p) => (
+  <template data-team-avatar={p.id}><EsaAvatar name={p.name} size="xs" /></template>
+))}
