@@ -1627,12 +1627,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-meta-line-height);
   letter-spacing: var(--typography-meta-letter-spacing);
 }
-.bcn-record-id .esa-badge {
-  --badge-bg: var(--color-background-elevation-sunken);
-  --badge-text-color: var(--color-content-default);
-  border: 1px solid var(--color-border-default);
-  font-variant-numeric: tabular-nums;
-}
 .esa-avatar {
   --_avatar-size: var(--avatar-size-md, 40px);
   --_avatar-font-size: var(
@@ -1684,6 +1678,12 @@ summary.esa-button--variant-chrome:focus-visible {
   object-fit: cover;
   width: 100%;
   height: 100%;
+}
+.bcn-record-id .esa-badge {
+  --badge-bg: var(--color-background-elevation-sunken);
+  --badge-text-color: var(--color-content-default);
+  border: 1px solid var(--color-border-default);
+  font-variant-numeric: tabular-nums;
 }
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);

@@ -1,12 +1,14 @@
 # Rail
 
-The submission's rail, right of the text, as the Lists page carries its details rail. Details: submitter, organization when there is one, city, received, channel. Comments: an outline of every highlighted passage in reading order: its number (C-018.003), the swatch and name of each subtopic it is filed under, its state (Planned, Draft, No Response) and its first two lines.
+The submission's rail, right of the text, as the Lists page carries its details rail. Details: submitter, organization when there is one, city, received, channel. Comments: an outline of every highlighted passage in reading order: its number (C-018.003), the swatch and name of each subtopic it is filed under, its state (Planned, Final Review, Draft, No Response) and its first two lines. While Aldo's proposals remain, the Comments card's footer carries Aldo's mark, "N suggested by Aldo" and Confirm All.
 
 ## Key decisions
+- A passage whose bounds and topic no person has confirmed has hollow, DASHED dots; confirmed is solid (bcn-comment-topics.css [data-suggested]).
+- Confirm All accepts every proposal in the submission and leaves "Confirmed N" with Undo. The footer band goes when nothing waits.
 - The outline and the text are one selection: click an item and its highlight activates, scrolls into view and opens the comment panel; click a highlight (or J / K) and the outline marks that item.
 - Passages are numbered C-submission.passage in reading order (C-018.001, C-018.002 ...), the notation the panel titles itself with. Adding a passage before others renumbers the ones after it; stored numbers are for the build to decide.
 - No planned count here: Andy found "0 of 3 planned" unclear; the state on each item carries it.
-- The rail stays in view as the text scrolls (sticky).
+- The rail stays in view as the text scrolls (sticky). It must fit the window, so the outline's height is the window less the rest of the rail and it scrolls inside; otherwise Confirm All falls off the bottom on a laptop.
 
 ## Gotchas
 - Scroll the outline list, never scrollIntoView an item: that also moves the page and cancels the scroll that brings the passage into view.
@@ -140,9 +142,10 @@ The submission's rail, right of the text, as the Lists page carries its details 
                 class="bcn-topic-dot"
                 data-family="violet"
                 data-shade="2"
+                data-suggested=""
               ></span></span
             ><span class="bcn-sr__sub">Overnight flights</span
-            ><span class="bcn-sr__state" data-state="draft"
+            ><span class="bcn-sr__state" data-state="review"
               ><svg
                 width="13"
                 height="13"
@@ -154,14 +157,13 @@ The submission's rail, right of the text, as the Lists page carries its details 
                 stroke-linejoin="round"
                 aria-hidden="true"
               >
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
                 <path
-                  d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
+                  d="M4.268 21a2 2 0 0 0 1.727 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"
                 ></path>
-                <path
-                  d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                ></path>
-                <path d="M8 18h1"></path></svg
-              >Draft</span
+                <path d="m9 18-1.5-1.5"></path>
+                <circle cx="5" cy="14" r="3"></circle></svg
+              >Final Review</span
             ><span class="bcn-sr__quote"
               >There is a new pattern of planes all night, at about 1:30, 2 and 4 a.m. and
               then steadily after that, sometimes only seconds apart.</span
@@ -176,9 +178,10 @@ The submission's rail, right of the text, as the Lists page carries its details 
                 class="bcn-topic-dot"
                 data-family="crimson"
                 data-shade="1"
+                data-suggested=""
               ></span></span
             ><span class="bcn-sr__sub">Sleep disruption</span
-            ><span class="bcn-sr__state" data-state="draft"
+            ><span class="bcn-sr__state" data-state="review"
               ><svg
                 width="13"
                 height="13"
@@ -190,14 +193,13 @@ The submission's rail, right of the text, as the Lists page carries its details 
                 stroke-linejoin="round"
                 aria-hidden="true"
               >
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
                 <path
-                  d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
+                  d="M4.268 21a2 2 0 0 0 1.727 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"
                 ></path>
-                <path
-                  d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                ></path>
-                <path d="M8 18h1"></path></svg
-              >Draft</span
+                <path d="m9 18-1.5-1.5"></path>
+                <circle cx="5" cy="14" r="3"></circle></svg
+              >Final Review</span
             ><span class="bcn-sr__quote"
               >My sleep has been broken for months, and I've had illness, anxiety, stress,
               headaches and trouble getting through the day</span
@@ -212,9 +214,10 @@ The submission's rail, right of the text, as the Lists page carries its details 
                 class="bcn-topic-dot"
                 data-family="violet"
                 data-shade="1"
+                data-suggested=""
               ></span></span
             ><span class="bcn-sr__sub">Late Night Noise Limitation Program</span
-            ><span class="bcn-sr__state" data-state="draft"
+            ><span class="bcn-sr__state" data-state="review"
               ><svg
                 width="13"
                 height="13"
@@ -226,14 +229,13 @@ The submission's rail, right of the text, as the Lists page carries its details 
                 stroke-linejoin="round"
                 aria-hidden="true"
               >
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
                 <path
-                  d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
+                  d="M4.268 21a2 2 0 0 0 1.727 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"
                 ></path>
-                <path
-                  d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                ></path>
-                <path d="M8 18h1"></path></svg
-              >Draft</span
+                <path d="m9 18-1.5-1.5"></path>
+                <circle cx="5" cy="14" r="3"></circle></svg
+              >Final Review</span
             ><span class="bcn-sr__quote"
               >Someone should recognize that the program is not working and make it
               mandatory.</span
@@ -244,9 +246,14 @@ The submission's rail, right of the text, as the Lists page carries its details 
           <button type="button" class="bcn-sr__item" data-sr-item="c-048" aria-current="">
             <span class="bcn-sr__note">C-018.004</span
             ><span class="bcn-sr__dots"
-              ><span class="bcn-topic-dot" data-family="blue" data-shade="1"></span></span
+              ><span
+                class="bcn-topic-dot"
+                data-family="blue"
+                data-shade="1"
+                data-suggested=""
+              ></span></span
             ><span class="bcn-sr__sub">Elliott Bay route</span
-            ><span class="bcn-sr__state" data-state="draft"
+            ><span class="bcn-sr__state" data-state="review"
               ><svg
                 width="13"
                 height="13"
@@ -258,14 +265,13 @@ The submission's rail, right of the text, as the Lists page carries its details 
                 stroke-linejoin="round"
                 aria-hidden="true"
               >
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
                 <path
-                  d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
+                  d="M4.268 21a2 2 0 0 0 1.727 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"
                 ></path>
-                <path
-                  d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                ></path>
-                <path d="M8 18h1"></path></svg
-              >Draft</span
+                <path d="m9 18-1.5-1.5"></path>
+                <circle cx="5" cy="14" r="3"></circle></svg
+              >Final Review</span
             ><span class="bcn-sr__quote"
               >We are surrounded by water, so why aren't planes flying over it, where
               fewer people would be bothered?</span
@@ -280,6 +286,7 @@ The submission's rail, right of the text, as the Lists page carries its details 
                 class="bcn-topic-dot"
                 data-family="slate"
                 data-shade="1"
+                data-suggested=""
               ></span></span
             ><span class="bcn-sr__sub">Unanswered complaints</span
             ><span class="bcn-sr__state" data-state="none"
@@ -308,6 +315,82 @@ The submission's rail, right of the text, as the Lists page carries its details 
         </li>
       </ol>
     </div>
+    <div class="esa-card__footer typography-meta">
+      <div class="bcn-sr__aldo" data-sr-aldo="">
+        <span class="bcn-sr__aldo-n" data-sr-aldo-state="open"
+          ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
+            ><span class="bcn-aldo-mark__glyph"
+              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+                  ></path>
+                  <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+          ><span data-sr-aldo-n="">5 suggested by Aldo</span></span
+        ><span class="bcn-sr__aldo-n" data-sr-aldo-state="done" hidden=""
+          ><span data-sr-aldo-done="">Confirmed 0</span></span
+        ><span data-sr-aldo-state="open"
+          ><span
+            class="esa-button esa-button--variant-secondary esa-button--appearance-soft esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-sr-confirm-all="true"
+            >
+              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="M20 6 9 17l-5-5"></path></svg></span
+              ><span class="esa-button__label">Confirm All</span>
+            </button></span
+          ></span
+        ><span data-sr-aldo-state="done" hidden=""
+          ><span
+            class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-sr-undo="true"
+            >
+              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                  <path d="M3 3v5h5"></path></svg></span
+              ><span class="esa-button__label">Undo</span>
+            </button></span
+          ></span
+        >
+      </div>
+    </div>
   </div>
 </div>
 ```
@@ -335,12 +418,40 @@ The submission's rail, right of the text, as the Lists page carries its details 
   line-height: var(--typography-label-sm-strong-line-height);
   letter-spacing: var(--typography-label-sm-strong-letter-spacing);
 }
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
 .typography-title-sm-strong {
   font-family: var(--typography-title-sm-strong-font-family);
   font-size: var(--typography-title-sm-strong-font-size);
   font-weight: var(--typography-title-sm-strong-font-weight);
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
+}
+.typography-meta {
+  font-family: var(--typography-meta-font-family);
+  font-size: var(--typography-meta-font-size);
+  font-weight: var(--typography-meta-font-weight);
+  line-height: var(--typography-meta-line-height);
+  letter-spacing: var(--typography-meta-letter-spacing);
 }
 .bcn-sr {
   top: var(--spacing-400);
@@ -351,9 +462,26 @@ The submission's rail, right of the text, as the Lists page carries its details 
   grid-template-columns: repeat(2, minmax(0, 1fr));
   display: grid;
 }
+.bcn-sr__aldo {
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-200);
+  width: 100%;
+  display: flex;
+}
+.bcn-sr__aldo [hidden] {
+  display: none;
+}
+.bcn-sr__aldo-n {
+  align-items: center;
+  gap: var(--spacing-150, 0.375rem);
+  font-size: var(--typography-label-sm-font-size);
+  color: var(--color-content-default);
+  display: inline-flex;
+}
 .bcn-sr__outline {
   margin: 0 calc(-1 * var(--spacing-200));
-  max-height: 60vh;
+  max-height: max(10rem, 100dvh - 28rem);
   padding: 0;
   list-style: none;
   position: relative;
@@ -401,7 +529,7 @@ The submission's rail, right of the text, as the Lists page carries its details 
   font-size: 0.8125rem;
   display: inline-flex;
 }
-.bcn-sr__outline .bcn-sr__state[data-state="planned"] {
+.bcn-sr__outline .bcn-sr__state[data-state="done"] {
   color: var(--color-content-success, var(--color-content-default));
 }
 .bcn-sr__outline .bcn-sr__note {
@@ -426,6 +554,41 @@ The submission's rail, right of the text, as the Lists page carries its details 
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
+}
+.bcn-aldo-mark {
+  border-radius: var(--radius-full);
+  background: var(--bcn-aldo);
+  color: var(--color-content-default-knockout);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+  display: inline-flex;
+}
+.bcn-aldo-mark[data-size="sm"] {
+  --icon-size-xs: 12px;
+  width: 20px;
+  height: 20px;
+}
+.bcn-aldo-mark[data-size="md"] {
+  width: 40px;
+  height: 40px;
+}
+.bcn-aldo-mark[data-size="lg"] {
+  width: 64px;
+  height: 64px;
+}
+.bcn-aldo-mark__glyph {
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+  display: inline-flex;
+}
+.bcn-aldo-mark[data-animated] {
+  animation: 2s ease-in-out infinite bcn-aldo-pulse;
+}
+.bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
+  animation: 8s linear infinite bcn-aldo-spin;
 }
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
@@ -665,6 +828,16 @@ The submission's rail, right of the text, as the Lists page carries its details 
   border: 1.5px dashed var(--_ink);
   background: 0 0;
 }
+.bcn-topic-dot[data-suggested] {
+  background: color-mix(
+    in srgb,
+    var(--_ink) 22%,
+    var(--color-background-elevation-raised)
+  );
+  box-shadow: none;
+  border: 1.5px dashed var(--_ink);
+  box-sizing: border-box;
+}
 :is(mark.bcn-hl, .bcn-topic-dot)[data-family="amber"][data-shade="1"] {
   --_hl: var(--bcn-topic-amber-1);
 }
@@ -749,6 +922,206 @@ The submission's rail, right of the text, as the Lists page carries its details 
 :is(mark.bcn-hl, .bcn-topic-dot)[data-family="slate"][data-shade="4"] {
   --_hl: var(--bcn-topic-slate-4);
 }
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button--xs {
+  --_btn-pad-y: var(--spacing-200, 0.5rem);
+  --_btn-padding-x: var(--spacing-200, 0.5rem);
+  --_btn-radius: var(--button-radius-xs, 4px);
+}
+.esa-button--sm {
+  --_btn-pad-y: var(--spacing-250, 0.625rem);
+  --_btn-padding-x: var(--spacing-250, 0.625rem);
+  --_btn-radius: var(--button-radius-sm, 4px);
+}
+.esa-button--lg {
+  --_btn-pad-y: var(--spacing-400, 1rem);
+  --_btn-padding-x: var(--spacing-400, 1rem);
+  --_btn-radius: var(--button-radius-lg, 8px);
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
+.esa-button--variant-secondary {
+  --_accent: var(--color-background-brand-muted);
+  --_accent-hover: var(--color-background-brand-muted-hover);
+  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
+  --_accent-text: var(--color-content-brand);
+  --_accent-border: var(--color-border-default-strong, #bbb);
+}
+.esa-button--variant-danger {
+  --_accent: var(--color-background-utility-danger);
+  --_accent-hover: var(--color-background-utility-danger-hover);
+  --_accent-text: var(--color-content-utility-danger);
+}
+.esa-button--variant-success {
+  --_accent: var(--color-background-utility-success);
+  --_accent-hover: var(--color-background-utility-success-hover);
+  --_on: var(--color-content-on-utility-success);
+  --_accent-text: var(--color-content-utility-success);
+}
+.esa-button--variant-warning {
+  --_accent: var(--color-background-utility-warning);
+  --_accent-hover: var(--color-background-utility-warning-hover);
+  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
+  --_accent-text: var(--color-content-utility-warning);
+}
+.esa-button--variant-info {
+  --_accent: var(--color-background-utility-info);
+  --_accent-hover: var(--color-background-utility-info-hover);
+  --_accent-text: var(--color-content-utility-info);
+}
+.esa-button--variant-ai {
+  --_accent: var(--color-background-ai);
+  --_accent-hover: var(--color-background-ai-hover);
+  --_accent-text: var(--color-content-ai);
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),
+.esa-button--appearance-fill.esa-button--active .esa-button__native {
+  background: var(--_accent-hover);
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+  background: 0 0;
+}
+.esa-button--appearance-dashed .esa-button__native {
+  border-style: dashed;
+}
+.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),
+.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {
+  background: var(--_btn-tint-hover);
+}
+.esa-button--appearance-outline.esa-button--active .esa-button__native,
+.esa-button--appearance-dashed.esa-button--active .esa-button__native {
+  background: var(--_btn-tint-active);
+}
+.esa-button--appearance-soft .esa-button__native {
+  background: color-mix(
+    in srgb,
+    var(--color-background-elevation-sunken, #f0f0f0) 45%,
+    var(--color-background-elevation-raised, #fcfcfc)
+  );
+  color: var(--_accent-text);
+  border-color: var(--color-border-default-strong, #bbb);
+}
+.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),
+.esa-button--appearance-soft.esa-button--active .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent);
+}
+.esa-button--variant-ghost .esa-button__native {
+  color: var(--color-content-default, #202020);
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border-default, #cecece);
+}
+.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),
+.esa-button--variant-ghost.esa-button--active .esa-button__native {
+  background: var(--color-background-elevation-sunken, #f0f0f0);
+}
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
+.esa-button--variant-chrome.esa-button--active .esa-button__native,
+.esa-button--variant-chrome.esa-button--current .esa-button__native {
+  background: var(
+    --button-chrome-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+}
+.esa-button--variant-chrome .esa-button__native:focus-visible {
+  outline-color: currentColor;
+}
+.esa-button__native {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  display: inline-flex;
+}
+.esa-button__native:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.esa-button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+summary.esa-button {
+  cursor: pointer;
+  list-style: none;
+}
+summary.esa-button::-webkit-details-marker {
+  display: none;
+}
+summary.esa-button:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline-offset: var(--focus-ring-offset, 2px);
+  border-radius: var(--_btn-radius);
+}
+summary.esa-button--variant-chrome:focus-visible {
+  outline-color: currentColor;
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button__label--hidden {
+  clip-path: inset(50%);
+  white-space: nowrap;
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  overflow: hidden;
+}
+.esa-button__spinner {
+  width: 1em;
+  height: 1em;
+  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
+  border: 2px solid;
+  border-right-color: #0000;
+  border-radius: 50%;
+  display: inline-block;
+}
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
   font-size: var(--typography-body-md-font-size);
@@ -770,12 +1143,40 @@ The submission's rail, right of the text, as the Lists page carries its details 
   line-height: var(--typography-label-sm-strong-line-height);
   letter-spacing: var(--typography-label-sm-strong-letter-spacing);
 }
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
 .typography-title-sm-strong {
   font-family: var(--typography-title-sm-strong-font-family);
   font-size: var(--typography-title-sm-strong-font-size);
   font-weight: var(--typography-title-sm-strong-font-weight);
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
+}
+.typography-meta {
+  font-family: var(--typography-meta-font-family);
+  font-size: var(--typography-meta-font-size);
+  font-weight: var(--typography-meta-font-weight);
+  line-height: var(--typography-meta-line-height);
+  letter-spacing: var(--typography-meta-letter-spacing);
 }
 .bcn-key-value {
   flex-direction: column;
@@ -867,6 +1268,8 @@ The submission's rail, right of the text, as the Lists page carries its details 
 ```
 
 ## Tokens
+- `--animation-spin`: .75s linear infinite _(semantic)_
+- `--bcn-aldo`: #08908b _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
@@ -910,27 +1313,55 @@ The submission's rail, right of the text, as the Lists page carries its details 
 - `--bcn-topic-violet-4`: #aa99ec _(component)_
 - `--bcn-topic-violet-ink`: #6550b9 _(component)_
 - `--border-width-default`: 1px _(semantic)_
+- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--button-on-warning`: #fff _(component)_
+- `--button-radius-lg`: .25rem _(component)_
+- `--button-radius-md`: .25rem _(component)_
+- `--button-radius-sm`: .25rem _(component)_
+- `--button-radius-xs`: .25rem _(component)_
 - `--card-bg`: #fcfcfc _(component)_
 - `--card-border-color`: #dcdcdc _(component)_
 - `--card-header-bg`: transparent _(component)_
+- `--color-background-ai`: #699cc6 _(semantic)_
+- `--color-background-ai-hover`: #4c75a9 _(semantic)_
 - `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
+- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-brand-subtle`: #effefb _(semantic)_
 - `--color-background-default-hover`: #e8e8e8 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
+- `--color-background-utility-danger-hover`: #641723 _(semantic)_
+- `--color-background-utility-info`: #228be6 _(semantic)_
+- `--color-background-utility-info-hover`: #113264 _(semantic)_
+- `--color-background-utility-success`: #2e7571 _(semantic)_
+- `--color-background-utility-success-hover`: #193b2d _(semantic)_
+- `--color-background-utility-warning`: #f59e0b _(semantic)_
+- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
+- `--color-content-ai`: #7d5e54 _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--color-content-on-brand`: #fcfcfc _(semantic)_
+- `--color-content-on-brand-muted`: #203c25 _(semantic)_
+- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
+- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
 - `--color-content-secondary`: #525252 _(component)_
 - `--color-content-success`: #218358 _(component)_
+- `--color-content-utility-danger`: #ce2c31 _(semantic)_
+- `--color-content-utility-info`: #0d74ce _(semantic)_
+- `--color-content-utility-success`: #218358 _(semantic)_
+- `--color-content-utility-warning`: #ab6400 _(semantic)_
 - `--elevation-2`: 0 2px 12px 0 #0000000a _(semantic)_
 - `--focus-ring-color`: #3e9b4f _(component)_
+- `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
 - `--font-weight-medium`: 500 _(component)_
 - `--form-label-color`: #525252 _(component)_
@@ -941,15 +1372,18 @@ The submission's rail, right of the text, as the Lists page carries its details 
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
+- `--radius-full`: 9999px _(primitive)_
 - `--radius-md`: .25rem _(semantic)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
+- `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-700`: 3rem _(primitive)_
+- `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-body-md-font-weight`: 350 _(semantic)_
@@ -968,6 +1402,26 @@ The submission's rail, right of the text, as the Lists page carries its details 
 - `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
 - `--typography-label-sm-strong-letter-spacing`: .01em _(semantic)_
 - `--typography-label-sm-strong-line-height`: 1.6 _(semantic)_
+- `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-meta-font-weight`: 350 _(semantic)_
+- `--typography-meta-letter-spacing`: .01em _(semantic)_
+- `--typography-meta-line-height`: 1.6 _(semantic)_
+- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
+- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
+- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-title-sm-strong-font-size`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(semantic)_
 - `--typography-title-sm-strong-font-weight`: 550 _(semantic)_

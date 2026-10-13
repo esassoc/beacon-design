@@ -3,7 +3,7 @@
 A side panel over the response page for one comment it answers. Its title, "Comment C-018.001" with an external-link glyph, is the one way out: a link to the submission with that comment open. Below: who sent it (S-018) and when, the passage highlighted in its paragraph, and its topics. Previous / Next (and J / K) step through the list; Quote in Response puts the passage into the letter as a quote.
 
 ## Key decisions
-- Read only: refiling and response links are edited on the submission page.
+- Unlink takes the comment off this response (it goes back to No Response unless another answers it). Refiling stays on the submission page.
 
 ## Markup
 ```html
@@ -115,6 +115,29 @@ A side panel over the response page for one comment it answers. Its title, "Comm
               <path d="m9 18 6-6-6-6"></path></svg
           ></span></button></span></span
     ><span class="bcn-rr__foot-group"
+      ><span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          data-rr-unlink="true"
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path></svg></span
+          ><span class="esa-button__label">Unlink</span>
+        </button></span
       ><span
         class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
         ><button
@@ -336,6 +359,20 @@ mark.bcn-hl {
   box-shadow: none;
   border: 1.5px dashed var(--_ink);
   background: 0 0;
+}
+mark.bcn-hl[data-suggested] {
+  outline: 1.5px dashed var(--_ink);
+  outline-offset: 0;
+}
+.bcn-topic-dot[data-suggested] {
+  background: color-mix(
+    in srgb,
+    var(--_ink) 22%,
+    var(--color-background-elevation-raised)
+  );
+  box-shadow: none;
+  border: 1.5px dashed var(--_ink);
+  box-sizing: border-box;
 }
 mark.bcn-hl[data-family="none"] {
   --_hl: transparent;

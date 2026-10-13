@@ -8,6 +8,8 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
 - Read state works like mail: a submission not yet reviewed carries a brand dot in the gutter; reviewed rows go quiet in secondary ink. No per-row comment counts.
 - The opening of the submission is the row's content, set a step heavier (medium) than body text.
 - Topic color = hue family, subtopic = shade, from --bcn-topic-* in theme-beacon.css via the shared bcn-comment-topics.css.
+- Aldo filed every submission as it arrived. A topic with any passage still waiting on a person draws as a hollow, DASHED dot; confirmed is solid. The legend adds "Suggested" beside those topics. Dashed = Aldo proposed, solid = a person confirmed is the one grammar across the module (highlights, dots, cards, avatars).
+- All / Mine (esa-button-toggle at the tabs' right, ?mine): Mine keeps submissions holding a comment whose open work sits with the person at the keyboard (their response, or their topic's expert when it has no open response). It steps aside on the Topic Index. An empty Mine is esa-empty-state.
 
 ## Done when
 - After accepting a response, its submissions lose the unread dot and go quiet.
@@ -20,17 +22,77 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
   data-inbox=""
   data-base="/beacon-design/prototypes/comments"
 >
-  <esa-tab-layout
-    appearance="underline"
-    size="sm"
-    data-inbox-tabs="true"
-    variant="underline"
-  ></esa-tab-layout>
+  <div class="bcn-si__bar">
+    <esa-tab-layout
+      appearance="underline"
+      size="sm"
+      data-inbox-tabs="true"
+      variant="underline"
+    ></esa-tab-layout
+    ><esa-button-toggle
+      size="sm"
+      aria-label="Show"
+      data-inbox-mine="true"
+    ></esa-button-toggle>
+  </div>
   <div data-inbox-body="">
     <div class="bcn-si__months">
       <section class="bcn-si__month">
         <h3 class="bcn-si__group typography-label-sm-strong">September 2026</h3>
         <ul class="bcn-si__list" role="list">
+          <li>
+            <a
+              class="bcn-si__row"
+              href="/beacon-design/prototypes/comments/sub-30"
+              data-unread=""
+              ><span class="bcn-si__mark"
+                ><span class="bcn-si__unread"></span
+                ><span class="visually-hidden">Not Reviewed</span></span
+              ><span class="bcn-si__key typography-body-sm">S-030</span
+              ><span class="bcn-si__who typography-body-md">Rhea Castellanos</span
+              ><span class="bcn-si__text typography-body-md"
+                >Every year there are more planes over our street and every year they are
+                louder. It is not one bad week or one bad summer. It has been getting
+                steadily worse for a decade, and nothing we have been told has made any
+                difference.</span
+              ><span class="bcn-si__topics"
+                ><esa-popover
+                  trigger="hover"
+                  position="bottom"
+                  class="bcn-si__stack"
+                  appearance="default"
+                  ><span
+                    class="bcn-si__dots"
+                    tabindex="0"
+                    aria-label="Aircraft noise"
+                    aria-expanded="false"
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="amber"
+                      data-suggested=""
+                    ></span
+                  ></span>
+                  <ul
+                    slot="content"
+                    class="bcn-si__legend typography-body-sm"
+                    role="list"
+                  >
+                    <li>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="amber"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Aircraft noise
+                        <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">1</span>
+                    </li>
+                  </ul></esa-popover
+                ></span
+              ><span class="bcn-si__date typography-body-sm">Sep 24</span></a
+            >
+          </li>
           <li>
             <a
               class="bcn-si__row"
@@ -66,8 +128,16 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Process and outreach, Nighttime operations, Flight paths, Health"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="slate"></span
-                    ><span class="bcn-topic-dot" data-family="violet"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="slate"
+                      data-suggested=""
+                    ></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="violet"
+                      data-suggested=""
+                    ></span
                     ><span class="bcn-si__more">+2</span></span
                   >
                   <ul
@@ -76,22 +146,46 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="slate"></span
-                      ><span>Process and outreach</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="slate"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Process and outreach
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">1</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="violet"></span
-                      ><span>Nighttime operations</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="violet"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Nighttime operations
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">1</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="blue"></span
-                      ><span>Flight paths</span><span class="bcn-si__legend-n">1</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="blue"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Flight paths
+                        <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">1</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="crimson"></span
-                      ><span>Health</span><span class="bcn-si__legend-n">1</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="crimson"
+                        data-suggested=""
+                      ></span
+                      ><span>Health <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">1</span>
                     </li>
                   </ul></esa-popover
                 ></span
@@ -137,8 +231,16 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Nighttime operations, Aircraft noise, Process and outreach"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="violet"></span
-                    ><span class="bcn-topic-dot" data-family="amber"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="violet"
+                      data-suggested=""
+                    ></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="amber"
+                      data-suggested=""
+                    ></span
                     ><span class="bcn-si__more">+1</span></span
                   >
                   <ul
@@ -147,17 +249,36 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="violet"></span
-                      ><span>Nighttime operations</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="violet"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Nighttime operations
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">1</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="amber"></span
-                      ><span>Aircraft noise</span><span class="bcn-si__legend-n">1</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="amber"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Aircraft noise
+                        <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">1</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="slate"></span
-                      ><span>Process and outreach</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="slate"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Process and outreach
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">1</span>
                     </li>
                   </ul></esa-popover
@@ -196,8 +317,16 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Nighttime operations, Health"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="violet"></span
-                    ><span class="bcn-topic-dot" data-family="crimson"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="violet"
+                      data-suggested=""
+                    ></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="crimson"
+                      data-suggested=""
+                    ></span
                   ></span>
                   <ul
                     slot="content"
@@ -205,13 +334,24 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="violet"></span
-                      ><span>Nighttime operations</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="violet"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Nighttime operations
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">2</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="crimson"></span
-                      ><span>Health</span><span class="bcn-si__legend-n">1</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="crimson"
+                        data-suggested=""
+                      ></span
+                      ><span>Health <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">1</span>
                     </li>
                   </ul></esa-popover
                 ></span
@@ -252,7 +392,11 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Health"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="crimson"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="crimson"
+                      data-suggested=""
+                    ></span
                   ></span>
                   <ul
                     slot="content"
@@ -260,8 +404,13 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="crimson"></span
-                      ><span>Health</span><span class="bcn-si__legend-n">3</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="crimson"
+                        data-suggested=""
+                      ></span
+                      ><span>Health <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">3</span>
                     </li>
                   </ul></esa-popover
                 ></span
@@ -305,8 +454,16 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Nighttime operations, Process and outreach, Health"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="violet"></span
-                    ><span class="bcn-topic-dot" data-family="slate"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="violet"
+                      data-suggested=""
+                    ></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="slate"
+                      data-suggested=""
+                    ></span
                     ><span class="bcn-si__more">+1</span></span
                   >
                   <ul
@@ -315,18 +472,35 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="violet"></span
-                      ><span>Nighttime operations</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="violet"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Nighttime operations
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">2</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="slate"></span
-                      ><span>Process and outreach</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="slate"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Process and outreach
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">1</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="crimson"></span
-                      ><span>Health</span><span class="bcn-si__legend-n">1</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="crimson"
+                        data-suggested=""
+                      ></span
+                      ><span>Health <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">1</span>
                     </li>
                   </ul></esa-popover
                 ></span
@@ -368,8 +542,16 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Health, Nighttime operations"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="crimson"></span
-                    ><span class="bcn-topic-dot" data-family="violet"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="crimson"
+                      data-suggested=""
+                    ></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="violet"
+                      data-suggested=""
+                    ></span
                   ></span>
                   <ul
                     slot="content"
@@ -377,12 +559,23 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="crimson"></span
-                      ><span>Health</span><span class="bcn-si__legend-n">2</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="crimson"
+                        data-suggested=""
+                      ></span
+                      ><span>Health <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">2</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="violet"></span
-                      ><span>Nighttime operations</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="violet"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Nighttime operations
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">1</span>
                     </li>
                   </ul></esa-popover
@@ -427,8 +620,16 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Nighttime operations, Noise measurement"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="violet"></span
-                    ><span class="bcn-topic-dot" data-family="grass"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="violet"
+                      data-suggested=""
+                    ></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="grass"
+                      data-suggested=""
+                    ></span
                   ></span>
                   <ul
                     slot="content"
@@ -436,13 +637,25 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="violet"></span
-                      ><span>Nighttime operations</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="violet"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Nighttime operations
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">2</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="grass"></span
-                      ><span>Noise measurement</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="grass"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Noise measurement
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">1</span>
                     </li>
                   </ul></esa-popover
@@ -469,8 +682,16 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Flight paths, Nighttime operations"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="blue"></span
-                    ><span class="bcn-topic-dot" data-family="violet"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="blue"
+                      data-suggested=""
+                    ></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="violet"
+                      data-suggested=""
+                    ></span
                   ></span>
                   <ul
                     slot="content"
@@ -478,12 +699,25 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="blue"></span
-                      ><span>Flight paths</span><span class="bcn-si__legend-n">2</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="blue"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Flight paths
+                        <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">2</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="violet"></span
-                      ><span>Nighttime operations</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="violet"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Nighttime operations
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">1</span>
                     </li>
                   </ul></esa-popover
@@ -521,8 +755,16 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Nighttime operations, Process and outreach, Aircraft noise"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="violet"></span
-                    ><span class="bcn-topic-dot" data-family="slate"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="violet"
+                      data-suggested=""
+                    ></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="slate"
+                      data-suggested=""
+                    ></span
                     ><span class="bcn-si__more">+1</span></span
                   >
                   <ul
@@ -531,18 +773,37 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="violet"></span
-                      ><span>Nighttime operations</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="violet"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Nighttime operations
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">2</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="slate"></span
-                      ><span>Process and outreach</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="slate"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Process and outreach
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">1</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="amber"></span
-                      ><span>Aircraft noise</span><span class="bcn-si__legend-n">1</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="amber"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Aircraft noise
+                        <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">1</span>
                     </li>
                   </ul></esa-popover
                 ></span
@@ -586,8 +847,16 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Health, Flight paths"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="crimson"></span
-                    ><span class="bcn-topic-dot" data-family="blue"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="crimson"
+                      data-suggested=""
+                    ></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="blue"
+                      data-suggested=""
+                    ></span
                   ></span>
                   <ul
                     slot="content"
@@ -595,12 +864,24 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="crimson"></span
-                      ><span>Health</span><span class="bcn-si__legend-n">1</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="crimson"
+                        data-suggested=""
+                      ></span
+                      ><span>Health <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">1</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="blue"></span
-                      ><span>Flight paths</span><span class="bcn-si__legend-n">1</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="blue"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Flight paths
+                        <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">1</span>
                     </li>
                   </ul></esa-popover
                 ></span
@@ -642,8 +923,16 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Health, Nighttime operations, Process and outreach"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="crimson"></span
-                    ><span class="bcn-topic-dot" data-family="violet"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="crimson"
+                      data-suggested=""
+                    ></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="violet"
+                      data-suggested=""
+                    ></span
                     ><span class="bcn-si__more">+1</span></span
                   >
                   <ul
@@ -652,17 +941,34 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="crimson"></span
-                      ><span>Health</span><span class="bcn-si__legend-n">1</span>
-                    </li>
-                    <li>
-                      <span class="bcn-topic-dot" data-family="violet"></span
-                      ><span>Nighttime operations</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="crimson"
+                        data-suggested=""
+                      ></span
+                      ><span>Health <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">1</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="slate"></span
-                      ><span>Process and outreach</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="violet"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Nighttime operations
+                        <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">1</span>
+                    </li>
+                    <li>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="slate"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Process and outreach
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">1</span>
                     </li>
                   </ul></esa-popover
@@ -700,8 +1006,16 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Nighttime operations, Health, Flight paths, Process and outreach"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="violet"></span
-                    ><span class="bcn-topic-dot" data-family="crimson"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="violet"
+                      data-suggested=""
+                    ></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="crimson"
+                      data-suggested=""
+                    ></span
                     ><span class="bcn-si__more">+2</span></span
                   >
                   <ul
@@ -710,21 +1024,45 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="violet"></span
-                      ><span>Nighttime operations</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="violet"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Nighttime operations
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">2</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="crimson"></span
-                      ><span>Health</span><span class="bcn-si__legend-n">1</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="crimson"
+                        data-suggested=""
+                      ></span
+                      ><span>Health <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">1</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="blue"></span
-                      ><span>Flight paths</span><span class="bcn-si__legend-n">1</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="blue"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Flight paths
+                        <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">1</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="slate"></span
-                      ><span>Process and outreach</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="slate"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Process and outreach
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">1</span>
                     </li>
                   </ul></esa-popover
@@ -756,7 +1094,11 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Flight paths, Noise measurement, Aircraft noise, Process and outreach"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="blue"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="blue"
+                      data-suggested=""
+                    ></span
                     ><span class="bcn-topic-dot" data-family="grass"></span
                     ><span class="bcn-si__more">+2</span></span
                   >
@@ -766,8 +1108,15 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="blue"></span
-                      ><span>Flight paths</span><span class="bcn-si__legend-n">2</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="blue"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Flight paths
+                        <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">2</span>
                     </li>
                     <li>
                       <span class="bcn-topic-dot" data-family="grass"></span
@@ -775,12 +1124,25 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                       ><span class="bcn-si__legend-n">1</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="amber"></span
-                      ><span>Aircraft noise</span><span class="bcn-si__legend-n">1</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="amber"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Aircraft noise
+                        <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">1</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="slate"></span
-                      ><span>Process and outreach</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="slate"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Process and outreach
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">1</span>
                     </li>
                   </ul></esa-popover
@@ -812,8 +1174,16 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Sound insulation, Noise measurement"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="orange"></span
-                    ><span class="bcn-topic-dot" data-family="grass"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="orange"
+                      data-suggested=""
+                    ></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="grass"
+                      data-suggested=""
+                    ></span
                   ></span>
                   <ul
                     slot="content"
@@ -821,13 +1191,25 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="orange"></span
-                      ><span>Sound insulation</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="orange"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Sound insulation
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">3</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="grass"></span
-                      ><span>Noise measurement</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="grass"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Noise measurement
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">1</span>
                     </li>
                   </ul></esa-popover
@@ -867,7 +1249,11 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Flight paths"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="blue"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="blue"
+                      data-suggested=""
+                    ></span
                   ></span>
                   <ul
                     slot="content"
@@ -875,8 +1261,15 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="blue"></span
-                      ><span>Flight paths</span><span class="bcn-si__legend-n">1</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="blue"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Flight paths
+                        <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">1</span>
                     </li>
                   </ul></esa-popover
                 ></span
@@ -915,7 +1308,11 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Flight paths"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="blue"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="blue"
+                      data-suggested=""
+                    ></span
                   ></span>
                   <ul
                     slot="content"
@@ -923,8 +1320,15 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="blue"></span
-                      ><span>Flight paths</span><span class="bcn-si__legend-n">3</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="blue"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Flight paths
+                        <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">3</span>
                     </li>
                   </ul></esa-popover
                 ></span
@@ -954,8 +1358,16 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     tabindex="0"
                     aria-label="Noise measurement, Flight paths"
                     aria-expanded="false"
-                    ><span class="bcn-topic-dot" data-family="grass"></span
-                    ><span class="bcn-topic-dot" data-family="blue"></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="grass"
+                      data-suggested=""
+                    ></span
+                    ><span
+                      class="bcn-topic-dot"
+                      data-family="blue"
+                      data-suggested=""
+                    ></span
                   ></span>
                   <ul
                     slot="content"
@@ -963,13 +1375,26 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
                     role="list"
                   >
                     <li>
-                      <span class="bcn-topic-dot" data-family="grass"></span
-                      ><span>Noise measurement</span
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="grass"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Noise measurement
+                        <span class="bcn-si__legend-s">Suggested</span></span
                       ><span class="bcn-si__legend-n">1</span>
                     </li>
                     <li>
-                      <span class="bcn-topic-dot" data-family="blue"></span
-                      ><span>Flight paths</span><span class="bcn-si__legend-n">1</span>
+                      <span
+                        class="bcn-topic-dot"
+                        data-family="blue"
+                        data-suggested=""
+                      ></span
+                      ><span
+                        >Flight paths
+                        <span class="bcn-si__legend-s">Suggested</span></span
+                      ><span class="bcn-si__legend-n">1</span>
                     </li>
                   </ul></esa-popover
                 ></span
@@ -1059,13 +1484,8 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
             >
           </li>
           <li>
-            <a
-              class="bcn-si__row"
-              href="/beacon-design/prototypes/comments/sub-10"
-              data-unread=""
-              ><span class="bcn-si__mark"
-                ><span class="bcn-si__unread"></span
-                ><span class="visually-hidden">Not Reviewed</span></span
+            <a class="bcn-si__row" href="/beacon-design/prototypes/comments/sub-10"
+              ><span class="bcn-si__mark"></span
               ><span class="bcn-si__key typography-body-sm">S-010</span
               ><span class="bcn-si__who typography-body-md">Leonard Fairweather</span
               ><span class="bcn-si__text typography-body-md"
@@ -1110,13 +1530,8 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
             >
           </li>
           <li>
-            <a
-              class="bcn-si__row"
-              href="/beacon-design/prototypes/comments/sub-09"
-              data-unread=""
-              ><span class="bcn-si__mark"
-                ><span class="bcn-si__unread"></span
-                ><span class="visually-hidden">Not Reviewed</span></span
+            <a class="bcn-si__row" href="/beacon-design/prototypes/comments/sub-09"
+              ><span class="bcn-si__mark"></span
               ><span class="bcn-si__key typography-body-sm">S-009</span
               ><span class="bcn-si__who typography-body-md"
                 >Owen Castellano<span class="bcn-si__org"
@@ -1253,13 +1668,8 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
             >
           </li>
           <li>
-            <a
-              class="bcn-si__row"
-              href="/beacon-design/prototypes/comments/sub-06"
-              data-unread=""
-              ><span class="bcn-si__mark"
-                ><span class="bcn-si__unread"></span
-                ><span class="visually-hidden">Not Reviewed</span></span
+            <a class="bcn-si__row" href="/beacon-design/prototypes/comments/sub-06"
+              ><span class="bcn-si__mark"></span
               ><span class="bcn-si__key typography-body-sm">S-006</span
               ><span class="bcn-si__who typography-body-md">Walt Brandvold</span
               ><span class="bcn-si__text typography-body-md"
@@ -1348,13 +1758,8 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
         <h3 class="bcn-si__group typography-label-sm-strong">October 2024</h3>
         <ul class="bcn-si__list" role="list">
           <li>
-            <a
-              class="bcn-si__row"
-              href="/beacon-design/prototypes/comments/sub-04"
-              data-unread=""
-              ><span class="bcn-si__mark"
-                ><span class="bcn-si__unread"></span
-                ><span class="visually-hidden">Not Reviewed</span></span
+            <a class="bcn-si__row" href="/beacon-design/prototypes/comments/sub-04"
+              ><span class="bcn-si__mark"></span
               ><span class="bcn-si__key typography-body-sm">S-004</span
               ><span class="bcn-si__who typography-body-md">Harriet Okafor</span
               ><span class="bcn-si__text typography-body-md"
@@ -1398,13 +1803,8 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
         <h3 class="bcn-si__group typography-label-sm-strong">September 2024</h3>
         <ul class="bcn-si__list" role="list">
           <li>
-            <a
-              class="bcn-si__row"
-              href="/beacon-design/prototypes/comments/sub-03"
-              data-unread=""
-              ><span class="bcn-si__mark"
-                ><span class="bcn-si__unread"></span
-                ><span class="visually-hidden">Not Reviewed</span></span
+            <a class="bcn-si__row" href="/beacon-design/prototypes/comments/sub-03"
+              ><span class="bcn-si__mark"></span
               ><span class="bcn-si__key typography-body-sm">S-003</span
               ><span class="bcn-si__who typography-body-md">Theo Lindqvist</span
               ><span class="bcn-si__text typography-body-md"
@@ -1502,13 +1902,8 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
         <h3 class="bcn-si__group typography-label-sm-strong">June 2024</h3>
         <ul class="bcn-si__list" role="list">
           <li>
-            <a
-              class="bcn-si__row"
-              href="/beacon-design/prototypes/comments/sub-01"
-              data-unread=""
-              ><span class="bcn-si__mark"
-                ><span class="bcn-si__unread"></span
-                ><span class="visually-hidden">Not Reviewed</span></span
+            <a class="bcn-si__row" href="/beacon-design/prototypes/comments/sub-01"
+              ><span class="bcn-si__mark"></span
               ><span class="bcn-si__key typography-body-sm">S-001</span
               ><span class="bcn-si__who typography-body-md">Lorraine Whitcomb</span
               ><span class="bcn-si__text typography-body-md"
@@ -1544,6 +1939,17 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
           </li>
         </ul>
       </section>
+    </div>
+  </div>
+  <div data-inbox-none="" hidden="">
+    <div class="esa-empty-state esa-empty-state--sm">
+      <h3 class="esa-empty-state__title typography-label-sm-strong">
+        Nothing assigned to you
+      </h3>
+      <p class="esa-empty-state__description typography-body-xs">
+        Switch to All to see every submission.
+      </p>
+      <div class="esa-empty-state__actions typography-label-md"></div>
     </div>
   </div>
   <div data-inbox-topic="" hidden="">
@@ -1702,7 +2108,7 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
       </div>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnAldoPrompt.astro_astro_type_script_index_0_lang.lURGRDHI.js"
+        src="/beacon-design/_astro/BcnAldoPrompt.astro_astro_type_script_index_0_lang.Jn8CQphM.js"
       ></script>
       <div class="bcn-cbt__tools">
         <span class="bcn-cbt__status typography-body-sm" data-cbt-status="" hidden=""
@@ -1744,6 +2150,18 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
           <div class="bcn-cbt__row bcn-cbt__row--cat">
             <span class="bcn-topic-dot" data-family="amber"></span
             ><span class="bcn-cbt__name" data-cbt-name="noise">Aircraft noise</span
+            ><span class="bcn-cbt__expert"
+              ><span class="bcn-proposal-ring" title="Ravi Anand"
+                ><span
+                  class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                  style="--_avatar-hue: 308"
+                  ><span class="esa-avatar__initials">RA</span></span
+                ></span
+              ><esa-select
+                size="sm"
+                aria-label="Expert for Aircraft noise"
+                data-cbt-expert="noise"
+              ></esa-select></span
             ><span class="bcn-cbt__verbs"
               ><esa-tooltip text="Rename" align="end" position="above"
                 ><button
@@ -2234,6 +2652,18 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
           <div class="bcn-cbt__row bcn-cbt__row--cat">
             <span class="bcn-topic-dot" data-family="blue"></span
             ><span class="bcn-cbt__name" data-cbt-name="paths">Flight paths</span
+            ><span class="bcn-cbt__expert"
+              ><span class="bcn-proposal-ring" title="Mei Tanaka"
+                ><span
+                  class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                  style="--_avatar-hue: 323"
+                  ><span class="esa-avatar__initials">MT</span></span
+                ></span
+              ><esa-select
+                size="sm"
+                aria-label="Expert for Flight paths"
+                data-cbt-expert="paths"
+              ></esa-select></span
             ><span class="bcn-cbt__verbs"
               ><esa-tooltip text="Rename" align="end" position="above"
                 ><button
@@ -2724,6 +3154,18 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
           <div class="bcn-cbt__row bcn-cbt__row--cat">
             <span class="bcn-topic-dot" data-family="violet"></span
             ><span class="bcn-cbt__name" data-cbt-name="night">Nighttime operations</span
+            ><span class="bcn-cbt__expert"
+              ><span class="bcn-proposal-ring" title="Ravi Anand"
+                ><span
+                  class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                  style="--_avatar-hue: 308"
+                  ><span class="esa-avatar__initials">RA</span></span
+                ></span
+              ><esa-select
+                size="sm"
+                aria-label="Expert for Nighttime operations"
+                data-cbt-expert="night"
+              ></esa-select></span
             ><span class="bcn-cbt__verbs"
               ><esa-tooltip text="Rename" align="end" position="above"
                 ><button
@@ -3018,6 +3460,18 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
           <div class="bcn-cbt__row bcn-cbt__row--cat">
             <span class="bcn-topic-dot" data-family="grass"></span
             ><span class="bcn-cbt__name" data-cbt-name="measure">Noise measurement</span
+            ><span class="bcn-cbt__expert"
+              ><span class="bcn-proposal-ring" title="Jordan Ellis"
+                ><span
+                  class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                  style="--_avatar-hue: 37"
+                  ><span class="esa-avatar__initials">JE</span></span
+                ></span
+              ><esa-select
+                size="sm"
+                aria-label="Expert for Noise measurement"
+                data-cbt-expert="measure"
+              ></esa-select></span
             ><span class="bcn-cbt__verbs"
               ><esa-tooltip text="Rename" align="end" position="above"
                 ><button
@@ -3410,6 +3864,18 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
           <div class="bcn-cbt__row bcn-cbt__row--cat">
             <span class="bcn-topic-dot" data-family="orange"></span
             ><span class="bcn-cbt__name" data-cbt-name="insulation">Sound insulation</span
+            ><span class="bcn-cbt__expert"
+              ><span class="bcn-proposal-ring" title="Tom Brecht"
+                ><span
+                  class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                  style="--_avatar-hue: 112"
+                  ><span class="esa-avatar__initials">TB</span></span
+                ></span
+              ><esa-select
+                size="sm"
+                aria-label="Expert for Sound insulation"
+                data-cbt-expert="insulation"
+              ></esa-select></span
             ><span class="bcn-cbt__verbs"
               ><esa-tooltip text="Rename" align="end" position="above"
                 ><button
@@ -3810,6 +4276,18 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
           <div class="bcn-cbt__row bcn-cbt__row--cat">
             <span class="bcn-topic-dot" data-family="crimson"></span
             ><span class="bcn-cbt__name" data-cbt-name="health">Health</span
+            ><span class="bcn-cbt__expert"
+              ><span class="bcn-proposal-ring" title="Nadia Osei"
+                ><span
+                  class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                  style="--_avatar-hue: 41"
+                  ><span class="esa-avatar__initials">NO</span></span
+                ></span
+              ><esa-select
+                size="sm"
+                aria-label="Expert for Health"
+                data-cbt-expert="health"
+              ></esa-select></span
             ><span class="bcn-cbt__verbs"
               ><esa-tooltip text="Rename" align="end" position="above"
                 ><button
@@ -4203,6 +4681,18 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
             <span class="bcn-topic-dot" data-family="slate"></span
             ><span class="bcn-cbt__name" data-cbt-name="process"
               >Process and outreach</span
+            ><span class="bcn-cbt__expert"
+              ><span class="bcn-proposal-ring" title="Dana Whitcomb"
+                ><span
+                  class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                  style="--_avatar-hue: 219"
+                  ><span class="esa-avatar__initials">DW</span></span
+                ></span
+              ><esa-select
+                size="sm"
+                aria-label="Expert for Process and outreach"
+                data-cbt-expert="process"
+              ></esa-select></span
             ><span class="bcn-cbt__verbs"
               ><esa-tooltip text="Rename" align="end" position="above"
                 ><button
@@ -4647,451 +5137,645 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
     </section>
     <script
       type="module"
-      src="/beacon-design/_astro/BcnCommentsByTopic.astro_astro_type_script_index_0_lang.Dd3Wsv8e.js"
+      src="/beacon-design/_astro/BcnCommentsByTopic.astro_astro_type_script_index_0_lang.CLaM3RyZ.js"
     ></script>
   </div>
   <div data-inbox-responses="" hidden="">
-    <div
-      class="bcn-ri"
-      data-response-index=""
-      data-base="/beacon-design/prototypes/comments"
-    >
-      <section class="bcn-ri__group">
-        <h3 class="bcn-ri__label typography-label-sm-strong">Drafts</h3>
-        <ul class="bcn-ri__list" role="list">
-          <li>
-            <a
-              class="bcn-ri__row"
-              href="/beacon-design/prototypes/comments/response?id=r-04"
-              ><span
-                class="bcn-ri__state"
-                data-state="draft"
-                role="img"
-                aria-label="Draft"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
-                  ></path>
-                  <path
-                    d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                  ></path>
-                  <path d="M8 18h1"></path></svg></span
-              ><span class="bcn-ri__no typography-body-sm">R-004</span
-              ><span class="bcn-ri__title typography-body-md"
-                >Late Night Noise Limitation Program and Overnight Flights</span
-              ><span class="bcn-ri__topic typography-body-sm"
-                ><span class="bcn-topic-dot" data-family="violet"></span>Nighttime
-                operations</span
-              ></a
+    <div class="bcn-ri stack" data-gap="md" data-response-index-root="">
+      <div class="bcn-ri__bar">
+        <span
+          class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            data-ri-new="true"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M5 12h14"></path>
+                <path d="M12 5v14"></path></svg></span
+            ><span class="esa-button__label">New Response</span>
+          </button></span
+        >
+      </div>
+      <div
+        class="bcn-ri__groups"
+        data-response-index=""
+        data-base="/beacon-design/prototypes/comments"
+      >
+        <section class="bcn-ri__group">
+          <h3 class="bcn-ri__label typography-label-sm-strong">Final Review</h3>
+          <ul class="bcn-ri__list" role="list">
+            <li>
+              <a
+                class="bcn-ri__row"
+                href="/beacon-design/prototypes/comments/response?id=r-04"
+                ><span
+                  class="bcn-ri__state"
+                  data-state="review"
+                  role="img"
+                  aria-label="Final Review"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                    <path
+                      d="M4.268 21a2 2 0 0 0 1.727 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"
+                    ></path>
+                    <path d="m9 18-1.5-1.5"></path>
+                    <circle cx="5" cy="14" r="3"></circle></svg></span
+                ><span class="bcn-ri__no typography-body-sm">R-004</span
+                ><span class="bcn-ri__title typography-body-md"
+                  >Late Night Noise Limitation Program and Overnight Flights</span
+                ><span class="bcn-ri__topic typography-body-sm"
+                  ><span class="bcn-topic-dot" data-family="violet"></span>Nighttime
+                  operations</span
+                ><span class="bcn-ri__who typography-body-sm"
+                  ><span class="bcn-person"
+                    ><span class="bcn-proposal-ring" title="Dana Whitcomb"
+                      ><span
+                        class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                        style="--_avatar-hue: 219"
+                        ><span class="esa-avatar__initials">DW</span></span
+                      ></span
+                    ><span class="bcn-person__name">Dana Whitcomb</span></span
+                  ></span
+                ></a
+              >
+            </li>
+            <li>
+              <a
+                class="bcn-ri__row"
+                href="/beacon-design/prototypes/comments/response?id=r-05"
+                ><span
+                  class="bcn-ri__state"
+                  data-state="review"
+                  role="img"
+                  aria-label="Final Review"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                    <path
+                      d="M4.268 21a2 2 0 0 0 1.727 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"
+                    ></path>
+                    <path d="m9 18-1.5-1.5"></path>
+                    <circle cx="5" cy="14" r="3"></circle></svg></span
+                ><span class="bcn-ri__no typography-body-sm">R-005</span
+                ><span class="bcn-ri__title typography-body-md"
+                  >Elliott Bay Arrival Route</span
+                ><span class="bcn-ri__topic typography-body-sm"
+                  ><span class="bcn-topic-dot" data-family="blue"></span>Flight
+                  paths</span
+                ><span class="bcn-ri__who typography-body-sm"
+                  ><span class="bcn-person"
+                    ><span class="bcn-proposal-ring" title="Dana Whitcomb"
+                      ><span
+                        class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                        style="--_avatar-hue: 219"
+                        ><span class="esa-avatar__initials">DW</span></span
+                      ></span
+                    ><span class="bcn-person__name">Dana Whitcomb</span></span
+                  ></span
+                ></a
+              >
+            </li>
+          </ul>
+        </section>
+        <section class="bcn-ri__group">
+          <h3 class="bcn-ri__label typography-label-sm-strong">Drafts</h3>
+          <ul class="bcn-ri__list" role="list">
+            <li>
+              <a
+                class="bcn-ri__row"
+                href="/beacon-design/prototypes/comments/response?id=r-12"
+                ><span
+                  class="bcn-ri__state"
+                  data-state="draft"
+                  role="img"
+                  aria-label="Draft"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
+                    ></path>
+                    <path
+                      d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
+                    ></path>
+                    <path d="M8 18h1"></path></svg></span
+                ><span class="bcn-ri__no typography-body-sm">R-012</span
+                ><span class="bcn-ri__title typography-body-md"
+                  >Growth in Operations and Overflight Frequency</span
+                ><span class="bcn-ri__topic typography-body-sm"
+                  ><span class="bcn-topic-dot" data-family="amber"></span>Aircraft
+                  noise</span
+                ><span class="bcn-ri__who typography-body-sm"
+                  ><span class="bcn-person"
+                    ><span
+                      class="bcn-proposal-ring"
+                      data-suggested=""
+                      title="Ravi Anand (suggested by Aldo)"
+                      ><span
+                        class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                        style="--_avatar-hue: 308"
+                        ><span class="esa-avatar__initials">RA</span></span
+                      ></span
+                    ><span class="bcn-person__name">Ravi Anand</span></span
+                  ></span
+                ></a
+              >
+            </li>
+            <li>
+              <a
+                class="bcn-ri__row"
+                href="/beacon-design/prototypes/comments/response?id=r-06"
+                ><span
+                  class="bcn-ri__state"
+                  data-state="draft"
+                  role="img"
+                  aria-label="Draft"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
+                    ></path>
+                    <path
+                      d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
+                    ></path>
+                    <path d="M8 18h1"></path></svg></span
+                ><span class="bcn-ri__no typography-body-sm">R-006</span
+                ><span class="bcn-ri__title typography-body-md"
+                  >Distributing Arrivals and Approach Altitude</span
+                ><span class="bcn-ri__topic typography-body-sm"
+                  ><span class="bcn-topic-dot" data-family="blue"></span>Flight
+                  paths</span
+                ><span class="bcn-ri__who typography-body-sm"
+                  ><span class="bcn-person"
+                    ><span class="bcn-proposal-ring" title="Mei Tanaka"
+                      ><span
+                        class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                        style="--_avatar-hue: 323"
+                        ><span class="esa-avatar__initials">MT</span></span
+                      ></span
+                    ><span class="bcn-person__name">Mei Tanaka</span></span
+                  ></span
+                ></a
+              >
+            </li>
+            <li>
+              <a
+                class="bcn-ri__row"
+                href="/beacon-design/prototypes/comments/response?id=r-11"
+                ><span
+                  class="bcn-ri__state"
+                  data-state="draft"
+                  role="img"
+                  aria-label="Draft"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
+                    ></path>
+                    <path
+                      d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
+                    ></path>
+                    <path d="M8 18h1"></path></svg></span
+                ><span class="bcn-ri__no typography-body-sm">R-011</span
+                ><span class="bcn-ri__title typography-body-md"
+                  >Complaints and the Port's Noise Office</span
+                ><span class="bcn-ri__topic typography-body-sm"
+                  ><span class="bcn-topic-dot" data-family="slate"></span>Process and
+                  outreach</span
+                ><span class="bcn-ri__who typography-body-sm"
+                  ><span class="bcn-person"
+                    ><span class="bcn-proposal-ring" title="Dana Whitcomb"
+                      ><span
+                        class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                        style="--_avatar-hue: 219"
+                        ><span class="esa-avatar__initials">DW</span></span
+                      ></span
+                    ><span class="bcn-person__name">Dana Whitcomb</span></span
+                  ></span
+                ></a
+              >
+            </li>
+            <li>
+              <a
+                class="bcn-ri__row"
+                href="/beacon-design/prototypes/comments/response?id=r-07"
+                ><span
+                  class="bcn-ri__state"
+                  data-state="draft"
+                  role="img"
+                  aria-label="Draft"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
+                    ></path>
+                    <path
+                      d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
+                    ></path>
+                    <path d="M8 18h1"></path></svg></span
+                ><span class="bcn-ri__no typography-body-sm">R-007</span
+                ><span class="bcn-ri__title typography-body-md"
+                  >Departure Procedures and Turn Points</span
+                ><span class="bcn-ri__topic typography-body-sm"
+                  ><span class="bcn-topic-dot" data-family="blue"></span>Flight
+                  paths</span
+                ><span class="bcn-ri__who typography-body-sm"
+                  ><span class="bcn-person"
+                    ><span
+                      class="bcn-proposal-ring"
+                      data-suggested=""
+                      title="Mei Tanaka (suggested by Aldo)"
+                      ><span
+                        class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                        style="--_avatar-hue: 323"
+                        ><span class="esa-avatar__initials">MT</span></span
+                      ></span
+                    ><span class="bcn-person__name">Mei Tanaka</span></span
+                  ></span
+                ></a
+              >
+            </li>
+            <li>
+              <a
+                class="bcn-ri__row"
+                href="/beacon-design/prototypes/comments/response?id=r-09"
+                ><span
+                  class="bcn-ri__state"
+                  data-state="draft"
+                  role="img"
+                  aria-label="Draft"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
+                    ></path>
+                    <path
+                      d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
+                    ></path>
+                    <path d="M8 18h1"></path></svg></span
+                ><span class="bcn-ri__no typography-body-sm">R-009</span
+                ><span class="bcn-ri__title typography-body-md"
+                  >Health Effects of Noise and Air Quality</span
+                ><span class="bcn-ri__topic typography-body-sm"
+                  ><span class="bcn-topic-dot" data-family="crimson"></span>Health</span
+                ><span class="bcn-ri__who typography-body-sm"
+                  ><span class="bcn-person"
+                    ><span
+                      class="bcn-proposal-ring"
+                      data-suggested=""
+                      title="Nadia Osei (suggested by Aldo)"
+                      ><span
+                        class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                        style="--_avatar-hue: 41"
+                        ><span class="esa-avatar__initials">NO</span></span
+                      ></span
+                    ><span class="bcn-person__name">Nadia Osei</span></span
+                  ></span
+                ></a
+              >
+            </li>
+            <li>
+              <a
+                class="bcn-ri__row"
+                href="/beacon-design/prototypes/comments/response?id=r-08"
+                ><span
+                  class="bcn-ri__state"
+                  data-state="draft"
+                  role="img"
+                  aria-label="Draft"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
+                    ></path>
+                    <path
+                      d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
+                    ></path>
+                    <path d="M8 18h1"></path></svg></span
+                ><span class="bcn-ri__no typography-body-sm">R-008</span
+                ><span class="bcn-ri__title typography-body-md"
+                  >Monitoring and Contours Beyond the Airport</span
+                ><span class="bcn-ri__topic typography-body-sm"
+                  ><span class="bcn-topic-dot" data-family="grass"></span>Noise
+                  measurement</span
+                ><span class="bcn-ri__who typography-body-sm"
+                  ><span class="bcn-person"
+                    ><span
+                      class="bcn-proposal-ring"
+                      data-suggested=""
+                      title="Jordan Ellis (suggested by Aldo)"
+                      ><span
+                        class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                        style="--_avatar-hue: 37"
+                        ><span class="esa-avatar__initials">JE</span></span
+                      ></span
+                    ><span class="bcn-person__name">Jordan Ellis</span></span
+                  ></span
+                ></a
+              >
+            </li>
+            <li>
+              <a
+                class="bcn-ri__row"
+                href="/beacon-design/prototypes/comments/response?id=r-10"
+                ><span
+                  class="bcn-ri__state"
+                  data-state="draft"
+                  role="img"
+                  aria-label="Draft"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
+                    ></path>
+                    <path
+                      d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
+                    ></path>
+                    <path d="M8 18h1"></path></svg></span
+                ><span class="bcn-ri__no typography-body-sm">R-010</span
+                ><span class="bcn-ri__title typography-body-md"
+                  >Insulation Eligibility and Structural Vibration</span
+                ><span class="bcn-ri__topic typography-body-sm"
+                  ><span class="bcn-topic-dot" data-family="orange"></span>Sound
+                  insulation</span
+                ><span class="bcn-ri__who typography-body-sm"
+                  ><span class="bcn-person"
+                    ><span class="bcn-proposal-ring" title="Tom Brecht"
+                      ><span
+                        class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                        style="--_avatar-hue: 112"
+                        ><span class="esa-avatar__initials">TB</span></span
+                      ></span
+                    ><span class="bcn-person__name">Tom Brecht</span></span
+                  ></span
+                ></a
+              >
+            </li>
+          </ul>
+        </section>
+        <section class="bcn-ri__group">
+          <h3 class="bcn-ri__label typography-label-sm-strong">Accepted</h3>
+          <ul class="bcn-ri__list" role="list">
+            <li>
+              <a
+                class="bcn-ri__row"
+                href="/beacon-design/prototypes/comments/response?id=r-01"
+                ><span
+                  class="bcn-ri__state"
+                  data-state="done"
+                  role="img"
+                  aria-label="Accepted"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                    ></path>
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                    <path d="m9 15 2 2 4-4"></path></svg></span
+                ><span class="bcn-ri__no typography-body-sm">R-001</span
+                ><span class="bcn-ri__title typography-body-md"
+                  >Joining Workshops and Submitting Petitions</span
+                ><span class="bcn-ri__topic typography-body-sm"
+                  ><span class="bcn-topic-dot" data-family="slate"></span>Process and
+                  outreach</span
+                ><span class="bcn-ri__who typography-body-sm"></span
+              ></a>
+            </li>
+            <li>
+              <a
+                class="bcn-ri__row"
+                href="/beacon-design/prototypes/comments/response?id=r-02"
+                ><span
+                  class="bcn-ri__state"
+                  data-state="done"
+                  role="img"
+                  aria-label="Accepted"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                    ></path>
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                    <path d="m9 15 2 2 4-4"></path></svg></span
+                ><span class="bcn-ri__no typography-body-sm">R-002</span
+                ><span class="bcn-ri__title typography-body-md"
+                  >Repair of Earlier Sound Insulation</span
+                ><span class="bcn-ri__topic typography-body-sm"
+                  ><span class="bcn-topic-dot" data-family="orange"></span>Sound
+                  insulation</span
+                ><span class="bcn-ri__who typography-body-sm"></span
+              ></a>
+            </li>
+            <li>
+              <a
+                class="bcn-ri__row"
+                href="/beacon-design/prototypes/comments/response?id=r-03"
+                ><span
+                  class="bcn-ri__state"
+                  data-state="done"
+                  role="img"
+                  aria-label="Accepted"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                    ></path>
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                    <path d="m9 15 2 2 4-4"></path></svg></span
+                ><span class="bcn-ri__no typography-body-sm">R-003</span
+                ><span class="bcn-ri__title typography-body-md"
+                  >Why the Study Uses DNL 65</span
+                ><span class="bcn-ri__topic typography-body-sm"
+                  ><span class="bcn-topic-dot" data-family="grass"></span>Noise
+                  measurement</span
+                ><span class="bcn-ri__who typography-body-sm"></span
+              ></a>
+            </li>
+          </ul>
+        </section>
+      </div>
+      <div data-ri-none="" hidden="">
+        <div class="esa-empty-state esa-empty-state--sm">
+          <h3 class="esa-empty-state__title typography-label-sm-strong">
+            No responses assigned to you
+          </h3>
+          <p class="esa-empty-state__description typography-body-xs">
+            Switch to All to see every response.
+          </p>
+          <div class="esa-empty-state__actions typography-label-md"></div>
+        </div>
+      </div>
+      <esa-dialog
+        heading="New Response"
+        size="sm"
+        data-new-response="true"
+        data-href="/beacon-design/prototypes/comments/response"
+        ><div class="stack" data-gap="md">
+          <esa-text-field
+            size="sm"
+            label="Title"
+            placeholder="e.g. Helicopter and Seaplane Noise"
+            required=""
+            data-nr-title="true"
+          ></esa-text-field
+          ><esa-radio-group
+            size="sm"
+            label="Topic"
+            required="true"
+            data-nr-topic="true"
+            orientation="vertical"
+          ></esa-radio-group>
+        </div>
+        <div slot="footer" class="cluster" data-gap="xs">
+          <span
+            class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-nr-create="true"
             >
-          </li>
-          <li>
-            <a
-              class="bcn-ri__row"
-              href="/beacon-design/prototypes/comments/response?id=r-12"
-              ><span
-                class="bcn-ri__state"
-                data-state="draft"
-                role="img"
-                aria-label="Draft"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
-                  ></path>
-                  <path
-                    d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                  ></path>
-                  <path d="M8 18h1"></path></svg></span
-              ><span class="bcn-ri__no typography-body-sm">R-012</span
-              ><span class="bcn-ri__title typography-body-md"
-                >Growth in Operations and Overflight Frequency</span
-              ><span class="bcn-ri__topic typography-body-sm"
-                ><span class="bcn-topic-dot" data-family="amber"></span>Aircraft
-                noise</span
-              ></a
+              <span class="esa-button__label">Create</span>
+            </button></span
+          ><span
+            class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-nr-cancel="true"
             >
-          </li>
-          <li>
-            <a
-              class="bcn-ri__row"
-              href="/beacon-design/prototypes/comments/response?id=r-06"
-              ><span
-                class="bcn-ri__state"
-                data-state="draft"
-                role="img"
-                aria-label="Draft"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
-                  ></path>
-                  <path
-                    d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                  ></path>
-                  <path d="M8 18h1"></path></svg></span
-              ><span class="bcn-ri__no typography-body-sm">R-006</span
-              ><span class="bcn-ri__title typography-body-md"
-                >Distributing Arrivals and Approach Altitude</span
-              ><span class="bcn-ri__topic typography-body-sm"
-                ><span class="bcn-topic-dot" data-family="blue"></span>Flight paths</span
-              ></a
-            >
-          </li>
-          <li>
-            <a
-              class="bcn-ri__row"
-              href="/beacon-design/prototypes/comments/response?id=r-05"
-              ><span
-                class="bcn-ri__state"
-                data-state="draft"
-                role="img"
-                aria-label="Draft"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
-                  ></path>
-                  <path
-                    d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                  ></path>
-                  <path d="M8 18h1"></path></svg></span
-              ><span class="bcn-ri__no typography-body-sm">R-005</span
-              ><span class="bcn-ri__title typography-body-md"
-                >Elliott Bay Arrival Route</span
-              ><span class="bcn-ri__topic typography-body-sm"
-                ><span class="bcn-topic-dot" data-family="blue"></span>Flight paths</span
-              ></a
-            >
-          </li>
-          <li>
-            <a
-              class="bcn-ri__row"
-              href="/beacon-design/prototypes/comments/response?id=r-11"
-              ><span
-                class="bcn-ri__state"
-                data-state="draft"
-                role="img"
-                aria-label="Draft"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
-                  ></path>
-                  <path
-                    d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                  ></path>
-                  <path d="M8 18h1"></path></svg></span
-              ><span class="bcn-ri__no typography-body-sm">R-011</span
-              ><span class="bcn-ri__title typography-body-md"
-                >Complaints and the Port's Noise Office</span
-              ><span class="bcn-ri__topic typography-body-sm"
-                ><span class="bcn-topic-dot" data-family="slate"></span>Process and
-                outreach</span
-              ></a
-            >
-          </li>
-          <li>
-            <a
-              class="bcn-ri__row"
-              href="/beacon-design/prototypes/comments/response?id=r-07"
-              ><span
-                class="bcn-ri__state"
-                data-state="draft"
-                role="img"
-                aria-label="Draft"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
-                  ></path>
-                  <path
-                    d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                  ></path>
-                  <path d="M8 18h1"></path></svg></span
-              ><span class="bcn-ri__no typography-body-sm">R-007</span
-              ><span class="bcn-ri__title typography-body-md"
-                >Departure Procedures and Turn Points</span
-              ><span class="bcn-ri__topic typography-body-sm"
-                ><span class="bcn-topic-dot" data-family="blue"></span>Flight paths</span
-              ></a
-            >
-          </li>
-          <li>
-            <a
-              class="bcn-ri__row"
-              href="/beacon-design/prototypes/comments/response?id=r-09"
-              ><span
-                class="bcn-ri__state"
-                data-state="draft"
-                role="img"
-                aria-label="Draft"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
-                  ></path>
-                  <path
-                    d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                  ></path>
-                  <path d="M8 18h1"></path></svg></span
-              ><span class="bcn-ri__no typography-body-sm">R-009</span
-              ><span class="bcn-ri__title typography-body-md"
-                >Health Effects of Noise and Air Quality</span
-              ><span class="bcn-ri__topic typography-body-sm"
-                ><span class="bcn-topic-dot" data-family="crimson"></span>Health</span
-              ></a
-            >
-          </li>
-          <li>
-            <a
-              class="bcn-ri__row"
-              href="/beacon-design/prototypes/comments/response?id=r-08"
-              ><span
-                class="bcn-ri__state"
-                data-state="draft"
-                role="img"
-                aria-label="Draft"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
-                  ></path>
-                  <path
-                    d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                  ></path>
-                  <path d="M8 18h1"></path></svg></span
-              ><span class="bcn-ri__no typography-body-sm">R-008</span
-              ><span class="bcn-ri__title typography-body-md"
-                >Monitoring and Contours Beyond the Airport</span
-              ><span class="bcn-ri__topic typography-body-sm"
-                ><span class="bcn-topic-dot" data-family="grass"></span>Noise
-                measurement</span
-              ></a
-            >
-          </li>
-          <li>
-            <a
-              class="bcn-ri__row"
-              href="/beacon-design/prototypes/comments/response?id=r-10"
-              ><span
-                class="bcn-ri__state"
-                data-state="draft"
-                role="img"
-                aria-label="Draft"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
-                  ></path>
-                  <path
-                    d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                  ></path>
-                  <path d="M8 18h1"></path></svg></span
-              ><span class="bcn-ri__no typography-body-sm">R-010</span
-              ><span class="bcn-ri__title typography-body-md"
-                >Insulation Eligibility and Structural Vibration</span
-              ><span class="bcn-ri__topic typography-body-sm"
-                ><span class="bcn-topic-dot" data-family="orange"></span>Sound
-                insulation</span
-              ></a
-            >
-          </li>
-        </ul>
-      </section>
-      <section class="bcn-ri__group">
-        <h3 class="bcn-ri__label typography-label-sm-strong">Accepted</h3>
-        <ul class="bcn-ri__list" role="list">
-          <li>
-            <a
-              class="bcn-ri__row"
-              href="/beacon-design/prototypes/comments/response?id=r-01"
-              ><span
-                class="bcn-ri__state"
-                data-state="accepted"
-                role="img"
-                aria-label="Accepted"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                  ></path>
-                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                  <path d="m9 15 2 2 4-4"></path></svg></span
-              ><span class="bcn-ri__no typography-body-sm">R-001</span
-              ><span class="bcn-ri__title typography-body-md"
-                >Joining Workshops and Submitting Petitions</span
-              ><span class="bcn-ri__topic typography-body-sm"
-                ><span class="bcn-topic-dot" data-family="slate"></span>Process and
-                outreach</span
-              ></a
-            >
-          </li>
-          <li>
-            <a
-              class="bcn-ri__row"
-              href="/beacon-design/prototypes/comments/response?id=r-02"
-              ><span
-                class="bcn-ri__state"
-                data-state="accepted"
-                role="img"
-                aria-label="Accepted"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                  ></path>
-                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                  <path d="m9 15 2 2 4-4"></path></svg></span
-              ><span class="bcn-ri__no typography-body-sm">R-002</span
-              ><span class="bcn-ri__title typography-body-md"
-                >Repair of Earlier Sound Insulation</span
-              ><span class="bcn-ri__topic typography-body-sm"
-                ><span class="bcn-topic-dot" data-family="orange"></span>Sound
-                insulation</span
-              ></a
-            >
-          </li>
-          <li>
-            <a
-              class="bcn-ri__row"
-              href="/beacon-design/prototypes/comments/response?id=r-03"
-              ><span
-                class="bcn-ri__state"
-                data-state="accepted"
-                role="img"
-                aria-label="Accepted"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                  ></path>
-                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                  <path d="m9 15 2 2 4-4"></path></svg></span
-              ><span class="bcn-ri__no typography-body-sm">R-003</span
-              ><span class="bcn-ri__title typography-body-md"
-                >Why the Study Uses DNL 65</span
-              ><span class="bcn-ri__topic typography-body-sm"
-                ><span class="bcn-topic-dot" data-family="grass"></span>Noise
-                measurement</span
-              ></a
-            >
-          </li>
-        </ul>
-      </section>
+              <span class="esa-button__label">Cancel</span>
+            </button></span
+          >
+        </div></esa-dialog
+      >
+      <script
+        type="module"
+        src="/beacon-design/_astro/BcnNewResponseDialog.astro_astro_type_script_index_0_lang.BWhe8bWe.js"
+      ></script>
     </div>
     <script
       type="module"
-      src="/beacon-design/_astro/BcnResponseIndex.astro_astro_type_script_index_0_lang.CmkcOEPE.js"
+      src="/beacon-design/_astro/BcnResponseIndex.astro_astro_type_script_index_0_lang.u5pjRG47.js"
     ></script>
   </div>
 </div>
@@ -5104,6 +5788,29 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
        Both nodes are always in the DOM (the live region has to pre-exist its content),
        so the gap is opt-IN via .is-shown rather than collapsed with :empty — Lit's
        template whitespace defeats :empty in engines that follow Selectors L3. */
+.help,
+.error {
+  margin: 0;
+}
+/* Type comes from .typography-body-sm — help and error are one size at every
+       control step, so they name the composite directly rather than mapping. */
+/* Both nodes are ALWAYS in the DOM (see render()), so the gap is opt-IN rather
+       than collapsed away. Deliberately not display:none when empty — that removes
+       the node from the accessibility tree, and a live region that is not in the tree
+       cannot announce anything. An empty <p> with no margin occupies no space.
+
+       .is-shown rather than :empty: Lit's template whitespace leaves a text node
+       inside the element, and browsers still disagree about whether :empty ignores
+       whitespace-only children (Selectors L4 says yes, L3 says no). A class is
+       deterministic; :empty here would silently leave 4px of dead space under every
+       clean field in some engines and not others. */
+.help,
+.error {
+  margin: 0;
+}
+/* Both message nodes always render (the live region has to pre-exist its content);
+       .visually-hidden takes the empty ones out of flow. Not display:none, which would
+       drop them from the accessibility tree. */
 .help,
 .error {
   margin: 0;
@@ -5146,6 +5853,27 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
   font-weight: var(--typography-body-sm-font-weight);
   line-height: var(--typography-body-sm-line-height);
   letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-body-xs {
+  font-family: var(--typography-body-xs-font-family);
+  font-size: var(--typography-body-xs-font-size);
+  font-weight: var(--typography-body-xs-font-weight);
+  line-height: var(--typography-body-xs-line-height);
+  letter-spacing: var(--typography-body-xs-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-label-2xs-strong {
+  font-family: var(--typography-label-2xs-strong-font-family);
+  font-size: var(--typography-label-2xs-strong-font-size);
+  font-weight: var(--typography-label-2xs-strong-font-weight);
+  line-height: var(--typography-label-2xs-strong-line-height);
+  letter-spacing: var(--typography-label-2xs-strong-letter-spacing);
 }
 .typography-label-sm-strong {
   font-family: var(--typography-label-sm-strong-font-family);
@@ -5394,6 +6122,36 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
   box-shadow: none;
   border: 1.5px dashed var(--_ink);
   background: 0 0;
+}
+.bcn-topic-dot[data-suggested] {
+  background: color-mix(
+    in srgb,
+    var(--_ink) 22%,
+    var(--color-background-elevation-raised)
+  );
+  box-shadow: none;
+  border: 1.5px dashed var(--_ink);
+  box-sizing: border-box;
+}
+.bcn-proposal-ring {
+  border: 1.5px solid #0000;
+  border-radius: 50%;
+  padding: 1px;
+  display: inline-flex;
+}
+.bcn-proposal-ring[data-suggested] {
+  border: 1.5px dashed var(--color-content-default-tertiary);
+}
+.bcn-person {
+  align-items: center;
+  gap: var(--spacing-150, 0.375rem);
+  min-width: 0;
+  display: inline-flex;
+}
+.bcn-person__name {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 :is(mark.bcn-hl, .bcn-topic-dot)[data-family="amber"][data-shade="1"] {
   --_hl: var(--bcn-topic-amber-1);
@@ -5716,6 +6474,19 @@ summary.esa-button--variant-chrome:focus-visible {
   margin-left: auto;
   display: inline-flex;
 }
+.bcn-cbt .bcn-cbt__expert {
+  align-items: center;
+  gap: var(--spacing-150, 0.375rem);
+  font-weight: var(--typography-font-weight-regular);
+  margin-left: auto;
+  display: inline-flex;
+}
+.bcn-cbt .bcn-cbt__expert esa-select {
+  width: 11rem;
+}
+.bcn-cbt .bcn-cbt__expert + .bcn-cbt__verbs {
+  margin-left: 0;
+}
 .bcn-cbt__list {
   background: var(--color-background-elevation-raised);
   border: 1px solid var(--color-border-default);
@@ -5925,7 +6696,11 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-cbt .bcn-cbt__item[data-moved] {
   animation: 1.2s ease-out bcn-cbt-moved;
 }
-.bcn-ri {
+.bcn-ri__bar {
+  justify-content: flex-end;
+  display: flex;
+}
+.bcn-ri__groups {
   gap: var(--spacing-500);
   flex-direction: column;
   display: flex;
@@ -5952,7 +6727,7 @@ summary.esa-button--variant-chrome:focus-visible {
   gap: var(--spacing-300);
   padding: var(--spacing-200) var(--spacing-400);
   color: var(--color-content-default);
-  grid-template-columns: 1rem 3.75rem minmax(0, 1fr) 13rem;
+  grid-template-columns: 1rem 3.75rem minmax(0, 1fr) 13rem 10rem;
   text-decoration: none;
   display: grid;
 }
@@ -5970,7 +6745,7 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--color-content-secondary);
   display: inline-flex;
 }
-.bcn-ri .bcn-ri__state[data-state="accepted"] {
+.bcn-ri .bcn-ri__state[data-state="done"] {
   color: var(--color-content-success, var(--color-content-default));
 }
 .bcn-ri .bcn-ri__title {
@@ -5979,7 +6754,8 @@ summary.esa-button--variant-chrome:focus-visible {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.bcn-ri .bcn-ri__topic {
+.bcn-ri .bcn-ri__topic,
+.bcn-ri .bcn-ri__who {
   align-items: center;
   gap: var(--spacing-150, 0.375rem);
   min-width: 0;
@@ -5991,6 +6767,24 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--color-content-secondary);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+}
+.bcn-si__bar {
+  align-items: flex-end;
+  gap: var(--spacing-400);
+  display: flex;
+}
+.bcn-si__bar esa-tab-layout {
+  flex: 1;
+  min-width: 0;
+}
+.bcn-si__bar esa-button-toggle {
+  margin-bottom: var(--spacing-150, 0.375rem);
+}
+.bcn-si__bar esa-button-toggle[hidden] {
+  display: none;
+}
+.bcn-si .bcn-si__legend-s {
+  color: var(--color-content-secondary);
 }
 .bcn-si .bcn-si__months {
   gap: var(--spacing-500);
@@ -6154,6 +6948,27 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-body-sm-line-height);
   letter-spacing: var(--typography-body-sm-letter-spacing);
 }
+.typography-body-xs {
+  font-family: var(--typography-body-xs-font-family);
+  font-size: var(--typography-body-xs-font-size);
+  font-weight: var(--typography-body-xs-font-weight);
+  line-height: var(--typography-body-xs-line-height);
+  letter-spacing: var(--typography-body-xs-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-label-2xs-strong {
+  font-family: var(--typography-label-2xs-strong-font-family);
+  font-size: var(--typography-label-2xs-strong-font-size);
+  font-weight: var(--typography-label-2xs-strong-font-weight);
+  line-height: var(--typography-label-2xs-strong-line-height);
+  letter-spacing: var(--typography-label-2xs-strong-letter-spacing);
+}
 .typography-label-sm-strong {
   font-family: var(--typography-label-sm-strong-font-family);
   font-size: var(--typography-label-sm-strong-font-size);
@@ -6234,6 +7049,58 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
 }
+.esa-avatar {
+  --_avatar-size: var(--avatar-size-md, 40px);
+  --_avatar-font-size: var(
+    --avatar-font-size-md,
+    var(--typography-label-md-strong-font-size, var(--font-size-200, 0.9375rem))
+  );
+  --_avatar-radius: var(--radius-pill, 9999px);
+  --_avatar-bg: var(--avatar-bg, hsl(var(--_avatar-hue, 200) 45% 65%));
+  --_avatar-text: var(--color-content-default-knockout, #fcfcfc);
+  width: var(--_avatar-size);
+  height: var(--_avatar-size);
+  border-radius: var(--_avatar-radius);
+  background: var(--_avatar-bg);
+  color: var(--_avatar-text);
+  font-size: var(--_avatar-font-size);
+  user-select: none;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+  overflow: hidden;
+}
+.esa-avatar--xs {
+  --_avatar-size: var(--avatar-size-xs, 20px);
+  --_avatar-font-size: var(
+    --avatar-font-size-xs,
+    var(--typography-label-2xs-strong-font-size, var(--font-size-050, 0.625rem))
+  );
+}
+.esa-avatar--sm {
+  --_avatar-size: var(--avatar-size-sm, 28px);
+  --_avatar-font-size: var(
+    --avatar-font-size-sm,
+    var(--typography-label-xs-strong-font-size, var(--font-size-100, 0.75rem))
+  );
+}
+.esa-avatar--lg {
+  --_avatar-size: var(--avatar-size-lg, 56px);
+  --_avatar-font-size: var(
+    --avatar-font-size-lg,
+    var(--typography-title-font-size, var(--font-size-400, 1.25rem))
+  );
+}
+.esa-avatar--square {
+  --_avatar-radius: var(--radius-md, 0.5rem);
+}
+.esa-avatar__image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -6262,6 +7129,53 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.esa-empty-state {
+  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
+  --_empty-gap: var(--spacing-200, 0.5rem);
+  text-align: center;
+  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
+  justify-content: center;
+  align-items: center;
+  gap: var(--_empty-gap);
+  flex-direction: column;
+  display: flex;
+}
+.esa-empty-state--xs {
+  --_empty-icon-size: var(--empty-state-icon-size-xs, 24px);
+  padding: var(--spacing-300, 0.75rem) var(--spacing-200, 0.5rem);
+}
+.esa-empty-state--sm {
+  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
+  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
+}
+.esa-empty-state--lg {
+  --_empty-icon-size: var(--empty-state-icon-size-lg, 64px);
+  padding: var(--spacing-800, 4rem) var(--spacing-400, 1rem);
+}
+.esa-empty-state__icon {
+  color: var(--color-content-default-secondary, #646464);
+  margin-bottom: var(--spacing-100, 0.25rem);
+  display: inline-flex;
+}
+.esa-empty-state__icon svg {
+  width: var(--_empty-icon-size);
+  height: var(--_empty-icon-size);
+}
+.esa-empty-state__title {
+  color: var(--color-content-default, #202020);
+  margin: 0;
+}
+.esa-empty-state__description {
+  color: var(--color-content-default-secondary, #646464);
+  max-width: 360px;
+  margin: 0;
+}
+.esa-empty-state__actions {
+  margin-top: var(--spacing-200, 0.5rem);
+}
+.esa-empty-state__actions:empty {
+  display: none;
 }
 .visually-hidden {
   white-space: nowrap;
@@ -6433,10 +7347,29 @@ summary.esa-button--variant-chrome:focus-visible {
 .stack[data-split] > [data-split] {
   margin-block-end: auto;
 }
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
+  flex-wrap: wrap;
+  display: flex;
+}
 ```
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
+- `--avatar-bg`: hsl(200 45% 65%) _(component)_
+- `--avatar-font-size-lg`: clamp(1rem, .88rem + .6vw, 1.25rem) _(component)_
+- `--avatar-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
+- `--avatar-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
+- `--avatar-font-size-xs`: clamp(.5rem, .44rem + .3vw, .625rem) _(component)_
+- `--avatar-size-lg`: 56px _(component)_
+- `--avatar-size-md`: 40px _(component)_
+- `--avatar-size-sm`: 28px _(component)_
+- `--avatar-size-xs`: 20px _(component)_
 - `--bcn-aldo`: #08908b _(component)_
 - `--bcn-aldo-100`: #cfeceb _(component)_
 - `--bcn-aldo-600`: #06736f _(component)_
@@ -6531,9 +7464,17 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-utility-success`: #218358 _(semantic)_
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
 - `--elevation-4`: 0 6px 24px -6px #00000012 _(semantic)_
+- `--empty-state-icon-size-lg`: 64px _(component)_
+- `--empty-state-icon-size-md`: 48px _(component)_
+- `--empty-state-icon-size-sm`: 32px _(component)_
+- `--empty-state-icon-size-xs`: 24px _(component)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
+- `--font-size-050`: clamp(.5rem, .44rem + .3vw, .625rem) _(primitive)_
+- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
+- `--font-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
 - `--gap`: 1rem _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
@@ -6544,6 +7485,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
 - `--radius-md`: .25rem _(semantic)_
+- `--radius-pill`: 9999px _(semantic)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
@@ -6551,6 +7493,8 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
+- `--spacing-600`: 2rem _(primitive)_
+- `--spacing-800`: 4rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
@@ -6562,9 +7506,24 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-body-sm-font-weight`: 350 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
+- `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-body-xs-font-weight`: 350 _(semantic)_
+- `--typography-body-xs-letter-spacing`: .01em _(semantic)_
+- `--typography-body-xs-line-height`: 1.6 _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
 - `--typography-font-weight-regular`: 350 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
+- `--typography-label-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-2xs-strong-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-label-2xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-2xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-2xs-strong-line-height`: 1.6 _(semantic)_
+- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-md-font-weight`: 500 _(semantic)_
+- `--typography-label-md-letter-spacing`: .01em _(semantic)_
+- `--typography-label-md-line-height`: 1.6 _(semantic)_
 - `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-label-md-strong-font-weight`: 550 _(semantic)_
@@ -6575,6 +7534,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
 - `--typography-label-sm-strong-letter-spacing`: .01em _(semantic)_
 - `--typography-label-sm-strong-line-height`: 1.6 _(semantic)_
+- `--typography-label-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
 - `--typography-microcopy-2xs-font-weight`: 500 _(semantic)_
@@ -6620,3 +7580,4 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+- `--typography-title-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
