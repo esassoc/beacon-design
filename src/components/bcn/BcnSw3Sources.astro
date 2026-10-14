@@ -138,7 +138,14 @@ import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
     background: var(--color-background-elevation-sunken);
     box-shadow: inset 0 0 0 1px var(--color-border-default);
   }
-  .bcn-sw3src__list :global(.bcn-sw3src__fold) { flex: none; padding: 4px 0 0 2px; }
+  .bcn-sw3src__list :global(.bcn-sw3src__fold) { flex: none; margin: 3px 0 0 2px; }
+  /* Centered on the name's first line (6px row padding + half a 17px line). */
+  .bcn-sw3src__list :global(button[data-src-fold]) {
+    width: 24px;
+    height: 24px;
+    min-height: 24px;
+    padding: 5px;
+  }
   .bcn-sw3src__list :global(.bcn-sw3src__fold svg) { transition: transform 150ms ease; }
   .bcn-sw3src__list :global(.bcn-sw3src__source[data-collapsed] .bcn-sw3src__fold svg) { transform: rotate(-90deg); }
   .bcn-sw3src__list :global(.bcn-sw3src__source[data-collapsed] .bcn-sw3src__files) { display: none; }
