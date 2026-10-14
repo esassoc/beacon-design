@@ -7,8 +7,8 @@
 // and only the three panes scroll, each inside itself. So the controls never scroll away,
 // the three panes' tops align, and Aldo's composer is always on screen.
 //
-// The header holds the step's title and the two panel toggles (the library and Aldo); the
-// console under it is the run's transport (Play, Pause, Stop, Restart) and speed, then
+// The header holds the step's title and what it is for; the library and Aldo each fold
+// into a narrow rail from their own headers (as the app's side nav does). The console is the run's transport (Play, Pause, Stop, Restart) and speed, then
 // every page of the file in one strip. Where the run is lives in Aldo, as its status. Mark
 // a missed commitment floats over the page it acts on. Reset the prototype sits below. Selecting a
 // source shows its details (name, reference number, files, upload); selecting a file shows
@@ -30,13 +30,14 @@
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnSwStepPanel from './BcnSwStepPanel.astro';
 import BcnPageView from './BcnPageView.astro';
 import BcnSw3Sources from './BcnSw3Sources.astro';
 import BcnSw3SourceEditor from './BcnSw3SourceEditor.astro';
 import BcnSw3Aldo from './BcnSw3Aldo.astro';
 import BcnSw3Toolbar from './BcnSw3Toolbar.astro';
-import BcnAldoToggle from './BcnAldoToggle.astro';
+import BcnAldoMark from './BcnAldoMark.astro';
 import { SW3_REVIEW, SW3_STEPS } from '../../data/setup-wizard-3-step';
 import { SCAN_DOCS, SCAN_SOURCES } from '../../data/sw3-docs';
 import { withBase } from '../../lib/base';
@@ -51,18 +52,19 @@ const sources = {
 
 <section class="bcn-sw3scan" data-sw3-scan data-base={withBase('/')} data-aldo="open" data-library="open">
   <div class="bcn-sw3scan__panel">
-    <BcnSwStepPanel n={STEP.n} token={STEP.token}>
+    <BcnSwStepPanel n={STEP.n} token={STEP.token} intro="Upload permits, contracts, and specifications that contain compliance commitments.">
       <Fragment slot="title"><span>Source Documents</span></Fragment>
-      <div slot="actions" class="bcn-sw3scan__toggles">
-        <EsaButton variant="secondary" size="sm" icon="plus" data-ico="panel-left-close" data-bar-library aria-pressed="true">Hide library</EsaButton>
-        <BcnAldoToggle />
-      </div>
       <BcnSw3Toolbar />
     </BcnSwStepPanel>
   </div>
 
   <div class="bcn-sw3scan__sources">
     <BcnSw3Sources />
+    <!-- Collapsed: a narrow rail, as the app's side nav collapses. -->
+    <button type="button" class="bcn-sw3scan__rail" data-rail="library" aria-label="Show the library" title="Show the library">
+      <EsaIcon name="chevrons-right" size="sm" />
+      <span class="bcn-sw3scan__railname">Library</span>
+    </button>
   </div>
 
   <div class="bcn-sw3scan__main" data-sw3-main>
@@ -89,6 +91,12 @@ const sources = {
 
   <div class="bcn-sw3scan__aldo">
     <BcnSw3Aldo review={withBase(SW3_REVIEW)} />
+    <button type="button" class="bcn-sw3scan__rail bcn-sw3scan__rail--aldo" data-rail="aldo" aria-label="Show Aldo" title="Show Aldo">
+      <EsaIcon name="chevrons-left" size="sm" />
+      <BcnAldoMark size="sm" />
+      <span class="bcn-sw3scan__railname">Aldo</span>
+      <span class="bcn-sw3scan__raildot" data-rail-dot hidden></span>
+    </button>
   </div>
 
   <esa-side-dialog heading="New source document" size="md" data-new-dialog>
@@ -132,14 +140,53 @@ const sources = {
     --color-background-brand-muted: var(--color-background-elevation-raised);
     --color-content-on-brand-muted: var(--color-content-default);
   }
-  .bcn-sw3scan[data-aldo='closed'] { grid-template-columns: 16rem minmax(0, 1fr); }
-  .bcn-sw3scan[data-library='closed'] { grid-template-columns: minmax(0, 1fr) 30rem; }
-  .bcn-sw3scan[data-library='closed'][data-aldo='closed'] { grid-template-columns: minmax(0, 1fr); }
-  .bcn-sw3scan[data-aldo='closed'] .bcn-sw3scan__aldo,
-  .bcn-sw3scan[data-library='closed'] .bcn-sw3scan__sources { display: none; }
+  /* Collapsed panels are rails, wide enough for their mark. The page takes the rest, and
+     Aldo widens when the library is a rail. */
+  .bcn-sw3scan[data-library='closed'] { grid-template-columns: 2.75rem minmax(0, 1fr) 30rem; }
+  .bcn-sw3scan[data-aldo='closed'] { grid-template-columns: 16rem minmax(0, 1fr) 2.75rem; }
+  .bcn-sw3scan[data-library='closed'][data-aldo='closed'] { grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem; }
+  .bcn-sw3scan[data-library='closed'] .bcn-sw3scan__sources > :global(.bcn-sw3src),
+  .bcn-sw3scan[data-aldo='closed'] .bcn-sw3scan__aldo > :global(.bcn-sw3aldo) { display: none; }
+  .bcn-sw3scan__rail { display: none; }
+  .bcn-sw3scan[data-library='closed'] .bcn-sw3scan__rail[data-rail='library'],
+  .bcn-sw3scan[data-aldo='closed'] .bcn-sw3scan__rail[data-rail='aldo'] { display: flex; }
+  .bcn-sw3scan__rail {
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300) 0;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised);
+    box-shadow: var(--elevation-2);
+    color: var(--color-content-default-secondary);
+    font: inherit;
+    cursor: pointer;
+  }
+  .bcn-sw3scan__rail:hover { color: var(--color-content-default); background: var(--color-background-elevation-sunken); }
+  .bcn-sw3scan__rail:focus-visible { outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color); outline-offset: 2px; }
+  .bcn-sw3scan__railname {
+    writing-mode: vertical-rl;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-content-default);
+  }
+  .bcn-sw3scan__rail--aldo { border-color: var(--bcn-aldo-100); }
+  /* Aldo needs the person (the check): a dot on its rail. */
+  .bcn-sw3scan__raildot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-background-utility-warning);
+    box-shadow: 0 0 0 2px var(--color-background-elevation-raised);
+  }
+  .bcn-sw3scan__raildot[hidden] { display: none; }
+
+  /* Contrast: the step's panel and the library sit up off the page; Aldo has its own glow. */
+  .bcn-sw3scan__panel :global(.bcn-swsp) { box-shadow: var(--elevation-3); }
 
   .bcn-sw3scan__panel { grid-column: 1 / -1; }
-  .bcn-sw3scan__toggles { display: flex; align-items: center; gap: var(--spacing-200); }
   .bcn-sw3scan__reset { display: flex; justify-content: flex-end; padding: var(--spacing-400) 0 var(--spacing-200); }
 
   /* Mark a missed commitment: a tool floated over the page, with what to do while it is on. */
@@ -224,9 +271,9 @@ const sources = {
 
   @media (max-width: 1280px) {
     .bcn-sw3scan { grid-template-columns: 14rem minmax(0, 1fr) 20rem; }
-    .bcn-sw3scan[data-aldo='closed'] { grid-template-columns: 14rem minmax(0, 1fr); }
-    .bcn-sw3scan[data-library='closed'] { grid-template-columns: minmax(0, 1fr) 26rem; }
-    .bcn-sw3scan[data-library='closed'][data-aldo='closed'] { grid-template-columns: minmax(0, 1fr); }
+    .bcn-sw3scan[data-aldo='closed'] { grid-template-columns: 14rem minmax(0, 1fr) 2.75rem; }
+    .bcn-sw3scan[data-library='closed'] { grid-template-columns: 2.75rem minmax(0, 1fr) 26rem; }
+    .bcn-sw3scan[data-library='closed'][data-aldo='closed'] { grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem; }
   }
   @media (max-width: 1100px) {
     .bcn-sw3scan { grid-template-columns: 14rem minmax(0, 1fr); }

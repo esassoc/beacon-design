@@ -43,6 +43,7 @@ const { review } = Astro.props;
   <header class="bcn-sw3aldo__head">
     <BcnAldoMark size="sm" />
     <h3 class="bcn-sw3aldo__title typography-title-strong">Aldo</h3>
+    <span class="bcn-sw3aldo__close"><EsaButton variant="chrome" iconOnly icon="chevrons-right" label="Collapse Aldo" size="xs" data-rail-close="aldo" /></span>
   </header>
 
   <ol class="bcn-sw3aldo__log" data-aldo-log aria-live="polite"></ol>
@@ -97,14 +98,17 @@ const { review } = Astro.props;
 </section>
 
 <style>
+  /* Aldo's panel carries Aldo's glow: the composer's shadow, on the whole panel. */
   .bcn-sw3aldo {
     display: flex;
     flex-direction: column;
     min-height: 0;
     background: var(--color-background-elevation-raised);
-    border: 1px solid var(--color-border-default);
+    border: 1px solid var(--bcn-aldo-100);
     border-radius: var(--radius-200);
+    box-shadow: var(--bcn-aldo-prompt-shadow);
   }
+  .bcn-sw3aldo__close { margin-left: auto; }
 
   .bcn-sw3aldo__head {
     display: flex;

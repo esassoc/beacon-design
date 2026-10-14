@@ -36,6 +36,7 @@ import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
 <aside class="bcn-sw3src" data-sw3-sources aria-label="Library">
   <header class="bcn-sw3src__head">
     <h3 class="bcn-sw3src__title">Library</h3>
+    <EsaButton variant="chrome" iconOnly icon="chevrons-left" label="Collapse the library" size="xs" data-rail-close="library" />
   </header>
   <div class="bcn-sw3src__list" data-src-list></div>
   <footer class="bcn-sw3src__foot">
@@ -85,15 +86,22 @@ import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
     flex-direction: column;
     min-height: 0;
     height: 100%;
+    overflow: hidden;
     background: var(--color-background-elevation-raised);
     border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
+    box-shadow: var(--elevation-3);
     font-size: 0.8125rem;
     line-height: 1.3;
   }
+  /* The header is a gray band, as prod's list heads are. */
   .bcn-sw3src__head {
-    padding: var(--spacing-300) var(--spacing-400);
-    border-bottom: 1px solid var(--color-border-default-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-200) var(--spacing-200) var(--spacing-200) var(--spacing-400);
+    background: var(--color-background-elevation-sunken);
+    border-bottom: 1px solid var(--color-border-default);
   }
   .bcn-sw3src__title {
     margin: 0;

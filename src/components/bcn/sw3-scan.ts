@@ -96,8 +96,7 @@ export function setupSw3Scan(root: HTMLElement): void {
   const speedBtn = $('[data-bar-speed-btn]');
   const mark = $('[data-bar-mark]');
   const drawHint = $('[data-draw-hint]');
-  const aldoBtn = $<HTMLButtonElement>('[data-aldo-toggle]');
-  const libBtn = $('[data-bar-library]');
+  const railDot = $('[data-rail-dot]');
   const pagePane = $('[data-sw3-pagepane]');
   const empty = $('[data-sw3-empty]');
   const tools = $('[data-box-tools]');
@@ -435,23 +434,36 @@ export function setupSw3Scan(root: HTMLElement): void {
       afterRemoval();
     }),
   );
+  // The library and Aldo fold into rails from their own headers, and open from the rail.
+  const PANELS_KEY = 'sw3:v3:panels';
+  const savePanels = () => {
+    try {
+      localStorage.setItem(PANELS_KEY, JSON.stringify({ library: root.dataset.library, aldo: root.dataset.aldo }));
+    } catch {
+      /* no storage */
+    }
+  };
   const setAldo = (open: boolean) => {
     root.dataset.aldo = open ? 'open' : 'closed';
-    aldoBtn.setAttribute('aria-pressed', String(open));
-    const l = aldoBtn.querySelector('[data-aldo-toggle-label]');
-    if (l) l.textContent = open ? 'Hide Aldo' : 'Show Aldo';
+    savePanels();
     requestAnimationFrame(placeTools);
   };
-  aldoBtn.addEventListener('aldo-toggle', (e) => setAldo((e as CustomEvent<{ open: boolean }>).detail.open));
   const setLibrary = (open: boolean) => {
     root.dataset.library = open ? 'open' : 'closed';
-    const b = libBtn.querySelector('button') ?? libBtn;
-    b.setAttribute('aria-pressed', String(open));
-    setLabel(libBtn, open ? 'Hide library' : 'Show library');
-    setIcon(b, open ? 'panel-left-close' : 'panel-left-open');
+    savePanels();
     requestAnimationFrame(placeTools);
   };
-  libBtn.addEventListener('click', () => setLibrary(root.dataset.library !== 'open'));
+  try {
+    const p = JSON.parse(localStorage.getItem(PANELS_KEY) ?? '{}') as { library?: string; aldo?: string };
+    if (p.library === 'closed') root.dataset.library = 'closed';
+    if (p.aldo === 'closed') root.dataset.aldo = 'closed';
+  } catch {
+    /* no storage */
+  }
+  root.querySelector('[data-rail="library"]')?.addEventListener('click', () => setLibrary(true));
+  root.querySelector('[data-rail="aldo"]')?.addEventListener('click', () => setAldo(true));
+  root.querySelector('[data-rail-close="library"]')?.addEventListener('click', () => setLibrary(false));
+  root.querySelector('[data-rail-close="aldo"]')?.addEventListener('click', () => setAldo(false));
   document.addEventListener('sw3:page', (e) => pick((e as CustomEvent<{ page: number }>).detail.page));
   document.addEventListener('sw3:find', (e) => select((e as CustomEvent<{ id: string }>).detail.id));
   document.addEventListener('sw3:aldo', () => setAldo(true));
@@ -544,6 +556,7 @@ export function setupSw3Scan(root: HTMLElement): void {
     const isChecking = checking();
     if (isChecking && !wasChecking) setAldo(true);
     wasChecking = isChecking;
+    railDot.hidden = !isChecking;
 
     if (isFollowing() && on) {
       if (isChecking) {
