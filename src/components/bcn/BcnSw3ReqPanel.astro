@@ -1,0 +1,178 @@
+---
+// <BcnSw3ReqPanel> — the selected requirement's extracted data, beside the commitment
+// text. Every value that came from the text is anchored to its words: hovering the
+// field lights them. Any edit confirms the requirement (suggested → confirmed); there
+// is no approve button.
+//
+// Three states, by what is selected in the text:
+//   a requirement   its flag (if any) with the one-click fix, then its fields
+//   uncovered text  the words, New requirement / Not a requirement
+//   a commitment    its requirements as a list to pick from
+//
+// Contract, on `document`:
+//   in   sw3:select  detail: { code, reqId?, gap? } | null
+//   out  sw3:select  after New requirement (selects it) or Remove (selects the commitment)
+//   out  sw3:lit     detail: { code, range } | null   while a field is hovered
+//
+// bcn-lego-checked: every field is an esa- lego (esa-text-field, esa-textarea,
+// esa-select single and multiple); actions are esa-button. Checked Beacon: its
+// requirement upsert dialog (BcnSwRequirementRow's edit) has these fields but no source
+// anchors. bcn-sw3-req-panel is the home for "extracted fields beside their source".
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+---
+
+<div class="bcn-sw3rp" data-sw3-req-panel data-mode="none">
+  <div class="bcn-sw3rp__none" data-rp-none>
+    <EsaEmptyState size="sm" title="Select a requirement" description="Click a highlight in the commitment text." />
+  </div>
+
+  <div class="bcn-sw3rp__commit" data-rp-commit>
+    <p class="bcn-sw3rp__kicker typography-label-md" data-rp-ctitle></p>
+    <ol class="bcn-sw3rp__reqlist" data-rp-reqs></ol>
+  </div>
+
+  <div class="bcn-sw3rp__gap" data-rp-gap>
+    <p class="bcn-sw3rp__kicker typography-label-md-strong">Uncovered text</p>
+    <blockquote class="bcn-sw3rp__quote typography-body-md" data-rp-gapquote></blockquote>
+    <div class="bcn-sw3rp__row">
+      <EsaButton variant="primary" size="sm" data-rp-new>New requirement</EsaButton>
+      <EsaButton variant="secondary" size="sm" data-rp-notbinding>Not a requirement</EsaButton>
+    </div>
+  </div>
+
+  <div class="bcn-sw3rp__req" data-rp-req>
+    <div class="bcn-sw3rp__flag" data-rp-flag hidden>
+      <p class="bcn-sw3rp__flagkind typography-label-md-strong" data-rp-flagkind></p>
+      <p class="bcn-sw3rp__flagtext typography-body-sm" data-rp-flagtext></p>
+      <div class="bcn-sw3rp__row">
+        <EsaButton variant="primary" size="sm" data-rp-fix>Remove</EsaButton>
+        <EsaButton variant="secondary" size="sm" data-rp-keep>Keep</EsaButton>
+      </div>
+    </div>
+
+    <div class="bcn-sw3rp__filing typography-microcopy-md" data-rp-filing></div>
+
+    <esa-text-field data-f="name" label="Requirement" size="sm"></esa-text-field>
+    <esa-select data-f="type" label="Type" size="sm"></esa-select>
+    <esa-select data-f="phases" label="Phases" size="sm" multiple chip-mode></esa-select>
+
+    <fieldset class="bcn-sw3rp__group">
+      <legend class="typography-label-md-strong">Timing</legend>
+      <esa-select data-f="frequency" label="Frequency" size="sm"></esa-select>
+      <div data-anchor="milestone"><esa-select data-f="milestone" label="Milestone" size="sm"></esa-select></div>
+      <div class="bcn-sw3rp__pair">
+        <esa-select data-f="direction" label="Direction" size="sm"></esa-select>
+        <div data-anchor="offset"><esa-text-field data-f="offset" label="Offset" size="sm"></esa-text-field></div>
+      </div>
+      <esa-text-field data-f="recurrence" label="Recurrence" size="sm"></esa-text-field>
+      <div class="bcn-sw3rp__stated" data-anchor="stated">
+        <span class="typography-label-sm">As stated</span>
+        <span class="typography-body-sm" data-rp-stated></span>
+      </div>
+    </fieldset>
+
+    <div data-anchor="species"><esa-select data-f="species" label="Species" size="sm" multiple chip-mode></esa-select></div>
+    <esa-select data-f="activities" label="Construction activities" size="sm" multiple chip-mode></esa-select>
+    <div data-anchor="season"><esa-select data-f="seasons" label="Seasons" size="sm" multiple chip-mode></esa-select></div>
+    <div data-anchor="party"><esa-text-field data-f="party" label="Responsible party" size="sm"></esa-text-field></div>
+    <esa-textarea data-f="deliverable" label="Deliverable" size="sm" rows="2" auto-resize></esa-textarea>
+
+    <div class="bcn-sw3rp__foot">
+      <EsaButton variant="ghost" size="sm" icon="x" data-rp-remove>Remove requirement</EsaButton>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bcn-sw3rp { display: flex; flex-direction: column; padding: var(--spacing-400); gap: var(--spacing-300); }
+  .bcn-sw3rp > div { display: none; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-sw3rp[data-mode='none'] [data-rp-none],
+  .bcn-sw3rp[data-mode='commit'] [data-rp-commit],
+  .bcn-sw3rp[data-mode='gap'] [data-rp-gap],
+  .bcn-sw3rp[data-mode='req'] [data-rp-req] { display: flex; }
+
+  .bcn-sw3rp__kicker { margin: 0; color: var(--color-content-default); }
+  .bcn-sw3rp__quote {
+    margin: 0;
+    padding: var(--spacing-200) var(--spacing-300);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-sunken);
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+  }
+  .bcn-sw3rp__row { display: flex; gap: var(--spacing-200); flex-wrap: wrap; }
+
+  .bcn-sw3rp__reqlist { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+  .bcn-sw3rp__reqlist :global(button) {
+    display: flex;
+    gap: var(--spacing-200);
+    align-items: baseline;
+    width: 100%;
+    padding: var(--spacing-200) 0;
+    border: 0;
+    border-bottom: 1px solid var(--color-border-default-subtle);
+    background: none;
+    color: var(--color-content-default);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .bcn-sw3rp__reqlist :global(button:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+  .bcn-sw3rp__reqlist :global(.bcn-sw3rp__rtype) { margin-left: auto; color: var(--color-content-default-secondary); white-space: nowrap; }
+
+  .bcn-sw3rp__flag {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: var(--spacing-300);
+    border: 1px solid var(--color-border-warning);
+    border-radius: var(--radius-100);
+    background: var(--color-background-warning-subtle);
+  }
+  .bcn-sw3rp__flag[hidden] { display: none; }
+  .bcn-sw3rp__flagkind,
+  .bcn-sw3rp__flagtext { margin: 0; }
+  .bcn-sw3rp__flagtext { color: var(--color-content-default); }
+
+  /* Suggested vs confirmed: the dashed / solid grammar, on a small chip. */
+  .bcn-sw3rp__filing {
+    align-self: flex-start;
+    padding: 1px var(--spacing-200);
+    border: 1.5px dashed var(--color-content-default-tertiary);
+    border-radius: var(--radius-sm);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-sw3rp__filing[data-filing='confirmed'] { border-style: solid; border-color: var(--color-content-success); color: var(--color-content-success); }
+
+  .bcn-sw3rp__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    margin: 0;
+    padding: var(--spacing-300) 0 0;
+    border: 0;
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-sw3rp__group legend { padding: 0 0 var(--spacing-200); }
+  .bcn-sw3rp__pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-200); }
+  .bcn-sw3rp__stated { display: flex; flex-direction: column; gap: 2px; }
+  .bcn-sw3rp__stated[hidden] { display: none; }
+  .bcn-sw3rp__stated span:first-child { color: var(--color-content-default-secondary); }
+
+  /* A field whose value has source words: hovering it lights them in the text. */
+  [data-anchor][data-has-anchor] { border-radius: var(--radius-100); outline: 1px dashed transparent; outline-offset: 3px; }
+  [data-anchor][data-has-anchor]:hover { outline-color: var(--color-content-default-tertiary); }
+
+  .bcn-sw3rp__foot { display: flex; justify-content: flex-start; padding-top: var(--spacing-200); border-top: 1px solid var(--color-border-default-subtle); }
+</style>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-select';
+  import { setupReqPanel } from './sw3-req-panel';
+  document.querySelectorAll<HTMLElement>('[data-sw3-req-panel]').forEach(setupReqPanel);
+</script>

@@ -1,0 +1,44 @@
+---
+// Setup Wizard in three steps — step 2, Commitments: review each commitment with its
+// requirements and extracted data, against the source text.
+//
+// Requirements are not a step: they are the highlights inside each commitment. The
+// review opens on whatever the scan has found so far (it may still be running) and leads
+// with what needs a person. Entities are reviewed once per project, in the side panel.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
+import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
+import BcnSw3ReviewActions from '../../../components/bcn/BcnSw3ReviewActions.astro';
+import BcnSw3Review from '../../../components/bcn/BcnSw3Review.astro';
+import BcnSw3Entities from '../../../components/bcn/BcnSw3Entities.astro';
+import { PROJECT } from '../../../data/project-dashboard';
+import { SW3_STEPS, SW3_BASE } from '../../../data/setup-wizard-3-step';
+
+const STEP = SW3_STEPS[1];
+---
+
+<!-- manifest:
+  layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(md)   # SPINE
+  sections:
+    - wizard chrome   -> bcn-setup-wizard-frame   # three steps, straight run, step 2 active
+    - step panel      -> bcn-sw-step-panel        # numeral, title; its actions slot holds page actions
+    - page actions    -> bcn-sw3-review-actions   # in the step panel's actions slot: Project entities, Confirm all (undo), More > Export, Compliance Index
+    - review          -> bcn-sw3-review           # filter + view, navigator, commitments with requirement highlights, requirement panel
+    - entity registry -> bcn-sw3-entities         # overlay outside the stack (esa-side-dialog): proposed merges, milestones / seasons / activities / species
+-->
+
+<AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard" expandedSections={[]}>
+  <PageLayout title="Setup Wizard" hideTitleRow>
+    <BcnSetupWizardFrame steps={SW3_STEPS} active="commitments" complete={['source-documents']} homeHref={SW3_BASE}>
+      <div class="stack" data-gap="md">
+        <BcnSwStepPanel n={STEP.n} token={STEP.token} intro="Fix what Beacon flagged, then confirm. Any edit confirms a requirement.">
+          <Fragment slot="title"><span>Commitments</span></Fragment>
+          <Fragment slot="actions"><BcnSw3ReviewActions /></Fragment>
+        </BcnSwStepPanel>
+        <BcnSw3Review />
+      </div>
+      <BcnSw3Entities />
+    </BcnSetupWizardFrame>
+  </PageLayout>
+</AppShell>

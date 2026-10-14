@@ -1,0 +1,84 @@
+---
+// <BcnSw3ReviewActions> — step 2's page actions: the project entity panel (with the
+// count of merges waiting), Confirm All for every commitment nothing is flagged on
+// (one-step undo in the toast), and a More menu whose one item exports the review for
+// offline reading. Continue goes to the Compliance Index.
+//
+// bcn-lego-checked: esa-button triggers, esa-dropdown-menu for More, the toast is
+// esa-snackbar-container via src/lib/snackbar. Checked Beacon (page actions are
+// ui-button + ui-dropdown-menu). bcn-sw3-review-actions is the home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { CI_HREF } from '../../data/setup-wizard-3-step';
+import { withBase } from '../../lib/base';
+---
+
+<div class="bcn-sw3ra" data-sw3-review-actions>
+  <EsaButton variant="secondary" size="sm" data-ra-entities>Project entities</EsaButton>
+  <EsaButton variant="secondary" size="sm" icon="circle-check" data-ra-confirm-all>Confirm all</EsaButton>
+  <esa-dropdown-menu position="below-end" width="auto" data-ra-more>
+    <EsaButton variant="secondary" size="sm" iconRight="chevron-down">More</EsaButton>
+  </esa-dropdown-menu>
+  <EsaButton variant="primary" size="sm" iconRight="arrow-right" href={withBase(CI_HREF)}>Compliance Index</EsaButton>
+</div>
+
+<style>
+  .bcn-sw3ra { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
+</style>
+
+<script>
+  import '@esa/ecology/esa-dropdown-menu';
+  import { initSw3, cleanUnconfirmed, confirmAllClean, undoConfirmAll, mergeProposed, mergeState, payload } from './sw3-store';
+  import { snackbarHost, toast } from '../../lib/snackbar';
+
+  const root = document.querySelector<HTMLElement>('[data-sw3-review-actions]');
+  if (root) {
+    initSw3();
+    const label = (sel: string, text: string) => {
+      const b = root.querySelector<HTMLElement>(sel)!;
+      (b.querySelector('.esa-button__label') ?? b).textContent = text;
+      return b;
+    };
+    const menu = root.querySelector<HTMLElement & { items: unknown }>('[data-ra-more]')!;
+    customElements.whenDefined('esa-dropdown-menu').then(() => {
+      menu.items = [{ label: 'Export for offline review', action: 'export', icon: 'download' }];
+    });
+    menu.addEventListener('menu-action', (e) => {
+      if ((e as CustomEvent<string>).detail === 'export') toast('Exported ITP commitments for review (.docx).', 'success');
+    });
+
+    root.querySelector('[data-ra-entities]')!.addEventListener('click', () =>
+      document.dispatchEvent(new CustomEvent('sw3:entities', { detail: {} })),
+    );
+
+    let undoToast: string | null = null;
+    root.querySelector('[data-ra-confirm-all]')!.addEventListener('click', () => {
+      const n = confirmAllClean();
+      if (!n) return;
+      const host = snackbarHost();
+      if (undoToast) host.dismiss(undoToast);
+      undoToast = (host.show as (c: object) => string)({
+        message: `Confirmed ${n} commitment${n === 1 ? '' : 's'} with nothing flagged.`,
+        variant: 'success',
+        action: 'Undo',
+        duration: 0,
+      });
+    });
+    document.addEventListener('snackbar-action', (e) => {
+      if ((e as CustomEvent<{ id: string }>).detail?.id !== undoToast) return;
+      undoConfirmAll();
+      snackbarHost().dismiss(undoToast!);
+      undoToast = null;
+    });
+
+    const render = () => {
+      const n = cleanUnconfirmed().length;
+      const btn = label('[data-ra-confirm-all]', n ? `Confirm all (${n})` : 'Confirm all');
+      const inner = btn.querySelector('button') ?? btn;
+      (inner as HTMLButtonElement).disabled = !n;
+      const waiting = payload().merges.filter((m) => mergeProposed(m.id) && !mergeState(m.id)).length;
+      label('[data-ra-entities]', waiting ? `Project entities (${waiting} merges)` : 'Project entities');
+    };
+    document.addEventListener('sw3:change', render);
+    render();
+  }
+</script>

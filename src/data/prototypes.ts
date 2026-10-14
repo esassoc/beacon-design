@@ -827,7 +827,7 @@ export const prototypeGroups: PrototypeGroup[] = [
     pages: [
       {
         slug: 'setup-wizard-ci-run',
-        title: 'Step 3 — Building the index',
+        title: 'Step 4 — Building the index',
         description:
           'The processing run over the ITP\'s 854 requirements: Build the index, Extract, File, Merge, each with its own count and bar, six live counts, a clock, and a monospace log naming what each requirement became. Replayed from the fixture; hands off to the index when it finishes.',
         route: '/prototypes/setup-wizard-ci/run',
@@ -836,11 +836,38 @@ export const prototypeGroups: PrototypeGroup[] = [
       },
       {
         slug: 'setup-wizard-ci-index',
-        title: 'Step 3 — Compliance Index',
+        title: 'Step 4 — Compliance Index',
         description:
           'The index as the hub: coverage rollup, then category > subcategory rows with their actions, obligations and review state. A row opens the subcategory full screen: its actions and obligations by class, obligations filed in from elsewhere, merge and dismiss, approve and move to the next, and any requirement read against its commitment text or the ITP PDF.',
         route: '/prototypes/setup-wizard-ci',
         createdAt: '2026-09-28',
+        status: 'in-progress',
+      },
+    ],
+  },
+  {
+    slug: 'setup-wizard-3-step',
+    tenant: 'dcp',
+    title: 'Setup Wizard — Three Steps',
+    description:
+      'Source Documents, Commitments, Compliance Index. Requirements stop being a step: they arrive as highlights inside each commitment. Step 1 proposes a scope, then runs the scan with the ITP itself as the visual, boxes drawn as commitments are found and parsed. Step 2 reviews every commitment against its source, exceptions first, with entity merges made once per project. Step 3 is the shipped Compliance Index.',
+    pages: [
+      {
+        slug: 'setup-wizard-3-step-scan',
+        title: 'Step 1 — Source Documents',
+        description:
+          'Beacon proposes where the commitments are (pp. 80–244); the person narrows it to Condition 11. The scan then reads pp. 131–180: the page in view with a box per commitment (dashed when found, solid with requirement spans once parsed), a scrubber with a pip per find and gaps where nothing was found, and a queue that grows. Dismiss a false find, merge a split one, drag over a missed commitment to mark it. The run keeps going if you leave.',
+        route: '/prototypes/setup-wizard-3-step',
+        createdAt: '2026-10-14',
+        status: 'in-progress',
+      },
+      {
+        slug: 'setup-wizard-3-step-review',
+        title: 'Step 2 — Commitments',
+        description:
+          'Every commitment with its requirements as highlights over the words they came from, the selected requirement\'s data beside it with each value anchored to its source words, and a Text / Page toggle for the PDF crop. Needs a person filters to quotes not in the source, uncovered text, duplicate requirements, entity merges and unclear types. Project entities merges milestone and season phrasings once for every commitment; Confirm all takes the clean remainder.',
+        route: '/prototypes/setup-wizard-3-step/review',
+        createdAt: '2026-10-14',
         status: 'in-progress',
       },
     ],

@@ -1,0 +1,109 @@
+---
+// <BcnPageView> — one page of a source document, rendered large, with boxes drawn over
+// it. A box is a find (a whole item on the page) or a span within one (a child of it),
+// and either is drawn in two states: found (dashed) and parsed (solid). New boxes draw
+// in as they arrive. In select mode the person drags a rectangle over the page to mark
+// something the reader missed.
+//
+// Boxes are page fractions (0–1), so they ride the image at any width.
+//
+// Contract: page-view.ts `setupPageView(root, handlers)` returns { show, setSelecting }.
+//   out  onBox(id)               a find's box was clicked
+//   out  onRegion(page, box)     a rectangle was dragged in select mode
+//
+// bcn-lego-checked: no esa- lego renders a document page or overlays on an image
+// (esa-file-list lists files; esa-loading-overlay is a spinner scrim). Checked Beacon:
+// its PDF capture draws absolute boxes over a pdf.js page, which is this, ported over a
+// pre-rendered page image so scanned and native documents behave alike. bcn-page-view is
+// the reusable home for "a source page with anchored boxes".
+interface Props {
+  /** height / width of the page. */
+  aspect: number;
+}
+const { aspect } = Astro.props;
+---
+
+<div class="bcn-pv" data-page-view>
+  <div class="bcn-pv__sheet" data-pv-sheet style={`aspect-ratio: 1 / ${aspect};`}>
+    <img class="bcn-pv__img" data-pv-img alt="" decoding="async" />
+    <div class="bcn-pv__boxes" data-pv-boxes></div>
+    <div class="bcn-pv__drag" data-pv-drag hidden></div>
+  </div>
+</div>
+
+<style>
+  .bcn-pv {
+    display: flex;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .bcn-pv__sheet {
+    position: relative;
+    width: 100%;
+    box-shadow: var(--shadow-200);
+    border-radius: var(--radius-050);
+    overflow: hidden;
+  }
+  .bcn-pv__sheet[data-selecting] { cursor: crosshair; }
+
+  .bcn-pv__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .bcn-pv__boxes {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Boxes are built by the controller, so they are reached through :global(). */
+  .bcn-pv__boxes :global(.bcn-pv__box) {
+    position: absolute;
+    border-radius: 3px;
+    animation: bcn-pv-draw 360ms ease-out;
+  }
+  /* A find: dashed while found, solid once parsed. */
+  .bcn-pv__boxes :global(.bcn-pv__box[data-kind='find']) {
+    outline: 2px dashed var(--color-commitment);
+    outline-offset: 4px;
+    background: color-mix(in srgb, var(--color-commitment) 5%, transparent);
+    cursor: pointer;
+  }
+  .bcn-pv__boxes :global(.bcn-pv__box[data-kind='find'][data-parsed]) { outline-style: solid; }
+  .bcn-pv__boxes :global(.bcn-pv__box[data-kind='find'][data-selected]) {
+    outline-width: 3px;
+    background: color-mix(in srgb, var(--color-commitment) 9%, transparent);
+  }
+  /* A span within a find: fills in as it parses. */
+  .bcn-pv__boxes :global(.bcn-pv__box[data-kind='span']) {
+    background: color-mix(in srgb, var(--color-requirement) 18%, transparent);
+    pointer-events: none;
+    animation-duration: 600ms;
+  }
+  .bcn-pv__boxes :global(.bcn-pv__box[data-kind='span'][data-shade='2']) {
+    background: color-mix(in srgb, var(--color-requirement) 30%, transparent);
+  }
+  /* A region a person marked, before Beacon knows what it is. */
+  .bcn-pv__boxes :global(.bcn-pv__box[data-kind='mark']) {
+    outline: 2px solid var(--color-content-default);
+    outline-offset: 4px;
+  }
+
+  .bcn-pv__drag {
+    position: absolute;
+    border: 2px solid var(--color-content-default);
+    background: color-mix(in srgb, var(--color-content-default) 8%, transparent);
+    pointer-events: none;
+  }
+
+  @keyframes bcn-pv-draw {
+    from { opacity: 0; clip-path: inset(0 100% 0 0); }
+    to { opacity: 1; clip-path: inset(0 0 0 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-pv__boxes :global(.bcn-pv__box) { animation: none; }
+  }
+</style>

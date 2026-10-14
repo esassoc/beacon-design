@@ -1,0 +1,189 @@
+---
+// <BcnSw3Entities> — the project's entity registry, reviewed once per project rather than
+// per commitment: milestones, seasons, construction activities and species, each with
+// the commitments that use it. On top, the concept merges Beacon proposes ("start of
+// Covered Activities" + three more phrasings → "Initiation of Covered Activities").
+// Accepting a merge re-points every requirement that uses the merged phrasings, in every
+// commitment, at once.
+//
+// Contract, on `document`:
+//   in   sw3:entities  detail: { mergeId? }   open, scrolled to that merge
+//
+// bcn-lego-checked: the panel IS esa-side-dialog; the actions are esa-button. Checked
+// Beacon: no entity registry screen (milestones and species are per-requirement fields
+// there). bcn-sw3-entities is the home for a project-level registry with merges.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { ENTITY_KIND_LABEL } from '../../data/setup-wizard-3-step';
+const KINDS = ['milestone', 'season', 'activity', 'species'] as const;
+---
+
+<esa-side-dialog class="bcn-sw3ent" data-sw3-entities heading="Project entities" size="lg" position="right">
+  <div class="bcn-sw3ent__body">
+    <section class="bcn-sw3ent__merges" data-ent-merges-wrap>
+      <h3 class="typography-title-strong">Proposed merges</h3>
+      <ol class="bcn-sw3ent__list" data-ent-merges></ol>
+    </section>
+    {
+      KINDS.map((k) => (
+        <section class="bcn-sw3ent__kind">
+          <h3 class="typography-title-strong">{ENTITY_KIND_LABEL[k]}</h3>
+          <ol class="bcn-sw3ent__list" data-ent-kind={k} />
+        </section>
+      ))
+    }
+  </div>
+  <template data-ent-merge>
+    <li class="bcn-sw3ent__merge">
+      <p class="bcn-sw3ent__into typography-label-md-strong" data-m-into></p>
+      <ul class="bcn-sw3ent__from" data-m-from></ul>
+      <p class="bcn-sw3ent__uses typography-microcopy-md" data-m-uses></p>
+      <div class="bcn-sw3ent__acts" data-m-acts>
+        <span data-action="accept"><EsaButton variant="primary" size="sm">Merge</EsaButton></span>
+        <span data-action="dismiss"><EsaButton variant="secondary" size="sm">Keep separate</EsaButton></span>
+        <span class="bcn-sw3ent__state typography-label-md" data-m-done hidden>Merged</span>
+      </div>
+    </li>
+  </template>
+</esa-side-dialog>
+
+<style>
+  .bcn-sw3ent__body { display: flex; flex-direction: column; gap: var(--spacing-600); }
+  .bcn-sw3ent__body h3 { margin: 0 0 var(--spacing-200); }
+  .bcn-sw3ent__merges[hidden] { display: none; }
+  .bcn-sw3ent__list { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+
+  .bcn-sw3ent__list :global(.bcn-sw3ent__merge) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: var(--spacing-300) 0;
+    border-bottom: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-sw3ent__list :global(.bcn-sw3ent__merge[data-flash]) { background: var(--color-background-warning-subtle); }
+  .bcn-sw3ent__list :global(.bcn-sw3ent__into),
+  .bcn-sw3ent__list :global(.bcn-sw3ent__uses) { margin: 0; }
+  .bcn-sw3ent__list :global(.bcn-sw3ent__uses) { color: var(--color-content-default-secondary); }
+  .bcn-sw3ent__list :global(.bcn-sw3ent__from) {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin: 0;
+    padding: 0 0 0 var(--spacing-400);
+    list-style: none;
+  }
+  .bcn-sw3ent__list :global(.bcn-sw3ent__from li::before) { content: '← '; color: var(--color-content-default-tertiary); }
+  .bcn-sw3ent__list :global(.bcn-sw3ent__acts) { display: flex; gap: var(--spacing-200); }
+  .bcn-sw3ent__list :global(.bcn-sw3ent__state) { color: var(--color-content-success); }
+  .bcn-sw3ent__list :global([data-action][hidden]),
+  .bcn-sw3ent__list :global(.bcn-sw3ent__state[hidden]) { display: none; }
+
+  .bcn-sw3ent__list :global(.bcn-sw3ent__row) {
+    display: flex;
+    gap: var(--spacing-300);
+    align-items: baseline;
+    padding: var(--spacing-150) 0;
+    border-bottom: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-sw3ent__list :global(.bcn-sw3ent__count) {
+    margin-left: auto;
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+</style>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import {
+    initSw3,
+    acceptMerge,
+    dismissMerge,
+    mergeState,
+    mergeProposed,
+    commitmentsUsing,
+    resolveEntity,
+    parsedCodes,
+  } from './sw3-store';
+  import { toast } from '../../lib/snackbar';
+
+  const dlg = document.querySelector<HTMLElement & { open: boolean }>('[data-sw3-entities]');
+  if (dlg) {
+    const D = initSw3();
+    const name = new Map((D.entities ?? []).map((e) => [e.id, e.name]));
+    const mergesEl = dlg.querySelector<HTMLElement>('[data-ent-merges]')!;
+    const tpl = dlg.querySelector<HTMLTemplateElement>('[data-ent-merge]')!;
+    const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? '' : 's'}`;
+
+    const render = () => {
+      const proposed = D.merges.filter((m) => mergeProposed(m.id) && mergeState(m.id) !== 'dismissed');
+      (dlg.querySelector('[data-ent-merges-wrap]') as HTMLElement).hidden = !proposed.length;
+      mergesEl.replaceChildren(
+        ...proposed.map((m) => {
+          const li = (tpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+          li.dataset.merge = m.id;
+          li.querySelector('[data-m-into]')!.textContent = name.get(m.intoId) ?? m.intoId;
+          li.querySelector('[data-m-from]')!.replaceChildren(
+            ...m.fromIds.map((id) => Object.assign(document.createElement('li'), { className: 'typography-body-sm', textContent: name.get(id) ?? id })),
+          );
+          const uses = commitmentsUsing(m.fromIds).length;
+          li.querySelector('[data-m-uses]')!.textContent = `Used by ${plural(commitmentsUsing([m.intoId, ...m.fromIds]).length, 'commitment')}. Merging updates ${uses}.`;
+          const done = mergeState(m.id) === 'accepted';
+          li.querySelectorAll<HTMLElement>('[data-action]').forEach((a) => (a.hidden = done));
+          li.querySelector<HTMLElement>('[data-m-done]')!.hidden = !done;
+          return li;
+        }),
+      );
+
+      for (const kind of ['milestone', 'season', 'activity', 'species']) {
+        const list = dlg.querySelector<HTMLElement>(`[data-ent-kind="${kind}"]`)!;
+        const rows = (D.entities ?? [])
+          .filter((e) => e.kind === kind && resolveEntity(e.id) === e.id)
+          .map((e) => {
+            const ids = [e.id, ...D.merges.filter((m) => m.intoId === e.id && mergeState(m.id) === 'accepted').flatMap((m) => m.fromIds)];
+            return { e, n: commitmentsUsing(ids).length };
+          })
+          .filter((x) => x.n > 0)
+          .sort((a, b) => b.n - a.n || a.e.name.localeCompare(b.e.name));
+        list.replaceChildren(
+          ...rows.map(({ e, n }) => {
+            const li = document.createElement('li');
+            li.className = 'bcn-sw3ent__row';
+            const nm = Object.assign(document.createElement('span'), { className: 'typography-body-md', textContent: e.name });
+            const ct = Object.assign(document.createElement('span'), { className: 'bcn-sw3ent__count typography-microcopy-md', textContent: plural(n, 'commitment') });
+            li.append(nm, ct);
+            return li;
+          }),
+        );
+      }
+    };
+
+    mergesEl.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLElement>('[data-action]');
+      const row = b?.closest<HTMLElement>('[data-merge]');
+      if (!b || !row) return;
+      const m = D.merges.find((x) => x.id === row.dataset.merge)!;
+      if (b.dataset.action === 'accept') {
+        const n = commitmentsUsing(m.fromIds).length;
+        acceptMerge(m.id);
+        toast(`Merged into “${name.get(m.intoId)}”. ${plural(n, 'commitment')} updated.`, 'success');
+      } else dismissMerge(m.id);
+    });
+
+    document.addEventListener('sw3:entities', (e) => {
+      render();
+      dlg.open = true;
+      const id = (e as CustomEvent<{ mergeId?: string }>).detail?.mergeId;
+      if (id) {
+        requestAnimationFrame(() => {
+          const row = mergesEl.querySelector<HTMLElement>(`[data-merge="${CSS.escape(id)}"]`);
+          row?.setAttribute('data-flash', '');
+          row?.scrollIntoView({ block: 'nearest' });
+          setTimeout(() => row?.removeAttribute('data-flash'), 1600);
+        });
+      }
+    });
+    dlg.addEventListener('close', () => (dlg.open = false));
+    document.addEventListener('sw3:change', () => dlg.open && render());
+    void parsedCodes;
+  }
+</script>

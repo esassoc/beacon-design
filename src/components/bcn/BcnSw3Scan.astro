@@ -1,0 +1,233 @@
+---
+// <BcnSw3Scan> — the watched run. The document itself is the visual: the page in view,
+// rendered large, with a box drawn around each commitment as it is found and its
+// requirement spans filling in as they parse; a scrubber of every page in scope, with
+// the scan head running ahead of where the person is looking; and the queue of what has
+// been found, which grows as the scan proceeds.
+//
+// Light corrections inline: dismiss a false find, merge a find split across a page
+// break, and mark a missed commitment by dragging over it on the page.
+//
+// It renders from sw3-store's events, so the run keeps going when the person leaves and
+// a return lands where the run is. Pause, speed, skip and restart are prototype controls
+// over the replay (as in BcnCiRunPanel); prod's run is server-side and has none.
+//
+// Composes: bcn-page-scrubber, bcn-page-view, bcn-commitment-badge, esa-button,
+// esa-icon-button.
+//
+// bcn-lego-checked: the run's chrome is legos (esa-button, esa-icon-button) around two
+// new reusable bcn- pieces (page scrubber, page view). The queue is a list of
+// commitments with per-row state and actions: esa-file-list is files only and closed;
+// checked Beacon (its CI.5 run log is a text log, ported as bcn-ci-run-panel, not a list
+// of finds). bcn-sw3-scan is the home for this step's workspace.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import BcnPageScrubber from './BcnPageScrubber.astro';
+import BcnPageView from './BcnPageView.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import { SCAN_SCOPE, SCAN_PAGES, SW3_SCAN_CLIENT, SW3_REVIEW } from '../../data/setup-wizard-3-step';
+import { withBase } from '../../lib/base';
+
+const aspect = SCAN_PAGES[0]?.aspect ?? 1.2941;
+---
+
+<section class="bcn-sw3scan" data-sw3-scan data-base={withBase('/')} hidden>
+  <div class="bcn-sw3scan__bar">
+    <p class="bcn-sw3scan__status typography-label-md" data-scan-status role="status"></p>
+    <div class="bcn-sw3scan__controls">
+      <EsaButton variant="secondary" size="xs" data-scan-toggle>Pause</EsaButton>
+      <EsaButton variant="secondary" size="xs" data-scan-speed>Speed 1×</EsaButton>
+      <EsaButton variant="secondary" size="xs" data-scan-skip>Skip to end</EsaButton>
+      <EsaButton variant="secondary" size="xs" data-scan-restart>Restart</EsaButton>
+    </div>
+  </div>
+
+  <BcnPageScrubber first={SCAN_SCOPE.first} last={SCAN_SCOPE.last} label="Page in view" />
+
+  <div class="bcn-sw3scan__body">
+    <div class="bcn-sw3scan__page">
+      <div class="bcn-sw3scan__tools">
+        <div class="bcn-sw3scan__nav">
+          <span data-scan-prev><EsaIconButton icon="chevron-left" label="Previous page" size="sm" /></span>
+          <span class="bcn-sw3scan__pageno typography-label-md" data-scan-pageno></span>
+          <span data-scan-next><EsaIconButton icon="chevron-right" label="Next page" size="sm" /></span>
+        </div>
+        <div class="bcn-sw3scan__acts">
+          <EsaButton variant="secondary" size="sm" data-scan-follow>Follow the scan</EsaButton>
+          <EsaButton variant="secondary" size="sm" data-scan-mark>Mark missed commitment</EsaButton>
+        </div>
+      </div>
+      <BcnPageView aspect={aspect} />
+    </div>
+
+    <aside class="bcn-sw3scan__queue" aria-label="Commitments found">
+      <h3 class="bcn-sw3scan__qhead typography-title-strong">
+        Commitments <span class="bcn-sw3scan__qcount" data-scan-qcount>0</span>
+      </h3>
+      <ol class="bcn-sw3scan__list" data-scan-queue></ol>
+      <div class="bcn-sw3scan__qfoot">
+        <EsaButton variant="primary" size="md" href={withBase(SW3_REVIEW)} data-scan-review>Review commitments</EsaButton>
+      </div>
+    </aside>
+  </div>
+
+  <template data-scan-row>
+    <li class="bcn-sw3scan__row" data-row>
+      <button type="button" class="bcn-sw3scan__rowmain" data-row-open>
+        <span data-row-badge><BcnCommitmentBadge code="" size="sm" /></span>
+        <span class="bcn-sw3scan__rowtext">
+          <span class="bcn-sw3scan__rowtitle typography-label-md" data-row-title></span>
+          <span class="bcn-sw3scan__rowmeta typography-microcopy-sm">
+            <span data-row-pages></span>
+            <span data-row-state></span>
+          </span>
+        </span>
+      </button>
+      <span class="bcn-sw3scan__rowacts">
+        <span data-row-merge><EsaButton variant="secondary" size="xs">Merge with previous</EsaButton></span>
+        <span data-row-dismiss><EsaIconButton icon="x" label="Dismiss" size="xs" /></span>
+      </span>
+    </li>
+  </template>
+
+  <script type="application/json" data-sw3-payload set:html={JSON.stringify(SW3_SCAN_CLIENT)} />
+</section>
+
+<style>
+  .bcn-sw3scan {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    padding: var(--spacing-500);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+  }
+  .bcn-sw3scan[hidden] { display: none; }
+
+  .bcn-sw3scan__bar { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; }
+  .bcn-sw3scan__status {
+    margin: 0;
+    color: var(--color-content-default);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-sw3scan__controls { display: flex; gap: var(--spacing-200); margin-left: auto; }
+
+  .bcn-sw3scan__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 24rem);
+    gap: var(--spacing-500);
+    align-items: start;
+  }
+
+  .bcn-sw3scan__page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    padding: var(--spacing-400);
+    background: var(--color-background-elevation-sunken);
+    border-radius: var(--radius-200);
+  }
+  .bcn-sw3scan__page :global(.bcn-pv) { max-width: 46rem; margin: 0 auto; width: 100%; }
+  .bcn-sw3scan__tools { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); flex-wrap: wrap; }
+  .bcn-sw3scan__nav,
+  .bcn-sw3scan__acts { display: flex; align-items: center; gap: var(--spacing-200); }
+  .bcn-sw3scan__pageno {
+    min-width: 5.5rem;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bcn-sw3scan__queue {
+    position: sticky;
+    top: var(--spacing-400);
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 2 * var(--spacing-400));
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-sw3scan__qhead {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+    margin: 0;
+    padding: var(--spacing-300) var(--spacing-400);
+    border-bottom: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-sw3scan__qcount { color: var(--color-content-default-secondary); font-variant-numeric: tabular-nums; }
+  .bcn-sw3scan__list {
+    flex: 1;
+    min-height: 12rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-y: auto;
+  }
+  .bcn-sw3scan__qfoot {
+    display: flex;
+    justify-content: flex-end;
+    padding: var(--spacing-300) var(--spacing-400);
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+
+  /* Rows are cloned from the template by the controller. */
+  .bcn-sw3scan__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding-right: var(--spacing-200);
+    border-bottom: 1px solid var(--color-border-default-subtle);
+    animation: bcn-sw3scan-in 260ms ease-out;
+  }
+  .bcn-sw3scan__row[data-selected] { background: var(--color-background-default-hover); }
+  .bcn-sw3scan__rowmain {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-300);
+    min-width: 0;
+    padding: var(--spacing-250, 0.625rem) var(--spacing-400);
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .bcn-sw3scan__rowmain:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: -2px;
+  }
+  .bcn-sw3scan__rowtext { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .bcn-sw3scan__rowtitle {
+    color: var(--color-content-default);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-sw3scan__rowmeta { display: flex; gap: var(--spacing-300); color: var(--color-content-default-secondary); }
+  .bcn-sw3scan__row[data-state='found'] [data-row-state] { color: var(--color-content-default-tertiary); }
+  .bcn-sw3scan__row[data-state='empty'] [data-row-state],
+  .bcn-sw3scan__row[data-kind='split'] [data-row-state] { color: var(--color-content-warning); }
+  .bcn-sw3scan__rowacts { display: flex; align-items: center; gap: var(--spacing-100); }
+
+  @keyframes bcn-sw3scan-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 1100px) {
+    .bcn-sw3scan__body { grid-template-columns: 1fr; }
+    .bcn-sw3scan__queue { position: static; max-height: 28rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-sw3scan__row { animation: none; }
+  }
+</style>
+
+<script>
+  import { setupSw3Scan } from './sw3-scan';
+  document.querySelectorAll<HTMLElement>('[data-sw3-scan]').forEach(setupSw3Scan);
+</script>
