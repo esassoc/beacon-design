@@ -9,21 +9,26 @@
 // it (a find with nothing in it, a passage split across a page break, pages with nothing
 // found), each with the one-click answer; a click is recorded like a typed message.
 //
-// Instructions, at the top, is what every extraction call now carries: the scope and
-// each rule with the page it took effect from. A rule governs the pages not yet read; for
-// pages already read Aldo offers a re-read.
+// Where the run is sits pinned above the composer as its status: reading (blue, with the
+// page), stopped for the person's check (yellow), paused or stopped (neutral), done
+// (green). A rule governs the pages not yet read; for pages already read Aldo offers a
+// re-read.
+//
+// Buttons carry what they do in their color: green to accept (Looks right), red to
+// remove (Dismiss), blue to change the record (Merge, Re-read), the primary for the next
+// step, neutral for everything else. Only the send button is Aldo's green.
 //
 // Contract: sw3-aldo.ts `setupSw3Aldo(root)`. It renders from sw3-store and calls its
 // say()/act(); "show page" answers fire `sw3:page` { page } on document for the host.
 //
 // bcn-lego-checked: the field IS esa-textarea, every button IS esa-button (send re-points
 // the button's radius and brand tokens to Aldo's round green control, as bcn-aldo-prompt
-// does), Instructions IS esa-collapsible, the mark IS bcn-aldo-mark. No esa- lego is a
+// does), the status IS esa-alert-box, the mark IS bcn-aldo-mark. No esa- lego is a
 // message thread; bcn-aldo-prompt is a one-shot composer with no history. Checked Beacon:
 // its AI chat (AIController PostChatCompletions) has no thread UI in the app shell.
 // bcn-sw3-aldo is the home for "a conversation that steers a running job".
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 import BcnAldoMark from './BcnAldoMark.astro';
 import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
 
@@ -40,13 +45,13 @@ const { review } = Astro.props;
     <h3 class="bcn-sw3aldo__title typography-title-strong">Aldo</h3>
   </header>
 
-  <div class="bcn-sw3aldo__rules">
-    <EsaCollapsible title="Instructions" flush>
-      <ol class="bcn-sw3aldo__rulelist typography-body-sm" data-aldo-rules></ol>
-    </EsaCollapsible>
-  </div>
-
   <ol class="bcn-sw3aldo__log" data-aldo-log aria-live="polite"></ol>
+
+  <div class="bcn-sw3aldo__status" data-aldo-status role="status">
+    <div data-status="check" hidden><EsaAlertBox variant="warning"><span data-status-text></span></EsaAlertBox></div>
+    <div data-status="reading" hidden><EsaAlertBox variant="info"><span data-status-text></span></EsaAlertBox></div>
+    <div data-status="done" hidden><EsaAlertBox variant="success"><span data-status-text></span></EsaAlertBox></div>
+  </div>
 
   <div class="bcn-sw3aldo__suggest" data-aldo-suggest></div>
 
@@ -80,6 +85,15 @@ const { review } = Astro.props;
   <template data-aldo-btn-primary>
     <EsaButton variant="primary" size="xs">Action</EsaButton>
   </template>
+  <template data-aldo-btn-success>
+    <EsaButton variant="success" size="xs">Action</EsaButton>
+  </template>
+  <template data-aldo-btn-danger>
+    <EsaButton variant="danger" appearance="soft" size="xs">Action</EsaButton>
+  </template>
+  <template data-aldo-btn-info>
+    <EsaButton variant="info" appearance="soft" size="xs">Action</EsaButton>
+  </template>
 </section>
 
 <style>
@@ -96,29 +110,10 @@ const { review } = Astro.props;
     display: flex;
     align-items: center;
     gap: var(--spacing-200);
-    padding: var(--spacing-300) var(--spacing-400);
-  }
-  .bcn-sw3aldo__title { margin: 0; }
-
-  .bcn-sw3aldo__rules {
-    padding: 0 var(--spacing-400);
+    padding: var(--spacing-200) var(--spacing-300);
     border-bottom: 1px solid var(--color-border-default-subtle);
   }
-  .bcn-sw3aldo__rulelist {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-200);
-    margin: 0 0 var(--spacing-300);
-    padding: 0;
-    list-style: none;
-    color: var(--color-content-default);
-  }
-  .bcn-sw3aldo__rulelist :global(li) { display: flex; gap: var(--spacing-200); justify-content: space-between; }
-  .bcn-sw3aldo__rulelist :global([data-rule-from]) {
-    flex: none;
-    color: var(--color-content-default-secondary);
-    font-variant-numeric: tabular-nums;
-  }
+  .bcn-sw3aldo__title { margin: 0; font-size: 0.875rem; font-weight: 600; }
 
   .bcn-sw3aldo__log {
     flex: 1;
@@ -127,38 +122,44 @@ const { review } = Astro.props;
     gap: var(--spacing-300);
     min-height: 0;
     margin: 0;
-    padding: var(--spacing-400);
+    padding: var(--spacing-300);
     list-style: none;
     overflow-y: auto;
+    /* Dense, like the library: 13px text, 12px meta (Andy, 2026-10-14). */
+    font-size: 0.8125rem;
+    line-height: 1.4;
   }
 
   /* Messages are cloned from the template by the controller. */
   .bcn-sw3aldo__msg {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-150, 0.375rem);
-    max-width: 92%;
+    gap: var(--spacing-100);
+    max-width: 94%;
     animation: bcn-sw3aldo-in 220ms ease-out;
   }
   .bcn-sw3aldo__msg[data-from='aldo'] { align-self: flex-start; }
   .bcn-sw3aldo__msg[data-from='you'] { align-self: flex-end; align-items: flex-end; }
   .bcn-sw3aldo__who {
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
+    font-weight: 500;
     color: var(--color-content-default-secondary);
     font-variant-numeric: tabular-nums;
   }
   .bcn-sw3aldo__text {
     margin: 0;
-    padding: var(--spacing-200) var(--spacing-300);
+    padding: var(--spacing-150, 0.375rem) var(--spacing-250, 0.625rem);
     border-radius: var(--radius-200);
     color: var(--color-content-default);
+    font-size: inherit;
+    line-height: inherit;
     white-space: pre-line;
   }
   .bcn-sw3aldo__msg[data-from='aldo'] .bcn-sw3aldo__text { background: var(--bcn-aldo-50); }
   .bcn-sw3aldo__msg[data-from='you'] .bcn-sw3aldo__text { background: var(--color-background-default); border: 1px solid var(--color-border-default-subtle); }
   /* A button press on one of Aldo's questions: recorded, but not a speech bubble. */
   .bcn-sw3aldo__msg[data-via='button'] .bcn-sw3aldo__text { background: none; border: 0; padding: 0; color: var(--color-content-default-secondary); }
-  .bcn-sw3aldo__acts { display: flex; flex-wrap: wrap; gap: var(--spacing-200); }
+  .bcn-sw3aldo__acts { display: flex; flex-wrap: wrap; gap: var(--spacing-150, 0.375rem); }
   .bcn-sw3aldo__acts:empty { display: none; }
 
   /* The check: one card per commitment read before the run goes on. Dashed until the
@@ -169,8 +170,8 @@ const { review } = Astro.props;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-150, 0.375rem);
-    padding: var(--spacing-200) var(--spacing-300);
-    border: 1px dashed var(--color-border-default);
+    padding: var(--spacing-250, 0.625rem) var(--spacing-300);
+    border: 1px dashed var(--color-border-default-strong, var(--color-border-default));
     border-radius: 6px;
     background: var(--color-background-elevation-raised);
   }
@@ -195,41 +196,50 @@ const { review } = Astro.props;
   /* The identified text, quoted, four lines until Show all. */
   .bcn-sw3aldo__extra :global(.bcn-sw3aldo__quote) {
     margin: 0;
-    padding-left: var(--spacing-300);
-    border-left: 2px solid var(--color-border-default);
+    padding: var(--spacing-200) var(--spacing-250, 0.625rem);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-sunken);
     color: var(--color-content-default);
     font-family: var(--font-decorative);
+    font-size: 0.78rem;
+    line-height: 1.45;
     white-space: pre-line;
+  }
+  /* Four lines until Show all: the clamp is on the text, inside the quote's padding. */
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__quotetext) {
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__quote[data-all]) { display: block; }
-  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__checkmeta) { display: flex; gap: var(--spacing-300); }
-  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__pagelink) {
-    padding: 0;
-    border: 0;
-    background: none;
-    color: var(--color-content-link, var(--color-content-default));
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    cursor: pointer;
-    font-variant-numeric: tabular-nums;
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__quote[data-all] .bcn-sw3aldo__quotetext) { display: block; }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__checkfoot) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+    flex-wrap: wrap;
   }
-  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__pagelink:focus-visible) {
-    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
-    outline-offset: 2px;
-  }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__checkmeta) { display: flex; gap: var(--spacing-150, 0.375rem); }
   .bcn-sw3aldo__extra :global(.bcn-sw3aldo__fix) { display: flex; flex-direction: column; gap: var(--spacing-200); }
   .bcn-sw3aldo__extra :global(.bcn-sw3aldo__checkacts) { display: flex; gap: var(--spacing-200); }
-  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__ok) { color: var(--color-content-default-secondary); }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__ok) { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 600; color: var(--color-content-utility-success); }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__checktitle) { font-size: 0.8125rem; font-weight: 600; line-height: 1.3; }
+  /* Each commitment to check is its own message: room between them. */
+  .bcn-sw3aldo__msg[data-kind='check'] { max-width: 100%; width: 100%; margin-bottom: var(--spacing-200); }
+
+  /* Where the run is, pinned above the composer. */
+  .bcn-sw3aldo__status { padding: 0 var(--spacing-300) var(--spacing-200); }
+  .bcn-sw3aldo__status:not(:has(> :not([hidden]))) { display: none; }
+  .bcn-sw3aldo__status > [hidden] { display: none; }
+  .bcn-sw3aldo__status :global(.esa-alert-box) { padding: var(--spacing-150, 0.375rem) var(--spacing-250, 0.625rem); font-size: 0.8125rem; align-items: center; }
+  .bcn-sw3aldo__status :global(.esa-alert-box__icon svg) { width: 16px; height: 16px; }
 
   .bcn-sw3aldo__suggest {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-200);
-    padding: 0 var(--spacing-400) var(--spacing-200);
+    padding: 0 var(--spacing-300) var(--spacing-200);
   }
   .bcn-sw3aldo__suggest:empty { display: none; }
 

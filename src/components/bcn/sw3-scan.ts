@@ -1,8 +1,8 @@
 // Controller for <BcnSw3Scan>. setupX shape: owns the workspace's view state (what is
 // selected: a source or a file; the page in view per file and whether it follows the scan;
-// the selected box; draw mode; the Aldo panel) and renders the header's status line, the
-// toolbar, the scrubber, the page and its boxes, the sources sidebar and a source's
-// details from sw3-store and sw3-sources on every change. The Aldo pane renders itself
+// the selected box; draw mode; the library and Aldo panels) and renders the console, the
+// scrubber, the page and its boxes, the library and a source's details from sw3-store and
+// sw3-sources on every change. Where the run is shows in Aldo (sw3-aldo.ts). The Aldo pane renders itself
 // (sw3-aldo.ts); its answers that move the page arrive as sw3:page / sw3:find.
 
 import {
@@ -30,6 +30,7 @@ import {
   checked,
   pace,
   skipped,
+  stopped,
   act,
   resetAll,
   resetEverything,
@@ -84,13 +85,19 @@ export function setupSw3Scan(root: HTMLElement): void {
   const $ = <T extends HTMLElement = HTMLElement>(s: string) => root.querySelector<T>(s)!;
   paintIcons(root);
 
-  const status = $('[data-bar-status]');
   const toolbar = $('[data-sw3-toolbar]');
-  const toggle = $('[data-bar-toggle]');
+  const tx = {
+    play: $('[data-tx="play"]'),
+    pause: $('[data-tx="pause"]'),
+    stop: $('[data-tx="stop"]'),
+    restart: $('[data-tx="restart"]'),
+  };
+  const speed = $('[data-bar-speed]');
+  const speedBtn = $('[data-bar-speed-btn]');
   const mark = $('[data-bar-mark]');
-  const more = $('[data-bar-more]');
-  const aldoBtn = $('[data-bar-aldo]');
-  const paceEl = $<HTMLElement & { value: string; options: unknown }>('[data-bar-pace]');
+  const drawHint = $('[data-draw-hint]');
+  const aldoBtn = $<HTMLButtonElement>('[data-aldo-toggle]');
+  const libBtn = $('[data-bar-library]');
   const pagePane = $('[data-sw3-pagepane]');
   const empty = $('[data-sw3-empty]');
   const tools = $('[data-box-tools]');
@@ -144,11 +151,9 @@ export function setupSw3Scan(root: HTMLElement): void {
   const fit = () => {
     const scroller = root.closest<HTMLElement>('.modern-layout__content, main') ?? document.scrollingElement;
     const top = root.getBoundingClientRect().top + (scroller?.scrollTop ?? 0);
-    const h = Math.max(512, window.innerHeight - top - 16);
-    root.style.setProperty('--_fit', `${h}px`);
-    // The layout's own bottom padding can still push the page past the fold: take it back.
-    const over = scroller ? scroller.scrollHeight - scroller.clientHeight : 0;
-    if (over > 0) root.style.setProperty('--_fit', `${Math.max(512, h - over)}px`);
+    // Stop short of the layout's own bottom padding, so the workspace ends at the fold.
+    const pad = scroller instanceof HTMLElement ? parseFloat(getComputedStyle(scroller).paddingBottom) || 0 : 0;
+    root.style.setProperty('--_fit', `${Math.max(512, window.innerHeight - top - pad - 8)}px`);
   };
   window.addEventListener('resize', fit);
   requestAnimationFrame(fit);
@@ -176,6 +181,8 @@ export function setupSw3Scan(root: HTMLElement): void {
     if (on) setFollowing(false);
     pageView.setSelecting(on);
     (mark.querySelector('button') ?? mark).setAttribute('aria-pressed', String(on && !target));
+    drawHint.hidden = !on;
+    drawHint.textContent = target ? 'Drag a new box for this commitment. Esc cancels.' : 'Drag over the commitment the scan missed. Esc cancels.';
   };
 
   // A box just drawn or picked takes focus, so Delete, the arrows and Escape act on it.
@@ -367,28 +374,41 @@ export function setupSw3Scan(root: HTMLElement): void {
     else selectSource(id);
   });
 
-  // ── Toolbar ─────────────────────────────────────────────────────────────────
-  // Start, pause, resume and pace are steers like any other: recorded with their page.
-  toggle.addEventListener('click', () => {
+  // ── Console ─────────────────────────────────────────────────────────────────
+  // Start, pause, stop and speed are steers like any other: recorded with their page.
+  const restart = () =>
+    ask('Restart this scan?', 'The commitments found and every steer given on this file are cleared, and the scan starts over.', 'Restart scan', () => {
+      const id = activeDoc();
+      resetAll();
+      views.delete(id);
+      following.delete(id);
+    });
+  tx.play.addEventListener('click', () => {
     const go = D().proposal?.go;
     if (!started()) {
       if (!go) return;
-      act(go.label, [{ kind: 'scope', first: go.first, last: go.last, label: go.scope }, { kind: 'start' }], `Reading ${go.scope}. I will stop after the first ${D().calibrate?.length ?? 3} commitments so you can check how I read them.`);
-      return;
-    }
-    const head = headPage();
-    if (checking()) act('Continue', { kind: 'go', pace: pace() }, PACE_REPLY[pace()]);
-    else if (paused() || pausing()) act('Resume', { kind: 'resume' }, `Resuming at p. ${head}.`);
-    else act('Pause', { kind: 'pause' }, `Pausing after p. ${head}: that page is already being read.`);
+      act('Start', [{ kind: 'scope', first: go.first, last: go.last, label: go.scope }, { kind: 'start' }], `Reading ${go.scope}. I will stop after the first ${D().calibrate?.length ?? 3} commitments so you can check how I read them.`);
+    } else if (checking()) act('Resume', { kind: 'go', pace: pace() }, PACE_REPLY[pace()]);
+    else act('Resume', { kind: 'resume' }, `Resuming at p. ${headPage()}.`);
   });
-  customElements.whenDefined('esa-button-toggle').then(() => {
-    paceEl.options = JSON.parse(paceEl.dataset.options!);
-    paceEl.value = pace();
-  });
-  paceEl.addEventListener('change', (e) => {
-    const p = (e as CustomEvent<{ value: Pace }>).detail.value;
+  tx.pause.addEventListener('click', () => act('Pause', { kind: 'pause' }, `Pausing after p. ${headPage()}: that page is already being read.`));
+  tx.stop.addEventListener('click', () =>
+    ask(
+      'Stop the scan?',
+      'The scan ends at the page it is on. What it found is kept; the pages after it are not read. Restart reads the file again from the start.',
+      'Stop scan',
+      () => {
+        const head = headPage();
+        act('Stop', { kind: 'stop' }, `Stopped${head ? ` before p. ${head}` : ''}. What I found is kept.`);
+      },
+    ),
+  );
+  tx.restart.addEventListener('click', restart);
+  customElements.whenDefined('esa-dropdown-menu').then(() => ((speed as HTMLElement & { items: unknown }).items = JSON.parse(speed.dataset.items!)));
+  speed.addEventListener('menu-action', (e) => {
+    const p = (e as CustomEvent<Pace>).detail;
     if (p === pace()) return;
-    act(`Pace: ${PACE_LABEL[p]}`, checking() ? { kind: 'go', pace: p } : { kind: 'pace', pace: p }, PACE_REPLY[p]);
+    act(`Speed: ${PACE_LABEL[p]}`, checking() ? { kind: 'go', pace: p } : { kind: 'pace', pace: p }, PACE_REPLY[p]);
   });
   const toggleMark = () => {
     if (sel?.kind !== 'file') return;
@@ -405,41 +425,33 @@ export function setupSw3Scan(root: HTMLElement): void {
       render();
     }
   });
-  customElements.whenDefined('esa-dropdown-menu').then(() => ((more as HTMLElement & { items: unknown }).items = JSON.parse(more.dataset.items!)));
-  more.addEventListener('menu-action', (e) => {
-    const a = (e as CustomEvent<string>).detail;
-    const id = activeDoc();
-    if (a === 'download') downloadFile(id);
-    if (a === 'delete') {
-      const s = sourceOf(id);
-      if (s) confirmDeleteFile(s.id, id);
-    }
-    if (a === 'restart')
-      ask('Restart this scan?', 'The commitments found and every steer given on this file are cleared, and the scan starts over.', 'Restart scan', () => {
-        resetAll();
-        views.delete(id);
-        following.delete(id);
-      });
-    if (a === 'reset')
-      ask('Reset the prototype?', 'Every scan, steer and upload is cleared, and the source documents go back to the three DCP files.', 'Reset', async () => {
-        resetEverything();
-        views.clear();
-        following.clear();
-        selected = null;
-        await resetSources(seed);
-        afterRemoval();
-      });
-  });
+  document.querySelector('[data-sw3-reset]')?.addEventListener('click', () =>
+    ask('Reset the prototype?', 'Every scan, steer and upload is cleared, and the source documents go back to the three DCP files.', 'Reset', async () => {
+      resetEverything();
+      views.clear();
+      following.clear();
+      selected = null;
+      await resetSources(seed);
+      afterRemoval();
+    }),
+  );
   const setAldo = (open: boolean) => {
     root.dataset.aldo = open ? 'open' : 'closed';
-    const b = aldoBtn.querySelector('button') ?? aldoBtn;
-    b.setAttribute('aria-pressed', String(open));
-    b.setAttribute('aria-label', open ? 'Hide Aldo' : 'Show Aldo');
-    b.setAttribute('title', open ? 'Hide Aldo' : 'Show Aldo');
-    setIcon(b, open ? 'panel-right-close' : 'panel-right-open');
+    aldoBtn.setAttribute('aria-pressed', String(open));
+    const l = aldoBtn.querySelector('[data-aldo-toggle-label]');
+    if (l) l.textContent = open ? 'Hide Aldo' : 'Show Aldo';
     requestAnimationFrame(placeTools);
   };
-  aldoBtn.addEventListener('click', () => setAldo(root.dataset.aldo !== 'open'));
+  aldoBtn.addEventListener('aldo-toggle', (e) => setAldo((e as CustomEvent<{ open: boolean }>).detail.open));
+  const setLibrary = (open: boolean) => {
+    root.dataset.library = open ? 'open' : 'closed';
+    const b = libBtn.querySelector('button') ?? libBtn;
+    b.setAttribute('aria-pressed', String(open));
+    setLabel(libBtn, open ? 'Hide library' : 'Show library');
+    setIcon(b, open ? 'panel-left-close' : 'panel-left-open');
+    requestAnimationFrame(placeTools);
+  };
+  libBtn.addEventListener('click', () => setLibrary(root.dataset.library !== 'open'));
   document.addEventListener('sw3:page', (e) => pick((e as CustomEvent<{ page: number }>).detail.page));
   document.addEventListener('sw3:find', (e) => select((e as CustomEvent<{ id: string }>).detail.id));
   document.addEventListener('sw3:aldo', () => setAldo(true));
@@ -495,10 +507,7 @@ export function setupSw3Scan(root: HTMLElement): void {
       return;
     }
     const doc = activeDoc();
-    if (doc !== lastDoc) {
-      lastDoc = doc;
-      if (paceEl.options) paceEl.value = pace();
-    }
+    if (doc !== lastDoc) lastDoc = doc;
     const fileMode = sel?.kind === 'file';
     root.dataset.mode = sel ? sel.kind : 'empty';
 
@@ -523,7 +532,6 @@ export function setupSw3Scan(root: HTMLElement): void {
     toolbar.toggleAttribute('data-disabled', !fileMode);
 
     if (!fileMode) {
-      status.textContent = src ? `${src.name}${src.ref ? `, ${src.ref}` : ''}` : 'No source documents';
       tools.hidden = true;
       return;
     }
@@ -545,45 +553,21 @@ export function setupSw3Scan(root: HTMLElement): void {
     }
     if (done && isFollowing() && !again.size) setFollowing(false);
 
-    // Status line: the only place the page number is.
-    const nFound = list.filter((f) => f.code).length;
-    const name = fileName();
-    status.textContent = skipped()
-      ? `${name}: nothing to scan`
-      : !on
-        ? `${name}: not scanned`
-        : isChecking
-          ? checked().length >= (D().calibrate?.length ?? 3)
-            ? `Checked ${D().calibrate?.length ?? 3} commitments. Continue when ready`
-            : `Stopped at ${D().calibrate?.length ?? 3} commitments to check`
-          : again.size
-            ? `Re-reading ${name}, p. ${Math.min(...again)} of ${total()}`
-            : done
-              ? `Done: ${nFound} commitment${nFound === 1 ? '' : 's'} in ${name}`
-              : paused()
-                ? `Paused at p. ${Math.max(1, (head ?? 1) - 1)} of ${total()}`
-                : pausing()
-                  ? `Pausing after p. ${head} of ${total()}`
-                  : `Reading ${name}, p. ${head} of ${total()}`;
-    status.title = status.textContent ?? '';
-
-    // The one primary: what the run needs next.
+    // The console: each key is live only when it can act; the run's state reads pressed.
     const go = D().proposal?.go;
-    const toggleBtn = toggle.querySelector('button') ?? toggle;
-    if (!on) {
-      setLabel(toggle, 'Start scan');
-      setIcon(toggleBtn, 'play');
-    } else if (isChecking) {
-      setLabel(toggle, 'Continue');
-      setIcon(toggleBtn, 'check');
-    } else if (paused() || pausing()) {
-      setLabel(toggle, 'Resume');
-      setIcon(toggleBtn, 'play');
-    } else {
-      setLabel(toggle, 'Pause');
-      setIcon(toggleBtn, 'pause');
-    }
-    show(toggle, !skipped() && !done && (on || !!go));
+    const isPaused = on && !done && (paused() || pausing()) && !isChecking;
+    const reading = on && !done && !isPaused && !isChecking;
+    const key = (k: keyof typeof tx, enabled: boolean, pressed: boolean) => {
+      const b = (tx[k].querySelector('button') ?? tx[k]) as HTMLButtonElement;
+      b.disabled = !enabled;
+      b.setAttribute('aria-pressed', String(pressed));
+    };
+    key('play', !skipped() && !done && (on ? !reading : !!go), reading);
+    key('pause', reading, isPaused || isChecking);
+    key('stop', on && !done, stopped());
+    key('restart', on || skipped(), false);
+    setLabel(tx.play, on ? 'Resume' : 'Start');
+    setLabel(speedBtn, PACE_LABEL[pace()]);
 
     // Scrubber: every page of the file; a page being re-read is unread again.
     const read = new Set([...scanned()].filter((p) => !again.has(p)));

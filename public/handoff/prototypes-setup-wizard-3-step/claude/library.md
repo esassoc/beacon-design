@@ -1,6 +1,6 @@
-# Source documents
+# Library
 
-Prod's model: a source document (name, reference number) holds files, and each file is scanned on its own. Each source is its name over its reference number, with a menu (Edit details, Add files, Delete source document); its files sit under it, one row each with the name (middle-truncated so the version and date stay) and one state: Not scanned, Reading p. 16 of 170 with a progress bar, a warning badge "3 to check", Paused at p. 40, 157 commitments, No commitments. A file's menu downloads it, restarts its scan or deletes it. New source document is pinned at the foot.
+The Library (the page is already Source Documents), dense at 13px with 12px states, and hideable from the header. Prod's model: a source document (name, reference number) holds files, and each file is scanned on its own. Each source folds open or shut by its chevron, and is its name over its reference number, with a menu (Edit details, Add files, Delete source document); its files sit under it, one row each with the name (middle-truncated so the version and date stay) and one state: Not scanned, Reading p. 16 of 170 with a progress bar, a warning badge "3 to check", Paused at p. 40, 157 commitments, No commitments. A file's menu downloads it, restarts its scan or deletes it. New source document is pinned at the foot.
 
 ## Key decisions
 - SetupWizardSourceDto and SetupWizardSourceFileDto as they are: source fields plus files with PageCount and CommitmentCount. The per-file scan state is new.
@@ -13,19 +13,38 @@ Prod's model: a source document (name, reference number) holds files, and each f
 
 ## Markup
 ```html
-<aside class="bcn-sw3src" data-sw3-sources="" aria-label="Source documents">
-  <header class="bcn-sw3src__head">
-    <h3 class="bcn-sw3src__title typography-title-strong">Source documents</h3>
-  </header>
+<aside class="bcn-sw3src" data-sw3-sources="" aria-label="Library">
+  <header class="bcn-sw3src__head"><h3 class="bcn-sw3src__title">Library</h3></header>
   <div class="bcn-sw3src__list" data-src-list="">
     <section class="bcn-sw3src__source" data-source="src-itp">
       <div class="bcn-sw3src__srcrow">
-        <button type="button" class="bcn-sw3src__srcbtn" data-src-open="">
-          <span class="bcn-sw3src__name typography-label-md-strong" data-src-name=""
-            >Incidental Take Permit</span
-          ><span class="bcn-sw3src__ref typography-body-sm" data-src-ref=""
-            >2081-2024-018-00</span
-          ></button
+        <span
+          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only bcn-sw3src__fold"
+          ><button
+            class="esa-button__native typography-microcopy-2xs"
+            type="button"
+            aria-label="Collapse"
+            title="Collapse"
+            data-src-fold="true"
+            aria-expanded="true"
+          >
+            <span class="esa-icon esa-icon--xs" aria-hidden="true"
+              ><svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path></svg
+            ></span></button></span
+        ><button type="button" class="bcn-sw3src__srcbtn" data-src-open="">
+          <span class="bcn-sw3src__name" data-src-name="">Incidental Take Permit</span
+          ><span class="bcn-sw3src__ref" data-src-ref="">2081-2024-018-00</span></button
         ><esa-dropdown-menu
           class="bcn-sw3src__menu"
           position="below-end"
@@ -71,10 +90,10 @@ Prod's model: a source document (name, reference number) holds files, and each f
         >
           <button type="button" class="bcn-sw3src__filebtn" data-file-open="">
             <span class="bcn-sw3src__fileicon"
-              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
                 ><svg
-                  width="16"
-                  height="16"
+                  width="14"
+                  height="14"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -91,15 +110,15 @@ Prod's model: a source document (name, reference number) holds files, and each f
                   <path d="M16 13H8"></path>
                   <path d="M16 17H8"></path></svg></span></span
             ><span class="bcn-sw3src__filetext"
-              ><span class="bcn-sw3src__fname typography-body-md" data-file-name=""
+              ><span class="bcn-sw3src__fname" data-file-name=""
                 ><span class="bcn-sw3src__fstart" data-file-start=""
                   >ITP_2081-2024-018-00_Si</span
                 ><span class="bcn-sw3src__fend" data-file-end="">gned.pdf</span></span
-              ><span class="bcn-sw3src__fstate typography-body-sm"
+              ><span class="bcn-sw3src__fstate"
                 ><span data-file-state="">Not scanned</span
                 ><span data-file-badge="" hidden=""
                   ><span
-                    class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
+                    class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong"
                     ><span class="esa-badge__text">3 to check</span></span
                   ></span
                 ></span
@@ -156,12 +175,34 @@ Prod's model: a source document (name, reference number) holds files, and each f
     </section>
     <section class="bcn-sw3src__source" data-source="src-eir">
       <div class="bcn-sw3src__srcrow">
-        <button type="button" class="bcn-sw3src__srcbtn" data-src-open="">
-          <span class="bcn-sw3src__name typography-label-md-strong" data-src-name=""
+        <span
+          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only bcn-sw3src__fold"
+          ><button
+            class="esa-button__native typography-microcopy-2xs"
+            type="button"
+            aria-label="Collapse"
+            title="Collapse"
+            data-src-fold="true"
+            aria-expanded="true"
+          >
+            <span class="esa-icon esa-icon--xs" aria-hidden="true"
+              ><svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path></svg
+            ></span></button></span
+        ><button type="button" class="bcn-sw3src__srcbtn" data-src-open="">
+          <span class="bcn-sw3src__name" data-src-name=""
             >Final Environmental Impact Report</span
-          ><span class="bcn-sw3src__ref typography-body-sm" data-src-ref=""
-            >SCH-2020010227</span
-          ></button
+          ><span class="bcn-sw3src__ref" data-src-ref="">SCH-2020010227</span></button
         ><esa-dropdown-menu
           class="bcn-sw3src__menu"
           position="below-end"
@@ -202,10 +243,10 @@ Prod's model: a source document (name, reference number) holds files, and each f
         <li class="bcn-sw3src__file" data-file="mmrp" title="04_DCP_MMRP_ADA.pdf">
           <button type="button" class="bcn-sw3src__filebtn" data-file-open="">
             <span class="bcn-sw3src__fileicon"
-              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
                 ><svg
-                  width="16"
-                  height="16"
+                  width="14"
+                  height="14"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -222,14 +263,14 @@ Prod's model: a source document (name, reference number) holds files, and each f
                   <path d="M16 13H8"></path>
                   <path d="M16 17H8"></path></svg></span></span
             ><span class="bcn-sw3src__filetext"
-              ><span class="bcn-sw3src__fname typography-body-md" data-file-name=""
+              ><span class="bcn-sw3src__fname" data-file-name=""
                 ><span class="bcn-sw3src__fstart" data-file-start="">04_DCP_MMRP</span
                 ><span class="bcn-sw3src__fend" data-file-end="">_ADA.pdf</span></span
-              ><span class="bcn-sw3src__fstate typography-body-sm"
+              ><span class="bcn-sw3src__fstate"
                 ><span data-file-state="">Not scanned</span
                 ><span data-file-badge="" hidden=""
                   ><span
-                    class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
+                    class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong"
                     ><span class="esa-badge__text">3 to check</span></span
                   ></span
                 ></span
@@ -289,10 +330,10 @@ Prod's model: a source document (name, reference number) holds files, and each f
         >
           <button type="button" class="bcn-sw3src__filebtn" data-file-open="">
             <span class="bcn-sw3src__fileicon"
-              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
                 ><svg
-                  width="16"
-                  height="16"
+                  width="14"
+                  height="14"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -309,15 +350,15 @@ Prod's model: a source document (name, reference number) holds files, and each f
                   <path d="M16 13H8"></path>
                   <path d="M16 17H8"></path></svg></span></span
             ><span class="bcn-sw3src__filetext"
-              ><span class="bcn-sw3src__fname typography-body-md" data-file-name=""
+              ><span class="bcn-sw3src__fname" data-file-name=""
                 ><span class="bcn-sw3src__fstart" data-file-start=""
                   >02.0_Delta Conveyance Project Notice of Determination Signed 21D</span
                 ><span class="bcn-sw3src__fend" data-file-end="">EC23.pdf</span></span
-              ><span class="bcn-sw3src__fstate typography-body-sm"
+              ><span class="bcn-sw3src__fstate"
                 ><span data-file-state="">Not scanned</span
                 ><span data-file-badge="" hidden=""
                   ><span
-                    class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
+                    class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong"
                     ><span class="esa-badge__text">3 to check</span></span
                   ></span
                 ></span
@@ -375,17 +416,17 @@ Prod's model: a source document (name, reference number) holds files, and each f
   </div>
   <footer class="bcn-sw3src__foot">
     <span
-      class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+      class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
       ><button
-        class="esa-button__native typography-microcopy-xs"
+        class="esa-button__native typography-microcopy-2xs"
         type="button"
         data-ico="file-plus"
         data-src-new="true"
       >
-        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+        <span class="esa-icon esa-icon--xs" aria-hidden="true"
           ><svg
-            width="16"
-            height="16"
+            width="14"
+            height="14"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -406,19 +447,50 @@ Prod's model: a source document (name, reference number) holds files, and each f
   <template data-src-tpl=""
     ><section class="bcn-sw3src__source" data-source="" data-astro-cid-6isyew5u="">
       <div class="bcn-sw3src__srcrow" data-astro-cid-6isyew5u="">
-        <button
+        <span
+          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only bcn-sw3src__fold"
+          data-astro-cid-4xhmycw5=""
+          ><button
+            class="esa-button__native typography-microcopy-2xs"
+            type="button"
+            aria-label="Collapse"
+            title="Collapse"
+            data-src-fold="true"
+            aria-expanded="true"
+            data-astro-cid-6isyew5u="true"
+            data-astro-cid-4xhmycw5=""
+          >
+            <span
+              class="esa-icon esa-icon--xs"
+              aria-hidden="true"
+              data-astro-cid-c7ivvrtd=""
+              ><svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+                data-astro-cid-c7ivvrtd=""
+              >
+                <path d="m6 9 6 6 6-6"></path></svg
+            ></span></button></span
+        ><button
           type="button"
           class="bcn-sw3src__srcbtn"
           data-src-open=""
           data-astro-cid-6isyew5u=""
         >
           <span
-            class="bcn-sw3src__name typography-label-md-strong"
+            class="bcn-sw3src__name"
             data-src-name=""
             data-astro-cid-6isyew5u=""
           ></span
           ><span
-            class="bcn-sw3src__ref typography-body-sm"
+            class="bcn-sw3src__ref"
             data-src-ref=""
             data-astro-cid-6isyew5u=""
           ></span></button
@@ -476,12 +548,12 @@ Prod's model: a source document (name, reference number) holds files, and each f
       >
         <span class="bcn-sw3src__fileicon" data-astro-cid-6isyew5u=""
           ><span
-            class="esa-icon esa-icon--sm"
+            class="esa-icon esa-icon--xs"
             aria-hidden="true"
             data-astro-cid-c7ivvrtd=""
             ><svg
-              width="16"
-              height="16"
+              width="14"
+              height="14"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -497,10 +569,7 @@ Prod's model: a source document (name, reference number) holds files, and each f
               <path d="M16 13H8"></path>
               <path d="M16 17H8"></path></svg></span></span
         ><span class="bcn-sw3src__filetext" data-astro-cid-6isyew5u=""
-          ><span
-            class="bcn-sw3src__fname typography-body-md"
-            data-file-name=""
-            data-astro-cid-6isyew5u=""
+          ><span class="bcn-sw3src__fname" data-file-name="" data-astro-cid-6isyew5u=""
             ><span
               class="bcn-sw3src__fstart"
               data-file-start=""
@@ -511,11 +580,11 @@ Prod's model: a source document (name, reference number) holds files, and each f
               data-file-end=""
               data-astro-cid-6isyew5u=""
             ></span></span
-          ><span class="bcn-sw3src__fstate typography-body-sm" data-astro-cid-6isyew5u=""
+          ><span class="bcn-sw3src__fstate" data-astro-cid-6isyew5u=""
             ><span data-file-state="" data-astro-cid-6isyew5u=""></span
             ><span data-file-badge="" hidden="" data-astro-cid-6isyew5u=""
               ><span
-                class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
+                class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong"
                 data-astro-cid-sh7ulwla=""
                 ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
                   >3 to check</span
@@ -588,51 +657,9 @@ Prod's model: a source document (name, reference number) holds files, and each f
 
 ## Styles
 ```css
-/* Type comes from .typography-body-sm on the element.
-
-       Both nodes are always in the DOM (the live region has to pre-exist its content),
-       so the gap is opt-IN via .is-shown rather than collapsed with :empty — Lit's
-       template whitespace defeats :empty in engines that follow Selectors L3. */
-.help,
-.error {
-  margin: 0;
-}
-/* Type comes from .typography-body-sm — help and error are one size at every
-       control step, so they name the composite directly rather than mapping. */
-/* Both nodes are ALWAYS in the DOM (see render()), so the gap is opt-IN rather
-       than collapsed away. Deliberately not display:none when empty — that removes
-       the node from the accessibility tree, and a live region that is not in the tree
-       cannot announce anything. An empty <p> with no margin occupies no space.
-
-       .is-shown rather than :empty: Lit's template whitespace leaves a text node
-       inside the element, and browsers still disagree about whether :empty ignores
-       whitespace-only children (Selectors L4 says yes, L3 says no). A class is
-       deterministic; :empty here would silently leave 4px of dead space under every
-       clean field in some engines and not others. */
-.help,
-.error {
-  margin: 0;
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
+/* No box of its own — the buttons stay direct flex items of the host. */
+.esa-button-group__slot {
+  display: contents;
 }
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
@@ -641,13 +668,6 @@ Prod's model: a source document (name, reference number) holds files, and each f
   line-height: var(--typography-microcopy-2xs-line-height);
   letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
 }
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
 .typography-microcopy-2xs-subtle {
   font-family: var(--typography-microcopy-2xs-subtle-font-family);
   font-size: var(--typography-microcopy-2xs-subtle-font-size);
@@ -655,33 +675,12 @@ Prod's model: a source document (name, reference number) holds files, and each f
   line-height: var(--typography-microcopy-2xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
 .typography-microcopy-2xs-strong {
   font-family: var(--typography-microcopy-2xs-strong-font-family);
   font-size: var(--typography-microcopy-2xs-strong-font-size);
   font-weight: var(--typography-microcopy-2xs-strong-font-weight);
   line-height: var(--typography-microcopy-2xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-title-strong {
-  font-family: var(--typography-title-strong-font-family);
-  font-size: var(--typography-title-strong-font-size);
-  font-weight: var(--typography-title-strong-font-weight);
-  line-height: var(--typography-title-strong-line-height);
-  letter-spacing: var(--typography-title-strong-letter-spacing);
 }
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -996,32 +995,32 @@ summary.esa-button--variant-chrome:focus-visible {
   flex-direction: column;
   height: 100%;
   min-height: 0;
+  font-size: 0.8125rem;
+  line-height: 1.3;
   display: flex;
 }
 .bcn-sw3src__head {
-  padding: var(--spacing-300) var(--spacing-400);
+  padding: var(--spacing-200) var(--spacing-300);
   border-bottom: 1px solid var(--color-border-default-subtle);
 }
 .bcn-sw3src__title {
+  color: var(--color-content-default);
   margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
 }
 .bcn-sw3src__list {
   min-height: 0;
-  padding: var(--spacing-200);
-  gap: var(--spacing-300);
+  padding: var(--spacing-100);
+  gap: var(--spacing-100);
   flex-direction: column;
   flex: 1;
   display: flex;
   overflow-y: auto;
 }
 .bcn-sw3src__foot {
-  padding: var(--spacing-300) var(--spacing-400);
+  padding: var(--spacing-100) var(--spacing-200);
   border-top: 1px solid var(--color-border-default-subtle);
-}
-.bcn-sw3src__foot .esa-button,
-.bcn-sw3src__foot .esa-button__native {
-  justify-content: center;
-  width: 100%;
 }
 .bcn-sw3src__list .bcn-sw3src__srcrow,
 .bcn-sw3src__list .bcn-sw3src__file {
@@ -1039,11 +1038,24 @@ summary.esa-button--variant-chrome:focus-visible {
   background: var(--color-background-elevation-sunken);
   box-shadow: inset 0 0 0 1px var(--color-border-default);
 }
+.bcn-sw3src__list .bcn-sw3src__fold {
+  flex: none;
+  padding: 3px 0 0 2px;
+}
+.bcn-sw3src__list .bcn-sw3src__fold svg {
+  transition: transform 0.15s;
+}
+.bcn-sw3src__list .bcn-sw3src__source[data-collapsed] .bcn-sw3src__fold svg {
+  transform: rotate(-90deg);
+}
+.bcn-sw3src__list .bcn-sw3src__source[data-collapsed] .bcn-sw3src__files {
+  display: none;
+}
 .bcn-sw3src__list .bcn-sw3src__srcbtn,
 .bcn-sw3src__list .bcn-sw3src__filebtn {
-  gap: var(--spacing-200);
+  gap: var(--spacing-150, 0.375rem);
   min-width: 0;
-  padding: var(--spacing-200);
+  padding: var(--spacing-100) var(--spacing-150, 0.375rem);
   color: inherit;
   font: inherit;
   text-align: left;
@@ -1057,6 +1069,7 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3src__list .bcn-sw3src__srcbtn {
   flex-direction: column;
   gap: 0;
+  padding-left: 2px;
 }
 .bcn-sw3src__list .bcn-sw3src__srcbtn:focus-visible,
 .bcn-sw3src__list .bcn-sw3src__filebtn:focus-visible {
@@ -1065,28 +1078,31 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-sw3src__list .bcn-sw3src__name {
   color: var(--color-content-default);
+  font-weight: 600;
 }
 .bcn-sw3src__list .bcn-sw3src__ref {
   color: var(--color-content-default-secondary);
   font-variant-numeric: tabular-nums;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 .bcn-sw3src__list .bcn-sw3src__files {
-  padding: 0 0 0 var(--spacing-300);
+  padding: 0 0 0 var(--spacing-400);
   flex-direction: column;
-  gap: 2px;
-  margin: 2px 0 0;
+  gap: 1px;
+  margin: 0;
   list-style: none;
   display: flex;
 }
 .bcn-sw3src__list .bcn-sw3src__fileicon {
   color: var(--color-content-default-secondary);
   flex: none;
-  padding-top: 2px;
+  padding-top: 1px;
 }
 .bcn-sw3src__list .bcn-sw3src__filetext {
   flex-direction: column;
   flex: 1;
-  gap: 2px;
+  gap: 1px;
   min-width: 0;
   display: flex;
 }
@@ -1094,7 +1110,7 @@ summary.esa-button--variant-chrome:focus-visible {
   min-width: 0;
   color: var(--color-content-default);
   white-space: nowrap;
-  font-size: 0.875rem;
+  font-weight: 500;
   display: flex;
 }
 .bcn-sw3src__list .bcn-sw3src__fstart {
@@ -1110,6 +1126,8 @@ summary.esa-button--variant-chrome:focus-visible {
   gap: var(--spacing-200);
   color: var(--color-content-default-secondary);
   font-variant-numeric: tabular-nums;
+  font-size: 0.75rem;
+  font-weight: 500;
   display: flex;
 }
 .bcn-sw3src__list .bcn-sw3src__fstate [data-file-state]:empty {
@@ -1123,9 +1141,9 @@ summary.esa-button--variant-chrome:focus-visible {
   display: none;
 }
 .bcn-sw3src__list .bcn-sw3src__menu {
-  padding: var(--spacing-150, 0.375rem) var(--spacing-100) 0 0;
   opacity: 0;
   flex: none;
+  padding: 2px 2px 0 0;
 }
 .bcn-sw3src__list .bcn-sw3src__srcrow:hover > .bcn-sw3src__menu,
 .bcn-sw3src__list .bcn-sw3src__file:hover > .bcn-sw3src__menu,
@@ -1133,26 +1151,8 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3src__list .bcn-sw3src__menu[open] {
   opacity: 1;
 }
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
+.bcn-sw3scan__draw .esa-button {
+  box-shadow: var(--shadow-200);
 }
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
@@ -1161,13 +1161,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-2xs-line-height);
   letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
 }
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
 .typography-microcopy-2xs-subtle {
   font-family: var(--typography-microcopy-2xs-subtle-font-family);
   font-size: var(--typography-microcopy-2xs-subtle-font-size);
@@ -1175,66 +1168,12 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-2xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
 .typography-microcopy-2xs-strong {
   font-family: var(--typography-microcopy-2xs-strong-font-family);
   font-size: var(--typography-microcopy-2xs-strong-font-size);
   font-weight: var(--typography-microcopy-2xs-strong-font-weight);
   line-height: var(--typography-microcopy-2xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-title-strong {
-  font-family: var(--typography-title-strong-font-family);
-  font-size: var(--typography-title-strong-font-size);
-  font-weight: var(--typography-title-strong-font-weight);
-  line-height: var(--typography-title-strong-line-height);
-  letter-spacing: var(--typography-title-strong-letter-spacing);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-collapsible__summary .esa-icon {
-  color: var(--color-content-default-secondary, #646464);
-  flex-shrink: 0;
 }
 .esa-progress-bar {
   --_progress-height: var(--progress-bar-height-md, 8px);
@@ -1298,6 +1237,35 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .esa-progress-bar__fill {
   background: highlight;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
 }
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
@@ -1477,6 +1445,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--radius-full`: 9999px _(primitive)_
 - `--radius-pill`: 9999px _(semantic)_
 - `--radius-sm`: .25rem _(semantic)_
+- `--shadow-200`: 0 4px 20px -4px #0000000f _(component)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
@@ -1484,22 +1453,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
-- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
-- `--typography-body-md-letter-spacing`: .01em _(semantic)_
-- `--typography-body-md-line-height`: 1.6 _(semantic)_
-- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
-- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
 - `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
 - `--typography-microcopy-2xs-font-weight`: 500 _(semantic)_
@@ -1515,23 +1469,3 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-2xs-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
-- `--typography-title-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-strong-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
-- `--typography-title-strong-font-weight`: 550 _(semantic)_
-- `--typography-title-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-title-strong-line-height`: 1.6 _(semantic)_

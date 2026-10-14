@@ -20,7 +20,8 @@ export type SteerAction =
   | { kind: 'pace'; pace: 'step' | 'watch' | 'run' }
   | { kind: 'check'; code: string }
   | { kind: 'go'; pace: 'step' | 'watch' | 'run' }
-  | { kind: 'skip' };
+  | { kind: 'skip' }
+  | { kind: 'stop' };
 
 export interface SteerContext {
   started: boolean;

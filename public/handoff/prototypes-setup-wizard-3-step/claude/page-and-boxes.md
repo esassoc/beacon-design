@@ -1,19 +1,19 @@
 # Page and boxes
 
-The page in view, rendered from the PDF by pdf.js, with a box per commitment: dashed where Aldo drew it, solid where a person did. Click a box to select it: eight handles to resize, drag to move, and a small toolbar (Redraw, Delete, Open in Aldo). Arrow keys nudge, Shift for a bigger step, Delete or Backspace removes, Escape lets go. Mark missed draws a new box. Every edit is recorded as a steer with its page. Requirement spans are not drawn in step 1: they are step 2's.
+The page in view, rendered from the PDF by pdf.js, with a box per commitment: dashed where Aldo drew it, solid where a person did. Click a box to select it: eight handles to resize, drag to move, and a small toolbar (Redraw, Delete, Open in Aldo). Arrow keys nudge, Shift for a bigger step, Delete or Backspace removes, Escape lets go. Mark a missed commitment, a tool floated over the page (or M), says what to do while it is on and draws a new box. Every edit is recorded as a steer with its page. Requirement spans are not drawn in step 1: they are step 2's.
 
 ## Key decisions
 - Boxes are PdfBoundingBoxDto (page, x, y, width, height as page fractions); an edit sends the new rect for that commitment and page.
 - Boxes come from anchoring against the text layer (PdfPig words), not from model citations.
 - Drawing or selecting a box holds the page still: the scan goes on, the view stops following it.
-- Redraw keeps the commitment and replaces its box on that page; Mark missed asks for a targeted re-read of the region.
+- Redraw keeps the commitment and replaces its box on that page; Mark a missed commitment asks for a targeted re-read of the region.
 
 ## Gotchas
 - Assign table words to rows by y with a few points of slack: a cell's first line can sit a hundredth of a point above the row's code.
 - A flattened form (the NOD) has drawn labels and image text; the text layer misses them, so the page needs OCR or a vision pass.
 
 ## Done when
-- Mark missed and drag over a passage: a solid box appears selected with its tools; Delete removes it, and both edits are in the conversation.
+- Mark a missed commitment and drag over a passage: a solid box appears selected with its tools; Delete removes it, and both edits are in the conversation.
 - Drag a box's corner handle: the box resizes and Aldo records "Adjusted".
 
 ## Markup

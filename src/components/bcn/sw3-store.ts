@@ -247,6 +247,8 @@ export interface Sw3State {
   checked: string[];
   /** A person agreed there is nothing to scan (the NOD). */
   skipped: boolean;
+  /** A person stopped the run: it ends at the last page read, keeping what it found. */
+  stopped?: boolean;
   /** A person's redraw of a find's boxes, replacing Aldo's. */
   boxEdits: Record<string, Box[]>;
   /** A person's correction of how a commitment was identified, at the check. */
@@ -414,6 +416,7 @@ export const calibrated = () => S.calibrated || calibrationPoint() === null;
 export const checked = () => S.checked;
 export const pace = () => S.pace;
 export const skipped = () => S.skipped;
+export const stopped = () => !!S.stopped;
 
 /** Where the run should hold next from here: the calibration stop, or (one at a time) the next parse. */
 const holdAt = (): number | null => {
@@ -489,6 +492,16 @@ const apply = (a: SteerAction) => {
     case 'skip':
       S.skipped = true;
       break;
+    case 'stop': {
+      // The run ends where it is: the clock stops, and the scope closes at the last page read.
+      if (!S.clock) break;
+      const last = lastRead();
+      reanchor({ paused: true, pauseAt: null });
+      S.calibrated = true;
+      S.stopped = true;
+      S.scope = { ...S.scope, last: Math.max(S.scope.first, last ?? S.scope.first) };
+      break;
+    }
     case 'scope':
       // The prototype's run covers its own pages whatever range is given.
       S.scope = {

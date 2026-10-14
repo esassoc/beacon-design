@@ -7,9 +7,10 @@
 // and only the three panes scroll, each inside itself. So the controls never scroll away,
 // the three panes' tops align, and Aldo's composer is always on screen.
 //
-// The header's status line is where the scan is ("Reading 04_DCP_MMRP_ADA.pdf, p. 16 of
-// 170"); the toolbar under it holds Mark missed, the pace, the one primary (Let it run /
-// Pause / Resume / Continue) and ⋯, then every page of the file in one strip. Selecting a
+// The header holds the step's title and the two panel toggles (the library and Aldo); the
+// console under it is the run's transport (Play, Pause, Stop, Restart) and speed, then
+// every page of the file in one strip. Where the run is lives in Aldo, as its status. Mark
+// a missed commitment floats over the page it acts on. Reset the prototype sits below. Selecting a
 // source shows its details (name, reference number, files, upload); selecting a file shows
 // its scan: the page, rendered from the PDF, with a box per commitment that a person can
 // select, move, resize, redraw or delete. Aldo, on the right, scopes, checks and steers.
@@ -35,6 +36,7 @@ import BcnSw3Sources from './BcnSw3Sources.astro';
 import BcnSw3SourceEditor from './BcnSw3SourceEditor.astro';
 import BcnSw3Aldo from './BcnSw3Aldo.astro';
 import BcnSw3Toolbar from './BcnSw3Toolbar.astro';
+import BcnAldoToggle from './BcnAldoToggle.astro';
 import { SW3_REVIEW, SW3_STEPS } from '../../data/setup-wizard-3-step';
 import { SCAN_DOCS, SCAN_SOURCES } from '../../data/sw3-docs';
 import { withBase } from '../../lib/base';
@@ -47,12 +49,14 @@ const sources = {
 };
 ---
 
-<section class="bcn-sw3scan" data-sw3-scan data-base={withBase('/')} data-aldo="open">
+<section class="bcn-sw3scan" data-sw3-scan data-base={withBase('/')} data-aldo="open" data-library="open">
   <div class="bcn-sw3scan__panel">
     <BcnSwStepPanel n={STEP.n} token={STEP.token}>
       <Fragment slot="title"><span>Source Documents</span></Fragment>
-      <p slot="meta" class="bcn-sw3scan__status typography-label-md" data-bar-status role="status"></p>
-      <EsaIconButton slot="actions" icon="menu" label="Hide Aldo" size="sm" data-ico="panel-right-close" data-bar-aldo aria-pressed="true" />
+      <div slot="actions" class="bcn-sw3scan__toggles">
+        <EsaButton variant="secondary" size="sm" icon="plus" data-ico="panel-left-close" data-bar-library aria-pressed="true">Hide library</EsaButton>
+        <BcnAldoToggle />
+      </div>
       <BcnSw3Toolbar />
     </BcnSwStepPanel>
   </div>
@@ -63,6 +67,10 @@ const sources = {
 
   <div class="bcn-sw3scan__main" data-sw3-main>
     <div class="bcn-sw3scan__page" data-sw3-pagepane>
+      <div class="bcn-sw3scan__draw" data-sw3-draw>
+        <EsaButton variant="secondary" size="sm" icon="plus" data-ico="square-dashed" data-bar-mark aria-pressed="false">Mark a missed commitment</EsaButton>
+        <p class="bcn-sw3scan__drawhint typography-body-sm" data-draw-hint hidden>Drag over the commitment the scan missed. Esc cancels.</p>
+      </div>
       <div class="bcn-sw3scan__sheet">
         <BcnPageView aspect={1.2941} />
         <div class="bcn-sw3scan__boxtools" data-box-tools hidden role="toolbar" aria-label="Selected box">
@@ -100,6 +108,9 @@ const sources = {
   <script type="application/json" data-sw3-payload set:html={JSON.stringify(payload)} />
   <script type="application/json" data-sw3-sources-seed set:html={JSON.stringify(sources)} />
 </section>
+<div class="bcn-sw3scan__reset">
+  <EsaButton variant="ghost" size="sm" icon="rotate-ccw" data-sw3-reset>Reset the prototype</EsaButton>
+</div>
 
 <style>
   /* The workspace fills the window below the stepper (height set by sw3-scan.ts from where
@@ -111,19 +122,52 @@ const sources = {
     gap: var(--spacing-300);
     height: var(--_fit, calc(100vh - 12rem));
     min-height: 32rem;
+    /* Secondary buttons here are neutral, not brand-tinted: white keys with a gray edge.
+       Color is kept for what it means (a primary, a danger, Aldo). */
+    --color-background-brand-muted: var(--color-background-elevation-raised);
+    --color-background-brand-muted-hover: var(--color-background-elevation-sunken);
+    --color-content-on-brand-muted: var(--color-content-default);
+  }
+  .bcn-sw3scan + .bcn-sw3scan__reset {
+    --color-background-brand-muted: var(--color-background-elevation-raised);
+    --color-content-on-brand-muted: var(--color-content-default);
   }
   .bcn-sw3scan[data-aldo='closed'] { grid-template-columns: 16rem minmax(0, 1fr); }
-  .bcn-sw3scan[data-aldo='closed'] .bcn-sw3scan__aldo { display: none; }
+  .bcn-sw3scan[data-library='closed'] { grid-template-columns: minmax(0, 1fr) 22rem; }
+  .bcn-sw3scan[data-library='closed'][data-aldo='closed'] { grid-template-columns: minmax(0, 1fr); }
+  .bcn-sw3scan[data-aldo='closed'] .bcn-sw3scan__aldo,
+  .bcn-sw3scan[data-library='closed'] .bcn-sw3scan__sources { display: none; }
 
   .bcn-sw3scan__panel { grid-column: 1 / -1; }
-  .bcn-sw3scan__status {
-    margin: 0;
-    padding-left: var(--spacing-300);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums;
+  .bcn-sw3scan__toggles { display: flex; align-items: center; gap: var(--spacing-200); }
+  .bcn-sw3scan__reset { display: flex; justify-content: flex-end; padding: var(--spacing-400) 0 var(--spacing-200); }
+
+  /* Mark a missed commitment: a tool floated over the page, with what to do while it is on. */
+  .bcn-sw3scan__draw {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    margin: 0 auto var(--spacing-300);
+    max-width: 60rem;
   }
+  .bcn-sw3scan__draw :global(.esa-button) { box-shadow: var(--shadow-200); }
+  /* On: the page is a drawing surface until a box is drawn or Esc. */
+  .bcn-sw3scan__draw :global([aria-pressed='true']) {
+    background: var(--color-background-inverse);
+    color: var(--color-content-default-knockout);
+    border-color: var(--color-background-inverse);
+  }
+  .bcn-sw3scan__drawhint {
+    margin: 0;
+    padding: var(--spacing-100) var(--spacing-300);
+    border-radius: var(--radius-100);
+    background: var(--color-background-inverse);
+    color: var(--color-content-default-knockout);
+  }
+  .bcn-sw3scan__drawhint[hidden] { display: none; }
 
   .bcn-sw3scan__sources,
   .bcn-sw3scan__main,
@@ -181,6 +225,8 @@ const sources = {
   @media (max-width: 1280px) {
     .bcn-sw3scan { grid-template-columns: 14rem minmax(0, 1fr) 20rem; }
     .bcn-sw3scan[data-aldo='closed'] { grid-template-columns: 14rem minmax(0, 1fr); }
+    .bcn-sw3scan[data-library='closed'] { grid-template-columns: minmax(0, 1fr) 20rem; }
+    .bcn-sw3scan[data-library='closed'][data-aldo='closed'] { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 1100px) {
     .bcn-sw3scan { grid-template-columns: 14rem minmax(0, 1fr); }

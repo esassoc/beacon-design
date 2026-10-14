@@ -66,6 +66,31 @@ export function setupPageScrubber(root: HTMLElement, { onPage, onFind }: Handler
   prevBtn.addEventListener('click', () => shift(-1));
   nextBtn.addEventListener('click', () => shift(1));
 
+  // The popover over the page under the pointer: its number, what the scan has done with
+  // it, and what was found on it. Fixed to the viewport, so no pane clips it.
+  const tipPage = tip?.querySelector<HTMLElement>('[data-tip-page]');
+  const tipState = tip?.querySelector<HTMLElement>('[data-tip-state]');
+  const tipFinds = tip?.querySelector<HTMLElement>('[data-tip-finds]');
+  const showTip = (p: number) => {
+    if (!tip || !model || p > total) {
+      if (tip) tip.hidden = true;
+      return;
+    }
+    const m = model;
+    const state = !m.inScope(p) ? 'Outside the scope' : m.scanned.has(p) || m.gaps.has(p) ? 'Read' : m.head === p ? 'Reading' : 'Not read yet';
+    const pips = m.pips.get(p) ?? [];
+    tipPage!.textContent = `p. ${p}`;
+    tipState!.textContent = state;
+    tipFinds!.textContent = pips.map((x) => x.label.replace(/, p\. \d+$/, '')).join('\n');
+    tipFinds!.hidden = !pips.length;
+    tip.hidden = false;
+    const cell = cells[p - windowStart()];
+    if (!cell) return;
+    const r = cell.getBoundingClientRect();
+    tip.style.left = `${r.left + r.width / 2}px`;
+    tip.style.top = `${r.top - 8}px`;
+  };
+
   let dragging = false;
   track.addEventListener('pointerdown', (e) => {
     const pip = (e.target as HTMLElement).closest<HTMLElement>('[data-find]');
@@ -80,11 +105,7 @@ export function setupPageScrubber(root: HTMLElement, { onPage, onFind }: Handler
   });
   track.addEventListener('pointermove', (e) => {
     const p = pageAt(e.clientX);
-    if (tip) {
-      tip.hidden = p > total;
-      tip.textContent = `p. ${p}`;
-      root.style.setProperty('--_tip', String(p - windowStart()));
-    }
+    if (tip) showTip(p);
     if (dragging) go(p);
   });
   track.addEventListener('pointerleave', () => {
@@ -125,7 +146,6 @@ export function setupPageScrubber(root: HTMLElement, { onPage, onFind }: Handler
       el.dataset.page = String(n);
       const state = n > total ? 'none' : !m.inScope(n) ? 'out' : m.gaps.has(n) ? 'gap' : m.scanned.has(n) ? 'scanned' : 'pending';
       if (el.dataset.state !== state) el.dataset.state = state;
-      el.title = n > total ? '' : state === 'out' ? `p. ${n}, outside the scope` : state === 'gap' ? `p. ${n}, nothing found` : `p. ${n}`;
       const pipsEl = el.firstElementChild as HTMLElement;
       const pips = n > total ? [] : (m.pips.get(n) ?? []);
       const sig = `${n}:${pips.map((p) => `${p.id}${p.parsed ? '+' : ''}${p.id === m.selectedFind ? '*' : ''}`).join('|')}`;

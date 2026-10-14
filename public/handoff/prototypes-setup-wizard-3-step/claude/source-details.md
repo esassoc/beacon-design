@@ -247,6 +247,10 @@ Selecting a source (not one of its files) shows prod's source view in the main p
 .error {
   margin: 0;
 }
+/* No box of its own — the buttons stay direct flex items of the host. */
+.esa-button-group__slot {
+  display: contents;
+}
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
   font-size: var(--typography-body-md-font-size);
@@ -581,11 +585,6 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
-.bcn-sw3src__foot .esa-button,
-.bcn-sw3src__foot .esa-button__native {
-  justify-content: center;
-  width: 100%;
-}
 .esa-danger-zone {
   --_dz-bg: var(--color-background-utility-danger-subtle, #fffcfc);
   --_dz-border: var(--color-border-utility-danger, #fdbdbe);
@@ -700,6 +699,9 @@ summary.esa-button--variant-chrome:focus-visible {
   flex: none;
   display: flex;
 }
+.bcn-sw3scan__draw .esa-button {
+  box-shadow: var(--shadow-200);
+}
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
   font-size: var(--typography-body-md-font-size);
@@ -792,10 +794,6 @@ summary.esa-button--variant-chrome:focus-visible {
   height: var(--_icon-size);
   display: block;
 }
-.esa-collapsible__summary .esa-icon {
-  color: var(--color-content-default-secondary, #646464);
-  flex-shrink: 0;
-}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -864,6 +862,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-md`: .25rem _(semantic)_
+- `--shadow-200`: 0 4px 20px -4px #0000000f _(component)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_

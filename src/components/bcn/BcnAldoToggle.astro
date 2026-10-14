@@ -1,0 +1,63 @@
+---
+// <BcnAldoToggle> — shows or hides an Aldo panel. Aldo's invoker, in the grammar of
+// bcn-aldo-prompt's closed bar: the mark on Aldo's green wash, in a pill, with the word
+// for what a press does ("Hide Aldo" while the panel is open, "Show Aldo" while it is
+// closed). aria-pressed carries the state; the host flips it and owns the panel.
+//
+//   out  aldo-toggle  detail { open }   fired on the button when pressed
+//
+// The controller is set() below: the host calls it when the panel opens or closes for
+// another reason (Aldo opening itself when a scan stops for a check).
+//
+// bcn-lego-checked: esa-button-toggle is a segmented choice among options, esa-button has
+// no Aldo voice (its ai variant is a fill, not the wash and mark). The mark IS
+// bcn-aldo-mark. Checked Beacon (no AI invoker). Pattern from bcn-aldo-prompt (Comments).
+// bcn-aldo-toggle is the reusable home for "open Aldo beside this work".
+import BcnAldoMark from './BcnAldoMark.astro';
+
+interface Props {
+  /** Whether the panel starts open. */
+  open?: boolean;
+}
+const { open = true } = Astro.props;
+---
+
+<button type="button" class="bcn-aldotog" aria-pressed={String(open)} data-aldo-toggle>
+  <BcnAldoMark size="sm" />
+  <span class="bcn-aldotog__label typography-label-sm-strong" data-aldo-toggle-label>{open ? 'Hide Aldo' : 'Show Aldo'}</span>
+</button>
+
+<style>
+  .bcn-aldotog {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    height: 32px;
+    padding: 0 var(--spacing-300) 0 var(--spacing-150, 0.375rem);
+    border: 1px solid var(--bcn-aldo-100);
+    border-radius: 999px;
+    background: var(--bcn-aldo-prompt-wash);
+    color: var(--bcn-aldo-600);
+    font: inherit;
+    cursor: pointer;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  .bcn-aldotog:hover { border-color: var(--bcn-aldo); box-shadow: var(--bcn-aldo-prompt-shadow); }
+  .bcn-aldotog:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+  /* Closed: the panel is away, so the invoker carries more of Aldo's color. */
+  .bcn-aldotog[aria-pressed='false'] { border-color: var(--bcn-aldo); }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-aldo-toggle]').forEach((b) => {
+    if (b.dataset.wired) return;
+    b.dataset.wired = '1';
+    b.addEventListener('click', () => {
+      const open = b.getAttribute('aria-pressed') !== 'true';
+      b.dispatchEvent(new CustomEvent('aldo-toggle', { detail: { open }, bubbles: true }));
+    });
+  });
+</script>

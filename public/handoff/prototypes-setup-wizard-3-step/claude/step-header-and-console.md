@@ -1,74 +1,33 @@
-# Step header and controls
+# Step header and console
 
-One panel: the step's numeral and title with a status line (the only place the page appears: "Reading ITP_2081-2024-018-00_Signed.pdf, p. 133 of 247", "Stopped at 3 commitments to check", "Paused at p. 40 of 170", "Done: 157 commitments in 04_DCP_MMRP_ADA.pdf") and the Aldo panel toggle; under a gray rule, the controls of the file in view. Left, Mark missed. Center, the pace with icons (One at a time, Watch, Full speed). Right, one primary that is the next thing to do (Start scan, Pause, Resume, Continue after the check) and a menu for the rare ones (Restart this scan, Download file, Delete file). Below, every page of the file in one strip.
+One panel: the step's numeral and title with the two panel toggles (Hide library, and Aldo's own invoker, Hide Aldo / Show Aldo); under a gray rule, the console for the file in view, centered: the transport (Start or Resume, Pause, Stop, Restart), each a neutral key with its icon and name, and the speed (One at a time, Watch, Full speed) in a menu. Below, every page of the file in one strip. Where the run is is said once, in Aldo's status.
 
 ## Key decisions
-- Pace is how fast the job dispatches page windows: a real control in prod, not a replay speed. Every pace change, pause and resume is recorded as a steer.
-- Pause lets the page in flight finish: its extraction call is already out.
-- With a source (not a file) selected, the controls are dimmed and inert: there is no file to control.
-- Restart this scan re-queues the file's job; prod has no endpoint for it yet (only delete and re-upload).
+- Each key is live only when it can act, and the run's state reads as a pressed key: Start before the run, Resume when it is paused or stopped for the check, Pause while it reads, Stop while it has pages left, Restart once it has begun.
+- Stop ends the run at the page it is on and keeps what it found; the pages after it are not read. It asks first. Restart clears the file's scan and steers.
+- Speed is how fast the job dispatches page windows: a real control in prod. Every speed change, pause, resume and stop is recorded as a steer.
+- With a source (not a file) selected, the console is dimmed and inert.
 
 ## Done when
-- At the check after the first three commitments, the primary reads Continue; with all three checked, the status reads "Checked 3 commitments. Continue when ready".
-- Press M or Mark missed: the button is pressed and the page becomes a drawing surface.
-- Hide Aldo gives the page the full width; Aldo opens again on its own when a file stops for a check.
+- At the check after the first three commitments, Resume goes on past it at the speed chosen.
+- Stop, confirm: Aldo's status reads "Stopped. N commitments found." and only Restart is live.
+- Hide library and Hide Aldo: the page takes the width; each toggle reads Show.
 
 ## Markup
 ```html
 <div class="bcn-sw3bar" data-sw3-toolbar="">
-  <div class="bcn-sw3bar__row">
-    <span
-      class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-      ><button
-        class="esa-button__native typography-microcopy-xs"
-        type="button"
-        data-ico="square-dashed"
-        data-bar-mark="true"
-        aria-pressed="false"
-      >
-        <span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-            data-ico="square-dashed"
-          >
-            <path d="M5 3a2 2 0 0 0-2 2"></path>
-            <path d="M19 3a2 2 0 0 1 2 2"></path>
-            <path d="M21 19a2 2 0 0 1-2 2"></path>
-            <path d="M5 21a2 2 0 0 1-2-2"></path>
-            <path d="M9 3h1"></path>
-            <path d="M9 21h1"></path>
-            <path d="M14 3h1"></path>
-            <path d="M14 21h1"></path>
-            <path d="M3 9v1"></path>
-            <path d="M21 9v1"></path>
-            <path d="M3 14v1"></path>
-            <path d="M21 14v1"></path></svg></span
-        ><span class="esa-button__label">Mark missed</span>
-      </button></span
-    ><esa-button-toggle
-      class="bcn-sw3bar__pace"
-      size="sm"
-      value="watch"
-      aria-label="Pace"
-      data-bar-pace="true"
-      data-options='[{"value":"step","label":"One at a time","icon":"&lt;line x1=\"6\" x2=\"6\" y1=\"4\" y2=\"20\"/&gt;&lt;polygon points=\"10 4 20 12 10 20 10 4\"/&gt;"},{"value":"watch","label":"Watch","icon":"&lt;path d=\"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0\"/&gt;&lt;circle cx=\"12\" cy=\"12\" r=\"3\"/&gt;"},{"value":"run","label":"Full speed","icon":"&lt;polygon points=\"13 19 22 12 13 5 13 19\"/&gt;&lt;polygon points=\"2 19 11 12 2 5 2 19\"/&gt;"}]'
-    ></esa-button-toggle>
-    <div class="bcn-sw3bar__end">
-      <span
-        class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+  <div class="bcn-sw3bar__console">
+    <esa-button-group
+      class="bcn-sw3bar__transport"
+      aria-label="Scan transport"
+      role="group"
+      ><span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
         ><button
           class="esa-button__native typography-microcopy-xs"
           type="button"
           data-ico="play"
-          data-bar-toggle="true"
+          data-tx="play"
         >
           <span class="esa-icon esa-icon--sm" aria-hidden="true"
             ><svg
@@ -84,44 +43,131 @@ One panel: the step's numeral and title with a status line (the only place the p
               data-ico="play"
             >
               <polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span
-          ><span class="esa-button__label">Start scan</span>
+          ><span class="esa-button__label">Start</span>
         </button></span
-      ><esa-dropdown-menu
-        position="below-end"
-        data-bar-more="true"
-        data-items='[{"label":"Restart this scan","action":"restart"},{"label":"Download file","action":"download"},{"divider":true},{"label":"Delete file","action":"delete","variant":"danger"},{"divider":true},{"label":"Reset the prototype","action":"reset"}]'
-        width="auto"
-        ><span
-          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-          ><button
-            class="esa-button__native typography-microcopy-xs"
-            type="button"
-            aria-label="More scan actions"
-            title="More scan actions"
-            data-ico="ellipsis"
-            aria-haspopup="menu"
-            aria-expanded="false"
-            aria-controls="menu"
-          >
-            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-              ><svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-                data-ico="ellipsis"
-              >
-                <circle cx="12" cy="12" r="1"></circle>
-                <circle cx="19" cy="12" r="1"></circle>
-                <circle cx="5" cy="12" r="1"></circle></svg
-            ></span></button></span
-      ></esa-dropdown-menu>
-    </div>
+      ><span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          data-ico="pause"
+          data-tx="pause"
+          disabled=""
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+              data-ico="pause"
+            >
+              <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+              <rect x="6" y="4" width="4" height="16" rx="1"></rect></svg></span
+          ><span class="esa-button__label">Pause</span>
+        </button></span
+      ><span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          data-ico="square"
+          data-tx="stop"
+          disabled=""
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+              data-ico="square"
+            >
+              <rect width="18" height="18" x="3" y="3" rx="2"></rect></svg></span
+          ><span class="esa-button__label">Stop</span>
+        </button></span
+      ><span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          data-tx="restart"
+          disabled=""
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+              <path d="M3 3v5h5"></path></svg></span
+          ><span class="esa-button__label">Restart</span>
+        </button></span
+      ></esa-button-group
+    ><esa-dropdown-menu
+      position="below-start"
+      data-bar-speed="true"
+      data-items='[{"label":"One at a time","action":"step"},{"label":"Watch","action":"watch"},{"label":"Full speed","action":"run"}]'
+      width="auto"
+      ><span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          data-ico="gauge"
+          data-bar-speed-btn="true"
+          aria-haspopup="menu"
+          aria-expanded="false"
+          aria-controls="menu"
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+              data-ico="gauge"
+            >
+              <path d="m12 14 4-4"></path>
+              <path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg></span
+          ><span class="esa-button__label">Watch</span
+          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m6 9 6 6 6-6"></path></svg
+          ></span></button></span
+    ></esa-dropdown-menu>
   </div>
   <div class="bcn-sw3bar__scrub">
     <div
@@ -167,305 +213,105 @@ One panel: the step's numeral and title with a status line (the only place the p
           data-scrub-track=""
           aria-valuetext="Page 131"
         >
-          <span
-            class="bcn-scrub__page"
-            data-page="101"
-            data-state="pending"
-            title="p. 101"
+          <span class="bcn-scrub__page" data-page="101" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="101:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="102"
-            data-state="pending"
-            title="p. 102"
+          ><span class="bcn-scrub__page" data-page="102" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="102:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="103"
-            data-state="pending"
-            title="p. 103"
+          ><span class="bcn-scrub__page" data-page="103" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="103:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="104"
-            data-state="pending"
-            title="p. 104"
+          ><span class="bcn-scrub__page" data-page="104" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="104:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="105"
-            data-state="pending"
-            title="p. 105"
+          ><span class="bcn-scrub__page" data-page="105" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="105:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="106"
-            data-state="pending"
-            title="p. 106"
+          ><span class="bcn-scrub__page" data-page="106" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="106:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="107"
-            data-state="pending"
-            title="p. 107"
+          ><span class="bcn-scrub__page" data-page="107" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="107:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="108"
-            data-state="pending"
-            title="p. 108"
+          ><span class="bcn-scrub__page" data-page="108" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="108:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="109"
-            data-state="pending"
-            title="p. 109"
+          ><span class="bcn-scrub__page" data-page="109" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="109:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="110"
-            data-state="pending"
-            title="p. 110"
+          ><span class="bcn-scrub__page" data-page="110" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="110:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="111"
-            data-state="pending"
-            title="p. 111"
+          ><span class="bcn-scrub__page" data-page="111" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="111:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="112"
-            data-state="pending"
-            title="p. 112"
+          ><span class="bcn-scrub__page" data-page="112" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="112:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="113"
-            data-state="pending"
-            title="p. 113"
+          ><span class="bcn-scrub__page" data-page="113" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="113:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="114"
-            data-state="pending"
-            title="p. 114"
+          ><span class="bcn-scrub__page" data-page="114" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="114:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="115"
-            data-state="pending"
-            title="p. 115"
+          ><span class="bcn-scrub__page" data-page="115" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="115:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="116"
-            data-state="pending"
-            title="p. 116"
+          ><span class="bcn-scrub__page" data-page="116" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="116:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="117"
-            data-state="pending"
-            title="p. 117"
+          ><span class="bcn-scrub__page" data-page="117" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="117:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="118"
-            data-state="pending"
-            title="p. 118"
+          ><span class="bcn-scrub__page" data-page="118" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="118:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="119"
-            data-state="pending"
-            title="p. 119"
+          ><span class="bcn-scrub__page" data-page="119" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="119:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="120"
-            data-state="pending"
-            title="p. 120"
+          ><span class="bcn-scrub__page" data-page="120" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="120:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="121"
-            data-state="pending"
-            title="p. 121"
+          ><span class="bcn-scrub__page" data-page="121" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="121:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="122"
-            data-state="pending"
-            title="p. 122"
+          ><span class="bcn-scrub__page" data-page="122" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="122:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="123"
-            data-state="pending"
-            title="p. 123"
+          ><span class="bcn-scrub__page" data-page="123" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="123:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="124"
-            data-state="pending"
-            title="p. 124"
+          ><span class="bcn-scrub__page" data-page="124" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="124:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="125"
-            data-state="pending"
-            title="p. 125"
+          ><span class="bcn-scrub__page" data-page="125" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="125:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="126"
-            data-state="pending"
-            title="p. 126"
+          ><span class="bcn-scrub__page" data-page="126" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="126:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="127"
-            data-state="pending"
-            title="p. 127"
+          ><span class="bcn-scrub__page" data-page="127" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="127:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="128"
-            data-state="pending"
-            title="p. 128"
+          ><span class="bcn-scrub__page" data-page="128" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="128:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="129"
-            data-state="pending"
-            title="p. 129"
+          ><span class="bcn-scrub__page" data-page="129" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="129:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="130"
-            data-state="pending"
-            title="p. 130"
+          ><span class="bcn-scrub__page" data-page="130" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="130:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="131"
-            data-state="pending"
-            title="p. 131"
+          ><span class="bcn-scrub__page" data-page="131" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="131:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="132"
-            data-state="pending"
-            title="p. 132"
+          ><span class="bcn-scrub__page" data-page="132" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="132:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="133"
-            data-state="pending"
-            title="p. 133"
+          ><span class="bcn-scrub__page" data-page="133" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="133:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="134"
-            data-state="pending"
-            title="p. 134"
+          ><span class="bcn-scrub__page" data-page="134" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="134:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="135"
-            data-state="pending"
-            title="p. 135"
+          ><span class="bcn-scrub__page" data-page="135" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="135:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="136"
-            data-state="pending"
-            title="p. 136"
+          ><span class="bcn-scrub__page" data-page="136" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="136:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="137"
-            data-state="pending"
-            title="p. 137"
+          ><span class="bcn-scrub__page" data-page="137" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="137:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="138"
-            data-state="pending"
-            title="p. 138"
+          ><span class="bcn-scrub__page" data-page="138" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="138:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="139"
-            data-state="pending"
-            title="p. 139"
+          ><span class="bcn-scrub__page" data-page="139" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="139:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="140"
-            data-state="pending"
-            title="p. 140"
+          ><span class="bcn-scrub__page" data-page="140" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="140:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="141"
-            data-state="pending"
-            title="p. 141"
+          ><span class="bcn-scrub__page" data-page="141" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="141:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="142"
-            data-state="pending"
-            title="p. 142"
+          ><span class="bcn-scrub__page" data-page="142" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="142:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="143"
-            data-state="pending"
-            title="p. 143"
+          ><span class="bcn-scrub__page" data-page="143" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="143:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="144"
-            data-state="pending"
-            title="p. 144"
+          ><span class="bcn-scrub__page" data-page="144" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="144:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="145"
-            data-state="pending"
-            title="p. 145"
+          ><span class="bcn-scrub__page" data-page="145" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="145:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="146"
-            data-state="pending"
-            title="p. 146"
+          ><span class="bcn-scrub__page" data-page="146" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="146:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="147"
-            data-state="pending"
-            title="p. 147"
+          ><span class="bcn-scrub__page" data-page="147" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="147:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="148"
-            data-state="pending"
-            title="p. 148"
+          ><span class="bcn-scrub__page" data-page="148" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="148:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="149"
-            data-state="pending"
-            title="p. 149"
+          ><span class="bcn-scrub__page" data-page="149" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="149:"></span></span
-          ><span
-            class="bcn-scrub__page"
-            data-page="150"
-            data-state="pending"
-            title="p. 150"
+          ><span class="bcn-scrub__page" data-page="150" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="150:"></span></span
           ><span
             class="bcn-scrub__head"
@@ -473,16 +319,10 @@ One panel: the step's numeral and title with a status line (the only place the p
             hidden=""
             aria-hidden="true"
           ></span
-          ><span class="bcn-scrub__thumb" data-scrub-thumb="" aria-hidden="true"></span
-          ><span
-            class="bcn-scrub__tip typography-label-sm"
-            data-scrub-tip=""
-            hidden=""
-            aria-hidden="true"
-          ></span>
+          ><span class="bcn-scrub__thumb" data-scrub-thumb="" aria-hidden="true"></span>
         </div>
         <div
-          class="bcn-scrub__ticks typography-microcopy-sm"
+          class="bcn-scrub__ticks"
           aria-hidden="true"
           data-scrub-ticks=""
           data-sig="101,110,120,130,140,150"
@@ -518,7 +358,11 @@ One panel: the step's numeral and title with a status line (the only place the p
               >
                 <path d="m6 17 5-5-5-5"></path>
                 <path d="m13 17 5-5-5-5"></path></svg
-            ></span></button></span
+            ></span></button></span></span
+      ><span class="bcn-scrub__tip" data-scrub-tip="" hidden="" aria-hidden="true"
+        ><span class="bcn-scrub__tippage" data-tip-page=""></span
+        ><span class="bcn-scrub__tipstate" data-tip-state=""></span
+        ><span class="bcn-scrub__tipfinds" data-tip-finds="" hidden=""></span
       ></span>
     </div>
   </div>
@@ -527,19 +371,9 @@ One panel: the step's numeral and title with a status line (the only place the p
 
 ## Styles
 ```css
-.typography-label-sm {
-  font-family: var(--typography-label-sm-font-family);
-  font-size: var(--typography-label-sm-font-size);
-  font-weight: var(--typography-label-sm-font-weight);
-  line-height: var(--typography-label-sm-line-height);
-  letter-spacing: var(--typography-label-sm-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+/* No box of its own — the buttons stay direct flex items of the host. */
+.esa-button-group__slot {
+  display: contents;
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -548,13 +382,6 @@ One panel: the step's numeral and title with a status line (the only place the p
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
 .typography-microcopy-xs-subtle {
   font-family: var(--typography-microcopy-xs-subtle-font-family);
   font-size: var(--typography-microcopy-xs-subtle-font-size);
@@ -562,26 +389,12 @@ One panel: the step's numeral and title with a status line (the only place the p
   line-height: var(--typography-microcopy-xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
-.typography-microcopy-sm-subtle {
-  font-family: var(--typography-microcopy-sm-subtle-font-family);
-  font-size: var(--typography-microcopy-sm-subtle-font-size);
-  font-weight: var(--typography-microcopy-sm-subtle-font-weight);
-  line-height: var(--typography-microcopy-sm-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-sm-subtle-letter-spacing);
-}
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
   font-size: var(--typography-microcopy-xs-strong-font-size);
   font-weight: var(--typography-microcopy-xs-strong-font-weight);
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
 }
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -854,27 +667,30 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
-.bcn-sw3src__foot .esa-button,
-.bcn-sw3src__foot .esa-button__native {
-  justify-content: center;
-  width: 100%;
-}
 .bcn-scrub {
-  align-items: start;
-  gap: var(--spacing-200);
+  --_cell: calc(100% / var(--_n));
+  align-items: center;
+  column-gap: var(--spacing-200);
   user-select: none;
+  grid-template-rows: auto auto;
   grid-template-columns: auto minmax(0, 1fr) auto;
+  row-gap: 2px;
   display: grid;
 }
-.bcn-scrub > span {
-  padding-top: 6px;
+.bcn-scrub > [data-scrub-prev] {
+  grid-area: 1/1;
+}
+.bcn-scrub > [data-scrub-next] {
+  grid-area: 1/3;
 }
 .bcn-scrub__strip {
-  --_cell: calc(100% / var(--_n));
-  gap: var(--spacing-100);
-  flex-direction: column;
-  min-width: 0;
-  display: flex;
+  display: contents;
+}
+.bcn-scrub__track {
+  grid-area: 1/2;
+}
+.bcn-scrub__ticks {
+  grid-area: 2/2;
 }
 .bcn-scrub__track {
   grid-template-columns: repeat(var(--_n), minmax(0, 1fr));
@@ -893,8 +709,11 @@ summary.esa-button--variant-chrome:focus-visible {
   outline-offset: var(--focus-ring-offset, 2px);
 }
 .bcn-scrub__track .bcn-scrub__page {
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
+  background: color-mix(
+    in srgb,
+    var(--color-content-default) 16%,
+    var(--color-background-elevation-raised)
+  );
   border-radius: 2px;
   flex-direction: column;
   justify-content: flex-start;
@@ -906,20 +725,11 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-scrub__track .bcn-scrub__page[data-state="scanned"],
 .bcn-scrub__track .bcn-scrub__page[data-state="gap"] {
-  background: color-mix(
-    in srgb,
-    var(--color-content-default) 20%,
-    var(--color-background-elevation-raised)
-  );
-  border-color: #0000;
+  background: var(--color-source);
 }
 .bcn-scrub__track .bcn-scrub__page[data-state="out"] {
-  background: color-mix(
-    in srgb,
-    var(--color-content-default) 6%,
-    var(--color-background-elevation-sunken)
-  );
-  border-color: #0000;
+  background: var(--color-background-elevation-raised);
+  box-shadow: inset 0 0 0 1px var(--color-border-default-subtle);
 }
 .bcn-scrub__track .bcn-scrub__page[data-state="none"] {
   visibility: hidden;
@@ -931,9 +741,9 @@ summary.esa-button--variant-chrome:focus-visible {
   display: flex;
 }
 .bcn-scrub__track .bcn-scrub__pip {
-  border: 1.5px solid var(--color-commitment);
-  background: var(--color-background-elevation-raised);
+  border: 1.5px solid var(--color-background-elevation-raised);
   cursor: pointer;
+  background: 0 0;
   border-radius: 50%;
   width: 7px;
   height: 7px;
@@ -941,12 +751,12 @@ summary.esa-button--variant-chrome:focus-visible {
   display: block;
 }
 .bcn-scrub__track .bcn-scrub__pip[data-parsed] {
-  background: var(--color-commitment);
+  background: var(--color-background-elevation-raised);
 }
 .bcn-scrub__track .bcn-scrub__pip[data-selected] {
   box-shadow:
-    0 0 0 2px var(--color-background-elevation-raised),
-    0 0 0 3.5px var(--color-commitment);
+    0 0 0 1.5px var(--color-source),
+    0 0 0 3px var(--color-background-elevation-raised);
 }
 .bcn-scrub__head {
   top: 0;
@@ -971,23 +781,53 @@ summary.esa-button--variant-chrome:focus-visible {
   position: absolute;
 }
 .bcn-scrub__tip {
-  bottom: calc(100% + 4px);
-  left: calc(var(--_cell) * var(--_tip, 0) + var(--_cell) / 2);
-  padding: 1px var(--spacing-150, 0.375rem);
-  border-radius: var(--radius-100);
-  background: var(--color-content-default);
+  z-index: 50;
+  background: var(--color-background-inverse, #1f2328);
+  max-width: 16rem;
   color: var(--color-content-default-knockout);
-  white-space: nowrap;
+  box-shadow: var(--shadow-300, 0 4px 12px #0003);
   pointer-events: none;
-  z-index: 1;
+  border-radius: 6px;
+  flex-direction: column;
+  gap: 1px;
+  padding: 5px 8px;
+  font-size: 0.75rem;
+  line-height: 1.3;
+  display: flex;
+  position: fixed;
+  transform: translate(-50%, -100%);
+}
+.bcn-scrub__tip[hidden] {
+  display: none;
+}
+.bcn-scrub__tip:after {
+  content: "";
+  border: 5px solid #0000;
+  border-top-color: var(--color-background-inverse, #1f2328);
+  margin-left: -5px;
   position: absolute;
-  transform: translate(-50%);
+  top: 100%;
+  left: 50%;
+}
+.bcn-scrub__tippage {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.bcn-scrub__tipstate {
+  opacity: 0.75;
+}
+.bcn-scrub__tipfinds {
+  white-space: pre-line;
+}
+.bcn-scrub__tipfinds[hidden] {
+  display: none;
 }
 .bcn-scrub__ticks {
-  height: 1.25rem;
-  color: var(--color-content-default-secondary);
+  height: 1rem;
+  color: color-mix(in srgb, var(--color-content-default-secondary) 75%, transparent);
   font-variant-numeric: tabular-nums;
-  line-height: 1.25rem;
+  font-size: 0.6875rem;
+  line-height: 1rem;
   position: relative;
 }
 .bcn-scrub__ticks .bcn-scrub__tick {
@@ -1002,20 +842,24 @@ summary.esa-button--variant-chrome:focus-visible {
   flex-direction: column;
   display: flex;
 }
-.bcn-sw3bar__row {
-  align-items: center;
-  gap: var(--spacing-300);
-  grid-template-columns: 1fr auto 1fr;
-  display: grid;
-}
-.bcn-sw3bar__row > :first-child {
-  justify-self: start;
-}
-.bcn-sw3bar__end {
-  justify-self: end;
+.bcn-sw3bar__console {
   align-items: center;
   gap: var(--spacing-200);
+  padding: var(--spacing-100);
+  background: var(--color-background-elevation-sunken);
+  border: 1px solid var(--color-border-default-subtle);
+  border-radius: var(--radius-200);
+  align-self: center;
   display: flex;
+}
+.bcn-sw3bar [data-tx][aria-pressed="true"] {
+  background: var(--color-background-elevation-sunken);
+  box-shadow: inset 0 1px 3px
+    color-mix(in srgb, var(--color-content-default) 22%, transparent);
+}
+.bcn-sw3bar [data-tx] button:disabled,
+.bcn-sw3bar button[data-tx]:disabled {
+  opacity: 0.38;
 }
 .bcn-sw3bar[data-disabled] {
   opacity: 0.4;
@@ -1023,23 +867,8 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3bar[data-disabled] .bcn-sw3bar__scrub {
   visibility: hidden;
 }
-.bcn-sw3bar [data-bar-mark][aria-pressed="true"] {
-  background: var(--color-background-elevation-sunken);
-  border-color: var(--color-content-default);
-}
-.typography-label-sm {
-  font-family: var(--typography-label-sm-font-family);
-  font-size: var(--typography-label-sm-font-size);
-  font-weight: var(--typography-label-sm-font-weight);
-  line-height: var(--typography-label-sm-line-height);
-  letter-spacing: var(--typography-label-sm-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+.bcn-sw3scan__draw .esa-button {
+  box-shadow: var(--shadow-200);
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -1048,13 +877,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
 .typography-microcopy-xs-subtle {
   font-family: var(--typography-microcopy-xs-subtle-font-family);
   font-size: var(--typography-microcopy-xs-subtle-font-size);
@@ -1062,26 +884,12 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
-.typography-microcopy-sm-subtle {
-  font-family: var(--typography-microcopy-sm-subtle-font-family);
-  font-size: var(--typography-microcopy-sm-subtle-font-size);
-  font-weight: var(--typography-microcopy-sm-subtle-font-weight);
-  line-height: var(--typography-microcopy-sm-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-sm-subtle-letter-spacing);
-}
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
   font-size: var(--typography-microcopy-xs-strong-font-size);
   font-weight: var(--typography-microcopy-xs-strong-font-weight);
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -1111,10 +919,6 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
-}
-.esa-collapsible__summary .esa-icon {
-  color: var(--color-content-default-secondary, #646464);
-  flex-shrink: 0;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
@@ -1150,6 +954,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
+- `--color-background-inverse`: #202020 _(component)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-background-utility-danger-hover`: #641723 _(semantic)_
 - `--color-background-utility-info`: #228be6 _(semantic)_
@@ -1160,7 +965,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-commitment`: #58508d _(component)_
+- `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
 - `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
@@ -1174,6 +979,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
+- `--color-source`: #003f5c _(component)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
@@ -1183,39 +989,16 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
+- `--radius-200`: .5rem _(primitive)_
+- `--shadow-200`: 0 4px 20px -4px #0000000f _(component)_
+- `--shadow-300`: 0 6px 24px -6px #00000012 _(component)_
 - `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
-- `--typography-label-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-font-weight`: 500 _(semantic)_
-- `--typography-label-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-label-sm-line-height`: 1.6 _(semantic)_
-- `--typography-label-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-sm-strong-line-height`: 1.6 _(semantic)_
-- `--typography-microcopy-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-sm-line-height`: 1 _(semantic)_
-- `--typography-microcopy-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-sm-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-sm-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-sm-subtle-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-subtle-font-weight`: 350 _(semantic)_
-- `--typography-microcopy-sm-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-sm-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-font-weight`: 500 _(semantic)_

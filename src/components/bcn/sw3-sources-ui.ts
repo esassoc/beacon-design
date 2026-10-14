@@ -62,6 +62,23 @@ export function setupSw3SourcesUi(root: HTMLElement, h: Handlers) {
   const srcTpl = root.querySelector<HTMLTemplateElement>('[data-src-tpl]')!;
   const fileTpl = root.querySelector<HTMLTemplateElement>('[data-file-tpl]')!;
   const srcEls = new Map<string, HTMLElement>();
+  const FOLD_KEY = 'sw3:v3:folded';
+  const folded = new Set<string>(
+    (() => {
+      try {
+        return JSON.parse(localStorage.getItem(FOLD_KEY) ?? '[]') as string[];
+      } catch {
+        return [];
+      }
+    })(),
+  );
+  const saveFolded = () => {
+    try {
+      localStorage.setItem(FOLD_KEY, JSON.stringify([...folded]));
+    } catch {
+      /* no storage */
+    }
+  };
   const fileEls = new Map<string, HTMLElement>();
   paintIcons(root);
 
@@ -80,6 +97,22 @@ export function setupSw3SourcesUi(root: HTMLElement, h: Handlers) {
     menu(m, SOURCE_MENU);
     m?.addEventListener('menu-action', (e) => h.onSourceAction(id, (e as CustomEvent<string>).detail));
     el.querySelector('[data-src-open]')!.addEventListener('click', () => h.onSource(id));
+    // Fold: the source's files open or shut, remembered per source.
+    const fold = el.querySelector<HTMLElement>('[data-src-fold]');
+    const foldBtn = fold?.querySelector('button') ?? fold;
+    const setFold = (shut: boolean) => {
+      el!.toggleAttribute('data-collapsed', shut);
+      foldBtn?.setAttribute('aria-expanded', String(!shut));
+      foldBtn?.setAttribute('aria-label', shut ? 'Expand' : 'Collapse');
+    };
+    setFold(folded.has(id));
+    fold?.addEventListener('click', () => {
+      const shut = !folded.has(id);
+      if (shut) folded.add(id);
+      else folded.delete(id);
+      saveFolded();
+      setFold(shut);
+    });
     srcEls.set(id, el);
     return el;
   };

@@ -1,16 +1,17 @@
 # Aldo
 
-The conversation that scopes, checks and steers the scan of the file in view, with the composer always in view. The run stops after its first three commitments, and Aldo lays out only what step 1 decides: each commitment's ID and name and its text, quoted (clamped, with Show all), with a page link, Looks right and Fix. Fix opens the ID, name and text as fields, with Save and Redraw the box. Requirements, timing and parties are reviewed in step 2. Instructions lists what every extraction call carries: the scope, the pace, and each rule with the page it took effect from.
+The conversation that scopes, checks and steers the scan of the file in view, dense at 13px, with the composer always in view and the run's status pinned above it: reading (blue), stopped for the check (yellow), done or stopped (green). The run stops after its first three commitments; Aldo says what to check, then gives each commitment its own message: a lead (where it took the ID and name from, how far the text runs) and a card with the ID, name and quoted text (clamped, with Show all), a p. N button, Looks right and Fix. Fix opens the ID, name and text as fields, with Save and Redraw the box. Requirements, timing and parties are reviewed in step 2.
 
 ## Key decisions
 - The check is the training step: what the person fixes there becomes an instruction for the rest of the file.
+- Buttons carry meaning in their color: green to accept, red to remove (Dismiss), blue to change the record (Merge, Re-read), the primary for the next step, neutral otherwise. Only send is Aldo's green.
 - A name fixed at the check is the commitment's name in step 2.
 - One structured-output call per message returns actions and a one-line reply; sw3-steer.ts is the schema, with a pattern matcher standing in for the model.
 - Each file keeps its own conversation; switching files switches the thread.
 
 ## Done when
 - Fix COA 11.1, change its name, Save: the card reads Fixed, and step 2 shows the new name.
-- Looks right on the other two, then Continue: the run goes on.
+- Looks right on the other two, then Resume: the run goes on.
 - Reload: every file's conversation and run are where they were.
 
 ## Markup
@@ -43,23 +44,6 @@ The conversation that scopes, checks and steers the scan of the file in view, wi
     ></span>
     <h3 class="bcn-sw3aldo__title typography-title-strong">Aldo</h3>
   </header>
-  <div class="bcn-sw3aldo__rules">
-    <details class="esa-collapsible esa-collapsible--flush">
-      <summary class="esa-collapsible__summary typography-label-sm-strong">
-        <span class="esa-collapsible__title">Instructions (2)</span>
-      </summary>
-      <div class="esa-collapsible__body typography-body-md">
-        <ol
-          class="bcn-sw3aldo__rulelist typography-body-sm"
-          data-aldo-rules=""
-          data-sig='[["Scope: pp. 131–223",""],["Pace: watch",""]]'
-        >
-          <li><span class="">Scope: pp. 131–223</span></li>
-          <li><span class="">Pace: watch</span></li>
-        </ol>
-      </div>
-    </details>
-  </div>
   <ol class="bcn-sw3aldo__log" data-aldo-log="" aria-live="polite">
     <li class="bcn-sw3aldo__msg" data-from="aldo">
       <span class="bcn-sw3aldo__who" data-msg-who="">Aldo</span>
@@ -81,6 +65,102 @@ The conversation that scopes, checks and steers the scan of the file in view, wi
       >
     </li>
   </ol>
+  <div class="bcn-sw3aldo__status" data-aldo-status="" role="status">
+    <div data-status="check" hidden="">
+      <div class="esa-alert-box esa-alert-box--warning typography-body-sm">
+        <div class="esa-alert-box__icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path
+              d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+            ></path>
+            <path d="M12 9v4"></path>
+            <path d="M12 17h.01"></path>
+          </svg>
+        </div>
+        <div class="esa-alert-box__body">
+          <div class="esa-alert-box__message"><span data-status-text=""></span></div>
+        </div>
+      </div>
+      <script type="module">
+        document.addEventListener(`click`, (e) => {
+          let t = e.target.closest?.(`[data-esa-alert-dismiss]`);
+          if (!t) return;
+          let n = t.closest(`.esa-alert-box`);
+          if (!n) return;
+          let r = Array.from(document.querySelectorAll(FOCUSABLE_SELECTOR)).filter(
+              (e) => !n.contains(e) && e.offsetParent !== null,
+            ),
+            i =
+              r.find(
+                (e) => n.compareDocumentPosition(e) & Node.DOCUMENT_POSITION_FOLLOWING,
+              ) ?? r[r.length - 1];
+          ((n.style.display = `none`),
+            n.dispatchEvent(new CustomEvent(`dismissed`, { bubbles: !0 })),
+            i?.focus());
+        });
+      </script>
+    </div>
+    <div data-status="reading" hidden="">
+      <div class="esa-alert-box esa-alert-box--info typography-body-sm">
+        <div class="esa-alert-box__icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 16v-4"></path>
+            <path d="M12 8h.01"></path>
+          </svg>
+        </div>
+        <div class="esa-alert-box__body">
+          <div class="esa-alert-box__message"><span data-status-text=""></span></div>
+        </div>
+      </div>
+    </div>
+    <div data-status="done" hidden="">
+      <div class="esa-alert-box esa-alert-box--success typography-body-sm">
+        <div class="esa-alert-box__icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="m9 12 2 2 4-4"></path>
+          </svg>
+        </div>
+        <div class="esa-alert-box__body">
+          <div class="esa-alert-box__message"><span data-status-text=""></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div
     class="bcn-sw3aldo__suggest"
     data-aldo-suggest=""
@@ -182,6 +262,45 @@ The conversation that scopes, checks and steers the scan of the file in view, wi
         <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
       </button></span
     ></template
+  ><template data-aldo-btn-success=""
+    ><span
+      class="esa-button esa-button--variant-success esa-button--appearance-fill esa-button--xs"
+      data-astro-cid-4xhmycw5=""
+      ><button
+        class="esa-button__native typography-microcopy-2xs"
+        type="button"
+        data-astro-cid-d4oo7fc7="true"
+        data-astro-cid-4xhmycw5=""
+      >
+        <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
+      </button></span
+    ></template
+  ><template data-aldo-btn-danger=""
+    ><span
+      class="esa-button esa-button--variant-danger esa-button--appearance-soft esa-button--xs"
+      data-astro-cid-4xhmycw5=""
+      ><button
+        class="esa-button__native typography-microcopy-2xs"
+        type="button"
+        data-astro-cid-d4oo7fc7="true"
+        data-astro-cid-4xhmycw5=""
+      >
+        <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
+      </button></span
+    ></template
+  ><template data-aldo-btn-info=""
+    ><span
+      class="esa-button esa-button--variant-info esa-button--appearance-soft esa-button--xs"
+      data-astro-cid-4xhmycw5=""
+      ><button
+        class="esa-button__native typography-microcopy-2xs"
+        type="button"
+        data-astro-cid-d4oo7fc7="true"
+        data-astro-cid-4xhmycw5=""
+      >
+        <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
+      </button></span
+    ></template
   >
 </section>
 ```
@@ -213,12 +332,9 @@ The conversation that scopes, checks and steers the scan of the file in view, wi
 .error {
   margin: 0;
 }
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
+/* No box of its own — the buttons stay direct flex items of the host. */
+.esa-button-group__slot {
+  display: contents;
 }
 .typography-body-sm {
   font-family: var(--typography-body-sm-font-family);
@@ -226,13 +342,6 @@ The conversation that scopes, checks and steers the scan of the file in view, wi
   font-weight: var(--typography-body-sm-font-weight);
   line-height: var(--typography-body-sm-line-height);
   letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
 }
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
@@ -612,11 +721,6 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
-.bcn-sw3src__foot .esa-button,
-.bcn-sw3src__foot .esa-button__native {
-  justify-content: center;
-  width: 100%;
-}
 .bcn-sw3aldo {
   background: var(--color-background-elevation-raised);
   border: 1px solid var(--color-border-default);
@@ -628,50 +732,32 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3aldo__head {
   align-items: center;
   gap: var(--spacing-200);
-  padding: var(--spacing-300) var(--spacing-400);
+  padding: var(--spacing-200) var(--spacing-300);
+  border-bottom: 1px solid var(--color-border-default-subtle);
   display: flex;
 }
 .bcn-sw3aldo__title {
   margin: 0;
-}
-.bcn-sw3aldo__rules {
-  padding: 0 var(--spacing-400);
-  border-bottom: 1px solid var(--color-border-default-subtle);
-}
-.bcn-sw3aldo__rulelist {
-  gap: var(--spacing-200);
-  margin: 0 0 var(--spacing-300);
-  color: var(--color-content-default);
-  flex-direction: column;
-  padding: 0;
-  list-style: none;
-  display: flex;
-}
-.bcn-sw3aldo__rulelist li {
-  gap: var(--spacing-200);
-  justify-content: space-between;
-  display: flex;
-}
-.bcn-sw3aldo__rulelist [data-rule-from] {
-  color: var(--color-content-default-secondary);
-  font-variant-numeric: tabular-nums;
-  flex: none;
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 .bcn-sw3aldo__log {
   gap: var(--spacing-300);
   min-height: 0;
-  padding: var(--spacing-400);
+  padding: var(--spacing-300);
   flex-direction: column;
   flex: 1;
   margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.4;
   list-style: none;
   display: flex;
   overflow-y: auto;
 }
 .bcn-sw3aldo__msg {
-  gap: var(--spacing-150, 0.375rem);
+  gap: var(--spacing-100);
   flex-direction: column;
-  max-width: 92%;
+  max-width: 94%;
   animation: 0.22s ease-out bcn-sw3aldo-in;
   display: flex;
 }
@@ -685,12 +771,15 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3aldo__who {
   color: var(--color-content-default-secondary);
   font-variant-numeric: tabular-nums;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 .bcn-sw3aldo__text {
-  padding: var(--spacing-200) var(--spacing-300);
+  padding: var(--spacing-150, 0.375rem) var(--spacing-250, 0.625rem);
   border-radius: var(--radius-200);
   color: var(--color-content-default);
+  font-size: inherit;
+  line-height: inherit;
   white-space: pre-line;
   margin: 0;
 }
@@ -708,7 +797,7 @@ summary.esa-button--variant-chrome:focus-visible {
   padding: 0;
 }
 .bcn-sw3aldo__acts {
-  gap: var(--spacing-200);
+  gap: var(--spacing-150, 0.375rem);
   flex-wrap: wrap;
   display: flex;
 }
@@ -723,8 +812,8 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-sw3aldo__extra .bcn-sw3aldo__check {
   gap: var(--spacing-150, 0.375rem);
-  padding: var(--spacing-200) var(--spacing-300);
-  border: 1px dashed var(--color-border-default);
+  padding: var(--spacing-250, 0.625rem) var(--spacing-300);
+  border: 1px dashed var(--color-border-default-strong, var(--color-border-default));
   background: var(--color-background-elevation-raised);
   border-radius: 6px;
   flex-direction: column;
@@ -754,37 +843,35 @@ summary.esa-button--variant-chrome:focus-visible {
   outline-offset: var(--focus-ring-offset, 2px);
 }
 .bcn-sw3aldo__extra .bcn-sw3aldo__quote {
-  padding-left: var(--spacing-300);
-  border-left: 2px solid var(--color-border-default);
+  padding: var(--spacing-200) var(--spacing-250, 0.625rem);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-sunken);
   color: var(--color-content-default);
   font-family: var(--font-decorative);
   white-space: pre-line;
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__quotetext {
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
-  margin: 0;
   display: -webkit-box;
   overflow: hidden;
 }
-.bcn-sw3aldo__extra .bcn-sw3aldo__quote[data-all] {
+.bcn-sw3aldo__extra .bcn-sw3aldo__quote[data-all] .bcn-sw3aldo__quotetext {
   display: block;
 }
-.bcn-sw3aldo__extra .bcn-sw3aldo__checkmeta {
-  gap: var(--spacing-300);
+.bcn-sw3aldo__extra .bcn-sw3aldo__checkfoot {
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-200);
+  flex-wrap: wrap;
   display: flex;
 }
-.bcn-sw3aldo__extra .bcn-sw3aldo__pagelink {
-  color: var(--color-content-link, var(--color-content-default));
-  text-underline-offset: 2px;
-  cursor: pointer;
-  font-variant-numeric: tabular-nums;
-  background: 0 0;
-  border: 0;
-  padding: 0;
-  text-decoration: underline;
-}
-.bcn-sw3aldo__extra .bcn-sw3aldo__pagelink:focus-visible {
-  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
-  outline-offset: 2px;
+.bcn-sw3aldo__extra .bcn-sw3aldo__checkmeta {
+  gap: var(--spacing-150, 0.375rem);
+  display: flex;
 }
 .bcn-sw3aldo__extra .bcn-sw3aldo__fix {
   gap: var(--spacing-200);
@@ -796,11 +883,42 @@ summary.esa-button--variant-chrome:focus-visible {
   display: flex;
 }
 .bcn-sw3aldo__extra .bcn-sw3aldo__ok {
-  color: var(--color-content-default-secondary);
+  color: var(--color-content-utility-success);
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__checktitle {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.bcn-sw3aldo__msg[data-kind="check"] {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: var(--spacing-200);
+}
+.bcn-sw3aldo__status {
+  padding: 0 var(--spacing-300) var(--spacing-200);
+}
+.bcn-sw3aldo__status:not(:has(> :not([hidden]))),
+.bcn-sw3aldo__status > [hidden] {
+  display: none;
+}
+.bcn-sw3aldo__status .esa-alert-box {
+  padding: var(--spacing-150, 0.375rem) var(--spacing-250, 0.625rem);
+  align-items: center;
+  font-size: 0.8125rem;
+}
+.bcn-sw3aldo__status .esa-alert-box__icon svg {
+  width: 16px;
+  height: 16px;
 }
 .bcn-sw3aldo__suggest {
   gap: var(--spacing-200);
-  padding: 0 var(--spacing-400) var(--spacing-200);
+  padding: 0 var(--spacing-300) var(--spacing-200);
   flex-wrap: wrap;
   display: flex;
 }
@@ -834,12 +952,8 @@ summary.esa-button--variant-chrome:focus-visible {
   padding-bottom: var(--spacing-100);
   display: inline-flex;
 }
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
+.bcn-sw3scan__draw .esa-button {
+  box-shadow: var(--shadow-200);
 }
 .typography-body-sm {
   font-family: var(--typography-body-sm-font-family);
@@ -847,13 +961,6 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-body-sm-font-weight);
   line-height: var(--typography-body-sm-line-height);
   letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
 }
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
@@ -933,54 +1040,80 @@ summary.esa-button--variant-chrome:focus-visible {
   height: var(--_icon-size);
   display: block;
 }
-.esa-collapsible {
-  border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
+.esa-alert-box {
+  --_alert-bg: var(--color-background-utility-info-subtle, #fbfdff);
+  --_alert-border: var(--color-border-utility-info, #acd8fc);
+  --_alert-accent: var(--color-content-utility-info, #0d74ce);
+  --_alert-icon-color: var(--_alert-accent);
+  --_alert-title-color: var(--_alert-accent);
+  --_alert-text-color: var(
+    --alert-box-text-color,
+    var(--color-content-default-secondary, #646464)
+  );
+  align-items: flex-start;
+  gap: var(--spacing-300, 0.75rem);
+  padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
+  border: var(--border-width-default, 1px) solid var(--_alert-border);
   border-radius: var(--radius-md, 0.5rem);
-  background: var(--color-background-elevation-raised, #fcfcfc);
+  background: var(--_alert-bg);
+  display: flex;
 }
-.esa-collapsible--flush {
+.esa-alert-box--success {
+  --_alert-bg: var(--color-background-utility-success-subtle, #fbfefc);
+  --_alert-border: var(--color-border-utility-success, #adddc0);
+  --_alert-accent: var(--color-content-utility-success, #218358);
+}
+.esa-alert-box--warning {
+  --_alert-bg: var(--color-background-utility-warning-subtle, #fefdfb);
+  --_alert-border: var(--color-border-utility-warning, #f3d673);
+  --_alert-accent: var(--color-content-utility-warning, #ab6400);
+}
+.esa-alert-box--danger {
+  --_alert-bg: var(--color-background-utility-danger-subtle, #fffcfc);
+  --_alert-border: var(--color-border-utility-danger, #fdbdbe);
+  --_alert-accent: var(--color-content-utility-danger, #ce2c31);
+}
+.esa-alert-box__icon {
+  color: var(--_alert-icon-color);
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+.esa-alert-box__body {
+  flex: 1;
+  min-width: 0;
+}
+.esa-alert-box__title {
+  color: var(--_alert-title-color);
+  margin-bottom: var(--spacing-050, 0.125rem);
+  display: block;
+}
+.esa-alert-box__message {
+  color: var(--_alert-text-color);
+}
+.esa-alert-box__dismiss {
+  border-radius: var(--radius-sm, 0.25rem);
+  width: 24px;
+  height: 24px;
+  color: var(--color-content-default-secondary, #646464);
+  cursor: pointer;
+  transition:
+    color var(--transition-fast, 0.15s ease),
+    background var(--transition-fast, 0.15s ease);
   background: 0 0;
   border: none;
-  border-radius: 0;
-}
-.esa-collapsible--flush > .esa-collapsible__summary,
-.esa-collapsible--flush > .esa-collapsible__body {
-  padding-inline: 0;
-}
-.esa-collapsible__summary {
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
-  padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
-  color: var(--color-content-default, #202020);
-  cursor: pointer;
-  list-style: none;
-  display: flex;
-}
-.esa-collapsible__summary::-webkit-details-marker {
-  display: none;
-}
-.esa-collapsible__summary:after {
-  content: "";
-  border-right: 2px solid var(--color-content-default-secondary, #646464);
-  border-bottom: 2px solid var(--color-content-default-secondary, #646464);
-  width: 8px;
-  height: 8px;
-  margin-left: auto;
-  transition: transform 0.15s;
-  transform: rotate(-45deg);
-}
-.esa-collapsible[open] > .esa-collapsible__summary:after {
-  transform: rotate(45deg);
-}
-.esa-collapsible__summary .esa-icon {
-  color: var(--color-content-default-secondary, #646464);
   flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  display: inline-flex;
 }
-.esa-collapsible__body {
-  gap: var(--spacing-400, 1rem);
-  padding: 0 var(--spacing-400, 1rem) var(--spacing-400, 1rem);
-  flex-direction: column;
-  display: flex;
+.esa-alert-box__dismiss:hover {
+  color: var(--color-content-default, #202020);
+  background: var(--color-background-overlay-strong-hover, #0000000f);
+}
+.esa-alert-box__dismiss:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline-offset: var(--focus-ring-offset, 2px);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
@@ -992,6 +1125,7 @@ summary.esa-button--variant-chrome:focus-visible {
 ```
 
 ## Tokens
+- `--alert-box-text-color`: #525252 _(component)_
 - `--animation-spin`: .75s linear infinite _(semantic)_
 - `--bcn-aldo`: #08908b _(component)_
 - `--bcn-aldo-100`: #cfeceb _(component)_
@@ -1024,17 +1158,26 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-default`: #fafafa _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
+- `--color-background-overlay-strong-hover`: #0000000d _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-background-utility-danger-hover`: #641723 _(semantic)_
+- `--color-background-utility-danger-subtle`: #fffcfc _(semantic)_
 - `--color-background-utility-info`: #228be6 _(semantic)_
 - `--color-background-utility-info-hover`: #113264 _(semantic)_
+- `--color-background-utility-info-subtle`: #fbfdff _(semantic)_
 - `--color-background-utility-success`: #2e7571 _(semantic)_
 - `--color-background-utility-success-hover`: #193b2d _(semantic)_
+- `--color-background-utility-success-subtle`: #fbfefc _(semantic)_
 - `--color-background-utility-warning`: #f59e0b _(semantic)_
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
+- `--color-background-utility-warning-subtle`: #fefdfb _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
+- `--color-border-utility-danger`: #fdbdbe _(semantic)_
+- `--color-border-utility-info`: #acd8fc _(semantic)_
+- `--color-border-utility-success`: #adddc0 _(semantic)_
+- `--color-border-utility-warning`: #f3d673 _(semantic)_
 - `--color-commitment`: #58508d _(component)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
 - `--color-content-brand`: #005862 _(semantic)_
@@ -1042,7 +1185,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-link`: #005862 _(semantic)_
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-on-utility-success`: #fcfcfc _(semantic)_
 - `--color-content-on-utility-warning`: #4f3422 _(semantic)_
@@ -1064,6 +1206,9 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
 - `--radius-md`: .25rem _(semantic)_
+- `--radius-sm`: .25rem _(semantic)_
+- `--shadow-200`: 0 4px 20px -4px #0000000f _(component)_
+- `--spacing-050`: .125rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
@@ -1071,11 +1216,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
-- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
-- `--typography-body-md-letter-spacing`: .01em _(semantic)_
-- `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
 - `--typography-body-sm-font-weight`: 350 _(semantic)_
@@ -1084,11 +1224,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-sm-strong-line-height`: 1.6 _(semantic)_
 - `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
 - `--typography-microcopy-2xs-font-weight`: 500 _(semantic)_
