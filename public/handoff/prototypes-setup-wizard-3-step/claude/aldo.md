@@ -1,434 +1,220 @@
-# Scope
+# Aldo
 
-Before the run, Beacon reads the document's table of contents and headings and proposes where the commitments are: "VIII. Conditions of Approval, pp. 80–244, 293 commitments likely". The person confirms it, edits the page range, or narrows it with a short instruction ("Only the general species measures, Condition 11" sets pp. 131–180). Once the run starts the card shrinks to the steering row: a new range applies without a restart.
+The conversation that scopes and steers the scan. Aldo opens with the scope pass ("The commitments are in VIII. Conditions of Approval, pp. 80–244: about 293."). The person answers in their own words: narrow the scope, pause, resume, give a rule, re-read. Aldo replies with what it did. As the scan reaches something that needs a person, Aldo raises it with the answer attached. Instructions, at the top, lists what every extraction call now carries: the scope, and each rule with the page it took effect from.
 
 ## Key decisions
-- A scope card with a free-text instruction, not a chatbot. The instruction rides along into every extraction call.
-- The likely count updates as the range changes (it is the scope pass's heading count for that range).
-- Prototype: the run covers pp. 131–180 whatever range is entered; the brief says so.
+- One structured-output call per message returns actions (scope, rule, pause, resume, reread, dismiss, merge) and a one-line reply; sw3-steer.ts is the schema, with a pattern matcher standing in for the model.
+- A rule governs the pages not yet read. When pages were read without it, Aldo names them and offers a re-read; the re-read reports what changed.
+- Every steer is kept with the page the scan was on: the record of how this document was read.
+- Enter sends; Shift+Enter is a new line.
 
 ## Done when
-- Typing "Condition 11" in the instruction and leaving the field sets the range to 131–180 and the count to 86.
-- Start scan hides the file row and proposal line; Update scope replaces Start.
+- Type "Only Condition 11": Aldo answers pp. 131–223 and Instructions shows the scope.
+- Mid-run, type a cross-reference rule: Aldo adds it from the current page and offers "Re-read pp. 131–N"; taking it removes COA 11.32 and Aldo says so.
+- Reload: the conversation and the run are where they were.
 
 ## Markup
 ```html
-<section class="bcn-sw3scope" data-sw3-scope="" data-state="proposed">
-  <div class="bcn-file-row">
-    <span class="bcn-file-row__icon"
-      ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-        ><svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          focusable="false"
-        >
-          <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
-          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-          <path d="M10 9H8"></path>
-          <path d="M16 13H8"></path>
-          <path d="M16 17H8"></path></svg></span></span
-    ><span class="bcn-file-row__name" title="itp.pdf">itp.pdf</span
-    ><span class="bcn-file-row__size">247 pages</span
-    ><span class="bcn-file-row__actions"
-      ><span class="bcn-file-row__act"
-        ><span
-          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-          ><button
-            class="esa-button__native typography-microcopy-xs"
-            type="button"
-            aria-label="Download itp.pdf"
-            title="Download itp.pdf"
+<section
+  class="bcn-sw3aldo"
+  data-sw3-aldo=""
+  data-doc="ITP"
+  data-review="/beacon-design/prototypes/setup-wizard-3-step/review"
+  aria-label="Aldo"
+>
+  <header class="bcn-sw3aldo__head">
+    <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
+      ><span class="bcn-aldo-mark__glyph"
+        ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+          ><svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
           >
-            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-              ><svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" x2="12" y1="15" y2="3"></line></svg
-            ></span></button></span></span
+            <path
+              d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+            ></path>
+            <circle cx="12" cy="12" r="10"></circle></svg></span></span
     ></span>
+    <h3 class="bcn-sw3aldo__title typography-title-strong">Aldo</h3>
+  </header>
+  <div class="bcn-sw3aldo__rules">
+    <details class="esa-collapsible esa-collapsible--flush">
+      <summary class="esa-collapsible__summary typography-label-sm-strong">
+        <span class="esa-collapsible__title">Instructions (1)</span>
+      </summary>
+      <div class="esa-collapsible__body typography-body-md">
+        <ol
+          class="bcn-sw3aldo__rulelist typography-body-sm"
+          data-aldo-rules=""
+          data-sig='[["Scope: pp. 131–223",""]]'
+        >
+          <li><span>Scope: pp. 131–223</span></li>
+        </ol>
+      </div>
+    </details>
   </div>
-  <div class="bcn-sw3scope__proposal">
-    <p class="bcn-sw3scope__section typography-title-strong">
-      VIII. Conditions of Approval
-    </p>
-    <p class="bcn-sw3scope__line typography-body-md" aria-live="polite">
-      <span data-scope-pages="">Pages 80–244</span
-      ><span data-scope-likely="">293 commitments likely</span>
-    </p>
+  <ol class="bcn-sw3aldo__log" data-aldo-log="" aria-live="polite">
+    <li class="bcn-sw3aldo__msg" data-from="aldo">
+      <span class="bcn-sw3aldo__who" data-msg-who="">Aldo</span>
+      <p class="bcn-sw3aldo__text typography-body-sm" data-msg-text="">
+        I read the contents and headings of the ITP. The commitments are in VIII.
+        Conditions of Approval, pp. 80–244: about 293. Condition 11, Take Minimization
+        Measures, holds 158 of them on pp. 131–223. Tell me where to start, or scan
+        Condition 11.
+      </p>
+      <span class="bcn-sw3aldo__acts" data-msg-acts=""
+        ><span
+          class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--xs"
+          ><button class="esa-button__native typography-microcopy-2xs" type="button">
+            <span class="esa-button__label">Scan Condition 11</span>
+          </button></span
+        ></span
+      >
+    </li>
+  </ol>
+  <div
+    class="bcn-sw3aldo__suggest"
+    data-aldo-suggest=""
+    data-sig="Only Condition 11|Start"
+  >
+    <span
+      class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
+      ><button class="esa-button__native typography-microcopy-2xs" type="button">
+        <span class="esa-button__label">Only Condition 11</span>
+      </button></span
+    ><span
+      class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
+      ><button class="esa-button__native typography-microcopy-2xs" type="button">
+        <span class="esa-button__label">Start</span>
+      </button></span
+    >
   </div>
-  <div class="bcn-sw3scope__fields">
-    <esa-text-field
-      data-scope-first="true"
-      label="From page"
-      type="number"
-      size="md"
-      value="80"
-    ></esa-text-field
-    ><esa-text-field
-      data-scope-last="true"
-      label="To page"
-      type="number"
-      size="md"
-      value="244"
-    ></esa-text-field
-    ><esa-textarea
-      class="bcn-sw3scope__instruction"
-      data-scope-instruction="true"
-      label="Instruction"
+  <form class="bcn-sw3aldo__composer" data-aldo-form="">
+    <esa-textarea
+      class="bcn-sw3aldo__input"
+      data-aldo-input="true"
       size="md"
       rows="1"
+      max-rows="6"
       auto-resize=""
-      placeholder="Only the general species measures, Condition 11"
-    ></esa-textarea>
-    <div class="bcn-sw3scope__go">
-      <span
-        class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
-        ><button
-          class="esa-button__native typography-microcopy-md"
-          type="button"
-          data-scope-start="true"
-        >
-          <span class="esa-button__label">Start scan</span>
-        </button></span
+      aria-label="Message Aldo"
+      placeholder="Steer the scan"
+    ></esa-textarea
+    ><span class="bcn-sw3aldo__send"
       ><span
-        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--md"
+        class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm esa-button--icon-only"
         ><button
-          class="esa-button__native typography-microcopy-md"
+          class="esa-button__native typography-microcopy-xs"
           type="button"
-          data-scope-update="true"
+          aria-label="Send"
+          title="Send"
+          data-aldo-send="true"
         >
-          <span class="esa-button__label">Update scope</span>
-        </button></span
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m5 12 7-7 7 7"></path>
+              <path d="M12 19V5"></path></svg
+          ></span></button></span
+    ></span>
+  </form>
+  <template data-aldo-msg=""
+    ><li class="bcn-sw3aldo__msg" data-astro-cid-d4oo7fc7="">
+      <span class="bcn-sw3aldo__who" data-msg-who="" data-astro-cid-d4oo7fc7=""></span>
+      <p
+        class="bcn-sw3aldo__text typography-body-sm"
+        data-msg-text=""
+        data-astro-cid-d4oo7fc7=""
+      ></p>
+      <span
+        class="bcn-sw3aldo__acts"
+        data-msg-acts=""
+        data-astro-cid-d4oo7fc7=""
+      ></span></li></template
+  ><template data-aldo-btn=""
+    ><span
+      class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
+      data-astro-cid-4xhmycw5=""
+      ><button
+        class="esa-button__native typography-microcopy-2xs"
+        type="button"
+        data-astro-cid-d4oo7fc7="true"
+        data-astro-cid-4xhmycw5=""
       >
-    </div>
-  </div>
-  <script type="application/json" data-scope-counts="">
-    {
-      "counts": {
-        "COA 4": 80,
-        "COA 6": 80,
-        "COA 6.1": 80,
-        "COA 6.2": 81,
-        "COA 7": 84,
-        "COA 7.1": 84,
-        "COA 7.5": 87,
-        "COA 8": 87,
-        "COA 9.1": 88,
-        "COA 9.2": 89,
-        "COA 9.2.1": 89,
-        "COA 9.2.2": 90,
-        "COA 9.3": 90,
-        "COA 9.4": 91,
-        "COA 9.5": 92,
-        "COA 9.6": 92,
-        "COA 9.7": 92,
-        "COA 9.8": 92,
-        "COA 9.9": 93,
-        "COA 9.10": 93,
-        "COA 9.11": 93,
-        "COA 9.12": 94,
-        "COA 9.13": 94,
-        "COA 9.14": 94,
-        "COA 9.15": 95,
-        "COA 9.16": 95,
-        "COA 9.16.1": 95,
-        "COA 9.17": 95,
-        "COA 9.18": 95,
-        "COA 10.1": 96,
-        "COA 10.2": 96,
-        "COA 10.3": 96,
-        "COA 10.4": 97,
-        "COA 10.5": 100,
-        "COA 10.6": 100,
-        "COA 10.7": 101,
-        "COA 10.8": 101,
-        "COA 10.9": 101,
-        "COA 10.10": 102,
-        "COA 10.11": 103,
-        "COA 10.12": 103,
-        "COA 10.13": 104,
-        "COA 10.14": 104,
-        "COA 10.15": 104,
-        "COA 10.15.1": 105,
-        "COA 10.16": 105,
-        "COA 10.17": 106,
-        "COA 10.18": 106,
-        "COA 10.18.1": 108,
-        "COA 10.18.2": 109,
-        "COA 10.18.3": 110,
-        "COA 10.19": 110,
-        "COA 10.19.1": 110,
-        "COA 10.19.2": 112,
-        "COA 10.19.3": 114,
-        "COA 10.20": 116,
-        "COA 10.20.1": 116,
-        "COA 10.20.2": 117,
-        "COA 10.20.3": 118,
-        "COA 10.20.4": 118,
-        "COA 10.20.5": 119,
-        "COA 10.21": 119,
-        "COA 10.21.1": 120,
-        "COA 10.21.2": 120,
-        "COA 10.21.3": 120,
-        "COA 10.21.4": 121,
-        "COA 10.21.5": 122,
-        "COA 10.21.6": 122,
-        "COA 10.21.7": 122,
-        "COA 10.21.8": 123,
-        "COA 10.21.9": 124,
-        "COA 10.21.10": 124,
-        "COA 10.22": 125,
-        "COA 10.23": 125,
-        "COA 10.24": 125,
-        "COA 10.24.1": 125,
-        "COA 10.24.2": 125,
-        "COA 10.25": 126,
-        "COA 10.25.1": 126,
-        "COA 10.25.2": 126,
-        "COA 10.25.3": 126,
-        "COA 10.25.4": 126,
-        "COA 10.26": 126,
-        "COA 10.27": 127,
-        "COA 10.27.1": 128,
-        "COA 10.27.2": 129,
-        "COA 10.27.3": 129,
-        "COA 10.28": 130,
-        "COA 10.29": 130,
-        "COA 10.30": 130,
-        "COA 11.1": 131,
-        "COA 11.2": 131,
-        "COA 11.3": 131,
-        "COA 11.4": 132,
-        "COA 11.5": 133,
-        "COA 11.6": 133,
-        "COA 11.7": 133,
-        "COA 11.8": 133,
-        "COA 11.9": 134,
-        "COA 11.10": 134,
-        "COA 11.11": 134,
-        "COA 11.12": 135,
-        "COA 11.13": 135,
-        "COA 11.14": 136,
-        "COA 11.15": 136,
-        "COA 11.16": 137,
-        "COA 11.17": 138,
-        "COA 11.17.1": 138,
-        "COA 11.18": 138,
-        "COA 11.19": 139,
-        "COA 11.19.1": 139,
-        "COA 11.19.2": 140,
-        "COA 11.20": 140,
-        "COA 11.21": 140,
-        "COA 11.22": 141,
-        "COA 11.23": 142,
-        "COA 11.24": 142,
-        "COA 11.25": 143,
-        "COA 11.26": 143,
-        "COA 11.27": 144,
-        "COA 11.28": 145,
-        "COA 11.29": 145,
-        "COA 11.30": 146,
-        "COA 11.31.1": 146,
-        "COA 11.31.2": 147,
-        "COA 11.32": 146,
-        "COA 11.33": 149,
-        "COA 11.34": 151,
-        "COA 11.35": 151,
-        "COA 11.36": 155,
-        "COA 11.37": 157,
-        "COA 11.38": 158,
-        "COA 11.39": 159,
-        "COA 11.39.1": 159,
-        "COA 11.40": 159,
-        "COA 11.41": 160,
-        "COA 11.42": 161,
-        "COA 11.42.1": 161,
-        "COA 11.42.2": 162,
-        "COA 11.43": 162,
-        "COA 11.44": 164,
-        "COA 11.45": 164,
-        "COA 11.46": 165,
-        "COA 11.47": 165,
-        "COA 11.48": 165,
-        "COA 11.49": 166,
-        "COA 11.49.1": 166,
-        "COA 11.49.2": 166,
-        "COA 11.50": 167,
-        "COA 11.51": 168,
-        "COA 11.51.1": 168,
-        "COA 11.51.2": 168,
-        "COA 11.51.3": 169,
-        "COA 11.52": 169,
-        "COA 11.52.1": 169,
-        "COA 11.52.2": 169,
-        "COA 11.52.3": 169,
-        "COA 11.52.4": 170,
-        "COA 11.53": 170,
-        "COA 11.54": 170,
-        "COA 11.55": 171,
-        "COA 11.55.1": 171,
-        "COA 11.56": 172,
-        "COA 11.57": 173,
-        "COA 11.58": 174,
-        "COA 11.58.1": 174,
-        "COA 11.59": 174,
-        "COA 11.60": 175,
-        "COA 11.61": 175,
-        "COA 11.62": 176,
-        "COA 11.62.1": 177,
-        "COA 11.62.2": 178,
-        "COA 11.63": 178,
-        "COA 11.64": 179,
-        "COA 11.65": 179,
-        "COA 11.66": 180,
-        "COA 11.67": 181,
-        "COA 11.67.1": 181,
-        "COA 11.68": 182,
-        "COA 11.68.1": 182,
-        "COA 11.68.2": 182,
-        "COA 11.68.3": 182,
-        "COA 11.68.4": 183,
-        "COA 11.69": 183,
-        "COA 11.70": 183,
-        "COA 11.71": 183,
-        "COA 11.72": 185,
-        "COA 11.73": 185,
-        "COA 11.74": 186,
-        "COA 11.75": 186,
-        "COA 11.76": 187,
-        "COA 11.77": 187,
-        "COA 11.78": 187,
-        "COA 11.79": 188,
-        "COA 11.80": 188,
-        "COA 11.81": 189,
-        "COA 11.82": 189,
-        "COA 11.83": 190,
-        "COA 11.84": 190,
-        "COA 11.84.1": 191,
-        "COA 11.84.2": 191,
-        "COA 11.85": 192,
-        "COA 11.86": 192,
-        "COA 11.87": 193,
-        "COA 11.88": 193,
-        "COA 11.89": 194,
-        "COA 11.90": 194,
-        "COA 11.91": 194,
-        "COA 11.92": 194,
-        "COA 11.93": 195,
-        "COA 11.94": 196,
-        "COA 11.95": 196,
-        "COA 11.96": 197,
-        "COA 11.97": 197,
-        "COA 11.98": 198,
-        "COA 11.99": 198,
-        "COA 11.100": 199,
-        "COA 11.101": 199,
-        "COA 11.102": 199,
-        "COA 11.103": 200,
-        "COA 11.104": 201,
-        "COA 11.105": 201,
-        "COA 11.106": 202,
-        "COA 11.107": 202,
-        "COA 11.108": 203,
-        "COA 11.109": 203,
-        "COA 11.109.1": 204,
-        "COA 11.110": 204,
-        "COA 11.111": 205,
-        "COA 11.111.1": 207,
-        "COA 11.111.2": 208,
-        "COA 11.111.3": 209,
-        "COA 11.111.4": 212,
-        "COA 11.111.5": 212,
-        "COA 11.111.6": 213,
-        "COA 11.112": 213,
-        "COA 11.113": 214,
-        "COA 11.114": 215,
-        "COA 11.115": 216,
-        "COA 11.115.1": 216,
-        "COA 11.115.2": 216,
-        "COA 11.116": 216,
-        "COA 11.116.1": 216,
-        "COA 11.116.2": 216,
-        "COA 11.117": 217,
-        "COA 11.117.1": 217,
-        "COA 11.117.2": 217,
-        "COA 12": 217,
-        "COA 12.1": 224,
-        "COA 12.2": 224,
-        "COA 12.3": 225,
-        "COA 12.3.1": 225,
-        "COA 12.3.2": 225,
-        "COA 12.3.3": 225,
-        "COA 12.3.4": 229,
-        "COA 12.4": 229,
-        "COA 12.5.1": 229,
-        "COA 12.5.2": 230,
-        "COA 12.5.3": 230,
-        "COA 12.6.1": 231,
-        "COA 12.6.2": 231,
-        "COA 12.6.3": 232,
-        "COA 12.6.4": 232,
-        "COA 12.6.5": 233,
-        "COA 12.6.6": 234,
-        "COA 12.7.1": 234,
-        "COA 12.7.2": 234,
-        "COA 12.8.1": 235,
-        "COA 12.8.2": 236,
-        "COA 12.9": 236,
-        "COA 12.9.1": 237,
-        "COA 12.9.3": 237,
-        "COA 12.10": 237,
-        "COA 12.11.1": 237,
-        "COA 12.11.2": 238,
-        "COA 12.11.3": 238,
-        "COA 12.11.4": 238,
-        "COA 12.11.5": 238,
-        "COA 12.11.6": 238,
-        "COA 12.11.7": 239,
-        "COA 12.12": 239,
-        "COA 12.12.1": 240,
-        "COA 12.12.2": 241,
-        "COA 12.12.2.1": 241,
-        "COA 12.12.2.2": 241,
-        "COA 12.12.2.2.2": 241,
-        "COA 12.12.2.2.3": 241,
-        "COA 12.12.3": 241,
-        "COA 12.12.4": 242,
-        "COA 12.13": 242,
-        "COA 13.1": 243,
-        "COA 13.2": 243,
-        "COA 13.3": 244
-      },
-      "scan": { "first": 131, "last": 180 }
-    }
-  </script>
+        <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
+      </button></span
+    ></template
+  ><template data-aldo-btn-primary=""
+    ><span
+      class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--xs"
+      data-astro-cid-4xhmycw5=""
+      ><button
+        class="esa-button__native typography-microcopy-2xs"
+        type="button"
+        data-astro-cid-d4oo7fc7="true"
+        data-astro-cid-4xhmycw5=""
+      >
+        <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
+      </button></span
+    ></template
+  >
 </section>
 ```
 
 ## Styles
 ```css
+/* Type comes from .typography-body-sm on the element.
+
+       Both nodes are always in the DOM (the live region has to pre-exist its content),
+       so the gap is opt-IN via .is-shown rather than collapsed with :empty — Lit's
+       template whitespace defeats :empty in engines that follow Selectors L3. */
+.help,
+.error {
+  margin: 0;
+}
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
   font-size: var(--typography-body-md-font-size);
   font-weight: var(--typography-body-md-font-weight);
   line-height: var(--typography-body-md-line-height);
   letter-spacing: var(--typography-body-md-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+}
+.typography-microcopy-2xs {
+  font-family: var(--typography-microcopy-2xs-font-family);
+  font-size: var(--typography-microcopy-2xs-font-size);
+  font-weight: var(--typography-microcopy-2xs-font-weight);
+  line-height: var(--typography-microcopy-2xs-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -437,12 +223,12 @@ Before the run, Beacon reads the document's table of contents and headings and p
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+.typography-microcopy-2xs-subtle {
+  font-family: var(--typography-microcopy-2xs-subtle-font-family);
+  font-size: var(--typography-microcopy-2xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-2xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-2xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
 }
 .typography-microcopy-xs-subtle {
   font-family: var(--typography-microcopy-xs-subtle-font-family);
@@ -451,12 +237,12 @@ Before the run, Beacon reads the document's table of contents and headings and p
   line-height: var(--typography-microcopy-xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+.typography-microcopy-2xs-strong {
+  font-family: var(--typography-microcopy-2xs-strong-font-family);
+  font-size: var(--typography-microcopy-2xs-strong-font-size);
+  font-weight: var(--typography-microcopy-2xs-strong-font-weight);
+  line-height: var(--typography-microcopy-2xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
 }
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
@@ -464,13 +250,6 @@ Before the run, Beacon reads the document's table of contents and headings and p
   font-weight: var(--typography-microcopy-xs-strong-font-weight);
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
 }
 .typography-title-strong {
   font-family: var(--typography-title-strong-font-family);
@@ -482,6 +261,41 @@ Before the run, Beacon reads the document's table of contents and headings and p
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
+}
+.bcn-aldo-mark {
+  border-radius: var(--radius-full);
+  background: var(--bcn-aldo);
+  color: var(--color-content-default-knockout);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+  display: inline-flex;
+}
+.bcn-aldo-mark[data-size="sm"] {
+  --icon-size-xs: 12px;
+  width: 20px;
+  height: 20px;
+}
+.bcn-aldo-mark[data-size="md"] {
+  width: 40px;
+  height: 40px;
+}
+.bcn-aldo-mark[data-size="lg"] {
+  width: 64px;
+  height: 64px;
+}
+.bcn-aldo-mark__glyph {
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+  display: inline-flex;
+}
+.bcn-aldo-mark[data-animated] {
+  animation: 2s ease-in-out infinite bcn-aldo-pulse;
+}
+.bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
+  animation: 8s linear infinite bcn-aldo-spin;
 }
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
@@ -750,55 +564,139 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
-.bcn-sw3scope {
-  gap: var(--spacing-400);
-  padding: var(--spacing-500);
+.bcn-sw3aldo {
   background: var(--color-background-elevation-raised);
   border: 1px solid var(--color-border-default);
   border-radius: var(--radius-200);
   flex-direction: column;
+  min-height: 0;
   display: flex;
 }
-.bcn-sw3scope__proposal {
-  align-items: baseline;
-  gap: var(--spacing-200) var(--spacing-400);
+.bcn-sw3aldo__head {
+  align-items: center;
+  gap: var(--spacing-200);
+  padding: var(--spacing-300) var(--spacing-400);
+  display: flex;
+}
+.bcn-sw3aldo__title {
+  margin: 0;
+}
+.bcn-sw3aldo__rules {
+  padding: 0 var(--spacing-400);
+  border-bottom: 1px solid var(--color-border-default-subtle);
+}
+.bcn-sw3aldo__rulelist {
+  gap: var(--spacing-200);
+  margin: 0 0 var(--spacing-300);
+  color: var(--color-content-default);
+  flex-direction: column;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+.bcn-sw3aldo__rulelist li {
+  gap: var(--spacing-200);
+  justify-content: space-between;
+  display: flex;
+}
+.bcn-sw3aldo__rulelist [data-rule-from] {
+  color: var(--color-content-default-secondary);
+  font-variant-numeric: tabular-nums;
+  flex: none;
+}
+.bcn-sw3aldo__log {
+  gap: var(--spacing-300);
+  min-height: 12rem;
+  padding: var(--spacing-400);
+  flex-direction: column;
+  flex: 1;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  overflow-y: auto;
+}
+.bcn-sw3aldo__msg {
+  gap: var(--spacing-150, 0.375rem);
+  flex-direction: column;
+  max-width: 92%;
+  animation: 0.22s ease-out bcn-sw3aldo-in;
+  display: flex;
+}
+.bcn-sw3aldo__msg[data-from="aldo"] {
+  align-self: flex-start;
+}
+.bcn-sw3aldo__msg[data-from="you"] {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+.bcn-sw3aldo__who {
+  color: var(--color-content-default-secondary);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8125rem;
+}
+.bcn-sw3aldo__text {
+  padding: var(--spacing-200) var(--spacing-300);
+  border-radius: var(--radius-200);
+  color: var(--color-content-default);
+  white-space: pre-line;
+  margin: 0;
+}
+.bcn-sw3aldo__msg[data-from="aldo"] .bcn-sw3aldo__text {
+  background: var(--bcn-aldo-50);
+}
+.bcn-sw3aldo__msg[data-from="you"] .bcn-sw3aldo__text {
+  background: var(--color-background-default);
+  border: 1px solid var(--color-border-default-subtle);
+}
+.bcn-sw3aldo__msg[data-via="button"] .bcn-sw3aldo__text {
+  color: var(--color-content-default-secondary);
+  background: 0 0;
+  border: 0;
+  padding: 0;
+}
+.bcn-sw3aldo__acts {
+  gap: var(--spacing-200);
   flex-wrap: wrap;
   display: flex;
 }
-.bcn-sw3scope__section,
-.bcn-sw3scope__line {
-  margin: 0;
+.bcn-sw3aldo__acts:empty {
+  display: none;
 }
-.bcn-sw3scope__line {
-  gap: var(--spacing-400);
-  color: var(--color-content-default);
-  font-variant-numeric: tabular-nums;
-  display: flex;
-}
-.bcn-sw3scope__fields {
-  align-items: end;
-  gap: var(--spacing-300);
-  grid-template-columns: 8rem 8rem minmax(16rem, 1fr) auto;
-  display: grid;
-}
-.bcn-sw3scope__go {
+.bcn-sw3aldo__suggest {
   gap: var(--spacing-200);
+  padding: 0 var(--spacing-400) var(--spacing-200);
+  flex-wrap: wrap;
   display: flex;
 }
-.bcn-sw3scope[data-state="proposed"] [data-scope-update],
-.bcn-sw3scope[data-state="running"] [data-scope-start] {
+.bcn-sw3aldo__suggest:empty {
   display: none;
 }
-.bcn-sw3scope[data-state="running"] {
-  padding: var(--spacing-300) var(--spacing-500) var(--spacing-400);
+.bcn-sw3aldo__composer {
+  align-items: flex-end;
+  gap: var(--spacing-200);
+  margin: 0 var(--spacing-300) var(--spacing-300);
+  padding: var(--spacing-100) var(--spacing-200) var(--spacing-100) var(--spacing-300);
+  border: 1px solid var(--bcn-aldo-100);
+  border-radius: var(--radius-200);
+  background: var(--color-background-elevation-raised);
+  box-shadow: var(--bcn-aldo-prompt-shadow);
+  display: flex;
 }
-.bcn-sw3scope[data-state="running"] > .bcn-file-row,
-.bcn-sw3scope[data-state="running"] .bcn-sw3scope__proposal {
-  display: none;
+.bcn-sw3aldo__composer:focus-within {
+  outline: 2px solid var(--bcn-aldo-prompt-ring);
 }
-.bcn-sw3scope__instruction,
-.bcn-sw3scope__go {
-  grid-column: 1/-1;
+.bcn-sw3aldo__input {
+  --focus-ring-color: var(--color-background-elevation-raised);
+  --form-border-width: 0;
+  flex: 1;
+  min-width: 0;
+}
+.bcn-sw3aldo__send {
+  --button-radius-sm: 999px;
+  --color-background-brand: var(--bcn-aldo);
+  --color-background-brand-hover: var(--bcn-aldo-600);
+  padding-bottom: var(--spacing-100);
+  display: inline-flex;
 }
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
@@ -807,6 +705,27 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-body-md-line-height);
   letter-spacing: var(--typography-body-md-letter-spacing);
 }
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+}
+.typography-microcopy-2xs {
+  font-family: var(--typography-microcopy-2xs-font-family);
+  font-size: var(--typography-microcopy-2xs-font-size);
+  font-weight: var(--typography-microcopy-2xs-font-weight);
+  line-height: var(--typography-microcopy-2xs-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
+}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
@@ -814,12 +733,12 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+.typography-microcopy-2xs-subtle {
+  font-family: var(--typography-microcopy-2xs-subtle-font-family);
+  font-size: var(--typography-microcopy-2xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-2xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-2xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
 }
 .typography-microcopy-xs-subtle {
   font-family: var(--typography-microcopy-xs-subtle-font-family);
@@ -828,12 +747,12 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+.typography-microcopy-2xs-strong {
+  font-family: var(--typography-microcopy-2xs-strong-font-family);
+  font-size: var(--typography-microcopy-2xs-strong-font-size);
+  font-weight: var(--typography-microcopy-2xs-strong-font-weight);
+  line-height: var(--typography-microcopy-2xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
 }
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
@@ -842,13 +761,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
-}
 .typography-title-strong {
   font-family: var(--typography-title-strong-font-family);
   font-size: var(--typography-title-strong-font-size);
@@ -856,40 +768,54 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-title-strong-line-height);
   letter-spacing: var(--typography-title-strong-letter-spacing);
 }
-.bcn-file-row {
+.esa-collapsible {
+  border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
+  border-radius: var(--radius-md, 0.5rem);
+  background: var(--color-background-elevation-raised, #fcfcfc);
+}
+.esa-collapsible--flush {
+  background: 0 0;
+  border: none;
+  border-radius: 0;
+}
+.esa-collapsible--flush > .esa-collapsible__summary,
+.esa-collapsible--flush > .esa-collapsible__body {
+  padding-inline: 0;
+}
+.esa-collapsible__summary {
   align-items: center;
-  gap: var(--spacing-200);
-  padding: var(--spacing-100) var(--spacing-300);
-  border: var(--form-border-width, 1px) solid var(--color-border-default);
-  border-radius: var(--radius-100);
-  background: var(--color-background-elevation-raised);
-  grid-template-columns: auto 1fr auto auto;
-  font-size: 0.875rem;
-  display: grid;
+  gap: var(--spacing-200, 0.5rem);
+  padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
+  color: var(--color-content-default, #202020);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
 }
-.bcn-file-row__icon {
-  color: var(--color-content-default-secondary);
-  display: inline-flex;
+.esa-collapsible__summary::-webkit-details-marker {
+  display: none;
 }
-.bcn-file-row__name {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 0;
-  color: var(--color-content-default);
-  overflow: hidden;
+.esa-collapsible__summary:after {
+  content: "";
+  border-right: 2px solid var(--color-content-default-secondary, #646464);
+  border-bottom: 2px solid var(--color-content-default-secondary, #646464);
+  width: 8px;
+  height: 8px;
+  margin-left: auto;
+  transition: transform 0.15s;
+  transform: rotate(-45deg);
 }
-.bcn-file-row__size {
-  color: var(--color-content-default-secondary);
-  white-space: nowrap;
-  font-size: 0.8125rem;
+.esa-collapsible[open] > .esa-collapsible__summary:after {
+  transform: rotate(45deg);
 }
-.bcn-file-row__actions {
-  align-items: center;
-  gap: var(--spacing-050);
-  display: inline-flex;
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
 }
-.bcn-file-row__act {
-  display: inline-flex;
+.esa-collapsible__body {
+  gap: var(--spacing-400, 1rem);
+  padding: 0 var(--spacing-400, 1rem) var(--spacing-400, 1rem);
+  flex-direction: column;
+  display: flex;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -931,6 +857,12 @@ summary.esa-button--variant-chrome:focus-visible {
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
+- `--bcn-aldo`: #08908b _(component)_
+- `--bcn-aldo-100`: #cfeceb _(component)_
+- `--bcn-aldo-50`: #e8f6f5 _(component)_
+- `--bcn-aldo-600`: #06736f _(component)_
+- `--bcn-aldo-prompt-ring`: #08908b8c _(component)_
+- `--bcn-aldo-prompt-shadow`: 0 1px 2px #1018200f, 0 10px 24px -6px #10182024, 0 28px 60px -18px #08908b61 _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
@@ -951,6 +883,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
+- `--color-background-default`: #fafafa _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
@@ -963,6 +896,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
+- `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
 - `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
@@ -979,42 +913,51 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
-- `--form-border-width`: 1px _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
-- `--spacing-050`: .125rem _(primitive)_
+- `--radius-full`: 9999px _(primitive)_
+- `--radius-md`: .25rem _(semantic)_
 - `--spacing-100`: .25rem _(primitive)_
+- `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-body-md-font-weight`: 350 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
-- `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-md-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-line-height`: 1 _(semantic)_
-- `--typography-microcopy-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
-- `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
+- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
+- `--typography-body-sm-line-height`: 1.6 _(semantic)_
+- `--typography-label-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-sm-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-sm-strong-line-height`: 1.6 _(semantic)_
+- `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-microcopy-2xs-font-weight`: 500 _(semantic)_
+- `--typography-microcopy-2xs-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-2xs-line-height`: 1 _(semantic)_
+- `--typography-microcopy-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-2xs-strong-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-microcopy-2xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-microcopy-2xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-font-weight`: 500 _(semantic)_

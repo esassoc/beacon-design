@@ -4,7 +4,7 @@ Prototype: `/prototypes/setup-wizard-3-step` (step 1) and `/prototypes/setup-wiz
 
 ## The flow
 
-1. **Source Documents.** Upload. Beacon proposes a scope, the person confirms or narrows it, and the scan runs with the document itself on screen.
+1. **Source Documents.** Upload the project's documents. For each one, Aldo proposes where the commitments are, the person confirms or narrows it in conversation, and the scan runs with the document itself on screen. The person steers the scan as it reads, and every steer is kept.
 2. **Commitments.** Every commitment reviewed against its source text, with its requirements as highlights inside it.
 3. **Compliance Index.** Unchanged.
 
@@ -14,14 +14,24 @@ The goal is fewer clicks per commitment. A clean commitment costs zero clicks (C
 
 ## Settled decisions
 
-- **Scope before the run.** Beacon reads the table of contents and headings and proposes a range: "VIII. Conditions of Approval, pp. 80–244, 293 commitments likely". The person edits the range or writes a short instruction ("Only the general species measures, Condition 11"). It is a card with fields, not a chat. The same fields steer the run once it starts, without a restart.
+- **Several documents, one run each.** The left column lists the project's documents, each with where its run is (not started, reading p. 147, paused, or how many commitments it found). The document in view opens to its commitments, one slim card each: the code chip and the title, dashed while the commitment is being read and solid once parsed.
+- **Scope and steering are a conversation with Aldo.** Aldo opens with the scope pass: "The commitments are in VIII. Conditions of Approval, pp. 80–244: about 293." The person answers in their own words ("Only Condition 11"), and keeps talking to it while the scan runs:
+  - narrow or widen the scope;
+  - pause and resume;
+  - give a rule ("anything that just says see Condition X is a cross-reference, not a commitment");
+  - re-read pages already read.
+- **Every steer is a record.** Each message is kept with the page the scan was on when it was given and what Beacon did with it. Instructions, at the top of the conversation, lists what every extraction call now carries: the scope, and each rule with the page it took effect from. Button presses (dismiss, merge, mark) land in the same record.
+- **A rule governs the pages ahead.** It is added to the instruction for every later extraction call, so it changes nothing already read. When pages were read without it, Aldo says which and offers to re-read them. A re-read reports what changed.
+- **Pause lets the page in flight finish.** Its extraction call is already out, so the run stops after that page ("Pausing after p. 149").
+- **Aldo raises what needs a person** as the scan reaches it, with the answer attached: a find with nothing in it ("COA 11.32 reads like a reference to another condition", Dismiss), a passage split across a page break (Merge), and pages with nothing found (Show p. 152).
+- **The page is the PDF.** pdf.js renders the uploaded file in the browser, page by page, and the boxes are drawn over it. There are no pre-rendered images.
 - **The scan is watched.** This is the one place the wizard breaks the "never watch a model run" rule, because watching is the point: the person sees their own document being read. The page in view shows a box around each commitment as it is found (dashed) and as it parses (solid, with requirement spans filled in).
 - **Scrubber.** Every page in scope sits in one strip:
   - read pages fill in;
   - a pip marks each find, hollow while found and solid once parsed;
   - a read page with nothing found is drawn as a gap, which is where a missed commitment hides;
   - the scan head runs ahead of the page in view.
-- **Light corrections in step 1:** dismiss a false find, merge a find split across a page break, and mark a missed commitment by dragging over it on the page.
+- **Corrections on the page and the cards:** mark a missed commitment by dragging over it on the page, and dismiss a card. Both are recorded with the steering.
 - **Walk away.** The run renders from events, so it keeps going while the person is in step 2 or away entirely. A return lands where the run is.
 - **One commitment is the unit of review.** Requirements are highlights over the exact words they came from, and the spans partition the commitment's binding text.
 - **Suggested vs confirmed** follows the Comments module: Aldo's proposal until a person touches it, and any edit confirms. There is no approve button per requirement. "Confirm commitment" confirms the rest, and Confirm all confirms every commitment nothing is flagged on, with one-step undo.
@@ -57,8 +67,15 @@ Both are built, with a toggle above the review.
    - A quote that will not anchor is the made-up-text signal. It is flagged, never silently kept.
    - Boxes come from this anchoring and not from model citations, because the PDF citations are page-level only and cannot be combined with structured output.
 5. **Stream events to the UI:** `page_scanned`, `commitment_found`, `commitment_parsed`, `entity_proposed`, `merge_proposed`. The front end renders state from the events, which is what makes working ahead and walking away free.
+   - The run is a background job per document. Events reach the browser as server-sent events, which Beacon already uses (`AIController.PostChatCompletions` streams `text/event-stream`).
+   - The browser renders the PDF with pdf.js, as `source-pdf-viewer` already does (ng2-pdfjs-viewer). Each box is a `PdfBoundingBoxDto` (page, and x, y, width and height as fractions of the page), the shape Beacon already stores, so a box arriving in an event is drawn over the page at any zoom.
+   - For native PDFs the text layer is Beacon's existing PdfPig word extraction (`PdfTextExtractionService`). Scanned PDFs need an OCR pass first, which also returns word boxes.
 6. **Per-commitment parse in the background.** Requirement spans come first, under the partition rule. Entity extraction then runs against a project entity registry. A final pass clusters near-duplicate entities by meaning and proposes merges. Case and punctuation variants fold by code before that pass; they are never a proposal.
-7. **Coverage checks run as code**, not model judgment:
+7. **Steering is one structured-output call per message.** The message and the run's state (scope, page reached, pages read) go in, and a list of actions comes out: `scope`, `rule`, `pause`, `resume`, `reread`, `dismiss`, `merge`, plus a one-line reply. `src/components/bcn/sw3-steer.ts` is that schema, with a pattern matcher standing in for the model. Anything that is not a scope, pause, resume or re-read is a rule.
+   - **Pause** stops the job from dispatching new page windows. Windows already sent finish.
+   - **Rule** is appended to the instruction for later windows. The steer record keeps the page it took effect from.
+   - **Re-read** dispatches the windows for those pages again with the current instructions, and diffs the finds.
+8. **Coverage checks run as code**, not model judgment:
    - pages in scope with no finds;
    - binding sentences less than half covered by the union of requirement spans;
    - two requirements on near-identical spans (overlap over union above 0.8).
@@ -71,17 +88,17 @@ Both are built, with a toggle above the review.
 - It finds each commitment's heading in document order. Each commitment is the run of words from its heading to the next one.
 - It anchors each requirement quote by token alignment.
 
-Result on pp. 131–180 (Condition 11, the giant garter snake and California tiger salamander measures):
+Result on pp. 131–223 (Condition 11, Take Minimization Measures):
 
 | Measure | Result |
 |---|---|
-| Commitment headings found | 85 of 85 real headings. The one miss, COA 11.32, is a cross-reference, not a heading. |
-| Requirement quotes anchored | 348 of 348. Before footnotes were dropped, 3 failed: footnote text had been read into the commitment body. |
-| Binding sentences covered by the current extraction's quotes | 415 of 609 (68%) |
+| Commitment headings found | 157 of 157 real headings. The one miss, COA 11.32, is a cross-reference, not a heading. |
+| Requirement quotes anchored | 588 of 588. Before footnotes were dropped, 3 failed: footnote text had been read into the commitment body. |
+| Binding sentences covered by the current extraction's quotes | 704 of 1,038 (68%) |
 
 The 68% is Jacky's "requirements that didn't highlight distinct parts" in numbers. The partition rule closes it at extraction time, and the coverage check catches what is left.
 
-Runtime is about 2 seconds for 50 pages.
+Runtime is under half a second for 93 pages.
 
 ### Data the prototype uses
 
@@ -106,19 +123,21 @@ The merges are not seeded. They are the extraction's own:
 - **Milestones:** four phrasings of "Initiation of Covered Activities", plus one in-water variant.
 - **Seasons:** three phrasings each of the GGS active season and the dry season.
 
-The prototype's scan covers pp. 131–180 whatever range is entered.
+The prototype's scan covers pp. 131–223 whatever range is entered. The ITP is the only document so far; the documents column takes more as their PDFs are added.
 
 ## Open technical questions
 
 - **Cost of page-by-page vs whole-document extraction** on a 300-page ITP: windows bound each call, but the document prefix repeats.
 - **Shared cached document prefix:** whether the scope pass and the extraction calls can share one, and whether a cache survives across a run that pauses for steering.
 - **Where the merge pass runs:** after every commitment (merges appear early, and they shift as more phrasings arrive) or once at the end (stable, but late).
+- **Re-read after a rule:** offered (as built) or automatic. Automatic is fewer clicks but spends extraction calls on every rule, including ones that change nothing behind the scan.
+- **Several documents at once:** one run per document in parallel, or a queue. Parallel finishes sooner; a queue keeps rate limits and cost predictable, and lets a rule given on the first document carry to the next.
 
 ## Demo path
 
-1. **Scope.** Open step 1. Type "Condition 11" in the instruction and start the scan. The range becomes pp. 131–180.
-2. **Scan.** Pages fill in and boxes appear. Open Review commitments while the scan is still around p. 160.
-3. **Missed commitment.** Back in step 1, drag the scrubber to the hatched gap at p. 152. Step to p. 151, choose Mark missed commitment, and drag over "11.35 Fish Salvage Plan". It parses into 7 requirements.
+1. **Scope.** Open step 1. Aldo proposes pp. 80–244. Tell it "Only Condition 11" (pp. 131–223), then "Start".
+2. **Steer.** Around p. 149, tell Aldo "Pause". It pauses after the page in flight. Tell it "Anything that just says see Condition X is a cross-reference, not a commitment". It adds the rule from p. 150 and offers to re-read pp. 131–149. Resume, then take the re-read: COA 11.32 goes.
+3. **Missed commitment.** When the run is done, Aldo reports nothing found on pp. 152–154. Show p. 152, step back to p. 151, choose Mark missed commitment, and drag over "11.35 Fish Salvage Plan". It parses into 7 requirements. Open Review commitments.
 4. **Exceptions.** In step 2, choose Needs a person, then:
    - COA 11.14: remove the requirement whose quote is not in the source;
    - COA 11.25: merge the duplicate;

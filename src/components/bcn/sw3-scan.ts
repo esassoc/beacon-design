@@ -1,12 +1,12 @@
-// Controller for <BcnSw3Scan>. setupX shape: owns the run's view state (the page in
-// view, whether it follows the scan head, the selected find, select mode) and renders
-// the bar, the scrubber, the page and the queue from sw3-store on every change.
+// Controller for <BcnSw3Scan>. setupX shape: owns the workspace's view state (the page in
+// view, whether it follows the scan head, the selected find, select mode) and renders the
+// bar, the scrubber, the page and the document cards from sw3-store on every change. The
+// Aldo column renders itself (sw3-aldo.ts); its "show page" answers arrive as sw3:page.
 
 import {
   initSw3,
   started,
   finished,
-  now,
   state,
   scanned,
   headPage,
@@ -15,17 +15,17 @@ import {
   inScope,
   commitmentOf,
   markRegion,
-  dismissFind,
-  mergeSplit,
-  togglePause,
+  paused,
+  pausing,
+  rereading,
+  act,
   cycleSpeed,
   skipToEnd,
   resetAll,
-  payload,
-  type LiveFind,
 } from './sw3-store';
 import { setupPageScrubber, type ScrubberPip } from './page-scrubber';
 import { setupPageView, type PageViewBox } from './page-view';
+import { setupSw3Docs, type DocCard } from './sw3-docs';
 import { boxesFor } from '../../lib/anchored-text';
 
 /** esa-button wraps its text in a label span; write there so the button keeps its shape. */
@@ -38,11 +38,12 @@ const show = (btn: HTMLElement | null, on: boolean) => {
   const host = (btn.closest('.esa-button') as HTMLElement | null) ?? btn;
   host.style.display = on ? '' : 'none';
 };
+const range = (a: number, b: number) => (a === b ? `p. ${a}` : `pp. ${a}–${b}`);
 
 export function setupSw3Scan(root: HTMLElement): void {
   const D = initSw3();
-  const base = root.dataset.base!.replace(/\/$/, '');
-  const img = (n: number) => `${base}/source-docs/itp-pages/p${String(n).padStart(3, '0')}.webp`;
+  const pdf = root.dataset.pdf!;
+  const docId = root.dataset.docId!;
 
   const status = root.querySelector<HTMLElement>('[data-scan-status]')!;
   const toggle = root.querySelector<HTMLElement>('[data-scan-toggle]')!;
@@ -52,9 +53,6 @@ export function setupSw3Scan(root: HTMLElement): void {
   const follow = root.querySelector<HTMLElement>('[data-scan-follow]')!;
   const mark = root.querySelector<HTMLElement>('[data-scan-mark]')!;
   const pageno = root.querySelector<HTMLElement>('[data-scan-pageno]')!;
-  const queue = root.querySelector<HTMLElement>('[data-scan-queue]')!;
-  const qcount = root.querySelector<HTMLElement>('[data-scan-qcount]')!;
-  const tpl = root.querySelector<HTMLTemplateElement>('[data-scan-row]')!;
 
   let view = D.scope.first;
   let following = true;
@@ -76,7 +74,14 @@ export function setupSw3Scan(root: HTMLElement): void {
     view = f.boxes.find((b) => b.page === view)?.page ?? f.page;
     following = false;
     render();
-    queue.querySelector(`[data-row="${CSS.escape(id)}"]`)?.scrollIntoView({ block: 'nearest' });
+    docs.reveal(id);
+  };
+  const dismiss = (id: string) => {
+    const f = finds().find((x) => x.id === id);
+    if (!f) return;
+    const name = f.code || 'the marked passage';
+    act(`Dismiss ${name}`, { kind: 'dismiss', findId: id, code: f.code }, `Removed ${name}.`);
+    if (selected === id) selected = null;
   };
 
   const scrubber = setupPageScrubber(root.querySelector<HTMLElement>('[data-page-scrubber]')!, {
@@ -94,9 +99,14 @@ export function setupSw3Scan(root: HTMLElement): void {
       render();
     },
   });
+  const docs = setupSw3Docs(root.querySelector<HTMLElement>('[data-sw3-docs]')!, { onFind: select, onDismiss: dismiss });
 
   // ── Bar ─────────────────────────────────────────────────────────────────────
-  toggle.addEventListener('click', togglePause);
+  // Pause and resume are steers like any other: recorded, with the page they came on.
+  toggle.addEventListener('click', () => {
+    if (paused() || pausing()) act('Resume', { kind: 'resume' }, `Resuming at p. ${headPage()}.`);
+    else act('Pause', { kind: 'pause' }, `Pausing after p. ${headPage()}: that page is already being read.`);
+  });
   speed.addEventListener('click', cycleSpeed);
   skip.addEventListener('click', skipToEnd);
   restart.addEventListener('click', () => {
@@ -116,103 +126,60 @@ export function setupSw3Scan(root: HTMLElement): void {
   });
   root.querySelector('[data-scan-prev]')?.addEventListener('click', () => pick(view - 1));
   root.querySelector('[data-scan-next]')?.addEventListener('click', () => pick(view + 1));
-
-  // ── Queue ───────────────────────────────────────────────────────────────────
-  queue.addEventListener('click', (e) => {
-    const t = e.target as HTMLElement;
-    const row = t.closest<HTMLElement>('[data-row]');
-    if (!row) return;
-    const id = row.dataset.row!;
-    if (t.closest('[data-row-dismiss]')) {
-      dismissFind(id);
-      if (selected === id) selected = null;
-    } else if (t.closest('[data-row-merge]')) {
-      mergeSplit(id);
-      const part = payload().finds.find((f) => f.id === id)?.partOf;
-      if (part) selected = part;
-    } else if (t.closest('[data-row-open]')) select(id);
-  });
-
-  const rowMeta = (f: LiveFind) => {
-    const pages = [...new Set(f.boxes.map((b) => b.page))];
-    const where = pages.length > 1 ? `pp. ${pages[0]}–${pages.at(-1)}` : `p. ${f.page}`;
-    if (f.kind === 'split') return [where, 'Continues a commitment'];
-    if (!f.code) return [where, 'Marked'];
-    if (f.kind === 'false') return [where, f.parsed ? 'No requirements found' : 'Parsing'];
-    if (!f.parsed) return [where, f.marked ? 'Marked, parsing' : 'Parsing'];
-    const n = commitmentOf(f.code)?.requirementIds.length ?? 0;
-    return [where, `${n} requirement${n === 1 ? '' : 's'}`];
-  };
-
-  const rowEls = new Map<string, HTMLElement>();
-  const renderQueue = (list: LiveFind[]) => {
-    const keep = new Set(list.map((f) => f.id));
-    for (const [id, el] of rowEls) if (!keep.has(id)) (el.remove(), rowEls.delete(id));
-    let prev: Element | null = null;
-    for (const f of list) {
-      let el = rowEls.get(f.id);
-      if (!el) {
-        el = (tpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
-        el.dataset.row = f.id;
-        rowEls.set(f.id, el);
-      }
-      const state = f.kind === 'false' && f.parsed ? 'empty' : f.parsed ? 'parsed' : 'found';
-      el.dataset.state = state;
-      el.dataset.kind = f.kind;
-      el.toggleAttribute('data-selected', f.id === selected);
-      const badge = el.querySelector<HTMLElement>('[data-row-badge]')!;
-      badge.hidden = !f.code;
-      const chip = badge.querySelector('.bcn-cbadge');
-      if (chip && chip.textContent !== f.code) chip.textContent = f.code.replace(/^COA\s+/, '');
-      el.querySelector('[data-row-title]')!.textContent = f.title;
-      const [pages, st] = rowMeta(f);
-      el.querySelector('[data-row-pages]')!.textContent = pages;
-      el.querySelector('[data-row-state]')!.textContent = st;
-      (el.querySelector('[data-row-merge]') as HTMLElement).hidden = f.kind !== 'split';
-      // Place in page order without re-inserting rows that are already in place.
-      const want: Element | null = prev ? prev.nextElementSibling : queue.firstElementChild;
-      if (want !== el) queue.insertBefore(el, want);
-      prev = el;
-    }
-    qcount.textContent = String(list.filter((f) => f.code).length);
-    // Following the scan, the newest find stays in view.
-    if (following && prev) queue.scrollTop = queue.scrollHeight;
-  };
+  document.addEventListener('sw3:page', (e) => pick((e as CustomEvent<{ page: number }>).detail.page));
 
   // ── Render ──────────────────────────────────────────────────────────────────
   const render = () => {
-    root.hidden = !started();
-    if (!started()) return;
-    const list = finds();
-    const head = headPage();
-    const done = finished() || head === null;
-    if (following) view = done ? (selected ? view : firstPage()) : (head ?? lastPage());
-    if (done && following) following = false;
+    const on = started();
+    const list = on ? finds() : [];
+    const head = on ? headPage() : null;
+    const done = on && (finished() || head === null);
+    const again = rereading();
+    if (following && on) view = done ? (selected ? view : again.size ? Math.min(...again) : firstPage()) : (head ?? lastPage());
+    if (done && following && !again.size) following = false;
 
     // Bar
     const nFound = list.filter((f) => f.code).length;
-    const nParsed = list.filter((f) => f.code && f.parsed).length;
-    const nGaps = gaps().size;
-    const paused = state().clock?.paused;
-    status.textContent = done
-      ? `Read pages ${firstPage()}–${lastPage()}. ${nFound} commitments found, ${nGaps} page${nGaps === 1 ? '' : 's'} with nothing found.`
-      : `${paused ? 'Paused on' : 'Reading'} page ${head}. ${nFound} commitments found, ${nParsed} parsed.`;
-    setLabel(toggle, paused ? 'Resume' : 'Pause');
+    const isPaused = paused();
+    status.textContent = !on
+      ? 'Not started'
+      : again.size
+        ? `Re-reading p. ${Math.min(...again)}.`
+        : done
+          ? `Read ${range(firstPage(), lastPage())}. ${nFound} commitments.`
+          : isPaused
+            ? `Paused after p. ${(head ?? 1) - 1}. ${nFound} commitments so far.`
+            : pausing()
+              ? `Pausing after p. ${head}.`
+              : `Reading p. ${head}. ${nFound} commitments so far.`;
+    setLabel(toggle, isPaused || pausing() ? 'Resume' : 'Pause');
     setLabel(speed, `Speed ${state().clock?.speed ?? 1}×`);
-    show(toggle, !done);
-    show(speed, !done);
-    show(skip, !done);
-    show(follow, !following && !done);
+    show(toggle, on && !done);
+    show(speed, on && !done);
+    show(skip, on && !done);
+    show(restart, on);
+    show(follow, on && !following && !done);
+    show(mark, on);
     setLabel(mark, selecting ? 'Cancel marking' : 'Mark missed commitment');
 
-    // Scrubber
+    // Documents
+    const docLine = !on ? 'Not started' : done ? `${nFound} commitments` : isPaused ? `Paused after p. ${(head ?? 1) - 1}` : `Reading p. ${head}`;
+    const cards: DocCard[] = list
+      .filter((f) => f.kind !== 'split')
+      .map((f) => ({ id: f.id, code: f.code, title: f.title, parsed: f.parsed }));
+    docs.update(docId, docLine, cards, selected);
+    if (following && cards.length) docs.reveal(cards.at(-1)!.id);
+
+    // Scrubber: a page being re-read is unread again until the re-read reaches it.
+    const read = new Set([...scanned()].filter((p) => !again.has(p)));
     const pips = new Map<number, ScrubberPip[]>();
     for (const f of list) {
       const arr = pips.get(f.page) ?? [];
       arr.push({ id: f.id, label: `${f.code || f.title}, p. ${f.page}`, parsed: f.parsed });
       pips.set(f.page, arr);
     }
-    scrubber.update({ scanned: scanned(), gaps: gaps(), inScope, head: done ? null : head, view, pips, selectedFind: selected });
+    const scrubHead = again.size ? Math.min(...again) : done ? null : head;
+    scrubber.update({ scanned: read, gaps: gaps(), inScope, head: scrubHead, view, pips, selectedFind: selected });
 
     // Page
     const boxes: PageViewBox[] = [];
@@ -233,13 +200,10 @@ export function setupSw3Scan(root: HTMLElement): void {
           .forEach((b, i) => boxes.push({ key: `${r.id}:${i}`, id: f.id, kind: 'span', ...b, shade: (ri % 2) + 1 })),
       );
     }
-    pageView.show(view, img(view), boxes, `Page ${view} of the ITP`);
+    pageView.show(pdf, view, boxes, `Page ${view} of the ITP`);
     pageno.textContent = `Page ${view}`;
-
-    renderQueue(list);
   };
 
   document.addEventListener('sw3:change', render);
-  // Following the head moves the page each time a page is read: that is a change event.
   render();
 }

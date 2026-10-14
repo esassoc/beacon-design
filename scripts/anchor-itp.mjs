@@ -15,14 +15,15 @@
 //   3. writes line boxes for every page in scope, so a person can mark a commitment the
 //      scan missed by dragging over the page.
 //
-// Coordinates are fractions of the page (0–1), so the overlay scales with the image.
+// Coordinates are fractions of the page (0–1), prod's PdfBoundingBoxDto shape, so the
+// overlay scales with the page as pdf.js renders it in the browser.
 //
 //   node scripts/anchor-itp.mjs [firstPage] [lastPage]     # default 80 129
-//   # → src/data/sw3-anchors.json, public/source-docs/itp-pages/p080.webp …
+//   # → src/data/sw3-anchors.json
 //
-// Needs poppler (pdftotext, pdftoppm) and cwebp. Deterministic: same PDF, same output.
+// Needs poppler (pdftotext). Deterministic: same PDF, same output.
 import { execFileSync } from 'node:child_process';
-import { readFileSync, writeFileSync, mkdirSync, existsSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 const root = (p) => fileURLToPath(new URL(`../${p}`, import.meta.url));
@@ -30,7 +31,6 @@ const FIRST = Number(process.argv[2] ?? 80);
 const LAST = Number(process.argv[3] ?? 129);
 const PDF = root('public/source-docs/itp.pdf');
 const OUT = root('src/data/sw3-anchors.json');
-const IMG_DIR = root('public/source-docs/itp-pages');
 /** Lines at or below this y (pt) are the running header and page number. */
 const BODY_BOTTOM = 655;
 /** Body type sets 12pt lines; footnotes and their markers set smaller. */
@@ -289,17 +289,9 @@ for (let h = 0; h < headings.length; h++) {
   });
 }
 
-// ── 3. Page images and line boxes ─────────────────────────────────────────────
+// ── 3. Line boxes ─────────────────────────────────────────────────────────────
 
-if (!existsSync(IMG_DIR)) mkdirSync(IMG_DIR, { recursive: true });
 const scoped = pages.filter((p) => p.n <= LAST);
-for (const p of scoped) {
-  const out = `${IMG_DIR}/p${String(p.n).padStart(3, '0')}`;
-  if (existsSync(`${out}.webp`)) continue;
-  execFileSync('pdftoppm', ['-f', String(p.n), '-l', String(p.n), '-r', '110', '-gray', '-png', '-singlefile', PDF, out]);
-  execFileSync('cwebp', ['-quiet', '-q', '60', `${out}.png`, '-o', `${out}.webp`]);
-  rmSync(`${out}.png`);
-}
 
 const pageOut = scoped.map((p) => ({
   n: p.n,

@@ -1010,6 +1010,853 @@ Step 1's queue as the navigator: each commitment with its state (Parsing, N to r
         >
       </button>
     </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.67" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.67</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >GGS Mortality Reduction and Relocation Plan</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 requirement</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.67.1" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.67.1</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">GGS Handling</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >3 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.68" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.68</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Notification of GGS Take or Injury</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >4 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.68.1" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.68.1</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">Minor Injury</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 requirement</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.68.2" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.68.2</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Major or Serious Injuries</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >4 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.68.3" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.68.3</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">Recently Deceased</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 requirement</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.68.4" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.68.4</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">Written Report</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 requirement</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.69" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.69</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">SWHA Avoidance</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >4 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.70" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.70</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Seasonal Work Restriction</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >2 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.71" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.71</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">SWHA Surveys</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >3 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.72" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.72</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >No-Disturbance Buffer</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >3 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.73" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.73</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >SHWA Nest Monitoring</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >3 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.74" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.74</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Disturbance of Occupied Nest Tree</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >2 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.75" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.75</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Authority of the Designated Biologist(s)</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >5 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.76" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.76</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Nest Tree Avoidance</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >3 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.77" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.77</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">Vegetation Removal</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >3 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.78" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.78</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Preconstruction Activities</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >4 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.79" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.79</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Measures Specific to SCADA and Transmission Line Construction and
+            Maintenance</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >5 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.80" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.80</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >SWHA Mortality Reduction and Relocation Plan</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >2 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.81" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.81</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Notification of SWHA Take or Injury</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >5 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.82" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.82</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">TRBL Avoidance</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >3 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.83" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.83</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Preconstruction Assessment</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >2 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.84" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.84</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">TRBL Surveys</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >4 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.84.1" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.84.1</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">Nesting Habitat</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >2 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.84.2" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.84.2</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">Roosting Habitat</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >4 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.85" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.85</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">Nest Buffer Zone</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >6 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.86" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.86</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Nest Buffer Monitoring</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >6 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.87" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.87</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Roosting Site Buffer Zone</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >5 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.88" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.88</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Roosting Site Buffer Monitoring</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >4 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.89" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.89</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Disturbance of Breeding Colonies and Roost Sites</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >3 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.90" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.90</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Delineation of Nesting and Roosting Habitat</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >2 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.91" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.91</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">Helicopters</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >2 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.92" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.92</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >TRBL Mortality Reduction and Relocation Plan</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >2 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.93" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.93</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Notification of TRBL Take or Injury</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >6 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.94" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.94</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">CBB Avoidance</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >4 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.95" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.95</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Seasonal Restriction</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >6 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.96" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.96</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Preconstruction Assessment</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 requirement</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.97" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.97</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">CBB Surveys</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >3 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.98" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.98</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >CBB No-activity Buffer Zone</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >4 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.99" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.99</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >CBB Daily Monitoring</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >4 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.100" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.100</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Avoidance or Treatment of Underground Refugia</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >4 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.101" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.101</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Vegetation Management</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >3 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.102" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.102</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >CBB Nest Relocation Plan</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >5 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.103" data-state="flagged">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.103</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Notification of CBB Take or Injury</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 to review</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.104" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.104</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Initial Site Clearing and Monitoring</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >4 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.105" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.105</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">MALI Surveys</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >4 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.106" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.106</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >MALI No-Activity Buffer Zone</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >8 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.107" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.107</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Measures Specific to SCADA and Transmission Line Construction and
+            Maintenance</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >3 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.108" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.108</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >MALI Translocation Plan</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >5 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.109" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.109</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Velocity Requirements at North Delta Intakes</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >5 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.109.1" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.109.1</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >No Diversions Without North Delta Intake Screens</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >2 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.110" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.110</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Phase 1 and Phase 2 Authorized Operations</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >6 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.111" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.111</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">Diversion Criteria</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >5 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.111.1" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.111.1</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">June Operations</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >2 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.111.2" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.111.2</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Seasonal Operations of the North Delta Intakes</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >10 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.111.3" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.111.3</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >North Delta Diversion Monitoring Team</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >7 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.111.4" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.111.4</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Chartering the North Delta Diversion Monitoring Team</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 requirement</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.111.5" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.111.5</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Collaborative Approach to Real-time Decision Making</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >3 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.111.6" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.111.6</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Salmon Presence Off-ramp</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 requirement</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.112" data-state="flagged">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.112</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md">Reservoir Storage</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >2 to review</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.113" data-state="flagged">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.113</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Shifting During Balanced Conditions</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >2 to review</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.114" data-state="flagged">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.114</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Additional Diversions from North Delta Intakes</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 to review</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.115" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.115</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Delta Smelt and Longfin Smelt Biological Criteria</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 requirement</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.115.1" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.115.1</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Smelt Biological Criterion 1</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 requirement</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.115.2" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.115.2</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Smelt Biological Criterion 2</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 requirement</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.116" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.116</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Winter- and Spring-run Chinook Salmon Biological Criteria</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 requirement</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.116.1" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.116.1</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Salmonid Biological Criterion 1</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >2 requirements</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.116.2" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.116.2</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Salmonid Biological Criterion 2</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 requirement</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.117" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.117</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >White Sturgeon Biological Criteria</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 requirement</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.117.1" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.117.1</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >White Sturgeon Biological Criterion 1</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 requirement</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 11.117.2" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">11.117.2</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >White Sturgeon Biological Criterion 2</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >1 requirement</span
+          ></span
+        >
+      </button>
+    </li>
+    <li class="bcn-sw3rev__navrow" data-nav="COA 12" data-state="ready">
+      <button type="button" class="bcn-sw3rev__navbtn">
+        <span class="bcn-cbadge bcn-cbadge--sm">12</span
+        ><span class="bcn-sw3rev__navtext"
+          ><span class="bcn-sw3rev__navtitle typography-label-md"
+            >Habitat Management Land Acquisition and Restoration</span
+          ><span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta=""
+            >10 requirements</span
+          ></span
+        >
+      </button>
+    </li>
   </ol>
   <div class="bcn-sw3rev__pager" data-rev-pager="">
     <span
@@ -1034,7 +1881,7 @@ Step 1's queue as the navigator: each commitment with its state (Parsing, N to r
             <path d="m15 18-6-6 6-6"></path></svg></span
         ><span class="esa-button__label">Previous</span>
       </button></span
-    ><span class="typography-label-md" data-rev-pos="">1 of 84</span
+    ><span class="typography-label-md" data-rev-pos="">1 of 156</span
     ><span
       class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
       ><button

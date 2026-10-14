@@ -5,16 +5,17 @@
 // in as they arrive. In select mode the person drags a rectangle over the page to mark
 // something the reader missed.
 //
-// Boxes are page fractions (0–1), so they ride the image at any width.
+// The page is the source PDF, rendered live by pdf.js (page-view.ts). Boxes are page
+// fractions (0–1), prod's PdfBoundingBoxDto shape, so they ride the render at any width.
 //
 // Contract: page-view.ts `setupPageView(root, handlers)` returns { show, setSelecting }.
+//   show(pdfUrl, page, boxes, label)
 //   out  onBox(id)               a find's box was clicked
 //   out  onRegion(page, box)     a rectangle was dragged in select mode
 //
 // bcn-lego-checked: no esa- lego renders a document page or overlays on an image
 // (esa-file-list lists files; esa-loading-overlay is a spinner scrim). Checked Beacon:
-// its PDF capture draws absolute boxes over a pdf.js page, which is this, ported over a
-// pre-rendered page image so scanned and native documents behave alike. bcn-page-view is
+// its source-pdf-viewer draws absolute boxes over a pdf.js page, which is this. bcn-page-view is
 // the reusable home for "a source page with anchored boxes".
 interface Props {
   /** height / width of the page. */
@@ -25,7 +26,7 @@ const { aspect } = Astro.props;
 
 <div class="bcn-pv" data-page-view>
   <div class="bcn-pv__sheet" data-pv-sheet style={`aspect-ratio: 1 / ${aspect};`}>
-    <img class="bcn-pv__img" data-pv-img alt="" decoding="async" />
+    <canvas class="bcn-pv__img" data-pv-canvas role="img"></canvas>
     <div class="bcn-pv__boxes" data-pv-boxes></div>
     <div class="bcn-pv__drag" data-pv-drag hidden></div>
   </div>
@@ -51,7 +52,7 @@ const { aspect } = Astro.props;
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    background: var(--color-background-elevation-raised);
   }
 
   .bcn-pv__boxes {

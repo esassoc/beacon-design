@@ -27,7 +27,8 @@ interface Props {
 }
 const { first, last, label = 'Page' } = Astro.props;
 const pages = Array.from({ length: last - first + 1 }, (_, i) => first + i);
-const ticks = pages.filter((p) => p === first || p === last || p % 10 === 0);
+// Every tenth page and both ends; a round number too close to an end gives way to it.
+const ticks = pages.filter((p) => p === first || p === last || (p % 10 === 0 && p - first >= 4 && last - p >= 4));
 ---
 
 <div class="bcn-scrub" data-page-scrubber data-first={first} data-last={last} style={`--_n: ${pages.length};`}>

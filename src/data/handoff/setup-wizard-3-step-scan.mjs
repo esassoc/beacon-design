@@ -1,54 +1,62 @@
 // Handoff spec for step 1 of the three-step Setup Wizard (/prototypes/setup-wizard-3-step):
-// scope the source document, then watch the scan. Consumed only by scripts/gen-handoff.mjs.
-// Brief: docs/setup-wizard-3-step-brief.md. The scan is a replayed event stream
-// (src/data/setup-wizard-3-step.ts SCAN_EVENTS) over boxes anchored by
-// scripts/anchor-itp.mjs.
+// the documents, the page being read, and the conversation with Aldo that scopes and steers
+// the scan. Consumed only by scripts/gen-handoff.mjs. Brief: docs/setup-wizard-3-step-brief.md.
+// The scan is a replayed event stream (src/data/setup-wizard-3-step.ts SCAN_EVENTS) over
+// boxes anchored by scripts/anchor-itp.mjs; steering is src/components/bcn/sw3-steer.ts.
 
 /** @type {{ sections: import('./obligation-feed.mjs').HandoffSection[] }} */
 export default {
   sections: [
     {
-      label: 'Scope',
-      selector: '[data-sw3-scope]',
-      intent: 'Before the run, Beacon reads the document\'s table of contents and headings and proposes where the commitments are: "VIII. Conditions of Approval, pp. 80–244, 293 commitments likely". The person confirms it, edits the page range, or narrows it with a short instruction ("Only the general species measures, Condition 11" sets pp. 131–180). Once the run starts the card shrinks to the steering row: a new range applies without a restart.',
+      label: 'Documents',
+      selector: '[data-sw3-docs]',
+      intent: 'The project\'s source documents, one slim card each with where its run is (not started, reading p. 147, paused, or how many commitments it found). The document in view opens to its commitments, one slim card per commitment in page order, growing as the scan finds them: the code chip and the title only. A card is dashed while its commitment is being read and solid once parsed, the same grammar as the boxes on the page. Click a card to go to it on the page; × dismisses it.',
       decisions: [
-        'A scope card with a free-text instruction, not a chatbot. The instruction rides along into every extraction call.',
-        'The likely count updates as the range changes (it is the scope pass\'s heading count for that range).',
-        'Prototype: the run covers pp. 131–180 whatever range is entered; the brief says so.',
+        'Each document is its own run (a background job per document); the cards are its event stream rendered.',
+        'No page numbers or requirement counts on the cards: state is the border, detail is on the page and in step 2.',
+        'Dismiss is recorded in the steering record like a typed steer.',
       ],
-      acceptance: ['Typing "Condition 11" in the instruction and leaving the field sets the range to 131–180 and the count to 86.', 'Start scan hides the file row and proposal line; Update scope replaces Start.'],
+      acceptance: ['While the scan runs, new cards appear dashed and turn solid as they parse.', 'Clicking a card moves the page to it and outlines its box.'],
     },
     {
-      label: 'Scrubber',
-      selector: '[data-page-scrubber]',
-      intent: 'Every page in scope in one strip. Read pages fill in; a pip marks each find on the page it starts (hollow while found, solid once parsed); a read page with nothing on it is a hatched gap, which is where a missed commitment hides. The scan head runs ahead of the thumb (the page in view). Drag or click to jump; click a pip to land on that commitment.',
+      label: 'Run bar and scrubber',
+      selector: '.bcn-sw3scan__bar',
+      intent: 'The run\'s state in one line ("Reading p. 147. 37 commitments so far.", "Pausing after p. 149.", "Paused after p. 149.", "Re-reading p. 137.") with Pause / Resume. Below it every page in scope in one strip: read pages fill in, a pip marks each find, a read page with nothing on it is a hatched gap, and the scan head runs ahead of the page in view. Drag or click to jump.',
       decisions: [
-        'bcn-page-scrubber, reusable: esa-range-slider is a single native input with no per-step state or markers.',
-        'Keyboard: it is a slider (arrows, Page Up/Down by five, Home/End). Pips are pointer shortcuts; the queue is the keyboard path to a find.',
+        'Pause lets the page in flight finish: its extraction call is already out, so prod stops dispatching new windows and the ones sent complete.',
+        'Pause and Resume are steers: pressed here or typed to Aldo, they land in the record.',
+        'Speed, Skip to end and Restart are prototype controls over the replay; prod has none of them.',
+        'A page being re-read reads as unread again until the re-read reaches it.',
       ],
-      acceptance: ['After the run, pp. 152–154 show as gaps until COA 11.35 is marked; then none do.'],
+      acceptance: ['Pause mid-run: the status reads "Pausing after p. N" until that page is done, then "Paused after p. N".'],
     },
     {
       label: 'Page and boxes',
       selector: '[data-page-view]',
-      intent: 'The page in view, large, with a box per commitment drawn as it is found (dashed) and turned solid when it parses, its requirement spans filling in alternating shades. While following the scan, the view is the page being read. Picking any page stops following; Follow the scan resumes. Mark missed commitment turns the page into a drag target: drag over the commitment and Beacon parses it.',
+      intent: 'The page in view, rendered from the uploaded PDF by pdf.js, with a box per commitment drawn as it is found (dashed) and turned solid when it parses, its requirement spans filling in alternating shades. While following the scan, the view is the page being read; picking any page stops following, and Follow the scan resumes. Mark missed commitment turns the page into a drag target: drag over the commitment and Beacon parses it.',
       decisions: [
-        'Boxes come from our own anchoring of each quote against the text layer, not from model citations (page-level only, and not combinable with structured output).',
-        'Coordinates are page fractions, so boxes ride the pre-rendered page image at any width. Pages are pre-rendered WebP (scripts/anchor-itp.mjs).',
+        'pdf.js in the browser, as prod\'s source-pdf-viewer (ng2-pdfjs-viewer). No pre-rendered images.',
+        'Boxes are PdfBoundingBoxDto (page, x, y, width, height as page fractions): they arrive in events and sit over the render at any zoom.',
+        'Boxes come from anchoring each quote against the text layer (PdfPig words for native PDFs, OCR words for scanned ones), not from model citations.',
       ],
-      gotchas: ['Boxes are keyed per find and per span, so a repaint keeps existing elements and only new ones animate in.'],
-      acceptance: ['On p. 151, Mark missed commitment, drag over the "11.35 Fish Salvage Plan" heading: a row appears as Parsing, then "pp. 151–154" with 7 requirements.'],
+      gotchas: ['Render each page at the sheet width times devicePixelRatio, off-screen, then swap, so the old page holds until the new one is ready.'],
+      acceptance: ['On p. 151, Mark missed commitment, drag over the "11.35 Fish Salvage Plan" heading: a card appears, then COA 11.35 parses into 7 requirements and pp. 152–154 stop being gaps.'],
     },
     {
-      label: 'Queue',
-      selector: '.bcn-sw3scan__queue',
-      intent: 'What the scan has found, in page order, growing as it goes: code, title, pages, and the parse state (Parsing, N requirements, No requirements found). Click a row to jump the page to it. Dismiss on every row; Merge with previous on a find the scan split off across a page break. Review commitments opens step 2 at any point, while the scan keeps working ahead.',
+      label: 'Aldo',
+      selector: '[data-sw3-aldo]',
+      intent: 'The conversation that scopes and steers the scan. Aldo opens with the scope pass ("The commitments are in VIII. Conditions of Approval, pp. 80–244: about 293."). The person answers in their own words: narrow the scope, pause, resume, give a rule, re-read. Aldo replies with what it did. As the scan reaches something that needs a person, Aldo raises it with the answer attached. Instructions, at the top, lists what every extraction call now carries: the scope, and each rule with the page it took effect from.',
       decisions: [
-        'Seeded corrections: COA 11.32 is a false find (a cross-reference read as a heading, parses to nothing); an Untitled find on p. 156 continues COA 11.36.',
-        'The run persists (sw3-store, localStorage): leave and come back, and it is where the clock says it is.',
-        'Pause, speed, skip and restart are prototype controls over the replay; prod\'s run is server-side and has none.',
+        'One structured-output call per message returns actions (scope, rule, pause, resume, reread, dismiss, merge) and a one-line reply; sw3-steer.ts is the schema, with a pattern matcher standing in for the model.',
+        'A rule governs the pages not yet read. When pages were read without it, Aldo names them and offers a re-read; the re-read reports what changed.',
+        'Every steer is kept with the page the scan was on: the record of how this document was read.',
+        'Enter sends; Shift+Enter is a new line.',
       ],
-      acceptance: ['Dismiss COA 11.32: its row and pip go. Merge the Untitled p. 156 row: COA 11.36 reads pp. 155–157.', 'Reload mid-run: the scan resumes at the page it had reached.'],
+      acceptance: [
+        'Type "Only Condition 11": Aldo answers pp. 131–223 and Instructions shows the scope.',
+        'Mid-run, type a cross-reference rule: Aldo adds it from the current page and offers "Re-read pp. 131–N"; taking it removes COA 11.32 and Aldo says so.',
+        'Reload: the conversation and the run are where they were.',
+      ],
     },
   ],
 };

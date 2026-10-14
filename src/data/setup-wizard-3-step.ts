@@ -5,7 +5,7 @@
 // step 2. Step 3 is the shipped Compliance Index (/prototypes/setup-wizard-ci).
 //
 // Everything here is derived from the ITP itself:
-//   sw3-anchors.json      scripts/anchor-itp.mjs over public/source-docs/itp.pdf, pp. 131–180:
+//   sw3-anchors.json      scripts/anchor-itp.mjs over public/source-docs/itp.pdf, pp. 131–223 (Condition 11):
 //                         each commitment's text and boxes, each requirement quote's offsets
 //   setup-wizard-itp.json the 2026-09-14 bulk extraction: requirement names, types, timing,
 //                         species, activities, parties
@@ -212,7 +212,19 @@ export const SOURCE_DOC = {
   href: '/source-docs/itp.pdf',
 };
 
-export const pageImage = (n: number) => `/source-docs/itp-pages/p${String(n).padStart(3, '0')}.webp`;
+/** The project's source documents. Each is scoped and scanned on its own run. */
+export interface SourceDocument {
+  id: string;
+  name: string;
+  /** The short name a card and Aldo use. */
+  short: string;
+  file: string;
+  pages: number;
+  href: string;
+}
+export const SOURCE_DOCS: SourceDocument[] = [
+  { id: 'itp', name: SOURCE_DOC.name, short: 'ITP', file: SOURCE_DOC.file, pages: SOURCE_DOC.pages, href: SOURCE_DOC.href },
+];
 
 const PAGES_OF = itpPages as Record<string, number>;
 const commitmentsBetween = (first: number, last: number) =>
@@ -227,9 +239,8 @@ export const SCOPE_PROPOSAL: ScopeProposal = {
   pattern: '11.42.1 Title.',
 };
 
-/** What the scan in this prototype covers: the giant garter snake and tiger salamander measures. */
-export const SCAN_SCOPE = { first: 131, last: 180 };
-export const SCOPE_INSTRUCTION_EXAMPLE = 'Only the general species measures, Condition 11';
+/** What the scan in this prototype covers: Condition 11, Take Minimization Measures. */
+export const SCAN_SCOPE = { first: 131, last: 223 };
 export { commitmentsBetween, boxesFor };
 
 // ── Commitments and requirements ─────────────────────────────────────────────
@@ -658,6 +669,8 @@ const runPayload = {
 /** Step 1: the pages (for marking a missed commitment) and each commitment's geometry. */
 export const SW3_SCAN_CLIENT = {
   ...runPayload,
+  headings: PAGES_OF,
+  proposal: { section: SCOPE_PROPOSAL.section, first: SCOPE_PROPOSAL.first, last: SCOPE_PROPOSAL.last },
   pages: SCAN_PAGES,
   commitments: COMMITMENTS.map(({ text: _t, ...c }) => c),
   requirements: REQUIREMENTS.map((r) => ({ id: r.id, code: r.code, anchor: r.anchor && { ...r.anchor, boxes: [] as Box[] } })),

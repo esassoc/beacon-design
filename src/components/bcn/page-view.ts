@@ -1,5 +1,15 @@
-// Controller for <BcnPageView>. setupX shape: owns the image, the boxes and the drag;
-// the host calls show() with the page and what to draw on it.
+// Controller for <BcnPageView>. setupX shape: owns the rendered page, the boxes and the
+// drag; the host calls show() with the document, the page and what to draw on it.
+//
+// The page is the source PDF itself, rendered in the browser by pdf.js (prod's
+// source-pdf-viewer does the same through ng2-pdfjs-viewer). Boxes are page fractions,
+// the shape of prod's PdfBoundingBoxDto, so they sit over any render size. A document
+// loads once and pages render on demand at the sheet's width and the screen's density.
+
+import { GlobalWorkerOptions, getDocument, type PDFDocumentProxy, type RenderTask } from 'pdfjs-dist';
+import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
+
+GlobalWorkerOptions.workerSrc = workerUrl;
 
 export interface PageViewBox {
   /** Unique per drawn box; the same key across shows keeps the element (no re-draw). */
@@ -24,14 +34,74 @@ interface Handlers {
 
 const pct = (n: number) => `${(n * 100).toFixed(3)}%`;
 
+/** One load per document URL, shared by every page view on the page. */
+const docs = new Map<string, Promise<PDFDocumentProxy>>();
+const loadDoc = (src: string) => {
+  let p = docs.get(src);
+  if (!p) {
+    p = getDocument({ url: src }).promise;
+    docs.set(src, p);
+  }
+  return p;
+};
+
+/** Paint one page into a canvas at a CSS width (for crops and thumbnails beside a page view). */
+export async function paintPage(canvas: HTMLCanvasElement, src: string, n: number, cssWidth: number) {
+  const doc = await loadDoc(src);
+  const pg = await doc.getPage(n);
+  const base = pg.getViewport({ scale: 1 });
+  const vp = pg.getViewport({ scale: (cssWidth / base.width) * (window.devicePixelRatio || 1) });
+  canvas.width = Math.floor(vp.width);
+  canvas.height = Math.floor(vp.height);
+  await pg.render({ canvas, viewport: vp }).promise;
+}
+
 export function setupPageView(root: HTMLElement, { onBox, onRegion }: Handlers) {
   const sheet = root.querySelector<HTMLElement>('[data-pv-sheet]')!;
-  const img = root.querySelector<HTMLImageElement>('[data-pv-img]')!;
+  const canvas = root.querySelector<HTMLCanvasElement>('[data-pv-canvas]')!;
   const layer = root.querySelector<HTMLElement>('[data-pv-boxes]')!;
   const drag = root.querySelector<HTMLElement>('[data-pv-drag]')!;
+  let src = '';
   let page = 0;
   let selecting = false;
+  let task: RenderTask | null = null;
+  let renderedAt = '';
   const els = new Map<string, HTMLElement>();
+
+  const render = async () => {
+    const want = `${src}#${page}`;
+    const width = sheet.clientWidth;
+    if (!src || !page || !width) return;
+    const at = `${want}@${width}`;
+    if (at === renderedAt) return;
+    renderedAt = at;
+    task?.cancel();
+    sheet.setAttribute('aria-busy', 'true');
+    try {
+      const doc = await loadDoc(src);
+      const pg = await doc.getPage(page);
+      if (`${src}#${page}` !== want) return;
+      const base = pg.getViewport({ scale: 1 });
+      sheet.style.aspectRatio = `${base.width} / ${base.height}`;
+      const dpr = window.devicePixelRatio || 1;
+      const vp = pg.getViewport({ scale: (width / base.width) * dpr });
+      // Draw off-screen and swap, so the old page holds until the new one is ready.
+      const next = document.createElement('canvas');
+      next.width = Math.floor(vp.width);
+      next.height = Math.floor(vp.height);
+      task = pg.render({ canvas: next, viewport: vp });
+      await task.promise;
+      if (`${src}#${page}` !== want) return;
+      canvas.width = next.width;
+      canvas.height = next.height;
+      canvas.getContext('2d')!.drawImage(next, 0, 0);
+      sheet.removeAttribute('aria-busy');
+    } catch (e) {
+      if ((e as Error)?.name !== 'RenderingCancelledException') renderedAt = '';
+    }
+  };
+
+  new ResizeObserver(() => render()).observe(sheet);
 
   layer.addEventListener('click', (e) => {
     if (selecting) return;
@@ -72,13 +142,15 @@ export function setupPageView(root: HTMLElement, { onBox, onRegion }: Handlers) 
     if (r.w > 0.02 && r.h > 0.01) onRegion(page, { page, ...r });
   });
 
-  const show = (n: number, src: string, boxes: PageViewBox[], label: string) => {
-    if (n !== page) {
+  /** Show page `n` of the PDF at `pdf`, with these boxes over it. */
+  const show = (pdf: string, n: number, boxes: PageViewBox[], label: string) => {
+    if (n !== page || pdf !== src) {
+      src = pdf;
       page = n;
-      img.src = src;
-      img.alt = label;
+      canvas.setAttribute('aria-label', label);
       layer.replaceChildren();
       els.clear();
+      render();
     }
     const keep = new Set(boxes.map((b) => b.key));
     for (const [k, el] of els) {

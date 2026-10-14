@@ -23,6 +23,7 @@ import type {
   ScanPage,
 } from '../../data/setup-wizard-3-step';
 import { uncoveredRanges, sameWords, boxesFor, type Range } from '../../lib/anchored-text';
+import { interpret, type SteerAction } from './sw3-steer';
 
 // ── Payload ───────────────────────────────────────────────────────────────────
 
@@ -40,6 +41,9 @@ export interface Sw3Payload {
   commitments: ScanCommitment[];
   requirements: ScanRequirement[];
   pages?: ScanPage[];
+  /** The scope pass's heading index: commitment code to the page it starts on. */
+  headings?: Record<string, number>;
+  proposal?: { section: string; first: number; last: number };
   entities?: Entity[];
   labels?: { types: Record<string, string>; phases: string[]; frequency: Record<string, string> };
 }
@@ -71,6 +75,30 @@ interface Clock {
   anchorV: number;
   speed: number;
   paused: boolean;
+  /** Pause asked for: the page being read finishes first, then the run holds here. */
+  pauseAt?: number | null;
+}
+
+/** One steer: what a person said (or pressed) and what Beacon did with it. The record. */
+export interface Steer {
+  id: string;
+  /** Run time it was given (0 before the run). */
+  at: number;
+  /** The page the scan was on, or null before the run / after it. */
+  page: number | null;
+  /** Typed in the conversation, or pressed on one of Aldo's questions. */
+  via: 'typed' | 'button';
+  text: string;
+  actions: SteerAction[];
+  reply: string;
+  /** Pages read before a rule, offered for a re-read. */
+  offer?: { first: number; last: number };
+}
+
+interface Reread {
+  first: number;
+  last: number;
+  at: number;
 }
 
 interface Mark {
@@ -99,14 +127,18 @@ export interface Sw3State {
   notBinding: string[];
   merges: Record<string, 'accepted' | 'dismissed'>;
   commitmentsConfirmed: string[];
+  steers: Steer[];
+  rereads: Reread[];
 }
 
-const KEY = 'sw3:v1';
+const KEY = 'sw3:v2';
+/** Seconds a re-read takes per page: no extraction to wait on for what did not change. */
+export const REREAD_SECONDS = 0.5;
 const MARK_PARSE = 2.4;
 
 const fresh = (): Sw3State => ({
   clock: null,
-  scope: { first: 131, last: 180, instruction: '' },
+  scope: { first: 131, last: 223, instruction: '' },
   dismissed: [],
   splitMerged: [],
   marks: [],
@@ -118,6 +150,8 @@ const fresh = (): Sw3State => ({
   notBinding: [],
   merges: {},
   commitmentsConfirmed: [],
+  steers: [],
+  rereads: [],
 });
 
 let S: Sw3State = fresh();
@@ -170,11 +204,12 @@ export const now = (): number => {
   const c = S.clock;
   if (!c) return 0;
   const v = c.paused ? c.anchorV : c.anchorV + ((Date.now() - c.anchorReal) / 1000) * c.speed;
-  return Math.min(v, endTime());
+  return Math.min(v, c.pauseAt ?? Infinity, endTime());
 };
 
 /** When the run is over: the last event, or the last marked commitment's parse. */
-export const endTime = () => Math.max(D?.seconds ?? 0, ...(S.marks.map((m) => m.at + MARK_PARSE)));
+export const endTime = () =>
+  Math.max(D?.seconds ?? 0, ...S.marks.map((m) => m.at + MARK_PARSE), ...(S.rereads ?? []).map(rereadEnd));
 
 export const finished = () => started() && now() >= endTime();
 
@@ -194,10 +229,108 @@ export const steer = (scope: { first: number; last: number; instruction: string 
     S.scope = scope;
   });
 
-export const togglePause = () => commit(() => reanchor({ paused: !S.clock?.paused }));
+/** When the page being read now is done: the next page_scanned event after `t`. */
+const pageDoneAfter = (t: number) =>
+  (D.events.find((e) => e.type === 'page_scanned' && e.t > t) as { t: number } | undefined)?.t ?? endTime();
+
+/** Pause lets the page in flight finish (its extraction call is already out); resume picks up. */
+export const pause = () =>
+  commit(() => {
+    if (!S.clock || S.clock.paused || S.clock.pauseAt != null) return;
+    S.clock.pauseAt = pageDoneAfter(now());
+  });
+export const resume = () =>
+  commit(() => {
+    if (!S.clock) return;
+    reanchor({ paused: false, pauseAt: null });
+  });
+export const pausing = () => !!S.clock && S.clock.pauseAt != null && now() < S.clock.pauseAt;
+export const paused = () => !!S.clock && (S.clock.paused || (S.clock.pauseAt != null && now() >= S.clock.pauseAt));
+// ── Steering ─────────────────────────────────────────────────────────────────
+
+/** The last page read so far, or null. */
+const lastRead = () => {
+  const s = scanned();
+  return s.size ? Math.max(...s) : null;
+};
+
+const scanFirst = () => Math.max(S.scope.first, D.scope.first);
+
+const apply = (a: SteerAction) => {
+  switch (a.kind) {
+    case 'start':
+      S.clock = { anchorReal: Date.now(), anchorV: 0, speed: 1, paused: false };
+      break;
+    case 'scope':
+      // The prototype's run covers its own pages whatever range is given.
+      S.scope = {
+        first: Math.max(D.scope.first, Math.min(D.scope.last, a.first)),
+        last: Math.min(D.scope.last, Math.max(D.scope.first, a.last)),
+        instruction: S.scope.instruction,
+      };
+      break;
+    case 'rule':
+      S.scope.instruction = [S.scope.instruction, a.text].filter(Boolean).join('\n');
+      break;
+    case 'pause':
+      if (S.clock && !S.clock.paused && S.clock.pauseAt == null) S.clock.pauseAt = pageDoneAfter(now());
+      break;
+    case 'resume':
+      if (S.clock) reanchor({ paused: false, pauseAt: null });
+      break;
+    case 'reread':
+      // The clock idles at the run's end; restart it from here so the re-read is watched.
+      if (S.clock) reanchor({});
+      S.rereads.push({ first: a.first, last: a.last, at: now() });
+      break;
+    case 'dismiss':
+      S.dismissed.push(a.findId);
+      S.marks = S.marks.filter((m) => m.id !== a.findId);
+      break;
+    case 'merge':
+      S.splitMerged.push(a.findId);
+      break;
+  }
+};
+
+const record = (text: string, via: Steer['via'], actions: SteerAction[], reply: string, offer?: Steer['offer']) => {
+  const live = started() && !finished();
+  S.steers.push({ id: `s${S.steers.length + 1}`, at: now(), page: live ? headPage() : null, via, text, actions, reply, offer });
+  for (const a of actions) apply(a);
+};
+
+/** A person's message in the conversation: interpret it, record it, apply it. */
+export const say = (text: string) =>
+  commit(() => {
+    const r = interpret(text, {
+      started: started(),
+      finished: finished(),
+      paused: paused() || pausing(),
+      head: headPage(),
+      first: scanFirst(),
+      lastRead: lastRead(),
+      headings: D.headings ?? {},
+    });
+    record(text, 'typed', r.actions, r.reply, r.offer);
+  });
+
+/** One of Aldo's buttons: a known action, recorded the same way as a typed steer. */
+export const act = (label: string, action: SteerAction | SteerAction[], reply: string) =>
+  commit(() => record(label, 'button', Array.isArray(action) ? action : [action], reply));
+
+export const steers = () => S.steers;
+
+/** The rules in effect, each with the page it took effect on. */
+export const rules = () =>
+  S.steers.flatMap((s) => s.actions.filter((a) => a.kind === 'rule').map((a) => ({ text: (a as { text: string }).text, page: s.page, id: s.id })));
+
+export const togglePause = () => (paused() || pausing() ? resume() : pause());
 export const cycleSpeed = () =>
   commit(() => reanchor({ speed: SPEEDS[(SPEEDS.indexOf(S.clock?.speed ?? 1) + 1) % SPEEDS.length] }));
 export const skipToEnd = () => commit(() => reanchor({ anchorV: endTime() }));
+
+const rereadSig = (t: number) =>
+  S.rereads.map((r) => Math.min(r.last - r.first + 1, Math.max(0, Math.floor((t - r.at) / REREAD_SECONDS)))).join(',');
 
 let lastT = -1;
 let lastSig = '';
@@ -209,7 +342,7 @@ const startTicking = () => {
         lastT = t;
         emit('sw3:tick');
         // A change only when an event crossed: count the events whose time has come.
-        const sig = `${D.events.findIndex((e) => e.t > t)}:${S.marks.filter((m) => t >= m.at + MARK_PARSE).length}`;
+        const sig = `${D.events.findIndex((e) => e.t > t)}:${S.marks.filter((m) => t >= m.at + MARK_PARSE).length}:${rereadSig(t)}:${paused()}`;
         if (sig !== lastSig) {
           lastSig = sig;
           cache.clear();
@@ -263,6 +396,7 @@ export const finds = (): LiveFind[] =>
     const out: LiveFind[] = [];
     for (const f of D.finds) {
       if (foundTime(f.id) > t || S.dismissed.includes(f.id) || !inScope(f.page)) continue;
+      if (f.kind === 'false' && crossRefResolved(f, t)) continue;
       if (f.kind === 'split' && S.splitMerged.includes(f.id)) continue;
       let boxes = f.boxes;
       const split = D.finds.find((x) => x.kind === 'split' && x.partOf === f.id);
@@ -282,6 +416,30 @@ export const finds = (): LiveFind[] =>
     }
     return out.sort((a, b) => a.page - b.page || (a.boxes[0]?.y ?? 0) - (b.boxes[0]?.y ?? 0));
   });
+
+/** A cross-reference read as a heading goes once the rule covers its page: read after the
+ *  rule was given, or re-read (to completion) after it. */
+const crossRefResolved = (f: Find, t: number) => {
+  const rule = S.steers.find((s) => s.actions.some((a) => a.kind === 'rule' && a.crossRef));
+  if (!rule) return false;
+  if (foundTime(f.id) >= rule.at) return true;
+  return S.rereads.some((r) => r.at >= rule.at && f.page >= r.first && f.page <= r.last && t >= rereadPageDone(r, f.page));
+};
+
+/** Re-reads: when each page of one is done. */
+const rereadPageDone = (r: Reread, page: number) => r.at + (page - r.first + 1) * REREAD_SECONDS;
+export const rereadEnd = (r: Reread) => r.at + (r.last - r.first + 1) * REREAD_SECONDS;
+
+/** Pages being re-read right now. */
+export const rereading = (): Set<number> =>
+  memo('rereading', () => {
+    const t = now();
+    const out = new Set<number>();
+    for (const r of S.rereads) for (let p = r.first; p <= r.last; p++) if (t >= r.at && t < rereadPageDone(r, p)) out.add(p);
+    return out;
+  });
+
+export const rereads = () => S.rereads;
 
 /** Scanned pages in scope with no find on them: where a missed commitment hides. */
 export const gaps = (): Set<number> =>
@@ -305,6 +463,16 @@ export const markRegion = (page: number, box: Box) =>
       box,
       at: now(),
       code: hit && !already ? D.missed.code : undefined,
+    });
+    const known = hit && !already;
+    S.steers.push({
+      id: `s${S.steers.length + 1}`,
+      at: now(),
+      page: started() && !finished() ? headPage() : null,
+      via: 'button',
+      text: `Marked a missed commitment on p. ${page}`,
+      actions: [],
+      reply: known ? `Reading it: ${D.missed.code} ${D.missed.title}.` : 'Reading it.',
     });
   });
 

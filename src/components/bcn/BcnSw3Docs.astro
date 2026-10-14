@@ -1,0 +1,164 @@
+---
+// <BcnSw3Docs> — the project's source documents, and what the scan has found in each.
+//
+// One slim card per document: its short name and where its run is (not started,
+// reading p. 147, paused, or how many commitments it found). The document in view opens
+// to its commitments, one slim card each, in page order, growing as the scan finds them:
+// the commitment-code chip and the title, as prod's requirement-row and the setup
+// wizard's other slim cards are. A card is dashed while its commitment is being read and
+// solid once parsed, the same grammar as the boxes on the page. Click a card to go to it
+// on the page; × dismisses it (recorded with the rest of the steering).
+//
+// Contract: sw3-docs.ts `setupSw3Docs(root, { onFind, onDismiss })` returns { update }.
+//
+// bcn-lego-checked: the code chip IS bcn-commitment-badge, × IS esa-icon-button. The card
+// is prod's requirement-row shape (bcn-sw-requirement-row: slim white card, 6px radius,
+// chip + one-line name); that component is static with routing verbs and no states, so
+// these cards take its look with a found / parsed / selected state and a dismiss. Checked
+// Beacon: no source-document list with per-document runs. bcn-sw3-docs is the home.
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import { SOURCE_DOCS } from '../../data/setup-wizard-3-step';
+---
+
+<aside class="bcn-sw3docs" data-sw3-docs aria-label="Documents">
+  <h3 class="bcn-sw3docs__head typography-title-strong">
+    Documents <span class="bcn-sw3docs__count">{SOURCE_DOCS.length}</span>
+  </h3>
+  {
+    SOURCE_DOCS.map((d) => (
+      <section class="bcn-sw3docs__doc" data-doc={d.id} data-open>
+        <div class="bcn-sw3docs__card" title={d.name}>
+          <span class="bcn-sw3docs__name typography-label-md-strong">{d.short}</span>
+          <span class="bcn-sw3docs__state typography-body-sm" data-doc-state>Not started</span>
+        </div>
+        <ol class="bcn-sw3docs__list" data-doc-list aria-label={`Commitments in the ${d.short}`} />
+      </section>
+    ))
+  }
+
+  <template data-docs-card>
+    <li class="bcn-sw3cc" data-cc>
+      <button type="button" class="bcn-sw3cc__main" data-cc-open>
+        <span data-cc-badge><BcnCommitmentBadge code="" size="sm" /></span>
+        <span class="bcn-sw3cc__name" data-cc-name></span>
+      </button>
+      <span class="bcn-sw3cc__x" data-cc-dismiss><EsaIconButton icon="x" label="Dismiss" size="xs" /></span>
+    </li>
+  </template>
+</aside>
+
+<style>
+  .bcn-sw3docs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    min-height: 0;
+  }
+  .bcn-sw3docs__head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+    margin: 0;
+  }
+  .bcn-sw3docs__count { color: var(--color-content-default-secondary); font-variant-numeric: tabular-nums; }
+
+  .bcn-sw3docs__doc {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    min-height: 0;
+  }
+  .bcn-sw3docs__card {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-300);
+    border: 1px solid var(--color-border-default);
+    border-radius: 6px;
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-sw3docs__name { color: var(--color-content-default); }
+  .bcn-sw3docs__state {
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .bcn-sw3docs__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150, 0.375rem);
+    margin: 0;
+    padding: 0 0 0 var(--spacing-300);
+    list-style: none;
+    overflow-y: auto;
+  }
+  .bcn-sw3docs__doc:not([data-open]) .bcn-sw3docs__list { display: none; }
+
+  /* Commitment cards are cloned from the template by the controller. */
+  .bcn-sw3cc {
+    position: relative;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: 6px;
+    background: var(--color-background-elevation-raised);
+    animation: bcn-sw3cc-in 260ms ease-out;
+    transition: border-color 120ms ease;
+  }
+  .bcn-sw3cc:hover { border-color: var(--color-border-default); }
+  .bcn-sw3cc[data-state='found'] { border-style: dashed; border-color: var(--color-border-default); }
+  .bcn-sw3cc[data-selected] { border-color: var(--color-content-default-tertiary); background: var(--color-background-default); }
+  .bcn-sw3cc__main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-width: 0;
+    padding: var(--spacing-200) var(--spacing-300);
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .bcn-sw3cc__main:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: -2px;
+  }
+  .bcn-sw3cc__name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.875rem;
+    color: var(--color-content-default);
+  }
+  .bcn-sw3cc[data-state='found'] .bcn-sw3cc__name { color: var(--color-content-default-secondary); }
+  /* Dismiss floats over the right edge on hover, so the name keeps the card's width. */
+  .bcn-sw3cc__x {
+    position: absolute;
+    right: var(--spacing-100);
+    top: 50%;
+    transform: translateY(-50%);
+    padding-left: var(--spacing-300);
+    background: linear-gradient(to right, transparent, var(--color-background-elevation-raised) var(--spacing-300));
+    opacity: 0;
+    transition: opacity 120ms ease;
+  }
+  .bcn-sw3cc:hover .bcn-sw3cc__x,
+  .bcn-sw3cc:focus-within .bcn-sw3cc__x { opacity: 1; }
+
+  @keyframes bcn-sw3cc-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-sw3cc { animation: none; }
+  }
+</style>

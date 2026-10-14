@@ -1,67 +1,104 @@
-# Queue
+# Run bar and scrubber
 
-What the scan has found, in page order, growing as it goes: code, title, pages, and the parse state (Parsing, N requirements, No requirements found). Click a row to jump the page to it. Dismiss on every row; Merge with previous on a find the scan split off across a page break. Review commitments opens step 2 at any point, while the scan keeps working ahead.
+The run's state in one line ("Reading p. 147. 37 commitments so far.", "Pausing after p. 149.", "Paused after p. 149.", "Re-reading p. 137.") with Pause / Resume. Below it every page in scope in one strip: read pages fill in, a pip marks each find, a read page with nothing on it is a hatched gap, and the scan head runs ahead of the page in view. Drag or click to jump.
 
 ## Key decisions
-- Seeded corrections: COA 11.32 is a false find (a cross-reference read as a heading, parses to nothing); an Untitled find on p. 156 continues COA 11.36.
-- The run persists (sw3-store, localStorage): leave and come back, and it is where the clock says it is.
-- Pause, speed, skip and restart are prototype controls over the replay; prod's run is server-side and has none.
+- Pause lets the page in flight finish: its extraction call is already out, so prod stops dispatching new windows and the ones sent complete.
+- Pause and Resume are steers: pressed here or typed to Aldo, they land in the record.
+- Speed, Skip to end and Restart are prototype controls over the replay; prod has none of them.
+- A page being re-read reads as unread again until the re-read reaches it.
 
 ## Done when
-- Dismiss COA 11.32: its row and pip go. Merge the Untitled p. 156 row: COA 11.36 reads pp. 155–157.
-- Reload mid-run: the scan resumes at the page it had reached.
+- Pause mid-run: the status reads "Pausing after p. N" until that page is done, then "Paused after p. N".
 
 ## Markup
 ```html
-<aside class="bcn-sw3scan__queue" aria-label="Commitments found">
-  <h3 class="bcn-sw3scan__qhead typography-title-strong">
-    Commitments <span class="bcn-sw3scan__qcount" data-scan-qcount="">0</span>
-  </h3>
-  <ol class="bcn-sw3scan__list" data-scan-queue=""></ol>
-  <div class="bcn-sw3scan__qfoot">
+<div class="bcn-sw3scan__bar">
+  <p class="bcn-sw3scan__status typography-label-md" data-scan-status="" role="status">
+    Not started
+  </p>
+  <div class="bcn-sw3scan__controls">
     <span
-      class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
-      ><a
-        class="esa-button__native typography-microcopy-md"
-        href="/beacon-design/prototypes/setup-wizard-3-step/review"
-        role="button"
-        data-scan-review="true"
-        ><span class="esa-button__label">Review commitments</span></a
-      ></span
+      class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
+      style="display: none"
+      ><button
+        class="esa-button__native typography-microcopy-2xs"
+        type="button"
+        data-scan-toggle="true"
+      >
+        <span class="esa-button__label">Pause</span>
+      </button></span
+    ><span
+      class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+      style="display: none"
+      ><button
+        class="esa-button__native typography-microcopy-2xs"
+        type="button"
+        data-scan-speed="true"
+      >
+        <span class="esa-button__label">Speed 1×</span>
+      </button></span
+    ><span
+      class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+      style="display: none"
+      ><button
+        class="esa-button__native typography-microcopy-2xs"
+        type="button"
+        data-scan-skip="true"
+      >
+        <span class="esa-button__label">Skip to end</span>
+      </button></span
+    ><span
+      class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+      style="display: none"
+      ><button
+        class="esa-button__native typography-microcopy-2xs"
+        type="button"
+        data-scan-restart="true"
+      >
+        <span class="esa-button__label">Restart</span>
+      </button></span
     >
   </div>
-</aside>
+</div>
 ```
 
 ## Styles
 ```css
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
 }
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+.typography-label-md-strong {
+  font-family: var(--typography-label-md-strong-font-family);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height);
+  letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+.typography-microcopy-2xs {
+  font-family: var(--typography-microcopy-2xs-font-family);
+  font-size: var(--typography-microcopy-2xs-font-size);
+  font-weight: var(--typography-microcopy-2xs-font-weight);
+  line-height: var(--typography-microcopy-2xs-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
 }
-.typography-title-strong {
-  font-family: var(--typography-title-strong-font-family);
-  font-size: var(--typography-title-strong-font-size);
-  font-weight: var(--typography-title-strong-font-weight);
-  line-height: var(--typography-title-strong-line-height);
-  letter-spacing: var(--typography-title-strong-letter-spacing);
+.typography-microcopy-2xs-subtle {
+  font-family: var(--typography-microcopy-2xs-subtle-font-family);
+  font-size: var(--typography-microcopy-2xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-2xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-2xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
+}
+.typography-microcopy-2xs-strong {
+  font-family: var(--typography-microcopy-2xs-strong-font-family);
+  font-size: var(--typography-microcopy-2xs-strong-font-size);
+  font-weight: var(--typography-microcopy-2xs-strong-font-weight);
+  line-height: var(--typography-microcopy-2xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -263,73 +300,56 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
-.bcn-sw3scan__queue {
-  top: var(--spacing-400);
-  max-height: calc(100vh - 2 * var(--spacing-400));
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  background: var(--color-background-elevation-raised);
-  flex-direction: column;
-  display: flex;
-  position: sticky;
-}
-.bcn-sw3scan__qhead {
-  align-items: baseline;
-  gap: var(--spacing-200);
-  padding: var(--spacing-300) var(--spacing-400);
-  border-bottom: 1px solid var(--color-border-default-subtle);
-  margin: 0;
+.bcn-sw3scan__bar {
+  align-items: center;
+  gap: var(--spacing-300);
+  flex-wrap: wrap;
   display: flex;
 }
-.bcn-sw3scan__qcount {
-  color: var(--color-content-default-secondary);
+.bcn-sw3scan__status {
+  color: var(--color-content-default);
   font-variant-numeric: tabular-nums;
-}
-.bcn-sw3scan__list {
-  flex: 1;
-  min-height: 12rem;
   margin: 0;
-  padding: 0;
-  list-style: none;
-  overflow-y: auto;
 }
-.bcn-sw3scan__qfoot {
-  padding: var(--spacing-300) var(--spacing-400);
-  border-top: 1px solid var(--color-border-default-subtle);
-  justify-content: flex-end;
+.bcn-sw3scan__controls {
+  gap: var(--spacing-200);
+  margin-left: auto;
   display: flex;
 }
-.bcn-sw3scan__queue {
-  max-height: 28rem;
-  position: static;
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
 }
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+.typography-label-md-strong {
+  font-family: var(--typography-label-md-strong-font-family);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height);
+  letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+.typography-microcopy-2xs {
+  font-family: var(--typography-microcopy-2xs-font-family);
+  font-size: var(--typography-microcopy-2xs-font-size);
+  font-weight: var(--typography-microcopy-2xs-font-weight);
+  line-height: var(--typography-microcopy-2xs-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
 }
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+.typography-microcopy-2xs-subtle {
+  font-family: var(--typography-microcopy-2xs-subtle-font-family);
+  font-size: var(--typography-microcopy-2xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-2xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-2xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
 }
-.typography-title-strong {
-  font-family: var(--typography-title-strong-font-family);
-  font-size: var(--typography-title-strong-font-size);
-  font-weight: var(--typography-title-strong-font-weight);
-  line-height: var(--typography-title-strong-line-height);
-  letter-spacing: var(--typography-title-strong-letter-spacing);
+.typography-microcopy-2xs-strong {
+  font-family: var(--typography-microcopy-2xs-strong-font-family);
+  font-size: var(--typography-microcopy-2xs-strong-font-size);
+  font-weight: var(--typography-microcopy-2xs-strong-font-weight);
+  line-height: var(--typography-microcopy-2xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
 }
 ```
 
@@ -360,12 +380,10 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
 - `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-on-utility-success`: #fcfcfc _(semantic)_
 - `--color-content-on-utility-warning`: #4f3422 _(semantic)_
@@ -376,29 +394,33 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
-- `--radius-200`: .5rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
-- `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-md-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-line-height`: 1 _(semantic)_
-- `--typography-microcopy-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
-- `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
-- `--typography-title-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-strong-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
-- `--typography-title-strong-font-weight`: 550 _(semantic)_
-- `--typography-title-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-title-strong-line-height`: 1.6 _(semantic)_
+- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-md-font-weight`: 500 _(semantic)_
+- `--typography-label-md-letter-spacing`: .01em _(semantic)_
+- `--typography-label-md-line-height`: 1.6 _(semantic)_
+- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
+- `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-microcopy-2xs-font-weight`: 500 _(semantic)_
+- `--typography-microcopy-2xs-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-2xs-line-height`: 1 _(semantic)_
+- `--typography-microcopy-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-2xs-strong-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-microcopy-2xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-microcopy-2xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_

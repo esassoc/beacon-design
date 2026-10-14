@@ -162,7 +162,7 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
     border: 1px solid var(--color-border-default);
     border-radius: var(--radius-100);
   }
-  .bcn-sw3c__crop :global(.bcn-sw3c__frame img) { position: absolute; max-width: none; }
+  .bcn-sw3c__crop :global(.bcn-sw3c__frame canvas) { position: absolute; max-width: none; }
   .bcn-sw3c__crop :global(.bcn-sw3c__cbox) {
     position: absolute;
     background: color-mix(in srgb, var(--color-requirement) 18%, transparent);

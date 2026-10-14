@@ -33,7 +33,7 @@ Entities are reviewed once per project. Proposed merges first: the phrasings Bea
             <li class="typography-body-sm">Start of the Covered Activity</li>
           </ul>
           <p class="bcn-sw3ent__uses typography-microcopy-md" data-m-uses="">
-            Used by 19 commitments. Merging updates 4.
+            Used by 24 commitments. Merging updates 4.
           </p>
           <div class="bcn-sw3ent__acts" data-m-acts="">
             <span data-action="accept"
@@ -160,19 +160,35 @@ Entities are reviewed once per project. Proposed merges first: the phrasings Bea
       <ol class="bcn-sw3ent__list" data-ent-kind="milestone">
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md">Initiation of Covered Activities</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">15 commitments</span>
+          ><span class="bcn-sw3ent__count typography-microcopy-md">20 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Initiating Covered Activities</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">3 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md"
+            >Initiation of Ground Disturbing Covered Activities</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">3 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Commencement of Covered Activities</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">2 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Construction Phase Authorization Package</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">2 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md">Earthmoving activities</span
           ><span class="bcn-sw3ent__count typography-microcopy-md">2 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
-          <span class="typography-body-md"
-            >Initiation of Ground Disturbing Covered Activities</span
+          <span class="typography-body-md">Initiation of In-Water Covered Activity</span
           ><span class="bcn-sw3ent__count typography-microcopy-md">2 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
-          <span class="typography-body-md">Initiation of In-Water Covered Activity</span
+          <span class="typography-body-md">Phase 1 Operations</span
           ><span class="bcn-sw3ent__count typography-microcopy-md">2 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
@@ -200,10 +216,6 @@ Entities are reviewed once per project. Proposed merges first: the phrasings Bea
           ><span class="bcn-sw3ent__count typography-microcopy-md">1 commitment</span>
         </li>
         <li class="bcn-sw3ent__row">
-          <span class="typography-body-md">Construction Phase Authorization Package</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">1 commitment</span>
-        </li>
-        <li class="bcn-sw3ent__row">
           <span class="typography-body-md"
             >Excavating or filling the dewatered habitat</span
           ><span class="bcn-sw3ent__count typography-microcopy-md">1 commitment</span>
@@ -214,11 +226,23 @@ Entities are reviewed once per project. Proposed merges first: the phrasings Bea
           ><span class="bcn-sw3ent__count typography-microcopy-md">1 commitment</span>
         </li>
         <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">finding the injured or killed CBB</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">1 commitment</span>
+        </li>
+        <li class="bcn-sw3ent__row">
           <span class="typography-body-md">Habitat confirmed free of GGS</span
           ><span class="bcn-sw3ent__count typography-microcopy-md">1 commitment</span>
         </li>
         <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">initial notification to CDFW</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">1 commitment</span>
+        </li>
+        <li class="bcn-sw3ent__row">
           <span class="typography-body-md">Initiation of Covered Activity</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">1 commitment</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Initiation of Earthmoving Activities</span
           ><span class="bcn-sw3ent__count typography-microcopy-md">1 commitment</span>
         </li>
         <li class="bcn-sw3ent__row">
@@ -232,6 +256,10 @@ Entities are reviewed once per project. Proposed merges first: the phrasings Bea
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md"
             >initiation of preconstruction Covered Activities</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">1 commitment</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Phase Authorization Package</span
           ><span class="bcn-sw3ent__count typography-microcopy-md">1 commitment</span>
         </li>
         <li class="bcn-sw3ent__row">
@@ -294,55 +322,67 @@ Entities are reviewed once per project. Proposed merges first: the phrasings Bea
       <ol class="bcn-sw3ent__list" data-ent-kind="activity">
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md">Wildlife capture, handling and relocation</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">19 commitments</span>
-        </li>
-        <li class="bcn-sw3ent__row">
-          <span class="typography-body-md">Site clearing and vegetation removal</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">14 commitments</span>
-        </li>
-        <li class="bcn-sw3ent__row">
-          <span class="typography-body-md">Ground disturbance and grading</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">12 commitments</span>
+          ><span class="bcn-sw3ent__count typography-microcopy-md">30 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md">Surveys and habitat assessments</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">12 commitments</span>
+          ><span class="bcn-sw3ent__count typography-microcopy-md">26 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md"
             >Exclusion fencing and flagging installation</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">11 commitments</span>
+          ><span class="bcn-sw3ent__count typography-microcopy-md">22 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md">Notifications and reporting</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">11 commitments</span>
+          ><span class="bcn-sw3ent__count typography-microcopy-md">20 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Site clearing and vegetation removal</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">19 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Ground disturbance and grading</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">15 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Water diversions and intake operations</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">12 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md">Excavation and trenching</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">9 commitments</span>
+          ><span class="bcn-sw3ent__count typography-microcopy-md">10 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md">Access road and route construction</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">7 commitments</span>
+          ><span class="bcn-sw3ent__count typography-microcopy-md">8 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md">Restoration and planting</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">7 commitments</span>
+          ><span class="bcn-sw3ent__count typography-microcopy-md">8 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Transmission and power line work</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">8 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md">Vehicle travel on site</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">8 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Compliance monitoring and inspections</span
           ><span class="bcn-sw3ent__count typography-microcopy-md">7 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Burrow and roost exclusion</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">6 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md">Night work</span
           ><span class="bcn-sw3ent__count typography-microcopy-md">6 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
-          <span class="typography-body-md">Transmission and power line work</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">6 commitments</span>
-        </li>
-        <li class="bcn-sw3ent__row">
-          <span class="typography-body-md">Burrow and roost exclusion</span
+          <span class="typography-body-md">Staging and laydown</span
           ><span class="bcn-sw3ent__count typography-microcopy-md">5 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
@@ -350,20 +390,16 @@ Entities are reviewed once per project. Proposed merges first: the phrasings Bea
           ><span class="bcn-sw3ent__count typography-microcopy-md">5 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
-          <span class="typography-body-md">Compliance monitoring and inspections</span
+          <span class="typography-body-md">Training and personnel qualification</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">5 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Facility operations and maintenance</span
           ><span class="bcn-sw3ent__count typography-microcopy-md">4 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md">In-water and in-channel work</span
           ><span class="bcn-sw3ent__count typography-microcopy-md">4 commitments</span>
-        </li>
-        <li class="bcn-sw3ent__row">
-          <span class="typography-body-md">Training and personnel qualification</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">4 commitments</span>
-        </li>
-        <li class="bcn-sw3ent__row">
-          <span class="typography-body-md">Facility operations and maintenance</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">3 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md">Geotechnical investigations and drilling</span
@@ -394,7 +430,7 @@ Entities are reviewed once per project. Proposed merges first: the phrasings Bea
           ><span class="bcn-sw3ent__count typography-microcopy-md">2 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
-          <span class="typography-body-md">Staging and laydown</span
+          <span class="typography-body-md">Helicopter operations</span
           ><span class="bcn-sw3ent__count typography-microcopy-md">2 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
@@ -421,10 +457,6 @@ Entities are reviewed once per project. Proposed merges first: the phrasings Bea
           <span class="typography-body-md">Rodenticide and poison use</span
           ><span class="bcn-sw3ent__count typography-microcopy-md">1 commitment</span>
         </li>
-        <li class="bcn-sw3ent__row">
-          <span class="typography-body-md">Water diversions and intake operations</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">1 commitment</span>
-        </li>
       </ol>
     </section>
     <section class="bcn-sw3ent__kind">
@@ -432,11 +464,47 @@ Entities are reviewed once per project. Proposed merges first: the phrasings Bea
       <ol class="bcn-sw3ent__list" data-ent-kind="species">
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md">California Tiger Salamander</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">27 commitments</span>
+          ><span class="bcn-sw3ent__count typography-microcopy-md">28 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md">Giant Garter Snake</span
-          ><span class="bcn-sw3ent__count typography-microcopy-md">17 commitments</span>
+          ><span class="bcn-sw3ent__count typography-microcopy-md">25 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Tricolored Blackbird</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">15 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Swainson’s Hawk</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">14 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Crotch Bumble Bee</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">11 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">spring-run Chinook salmon</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">7 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">winter-run Chinook salmon</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">7 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Delta smelt</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">6 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">longfin smelt</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">6 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">Mason’s lilaeopsis</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">6 commitments</span>
+        </li>
+        <li class="bcn-sw3ent__row">
+          <span class="typography-body-md">white sturgeon</span
+          ><span class="bcn-sw3ent__count typography-microcopy-md">6 commitments</span>
         </li>
         <li class="bcn-sw3ent__row">
           <span class="typography-body-md">bullfrogs</span

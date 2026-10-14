@@ -42,7 +42,7 @@ Project entities (with the count of merges waiting), Confirm all for every commi
         >
           <circle cx="12" cy="12" r="10"></circle>
           <path d="m9 12 2 2 4-4"></path></svg></span
-      ><span class="esa-button__label">Confirm all (68)</span>
+      ><span class="esa-button__label">Confirm all (136)</span>
     </button></span
   ><esa-dropdown-menu position="below-end" width="auto" data-ra-more="true"
     ><span

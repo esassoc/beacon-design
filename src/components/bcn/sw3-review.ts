@@ -30,6 +30,7 @@ import {
 } from './sw3-store';
 import { paintAnchored } from './anchored-text-paint';
 import { boxesFor, type Range } from '../../lib/anchored-text';
+import { paintPage } from './page-view';
 
 export interface Selection {
   code: string;
@@ -61,7 +62,7 @@ export function setupSw3Review(root: HTMLElement): void {
     skipToEnd();
   }
   const base = root.dataset.base!.replace(/\/$/, '');
-  const img = (n: number) => `${base}/source-docs/itp-pages/p${String(n).padStart(3, '0')}.webp`;
+  const pdf = `${base}/source-docs/itp.pdf`;
   const entityName = new Map((D.entities ?? []).map((e) => [e.id, e.name]));
 
   const doc = root.querySelector<HTMLElement>('[data-rev-doc]')!;
@@ -293,12 +294,13 @@ export function setupSw3Review(root: HTMLElement): void {
         const frame = document.createElement('div');
         frame.className = 'bcn-sw3c__frame';
         frame.style.aspectRatio = `${bw} / ${bh * aspect}`;
-        const im = document.createElement('img');
-        im.src = img(blk.page);
-        im.alt = `Page ${blk.page} of the ITP`;
-        im.loading = 'lazy';
+        // The page itself, from the PDF, scaled so the crop window shows the block.
+        const im = document.createElement('canvas');
+        im.setAttribute('role', 'img');
+        im.setAttribute('aria-label', `Page ${blk.page} of the ITP`);
         Object.assign(im.style, { width: `${100 / bw}%`, left: `${(-bx / bw) * 100}%`, top: `${(-by / bh) * 100}%` });
         frame.append(im);
+        requestAnimationFrame(() => paintPage(im, pdf, blk.page, frame.clientWidth / bw));
         reqs.forEach((r, ri) => {
           for (const b of boxesFor(c.lines, r.anchor!.charStart, r.anchor!.charEnd).filter((x) => x.page === blk.page)) {
             const el = document.createElement('div');

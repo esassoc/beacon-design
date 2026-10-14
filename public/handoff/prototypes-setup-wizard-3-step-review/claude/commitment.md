@@ -711,7 +711,7 @@ summary.esa-button--variant-chrome:focus-visible {
   position: relative;
   overflow: hidden;
 }
-.bcn-sw3c__crop .bcn-sw3c__frame img {
+.bcn-sw3c__crop .bcn-sw3c__frame canvas {
   max-width: none;
   position: absolute;
 }

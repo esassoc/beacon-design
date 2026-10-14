@@ -1,22 +1,30 @@
 # Page and boxes
 
-The page in view, large, with a box per commitment drawn as it is found (dashed) and turned solid when it parses, its requirement spans filling in alternating shades. While following the scan, the view is the page being read. Picking any page stops following; Follow the scan resumes. Mark missed commitment turns the page into a drag target: drag over the commitment and Beacon parses it.
+The page in view, rendered from the uploaded PDF by pdf.js, with a box per commitment drawn as it is found (dashed) and turned solid when it parses, its requirement spans filling in alternating shades. While following the scan, the view is the page being read; picking any page stops following, and Follow the scan resumes. Mark missed commitment turns the page into a drag target: drag over the commitment and Beacon parses it.
 
 ## Key decisions
-- Boxes come from our own anchoring of each quote against the text layer, not from model citations (page-level only, and not combinable with structured output).
-- Coordinates are page fractions, so boxes ride the pre-rendered page image at any width. Pages are pre-rendered WebP (scripts/anchor-itp.mjs).
+- pdf.js in the browser, as prod's source-pdf-viewer (ng2-pdfjs-viewer). No pre-rendered images.
+- Boxes are PdfBoundingBoxDto (page, x, y, width, height as page fractions): they arrive in events and sit over the render at any zoom.
+- Boxes come from anchoring each quote against the text layer (PdfPig words for native PDFs, OCR words for scanned ones), not from model citations.
 
 ## Gotchas
-- Boxes are keyed per find and per span, so a repaint keeps existing elements and only new ones animate in.
+- Render each page at the sheet width times devicePixelRatio, off-screen, then swap, so the old page holds until the new one is ready.
 
 ## Done when
-- On p. 151, Mark missed commitment, drag over the "11.35 Fish Salvage Plan" heading: a row appears as Parsing, then "pp. 151–154" with 7 requirements.
+- On p. 151, Mark missed commitment, drag over the "11.35 Fish Salvage Plan" heading: a card appears, then COA 11.35 parses into 7 requirements and pp. 152–154 stop being gaps.
 
 ## Markup
 ```html
 <div class="bcn-pv" data-page-view="">
-  <div class="bcn-pv__sheet" data-pv-sheet="" style="aspect-ratio: 1 / 1.2941">
-    <img class="bcn-pv__img" data-pv-img="" alt="" decoding="async" />
+  <div class="bcn-pv__sheet" data-pv-sheet="" style="aspect-ratio: 612 / 792">
+    <canvas
+      class="bcn-pv__img"
+      data-pv-canvas=""
+      role="img"
+      aria-label="Page 131 of the ITP"
+      width="384"
+      height="496"
+    ></canvas>
     <div class="bcn-pv__boxes" data-pv-boxes=""></div>
     <div class="bcn-pv__drag" data-pv-drag="" hidden=""></div>
   </div>
@@ -41,7 +49,7 @@ The page in view, large, with a box per commitment drawn as it is found (dashed)
   cursor: crosshair;
 }
 .bcn-pv__img {
-  object-fit: contain;
+  background: var(--color-background-elevation-raised);
   width: 100%;
   height: 100%;
   display: block;
@@ -86,14 +94,10 @@ The page in view, large, with a box per commitment drawn as it is found (dashed)
   pointer-events: none;
   position: absolute;
 }
-.bcn-sw3scan__page .bcn-pv {
-  width: 100%;
-  max-width: 46rem;
-  margin: 0 auto;
-}
 ```
 
 ## Tokens
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-commitment`: #58508d _(component)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-requirement`: #a05195 _(component)_

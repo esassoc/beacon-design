@@ -850,13 +850,13 @@ export const prototypeGroups: PrototypeGroup[] = [
     tenant: 'dcp',
     title: 'Setup Wizard — Three Steps',
     description:
-      'Source Documents, Commitments, Compliance Index. Requirements stop being a step: they arrive as highlights inside each commitment. Step 1 proposes a scope, then runs the scan with the ITP itself as the visual, boxes drawn as commitments are found and parsed. Step 2 reviews every commitment against its source, exceptions first, with entity merges made once per project. Step 3 is the shipped Compliance Index.',
+      'Source Documents, Commitments, Compliance Index. Requirements stop being a step: they arrive as highlights inside each commitment. Step 1 scopes and steers each document\'s scan in a conversation with Aldo, with the PDF itself as the visual, boxes drawn as commitments are found and parsed, and every steer kept as a record. Step 2 reviews every commitment against its source, exceptions first, with entity merges made once per project. Step 3 is the shipped Compliance Index.',
     pages: [
       {
         slug: 'setup-wizard-3-step-scan',
         title: 'Step 1 — Source Documents',
         description:
-          'Beacon proposes where the commitments are (pp. 80–244); the person narrows it to Condition 11. The scan then reads pp. 131–180: the page in view with a box per commitment (dashed when found, solid with requirement spans once parsed), a scrubber with a pip per find and gaps where nothing was found, and a queue that grows. Dismiss a false find, merge a split one, drag over a missed commitment to mark it. The run keeps going if you leave.',
+          'Documents on the left with a slim card per commitment found; the PDF page in the middle, rendered live, with a box per commitment (dashed when found, solid with requirement spans once parsed) and a scrubber with a pip per find and gaps where nothing was found; Aldo on the right. Tell Aldo the scope ("Only Condition 11"), pause, give it a rule mid-run and re-read the pages read without it. Every steer is kept with the page it came on. Drag over a missed commitment to mark it; the run keeps going if you leave.',
         route: '/prototypes/setup-wizard-3-step',
         createdAt: '2026-10-14',
         status: 'in-progress',

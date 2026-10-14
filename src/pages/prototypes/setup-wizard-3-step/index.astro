@@ -1,18 +1,18 @@
 ---
 // Setup Wizard in three steps — step 1, Source Documents: upload, scope, watch the scan.
 //
-// Beacon proposes a scope from the document's structure; the person confirms or narrows
-// it; then the scan runs with the document itself as the visual. The run keeps going if
-// the person opens step 2 or leaves, and a return lands where it is (sw3-store).
+// Aldo proposes each document's scope from its structure; the person confirms or narrows
+// it in the conversation, and steers the scan as it runs, with the document itself (the
+// PDF, rendered live) as the visual. Every steer is kept. The run keeps going if the
+// person opens step 2 or leaves, and a return lands where it is (sw3-store).
 // Fixture: src/data/setup-wizard-3-step.ts; brief: docs/setup-wizard-3-step-brief.md.
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
 import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
-import BcnSw3Scope from '../../../components/bcn/BcnSw3Scope.astro';
 import BcnSw3Scan from '../../../components/bcn/BcnSw3Scan.astro';
 import { PROJECT } from '../../../data/project-dashboard';
-import { SW3_STEPS, SW3_BASE, SOURCE_DOC } from '../../../data/setup-wizard-3-step';
+import { SW3_STEPS, SW3_BASE } from '../../../data/setup-wizard-3-step';
 
 const STEP = SW3_STEPS[0];
 ---
@@ -21,19 +21,17 @@ const STEP = SW3_STEPS[0];
   layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(md)   # SPINE
   sections:
     - wizard chrome  -> bcn-setup-wizard-frame   # three steps, straight run, step 1 active
-    - step panel     -> bcn-sw-step-panel        # numeral, title, the source document's name
-    - scope          -> bcn-sw3-scope            # uploaded file, Beacon's proposed scope, range + instruction, Start / Update
-    - watched scan   -> bcn-sw3-scan             # status + replay controls, page scrubber, page with boxes, growing queue
+    - step panel     -> bcn-sw-step-panel        # numeral, title
+    - workspace      -> bcn-sw3-scan             # documents + commitment cards | status, scrubber, live PDF page with boxes | Aldo conversation + instructions
 -->
 
 <AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard" expandedSections={[]}>
   <PageLayout title="Setup Wizard" hideTitleRow>
     <BcnSetupWizardFrame steps={SW3_STEPS} active="source-documents" complete={[]} homeHref={SW3_BASE}>
       <div class="stack" data-gap="md">
-        <BcnSwStepPanel n={STEP.n} token={STEP.token} intro="Confirm where the commitments are, then watch Beacon find them.">
-          <Fragment slot="title"><span>{SOURCE_DOC.name}</span></Fragment>
+        <BcnSwStepPanel n={STEP.n} token={STEP.token} intro="Tell Aldo where each document's commitments are, and steer the scan as it reads.">
+          <Fragment slot="title"><span>Source Documents</span></Fragment>
         </BcnSwStepPanel>
-        <BcnSw3Scope />
         <BcnSw3Scan />
       </div>
     </BcnSetupWizardFrame>
