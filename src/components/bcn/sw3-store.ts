@@ -185,8 +185,11 @@ interface Clock {
   anchorV: number;
   speed: number;
   paused: boolean;
-  /** Pause asked for: the page being read finishes first, then the run holds here. */
+  /** Where the run holds next: a pause a person asked for (the page being read finishes
+   *  first), or a scheduled hold (the check, or the next commitment at One at a time). */
   pauseAt?: number | null;
+  /** The hold at pauseAt is a person's pause, not a scheduled one. */
+  asked?: boolean;
 }
 
 /** One steer: what a person said (or pressed) and what Beacon did with it. The record. */
@@ -203,6 +206,8 @@ export interface Steer {
   reply: string;
   /** Pages read before a rule, offered for a re-read. */
   offer?: { first: number; last: number };
+  /** An unclear message: the readings Aldo saw, each sendable as is. */
+  choices?: { label: string; text: string }[];
 }
 
 interface Reread {
@@ -255,6 +260,12 @@ export interface Sw3State {
   boxEdits: Record<string, Box[]>;
   /** A person's correction of how a commitment was identified, at the check. */
   fixes: Record<string, { code?: string; title?: string; text?: string }>;
+  /** Finds a person kept against Aldo's flag (a reference, a headless passage). */
+  keptFinds?: string[];
+  /** Pages with nothing found that a person said hold nothing: `${first}-${last}`. */
+  clear?: string[];
+  /** The person chose to mark the commitments themselves (no scan run). */
+  manual?: boolean;
 }
 
 export type Pace = 'step' | 'watch' | 'run';
@@ -390,13 +401,14 @@ const pageDoneAfter = (t: number) =>
 /** Pause lets the page in flight finish (its extraction call is already out); resume picks up. */
 export const pause = () =>
   commit(() => {
-    if (!S.clock || S.clock.paused || S.clock.pauseAt != null) return;
-    S.clock.pauseAt = pageDoneAfter(now());
+    if (!S.clock || S.clock.paused || (S.clock.pauseAt != null && S.clock.asked)) return;
+    S.clock.pauseAt = Math.min(S.clock.pauseAt ?? Infinity, pageDoneAfter(now()));
+    S.clock.asked = true;
   });
 export const resume = () =>
   commit(() => {
     if (!S.clock) return;
-    reanchor({ paused: false, pauseAt: null });
+    reanchor({ paused: false, pauseAt: null, asked: false });
     S.clock.pauseAt = holdAt();
   });
 
@@ -457,7 +469,15 @@ export const narration = (): string =>
     const fromCols = cols ? ` Timing and party from the table's columns.` : '';
     return `Parsed ${last.code}: ${last.requirements} requirement${last.requirements === 1 ? '' : 's'}.${fromCols}`;
   });
-export const pausing = () => !!S.clock && S.clock.pauseAt != null && now() < S.clock.pauseAt;
+/** A pause a person asked for, not yet reached (the page in flight is finishing). */
+export const pausing = () => !!S.clock && !!S.clock.asked && S.clock.pauseAt != null && now() < S.clock.pauseAt;
+/** Held at a commitment because the pace is One at a time (not a person's pause). */
+export const heldForStep = () => !!S.clock && !S.clock.paused && !S.clock.asked && S.clock.pauseAt != null && now() >= S.clock.pauseAt && !checking();
+/** The run is reading toward the check after the first commitments. */
+export const headedForCheck = () => {
+  const cp = calibrationPoint();
+  return started() && !S.calibrated && cp !== null && now() < cp;
+};
 export const paused = () => !!S.clock && (S.clock.paused || (S.clock.pauseAt != null && now() >= S.clock.pauseAt));
 // ── Steering ─────────────────────────────────────────────────────────────────
 
@@ -480,7 +500,8 @@ const apply = (a: SteerAction) => {
     }
     case 'pace':
       S.pace = a.pace;
-      if (S.clock) reanchor({ speed: PACE_SPEED[a.pace], pauseAt: holdAt() });
+      if (S.clock && !S.clock.asked) reanchor({ speed: PACE_SPEED[a.pace], pauseAt: holdAt() });
+      else if (S.clock) reanchor({ speed: PACE_SPEED[a.pace] });
       break;
     case 'check':
       if (!S.checked.includes(a.code)) S.checked.push(a.code);
@@ -489,7 +510,7 @@ const apply = (a: SteerAction) => {
       S.calibrated = true;
       S.pace = a.pace;
       if (S.clock) {
-        reanchor({ speed: PACE_SPEED[a.pace], paused: false, pauseAt: null });
+        reanchor({ speed: PACE_SPEED[a.pace], paused: false, pauseAt: null, asked: false });
         S.clock.pauseAt = holdAt();
       }
       break;
@@ -518,15 +539,29 @@ const apply = (a: SteerAction) => {
       S.scope.instruction = [S.scope.instruction, a.text].filter(Boolean).join('\n');
       break;
     case 'pause':
-      if (S.clock && !S.clock.paused && S.clock.pauseAt == null) S.clock.pauseAt = pageDoneAfter(now());
+      if (S.clock && !S.clock.paused && !(S.clock.pauseAt != null && S.clock.asked)) {
+        S.clock.pauseAt = Math.min(S.clock.pauseAt ?? Infinity, pageDoneAfter(now()));
+        S.clock.asked = true;
+      }
       break;
     case 'resume':
       if (S.clock) {
         // Resuming at the calibration stop is letting it go on as it is.
         if (checking()) S.calibrated = true;
-        reanchor({ paused: false, pauseAt: null });
+        reanchor({ paused: false, pauseAt: null, asked: false });
         S.clock.pauseAt = holdAt();
       }
+      break;
+    case 'keep':
+      S.keptFinds = [...(S.keptFinds ?? []), a.findId];
+      break;
+    case 'clear':
+      S.clear = [...(S.clear ?? []), `${a.first}-${a.last}`];
+      break;
+    case 'manual':
+      S.manual = true;
+      break;
+    case 'answer':
       break;
     case 'reread':
       // The clock idles at the run's end; restart it from here so the re-read is watched.
@@ -543,10 +578,28 @@ const apply = (a: SteerAction) => {
   }
 };
 
-const record = (text: string, via: Steer['via'], actions: SteerAction[], reply: string, offer?: Steer['offer']) => {
+const record = (text: string, via: Steer['via'], actions: SteerAction[], reply: string, offer?: Steer['offer'], choices?: Steer['choices']) => {
   const live = started() && !finished();
-  S.steers.push({ id: `s${S.steers.length + 1}`, at: now(), page: live ? headPage() : null, via, text, actions, reply, offer });
+  S.steers.push({ id: `s${S.steers.length + 1}`, at: now(), page: live ? headPage() : null, via, text, actions, reply, offer, ...(choices ? { choices } : {}) });
   for (const a of actions) apply(a);
+};
+
+/** How Aldo read a commitment, in a line, for a question about it. Null if not found yet. */
+const describe = (code: string): string | null => {
+  const want = code.replace(/^COA\s+/i, '');
+  const live = finds().find((f) => f.shown.replace(/^COA\s+/i, '') === want || f.code.replace(/^COA\s+/i, '') === want);
+  const f = live ?? D.finds.find((x) => x.code.replace(/^COA\s+/i, '') === want && S.dismissed.includes(x.id));
+  if (!f) return null;
+  const name = f.shown || f.code;
+  if (S.dismissed.includes(f.id)) return `You removed ${name}. It is not in the record.`;
+  if (f.kind === 'false')
+    return keptFinds().includes(f.id)
+      ? `${name} on p. ${f.page} reads like a reference to another condition. You kept it as a commitment.`
+      : `${name} on p. ${f.page} has no requirements of its own: it reads like a reference to another condition. I flagged it for you to dismiss or keep.`;
+  if (f.kind === 'split') return `The passage on p. ${f.page} has no heading of its own, so I read it as the rest of the commitment before it.`;
+  const pages = [...new Set(f.boxes.map((b) => b.page))];
+  const span = pages.length > 1 ? `, running onto p. ${pages.at(-1)}` : '';
+  return `I read ${name}, ${f.title}, from its heading on p. ${f.page}${span}.${'marked' in f && f.marked ? ' You marked it.' : ''}`;
 };
 
 /** A person's message in the conversation: interpret it, record it, apply it. */
@@ -564,8 +617,9 @@ export const say = (text: string) =>
       checking: checking(),
       calibrate: D.calibrate ?? [],
       hasCommitments: D.finds.length > 0,
+      describe,
     });
-    record(text, 'typed', r.actions, r.reply, r.offer);
+    record(text, 'typed', r.actions, r.reply, r.offer, r.choices);
   });
 
 /** One of Aldo's buttons: a known action, recorded the same way as a typed steer. */
@@ -658,8 +712,11 @@ export const finds = (): LiveFind[] =>
   memo('finds', () => {
     const t = now();
     const out: LiveFind[] = [];
+    const markedCodes = new Set(S.marks.map((m) => m.code).filter(Boolean));
     for (const f of D.finds) {
       if (foundTime(f.id) > t || S.dismissed.includes(f.id) || !inScope(f.page)) continue;
+      // A person marked it first: their mark is the find.
+      if (f.code && markedCodes.has(f.code)) continue;
       if (f.kind === 'false' && crossRefResolved(f, t)) continue;
       if (f.kind === 'split' && S.splitMerged.includes(f.id)) continue;
       let boxes = f.boxes;
@@ -672,13 +729,14 @@ export const finds = (): LiveFind[] =>
     }
     for (const m of S.marks) {
       if (m.at > t) continue;
-      const base = m.code ? D.missed : null;
+      const base = m.code ? (D.missed?.code === m.code ? D.missed : (D.finds.find((x) => x.code === m.code && x.kind === 'commitment') ?? null)) : null;
       out.push({
         ...(base ?? { id: m.id, code: '', title: 'Untitled', page: m.page, boxes: [m.box], kind: 'commitment' as const }),
         id: m.id,
         shown: m.name?.code ?? base?.code ?? '',
         ...(m.name?.title ? { title: m.name.title } : {}),
-        parsed: !!base && t >= m.at + MARK_PARSE,
+        // With no run (marking by hand) there is no clock to wait on: it reads at once.
+        parsed: !!base && (!S.clock || t >= m.at + MARK_PARSE),
         marked: true,
         edited: false,
       });
@@ -722,18 +780,25 @@ export const gaps = (): Set<number> =>
 /** Mark a region the scan missed. If it lands on the missed commitment, Beacon parses it. */
 export const markRegion = (page: number, box: Box) =>
   undoable(() => {
-    const hit = !!D.missed && D.missed.boxes.some(
-      (b) => b.page === page && box.y < b.y + b.h && box.y + box.h > b.y,
-    );
-    const already = !!D.missed && S.marks.some((m) => m.code === D.missed!.code);
+    // What the box covers: the commitment the scan missed, or (before the scan has found
+    // it) any commitment whose words sit mostly inside the box. Prod reads the text layer
+    // inside the box; the anchored boxes stand in for that here.
+    const overlap = (b: Box) => (b.page === page ? Math.max(0, Math.min(box.y + box.h, b.y + b.h) - Math.max(box.y, b.y)) / Math.max(1e-6, Math.min(box.h, b.h)) : 0);
+    const live = new Set(finds().map((f) => f.code).filter(Boolean));
+    const covered =
+      (D.missed && D.missed.boxes.some((b) => overlap(b) > 0.1) ? D.missed : null) ??
+      D.finds.find((f) => f.kind === 'commitment' && !live.has(f.code) && !S.marks.some((m) => m.code === f.code) && f.boxes.some((b) => overlap(b) > 0.5)) ??
+      null;
+    const hit = !!covered;
+    const already = !!covered && S.marks.some((m) => m.code === covered.code);
     // The clock idles past the run's end; restart it from here so the parse is watched.
     if (S.clock) reanchor({});
     S.marks.push({
-      id: hit && !already ? D.missed!.code : markId(page, box),
+      id: hit && !already ? (covered === D.missed ? covered.code : `mark:${covered!.code}`) : markId(page, box),
       page,
       box,
       at: now(),
-      code: hit && !already ? D.missed!.code : undefined,
+      code: hit && !already ? covered!.code : undefined,
     });
     const known = hit && !already;
     S.steers.push({
@@ -741,9 +806,9 @@ export const markRegion = (page: number, box: Box) =>
       at: now(),
       page: started() && !finished() ? headPage() : null,
       via: 'button',
-      text: `Marked a missed commitment on p. ${page}`,
+      text: S.manual && !S.clock ? `Marked a commitment on p. ${page}` : `Marked a missed commitment on p. ${page}`,
       actions: [],
-      reply: known ? `Reading it: ${D.missed!.code} ${D.missed!.title}.` : 'Reading it.',
+      reply: known ? `Reading it: ${covered!.code} ${covered!.title}.` : 'I found no heading inside it. Give it an ID and a name.',
     });
   });
 
@@ -929,6 +994,26 @@ export const editFind = (id: string, patch: { code?: string; title?: string; tex
     else S.fixes[f.code] = { ...S.fixes[f.code], ...patch };
     note(`Edited ${f.shown || 'the marked passage'}: ${changed.join(', ')}`, `Noted. ${patch.code || f.shown || 'It'} carries into step 2 as you wrote it.`);
   });
+
+// ── What needs a person ──────────────────────────────────────────────────────
+export const keptFinds = () => S.keptFinds ?? [];
+export const manual = () => !!S.manual;
+/** Commitments found, counting a flagged reference only once a person kept it. */
+export const commitmentCount = () =>
+  finds().filter((f) => f.shown && (f.kind !== 'false' || keptFinds().includes(f.id))).length;
+/** Runs of read pages with nothing found that a person has not answered. */
+export const openGaps = (): { first: number; last: number }[] => {
+  if (!started() || !finished() || !D.finds.length) return [];
+  const g = [...gaps()].sort((a, b) => a - b);
+  const out: { first: number; last: number }[] = [];
+  for (let i = 0; i < g.length; ) {
+    let j = i;
+    while (j + 1 < g.length && g[j + 1] === g[j] + 1) j++;
+    out.push({ first: g[i], last: g[j] });
+    i = j + 1;
+  }
+  return out.filter((r) => !(S.clear ?? []).includes(`${r.first}-${r.last}`));
+};
 
 /** The commitment codes found and parsed by now, in document order. */
 export const parsedCodes = (): string[] =>

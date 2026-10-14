@@ -126,8 +126,8 @@ export function setupSw3Scan(root: HTMLElement): void {
   let drawLabel = 'Redrew';
   /** Split: a click inside this find's box cuts it. */
   let splitting: string | null = null;
-  /** Page zoom: 1 fits the pane's width. */
-  const ZOOMS = [1, 1.25, 1.5, 2, 3];
+  /** Page zoom: 1 fits the pane's width; below it the whole page shows, centered. */
+  const ZOOMS = [0.5, 0.75, 1, 1.25, 1.5];
   let zoom = 1;
   let hideAldo = false;
 
@@ -275,7 +275,7 @@ export function setupSw3Scan(root: HTMLElement): void {
     render();
   };
   const setZoom = (z: number) => {
-    zoom = Math.min(ZOOMS.at(-1)!, Math.max(1, z));
+    zoom = Math.min(ZOOMS.at(-1)!, Math.max(ZOOMS[0], z));
     pagePane.style.setProperty('--_zoom', String(zoom));
     render();
   };
@@ -365,7 +365,7 @@ export function setupSw3Scan(root: HTMLElement): void {
     set('edit', n === 1);
     set('delete', n >= 1);
     set('follow', live, live && isFollowing());
-    set('zoom-out', zoom > 1);
+    set('zoom-out', zoom > ZOOMS[0]);
     set('zoom-in', zoom < ZOOMS.at(-1)!);
     set('zoom-fit', true);
     setLabel(tool('zoom-fit'), `${Math.round(zoom * 100)}%`);

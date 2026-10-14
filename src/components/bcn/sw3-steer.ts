@@ -2,8 +2,9 @@
 //
 // In prod a person's message goes to one model call with structured output: the action
 // schema below is that call's response format, and the reply is the model's one-line
-// account of what it did. Free text that is not a scope, pause, resume or re-read is a
-// RULE: it is appended to the instruction every later extraction call carries, so it
+// account of what it did. A question is answered and changes nothing; a message too
+// short to act on gets the readings Aldo sees, as buttons. Other free text that is not a
+// scope, pause, resume or re-read is a RULE: it is appended to the instruction every later extraction call carries, so it
 // governs the pages not read yet and nothing already read, unless those pages are
 // re-read. This module is the prototype's stand-in for that call: a handful of patterns,
 // deterministic, so a demo says the same thing every time.
@@ -21,7 +22,12 @@ export type SteerAction =
   | { kind: 'check'; code: string }
   | { kind: 'go'; pace: 'step' | 'watch' | 'run' }
   | { kind: 'skip' }
-  | { kind: 'stop' };
+  | { kind: 'stop' }
+  | { kind: 'keep'; findId: string; code: string }
+  | { kind: 'clear'; first: number; last: number }
+  | { kind: 'manual' }
+  /** A question: Aldo answers, nothing changes. */
+  | { kind: 'answer' };
 
 export interface SteerContext {
   started: boolean;
@@ -41,6 +47,8 @@ export interface SteerContext {
   checking: boolean;
   calibrate: string[];
   hasCommitments: boolean;
+  /** How Aldo read a commitment, for a question about it ("why did you skip 11.32?"). */
+  describe?: (code: string) => string | null;
 }
 
 const PACE_REPLY = {
@@ -52,6 +60,8 @@ const PACE_REPLY = {
 export interface Interpretation {
   actions: SteerAction[];
   reply: string;
+  /** Unclear: the readings Aldo can see, each a message the person can send as is. */
+  choices?: { label: string; text: string }[];
 }
 
 const range = (a: number, b: number) => (a === b ? `p. ${a}` : `pp. ${a}–${b}`);
@@ -85,6 +95,29 @@ const ruleScope = (ctx: SteerContext) => {
 
 export function interpret(raw: string, ctx: SteerContext): Interpretation & { offer?: { first: number; last: number } } {
   const text = raw.trim();
+
+  // A rule said as one: "Rule: ...". The unclear path offers this form.
+  const asRule = /^rule:\s*(.+)$/i.exec(text);
+  if (asRule) {
+    const { tail, reread } = ruleScope(ctx);
+    return { actions: [{ kind: 'rule', text: asRule[1] }], reply: `Added to my instructions: "${asRule[1]}" ${tail}`, offer: reread ?? undefined };
+  }
+
+  // A question is answered, never turned into an instruction.
+  // A request phrased politely ("Can you skip appendix B?") is still a request.
+  const request = /^(can|could|would|will|please)\b/i.test(text);
+  if (/^(why|what|how|where|when|which|who|did|does|is|are)\b/i.test(text) || (/\?\s*$/.test(text) && !request)) {
+    const code = /(?:coa\s*)?(\d+\.\d+(?:\.\d+)?)/i.exec(text);
+    const about = code ? ctx.describe?.(`COA ${code[1]}`) ?? ctx.describe?.(code[1]) : null;
+    return {
+      actions: [{ kind: 'answer' }],
+      reply:
+        about ??
+        (code
+          ? `I have not found ${code[1]} in the pages read so far.`
+          : 'I can answer about a commitment by its number, or about what I am reading. To change how I read, tell me what to read, skip or fix.'),
+    };
+  }
 
   // Nothing to scan (a document with no commitments of its own).
   if (/nothing to scan|skip (this|it|the document)|no commitments/i.test(text)) {
@@ -175,6 +208,18 @@ export function interpret(raw: string, ctx: SteerContext): Interpretation & { of
     return {
       actions: [{ kind: 'scope', first, last, label: range(first, last) }],
       reply: `Scope set to ${range(first, last)}: ${countBetween(first, last, ctx.headings)} commitments likely.`,
+    };
+  }
+
+  // Too short to be an instruction: say what it could mean, and let the person pick.
+  if (text.split(/\s+/).length <= 2 && !/cross[- ]?ref|reference/i.test(text)) {
+    return {
+      actions: [{ kind: 'answer' }],
+      reply: `I am not sure what to do with "${text}".`,
+      choices: [
+        { label: 'Make it an instruction', text: `Rule: ${text}` },
+        { label: `Ask about ${text}`, text: `What is ${text}?` },
+      ],
     };
   }
 

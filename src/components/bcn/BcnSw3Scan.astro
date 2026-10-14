@@ -205,9 +205,11 @@ const sources = {
     overflow: auto;
   }
   /* The page fills the pane's width at fit (zoom 1); zoomed in, it is wider than the pane
-     and the pane scrolls both ways. */
+     and the pane scrolls both ways; zoomed out, it sits centered on the gray. */
   .bcn-sw3scan__page {
     width: calc(100% * var(--_zoom, 1));
+    margin-inline: auto;
+    flex: none;
     padding: var(--spacing-200);
     box-sizing: border-box;
   }
