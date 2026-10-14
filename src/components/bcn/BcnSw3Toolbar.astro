@@ -1,11 +1,11 @@
 ---
 // <BcnSw3Toolbar> — the console for the scan of the file in view, under the step's header
-// in one panel (a gray rule between). Transport on the left, as on a deck: Play (start,
-// resume, or go on past the check), Pause, Stop (end the run here, keeping what it found)
-// and Restart. Beside it, the speed. Below, every page of the file in one strip.
+// in one panel (a gray rule between). Transport on the left, as on a deck: Scan (start,
+// resume, or go on past the check), Pause and Restart. Then the page in view of the file's page count (type a page to go to it),
+// and the speed. Below, every page of the file in one strip.
 //
-// The buttons set the run's state, so each one is enabled only when it can act: Play
-// while the run is not reading, Pause while it is, Stop while it has pages left, Restart
+// The buttons set the run's state, so each one is enabled only when it can act: Scan
+// while the run is not reading, Pause while it is, Restart
 // once it has begun. The one that matches the run's state reads as pressed.
 //
 // Speed is the person's choice of how much to watch:
@@ -13,13 +13,14 @@
 //   Slow           slow enough to follow (the default while it learns);
 //   Fast           let it rip, and raise only what needs a person.
 // In prod speed is how fast the job dispatches page windows, a real control. Every change,
-// like pause, resume and stop, is recorded as a steer.
+// like pause and resume, is recorded as a steer.
 //
 // Markup only: the workspace controller (sw3-scan.ts) wires it.
 //
 // bcn-lego-checked: the transport IS esa-button-group over icon-only esa-buttons (icons
 // per lucide-extra.ts where the registry lacks the glyph), the speed IS esa-dropdown-menu
-// behind an esa-button, the strip IS bcn-page-scrubber. No esa- lego is a transport over
+// behind an esa-button, the page is esa-text-field with its prefix and suffix, the strip
+// IS bcn-page-scrubber. No esa- lego is a transport over
 // a running job; checked Beacon (source-pdf-viewer has page number and zoom only).
 // bcn-sw3-toolbar is the home for "the controls of a watched run".
 import EsaButton from '@esa/ecology/esa-button.astro';
@@ -35,11 +36,18 @@ const SPEEDS = [
 <div class="bcn-sw3bar" data-sw3-toolbar>
   <div class="bcn-sw3bar__console">
     <esa-button-group class="bcn-sw3bar__transport" aria-label="Scan transport">
-      <EsaButton variant="secondary" size="sm" icon="plus" data-ico="play" data-tx="play">Start</EsaButton>
+      <EsaButton variant="secondary" size="sm" icon="plus" data-ico="scan-text" data-tx="play">Scan</EsaButton>
       <EsaButton variant="secondary" size="sm" icon="plus" data-ico="pause" data-tx="pause">Pause</EsaButton>
-      <EsaButton variant="secondary" size="sm" icon="plus" data-ico="square" data-tx="stop">Stop</EsaButton>
       <EsaButton variant="secondary" size="sm" icon="rotate-ccw" data-tx="restart">Restart</EsaButton>
     </esa-button-group>
+    <esa-text-field
+      class="bcn-sw3bar__page"
+      size="sm"
+      inputmode="numeric"
+      aria-label="Page"
+      prefix="p."
+      suffix="of 1"
+      data-bar-page></esa-text-field>
     <esa-dropdown-menu position="below-start" data-bar-speed data-items={JSON.stringify(SPEEDS)}>
       <EsaButton variant="secondary" size="sm" icon="plus" data-ico="gauge" iconRight="chevron-down" data-bar-speed-btn>Slow</EsaButton>
     </esa-dropdown-menu>
@@ -68,6 +76,21 @@ const SPEEDS = [
     border: 1px solid var(--color-border-default-subtle);
     border-radius: var(--radius-200);
   }
+  /* The page in view, of how many: a field as tall as the keys, as wide as its number. */
+  .bcn-sw3bar__page {
+    width: 7.25rem;
+    /* The number sits between "p." and "of 247", not floating in the middle: the field's
+       own padding (its private hook, as glyph fields use) is tightened to the keys'. */
+    --_field-padding-x: 0.4375rem;
+    /* The keys' weight, not the subtle field weight: it reads as live, not disabled. */
+    --typography-microcopy-xs-subtle-font-weight: var(--typography-microcopy-xs-font-weight, 500);
+    /* One key, in the keys' colors: the affixes are white with the default text and no
+       inner rules, so "p. 131 of 247" reads as a single live control. */
+    --form-affix-bg: var(--color-background-elevation-raised);
+    --form-affix-color: var(--color-content-default);
+    --form-affix-border-color: transparent;
+    --color-background-field: var(--color-background-elevation-raised);
+  }
   /* The state the run is in reads as a pressed key. */
   .bcn-sw3bar :global([data-tx][aria-pressed='true']) {
     background: var(--color-background-elevation-sunken);
@@ -76,11 +99,12 @@ const SPEEDS = [
   /* The speed menu is dense: the lego has no density hook (a /request-lego candidate), so
      its spacing roles are re-pointed on the host and put back on the trigger. */
   .bcn-sw3bar__console :global(esa-dropdown-menu[data-bar-speed]) {
-    --spacing-200: 0.3125rem;
-    --spacing-300: 0.625rem;
+    --spacing-200: 0.25rem;
+    --spacing-300: 0.5rem;
     --dropdown-menu-min-width: 8.5rem;
     --typography-body-md-font-size: 0.8125rem;
     --typography-body-md-line-height: 1.3;
+    --typography-body-md-font-weight: var(--typography-font-weight-medium);
   }
   .bcn-sw3bar__console :global([data-bar-speed] > *) {
     --spacing-200: 0.5rem;
@@ -97,4 +121,5 @@ const SPEEDS = [
 <script>
   import '@esa/ecology/esa-button-group';
   import '@esa/ecology/esa-dropdown-menu';
+  import '@esa/ecology/esa-text-field';
 </script>

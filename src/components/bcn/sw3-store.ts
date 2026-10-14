@@ -219,6 +219,8 @@ interface Mark {
   at: number;
   /** The commitment the marked region turned out to be, if Beacon knows it. */
   code?: string;
+  /** The ID and name a person gave it. */
+  name?: { code?: string; title?: string };
 }
 
 export interface Sw3State {
@@ -323,6 +325,7 @@ export const state = () => S;
 /** Start over: a fresh run and no calls made. */
 export const resetAll = () => {
   undoSnapshot = null;
+  history.delete(current);
   commit(() => {
     S = fresh();
   });
@@ -340,6 +343,7 @@ export const resetEverything = () => {
   }
   use(prev);
   undoSnapshot = null;
+  history.clear();
   emit();
 };
 
@@ -641,6 +645,8 @@ const parsedTime = (code: string) =>
   (D.events.find((e) => e.type === 'commitment_parsed' && e.code === code) as { t: number } | undefined)?.t ?? Infinity;
 
 export interface LiveFind extends Find {
+  /** The ID as shown: a person's fix over the one read. */
+  shown: string;
   parsed: boolean;
   marked: boolean;
   /** A person moved, resized or redrew its box: solid, theirs. */
@@ -662,7 +668,7 @@ export const finds = (): LiveFind[] =>
       const parsed = f.kind === 'commitment' ? parsedTime(f.code) <= t : f.kind === 'false' ? foundTime(f.id) + 3 <= t : false;
       const mine = S.boxEdits[f.id];
       const fix = S.fixes[f.code];
-      out.push({ ...f, title: fix?.title ?? f.title, boxes: mine ?? boxes, parsed, marked: false, edited: !!mine });
+      out.push({ ...f, shown: fix?.code ?? f.code, title: fix?.title ?? f.title, boxes: mine ?? boxes, parsed, marked: false, edited: !!mine });
     }
     for (const m of S.marks) {
       if (m.at > t) continue;
@@ -670,6 +676,8 @@ export const finds = (): LiveFind[] =>
       out.push({
         ...(base ?? { id: m.id, code: '', title: 'Untitled', page: m.page, boxes: [m.box], kind: 'commitment' as const }),
         id: m.id,
+        shown: m.name?.code ?? base?.code ?? '',
+        ...(m.name?.title ? { title: m.name.title } : {}),
         parsed: !!base && t >= m.at + MARK_PARSE,
         marked: true,
         edited: false,
@@ -713,7 +721,7 @@ export const gaps = (): Set<number> =>
 
 /** Mark a region the scan missed. If it lands on the missed commitment, Beacon parses it. */
 export const markRegion = (page: number, box: Box) =>
-  commit(() => {
+  undoable(() => {
     const hit = !!D.missed && D.missed.boxes.some(
       (b) => b.page === page && box.y < b.y + b.h && box.y + box.h > b.y,
     );
@@ -721,7 +729,7 @@ export const markRegion = (page: number, box: Box) =>
     // The clock idles past the run's end; restart it from here so the parse is watched.
     if (S.clock) reanchor({});
     S.marks.push({
-      id: hit && !already ? D.missed!.code : `mark:${page}:${Math.round(box.y * 1000)}`,
+      id: hit && !already ? D.missed!.code : markId(page, box),
       page,
       box,
       at: now(),
@@ -741,7 +749,7 @@ export const markRegion = (page: number, box: Box) =>
 
 /** A person's box for a find on one page: moved, resized or redrawn. Recorded as a steer. */
 export const setFindBox = (id: string, page: number, box: Box, label: string) =>
-  commit(() => {
+  undoable(() => {
     const f = finds().find((x) => x.id === id);
     if (!f) return;
     const others = f.boxes.filter((b) => b.page !== page);
@@ -751,9 +759,12 @@ export const setFindBox = (id: string, page: number, box: Box, label: string) =>
       at: now(),
       page: started() && !finished() ? headPage() : null,
       via: 'button',
-      text: `${label} ${f.code || 'the marked passage'} on p. ${page}`,
+      text: label === 'Continued' ? `Continued ${f.shown || 'the marked passage'} onto p. ${page}` : `${label} ${f.shown || 'the marked passage'} on p. ${page}`,
       actions: [],
-      reply: `Noted. ${f.code || 'It'} now reads from the box you ${label === 'Redrew' ? 'drew' : 'adjusted'}, and its text is re-read from there.`,
+      reply:
+        label === 'Continued'
+          ? `${f.shown || 'It'} now runs onto p. ${page}. I re-read its text across both pages.`
+          : `Noted. ${f.shown || 'It'} now reads from the box you ${label === 'Redrew' ? 'drew' : 'adjusted'}, and its text is re-read from there.`,
     });
   });
 
@@ -788,11 +799,11 @@ export const fixCommitment = (code: string, patch: { code?: string; title?: stri
 
 /** Remove a find's box on one page; with no boxes left the find goes. */
 export const removeFindBox = (id: string, page: number) =>
-  commit(() => {
+  undoable(() => {
     const f = finds().find((x) => x.id === id);
     if (!f) return;
     const left = f.boxes.filter((b) => b.page !== page);
-    const name = f.code || 'the marked passage';
+    const name = f.shown || 'the marked passage';
     if (left.length) S.boxEdits[id] = left;
     else {
       S.dismissed.push(id);
@@ -818,6 +829,105 @@ export const dismissFind = (id: string) =>
 export const mergeSplit = (id: string) =>
   commit(() => {
     S.splitMerged.push(id);
+  });
+
+// ── A person's edits on the page: split, merge, rename, undo ──────────────────
+// Undo puts the record of finds back; the conversation stays append-only, so an undo is
+// itself a steer ("Undid: ...").
+type EditFields = Pick<Sw3State, 'boxEdits' | 'marks' | 'dismissed' | 'splitMerged' | 'fixes'>;
+const EDIT_KEYS = ['boxEdits', 'marks', 'dismissed', 'splitMerged', 'fixes'] as const;
+const snapEdits = (): string => JSON.stringify(Object.fromEntries(EDIT_KEYS.map((k) => [k, S[k]])));
+const putEdits = (snap: string) => Object.assign(S, JSON.parse(snap) as EditFields);
+const history = new Map<string, { undo: { snap: string; text: string }[]; redo: { snap: string; text: string }[] }>();
+const hist = () => {
+  let h = history.get(current);
+  if (!h) history.set(current, (h = { undo: [], redo: [] }));
+  return h;
+};
+/** Run an edit so it can be undone: the record before it, and the steer it wrote. */
+const undoable = (fn: () => void) =>
+  commit(() => {
+    const snap = snapEdits();
+    const n = S.steers.length;
+    fn();
+    if (S.steers.length === n) return;
+    hist().undo.push({ snap, text: S.steers.at(-1)!.text });
+    hist().redo = [];
+  });
+const note = (text: string, reply: string) =>
+  S.steers.push({ id: `s${S.steers.length + 1}`, at: now(), page: started() && !finished() ? headPage() : null, via: 'button', text, actions: [], reply });
+export const canUndo = () => hist().undo.length > 0;
+export const canRedo = () => hist().redo.length > 0;
+export const undo = () =>
+  commit(() => {
+    const step = hist().undo.pop();
+    if (!step) return;
+    hist().redo.push({ snap: snapEdits(), text: step.text });
+    putEdits(step.snap);
+    note(`Undid: ${step.text}`, 'Put back as it was.');
+  });
+export const redo = () =>
+  commit(() => {
+    const step = hist().redo.pop();
+    if (!step) return;
+    hist().undo.push({ snap: snapEdits(), text: step.text });
+    putEdits(step.snap);
+    note(`Redid: ${step.text}`, 'Done again.');
+  });
+
+const markId = (page: number, box: Box) => `mark:${page}:${Math.round(box.y * 1000)}:${S.marks.length}`;
+
+/** Cut a find's box on a page at a height: the top keeps the commitment, the bottom becomes
+ *  a passage of its own that Beacon reads. */
+export const splitFind = (id: string, page: number, y: number) =>
+  undoable(() => {
+    const f = finds().find((x) => x.id === id);
+    const b = f?.boxes.find((x) => x.page === page);
+    if (!f || !b || y <= b.y + 0.005 || y >= b.y + b.h - 0.005) return;
+    const top = { ...b, h: y - b.y };
+    const bottom = { ...b, y, h: b.y + b.h - y };
+    S.boxEdits[id] = [...f.boxes.filter((x) => x !== b), top].sort((p, q) => p.page - q.page || p.y - q.y);
+    if (S.clock) reanchor({});
+    S.marks.push({ id: markId(page, bottom), page, box: bottom, at: now() });
+    const name = f.shown || 'the marked passage';
+    note(`Split ${name} on p. ${page}`, `${name} ends where you cut it. The part below is its own passage now; I am reading it.`);
+  });
+
+/** Join finds into one commitment: the first in reading order keeps its ID, and takes every box. */
+export const mergeFinds = (ids: string[]) =>
+  undoable(() => {
+    const all = finds().filter((f) => ids.includes(f.id));
+    if (all.length < 2) return;
+    const [keep, ...rest] = all;
+    S.boxEdits[keep.id] = all.flatMap((f) => f.boxes).sort((p, q) => p.page - q.page || p.y - q.y);
+    for (const f of rest) {
+      if (f.kind === 'split') S.splitMerged.push(f.id);
+      else S.dismissed.push(f.id);
+      S.marks = S.marks.filter((m) => m.id !== f.id);
+    }
+    const pages = [...new Set(S.boxEdits[keep.id].map((b) => b.page))];
+    const name = keep.shown || 'the marked passage';
+    const span = pages.length > 1 ? `pp. ${pages[0]}–${pages.at(-1)}` : `p. ${pages[0]}`;
+    note(
+      `Merged ${rest.map((f) => f.shown || 'a marked passage').join(', ')} into ${name}`,
+      `${name} now runs across ${span}. I re-read its text from all of its boxes.`,
+    );
+  });
+
+/** A person's ID and name for any find on the page (not only at the check). */
+export const editFind = (id: string, patch: { code?: string; title?: string; text?: string }) =>
+  undoable(() => {
+    const f = finds().find((x) => x.id === id);
+    if (!f) return;
+    const changed: string[] = [];
+    if (patch.code !== undefined && patch.code !== f.shown) changed.push(`ID to ${patch.code}`);
+    if (patch.title !== undefined && patch.title !== f.title) changed.push(`name to "${patch.title}"`);
+    if (f.code && patch.text !== undefined && patch.text !== identified(f.code).text) changed.push('its text');
+    if (!changed.length) return;
+    const m = S.marks.find((x) => x.id === id);
+    if (m && !m.code) m.name = { ...m.name, code: patch.code, title: patch.title };
+    else S.fixes[f.code] = { ...S.fixes[f.code], ...patch };
+    note(`Edited ${f.shown || 'the marked passage'}: ${changed.join(', ')}`, `Noted. ${patch.code || f.shown || 'It'} carries into step 2 as you wrote it.`);
   });
 
 /** The commitment codes found and parsed by now, in document order. */

@@ -25,6 +25,10 @@ export interface PageViewBox {
   selected?: boolean;
   /** A person drew or adjusted it: solid, theirs. */
   edited?: boolean;
+  /** A person's (marked or edited), not Aldo's: stays when Aldo's boxes are hidden. */
+  mine?: boolean;
+  /** The ID and name shown in a chip over the box while it is selected. */
+  chip?: string;
   /** Selected and editable: handles to move and resize it. */
   editable?: boolean;
   shade?: number;
@@ -33,7 +37,10 @@ export interface PageViewBox {
 
 type Rect = { x: number; y: number; w: number; h: number };
 interface Handlers {
-  onBox: (id: string) => void;
+  /** A box was clicked; `add` with Shift, to add it to the selection. */
+  onBox: (id: string, add?: boolean) => void;
+  /** Split mode: the person clicked inside the box at this height (a page fraction). */
+  onSplit?: (id: string, page: number, y: number) => void;
   onRegion: (page: number, box: { page: number; x: number; y: number; w: number; h: number }) => void;
   /** A selected box moved or resized (on release, or per arrow key). */
   onEdit?: (id: string, page: number, box: Rect) => void;
@@ -71,14 +78,17 @@ const HANDLES = ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'] as const;
 type Handle = (typeof HANDLES)[number] | 'move';
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
 
-export function setupPageView(root: HTMLElement, { onBox, onRegion, onEdit, onRemove, onDeselect }: Handlers) {
+export function setupPageView(root: HTMLElement, { onBox, onRegion, onEdit, onRemove, onDeselect, onSplit }: Handlers) {
   const sheet = root.querySelector<HTMLElement>('[data-pv-sheet]')!;
   const canvas = root.querySelector<HTMLCanvasElement>('[data-pv-canvas]')!;
   const layer = root.querySelector<HTMLElement>('[data-pv-boxes]')!;
   const drag = root.querySelector<HTMLElement>('[data-pv-drag]')!;
+  const guide = root.querySelector<HTMLElement>('[data-pv-guide]')!;
   let src = '';
   let page = 0;
   let selecting = false;
+  /** Split mode: the find whose box a click cuts. */
+  let splitting: string | null = null;
   let task: RenderTask | null = null;
   let renderedAt = '';
   const els = new Map<string, HTMLElement>();
@@ -121,8 +131,22 @@ export function setupPageView(root: HTMLElement, { onBox, onRegion, onEdit, onRe
   layer.addEventListener('click', (e) => {
     if (selecting || moved) return;
     const box = (e.target as HTMLElement).closest<HTMLElement>('[data-box-id]');
-    if (box) onBox(box.dataset.boxId!);
+    if (splitting) {
+      if (box?.dataset.boxId === splitting) onSplit?.(splitting, page, frac(e as PointerEvent).y);
+      return;
+    }
+    if (box) onBox(box.dataset.boxId!, (e as MouseEvent).shiftKey);
   });
+  // Split: a guide across the box follows the pointer; a click cuts there.
+  layer.addEventListener('pointermove', (e) => {
+    if (!splitting) return;
+    const box = (e.target as HTMLElement).closest<HTMLElement>('[data-box-id]');
+    if (box?.dataset.boxId !== splitting) return void (guide.hidden = true);
+    const r = rectOf(box);
+    guide.hidden = false;
+    Object.assign(guide.style, { left: pct(r.x), width: pct(r.w), top: pct(frac(e).y) });
+  });
+  layer.addEventListener('pointerleave', () => (guide.hidden = true));
 
   // ── Editing a selected box: drag its body to move, a handle to resize ─────────
   // Live while dragging (the element moves), reported once on release.
@@ -146,7 +170,9 @@ export function setupPageView(root: HTMLElement, { onBox, onRegion, onEdit, onRe
     return { x, y, w, h: hh };
   };
   layer.addEventListener('pointerdown', (e) => {
-    if (selecting) return;
+    // Shift+click adds to the selection; it must not select the page's text.
+    if (e.shiftKey) e.preventDefault();
+    if (selecting || splitting || e.shiftKey) return;
     const t = e.target as HTMLElement;
     const el = t.closest<HTMLElement>('[data-box-id][data-editable]');
     if (!el) return;
@@ -265,6 +291,18 @@ export function setupPageView(root: HTMLElement, { onBox, onRegion, onEdit, onRe
       el.tabIndex = 0;
       el.setAttribute('role', 'button');
       el.toggleAttribute('data-edited', !!b.edited);
+      el.toggleAttribute('data-mine', !!b.mine);
+      el.toggleAttribute('data-splitting', b.id === splitting);
+      // The selected box wears its ID and name (the only thing over the page).
+      let chip = el.querySelector<HTMLElement>(':scope > .bcn-pv__chip');
+      if (b.chip && b.selected) {
+        if (!chip) {
+          chip = document.createElement('span');
+          chip.className = 'bcn-pv__chip';
+          el.prepend(chip);
+        }
+        if (chip.textContent !== b.chip) chip.textContent = b.chip;
+      } else chip?.remove();
       const wasEditable = el.hasAttribute('data-editable');
       el.toggleAttribute('data-editable', !!b.editable);
       if (b.editable && !wasEditable) {
@@ -290,8 +328,17 @@ export function setupPageView(root: HTMLElement, { onBox, onRegion, onEdit, onRe
     selecting = on;
     sheet.toggleAttribute('data-selecting', on);
   };
+  /** Split mode on the find `id` (null: off). */
+  const setSplitting = (id: string | null) => {
+    splitting = id;
+    sheet.toggleAttribute('data-splitting', !!id);
+    if (!id) guide.hidden = true;
+    for (const [, el] of els) el.toggleAttribute('data-splitting', el.dataset.boxId === id);
+  };
+  /** Hide Aldo's boxes (dashed, not a person's) to read the text under them. */
+  const setHideAldo = (on: boolean) => root.toggleAttribute('data-hide-aldo', on);
 
-  return { show, setSelecting };
+  return { show, setSelecting, setSplitting, setHideAldo };
 }
 
 /** How many pages a PDF has (an upload's page count, as prod's SourceFile.PageCount). */

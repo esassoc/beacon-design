@@ -669,8 +669,10 @@ summary.esa-button--variant-chrome:focus-visible {
   position: absolute;
   transform: translate(-50%);
 }
-.bcn-sw3scan__draw .esa-button {
-  box-shadow: var(--shadow-200);
+.bcn-sw3tools esa-button-group,
+.bcn-sw3tools .esa-button,
+.bcn-sw3tools esa-dropdown-menu {
+  flex: none;
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -791,7 +793,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
-- `--shadow-200`: 0 4px 20px -4px #0000000f _(component)_
 - `--shadow-300`: 0 6px 24px -6px #00000012 _(component)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
@@ -810,6 +811,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

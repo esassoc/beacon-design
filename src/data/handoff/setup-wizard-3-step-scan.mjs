@@ -12,17 +12,16 @@ export default {
     {
       label: 'Step header and console',
       selector: '[data-sw3-toolbar]',
-      intent: 'One panel: the step\'s numeral and title with the two panel toggles (Hide library, and Aldo\'s own invoker, Hide Aldo / Show Aldo); under a gray rule, the console for the file in view, centered: the transport (Start or Resume, Pause, Stop, Restart), each a neutral key with its icon and name, and the speed (One at a time, Slow, Fast) in a menu. Below, every page of the file in one strip. Where the run is is said once, in Aldo\'s status.',
+      intent: 'One panel: the step\'s numeral, title and prod\'s description; under a gray rule, the console for the file in view, centered: the transport (Scan or Resume, Pause, Restart), each a neutral key with its icon and name, the page in view of the file\'s page count as one field (type a page to go to it), and the speed (One at a time, Slow, Fast) in a menu. Below, every page of the file in one strip. Where the run is is said once, in Aldo\'s status.',
       decisions: [
-        'Each key is live only when it can act, and the run\'s state reads as a pressed key: Start before the run, Resume when it is paused or stopped for the check, Pause while it reads, Stop while it has pages left, Restart once it has begun.',
-        'Stop ends the run at the page it is on and keeps what it found; the pages after it are not read. It asks first. Restart clears the file\'s scan and steers.',
-        'Speed is how fast the job dispatches page windows: a real control in prod. Every speed change, pause, resume and stop is recorded as a steer.',
+        'Each key is live only when it can act, and the run\'s state reads as a pressed key: Scan before the run, Resume when it is paused or stopped for the check, Pause while it reads, Restart once it has begun. Restart asks first and clears the file\'s scan and steers.',
+        'Speed is how fast the job dispatches page windows: a real control in prod. Every speed change, pause and resume is recorded as a steer.',
         'With a source (not a file) selected, the console is dimmed and inert.',
       ],
       acceptance: [
         'At the check after the first three commitments, Resume goes on past it at the speed chosen.',
-        'Stop, confirm: Aldo\'s status reads "Stopped. N commitments found." and only Restart is live.',
-        'Hide library and Hide Aldo: the page takes the width; each toggle reads Show.',
+        'Type 140 in the page field and press Enter: the page and the scrubber\'s thumb move to p. 140.',
+        'Fold the Library and Aldo from their headers: each becomes a rail and the page takes the width; a rail opens it again.',
       ],
     },
     {
@@ -38,7 +37,7 @@ export default {
     {
       label: 'Library',
       selector: '[data-sw3-sources]',
-      intent: 'The Library (the page is already Source Documents), dense at 13px with 12px states, and hideable from the header. Prod\'s model: a source document (name, reference number) holds files, and each file is scanned on its own. Each source folds open or shut by its chevron, and is its name, with a menu (Edit details, Add files, Delete source document); its files sit under it, one row each with the name (middle-truncated so the version and date stay) and one state: Not scanned, Reading p. 16 of 170 with a progress bar, a warning badge "3 to check", Paused at p. 40, 157 commitments, No commitments. A file\'s menu downloads it, restarts its scan or deletes it. New source document is pinned at the foot.',
+      intent: 'The Library (the page is already Source Documents), dense at 13px with 12px states, folding into a rail from its header. Prod\'s model: a source document (name, reference number) holds files, and each file is scanned on its own. Each source folds open or shut by its chevron, and is its name, with a menu (Edit details, Add files, Delete source document); its files sit under it, one row each with the name (middle-truncated so the version and date stay) and one state: Not scanned, Reading p. 16 of 170 with a progress bar, a warning badge "3 to check", Paused at p. 40, 157 commitments, No commitments. A file\'s menu downloads it, restarts its scan or deletes it. New source document is pinned at the foot.',
       decisions: [
         'SetupWizardSourceDto and SetupWizardSourceFileDto as they are: source fields plus files with PageCount and CommitmentCount. The per-file scan state is new.',
         'Every run keeps going while another file is in view.',
@@ -62,26 +61,30 @@ export default {
     {
       label: 'Page and boxes',
       selector: '[data-page-view]',
-      intent: 'The page in view, rendered from the PDF by pdf.js, with a box per commitment: dashed where Aldo drew it, solid where a person did. Click a box to select it: eight handles to resize, drag to move, and a small toolbar (Redraw, Delete, Open in Aldo). Arrow keys nudge, Shift for a bigger step, Delete or Backspace removes, Escape lets go. Mark a missed commitment, a tool floated over the page (or M), says what to do while it is on and draws a new box. Every edit is recorded as a steer with its page. Requirement spans are not drawn in step 1: they are step 2\'s.',
+      intent: 'The page in view, rendered from the PDF by pdf.js, with a box per commitment: dashed where Aldo drew it, solid where a person did, under a toolbar pinned across the pane. Select (V) and Mark (M) are the modes; Edit ID and name (Enter) and Delete act on the selection; More tools holds Split (S), Merge, Continue on next page and Hide Aldo\'s boxes (B); then Follow (F), zoom and Undo / Redo. A selected box wears its ID and name; eight handles resize it, a drag moves it, arrows nudge (Shift for a bigger step), Shift+click adds another box to the selection, Escape lets go. Every edit and undo is recorded as a steer with its page. Requirement spans are not drawn in step 1: they are step 2\'s.',
       decisions: [
         'Boxes are PdfBoundingBoxDto (page, x, y, width, height as page fractions); an edit sends the new rect for that commitment and page.',
         'Boxes come from anchoring against the text layer (PdfPig words), not from model citations.',
-        'Drawing or selecting a box holds the page still: the scan goes on, the view stops following it.',
-        'Redraw keeps the commitment and replaces its box on that page; Mark a missed commitment asks for a targeted re-read of the region.',
+        'Manual work never pauses the run; it stops the view following the scan, and Follow brings it back.',
+        'The bar never changes shape: a tool that needs a selection sits in place, off until there is one. Nothing floats over the text the person is reading.',
+        'Mark asks for a targeted re-read of the region. Split cuts a box at a height: the top keeps the commitment, the bottom becomes a passage of its own. Merge keeps the first ID in reading order and takes every box. Continue on next page adds a box on the next page to the same commitment (PdfBoundingBoxDto already allows many pages).',
+        'Undo puts the record of finds back; the conversation stays append-only, so an undo is itself a steer ("Undid: ...").',
       ],
       gotchas: [
         'Assign table words to rows by y with a few points of slack: a cell\'s first line can sit a hundredth of a point above the row\'s code.',
         'A flattened form (the NOD) has drawn labels and image text; the text layer misses them, so the page needs OCR or a vision pass.',
       ],
       acceptance: [
-        'Mark a missed commitment and drag over a passage: a solid box appears selected with its tools; Delete removes it, and both edits are in the conversation.',
+        'Mark, then drag over a passage: a solid box appears selected, wearing No ID; Delete removes it, and both edits are in the conversation.',
+        'Select 11.1 and 11.2 (Shift+click), More tools, Merge: one commitment, 11.1, with both boxes; Cmd+Z puts them back, and "Undid: Merged 11.2 into COA 11.1" is in the conversation.',
+        'Select a box, Split (S), click across its middle: the box ends there and the lower part is a new passage.',
         'Drag a box\'s corner handle: the box resizes and Aldo records "Adjusted".',
       ],
     },
     {
       label: 'Aldo',
       selector: '[data-sw3-aldo]',
-      intent: 'The conversation that scopes, checks and steers the scan of the file in view, dense at 13px, with the composer always in view and the run\'s status pinned above it: reading (blue), stopped for the check (yellow), done or stopped (green). The run stops after its first three commitments; Aldo says what to check, then gives each commitment its own message: a lead (where it took the ID and name from, how far the text runs) and a card with the ID, name and quoted text (clamped, with Show all), a p. N button, Looks right and Fix. Fix opens the ID, name and text as fields, with Save and Redraw the box. Requirements, timing and parties are reviewed in step 2.',
+      intent: 'The conversation that scopes, checks and steers the scan of the file in view, dense at 13px, with the composer always in view and the run\'s status pinned above it: reading (blue), stopped for the check (yellow), done (green). The run stops after its first three commitments; Aldo says what to check, then gives each commitment its own message: a lead (where it took the ID and name from, how far the text runs) and a card with the ID, name and quoted text (clamped, with Show all), a p. N button, Looks right and Fix. Fix opens the ID, name and text as fields, with Save and Redraw the box. Edit ID and name on the page toolbar opens the same fields for any commitment. Requirements, timing and parties are reviewed in step 2.',
       decisions: [
         'The check is the training step: what the person fixes there becomes an instruction for the rest of the file.',
         'Buttons carry meaning in their color: green to accept, red to remove (Dismiss), blue to change the record (Merge, Re-read), the primary for the next step, neutral otherwise. Only send is Aldo\'s green.',

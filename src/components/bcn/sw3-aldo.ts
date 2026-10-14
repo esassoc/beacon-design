@@ -29,6 +29,8 @@ import {
   checked,
   identified,
   fixCommitment,
+  editFind,
+  now as runNow,
   calibrated,
   calibrationPoint,
   pace,
@@ -283,6 +285,73 @@ export function setupSw3Aldo(root: HTMLElement): void {
     ];
   };
 
+  // ── Edit ID and name, from the page tools ───────────────────────────────────
+  // Any commitment on the page, not only those at the check: its ID, name and (for one the
+  // scan read) its text, in the conversation where the record of it is.
+  let editing: { id: string; at: number } | null = null;
+  document.addEventListener('sw3:edit', (e) => {
+    editing = { id: (e as CustomEvent<{ id: string }>).detail.id, at: runNow() };
+    render();
+    requestAnimationFrame(() => {
+      const el = els.get(`${activeDoc()}:edit`);
+      // Only the log scrolls (scrollIntoView would move the page around it).
+      if (el) log.scrollTop = Math.max(0, el.offsetTop - log.offsetTop - 8);
+      el?.querySelector<HTMLElement>('esa-text-field')?.focus({ preventScroll: true } as FocusOptions);
+    });
+  });
+  const editItem = (): Item[] => {
+    const f = editing && finds().find((x) => x.id === editing!.id);
+    if (!editing || !f) return [];
+    const at = editing.at;
+    const c = f.code ? identified(f.code) : null;
+    const build = () => {
+      const el = elx('div', 'bcn-sw3aldo__check');
+      const field = (label: string, value: string, multi = false) => {
+        const x = document.createElement(multi ? 'esa-textarea' : 'esa-text-field') as Field;
+        x.setAttribute('label', label);
+        x.setAttribute('size', 'sm');
+        if (multi) x.setAttribute('rows', '5');
+        x.value = value;
+        return x;
+      };
+      const id = field('ID', f.shown);
+      const name = field('Name', f.parsed || f.shown ? f.title : '');
+      const text = c ? field('Text', c.text, true) : null;
+      const acts = elx('div', 'bcn-sw3aldo__checkacts');
+      acts.append(
+        button({
+          label: 'Save',
+          primary: true,
+          run: () => {
+            const patch: { code?: string; title?: string; text?: string } = { code: id.value.trim() || f.shown, title: name.value.trim() || f.title };
+            if (text) patch.text = text.value;
+            editing = null;
+            editFind(f.id, patch);
+            render();
+          },
+        }),
+        button({ label: 'Cancel', run: () => ((editing = null), render()) }),
+      );
+      const form = elx('div', 'bcn-sw3aldo__fix');
+      form.append(id, name, ...(text ? [text] : []), acts);
+      el.append(form);
+      return el;
+    };
+    const page = f.boxes[0]?.page ?? f.page;
+    return [
+      {
+        id: `${activeDoc()}:edit`,
+        t: at,
+        from: 'aldo',
+        who: 'Aldo',
+        kind: 'check',
+        text: f.shown ? `${f.shown} on p. ${page}, as I have it.` : `Your box on p. ${page}. Give it an ID and a name.`,
+        acts: [],
+        extra: { sig: `edit|${f.id}|${at}`, build },
+      },
+    ];
+  };
+
   // ── What the scan raises ────────────────────────────────────────────────────
   const eventT = (findId: string) =>
     (payload().events.find((e) => e.type === 'commitment_found' && e.findId === findId) as { t: number } | undefined)?.t ?? Infinity;
@@ -458,13 +527,15 @@ export function setupSw3Aldo(root: HTMLElement): void {
     if (doc !== lastDoc) {
       // Another document: another conversation.
       lastDoc = doc;
+      editing = null;
       log.replaceChildren();
       els.clear();
       actsSig.clear();
       extraSig.clear();
     }
     const t = now();
-    const items = [opening(), ...steers().flatMap(steerItems), ...checkItem(t), ...notices(t)]
+    // At one run time (the check holds the clock), what was said follows the check.
+    const items = [opening(), ...checkItem(t), ...steers().flatMap(steerItems), ...notices(t), ...editItem()]
       .map((it, i) => ({ it, i }))
       .sort((a, b) => a.it.t - b.it.t || a.i - b.i)
       .map(({ it }) => it);

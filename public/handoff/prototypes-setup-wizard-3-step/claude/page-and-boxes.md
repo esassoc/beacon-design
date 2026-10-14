@@ -1,19 +1,23 @@
 # Page and boxes
 
-The page in view, rendered from the PDF by pdf.js, with a box per commitment: dashed where Aldo drew it, solid where a person did. Click a box to select it: eight handles to resize, drag to move, and a small toolbar (Redraw, Delete, Open in Aldo). Arrow keys nudge, Shift for a bigger step, Delete or Backspace removes, Escape lets go. Mark a missed commitment, a tool floated over the page (or M), says what to do while it is on and draws a new box. Every edit is recorded as a steer with its page. Requirement spans are not drawn in step 1: they are step 2's.
+The page in view, rendered from the PDF by pdf.js, with a box per commitment: dashed where Aldo drew it, solid where a person did, under a toolbar pinned across the pane. Select (V) and Mark (M) are the modes; Edit ID and name (Enter) and Delete act on the selection; More tools holds Split (S), Merge, Continue on next page and Hide Aldo's boxes (B); then Follow (F), zoom and Undo / Redo. A selected box wears its ID and name; eight handles resize it, a drag moves it, arrows nudge (Shift for a bigger step), Shift+click adds another box to the selection, Escape lets go. Every edit and undo is recorded as a steer with its page. Requirement spans are not drawn in step 1: they are step 2's.
 
 ## Key decisions
 - Boxes are PdfBoundingBoxDto (page, x, y, width, height as page fractions); an edit sends the new rect for that commitment and page.
 - Boxes come from anchoring against the text layer (PdfPig words), not from model citations.
-- Drawing or selecting a box holds the page still: the scan goes on, the view stops following it.
-- Redraw keeps the commitment and replaces its box on that page; Mark a missed commitment asks for a targeted re-read of the region.
+- Manual work never pauses the run; it stops the view following the scan, and Follow brings it back.
+- The bar never changes shape: a tool that needs a selection sits in place, off until there is one. Nothing floats over the text the person is reading.
+- Mark asks for a targeted re-read of the region. Split cuts a box at a height: the top keeps the commitment, the bottom becomes a passage of its own. Merge keeps the first ID in reading order and takes every box. Continue on next page adds a box on the next page to the same commitment (PdfBoundingBoxDto already allows many pages).
+- Undo puts the record of finds back; the conversation stays append-only, so an undo is itself a steer ("Undid: ...").
 
 ## Gotchas
 - Assign table words to rows by y with a few points of slack: a cell's first line can sit a hundredth of a point above the row's code.
 - A flattened form (the NOD) has drawn labels and image text; the text layer misses them, so the page needs OCR or a vision pass.
 
 ## Done when
-- Mark a missed commitment and drag over a passage: a solid box appears selected with its tools; Delete removes it, and both edits are in the conversation.
+- Mark, then drag over a passage: a solid box appears selected, wearing No ID; Delete removes it, and both edits are in the conversation.
+- Select 11.1 and 11.2 (Shift+click), More tools, Merge: one commitment, 11.1, with both boxes; Cmd+Z puts them back, and "Undid: Merged 11.2 into COA 11.1" is in the conversation.
+- Select a box, Split (S), click across its middle: the box ends there and the lower part is a new passage.
 - Drag a box's corner handle: the box resizes and Aldo records "Adjusted".
 
 ## Markup
@@ -25,11 +29,12 @@ The page in view, rendered from the PDF by pdf.js, with a box per commitment: da
       data-pv-canvas=""
       role="img"
       aria-label="Page 131 of ITP_2081-2024-018-00_Signed.pdf"
-      width="352"
-      height="455"
+      width="350"
+      height="452"
     ></canvas>
     <div class="bcn-pv__boxes" data-pv-boxes=""></div>
     <div class="bcn-pv__drag" data-pv-drag="" hidden=""></div>
+    <div class="bcn-pv__guide" data-pv-guide="" hidden=""></div>
   </div>
 </div>
 ```
@@ -156,6 +161,39 @@ The page in view, rendered from the PDF by pdf.js, with a box per commitment: da
   transition: none;
   animation: none;
 }
+.bcn-pv__boxes .bcn-pv__chip {
+  background: var(--color-commitment);
+  max-width: min(28rem, 90vw);
+  color: var(--color-content-default-knockout);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.35;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: -6px;
+  overflow: hidden;
+}
+.bcn-pv[data-hide-aldo]
+  .bcn-pv__box[data-kind="find"]:not([data-mine]):not([data-selected]) {
+  visibility: hidden;
+}
+.bcn-pv__boxes .bcn-pv__box[data-splitting] {
+  cursor: row-resize;
+}
+.bcn-pv__guide {
+  border-top: 2px dashed var(--color-content-default);
+  pointer-events: none;
+  height: 0;
+  position: absolute;
+}
+.bcn-pv__guide[hidden] {
+  display: none;
+}
 .bcn-pv__drag {
   border: 2px solid var(--color-content-default);
   background: color-mix(in srgb, var(--color-content-default) 8%, transparent);
@@ -168,6 +206,7 @@ The page in view, rendered from the PDF by pdf.js, with a box per commitment: da
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-commitment`: #58508d _(component)_
 - `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-requirement`: #a05195 _(component)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--radius-050`: .125rem _(primitive)_

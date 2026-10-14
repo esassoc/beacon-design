@@ -1,6 +1,6 @@
 # Aldo
 
-The conversation that scopes, checks and steers the scan of the file in view, dense at 13px, with the composer always in view and the run's status pinned above it: reading (blue), stopped for the check (yellow), done or stopped (green). The run stops after its first three commitments; Aldo says what to check, then gives each commitment its own message: a lead (where it took the ID and name from, how far the text runs) and a card with the ID, name and quoted text (clamped, with Show all), a p. N button, Looks right and Fix. Fix opens the ID, name and text as fields, with Save and Redraw the box. Requirements, timing and parties are reviewed in step 2.
+The conversation that scopes, checks and steers the scan of the file in view, dense at 13px, with the composer always in view and the run's status pinned above it: reading (blue), stopped for the check (yellow), done (green). The run stops after its first three commitments; Aldo says what to check, then gives each commitment its own message: a lead (where it took the ID and name from, how far the text runs) and a card with the ID, name and quoted text (clamped, with Show all), a p. N button, Looks right and Fix. Fix opens the ID, name and text as fields, with Save and Redraw the box. Edit ID and name on the page toolbar opens the same fields for any commitment. Requirements, timing and parties are reviewed in step 2.
 
 ## Key decisions
 - The check is the training step: what the person fixes there becomes an instruction for the rest of the file.
@@ -43,6 +43,32 @@ The conversation that scopes, checks and steers the scan of the file in view, de
             <circle cx="12" cy="12" r="10"></circle></svg></span></span
     ></span>
     <h3 class="bcn-sw3aldo__title typography-title-strong">Aldo</h3>
+    <span class="bcn-sw3aldo__close"
+      ><span
+        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+        ><button
+          class="esa-button__native typography-microcopy-2xs"
+          type="button"
+          aria-label="Collapse Aldo"
+          title="Collapse Aldo"
+          data-rail-close="aldo"
+        >
+          <span class="esa-icon esa-icon--xs" aria-hidden="true"
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m6 17 5-5-5-5"></path>
+              <path d="m13 17 5-5-5-5"></path></svg
+          ></span></button></span
+    ></span>
   </header>
   <ol class="bcn-sw3aldo__log" data-aldo-log="" aria-live="polite">
     <li class="bcn-sw3aldo__msg" data-from="aldo">
@@ -187,7 +213,7 @@ The conversation that scopes, checks and steers the scan of the file in view, de
       max-rows="6"
       auto-resize=""
       aria-label="Message Aldo"
-      placeholder="Steer the scan"
+      placeholder="Tell Aldo what to read, skip or fix"
     ></esa-textarea
     ><span class="bcn-sw3aldo__send"
       ><span
@@ -723,11 +749,15 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-sw3aldo {
   background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
+  border: 1px solid var(--bcn-aldo-100);
   border-radius: var(--radius-200);
-  flex-direction: column;
   min-height: 0;
+  box-shadow: var(--bcn-aldo-prompt-shadow);
+  flex-direction: column;
   display: flex;
+}
+.bcn-sw3aldo__close {
+  margin-left: auto;
 }
 .bcn-sw3aldo__head {
   align-items: center;
@@ -952,8 +982,15 @@ summary.esa-button--variant-chrome:focus-visible {
   padding-bottom: var(--spacing-100);
   display: inline-flex;
 }
-.bcn-sw3scan__draw .esa-button {
-  box-shadow: var(--shadow-200);
+.bcn-sw3tools esa-button-group,
+.bcn-sw3tools .esa-button,
+.bcn-sw3tools esa-dropdown-menu {
+  flex: none;
+}
+.bcn-sw3scan[data-library="closed"] .bcn-sw3scan__sources > .bcn-sw3src,
+.bcn-sw3scan[data-aldo="closed"] .bcn-sw3scan__aldo > .bcn-sw3aldo,
+.bcn-sw3scan__rail {
+  display: none;
 }
 .typography-body-sm {
   font-family: var(--typography-body-sm-font-family);
@@ -1207,7 +1244,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--radius-full`: 9999px _(primitive)_
 - `--radius-md`: .25rem _(semantic)_
 - `--radius-sm`: .25rem _(semantic)_
-- `--shadow-200`: 0 4px 20px -4px #0000000f _(component)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
@@ -1218,7 +1254,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-font-weight`: 400 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
@@ -1236,7 +1272,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -1251,7 +1287,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-title-strong-font-family`: "DM Sans", sans-serif _(semantic)_

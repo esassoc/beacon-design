@@ -23,6 +23,12 @@ import {
   markRegion,
   setFindBox,
   removeFindBox,
+  splitFind,
+  mergeFinds,
+  undo,
+  redo,
+  canUndo,
+  canRedo,
   paused,
   pausing,
   rereading,
@@ -30,7 +36,6 @@ import {
   checked,
   pace,
   skipped,
-  stopped,
   act,
   resetAll,
   resetEverything,
@@ -89,17 +94,17 @@ export function setupSw3Scan(root: HTMLElement): void {
   const tx = {
     play: $('[data-tx="play"]'),
     pause: $('[data-tx="pause"]'),
-    stop: $('[data-tx="stop"]'),
     restart: $('[data-tx="restart"]'),
   };
   const speed = $('[data-bar-speed]');
   const speedBtn = $('[data-bar-speed-btn]');
-  const mark = $('[data-bar-mark]');
-  const drawHint = $('[data-draw-hint]');
+  const pageField = $<Field & { suffix: string }>('[data-bar-page]');
+  const toolsEl = $('[data-sw3-tools]');
+  /** A page tool's native button (EsaButton puts data-* on it). */
+  const tool = (k: string) => toolsEl.querySelector<HTMLButtonElement>(`button[data-tool="${k}"]`)!;
   const railDot = $('[data-rail-dot]');
   const pagePane = $('[data-sw3-pagepane]');
   const empty = $('[data-sw3-empty]');
-  const tools = $('[data-box-tools]');
   const confirmEl = $<Confirm>('[data-confirm]');
   const newDialog = $<HTMLElement & { open: boolean }>('[data-new-dialog]');
 
@@ -107,13 +112,24 @@ export function setupSw3Scan(root: HTMLElement): void {
   const views = new Map<string, number>();
   const following = new Map<string, boolean>();
   let sel: Sel = null;
+  /** The selected find (handles, chip, keys) and any others Shift+clicked with it. */
   let selected: string | null = null;
+  const also = new Set<string>();
+  const selection = () => (selected ? [selected, ...also] : []);
+  const clearSel = () => ((selected = null), also.clear());
   /** Scroll the selected box into view on the next paint (a selection, not a re-render). */
   let reveal = false;
   let lastNewest = '';
   let selecting = false;
-  /** Redraw: the next rectangle dragged replaces this find's box on the page. */
+  /** Redraw or continue: the next rectangle dragged is this find's box on the page. */
   let redrawing: string | null = null;
+  let drawLabel = 'Redrew';
+  /** Split: a click inside this find's box cuts it. */
+  let splitting: string | null = null;
+  /** Page zoom: 1 fits the pane's width. */
+  const ZOOMS = [1, 1.25, 1.5, 2, 3];
+  let zoom = 1;
+  let hideAldo = false;
 
   const D = () => payload();
   const view = () => views.get(activeDoc()) ?? D().scope.first;
@@ -132,7 +148,7 @@ export function setupSw3Scan(root: HTMLElement): void {
   };
   const selectFile = (id: string) => {
     sel = { kind: 'file', id };
-    selected = null;
+    clearSel();
     setDrawing(false);
     saveSel();
     if (activeDoc() !== id) setActiveDoc(id);
@@ -140,7 +156,7 @@ export function setupSw3Scan(root: HTMLElement): void {
   };
   const selectSource = (id: string) => {
     sel = { kind: 'source', id };
-    selected = null;
+    clearSel();
     setDrawing(false);
     saveSel();
     render();
@@ -164,24 +180,46 @@ export function setupSw3Scan(root: HTMLElement): void {
     setFollowing(started() && !finished() && page === headPage());
     render();
   };
-  const select = (id: string) => {
+  const select = (id: string, add = false) => {
     const f = finds().find((x) => x.id === id);
     if (!f) return;
+    setSplitting(null);
+    if (add && selected) {
+      // Shift+click: add it to the selection, or take it out.
+      if (id === selected) (selected = [...also][0] ?? null), also.delete(selected!);
+      else if (also.has(id)) also.delete(id);
+      else also.add(id);
+      return render();
+    }
+    // Enter (or a click) on the box already selected opens its ID and name.
+    if (!add && id === selected && !also.size && enterEdit) return editSelected();
+    also.clear();
     selected = id;
     reveal = true;
     setView(f.boxes.find((b) => b.page === view())?.page ?? f.page);
     setFollowing(false);
     render();
   };
-  const setDrawing = (on: boolean, target: string | null = null) => {
+  const setDrawing = (on: boolean, target: string | null = null, label = 'Redrew') => {
     selecting = on;
     redrawing = on ? target : null;
+    drawLabel = label;
+    if (on) setSplitting(null);
     // Drawing holds the page still: the scan goes on, the view stops following it.
     if (on) setFollowing(false);
     pageView.setSelecting(on);
-    (mark.querySelector('button') ?? mark).setAttribute('aria-pressed', String(on && !target));
-    drawHint.hidden = !on;
-    drawHint.textContent = target ? 'Drag a new box for this commitment. Esc cancels.' : 'Drag over the commitment the scan missed. Esc cancels.';
+  };
+  const setSplitting = (id: string | null) => {
+    splitting = id;
+    pageView.setSplitting(id);
+    if (id) setFollowing(false);
+  };
+  /** Set only while a key or click on an already-selected box should open its edit. */
+  let enterEdit = false;
+  const editSelected = () => {
+    if (!selected) return;
+    setAldo(true);
+    document.dispatchEvent(new CustomEvent('sw3:edit', { detail: { id: selected } }));
   };
 
   // A box just drawn or picked takes focus, so Delete, the arrows and Escape act on it.
@@ -192,64 +230,161 @@ export function setupSw3Scan(root: HTMLElement): void {
 
   const scrubber = setupPageScrubber($('[data-page-scrubber]'), { onPage: pick, onFind: select });
   const pageView = setupPageView($('[data-page-view]'), {
-    onBox: select,
+    onBox: (id, add) => select(id, add),
+    onSplit: (id, page, y) => {
+      setSplitting(null);
+      splitFind(id, page, y);
+      focusSelected();
+    },
     onRegion: (page, box) => {
       const target = redrawing;
+      const label = drawLabel;
       setDrawing(false);
       if (target) {
-        setFindBox(target, page, box, 'Redrew');
+        setFindBox(target, page, box, label);
         selected = target;
         render();
         return focusSelected();
       }
       markRegion(page, box);
       const m = state().marks.at(-1);
-      if (m) selected = m.id;
+      if (m) (also.clear(), (selected = m.id));
       render();
       focusSelected();
     },
     onEdit: (id, page, box) => setFindBox(id, page, { page, ...box }, 'Adjusted'),
-    onRemove: (id, page) => {
-      removeFindBox(id, page);
-      if (!finds().some((f) => f.id === id)) selected = null;
-      render();
-    },
+    onRemove: () => deleteSelected(),
     onDeselect: () => {
-      selected = null;
+      clearSel();
       setDrawing(false);
+      setSplitting(null);
       render();
     },
   });
 
-  // Box tools over the selected box.
-  $('[data-box-redraw]').addEventListener('click', () => {
-    if (!selected) return;
-    setDrawing(true, selected);
+  // ── The page tools ──────────────────────────────────────────────────────────
+  /** Each selected find's box on the page in view (or its first page). */
+  const deleteSelected = () => {
+    const v = view();
+    for (const id of selection()) {
+      const f = finds().find((x) => x.id === id);
+      if (f) removeFindBox(id, f.boxes.some((b) => b.page === v) ? v : f.boxes[0]?.page ?? f.page);
+    }
+    for (const id of selection()) if (!finds().some((f) => f.id === id)) (id === selected ? (selected = null) : also.delete(id));
+    if (!selected && also.size) (selected = [...also][0]), also.delete(selected);
     render();
-  });
-  $('[data-box-delete]').addEventListener('click', () => {
-    if (!selected) return;
-    removeFindBox(selected, view());
-    if (!finds().some((f) => f.id === selected)) selected = null;
+  };
+  const setZoom = (z: number) => {
+    zoom = Math.min(ZOOMS.at(-1)!, Math.max(1, z));
+    pagePane.style.setProperty('--_zoom', String(zoom));
     render();
-  });
-  $('[data-box-ask]').addEventListener('click', () => {
+  };
+  const stepZoom = (d: 1 | -1) => {
+    const i = ZOOMS.findIndex((z) => z >= zoom - 1e-6);
+    setZoom(ZOOMS[Math.min(ZOOMS.length - 1, Math.max(0, i + d))]);
+  };
+  const toggleFollow = () => {
+    if (!started() || finished()) return;
+    if (isFollowing()) setFollowing(false);
+    else {
+      setFollowing(true);
+      const h = headPage();
+      if (h) setView(h);
+    }
+    render();
+  };
+  const toggleAldoBoxes = () => {
+    hideAldo = !hideAldo;
+    pageView.setHideAldo(hideAldo);
+    render();
+  };
+  const toggleSplit = () => {
+    if (sel?.kind !== 'file') return;
+    if (splitting) setSplitting(null);
+    else if (selected && !also.size) {
+      setDrawing(false);
+      setSplitting(selected);
+    }
+    render();
+  };
+  const continueNext = () => {
     const f = finds().find((x) => x.id === selected);
-    const field = document.querySelector<Field>('[data-aldo-input]');
-    if (!f || !field) return;
-    setAldo(true);
-    field.value = `${f.code || 'The box I selected'} on p. ${view()}: `;
-    field.focus();
+    if (!f || also.size) return;
+    const next = view() + 1;
+    if (next > total() || f.boxes.some((b) => b.page === next)) return;
+    setView(next);
+    setDrawing(true, f.id, 'Continued');
+    render();
+  };
+  const goPage = (d: number) => pick(Math.min(total(), Math.max(1, view() + d)));
+  const toolActions: Record<string, () => void> = {
+    select: () => (setDrawing(false), setSplitting(null), render()),
+    mark: () => toggleMark(),
+    split: toggleSplit,
+    merge: () => {
+      const ids = selection();
+      if (ids.length < 2) return;
+      mergeFinds(ids);
+      const keep = finds().find((f) => ids.includes(f.id));
+      also.clear();
+      selected = keep?.id ?? null;
+      render();
+    },
+    continue: continueNext,
+    edit: editSelected,
+    delete: deleteSelected,
+    follow: toggleFollow,
+    'zoom-out': () => stepZoom(-1),
+    'zoom-in': () => stepZoom(1),
+    'zoom-fit': () => setZoom(1),
+    'aldo-boxes': toggleAldoBoxes,
+    undo: () => undo(),
+    redo: () => redo(),
+  };
+  const moreMenu = $('[data-tools-more]');
+  moreMenu.addEventListener('menu-action', (e) => toolActions[(e as CustomEvent<string>).detail]?.());
+  toolsEl.addEventListener('click', (e) => {
+    const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-tool]');
+    if (b && !b.disabled) toolActions[b.dataset.tool!]?.();
   });
-  const placeTools = () => {
-    const box = root.querySelector<HTMLElement>('.bcn-pv__box[data-selected]');
-    const sheet = $('.bcn-sw3scan__sheet');
-    tools.hidden = !box || selecting || sel?.kind !== 'file';
-    if (tools.hidden || !box) return;
-    const b = box.getBoundingClientRect();
-    const s = sheet.getBoundingClientRect();
-    tools.style.left = `${b.right - s.left + 4}px`;
-    tools.style.top = `${b.top - s.top}px`;
+  /** Each tool live only when it can act; the modes and toggles read as pressed. */
+  const paintTools = (fileMode: boolean) => {
+    toolsEl.hidden = !fileMode;
+    if (!fileMode) return;
+    const n = selection().length;
+    const f = finds().find((x) => x.id === selected);
+    const next = view() + 1;
+    const live = started() && !finished();
+    const set = (k: string, enabled: boolean, pressed?: boolean) => {
+      const b = tool(k);
+      b.disabled = !enabled;
+      if (pressed !== undefined) b.setAttribute('aria-pressed', String(pressed));
+    };
+    set('select', true, !selecting && !splitting);
+    set('mark', true, selecting && !redrawing);
+    set('edit', n === 1);
+    set('delete', n >= 1);
+    set('follow', live, live && isFollowing());
+    set('zoom-out', zoom > 1);
+    set('zoom-in', zoom < ZOOMS.at(-1)!);
+    set('zoom-fit', true);
+    setLabel(tool('zoom-fit'), `${Math.round(zoom * 100)}%`);
+    set('undo', canUndo());
+    // More tools: each item live only when it can act.
+    const hasAldo = finds().some((x) => !x.edited && !x.marked);
+    const items = [
+      { label: splitting ? 'Cancel split' : 'Split the box (S)', action: 'split', disabled: !splitting && !(n === 1 && !!f?.boxes.some((b) => b.page === view())) },
+      { label: 'Merge into one commitment', action: 'merge', disabled: n < 2 },
+      { label: 'Continue on next page', action: 'continue', disabled: !(n === 1 && !!f && next <= total() && !f.boxes.some((b) => b.page === next)) },
+      { divider: true },
+      { label: hideAldo ? "Show Aldo's boxes (B)" : "Hide Aldo's boxes (B)", action: 'aldo-boxes', disabled: !hasAldo && !hideAldo },
+    ];
+    const sig = JSON.stringify(items);
+    if (moreMenu.dataset.sig !== sig) {
+      moreMenu.dataset.sig = sig;
+      (moreMenu as HTMLElement & { items: unknown }).items = items;
+    }
+    set('redo', canRedo());
   };
 
   // ── Sources ─────────────────────────────────────────────────────────────────
@@ -391,17 +526,6 @@ export function setupSw3Scan(root: HTMLElement): void {
     else act('Resume', { kind: 'resume' }, `Resuming at p. ${headPage()}.`);
   });
   tx.pause.addEventListener('click', () => act('Pause', { kind: 'pause' }, `Pausing after p. ${headPage()}: that page is already being read.`));
-  tx.stop.addEventListener('click', () =>
-    ask(
-      'Stop the scan?',
-      'The scan ends at the page it is on. What it found is kept; the pages after it are not read. Restart reads the file again from the start.',
-      'Stop scan',
-      () => {
-        const head = headPage();
-        act('Stop', { kind: 'stop' }, `Stopped${head ? ` before p. ${head}` : ''}. What I found is kept.`);
-      },
-    ),
-  );
   tx.restart.addEventListener('click', restart);
   customElements.whenDefined('esa-dropdown-menu').then(() => ((speed as HTMLElement & { items: unknown }).items = JSON.parse(speed.dataset.items!)));
   speed.addEventListener('menu-action', (e) => {
@@ -414,22 +538,64 @@ export function setupSw3Scan(root: HTMLElement): void {
     setDrawing(!(selecting && !redrawing));
     render();
   };
-  mark.addEventListener('click', toggleMark);
+  // The page in view, typed into the console's page field.
+  const goTyped = () => {
+    const n = parseInt(String(pageField.value ?? ''), 10);
+    if (n >= 1) pick(Math.min(total(), n));
+  };
+  pageField.addEventListener('change', goTyped);
+  pageField.addEventListener('keydown', (e) => {
+    if ((e as KeyboardEvent).key === 'Enter') goTyped();
+  });
   document.addEventListener('keydown', (e) => {
     const t = e.target as HTMLElement;
-    if (t.closest('input, textarea, esa-textarea, esa-text-field, [contenteditable]') || e.metaKey || e.ctrlKey || e.altKey) return;
-    if (e.key === 'm' || e.key === 'M') toggleMark();
-    if (e.key === 'Escape' && selecting) {
+    if (sel?.kind !== 'file' || t.closest('input, textarea, esa-textarea, esa-text-field, [contenteditable], esa-dialog, esa-side-dialog')) return;
+    if ((e.metaKey || e.ctrlKey) && (e.key === 'z' || e.key === 'Z')) {
+      e.preventDefault();
+      return e.shiftKey ? redo() : undo();
+    }
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const keys: Record<string, () => void> = {
+      v: toolActions.select,
+      m: toggleMark,
+      s: toggleSplit,
+      f: toggleFollow,
+      b: toggleAldoBoxes,
+      '[': () => goPage(-1),
+      ']': () => goPage(1),
+      '-': () => stepZoom(-1),
+      '=': () => stepZoom(1),
+      '+': () => stepZoom(1),
+      '0': () => setZoom(1),
+    };
+    const run = keys[e.key.length === 1 ? e.key.toLowerCase() : e.key];
+    if (run) {
+      e.preventDefault();
+      return run();
+    }
+    if (e.key === 'Escape' && (selecting || splitting)) {
       setDrawing(false);
+      setSplitting(null);
       render();
     }
   });
+  // Enter on the selected box opens its ID and name; on another box, selects it.
+  $('[data-page-view]').addEventListener(
+    'keydown',
+    (e) => {
+      if (e.key !== 'Enter') return;
+      const id = (e.target as HTMLElement).closest<HTMLElement>('[data-box-id]')?.dataset.boxId;
+      enterEdit = id === selected;
+    },
+    true,
+  );
+  $('[data-page-view]').addEventListener('keyup', () => (enterEdit = false));
   document.querySelector('[data-sw3-reset]')?.addEventListener('click', () =>
     ask('Reset the prototype?', 'Every scan, steer and upload is cleared, and the source documents go back to the three DCP files.', 'Reset', async () => {
       resetEverything();
       views.clear();
       following.clear();
-      selected = null;
+      clearSel();
       await resetSources(seed);
       afterRemoval();
     }),
@@ -446,12 +612,10 @@ export function setupSw3Scan(root: HTMLElement): void {
   const setAldo = (open: boolean) => {
     root.dataset.aldo = open ? 'open' : 'closed';
     savePanels();
-    requestAnimationFrame(placeTools);
   };
   const setLibrary = (open: boolean) => {
     root.dataset.library = open ? 'open' : 'closed';
     savePanels();
-    requestAnimationFrame(placeTools);
   };
   try {
     const p = JSON.parse(localStorage.getItem(PANELS_KEY) ?? '{}') as { library?: string; aldo?: string };
@@ -474,8 +638,6 @@ export function setupSw3Scan(root: HTMLElement): void {
     setDrawing(true, id);
     render();
   });
-  window.addEventListener('resize', () => requestAnimationFrame(placeTools));
-  $('[data-sw3-main]').addEventListener('scroll', () => requestAnimationFrame(placeTools));
 
   // ── A file's state, for its row ─────────────────────────────────────────────
   const fileState = (): FileState => {
@@ -543,10 +705,8 @@ export function setupSw3Scan(root: HTMLElement): void {
     toolbar.toggleAttribute('inert', !fileMode);
     toolbar.toggleAttribute('data-disabled', !fileMode);
 
-    if (!fileMode) {
-      tools.hidden = true;
-      return;
-    }
+    paintTools(fileMode);
+    if (!fileMode) return;
 
     const on = started();
     const list = on ? finds() : [];
@@ -577,9 +737,12 @@ export function setupSw3Scan(root: HTMLElement): void {
     };
     key('play', !skipped() && !done && (on ? !reading : !!go), reading);
     key('pause', reading, isPaused || isChecking);
-    key('stop', on && !done, stopped());
     key('restart', on || skipped(), false);
-    setLabel(tx.play, on ? 'Resume' : 'Start');
+    setLabel(tx.play, on ? 'Resume' : 'Scan');
+    // The page in view, of the file's pages.
+    if (!pageField.matches(':focus-within')) pageField.value = String(view());
+    const of = `of ${total()}`;
+    if (pageField.suffix !== of) pageField.suffix = of;
     setLabel(speedBtn, PACE_LABEL[pace()]);
 
     // Scrubber: every page of the file; a page being re-read is unread again.
@@ -601,7 +764,19 @@ export function setupSw3Scan(root: HTMLElement): void {
       if (!onPage.length) continue;
       const kind = !f.code && f.marked ? 'mark' : 'find';
       onPage.forEach((b, i) =>
-        boxes.push({ key: `${f.id}:${i}`, id: f.id, kind, ...b, parsed: f.parsed || f.edited, edited: f.edited, selected: f.id === selected, editable: f.id === selected && !selecting, label: f.code || f.title }),
+        boxes.push({
+          key: `${f.id}:${i}`,
+          id: f.id,
+          kind,
+          ...b,
+          parsed: f.parsed || f.edited,
+          edited: f.edited,
+          mine: f.edited || f.marked,
+          selected: f.id === selected || also.has(f.id),
+          editable: f.id === selected && !also.size && !selecting && !splitting,
+          chip: f.id === selected ? (f.shown ? `${f.shown.replace(/^COA\s+/, '')} ${f.title}` : f.parsed ? f.title : 'No ID') : undefined,
+          label: f.shown || f.title,
+        }),
       );
     }
     const pdf = D().pdf ?? '';
@@ -621,13 +796,12 @@ export function setupSw3Scan(root: HTMLElement): void {
       const pane = $('[data-sw3-main]');
       const p = pane.getBoundingClientRect();
       const t = target.getBoundingClientRect();
-      const above = t.top - p.top - 56;
+      const above = t.top - p.top - 40;
       const below = t.bottom - p.bottom + 16;
       const by = reveal || above < 0 ? above : below > 0 ? Math.min(below, above) : 0;
       if (by) pane.scrollBy({ top: by, behavior: 'smooth' });
     }
     reveal = false;
-    requestAnimationFrame(placeTools);
   };
 
   document.addEventListener('sw3:change', render);

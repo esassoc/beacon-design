@@ -14,6 +14,9 @@
 //   out  onRegion(page, box)     a rectangle was dragged in select mode
 //   out  onEdit(id, page, box)   a selected (editable) box was moved or resized
 //   out  onRemove(id, page)      Delete on a selected box
+//   out  onSplit(id, page, y)    split mode: a click inside the box cuts it at y
+// setSplitting(id) arms split mode on one find; setHideAldo(on) hides Aldo's boxes (the
+// person's stay). A selected box passed a `chip` wears its ID and name above it.
 // A box passed with `editable` gets eight handles: drag the body to move, a handle to
 // resize; arrows nudge (Shift for more, Alt to resize), Delete removes, Escape lets go.
 //
@@ -33,6 +36,7 @@ const { aspect } = Astro.props;
     <canvas class="bcn-pv__img" data-pv-canvas role="img"></canvas>
     <div class="bcn-pv__boxes" data-pv-boxes></div>
     <div class="bcn-pv__drag" data-pv-drag hidden></div>
+    <div class="bcn-pv__guide" data-pv-guide hidden></div>
   </div>
 </div>
 
@@ -126,6 +130,36 @@ const { aspect } = Astro.props;
   .bcn-pv__boxes :global(.bcn-pv__handle[data-handle='sw']) { left: -4px; top: calc(100% + 4px); cursor: nesw-resize; }
   .bcn-pv__boxes :global(.bcn-pv__handle[data-handle='w']) { left: -4px; top: 50%; cursor: ew-resize; }
   .bcn-pv__boxes :global(.bcn-pv__box[data-dragging]) { animation: none; transition: none; }
+
+  /* The selected box's ID and name, sat on its top edge. */
+  .bcn-pv__boxes :global(.bcn-pv__chip) {
+    position: absolute;
+    left: -6px;
+    bottom: calc(100% + 8px);
+    max-width: min(28rem, 90vw);
+    padding: 2px 6px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--color-commitment);
+    color: var(--color-content-default-knockout);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.35;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    pointer-events: none;
+  }
+  /* Aldo's boxes hidden: the dashed ones go, a person's stay, and so does the selection. */
+  .bcn-pv[data-hide-aldo] :global(.bcn-pv__box[data-kind='find']:not([data-mine]):not([data-selected])) { visibility: hidden; }
+  /* Split: the box to cut takes a row cursor, and a guide runs across it at the pointer. */
+  .bcn-pv__boxes :global(.bcn-pv__box[data-splitting]) { cursor: row-resize; }
+  .bcn-pv__guide {
+    position: absolute;
+    height: 0;
+    border-top: 2px dashed var(--color-content-default);
+    pointer-events: none;
+  }
+  .bcn-pv__guide[hidden] { display: none; }
 
   .bcn-pv__drag {
     position: absolute;

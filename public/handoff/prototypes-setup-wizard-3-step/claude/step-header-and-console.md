@@ -1,17 +1,16 @@
 # Step header and console
 
-One panel: the step's numeral and title with the two panel toggles (Hide library, and Aldo's own invoker, Hide Aldo / Show Aldo); under a gray rule, the console for the file in view, centered: the transport (Start or Resume, Pause, Stop, Restart), each a neutral key with its icon and name, and the speed (One at a time, Slow, Fast) in a menu. Below, every page of the file in one strip. Where the run is is said once, in Aldo's status.
+One panel: the step's numeral, title and prod's description; under a gray rule, the console for the file in view, centered: the transport (Scan or Resume, Pause, Restart), each a neutral key with its icon and name, the page in view of the file's page count as one field (type a page to go to it), and the speed (One at a time, Slow, Fast) in a menu. Below, every page of the file in one strip. Where the run is is said once, in Aldo's status.
 
 ## Key decisions
-- Each key is live only when it can act, and the run's state reads as a pressed key: Start before the run, Resume when it is paused or stopped for the check, Pause while it reads, Stop while it has pages left, Restart once it has begun.
-- Stop ends the run at the page it is on and keeps what it found; the pages after it are not read. It asks first. Restart clears the file's scan and steers.
-- Speed is how fast the job dispatches page windows: a real control in prod. Every speed change, pause, resume and stop is recorded as a steer.
+- Each key is live only when it can act, and the run's state reads as a pressed key: Scan before the run, Resume when it is paused or stopped for the check, Pause while it reads, Restart once it has begun. Restart asks first and clears the file's scan and steers.
+- Speed is how fast the job dispatches page windows: a real control in prod. Every speed change, pause and resume is recorded as a steer.
 - With a source (not a file) selected, the console is dimmed and inert.
 
 ## Done when
 - At the check after the first three commitments, Resume goes on past it at the speed chosen.
-- Stop, confirm: Aldo's status reads "Stopped. N commitments found." and only Restart is live.
-- Hide library and Hide Aldo: the page takes the width; each toggle reads Show.
+- Type 140 in the page field and press Enter: the page and the scrubber's thumb move to p. 140.
+- Fold the Library and Aldo from their headers: each becomes a rail and the page takes the width; a rail opens it again.
 
 ## Markup
 ```html
@@ -26,8 +25,9 @@ One panel: the step's numeral and title with the two panel toggles (Hide library
         ><button
           class="esa-button__native typography-microcopy-xs"
           type="button"
-          data-ico="play"
+          data-ico="scan-text"
           data-tx="play"
+          aria-pressed="false"
         >
           <span class="esa-icon esa-icon--sm" aria-hidden="true"
             ><svg
@@ -40,10 +40,16 @@ One panel: the step's numeral and title with the two panel toggles (Hide library
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-ico="play"
+              data-ico="scan-text"
             >
-              <polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span
-          ><span class="esa-button__label">Start</span>
+              <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
+              <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+              <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+              <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
+              <path d="M7 8h8"></path>
+              <path d="M7 12h10"></path>
+              <path d="M7 16h6"></path></svg></span
+          ><span class="esa-button__label">Scan</span>
         </button></span
       ><span
         class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
@@ -53,6 +59,7 @@ One panel: the step's numeral and title with the two panel toggles (Hide library
           data-ico="pause"
           data-tx="pause"
           disabled=""
+          aria-pressed="false"
         >
           <span class="esa-icon esa-icon--sm" aria-hidden="true"
             ><svg
@@ -76,33 +83,9 @@ One panel: the step's numeral and title with the two panel toggles (Hide library
         ><button
           class="esa-button__native typography-microcopy-xs"
           type="button"
-          data-ico="square"
-          data-tx="stop"
-          disabled=""
-        >
-          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-            ><svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-              data-ico="square"
-            >
-              <rect width="18" height="18" x="3" y="3" rx="2"></rect></svg></span
-          ><span class="esa-button__label">Stop</span>
-        </button></span
-      ><span
-        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-        ><button
-          class="esa-button__native typography-microcopy-xs"
-          type="button"
           data-tx="restart"
           disabled=""
+          aria-pressed="false"
         >
           <span class="esa-icon esa-icon--sm" aria-hidden="true"
             ><svg
@@ -121,6 +104,15 @@ One panel: the step's numeral and title with the two panel toggles (Hide library
           ><span class="esa-button__label">Restart</span>
         </button></span
       ></esa-button-group
+    ><esa-text-field
+      class="bcn-sw3bar__page"
+      size="sm"
+      inputmode="numeric"
+      aria-label="Page"
+      prefix="p."
+      suffix="of 1"
+      data-bar-page="true"
+    ></esa-text-field
     ><esa-dropdown-menu
       position="below-start"
       data-bar-speed="true"
@@ -852,17 +844,30 @@ summary.esa-button--variant-chrome:focus-visible {
   align-self: center;
   display: flex;
 }
+.bcn-sw3bar__page {
+  --_field-padding-x: 0.4375rem;
+  --typography-microcopy-xs-subtle-font-weight: var(
+    --typography-microcopy-xs-font-weight,
+    500
+  );
+  --form-affix-bg: var(--color-background-elevation-raised);
+  --form-affix-color: var(--color-content-default);
+  --form-affix-border-color: transparent;
+  --color-background-field: var(--color-background-elevation-raised);
+  width: 7.25rem;
+}
 .bcn-sw3bar [data-tx][aria-pressed="true"] {
   background: var(--color-background-elevation-sunken);
   box-shadow: inset 0 1px 3px
     color-mix(in srgb, var(--color-content-default) 22%, transparent);
 }
 .bcn-sw3bar__console esa-dropdown-menu[data-bar-speed] {
-  --spacing-200: 0.3125rem;
-  --spacing-300: 0.625rem;
+  --spacing-200: 0.25rem;
+  --spacing-300: 0.5rem;
   --dropdown-menu-min-width: 8.5rem;
   --typography-body-md-font-size: 0.8125rem;
   --typography-body-md-line-height: 1.3;
+  --typography-body-md-font-weight: var(--typography-font-weight-medium);
 }
 .bcn-sw3bar__console [data-bar-speed] > * {
   --spacing-200: 0.5rem;
@@ -878,8 +883,10 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3bar[data-disabled] .bcn-sw3bar__scrub {
   visibility: hidden;
 }
-.bcn-sw3scan__draw .esa-button {
-  box-shadow: var(--shadow-200);
+.bcn-sw3tools esa-button-group,
+.bcn-sw3tools .esa-button,
+.bcn-sw3tools esa-dropdown-menu {
+  flex: none;
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -1001,7 +1008,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
-- `--shadow-200`: 0 4px 20px -4px #0000000f _(component)_
 - `--shadow-300`: 0 6px 24px -6px #00000012 _(component)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
@@ -1010,6 +1016,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
+- `--typography-font-weight-medium`: 500 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
@@ -1022,6 +1029,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

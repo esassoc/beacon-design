@@ -1,6 +1,6 @@
 # Library
 
-The Library (the page is already Source Documents), dense at 13px with 12px states, and hideable from the header. Prod's model: a source document (name, reference number) holds files, and each file is scanned on its own. Each source folds open or shut by its chevron, and is its name, with a menu (Edit details, Add files, Delete source document); its files sit under it, one row each with the name (middle-truncated so the version and date stay) and one state: Not scanned, Reading p. 16 of 170 with a progress bar, a warning badge "3 to check", Paused at p. 40, 157 commitments, No commitments. A file's menu downloads it, restarts its scan or deletes it. New source document is pinned at the foot.
+The Library (the page is already Source Documents), dense at 13px with 12px states, folding into a rail from its header. Prod's model: a source document (name, reference number) holds files, and each file is scanned on its own. Each source folds open or shut by its chevron, and is its name, with a menu (Edit details, Add files, Delete source document); its files sit under it, one row each with the name (middle-truncated so the version and date stay) and one state: Not scanned, Reading p. 16 of 170 with a progress bar, a warning badge "3 to check", Paused at p. 40, 157 commitments, No commitments. A file's menu downloads it, restarts its scan or deletes it. New source document is pinned at the foot.
 
 ## Key decisions
 - SetupWizardSourceDto and SetupWizardSourceFileDto as they are: source fields plus files with PageCount and CommitmentCount. The per-file scan state is new.
@@ -14,7 +14,34 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
 ## Markup
 ```html
 <aside class="bcn-sw3src" data-sw3-sources="" aria-label="Library">
-  <header class="bcn-sw3src__head"><h3 class="bcn-sw3src__title">Library</h3></header>
+  <header class="bcn-sw3src__head">
+    <h3 class="bcn-sw3src__title">Library</h3>
+    <span
+      class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+      ><button
+        class="esa-button__native typography-microcopy-2xs"
+        type="button"
+        aria-label="Collapse the library"
+        title="Collapse the library"
+        data-rail-close="library"
+      >
+        <span class="esa-icon esa-icon--xs" aria-hidden="true"
+          ><svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <path d="m11 17-5-5 5-5"></path>
+            <path d="m18 17-5-5 5-5"></path></svg
+        ></span></button
+    ></span>
+  </header>
   <div class="bcn-sw3src__list" data-src-list="">
     <section class="bcn-sw3src__source" data-source="src-itp">
       <div class="bcn-sw3src__srcrow">
@@ -988,16 +1015,22 @@ summary.esa-button--variant-chrome:focus-visible {
   background: var(--color-background-elevation-raised);
   border: 1px solid var(--color-border-default);
   border-radius: var(--radius-200);
-  flex-direction: column;
   height: 100%;
   min-height: 0;
+  box-shadow: var(--elevation-3);
+  flex-direction: column;
   font-size: 0.8125rem;
   line-height: 1.3;
   display: flex;
+  overflow: hidden;
 }
 .bcn-sw3src__head {
-  padding: var(--spacing-300) var(--spacing-400);
-  border-bottom: 1px solid var(--color-border-default-subtle);
+  padding: var(--spacing-200) var(--spacing-200) var(--spacing-200) var(--spacing-400);
+  background: var(--color-background-elevation-sunken);
+  border-bottom: 1px solid var(--color-border-default);
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
 }
 .bcn-sw3src__title {
   color: var(--color-content-default);
@@ -1036,7 +1069,13 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-sw3src__list .bcn-sw3src__fold {
   flex: none;
-  padding: 4px 0 0 2px;
+  margin: 3px 0 0 2px;
+}
+.bcn-sw3src__list button[data-src-fold] {
+  width: 24px;
+  height: 24px;
+  min-height: 24px;
+  padding: 5px;
 }
 .bcn-sw3src__list .bcn-sw3src__fold svg {
   transition: transform 0.15s;
@@ -1141,8 +1180,15 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3src__list .bcn-sw3src__menu[open] {
   opacity: 1;
 }
-.bcn-sw3scan__draw .esa-button {
-  box-shadow: var(--shadow-200);
+.bcn-sw3tools esa-button-group,
+.bcn-sw3tools .esa-button,
+.bcn-sw3tools esa-dropdown-menu {
+  flex: none;
+}
+.bcn-sw3scan[data-library="closed"] .bcn-sw3scan__sources > .bcn-sw3src,
+.bcn-sw3scan[data-aldo="closed"] .bcn-sw3scan__aldo > .bcn-sw3aldo,
+.bcn-sw3scan__rail {
+  display: none;
 }
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
@@ -1164,6 +1210,35 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-microcopy-2xs-strong-font-weight);
   line-height: var(--typography-microcopy-2xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
 }
 .esa-progress-bar {
   --_progress-height: var(--progress-bar-height-md, 8px);
@@ -1227,35 +1302,6 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .esa-progress-bar__fill {
   background: highlight;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
 }
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
@@ -1417,6 +1463,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
+- `--elevation-3`: 0 4px 20px -4px #0000000f _(semantic)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
@@ -1435,7 +1482,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--radius-full`: 9999px _(primitive)_
 - `--radius-pill`: 9999px _(semantic)_
 - `--radius-sm`: .25rem _(semantic)_
-- `--shadow-200`: 0 4px 20px -4px #0000000f _(component)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
@@ -1456,6 +1502,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_

@@ -100,6 +100,14 @@
   --color-background-default:     var(--bcn-gray-50);
   --color-background-elevation-sunken: var(--bcn-gray-100);
 
+  /* ===== TEXT WEIGHT =====
+     The hub's regular is DM Sans 350, a half-step its variable axis allows. At Beacon's
+     dense sizes (13 to 15px) 350 reads thin and washed out, as if disabled (Andy,
+     2026-10-14). Beacon's regular is 400, as prod's is. Every body, microcopy-subtle and
+     menu composite reads this step, so one re-point moves them all (data-theme sits on
+     <html>, the same element the composites are declared on). */
+  --typography-font-weight-regular: var(--font-weight-400);
+
   /* ===== MONO / DECORATIVE FACES ===== */
   /* Beacon ships Roboto Mono (not the hub default DM Mono) for code/id displays. */
   --typography-font-family-mono: 'Roboto Mono', ui-monospace, monospace;

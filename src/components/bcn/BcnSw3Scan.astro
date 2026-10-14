@@ -9,8 +9,9 @@
 //
 // The header holds the step's title and what it is for; the library and Aldo each fold
 // into a narrow rail from their own headers (as the app's side nav does). The console is the run's transport (Play, Pause, Stop, Restart) and speed, then
-// every page of the file in one strip. Where the run is lives in Aldo, as its status. Mark
-// a missed commitment floats over the page it acts on. Reset the prototype sits below. Selecting a
+// every page of the file in one strip. Where the run is lives in Aldo, as its status. The
+// tools for working on the page by hand sit in a bar across the page pane's top. Reset the
+// prototype sits below. Selecting a
 // source shows its details (name, reference number, files, upload); selecting a file shows
 // its scan: the page, rendered from the PDF, with a box per commitment that a person can
 // select, move, resize, redraw or delete. Aldo, on the right, scopes, checks and steers.
@@ -18,17 +19,14 @@
 // Each file has its own run, conversation and record (sw3-store); sources and files are
 // sw3-sources.ts. Every run keeps going while another file is in view.
 //
-// Composes: bcn-sw-step-panel, bcn-sw3-toolbar, bcn-sw3-sources, bcn-page-view,
+// Composes: bcn-sw-step-panel, bcn-sw3-toolbar, bcn-sw3-page-tools, bcn-sw3-sources, bcn-page-view,
 // bcn-sw3-source-editor, bcn-sw3-aldo; esa-side-dialog (new source), esa-confirm-dialog
 // (deletes), esa-empty-state (no sources).
 //
-// bcn-lego-checked: every control is a lego; each pane is a bcn- component. The box tools
-// over a selected box are esa-icon-buttons in a positioned group (esa-popover anchors to
-// a trigger element in flow, not to a box drawn over a canvas). No esa- lego is a document
+// bcn-lego-checked: every control is a lego; each pane is a bcn- component. No esa- lego is a document
 // workspace with a run; checked Beacon (source-pdf-viewer is the page pane alone).
 // bcn-sw3-scan is the home for this step's workspace.
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnSwStepPanel from './BcnSwStepPanel.astro';
@@ -37,6 +35,7 @@ import BcnSw3Sources from './BcnSw3Sources.astro';
 import BcnSw3SourceEditor from './BcnSw3SourceEditor.astro';
 import BcnSw3Aldo from './BcnSw3Aldo.astro';
 import BcnSw3Toolbar from './BcnSw3Toolbar.astro';
+import BcnSw3PageTools from './BcnSw3PageTools.astro';
 import BcnAldoMark from './BcnAldoMark.astro';
 import { SW3_REVIEW, SW3_STEPS } from '../../data/setup-wizard-3-step';
 import { SCAN_DOCS, SCAN_SOURCES } from '../../data/sw3-docs';
@@ -67,25 +66,17 @@ const sources = {
     </button>
   </div>
 
-  <div class="bcn-sw3scan__main" data-sw3-main>
-    <div class="bcn-sw3scan__page" data-sw3-pagepane>
-      <div class="bcn-sw3scan__draw" data-sw3-draw>
-        <EsaButton variant="secondary" size="sm" icon="plus" data-ico="square-dashed" data-bar-mark aria-pressed="false">Mark a missed commitment</EsaButton>
-        <p class="bcn-sw3scan__drawhint typography-body-sm" data-draw-hint hidden>Drag over the commitment the scan missed. Esc cancels.</p>
-      </div>
-      <div class="bcn-sw3scan__sheet">
+  <div class="bcn-sw3scan__main">
+    <BcnSw3PageTools />
+    <div class="bcn-sw3scan__scroll" data-sw3-main>
+      <div class="bcn-sw3scan__page" data-sw3-pagepane>
         <BcnPageView aspect={1.2941} />
-        <div class="bcn-sw3scan__boxtools" data-box-tools hidden role="toolbar" aria-label="Selected box">
-          <EsaIconButton icon="menu" label="Redraw box" size="sm" data-ico="square-dashed" data-box-redraw />
-          <EsaIconButton icon="trash-2" label="Delete box" size="sm" data-box-delete />
-          <EsaIconButton icon="menu" label="Ask Aldo about it" size="sm" data-ico="message-square" data-box-ask />
-        </div>
       </div>
-    </div>
-    <BcnSw3SourceEditor />
-    <div class="bcn-sw3scan__empty" data-sw3-empty hidden>
-      <EsaEmptyState title="No source documents" description="Add a source document, then upload its files." />
-      <EsaButton variant="primary" size="sm" icon="plus" data-ico="file-plus" data-empty-new>New source document</EsaButton>
+      <BcnSw3SourceEditor />
+      <div class="bcn-sw3scan__empty" data-sw3-empty hidden>
+        <EsaEmptyState title="No source documents" description="Add a source document, then upload its files." />
+        <EsaButton variant="primary" size="sm" icon="plus" data-ico="file-plus" data-empty-new>New source document</EsaButton>
+      </div>
     </div>
   </div>
 
@@ -189,32 +180,6 @@ const sources = {
   .bcn-sw3scan__panel { grid-column: 1 / -1; }
   .bcn-sw3scan__reset { display: flex; justify-content: flex-end; padding: var(--spacing-400) 0 var(--spacing-200); }
 
-  /* Mark a missed commitment: a tool floated over the page, with what to do while it is on. */
-  .bcn-sw3scan__draw {
-    position: sticky;
-    top: 0;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-300);
-    margin: 0 0 var(--spacing-200);
-  }
-  .bcn-sw3scan__draw :global(.esa-button) { box-shadow: var(--shadow-200); }
-  /* On: the page is a drawing surface until a box is drawn or Esc. */
-  .bcn-sw3scan__draw :global([aria-pressed='true']) {
-    background: var(--color-background-inverse);
-    color: var(--color-content-default-knockout);
-    border-color: var(--color-background-inverse);
-  }
-  .bcn-sw3scan__drawhint {
-    margin: 0;
-    padding: var(--spacing-100) var(--spacing-300);
-    border-radius: var(--radius-100);
-    background: var(--color-background-inverse);
-    color: var(--color-content-default-knockout);
-  }
-  .bcn-sw3scan__drawhint[hidden] { display: none; }
-
   .bcn-sw3scan__sources,
   .bcn-sw3scan__main,
   .bcn-sw3scan__aldo {
@@ -225,32 +190,28 @@ const sources = {
   .bcn-sw3scan__sources > :global(*),
   .bcn-sw3scan__aldo > :global(*) { flex: 1; min-height: 0; }
 
+  /* The page pane: the tools across its top, then the page, which alone scrolls. */
   .bcn-sw3scan__main {
     background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
+    overflow: hidden;
+  }
+  .bcn-sw3scan__scroll {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
     overflow: auto;
   }
-  /* The page fills the pane's width: no gray gutters around the document. */
+  /* The page fills the pane's width at fit (zoom 1); zoomed in, it is wider than the pane
+     and the pane scrolls both ways. */
   .bcn-sw3scan__page {
+    width: calc(100% * var(--_zoom, 1));
     padding: var(--spacing-200);
+    box-sizing: border-box;
   }
   .bcn-sw3scan__page[hidden] { display: none; }
-  .bcn-sw3scan__sheet { position: relative; }
-
-  /* The selected box's tools, floated over its top right corner. */
-  .bcn-sw3scan__boxtools {
-    position: absolute;
-    z-index: 2;
-    display: flex;
-    gap: 2px;
-    padding: 2px;
-    transform: translate(-100%, calc(-100% - 10px));
-    background: var(--color-background-elevation-raised);
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-100);
-    box-shadow: var(--shadow-200);
-  }
-  .bcn-sw3scan__boxtools[hidden] { display: none; }
 
   .bcn-sw3scan__empty {
     flex: 1;
