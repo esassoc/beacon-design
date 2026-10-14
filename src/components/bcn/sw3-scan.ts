@@ -65,9 +65,9 @@ const show = (btn: HTMLElement | null, on: boolean) => {
   const host = (btn.closest('.esa-button') as HTMLElement | null) ?? btn;
   host.style.display = on ? '' : 'none';
 };
-const PACE_LABEL: Record<Pace, string> = { step: 'One at a time', watch: 'Watch', run: 'Full speed' };
+const PACE_LABEL: Record<Pace, string> = { step: 'One at a time', watch: 'Slow', run: 'Fast' };
 const PACE_REPLY: Record<Pace, string> = {
-  run: 'Going at full speed. I will raise anything that needs you as I reach it.',
+  run: 'Going fast. I will raise anything that needs you as I reach it.',
   watch: 'Going slowly, so you can follow along.',
   step: 'One commitment at a time: I will stop after each.',
 };

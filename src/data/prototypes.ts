@@ -856,7 +856,7 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'setup-wizard-3-step-scan',
         title: 'Step 1 — Source Documents',
         description:
-          'Source documents hold files, as in prod: upload, name, download and delete, with each file scanned on its own and its state in the sidebar. One panel holds the status line, Mark missed, the pace (One at a time, Watch, Full speed), one primary and a scrubber of every page. The PDF renders live with a box per commitment that a person can select, move, resize, redraw or delete. The run stops after its first three commitments so the person can check each one\'s ID, name and text, fixing any in place, then runs at the pace chosen. Every steer and edit is kept with the page it came on.',
+          'Source documents hold files, as in prod: upload, name, download and delete, with each file scanned on its own and its state in the sidebar. One panel holds the status line, Mark missed, the pace (One at a time, Slow, Fast), one primary and a scrubber of every page. The PDF renders live with a box per commitment that a person can select, move, resize, redraw or delete. The run stops after its first three commitments so the person can check each one\'s ID, name and text, fixing any in place, then runs at the pace chosen. Every steer and edit is kept with the page it came on.',
         route: '/prototypes/setup-wizard-3-step',
         createdAt: '2026-10-14',
         status: 'in-progress',

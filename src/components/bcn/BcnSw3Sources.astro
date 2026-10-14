@@ -48,7 +48,6 @@ import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
         <EsaButton variant="chrome" iconOnly icon="chevron-down" label="Collapse" size="xs" class="bcn-sw3src__fold" data-src-fold aria-expanded="true" />
         <button type="button" class="bcn-sw3src__srcbtn" data-src-open>
           <span class="bcn-sw3src__name" data-src-name></span>
-          <span class="bcn-sw3src__ref" data-src-ref></span>
         </button>
         <esa-dropdown-menu class="bcn-sw3src__menu" position="below-end" data-src-menu>
           <EsaIconButton icon="menu" label="Source document actions" size="xs" data-ico="ellipsis" />
@@ -93,7 +92,7 @@ import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
     line-height: 1.3;
   }
   .bcn-sw3src__head {
-    padding: var(--spacing-200) var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
     border-bottom: 1px solid var(--color-border-default-subtle);
   }
   .bcn-sw3src__title {
@@ -106,13 +105,13 @@ import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-    padding: var(--spacing-100);
+    padding: var(--spacing-200);
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-100);
+    gap: var(--spacing-300);
   }
   .bcn-sw3src__foot {
-    padding: var(--spacing-100) var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-300);
     border-top: 1px solid var(--color-border-default-subtle);
   }
 
@@ -131,7 +130,7 @@ import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
     background: var(--color-background-elevation-sunken);
     box-shadow: inset 0 0 0 1px var(--color-border-default);
   }
-  .bcn-sw3src__list :global(.bcn-sw3src__fold) { flex: none; padding: 3px 0 0 2px; }
+  .bcn-sw3src__list :global(.bcn-sw3src__fold) { flex: none; padding: 4px 0 0 2px; }
   .bcn-sw3src__list :global(.bcn-sw3src__fold svg) { transition: transform 150ms ease; }
   .bcn-sw3src__list :global(.bcn-sw3src__source[data-collapsed] .bcn-sw3src__fold svg) { transform: rotate(-90deg); }
   .bcn-sw3src__list :global(.bcn-sw3src__source[data-collapsed] .bcn-sw3src__files) { display: none; }
@@ -141,7 +140,7 @@ import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
     min-width: 0;
     display: flex;
     gap: var(--spacing-150, 0.375rem);
-    padding: var(--spacing-100) var(--spacing-150, 0.375rem);
+    padding: var(--spacing-150, 0.375rem) var(--spacing-200);
     border: 0;
     background: none;
     color: inherit;
@@ -157,17 +156,11 @@ import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
     outline-offset: -2px;
   }
   .bcn-sw3src__list :global(.bcn-sw3src__name) { font-weight: 600; color: var(--color-content-default); }
-  .bcn-sw3src__list :global(.bcn-sw3src__ref) {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--color-content-default-secondary);
-    font-variant-numeric: tabular-nums;
-  }
   .bcn-sw3src__list :global(.bcn-sw3src__files) {
     display: flex;
     flex-direction: column;
-    gap: 1px;
-    margin: 0;
+    gap: 2px;
+    margin: 2px 0 0;
     padding: 0 0 0 var(--spacing-400);
     list-style: none;
   }

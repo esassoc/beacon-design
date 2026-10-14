@@ -44,7 +44,7 @@ export interface SteerContext {
 }
 
 const PACE_REPLY = {
-  run: 'Going at full speed. I will raise anything that needs you as I reach it.',
+  run: 'Going fast. I will raise anything that needs you as I reach it.',
   watch: 'Going slowly, so you can follow along. Tell me to speed up whenever you like.',
   step: 'Going one commitment at a time. I will stop after each one.',
 } as const;
@@ -95,12 +95,12 @@ export function interpret(raw: string, ctx: SteerContext): Interpretation & { of
   if (ctx.checking && /looks? (right|good|fine)|correct|all good|that's right|yes/i.test(text)) {
     return {
       actions: ctx.calibrate.map((code) => ({ kind: 'check' as const, code })),
-      reply: 'Good. How should I go on? Full speed, slowly so you can watch, or one commitment at a time.',
+      reply: 'Good. How should I go on? Fast, slow so you can follow along, or one commitment at a time.',
     };
   }
 
   // Pace.
-  const pace = /let it (run|rip)|go ahead|full speed|faster|speed up|run it|on your own/i.test(text)
+  const pace = /let it (run|rip)|go ahead|full speed|fast|faster|speed up|run it|on your own/i.test(text)
     ? 'run'
     : /one at a time|step by step|stop after each|one by one/i.test(text)
       ? 'step'

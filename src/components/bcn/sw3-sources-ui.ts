@@ -141,7 +141,6 @@ export function setupSw3SourcesUi(root: HTMLElement, h: Handlers) {
       const el = sourceEl(r.id);
       el.toggleAttribute('data-selected', selected?.kind === 'source' && selected.id === r.id);
       el.querySelector('[data-src-name]')!.textContent = r.name;
-      el.querySelector('[data-src-ref]')!.textContent = r.ref;
       const want: Element | null = prev ? prev.nextElementSibling : list.firstElementChild;
       if (want !== el) list.insertBefore(el, want);
       prev = el;

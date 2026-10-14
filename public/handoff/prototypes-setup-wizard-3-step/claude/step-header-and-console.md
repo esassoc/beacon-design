@@ -1,6 +1,6 @@
 # Step header and console
 
-One panel: the step's numeral and title with the two panel toggles (Hide library, and Aldo's own invoker, Hide Aldo / Show Aldo); under a gray rule, the console for the file in view, centered: the transport (Start or Resume, Pause, Stop, Restart), each a neutral key with its icon and name, and the speed (One at a time, Watch, Full speed) in a menu. Below, every page of the file in one strip. Where the run is is said once, in Aldo's status.
+One panel: the step's numeral and title with the two panel toggles (Hide library, and Aldo's own invoker, Hide Aldo / Show Aldo); under a gray rule, the console for the file in view, centered: the transport (Start or Resume, Pause, Stop, Restart), each a neutral key with its icon and name, and the speed (One at a time, Slow, Fast) in a menu. Below, every page of the file in one strip. Where the run is is said once, in Aldo's status.
 
 ## Key decisions
 - Each key is live only when it can act, and the run's state reads as a pressed key: Start before the run, Resume when it is paused or stopped for the check, Pause while it reads, Stop while it has pages left, Restart once it has begun.
@@ -124,7 +124,7 @@ One panel: the step's numeral and title with the two panel toggles (Hide library
     ><esa-dropdown-menu
       position="below-start"
       data-bar-speed="true"
-      data-items='[{"label":"One at a time","action":"step"},{"label":"Watch","action":"watch"},{"label":"Full speed","action":"run"}]'
+      data-items='[{"label":"One at a time","action":"step"},{"label":"Slow","action":"watch"},{"label":"Fast","action":"run"}]'
       width="auto"
       ><span
         class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
@@ -152,7 +152,7 @@ One panel: the step's numeral and title with the two panel toggles (Hide library
             >
               <path d="m12 14 4-4"></path>
               <path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg></span
-          ><span class="esa-button__label">Watch</span
+          ><span class="esa-button__label">Slow</span
           ><span class="esa-icon esa-icon--sm" aria-hidden="true"
             ><svg
               width="16"
@@ -856,6 +856,17 @@ summary.esa-button--variant-chrome:focus-visible {
   background: var(--color-background-elevation-sunken);
   box-shadow: inset 0 1px 3px
     color-mix(in srgb, var(--color-content-default) 22%, transparent);
+}
+.bcn-sw3bar__console esa-dropdown-menu[data-bar-speed] {
+  --spacing-200: 0.3125rem;
+  --spacing-300: 0.625rem;
+  --dropdown-menu-min-width: 8.5rem;
+  --typography-body-md-font-size: 0.8125rem;
+  --typography-body-md-line-height: 1.3;
+}
+.bcn-sw3bar__console [data-bar-speed] > * {
+  --spacing-200: 0.5rem;
+  --spacing-300: 0.75rem;
 }
 .bcn-sw3bar [data-tx] button:disabled,
 .bcn-sw3bar button[data-tx]:disabled {

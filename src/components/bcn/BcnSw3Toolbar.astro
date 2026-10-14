@@ -10,8 +10,8 @@
 //
 // Speed is the person's choice of how much to watch:
 //   One at a time  the run stops after each commitment parses;
-//   Watch          slow enough to follow (the default while it learns);
-//   Full speed     let it rip, and raise only what needs a person.
+//   Slow           slow enough to follow (the default while it learns);
+//   Fast           let it rip, and raise only what needs a person.
 // In prod speed is how fast the job dispatches page windows, a real control. Every change,
 // like pause, resume and stop, is recorded as a steer.
 //
@@ -27,8 +27,8 @@ import BcnPageScrubber from './BcnPageScrubber.astro';
 
 const SPEEDS = [
   { label: 'One at a time', action: 'step' },
-  { label: 'Watch', action: 'watch' },
-  { label: 'Full speed', action: 'run' },
+  { label: 'Slow', action: 'watch' },
+  { label: 'Fast', action: 'run' },
 ];
 ---
 
@@ -41,7 +41,7 @@ const SPEEDS = [
       <EsaButton variant="secondary" size="sm" icon="rotate-ccw" data-tx="restart">Restart</EsaButton>
     </esa-button-group>
     <esa-dropdown-menu position="below-start" data-bar-speed data-items={JSON.stringify(SPEEDS)}>
-      <EsaButton variant="secondary" size="sm" icon="plus" data-ico="gauge" iconRight="chevron-down" data-bar-speed-btn>Watch</EsaButton>
+      <EsaButton variant="secondary" size="sm" icon="plus" data-ico="gauge" iconRight="chevron-down" data-bar-speed-btn>Slow</EsaButton>
     </esa-dropdown-menu>
   </div>
   <div class="bcn-sw3bar__scrub">
@@ -72,6 +72,19 @@ const SPEEDS = [
   .bcn-sw3bar :global([data-tx][aria-pressed='true']) {
     background: var(--color-background-elevation-sunken);
     box-shadow: inset 0 1px 3px color-mix(in srgb, var(--color-content-default) 22%, transparent);
+  }
+  /* The speed menu is dense: the lego has no density hook (a /request-lego candidate), so
+     its spacing roles are re-pointed on the host and put back on the trigger. */
+  .bcn-sw3bar__console :global(esa-dropdown-menu[data-bar-speed]) {
+    --spacing-200: 0.3125rem;
+    --spacing-300: 0.625rem;
+    --dropdown-menu-min-width: 8.5rem;
+    --typography-body-md-font-size: 0.8125rem;
+    --typography-body-md-line-height: 1.3;
+  }
+  .bcn-sw3bar__console :global([data-bar-speed] > *) {
+    --spacing-200: 0.5rem;
+    --spacing-300: 0.75rem;
   }
   /* A key that cannot act now is plainly off. */
   .bcn-sw3bar :global([data-tx] button:disabled),

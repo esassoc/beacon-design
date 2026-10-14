@@ -732,7 +732,7 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3aldo__head {
   align-items: center;
   gap: var(--spacing-200);
-  padding: var(--spacing-200) var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
   border-bottom: 1px solid var(--color-border-default-subtle);
   display: flex;
 }
@@ -742,9 +742,9 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: 600;
 }
 .bcn-sw3aldo__log {
-  gap: var(--spacing-300);
+  gap: var(--spacing-400);
   min-height: 0;
-  padding: var(--spacing-300);
+  padding: var(--spacing-400);
   flex-direction: column;
   flex: 1;
   margin: 0;
@@ -755,7 +755,7 @@ summary.esa-button--variant-chrome:focus-visible {
   overflow-y: auto;
 }
 .bcn-sw3aldo__msg {
-  gap: var(--spacing-100);
+  gap: var(--spacing-150, 0.375rem);
   flex-direction: column;
   max-width: 94%;
   animation: 0.22s ease-out bcn-sw3aldo-in;
@@ -775,7 +775,7 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: 500;
 }
 .bcn-sw3aldo__text {
-  padding: var(--spacing-150, 0.375rem) var(--spacing-250, 0.625rem);
+  padding: var(--spacing-200) var(--spacing-300);
   border-radius: var(--radius-200);
   color: var(--color-content-default);
   font-size: inherit;
@@ -901,7 +901,7 @@ summary.esa-button--variant-chrome:focus-visible {
   margin-bottom: var(--spacing-200);
 }
 .bcn-sw3aldo__status {
-  padding: 0 var(--spacing-300) var(--spacing-200);
+  padding: 0 var(--spacing-400) var(--spacing-200);
 }
 .bcn-sw3aldo__status:not(:has(> :not([hidden]))),
 .bcn-sw3aldo__status > [hidden] {
@@ -918,7 +918,7 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-sw3aldo__suggest {
   gap: var(--spacing-200);
-  padding: 0 var(--spacing-300) var(--spacing-200);
+  padding: 0 var(--spacing-400) var(--spacing-200);
   flex-wrap: wrap;
   display: flex;
 }

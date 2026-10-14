@@ -1,6 +1,6 @@
 # Library
 
-The Library (the page is already Source Documents), dense at 13px with 12px states, and hideable from the header. Prod's model: a source document (name, reference number) holds files, and each file is scanned on its own. Each source folds open or shut by its chevron, and is its name over its reference number, with a menu (Edit details, Add files, Delete source document); its files sit under it, one row each with the name (middle-truncated so the version and date stay) and one state: Not scanned, Reading p. 16 of 170 with a progress bar, a warning badge "3 to check", Paused at p. 40, 157 commitments, No commitments. A file's menu downloads it, restarts its scan or deletes it. New source document is pinned at the foot.
+The Library (the page is already Source Documents), dense at 13px with 12px states, and hideable from the header. Prod's model: a source document (name, reference number) holds files, and each file is scanned on its own. Each source folds open or shut by its chevron, and is its name, with a menu (Edit details, Add files, Delete source document); its files sit under it, one row each with the name (middle-truncated so the version and date stay) and one state: Not scanned, Reading p. 16 of 170 with a progress bar, a warning badge "3 to check", Paused at p. 40, 157 commitments, No commitments. A file's menu downloads it, restarts its scan or deletes it. New source document is pinned at the foot.
 
 ## Key decisions
 - SetupWizardSourceDto and SetupWizardSourceFileDto as they are: source fields plus files with PageCount and CommitmentCount. The per-file scan state is new.
@@ -43,8 +43,9 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
                 <path d="m6 9 6 6 6-6"></path></svg
             ></span></button></span
         ><button type="button" class="bcn-sw3src__srcbtn" data-src-open="">
-          <span class="bcn-sw3src__name" data-src-name="">Incidental Take Permit</span
-          ><span class="bcn-sw3src__ref" data-src-ref="">2081-2024-018-00</span></button
+          <span class="bcn-sw3src__name" data-src-name=""
+            >Incidental Take Permit</span
+          ></button
         ><esa-dropdown-menu
           class="bcn-sw3src__menu"
           position="below-end"
@@ -202,7 +203,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
         ><button type="button" class="bcn-sw3src__srcbtn" data-src-open="">
           <span class="bcn-sw3src__name" data-src-name=""
             >Final Environmental Impact Report</span
-          ><span class="bcn-sw3src__ref" data-src-ref="">SCH-2020010227</span></button
+          ></button
         ><esa-dropdown-menu
           class="bcn-sw3src__menu"
           position="below-end"
@@ -487,11 +488,6 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
           <span
             class="bcn-sw3src__name"
             data-src-name=""
-            data-astro-cid-6isyew5u=""
-          ></span
-          ><span
-            class="bcn-sw3src__ref"
-            data-src-ref=""
             data-astro-cid-6isyew5u=""
           ></span></button
         ><esa-dropdown-menu
@@ -1000,7 +996,7 @@ summary.esa-button--variant-chrome:focus-visible {
   display: flex;
 }
 .bcn-sw3src__head {
-  padding: var(--spacing-200) var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
   border-bottom: 1px solid var(--color-border-default-subtle);
 }
 .bcn-sw3src__title {
@@ -1011,15 +1007,15 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-sw3src__list {
   min-height: 0;
-  padding: var(--spacing-100);
-  gap: var(--spacing-100);
+  padding: var(--spacing-200);
+  gap: var(--spacing-300);
   flex-direction: column;
   flex: 1;
   display: flex;
   overflow-y: auto;
 }
 .bcn-sw3src__foot {
-  padding: var(--spacing-100) var(--spacing-200);
+  padding: var(--spacing-200) var(--spacing-300);
   border-top: 1px solid var(--color-border-default-subtle);
 }
 .bcn-sw3src__list .bcn-sw3src__srcrow,
@@ -1040,7 +1036,7 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-sw3src__list .bcn-sw3src__fold {
   flex: none;
-  padding: 3px 0 0 2px;
+  padding: 4px 0 0 2px;
 }
 .bcn-sw3src__list .bcn-sw3src__fold svg {
   transition: transform 0.15s;
@@ -1055,7 +1051,7 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3src__list .bcn-sw3src__filebtn {
   gap: var(--spacing-150, 0.375rem);
   min-width: 0;
-  padding: var(--spacing-100) var(--spacing-150, 0.375rem);
+  padding: var(--spacing-150, 0.375rem) var(--spacing-200);
   color: inherit;
   font: inherit;
   text-align: left;
@@ -1080,17 +1076,11 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--color-content-default);
   font-weight: 600;
 }
-.bcn-sw3src__list .bcn-sw3src__ref {
-  color: var(--color-content-default-secondary);
-  font-variant-numeric: tabular-nums;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
 .bcn-sw3src__list .bcn-sw3src__files {
   padding: 0 0 0 var(--spacing-400);
   flex-direction: column;
-  gap: 1px;
-  margin: 0;
+  gap: 2px;
+  margin: 2px 0 0;
   list-style: none;
   display: flex;
 }

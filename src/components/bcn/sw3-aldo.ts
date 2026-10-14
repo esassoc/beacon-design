@@ -444,10 +444,8 @@ export function setupSw3Aldo(root: HTMLElement): void {
     } else if (!started()) for (const text of D.proposal?.suggest ?? []) opts.push({ label: text, run: () => say(text) });
     else if (checking()) {
       if (checked().length < (D.calibrate?.length ?? 3)) opts.push({ label: 'They look right', run: () => say('They look right') });
-    } else if (!finished() && headPage() !== null) {
-      opts.push(paused() || pausing() ? { label: 'Resume', run: () => say('Resume') } : { label: 'Pause', run: () => say('Pause') });
-      if (calibrated()) opts.push(pace() === 'run' ? { label: 'Slow down', run: () => say('Slow down') } : { label: 'Full speed', run: () => say('Full speed') });
     }
+    // Pause, resume and speed are the console's; the chat offers only what is said in words.
     const sig = `${activeDoc()}|${opts.map((o) => o.label).join('|')}`;
     if (suggest.dataset.sig === sig) return;
     suggest.dataset.sig = sig;

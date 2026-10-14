@@ -12,7 +12,7 @@ export default {
     {
       label: 'Step header and console',
       selector: '[data-sw3-toolbar]',
-      intent: 'One panel: the step\'s numeral and title with the two panel toggles (Hide library, and Aldo\'s own invoker, Hide Aldo / Show Aldo); under a gray rule, the console for the file in view, centered: the transport (Start or Resume, Pause, Stop, Restart), each a neutral key with its icon and name, and the speed (One at a time, Watch, Full speed) in a menu. Below, every page of the file in one strip. Where the run is is said once, in Aldo\'s status.',
+      intent: 'One panel: the step\'s numeral and title with the two panel toggles (Hide library, and Aldo\'s own invoker, Hide Aldo / Show Aldo); under a gray rule, the console for the file in view, centered: the transport (Start or Resume, Pause, Stop, Restart), each a neutral key with its icon and name, and the speed (One at a time, Slow, Fast) in a menu. Below, every page of the file in one strip. Where the run is is said once, in Aldo\'s status.',
       decisions: [
         'Each key is live only when it can act, and the run\'s state reads as a pressed key: Start before the run, Resume when it is paused or stopped for the check, Pause while it reads, Stop while it has pages left, Restart once it has begun.',
         'Stop ends the run at the page it is on and keeps what it found; the pages after it are not read. It asks first. Restart clears the file\'s scan and steers.',
@@ -38,7 +38,7 @@ export default {
     {
       label: 'Library',
       selector: '[data-sw3-sources]',
-      intent: 'The Library (the page is already Source Documents), dense at 13px with 12px states, and hideable from the header. Prod\'s model: a source document (name, reference number) holds files, and each file is scanned on its own. Each source folds open or shut by its chevron, and is its name over its reference number, with a menu (Edit details, Add files, Delete source document); its files sit under it, one row each with the name (middle-truncated so the version and date stay) and one state: Not scanned, Reading p. 16 of 170 with a progress bar, a warning badge "3 to check", Paused at p. 40, 157 commitments, No commitments. A file\'s menu downloads it, restarts its scan or deletes it. New source document is pinned at the foot.',
+      intent: 'The Library (the page is already Source Documents), dense at 13px with 12px states, and hideable from the header. Prod\'s model: a source document (name, reference number) holds files, and each file is scanned on its own. Each source folds open or shut by its chevron, and is its name, with a menu (Edit details, Add files, Delete source document); its files sit under it, one row each with the name (middle-truncated so the version and date stay) and one state: Not scanned, Reading p. 16 of 170 with a progress bar, a warning badge "3 to check", Paused at p. 40, 157 commitments, No commitments. A file\'s menu downloads it, restarts its scan or deletes it. New source document is pinned at the foot.',
       decisions: [
         'SetupWizardSourceDto and SetupWizardSourceFileDto as they are: source fields plus files with PageCount and CommitmentCount. The per-file scan state is new.',
         'Every run keeps going while another file is in view.',

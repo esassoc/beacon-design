@@ -25,8 +25,8 @@ The page in view, rendered from the PDF by pdf.js, with a box per commitment: da
       data-pv-canvas=""
       role="img"
       aria-label="Page 131 of ITP_2081-2024-018-00_Signed.pdf"
-      width="336"
-      height="434"
+      width="352"
+      height="455"
     ></canvas>
     <div class="bcn-pv__boxes" data-pv-boxes=""></div>
     <div class="bcn-pv__drag" data-pv-drag="" hidden=""></div>

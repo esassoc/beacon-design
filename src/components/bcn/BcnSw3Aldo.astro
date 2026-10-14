@@ -110,7 +110,7 @@ const { review } = Astro.props;
     display: flex;
     align-items: center;
     gap: var(--spacing-200);
-    padding: var(--spacing-200) var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
     border-bottom: 1px solid var(--color-border-default-subtle);
   }
   .bcn-sw3aldo__title { margin: 0; font-size: 0.875rem; font-weight: 600; }
@@ -119,10 +119,10 @@ const { review } = Astro.props;
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-300);
+    gap: var(--spacing-400);
     min-height: 0;
     margin: 0;
-    padding: var(--spacing-300);
+    padding: var(--spacing-400);
     list-style: none;
     overflow-y: auto;
     /* Dense, like the library: 13px text, 12px meta (Andy, 2026-10-14). */
@@ -134,7 +134,7 @@ const { review } = Astro.props;
   .bcn-sw3aldo__msg {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-100);
+    gap: var(--spacing-150, 0.375rem);
     max-width: 94%;
     animation: bcn-sw3aldo-in 220ms ease-out;
   }
@@ -148,7 +148,7 @@ const { review } = Astro.props;
   }
   .bcn-sw3aldo__text {
     margin: 0;
-    padding: var(--spacing-150, 0.375rem) var(--spacing-250, 0.625rem);
+    padding: var(--spacing-200) var(--spacing-300);
     border-radius: var(--radius-200);
     color: var(--color-content-default);
     font-size: inherit;
@@ -229,7 +229,7 @@ const { review } = Astro.props;
   .bcn-sw3aldo__msg[data-kind='check'] { max-width: 100%; width: 100%; margin-bottom: var(--spacing-200); }
 
   /* Where the run is, pinned above the composer. */
-  .bcn-sw3aldo__status { padding: 0 var(--spacing-300) var(--spacing-200); }
+  .bcn-sw3aldo__status { padding: 0 var(--spacing-400) var(--spacing-200); }
   .bcn-sw3aldo__status:not(:has(> :not([hidden]))) { display: none; }
   .bcn-sw3aldo__status > [hidden] { display: none; }
   .bcn-sw3aldo__status :global(.esa-alert-box) { padding: var(--spacing-150, 0.375rem) var(--spacing-250, 0.625rem); font-size: 0.8125rem; align-items: center; }
@@ -239,7 +239,7 @@ const { review } = Astro.props;
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-200);
-    padding: 0 var(--spacing-300) var(--spacing-200);
+    padding: 0 var(--spacing-400) var(--spacing-200);
   }
   .bcn-sw3aldo__suggest:empty { display: none; }
 
