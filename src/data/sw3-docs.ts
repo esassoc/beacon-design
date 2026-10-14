@@ -55,6 +55,8 @@ export interface ScanCommitment {
   title: string;
   page: number;
   blocks: Box[];
+  /** The commitment's text as identified: what a person checks before the run goes on. */
+  text: string;
   /** Structured fields read from a table's columns (the MMRP), not extracted. */
   columns?: Record<string, string>;
 }
@@ -72,6 +74,8 @@ export interface ScanDoc {
   id: string;
   short: string;
   name: string;
+  /** The uploaded file's name, as prod's SourceFile.Name. */
+  file: string;
   /** Path under public/. */
   pdf: string;
   /** Pages in the document. */
@@ -128,6 +132,7 @@ const itp: ScanDoc = {
   id: 'itp',
   short: 'ITP',
   name: 'Incidental Take Permit No. 2081-2024-018-00',
+  file: 'ITP_2081-2024-018-00_Signed.pdf',
   pdf: '/source-docs/itp.pdf',
   total: 247,
   scope: SCAN_SCOPE,
@@ -147,7 +152,7 @@ const itp: ScanDoc = {
   missed: MISSED_FIND,
   events: SCAN_EVENTS,
   seconds: SCAN_SECONDS,
-  commitments: COMMITMENTS.map((c) => ({ code: c.code, title: c.title, page: c.page, blocks: c.blocks })),
+  commitments: COMMITMENTS.map((c) => ({ code: c.code, title: c.title, page: c.page, blocks: c.blocks, text: c.text })),
   spans: REQUIREMENTS.filter((r) => r.anchor).map((r) => {
     const c = COMMITMENTS.find((x) => x.code === r.code)!;
     return { id: r.id, code: r.code, name: r.name, boxes: boxesFor(c.lines, r.anchor!.charStart, r.anchor!.charEnd) };
@@ -179,6 +184,7 @@ const mmrp: ScanDoc = {
   id: 'mmrp',
   short: 'MMRP',
   name: 'Delta Conveyance Project Mitigation Monitoring and Reporting Program',
+  file: '04_DCP_MMRP_ADA.pdf',
   pdf: '/source-docs/dcp-mmrp.pdf',
   total: M.pages.length,
   scope: { first: mmrpFirst, last: mmrpLast },
@@ -205,7 +211,7 @@ const mmrp: ScanDoc = {
   missed: null,
   events: mmrpReplay.events,
   seconds: mmrpReplay.seconds,
-  commitments: M.rows.map((r) => ({ code: r.code, title: r.title, page: r.page, blocks: r.blocks, columns: r.cols })),
+  commitments: M.rows.map((r) => ({ code: r.code, title: r.title, page: r.page, blocks: r.blocks, text: r.requirements.map((q) => q.text).join('\n'), columns: r.cols })),
   spans: M.rows.flatMap((r) => r.requirements.map((q, i) => ({ id: `${r.code}#${i + 1}`, code: r.code, name: q.name, boxes: q.boxes }))),
   calibrate: M.rows.slice(0, CALIBRATE).map((r) => r.code),
   merges: [],
@@ -218,6 +224,7 @@ const nod: ScanDoc = {
   id: 'nod',
   short: 'NOD',
   name: 'Delta Conveyance Project Notice of Determination',
+  file: '02.0_Delta Conveyance Project Notice of Determination Signed 21DEC23.pdf',
   pdf: '/source-docs/dcp-nod.pdf',
   total: 4,
   scope: { first: 1, last: 4 },
@@ -244,4 +251,23 @@ const nod: ScanDoc = {
 };
 
 export const SCAN_DOCS: ScanDoc[] = [itp, mmrp, nod];
+
+// ── Sources ───────────────────────────────────────────────────────────────────
+// Prod's shape: a Source (name, reference number) holds Files, and each file is scanned
+// on its own. The EIR is the real case of one source with two files: the MMRP it adopted
+// and the Notice of Determination that filed it.
+
+export interface ScanSource {
+  id: string;
+  name: string;
+  /** Prod's Source.ReferenceNumber: the permit or clearinghouse number. */
+  ref: string;
+  /** File ids (ScanDoc ids, or a person's uploads). */
+  files: string[];
+}
+
+export const SCAN_SOURCES: ScanSource[] = [
+  { id: 'src-itp', name: 'Incidental Take Permit', ref: '2081-2024-018-00', files: ['itp'] },
+  { id: 'src-eir', name: 'Final Environmental Impact Report', ref: 'SCH-2020010227', files: ['mmrp', 'nod'] },
+];
 export const SCAN_DOC_BY_ID = new Map(SCAN_DOCS.map((d) => [d.id, d]));

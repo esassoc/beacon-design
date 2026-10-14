@@ -26,9 +26,10 @@ import {
   rereads,
   rereadEnd,
   findOf,
-  commitmentOf,
   checking,
   checked,
+  identified,
+  fixCommitment,
   calibrated,
   calibrationPoint,
   pace,
@@ -71,7 +72,6 @@ const runs = (pages: number[]) => {
   }
   return out.join(', ');
 };
-const COLUMN_LABEL: Record<string, string> = { timing: 'Timing', party: 'Implementation party', schedule: 'Reporting schedule', orgs: 'Participating organizations' };
 
 export function setupSw3Aldo(root: HTMLElement): void {
   initSw3();
@@ -102,7 +102,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
     chip.textContent = code.replace(/^COA\s+/, '');
     return host;
   };
-  const el = (tag: string, cls: string, text?: string) => {
+  const elx = (tag: string, cls: string, text?: string) => {
     const e = document.createElement(tag);
     e.className = cls;
     if (text !== undefined) e.textContent = text;
@@ -150,6 +150,10 @@ export function setupSw3Aldo(root: HTMLElement): void {
   };
 
   // ── The check after the first commitments ───────────────────────────────────
+  // Only what step 1 decides: was each commitment identified right (its ID, its name, the
+  // text that is it). Requirements, timing and parties are step 2's.
+  const fixing = new Set<string>();
+  let reveal: string | null = null;
   const checkItem = (t: number): Item[] => {
     const D = payload();
     const codes = D.calibrate ?? [];
@@ -157,39 +161,82 @@ export function setupSw3Aldo(root: HTMLElement): void {
     if (!started() || cp === null || t < cp || !codes.length) return [];
     const done = checked();
     const open = checking();
-    const build = () => {
-      const wrap = el('div', 'bcn-sw3aldo__checks');
-      for (const code of codes) {
-        const c = commitmentOf(code) as { code: string; title: string; columns?: Record<string, string> } | undefined;
-        const card = el('div', 'bcn-sw3aldo__check');
-        card.dataset.state = done.includes(code) ? 'checked' : 'open';
-        const head = el('button', 'bcn-sw3aldo__checkhead');
-        (head as HTMLButtonElement).type = 'button';
-        head.append(badge(code), el('span', 'bcn-sw3aldo__checktitle typography-label-md', c?.title ?? code));
-        head.addEventListener('click', () => showFind(code));
-        const reqs = (D.spans ?? []).filter((s) => s.code === code);
-        const ol = el('ol', 'bcn-sw3aldo__reqs typography-body-sm');
-        for (const r of reqs) ol.append(el('li', '', r.name));
-        const parts: HTMLElement[] = [head, el('p', 'bcn-sw3aldo__reqcount typography-body-sm', `${reqs.length} requirement${reqs.length === 1 ? '' : 's'}:`), ol];
-        if (c?.columns) {
-          const dl = el('dl', 'bcn-sw3aldo__cols typography-body-sm');
-          for (const [k, label] of Object.entries(COLUMN_LABEL)) {
-            if (!c.columns[k]) continue;
-            dl.append(el('dt', '', label), el('dd', '', c.columns[k]));
-          }
-          parts.push(dl);
-        }
-        const acts = el('div', 'bcn-sw3aldo__checkacts');
-        if (done.includes(code)) acts.append(el('span', 'bcn-sw3aldo__ok typography-body-sm', 'Read right'));
-        else if (open) acts.append(button({ label: 'Looks right', run: () => act(`${code} looks right`, { kind: 'check', code }, `Noted: ${code} read right.`) }));
-        parts.push(acts);
-        card.append(...parts);
-        wrap.append(card);
+    const card = (code: string) => {
+      const c = identified(code);
+      const el = document.createElement('div');
+      el.className = 'bcn-sw3aldo__check';
+      el.dataset.state = done.includes(code) ? 'checked' : 'open';
+      const head = el.appendChild(document.createElement('button'));
+      head.type = 'button';
+      head.className = 'bcn-sw3aldo__checkhead';
+      head.title = 'Show it on the page';
+      head.append(badge(c.code), elx('span', 'bcn-sw3aldo__checktitle typography-label-md-strong', c.title));
+      head.addEventListener('click', () => showFind(code));
+      if (fixing.has(code)) {
+        const f = (label: string, value: string, multi = false) => {
+          const field = document.createElement(multi ? 'esa-textarea' : 'esa-text-field') as HTMLElement & { value: string };
+          field.setAttribute('label', label);
+          field.setAttribute('size', 'sm');
+          if (multi) field.setAttribute('rows', '5');
+          field.value = value;
+          return field;
+        };
+        const id = f('ID', c.code);
+        const name = f('Name', c.title);
+        const text = f('Text', c.text, true);
+        const form = elx('div', 'bcn-sw3aldo__fix');
+        const acts = elx('div', 'bcn-sw3aldo__checkacts');
+        acts.append(
+          button({
+            label: 'Save',
+            primary: true,
+            run: () => {
+              fixing.delete(code);
+              fixCommitment(code, { code: id.value.trim() || c.code, title: name.value.trim() || c.title, text: text.value });
+            },
+          }),
+          button({ label: 'Redraw the box', run: () => (showFind(code), document.dispatchEvent(new CustomEvent('sw3:redraw', { detail: { id: code } }))) }),
+          button({ label: 'Cancel', run: () => (fixing.delete(code), render()) }),
+        );
+        form.append(id, name, text, acts);
+        el.append(form);
+        // Just opened: bring the whole form, Save included, into the log's view.
+        if (reveal === code) (reveal = null, requestAnimationFrame(() => acts.scrollIntoView({ block: 'nearest' })));
+        return el;
       }
+      const quote = elx('blockquote', 'bcn-sw3aldo__quote typography-body-sm', c.text || 'No text identified.');
+      el.append(quote);
+      const meta = elx('div', 'bcn-sw3aldo__checkmeta');
+      const pg = elx('button', 'bcn-sw3aldo__pagelink typography-body-sm', `p. ${c.page}`) as HTMLButtonElement;
+      pg.type = 'button';
+      pg.addEventListener('click', () => showFind(code));
+      meta.append(pg);
+      if (c.text.length > 320) {
+        const more = elx('button', 'bcn-sw3aldo__pagelink typography-body-sm', 'Show all') as HTMLButtonElement;
+        more.type = 'button';
+        more.addEventListener('click', () => {
+          const all = quote.toggleAttribute('data-all');
+          more.textContent = all ? 'Show less' : 'Show all';
+        });
+        meta.append(more);
+      }
+      el.append(meta);
+      const acts = elx('div', 'bcn-sw3aldo__checkacts');
+      if (done.includes(code)) acts.append(elx('span', 'bcn-sw3aldo__ok typography-body-sm', c.fixed ? 'Fixed' : 'Read right'));
+      else if (open)
+        acts.append(
+          button({ label: 'Looks right', primary: true, run: () => act(`${code} looks right`, { kind: 'check', code }, `Noted: ${code} read right.`) }),
+          button({ label: 'Fix', run: () => (fixing.add(code), (reveal = code), render()) }),
+        );
+      el.append(acts);
+      return el;
+    };
+    const build = () => {
+      const wrap = elx('div', 'bcn-sw3aldo__checks');
+      wrap.append(...codes.map(card));
       return wrap;
     };
     const allChecked = codes.every((c) => done.includes(c));
-    const go = (p: 'run' | 'watch' | 'step', label: string, reply: string): Btn => ({ label, primary: p === 'run', run: () => act(label, { kind: 'go', pace: p } as SteerAction, reply) });
     return [
       {
         id: `${activeDoc()}:check`,
@@ -197,14 +244,12 @@ export function setupSw3Aldo(root: HTMLElement): void {
         from: 'aldo',
         who: 'Aldo',
         text: open
-          ? `I have read the first ${codes.length} commitments. Check how I read them before I go on: open each one on the page, and tell me what I got wrong in your own words. What you tell me goes into my instructions for the rest of the ${D.short}.`
-          : `I read the first ${codes.length} commitments and stopped for you to check them.`,
-        acts: open
           ? allChecked
-            ? [go('run', 'Let it run', 'Going at full speed. I will raise anything that needs you as I reach it.'), go('watch', 'Watch', 'Going slowly, so you can follow along.'), go('step', 'One at a time', 'One commitment at a time: I will stop after each.')]
-            : [go('run', 'Let it run', 'Going at full speed. I will raise anything that needs you as I reach it.'), go('step', 'Keep checking, one at a time', 'One commitment at a time: I will stop after each.')]
-          : [],
-        extra: { sig: `${codes.join(',')}|${done.join(',')}|${open}`, build },
+            ? `All ${codes.length} checked. Continue from the toolbar when you are ready, or tell me how to go on.`
+            : `I have read the first ${codes.length} commitments. Check that I have each one's ID, name and text right before I go on. What you fix here is how I read the rest of the ${D.short}.`
+          : `I read the first ${codes.length} commitments and stopped for you to check them.`,
+        acts: [],
+        extra: { sig: `${codes.join(',')}|${done.join(',')}|${open}|${[...fixing].join(',')}|${JSON.stringify(state().fixes)}`, build },
       },
     ];
   };
@@ -340,9 +385,9 @@ export function setupSw3Aldo(root: HTMLElement): void {
     rulesEl.replaceChildren(
       ...rows.map(([text, from]) => {
         const li = document.createElement('li');
-        li.append(el('span', '', text));
+        li.append(elx('span', '', text));
         if (from) {
-          const b = el('span', '', from);
+          const b = elx('span', '', from);
           b.dataset.ruleFrom = '';
           li.append(b);
         }
@@ -360,7 +405,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
       // nothing to offer
     } else if (!started()) for (const text of D.proposal?.suggest ?? []) opts.push({ label: text, run: () => say(text) });
     else if (checking()) {
-      opts.push({ label: 'They look right', run: () => say('They look right') });
+      if (checked().length < (D.calibrate?.length ?? 3)) opts.push({ label: 'They look right', run: () => say('They look right') });
     } else if (!finished()) {
       opts.push(paused() || pausing() ? { label: 'Resume', run: () => say('Resume') } : { label: 'Pause', run: () => say('Pause') });
       if (calibrated()) opts.push(pace() === 'run' ? { label: 'Slow down', run: () => say('Slow down') } : { label: 'Full speed', run: () => say('Full speed') });

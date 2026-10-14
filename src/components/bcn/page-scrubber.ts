@@ -32,7 +32,8 @@ export function setupPageScrubber(root: HTMLElement, { onPage, onFind }: Handler
   const track = root.querySelector<HTMLElement>('[data-scrub-track]')!;
   const head = root.querySelector<HTMLElement>('[data-scrub-head]')!;
   const ticksEl = root.querySelector<HTMLElement>('[data-scrub-ticks]')!;
-  const rangeEl = root.querySelector<HTMLElement>('[data-scrub-range]')!;
+  const rangeEl = root.querySelector<HTMLElement>('[data-scrub-range]');
+  const tip = root.querySelector<HTMLElement>('[data-scrub-tip]');
   const prevBtn = root.querySelector<HTMLElement>('[data-scrub-prev]')!;
   const nextBtn = root.querySelector<HTMLElement>('[data-scrub-next]')!;
   const cells: HTMLElement[] = [];
@@ -78,9 +79,21 @@ export function setupPageScrubber(root: HTMLElement, { onPage, onFind }: Handler
     go(pageAt(e.clientX));
   });
   track.addEventListener('pointermove', (e) => {
-    if (dragging) go(pageAt(e.clientX));
+    const p = pageAt(e.clientX);
+    if (tip) {
+      tip.hidden = p > total;
+      tip.textContent = `p. ${p}`;
+      root.style.setProperty('--_tip', String(p - windowStart()));
+    }
+    if (dragging) go(p);
   });
-  const stop = () => (dragging = false);
+  track.addEventListener('pointerleave', () => {
+    if (tip && !dragging) tip.hidden = true;
+  });
+  const stop = () => {
+    dragging = false;
+    if (tip) tip.hidden = true;
+  };
   track.addEventListener('pointerup', stop);
   track.addEventListener('pointercancel', stop);
 
@@ -151,7 +164,7 @@ export function setupPageScrubber(root: HTMLElement, { onPage, onFind }: Handler
         }),
       );
     }
-    rangeEl.textContent = `pp. ${start}–${end} of ${total}`;
+    if (rangeEl) rangeEl.textContent = `pp. ${start}–${end} of ${total}`;
     prevBtn.style.visibility = start > 1 ? '' : 'hidden';
     nextBtn.style.visibility = end < total ? '' : 'hidden';
 

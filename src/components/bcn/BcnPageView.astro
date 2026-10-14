@@ -12,6 +12,10 @@
 //   show(pdfUrl, page, boxes, label)
 //   out  onBox(id)               a find's box was clicked
 //   out  onRegion(page, box)     a rectangle was dragged in select mode
+//   out  onEdit(id, page, box)   a selected (editable) box was moved or resized
+//   out  onRemove(id, page)      Delete on a selected box
+// A box passed with `editable` gets eight handles: drag the body to move, a handle to
+// resize; arrows nudge (Shift for more, Alt to resize), Delete removes, Escape lets go.
 //
 // bcn-lego-checked: no esa- lego renders a document page or overlays on an image
 // (esa-file-list lists files; esa-loading-overlay is a spinner scrim). Checked Beacon:
@@ -63,6 +67,8 @@ const { aspect } = Astro.props;
   /* Boxes are built by the controller, so they are reached through :global(). */
   .bcn-pv__boxes :global(.bcn-pv__box) {
     position: absolute;
+    /* Room above for the box's tools when it is scrolled to. */
+    scroll-margin: 56px 16px 16px;
     border-radius: 3px;
     animation: bcn-pv-draw 360ms ease-out;
   }
@@ -92,6 +98,34 @@ const { aspect } = Astro.props;
     outline: 2px solid var(--color-content-default);
     outline-offset: 4px;
   }
+
+  /* A box a person drew or adjusted is theirs: solid, whatever the scan thought. */
+  .bcn-pv__boxes :global(.bcn-pv__box[data-edited]) { outline-style: solid; }
+  .bcn-pv__boxes :global(.bcn-pv__box:focus-visible) {
+    outline-color: var(--focus-ring-color);
+    outline-style: solid;
+  }
+  /* Selected and editable: drag the body to move it, a handle to resize it. The handles
+     sit on the outline, which is drawn 4px outside the box. */
+  .bcn-pv__boxes :global(.bcn-pv__box[data-editable]) { cursor: move; touch-action: none; }
+  .bcn-pv__boxes :global(.bcn-pv__handle) {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    margin: -5px 0 0 -5px;
+    border: 2px solid var(--color-commitment);
+    border-radius: 2px;
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-pv__boxes :global(.bcn-pv__handle[data-handle='nw']) { left: -4px; top: -4px; cursor: nwse-resize; }
+  .bcn-pv__boxes :global(.bcn-pv__handle[data-handle='n']) { left: 50%; top: -4px; cursor: ns-resize; }
+  .bcn-pv__boxes :global(.bcn-pv__handle[data-handle='ne']) { left: calc(100% + 4px); top: -4px; cursor: nesw-resize; }
+  .bcn-pv__boxes :global(.bcn-pv__handle[data-handle='e']) { left: calc(100% + 4px); top: 50%; cursor: ew-resize; }
+  .bcn-pv__boxes :global(.bcn-pv__handle[data-handle='se']) { left: calc(100% + 4px); top: calc(100% + 4px); cursor: nwse-resize; }
+  .bcn-pv__boxes :global(.bcn-pv__handle[data-handle='s']) { left: 50%; top: calc(100% + 4px); cursor: ns-resize; }
+  .bcn-pv__boxes :global(.bcn-pv__handle[data-handle='sw']) { left: -4px; top: calc(100% + 4px); cursor: nesw-resize; }
+  .bcn-pv__boxes :global(.bcn-pv__handle[data-handle='w']) { left: -4px; top: 50%; cursor: ew-resize; }
+  .bcn-pv__boxes :global(.bcn-pv__box[data-dragging]) { animation: none; transition: none; }
 
   .bcn-pv__drag {
     position: absolute;

@@ -1,112 +1,173 @@
-# Documents
+# Source details
 
-The project's source documents, one slim card each with where its run is (Not started, Reading p. 147, Waiting on your check, Paused, 157 commitments, No commitments). The document in view opens to its commitments, one slim card per commitment in page order, growing as the scan finds them: the code chip and the title only. A card is dashed while its commitment is being read and solid once parsed, the same grammar as the boxes on the page.
+Selecting a source (not one of its files) shows prod's source view in the main pane: Name and Reference number with Save, the files with page count and scan state (Open scan, Download, Delete), the upload dropzone for more PDFs, and Delete source document in a danger zone.
 
 ## Key decisions
-- Each document is its own run (a background job per document) with its own conversation and record; every run keeps going while another is in view.
-- No page numbers or requirement counts on the cards: state is the border, detail is on the page and in step 2.
-- Dismiss (×) is recorded in the steering record like a typed steer.
+- Feature parity with prod's source step: upload, name, delete and download (sourceDocumentsPut, source file Post, Delete, DownloadGet).
+- Uploads in the prototype are kept in the browser (IndexedDB) and render for real; they have no scan, and Aldo says so.
 
 ## Done when
-- Start the ITP at Full speed, switch to the MMRP: the ITP card keeps counting and reads "157 commitments" when done.
+- Select Final Environmental Impact Report: its two files list with "170 pages. Not scanned." and "4 pages. Not scanned."
 
 ## Markup
 ```html
-<aside class="bcn-sw3docs" data-sw3-docs="" aria-label="Documents">
-  <h3 class="bcn-sw3docs__head typography-title-strong">
-    Documents <span class="bcn-sw3docs__count">3</span>
-  </h3>
-  <section class="bcn-sw3docs__doc" data-doc="itp" data-open="">
-    <button
-      type="button"
-      class="bcn-sw3docs__card"
-      title="Incidental Take Permit No. 2081-2024-018-00"
-      data-doc-open=""
-    >
-      <span class="bcn-sw3docs__name typography-label-md-strong">ITP</span
-      ><span class="bcn-sw3docs__state typography-body-sm" data-doc-state=""
-        >Not started</span
+<section class="bcn-sw3ed" data-sw3-editor="" hidden="" aria-labelledby="sw3ed-title">
+  <form class="bcn-sw3ed__form" data-ed-form="">
+    <h3
+      class="bcn-sw3ed__title typography-heading-sm"
+      id="sw3ed-title"
+      data-ed-title=""
+    ></h3>
+    <div class="bcn-sw3ed__fields">
+      <esa-text-field
+        label="Name"
+        size="sm"
+        required=""
+        data-ed-name="true"
+      ></esa-text-field
+      ><esa-text-field
+        label="Reference number"
+        size="sm"
+        data-ed-ref="true"
+      ></esa-text-field>
+    </div>
+    <div>
+      <span
+        class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="submit"
+          data-ed-save="true"
+        >
+          <span class="esa-button__label">Save</span>
+        </button></span
       >
-    </button>
-    <ol
-      class="bcn-sw3docs__list"
-      data-doc-list=""
-      aria-label="Commitments in the ITP"
-    ></ol>
+    </div>
+  </form>
+  <section class="bcn-sw3ed__files" aria-labelledby="sw3ed-files">
+    <h4 class="bcn-sw3ed__h typography-title-strong" id="sw3ed-files">Files</h4>
+    <ol class="bcn-sw3ed__list" data-ed-files=""></ol>
+    <p class="bcn-sw3ed__none typography-body-md" data-ed-none="" hidden="">
+      No files yet.
+    </p>
+    <esa-file-upload
+      label="Add files"
+      accept=".pdf,application/pdf"
+      multiple="true"
+      max-size-mb="200"
+      data-ed-upload="true"
+      name="files"
+    ></esa-file-upload>
   </section>
-  <section class="bcn-sw3docs__doc" data-doc="mmrp">
-    <button
-      type="button"
-      class="bcn-sw3docs__card"
-      title="Delta Conveyance Project Mitigation Monitoring and Reporting Program"
-      data-doc-open=""
+  <section
+    class="esa-danger-zone"
+    role="group"
+    aria-labelledby="esa-danger-zone-heading-1"
+  >
+    <h3
+      class="esa-danger-zone__heading typography-title-sm-strong"
+      id="esa-danger-zone-heading-1"
     >
-      <span class="bcn-sw3docs__name typography-label-md-strong">MMRP</span
-      ><span class="bcn-sw3docs__state typography-body-sm" data-doc-state=""
-        >Not started</span
+      Delete source document
+    </h3>
+    <p class="esa-danger-zone__description typography-body-md">
+      Deleting it removes its files and every commitment found in them. This cannot be
+      undone.
+    </p>
+    <div class="esa-danger-zone__actions typography-label-md">
+      <span
+        class="esa-button esa-button--variant-danger esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          data-ed-delete="true"
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="M3 6h18"></path>
+              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+              <line x1="10" x2="10" y1="11" y2="17"></line>
+              <line x1="14" x2="14" y1="11" y2="17"></line></svg></span
+          ><span class="esa-button__label">Delete source document</span>
+        </button></span
       >
-    </button>
-    <ol
-      class="bcn-sw3docs__list"
-      data-doc-list=""
-      aria-label="Commitments in the MMRP"
-    ></ol>
+    </div>
   </section>
-  <section class="bcn-sw3docs__doc" data-doc="nod">
-    <button
-      type="button"
-      class="bcn-sw3docs__card"
-      title="Delta Conveyance Project Notice of Determination"
-      data-doc-open=""
-    >
-      <span class="bcn-sw3docs__name typography-label-md-strong">NOD</span
-      ><span class="bcn-sw3docs__state typography-body-sm" data-doc-state=""
-        >Not started</span
-      >
-    </button>
-    <ol
-      class="bcn-sw3docs__list"
-      data-doc-list=""
-      aria-label="Commitments in the NOD"
-    ></ol>
-  </section>
-  <template data-docs-card=""
-    ><li class="bcn-sw3cc" data-cc="" data-astro-cid-qfc2vs7a="">
-      <button
-        type="button"
-        class="bcn-sw3cc__main"
-        data-cc-open=""
-        data-astro-cid-qfc2vs7a=""
-      >
-        <span data-cc-badge="" data-astro-cid-qfc2vs7a=""
-          ><span
-            class="bcn-cbadge bcn-cbadge--sm"
-            data-astro-cid-cqxc3yz3=""
-          ></span></span
+  <template data-ed-file-tpl=""
+    ><li class="bcn-sw3ed__file" data-ed-file="" data-astro-cid-phaaurm2="">
+      <span class="bcn-sw3ed__fileicon" data-astro-cid-phaaurm2=""
+        ><span class="esa-icon esa-icon--md" aria-hidden="true" data-astro-cid-c7ivvrtd=""
+          ><svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+            data-astro-cid-c7ivvrtd=""
+          >
+            <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+            <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+            <path d="M10 9H8"></path>
+            <path d="M16 13H8"></path>
+            <path d="M16 17H8"></path></svg></span></span
+      ><span class="bcn-sw3ed__filetext" data-astro-cid-phaaurm2=""
         ><span
-          class="bcn-sw3cc__name"
-          data-cc-name=""
-          data-astro-cid-qfc2vs7a=""
-        ></span></button
-      ><span class="bcn-sw3cc__x" data-cc-dismiss="" data-astro-cid-qfc2vs7a=""
+          class="bcn-sw3ed__fname typography-label-md"
+          data-ed-fname=""
+          data-astro-cid-phaaurm2=""
+        ></span
         ><span
-          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+          class="bcn-sw3ed__fmeta typography-body-sm"
+          data-ed-fmeta=""
+          data-astro-cid-phaaurm2=""
+        ></span></span
+      ><span class="bcn-sw3ed__factions" data-astro-cid-phaaurm2=""
+        ><span
+          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
           data-astro-cid-4xhmycw5=""
           ><button
-            class="esa-button__native typography-microcopy-2xs"
+            class="esa-button__native typography-microcopy-xs"
             type="button"
-            aria-label="Dismiss"
-            title="Dismiss"
-            data-astro-cid-qfc2vs7a="true"
+            data-ed-fopen="true"
+            data-astro-cid-phaaurm2="true"
+            data-astro-cid-4xhmycw5=""
+          >
+            <span class="esa-button__label" data-astro-cid-4xhmycw5="">Open scan</span>
+          </button></span
+        ><span
+          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+          data-astro-cid-4xhmycw5=""
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            aria-label="Download"
+            title="Download"
+            data-ed-fdownload="true"
+            data-astro-cid-phaaurm2="true"
             data-astro-cid-4xhmycw5=""
           >
             <span
-              class="esa-icon esa-icon--xs"
+              class="esa-icon esa-icon--sm"
               aria-hidden="true"
               data-astro-cid-c7ivvrtd=""
               ><svg
-                width="14"
-                height="14"
+                width="16"
+                height="16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -116,12 +177,47 @@ The project's source documents, one slim card each with where its run is (Not st
                 focusable="false"
                 data-astro-cid-c7ivvrtd=""
               >
-                <path d="M18 6 6 18"></path>
-                <path d="m6 6 12 12"></path></svg
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" x2="12" y1="15" y2="3"></line></svg
+            ></span></button></span
+        ><span
+          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+          data-astro-cid-4xhmycw5=""
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            aria-label="Delete file"
+            title="Delete file"
+            data-ed-fdelete="true"
+            data-astro-cid-phaaurm2="true"
+            data-astro-cid-4xhmycw5=""
+          >
+            <span
+              class="esa-icon esa-icon--sm"
+              aria-hidden="true"
+              data-astro-cid-c7ivvrtd=""
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+                data-astro-cid-c7ivvrtd=""
+              >
+                <path d="M3 6h18"></path>
+                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                <line x1="10" x2="10" y1="11" y2="17"></line>
+                <line x1="14" x2="14" y1="11" y2="17"></line></svg
             ></span></button></span
       ></span></li
   ></template>
-</aside>
+</section>
 ```
 
 ## Styles
@@ -135,12 +231,42 @@ The project's source documents, one slim card each with where its run is (Not st
 .error {
   margin: 0;
 }
+/* Type comes from .typography-body-sm — help and error are one size at every
+       control step, so they name the composite directly rather than mapping. */
+/* Both nodes are ALWAYS in the DOM (see render()), so the gap is opt-IN rather
+       than collapsed away. Deliberately not display:none when empty — that removes
+       the node from the accessibility tree, and a live region that is not in the tree
+       cannot announce anything. An empty <p> with no margin occupies no space.
+
+       .is-shown rather than :empty: Lit's template whitespace leaves a text node
+       inside the element, and browsers still disagree about whether :empty ignores
+       whitespace-only children (Selectors L4 says yes, L3 says no). A class is
+       deterministic; :empty here would silently leave 4px of dead space under every
+       clean field in some engines and not others. */
+.help,
+.error {
+  margin: 0;
+}
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
 .typography-body-sm {
   font-family: var(--typography-body-sm-font-family);
   font-size: var(--typography-body-sm-font-size);
   font-weight: var(--typography-body-sm-font-weight);
   line-height: var(--typography-body-sm-line-height);
   letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
 }
 .typography-label-md-strong {
   font-family: var(--typography-label-md-strong-font-family);
@@ -149,26 +275,26 @@ The project's source documents, one slim card each with where its run is (Not st
   line-height: var(--typography-label-md-strong-line-height);
   letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
-.typography-microcopy-2xs {
-  font-family: var(--typography-microcopy-2xs-font-family);
-  font-size: var(--typography-microcopy-2xs-font-size);
-  font-weight: var(--typography-microcopy-2xs-font-weight);
-  line-height: var(--typography-microcopy-2xs-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-2xs-subtle {
-  font-family: var(--typography-microcopy-2xs-subtle-font-family);
-  font-size: var(--typography-microcopy-2xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-2xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-2xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
-.typography-microcopy-2xs-strong {
-  font-family: var(--typography-microcopy-2xs-strong-font-family);
-  font-size: var(--typography-microcopy-2xs-strong-font-size);
-  font-weight: var(--typography-microcopy-2xs-strong-font-weight);
-  line-height: var(--typography-microcopy-2xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
 .typography-title-strong {
   font-family: var(--typography-title-strong-font-family);
@@ -176,6 +302,13 @@ The project's source documents, one slim card each with where its run is (Not st
   font-weight: var(--typography-title-strong-font-weight);
   line-height: var(--typography-title-strong-line-height);
   letter-spacing: var(--typography-title-strong-letter-spacing);
+}
+.typography-title-sm-strong {
+  font-family: var(--typography-title-sm-strong-font-family);
+  font-size: var(--typography-title-sm-strong-font-size);
+  font-weight: var(--typography-title-sm-strong-font-weight);
+  line-height: var(--typography-title-sm-strong-line-height);
+  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -206,29 +339,6 @@ The project's source documents, one slim card each with where its run is (Not st
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-cbadge {
-  font-family: var(--typography-font-family-mono);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-  border-radius: var(--radius-100);
-  white-space: nowrap;
-  flex-shrink: 0;
-  display: inline-block;
-}
-.bcn-cbadge--md {
-  font-size: var(--font-size-100);
-  padding: 1px var(--spacing-200);
-}
-.bcn-cbadge--sm {
-  padding: 1px var(--spacing-150);
-  font-size: 0.75rem;
-}
-.bcn-cbadge--neutral {
-  font-family: var(--typography-font-family-sans);
-  color: var(--bcn-gray-700);
-  background: var(--bcn-gray-100);
 }
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -471,145 +581,131 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
-.bcn-sw3docs {
-  gap: var(--spacing-300);
-  flex-direction: column;
-  min-height: 0;
-  display: flex;
-}
-.bcn-sw3docs__head {
-  align-items: baseline;
-  gap: var(--spacing-200);
-  margin: 0;
-  display: flex;
-}
-.bcn-sw3docs__count {
-  color: var(--color-content-default-secondary);
-  font-variant-numeric: tabular-nums;
-}
-.bcn-sw3docs__doc {
-  gap: var(--spacing-200);
-  flex-direction: column;
-  min-height: 0;
-  display: flex;
-}
-.bcn-sw3docs__card {
+.bcn-sw3src__foot .esa-button,
+.bcn-sw3src__foot .esa-button__native {
+  justify-content: center;
   width: 100%;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--spacing-200);
-  padding: var(--spacing-200) var(--spacing-300);
-  border: 1px solid var(--color-border-default);
-  background: var(--color-background-elevation-raised);
-  border-radius: 6px;
-  display: flex;
 }
-.bcn-sw3docs__card:hover {
-  border-color: var(--color-content-default-tertiary);
-}
-.bcn-sw3docs__card:focus-visible {
-  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
-  outline-offset: var(--focus-ring-offset, 2px);
-}
-.bcn-sw3docs__doc[data-open] .bcn-sw3docs__card {
-  border-color: var(--color-content-default);
-  background: var(--color-background-default);
-}
-.bcn-sw3docs__doc[data-open] {
-  flex: 1;
-}
-.bcn-sw3docs__name {
-  color: var(--color-content-default);
-}
-.bcn-sw3docs__state {
-  color: var(--color-content-default-secondary);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-.bcn-sw3docs__list {
-  gap: var(--spacing-150, 0.375rem);
-  padding: 0 0 0 var(--spacing-300);
+.esa-danger-zone {
+  --_dz-bg: var(--color-background-utility-danger-subtle, #fffcfc);
+  --_dz-border: var(--color-border-utility-danger, #fdbdbe);
+  --_dz-heading-color: var(--color-content-utility-danger);
+  --_dz-description-color: var(--color-content-default-secondary, #646464);
+  --_dz-radius: var(--radius-md, 0.5rem);
+  --_dz-padding: var(--spacing-300, 0.75rem);
+  --_dz-gap: var(--spacing-200, 0.5rem);
+  gap: var(--_dz-gap);
+  padding: var(--_dz-padding);
+  border: var(--border-width-default, 1px) solid var(--_dz-border);
+  border-radius: var(--_dz-radius);
+  background: var(--_dz-bg);
   flex-direction: column;
-  margin: 0;
-  list-style: none;
   display: flex;
-  overflow-y: auto;
 }
-.bcn-sw3docs__doc:not([data-open]) .bcn-sw3docs__list {
+.esa-danger-zone__heading {
+  color: var(--_dz-heading-color);
+  margin: 0;
+}
+.esa-danger-zone__description {
+  color: var(--_dz-description-color);
+  margin: 0;
+}
+.esa-danger-zone__actions {
+  gap: var(--_dz-gap);
+  flex-wrap: wrap;
+  display: flex;
+}
+.bcn-sw3ed {
+  gap: var(--spacing-600);
+  box-sizing: border-box;
+  min-height: 100%;
+  padding: var(--spacing-500);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-200);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-sw3ed[hidden] {
   display: none;
 }
-.bcn-sw3cc {
-  border: 1px solid var(--color-border-default-subtle);
-  background: var(--color-background-elevation-raised);
-  border-radius: 6px;
-  flex-shrink: 0;
-  align-items: center;
-  transition: border-color 0.12s;
-  animation: 0.26s ease-out bcn-sw3cc-in;
+.bcn-sw3ed__form {
+  gap: var(--spacing-300);
+  flex-direction: column;
   display: flex;
-  position: relative;
 }
-.bcn-sw3cc:hover {
-  border-color: var(--color-border-default);
+.bcn-sw3ed__title {
+  margin: 0;
 }
-.bcn-sw3cc[data-state="found"] {
-  border-style: dashed;
-  border-color: var(--color-border-default);
+.bcn-sw3ed__fields {
+  gap: var(--spacing-300);
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  display: grid;
 }
-.bcn-sw3cc[data-selected] {
-  border-color: var(--color-content-default-tertiary);
-  background: var(--color-background-default);
+.bcn-sw3ed__files {
+  gap: var(--spacing-300);
+  flex-direction: column;
+  display: flex;
 }
-.bcn-sw3cc__main {
-  align-items: center;
+.bcn-sw3ed__h {
+  margin: 0;
+}
+.bcn-sw3ed__none {
+  color: var(--color-content-default-secondary);
+  margin: 0;
+}
+.bcn-sw3ed__list {
   gap: var(--spacing-200);
-  min-width: 0;
-  padding: var(--spacing-200) var(--spacing-300);
-  color: inherit;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-  background: 0 0;
-  border: 0;
-  flex: 1;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
   display: flex;
 }
-.bcn-sw3cc__main:focus-visible {
-  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
-  outline-offset: -2px;
+.bcn-sw3ed__list:empty {
+  display: none;
 }
-.bcn-sw3cc__name {
+.bcn-sw3ed__list .bcn-sw3ed__file {
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-200);
+  background: var(--color-background-elevation-raised);
+  display: flex;
+}
+.bcn-sw3ed__list .bcn-sw3ed__fileicon {
+  color: var(--color-content-default-secondary);
+  display: inline-flex;
+}
+.bcn-sw3ed__list .bcn-sw3ed__filetext {
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+}
+.bcn-sw3ed__list .bcn-sw3ed__fname {
+  color: var(--color-content-default);
   text-overflow: ellipsis;
   white-space: nowrap;
-  min-width: 0;
-  color: var(--color-content-default);
-  flex: 1;
-  font-size: 0.875rem;
   overflow: hidden;
 }
-.bcn-sw3cc[data-state="found"] .bcn-sw3cc__name {
+.bcn-sw3ed__list .bcn-sw3ed__fmeta {
   color: var(--color-content-default-secondary);
+  font-variant-numeric: tabular-nums;
 }
-.bcn-sw3cc__x {
-  right: var(--spacing-100);
-  padding-left: var(--spacing-300);
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--color-background-elevation-raised) var(--spacing-300)
-  );
-  opacity: 0;
-  transition: opacity 0.12s;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+.bcn-sw3ed__list .bcn-sw3ed__factions {
+  align-items: center;
+  gap: var(--spacing-100);
+  flex: none;
+  display: flex;
 }
-.bcn-sw3cc:hover .bcn-sw3cc__x,
-.bcn-sw3cc:focus-within .bcn-sw3cc__x {
-  opacity: 1;
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
 }
 .typography-body-sm {
   font-family: var(--typography-body-sm-font-family);
@@ -618,6 +714,13 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-body-sm-line-height);
   letter-spacing: var(--typography-body-sm-letter-spacing);
 }
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
 .typography-label-md-strong {
   font-family: var(--typography-label-md-strong-font-family);
   font-size: var(--typography-label-md-strong-font-size);
@@ -625,26 +728,26 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-label-md-strong-line-height);
   letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
-.typography-microcopy-2xs {
-  font-family: var(--typography-microcopy-2xs-font-family);
-  font-size: var(--typography-microcopy-2xs-font-size);
-  font-weight: var(--typography-microcopy-2xs-font-weight);
-  line-height: var(--typography-microcopy-2xs-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-2xs-subtle {
-  font-family: var(--typography-microcopy-2xs-subtle-font-family);
-  font-size: var(--typography-microcopy-2xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-2xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-2xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
-.typography-microcopy-2xs-strong {
-  font-family: var(--typography-microcopy-2xs-strong-font-family);
-  font-size: var(--typography-microcopy-2xs-strong-font-size);
-  font-weight: var(--typography-microcopy-2xs-strong-font-weight);
-  line-height: var(--typography-microcopy-2xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
 .typography-title-strong {
   font-family: var(--typography-title-strong-font-family);
@@ -652,6 +755,13 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-title-strong-font-weight);
   line-height: var(--typography-title-strong-line-height);
   letter-spacing: var(--typography-title-strong-letter-spacing);
+}
+.typography-title-sm-strong {
+  font-family: var(--typography-title-sm-strong-font-family);
+  font-size: var(--typography-title-sm-strong-font-size);
+  font-weight: var(--typography-title-sm-strong-font-weight);
+  line-height: var(--typography-title-sm-strong-line-height);
+  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -697,11 +807,9 @@ summary.esa-button--variant-chrome:focus-visible {
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
-- `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-700`: #525252 _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
@@ -719,11 +827,11 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-default`: #fafafa _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-background-utility-danger-hover`: #641723 _(semantic)_
+- `--color-background-utility-danger-subtle`: #fffcfc _(semantic)_
 - `--color-background-utility-info`: #228be6 _(semantic)_
 - `--color-background-utility-info-hover`: #113264 _(semantic)_
 - `--color-background-utility-success`: #2e7571 _(semantic)_
@@ -732,8 +840,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-commitment`: #58508d _(component)_
+- `--color-border-utility-danger`: #fdbdbe _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
 - `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
@@ -750,48 +857,61 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
+- `--radius-200`: .5rem _(primitive)_
+- `--radius-md`: .25rem _(semantic)_
 - `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
+- `--spacing-500`: 1.5rem _(primitive)_
+- `--spacing-600`: 2rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
+- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-letter-spacing`: .01em _(semantic)_
+- `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
 - `--typography-body-sm-font-weight`: 350 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
-- `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-md-font-weight`: 500 _(semantic)_
+- `--typography-label-md-letter-spacing`: .01em _(semantic)_
+- `--typography-label-md-line-height`: 1.6 _(semantic)_
 - `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-label-md-strong-font-weight`: 550 _(semantic)_
 - `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
 - `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
-- `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-2xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-2xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-2xs-strong-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-2xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-weight`: 350 _(semantic)_
-- `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_
+- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
+- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
+- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+- `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-title-sm-strong-font-size`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(semantic)_
+- `--typography-title-sm-strong-font-weight`: 550 _(semantic)_
+- `--typography-title-sm-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-title-sm-strong-line-height`: 1.6 _(semantic)_
 - `--typography-title-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-title-strong-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
 - `--typography-title-strong-font-weight`: 550 _(semantic)_

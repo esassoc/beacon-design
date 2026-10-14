@@ -1,0 +1,135 @@
+---
+// <BcnSw3SourceEditor> — one source document's details, in the main pane when the source
+// (not one of its files) is selected: prod's source view, with feature parity. Its name and
+// reference number as fields (Save), its files (each with its page count and scan state,
+// Open to see its scan, Download, Delete), the dropzone to add PDFs, and Delete source
+// document at the foot.
+//
+// Rows are built by the controller from the template below (files change at runtime).
+// Contract: sw3-source-editor.ts `setupSw3SourceEditor(root, handlers)` returns { show }.
+//
+// bcn-lego-checked: fields ARE esa-text-field, the dropzone IS esa-file-upload, every
+// button IS esa-button / esa-icon-button, the delete gate IS esa-danger-zone. The layout
+// is prod's source view (setup wizard step 1, screenshots 2026-10-14); no esa- lego is a
+// record form with a file list. bcn-sw3-source-editor is the home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaDangerZone from '@esa/ecology/esa-danger-zone.astro';
+---
+
+<section class="bcn-sw3ed" data-sw3-editor hidden aria-labelledby="sw3ed-title">
+  <form class="bcn-sw3ed__form" data-ed-form>
+    <h3 class="bcn-sw3ed__title typography-heading-sm" id="sw3ed-title" data-ed-title></h3>
+    <div class="bcn-sw3ed__fields">
+      <esa-text-field label="Name" size="sm" required data-ed-name></esa-text-field>
+      <esa-text-field label="Reference number" size="sm" data-ed-ref></esa-text-field>
+    </div>
+    <div><EsaButton variant="primary" size="sm" type="submit" data-ed-save>Save</EsaButton></div>
+  </form>
+
+  <section class="bcn-sw3ed__files" aria-labelledby="sw3ed-files">
+    <h4 class="bcn-sw3ed__h typography-title-strong" id="sw3ed-files">Files</h4>
+    <ol class="bcn-sw3ed__list" data-ed-files></ol>
+    <p class="bcn-sw3ed__none typography-body-md" data-ed-none hidden>No files yet.</p>
+    <esa-file-upload label="Add files" accept=".pdf,application/pdf" multiple max-size-mb="200" data-ed-upload></esa-file-upload>
+  </section>
+
+  <EsaDangerZone heading="Delete source document" description="Deleting it removes its files and every commitment found in them. This cannot be undone.">
+    <EsaButton variant="danger" size="sm" icon="trash-2" data-ed-delete>Delete source document</EsaButton>
+  </EsaDangerZone>
+
+  <template data-ed-file-tpl>
+    <li class="bcn-sw3ed__file" data-ed-file>
+      <span class="bcn-sw3ed__fileicon"><EsaIcon name="file-text" size="md" /></span>
+      <span class="bcn-sw3ed__filetext">
+        <span class="bcn-sw3ed__fname typography-label-md" data-ed-fname></span>
+        <span class="bcn-sw3ed__fmeta typography-body-sm" data-ed-fmeta></span>
+      </span>
+      <span class="bcn-sw3ed__factions">
+        <EsaButton variant="secondary" size="sm" data-ed-fopen>Open scan</EsaButton>
+        <EsaIconButton icon="download" label="Download" size="sm" data-ed-fdownload />
+        <EsaIconButton icon="trash-2" label="Delete file" size="sm" data-ed-fdelete />
+      </span>
+    </li>
+  </template>
+</section>
+
+<style>
+  .bcn-sw3ed {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-600);
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: var(--spacing-500);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+  }
+  .bcn-sw3ed[hidden] { display: none; }
+  .bcn-sw3ed__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-sw3ed__title { margin: 0; }
+  .bcn-sw3ed__fields {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: var(--spacing-300);
+  }
+  .bcn-sw3ed__files {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-sw3ed__h { margin: 0; }
+  .bcn-sw3ed__none { margin: 0; color: var(--color-content-default-secondary); }
+  .bcn-sw3ed__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .bcn-sw3ed__list:empty { display: none; }
+  .bcn-sw3ed__list :global(.bcn-sw3ed__file) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-sw3ed__list :global(.bcn-sw3ed__fileicon) { color: var(--color-content-default-secondary); display: inline-flex; }
+  .bcn-sw3ed__list :global(.bcn-sw3ed__filetext) {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-sw3ed__list :global(.bcn-sw3ed__fname) {
+    color: var(--color-content-default);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-sw3ed__list :global(.bcn-sw3ed__fmeta) {
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-sw3ed__list :global(.bcn-sw3ed__factions) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    flex: none;
+  }
+</style>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-file-upload';
+</script>

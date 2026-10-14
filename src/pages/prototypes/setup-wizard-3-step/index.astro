@@ -9,31 +9,22 @@
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
-import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
 import BcnSw3Scan from '../../../components/bcn/BcnSw3Scan.astro';
 import { PROJECT } from '../../../data/project-dashboard';
 import { SW3_STEPS, SW3_BASE } from '../../../data/setup-wizard-3-step';
-
-const STEP = SW3_STEPS[0];
 ---
 
 <!-- manifest:
-  layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(md)   # SPINE
+  layout: PageLayout (title row hidden) > bcn-setup-wizard-frame   # SPINE
   sections:
     - wizard chrome  -> bcn-setup-wizard-frame   # three steps, straight run, step 1 active
-    - step panel     -> bcn-sw-step-panel        # numeral, title
-    - workspace      -> bcn-sw3-scan             # documents + commitment cards | status, scrubber, live PDF page with boxes | Aldo conversation + instructions
+    - workspace      -> bcn-sw3-scan             # step header + toolbar | sources and files | live PDF page with editable boxes, or a source's details | Aldo
 -->
 
 <AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard" expandedSections={[]}>
   <PageLayout title="Setup Wizard" hideTitleRow>
     <BcnSetupWizardFrame steps={SW3_STEPS} active="source-documents" complete={[]} homeHref={SW3_BASE}>
-      <div class="stack" data-gap="md">
-        <BcnSwStepPanel n={STEP.n} token={STEP.token} intro="Tell Aldo where each document's commitments are, and steer the scan as it reads.">
-          <Fragment slot="title"><span>Source Documents</span></Fragment>
-        </BcnSwStepPanel>
-        <BcnSw3Scan />
-      </div>
+      <BcnSw3Scan />
     </BcnSetupWizardFrame>
   </PageLayout>
 </AppShell>

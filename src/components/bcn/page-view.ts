@@ -23,13 +23,24 @@ export interface PageViewBox {
   h: number;
   parsed?: boolean;
   selected?: boolean;
+  /** A person drew or adjusted it: solid, theirs. */
+  edited?: boolean;
+  /** Selected and editable: handles to move and resize it. */
+  editable?: boolean;
   shade?: number;
   label?: string;
 }
 
+type Rect = { x: number; y: number; w: number; h: number };
 interface Handlers {
   onBox: (id: string) => void;
   onRegion: (page: number, box: { page: number; x: number; y: number; w: number; h: number }) => void;
+  /** A selected box moved or resized (on release, or per arrow key). */
+  onEdit?: (id: string, page: number, box: Rect) => void;
+  /** Delete or Backspace on a selected box. */
+  onRemove?: (id: string, page: number) => void;
+  /** Escape on a selected box. */
+  onDeselect?: () => void;
 }
 
 const pct = (n: number) => `${(n * 100).toFixed(3)}%`;
@@ -56,7 +67,11 @@ export async function paintPage(canvas: HTMLCanvasElement, src: string, n: numbe
   await pg.render({ canvas, viewport: vp }).promise;
 }
 
-export function setupPageView(root: HTMLElement, { onBox, onRegion }: Handlers) {
+const HANDLES = ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'] as const;
+type Handle = (typeof HANDLES)[number] | 'move';
+const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
+
+export function setupPageView(root: HTMLElement, { onBox, onRegion, onEdit, onRemove, onDeselect }: Handlers) {
   const sheet = root.querySelector<HTMLElement>('[data-pv-sheet]')!;
   const canvas = root.querySelector<HTMLCanvasElement>('[data-pv-canvas]')!;
   const layer = root.querySelector<HTMLElement>('[data-pv-boxes]')!;
@@ -104,9 +119,87 @@ export function setupPageView(root: HTMLElement, { onBox, onRegion }: Handlers) 
   new ResizeObserver(() => render()).observe(sheet);
 
   layer.addEventListener('click', (e) => {
-    if (selecting) return;
+    if (selecting || moved) return;
     const box = (e.target as HTMLElement).closest<HTMLElement>('[data-box-id]');
     if (box) onBox(box.dataset.boxId!);
+  });
+
+  // ── Editing a selected box: drag its body to move, a handle to resize ─────────
+  // Live while dragging (the element moves), reported once on release.
+  let edit: { el: HTMLElement; id: string; h: Handle; from: { x: number; y: number }; r0: Rect; r: Rect } | null = null;
+  let moved = false;
+  const rectOf = (el: HTMLElement): Rect => ({
+    x: parseFloat(el.style.left) / 100,
+    y: parseFloat(el.style.top) / 100,
+    w: parseFloat(el.style.width) / 100,
+    h: parseFloat(el.style.height) / 100,
+  });
+  const place = (el: HTMLElement, r: Rect) => Object.assign(el.style, { left: pct(r.x), top: pct(r.y), width: pct(r.w), height: pct(r.h) });
+  const MIN = 0.01;
+  const resize = (r0: Rect, h: Handle, dx: number, dy: number): Rect => {
+    if (h === 'move') return { ...r0, x: clamp01(Math.min(r0.x + dx, 1 - r0.w)), y: clamp01(Math.min(r0.y + dy, 1 - r0.h)) };
+    let { x, y, w, h: hh } = r0;
+    if (h.includes('w')) (x = clamp01(Math.min(r0.x + dx, r0.x + r0.w - MIN))), (w = r0.x + r0.w - x);
+    if (h.includes('e')) w = Math.max(MIN, Math.min(1 - r0.x, r0.w + dx));
+    if (h.includes('n')) (y = clamp01(Math.min(r0.y + dy, r0.y + r0.h - MIN))), (hh = r0.y + r0.h - y);
+    if (h.includes('s')) hh = Math.max(MIN, Math.min(1 - r0.y, r0.h + dy));
+    return { x, y, w, h: hh };
+  };
+  layer.addEventListener('pointerdown', (e) => {
+    if (selecting) return;
+    const t = e.target as HTMLElement;
+    const el = t.closest<HTMLElement>('[data-box-id][data-editable]');
+    if (!el) return;
+    e.preventDefault();
+    e.stopPropagation();
+    layer.setPointerCapture(e.pointerId);
+    const r0 = rectOf(el);
+    edit = { el, id: el.dataset.boxId!, h: (t.dataset.handle as Handle) ?? 'move', from: frac(e), r0, r: r0 };
+    moved = false;
+    el.setAttribute('data-dragging', '');
+  });
+  layer.addEventListener('pointermove', (e) => {
+    if (!edit) return;
+    const p = frac(e);
+    const dx = p.x - edit.from.x;
+    const dy = p.y - edit.from.y;
+    if (!moved && Math.abs(dx) + Math.abs(dy) < 0.004) return;
+    moved = true;
+    edit.r = resize(edit.r0, edit.h, dx, dy);
+    place(edit.el, edit.r);
+  });
+  layer.addEventListener('pointerup', () => {
+    if (!edit) return;
+    const { el, id, r } = edit;
+    el.removeAttribute('data-dragging');
+    edit = null;
+    if (moved) onEdit?.(id, page, r);
+    // The click that follows a drag is not a selection.
+    setTimeout(() => (moved = false), 0);
+  });
+  // Keyboard: arrows move (Shift for a bigger step, Alt to resize from the bottom right),
+  // Delete removes, Escape lets go.
+  layer.addEventListener('keydown', (e) => {
+    const el = (e.target as HTMLElement).closest<HTMLElement>('[data-box-id]');
+    if (!el) return;
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      return onBox(el.dataset.boxId!);
+    }
+    if (!el.hasAttribute('data-editable')) return;
+    const step = e.shiftKey ? 0.02 : 0.004;
+    const d: Record<string, [number, number]> = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] };
+    if (d[e.key]) {
+      e.preventDefault();
+      const r = resize(rectOf(el), e.altKey ? 'se' : 'move', d[e.key][0], d[e.key][1]);
+      place(el, r);
+      onEdit?.(el.dataset.boxId!, page, r);
+    } else if (e.key === 'Delete' || e.key === 'Backspace') {
+      e.preventDefault();
+      onRemove?.(el.dataset.boxId!, page);
+    } else if (e.key === 'Escape') {
+      onDeselect?.();
+    }
   });
 
   // Select mode: drag a rectangle; release reports it as page fractions.
@@ -169,10 +262,26 @@ export function setupPageView(root: HTMLElement, { onBox, onRegion }: Handlers) 
       }
       el.dataset.kind = b.kind;
       el.dataset.boxId = b.id;
+      el.tabIndex = 0;
+      el.setAttribute('role', 'button');
+      el.toggleAttribute('data-edited', !!b.edited);
+      const wasEditable = el.hasAttribute('data-editable');
+      el.toggleAttribute('data-editable', !!b.editable);
+      if (b.editable && !wasEditable) {
+        for (const h of HANDLES) {
+          const k = document.createElement('span');
+          k.className = 'bcn-pv__handle';
+          k.dataset.handle = h;
+          el.append(k);
+        }
+      } else if (!b.editable && wasEditable) el.querySelectorAll('.bcn-pv__handle').forEach((k) => k.remove());
+      if (b.label) el.setAttribute('aria-label', b.label);
       if (b.shade) el.dataset.shade = String(b.shade);
       el.toggleAttribute('data-parsed', !!b.parsed);
       el.toggleAttribute('data-selected', !!b.selected);
       if (b.label) el.title = b.label;
+      // A box being dragged holds where the person has it until the store catches up.
+      if (el.hasAttribute('data-dragging')) continue;
       Object.assign(el.style, { left: pct(b.x), top: pct(b.y), width: pct(b.w), height: pct(b.h) });
     }
   };
@@ -184,3 +293,6 @@ export function setupPageView(root: HTMLElement, { onBox, onRegion }: Handlers) 
 
   return { show, setSelecting };
 }
+
+/** How many pages a PDF has (an upload's page count, as prod's SourceFile.PageCount). */
+export const countPages = async (src: string) => (await loadDoc(src)).numPages;

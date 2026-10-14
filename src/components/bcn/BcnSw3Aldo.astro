@@ -125,7 +125,7 @@ const { review } = Astro.props;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-300);
-    min-height: 12rem;
+    min-height: 0;
     margin: 0;
     padding: var(--spacing-400);
     list-style: none;
@@ -192,16 +192,36 @@ const { review } = Astro.props;
     outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
     outline-offset: var(--focus-ring-offset, 2px);
   }
-  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__reqcount) { margin: 0; color: var(--color-content-default-secondary); }
-  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__reqs) { margin: 0; padding-left: var(--spacing-400); color: var(--color-content-default); }
-  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__cols) {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: var(--spacing-100) var(--spacing-200);
+  /* The identified text, quoted, four lines until Show all. */
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__quote) {
     margin: 0;
+    padding-left: var(--spacing-300);
+    border-left: 2px solid var(--color-border-default);
+    color: var(--color-content-default);
+    font-family: var(--font-decorative);
+    white-space: pre-line;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
-  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__cols dt) { color: var(--color-content-default-secondary); }
-  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__cols dd) { margin: 0; color: var(--color-content-default); }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__quote[data-all]) { display: block; }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__checkmeta) { display: flex; gap: var(--spacing-300); }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__pagelink) {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-content-link, var(--color-content-default));
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__pagelink:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__fix) { display: flex; flex-direction: column; gap: var(--spacing-200); }
   .bcn-sw3aldo__extra :global(.bcn-sw3aldo__checkacts) { display: flex; gap: var(--spacing-200); }
   .bcn-sw3aldo__extra :global(.bcn-sw3aldo__ok) { color: var(--color-content-default-secondary); }
 
@@ -251,6 +271,7 @@ const { review } = Astro.props;
 
 <script>
   import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-text-field';
   import { setupSw3Aldo } from './sw3-aldo';
   document.querySelectorAll<HTMLElement>('[data-sw3-aldo]').forEach(setupSw3Aldo);
 </script>

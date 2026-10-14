@@ -1,47 +1,81 @@
 ---
-// <BcnSw3Scan> — step 1's workspace: the controls, the documents, the page being read,
-// and Aldo.
+// <BcnSw3Scan> — step 1's workspace: the step's header and the scan's controls in one
+// panel, then three panes: the source documents and their files, the page of the file in
+// view, and Aldo.
 //
-// The toolbar runs across the top: what the run is doing now, its pace, pause and
-// resume, follow, mark missed, and the scrubber of every page in the document. Below it,
-// the project's documents (with the commitments found in the open one as slim cards) and
-// the page itself, rendered from the PDF, with a box drawn around each commitment as it is
-// found and its requirement spans filling in as they parse. Aldo is the panel on the
-// right, opened and closed from the toolbar: where each document is scoped, where the run
-// stops after its first commitments for a person to check them, and where it is steered.
+// The workspace owns the viewport: it is sized to the window below the wizard's stepper,
+// and only the three panes scroll, each inside itself. So the controls never scroll away,
+// the three panes' tops align, and Aldo's composer is always on screen.
 //
-// Each document has its own run, its own conversation and its own record (sw3-store), and
-// every run keeps going while another document is in view. A return lands where it is.
+// The header's status line is where the scan is ("Reading 04_DCP_MMRP_ADA.pdf, p. 16 of
+// 170"); the toolbar under it holds Mark missed, the pace, the one primary (Let it run /
+// Pause / Resume / Continue) and ⋯, then every page of the file in one strip. Selecting a
+// source shows its details (name, reference number, files, upload); selecting a file shows
+// its scan: the page, rendered from the PDF, with a box per commitment that a person can
+// select, move, resize, redraw or delete. Aldo, on the right, scopes, checks and steers.
 //
-// Composes: bcn-sw3-toolbar, bcn-sw3-docs, bcn-page-view, bcn-sw3-aldo.
+// Each file has its own run, conversation and record (sw3-store); sources and files are
+// sw3-sources.ts. Every run keeps going while another file is in view.
 //
-// bcn-lego-checked: every control is a lego inside bcn-sw3-toolbar; each column is a bcn-
-// component. No esa- lego is a document workspace with a run; checked Beacon (its
-// source-pdf-viewer is the page pane alone, bcn-page-view here). bcn-sw3-scan is the home
-// for this step's workspace.
+// Composes: bcn-sw-step-panel, bcn-sw3-toolbar, bcn-sw3-sources, bcn-page-view,
+// bcn-sw3-source-editor, bcn-sw3-aldo; esa-side-dialog (new source), esa-confirm-dialog
+// (deletes), esa-empty-state (no sources).
+//
+// bcn-lego-checked: every control is a lego; each pane is a bcn- component. The box tools
+// over a selected box are esa-icon-buttons in a positioned group (esa-popover anchors to
+// a trigger element in flow, not to a box drawn over a canvas). No esa- lego is a document
+// workspace with a run; checked Beacon (source-pdf-viewer is the page pane alone).
+// bcn-sw3-scan is the home for this step's workspace.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnSwStepPanel from './BcnSwStepPanel.astro';
 import BcnPageView from './BcnPageView.astro';
-import BcnSw3Docs from './BcnSw3Docs.astro';
+import BcnSw3Sources from './BcnSw3Sources.astro';
+import BcnSw3SourceEditor from './BcnSw3SourceEditor.astro';
 import BcnSw3Aldo from './BcnSw3Aldo.astro';
 import BcnSw3Toolbar from './BcnSw3Toolbar.astro';
-import { SW3_REVIEW } from '../../data/setup-wizard-3-step';
-import { SCAN_DOCS } from '../../data/sw3-docs';
+import { SW3_REVIEW, SW3_STEPS } from '../../data/setup-wizard-3-step';
+import { SCAN_DOCS, SCAN_SOURCES } from '../../data/sw3-docs';
 import { withBase } from '../../lib/base';
 
+const STEP = SW3_STEPS[0];
 const payload = { docs: SCAN_DOCS.map((d) => ({ ...d, requirements: [] })) };
+const sources = {
+  sources: SCAN_SOURCES,
+  files: SCAN_DOCS.map((d) => ({ id: d.id, file: d.file, pdf: d.pdf, total: d.total })),
+};
 ---
 
 <section class="bcn-sw3scan" data-sw3-scan data-base={withBase('/')} data-aldo="open">
-  <div class="bcn-sw3scan__work">
-    <div class="bcn-sw3scan__bar">
+  <div class="bcn-sw3scan__panel">
+    <BcnSwStepPanel n={STEP.n} token={STEP.token}>
+      <Fragment slot="title"><span>Source Documents</span></Fragment>
+      <p slot="meta" class="bcn-sw3scan__status typography-label-md" data-bar-status role="status"></p>
+      <EsaIconButton slot="actions" icon="menu" label="Hide Aldo" size="sm" data-ico="panel-right-close" data-bar-aldo aria-pressed="true" />
       <BcnSw3Toolbar />
-    </div>
-    <div class="bcn-sw3scan__body">
-      <div class="bcn-sw3scan__docs">
-        <BcnSw3Docs />
-      </div>
-      <div class="bcn-sw3scan__page">
+    </BcnSwStepPanel>
+  </div>
+
+  <div class="bcn-sw3scan__sources">
+    <BcnSw3Sources />
+  </div>
+
+  <div class="bcn-sw3scan__main" data-sw3-main>
+    <div class="bcn-sw3scan__page" data-sw3-pagepane>
+      <div class="bcn-sw3scan__sheet">
         <BcnPageView aspect={1.2941} />
+        <div class="bcn-sw3scan__boxtools" data-box-tools hidden role="toolbar" aria-label="Selected box">
+          <EsaIconButton icon="menu" label="Redraw box" size="sm" data-ico="square-dashed" data-box-redraw />
+          <EsaIconButton icon="trash-2" label="Delete box" size="sm" data-box-delete />
+          <EsaIconButton icon="menu" label="Ask Aldo about it" size="sm" data-ico="message-square" data-box-ask />
+        </div>
       </div>
+    </div>
+    <BcnSw3SourceEditor />
+    <div class="bcn-sw3scan__empty" data-sw3-empty hidden>
+      <EsaEmptyState title="No source documents" description="Add a source document, then upload its files." />
+      <EsaButton variant="primary" size="sm" icon="plus" data-ico="file-plus" data-empty-new>New source document</EsaButton>
     </div>
   </div>
 
@@ -49,77 +83,116 @@ const payload = { docs: SCAN_DOCS.map((d) => ({ ...d, requirements: [] })) };
     <BcnSw3Aldo review={withBase(SW3_REVIEW)} />
   </div>
 
+  <esa-side-dialog heading="New source document" size="md" data-new-dialog>
+    <form class="bcn-sw3scan__newform" data-new-form id="sw3-new-form">
+      <esa-text-field label="Name" size="sm" required placeholder="Incidental Take Permit" data-new-name></esa-text-field>
+      <esa-text-field label="Reference number" size="sm" placeholder="2081-2024-018-00" data-new-ref></esa-text-field>
+      <esa-file-upload label="Files" accept=".pdf,application/pdf" multiple max-size-mb="200" data-new-files></esa-file-upload>
+    </form>
+    <div slot="footer" class="bcn-sw3scan__newfoot">
+      <EsaButton variant="primary" size="sm" type="submit" form="sw3-new-form">Create</EsaButton>
+      <EsaButton variant="secondary" size="sm" data-new-cancel>Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+
+  <esa-confirm-dialog variant="danger" confirm-label="Delete" data-confirm></esa-confirm-dialog>
+
   <script type="application/json" data-sw3-payload set:html={JSON.stringify(payload)} />
+  <script type="application/json" data-sw3-sources-seed set:html={JSON.stringify(sources)} />
 </section>
 
 <style>
+  /* The workspace fills the window below the stepper (height set by sw3-scan.ts from where
+     it starts); only the panes scroll. */
   .bcn-sw3scan {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 22rem;
-    gap: var(--spacing-400);
-    align-items: start;
+    grid-template-columns: 16rem minmax(0, 1fr) 22rem;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: var(--spacing-300);
+    height: var(--_fit, calc(100vh - 12rem));
+    min-height: 32rem;
   }
-  .bcn-sw3scan[data-aldo='closed'] { grid-template-columns: minmax(0, 1fr); }
+  .bcn-sw3scan[data-aldo='closed'] { grid-template-columns: 16rem minmax(0, 1fr); }
   .bcn-sw3scan[data-aldo='closed'] .bcn-sw3scan__aldo { display: none; }
 
-  .bcn-sw3scan__work {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-300);
-    min-width: 0;
-  }
-  /* The controls stay in reach while the page scrolls. */
-  .bcn-sw3scan__bar {
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    padding-top: var(--spacing-200);
-    background: var(--color-background-default);
+  .bcn-sw3scan__panel { grid-column: 1 / -1; }
+  .bcn-sw3scan__status {
+    margin: 0;
+    padding-left: var(--spacing-300);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
   }
 
-  .bcn-sw3scan__body {
-    display: grid;
-    grid-template-columns: 15rem minmax(0, 1fr);
-    gap: var(--spacing-400);
-    align-items: start;
-  }
-
-  /* The side columns hold to the viewport; their lists scroll inside them. 52px is
-     AppShell's header, above the scroller these columns stick in. */
-  .bcn-sw3scan__docs {
-    position: sticky;
-    top: 9.5rem;
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - 52px - 9.5rem - var(--spacing-400));
-    min-height: 0;
-  }
+  .bcn-sw3scan__sources,
+  .bcn-sw3scan__main,
   .bcn-sw3scan__aldo {
-    position: sticky;
-    top: var(--spacing-200);
+    min-height: 0;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 52px - 2 * var(--spacing-400));
-    min-height: 0;
   }
-  .bcn-sw3scan__aldo > :global(*) { flex: 1; }
+  .bcn-sw3scan__sources > :global(*),
+  .bcn-sw3scan__aldo > :global(*) { flex: 1; min-height: 0; }
 
-  .bcn-sw3scan__page {
-    padding: var(--spacing-300);
+  .bcn-sw3scan__main {
     background: var(--color-background-elevation-sunken);
     border-radius: var(--radius-200);
-    min-width: 0;
+    overflow: auto;
   }
+  .bcn-sw3scan__page {
+    padding: var(--spacing-400);
+  }
+  .bcn-sw3scan__page[hidden] { display: none; }
+  .bcn-sw3scan__sheet { position: relative; max-width: 60rem; margin: 0 auto; }
 
+  /* The selected box's tools, floated over its top right corner. */
+  .bcn-sw3scan__boxtools {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+    transform: translate(-100%, calc(-100% - 10px));
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100);
+    box-shadow: var(--shadow-200);
+  }
+  .bcn-sw3scan__boxtools[hidden] { display: none; }
+
+  .bcn-sw3scan__empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-sw3scan__empty[hidden] { display: none; }
+
+  .bcn-sw3scan__newform {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .bcn-sw3scan__newfoot { display: flex; gap: var(--spacing-200); }
+
+  @media (max-width: 1280px) {
+    .bcn-sw3scan { grid-template-columns: 14rem minmax(0, 1fr) 20rem; }
+    .bcn-sw3scan[data-aldo='closed'] { grid-template-columns: 14rem minmax(0, 1fr); }
+  }
   @media (max-width: 1100px) {
-    .bcn-sw3scan { grid-template-columns: 1fr; }
-    .bcn-sw3scan__body { grid-template-columns: 1fr; }
-    .bcn-sw3scan__docs,
-    .bcn-sw3scan__aldo { position: static; height: auto; max-height: 32rem; }
+    .bcn-sw3scan { grid-template-columns: 14rem minmax(0, 1fr); }
+    .bcn-sw3scan__aldo { grid-column: 1 / -1; height: 36rem; }
   }
 </style>
 
 <script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-confirm-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-file-upload';
   import { setupSw3Scan } from './sw3-scan';
   document.querySelectorAll<HTMLElement>('[data-sw3-scan]').forEach(setupSw3Scan);
 </script>

@@ -14,14 +14,14 @@ The goal is fewer clicks per commitment. A clean commitment costs zero clicks (C
 
 ## Settled decisions
 
-- **Several documents, one run each.** The left column lists the project's documents, each with where its run is (Not started, Reading p. 147, Waiting on your check, Paused, 157 commitments, No commitments). The document in view opens to its commitments, one slim card each: the code chip and the title, dashed while the commitment is being read and solid once parsed. Every run keeps going while another document is in view, and each document has its own conversation and record.
+- **Source documents hold files, as in prod.** A source (name, reference number) holds one or more files, and each file is scanned on its own. The sidebar lists sources with their files under them; each file shows one state: Not scanned, Reading p. 16 of 170 with a progress bar, "3 to check", Paused at p. 40, 157 commitments, or No commitments. Selecting a source shows its details in the main pane: Name and Reference number, its files (Open scan, Download, Delete), a dropzone for more PDFs, and Delete source document. New source document opens a side dialog. Every delete asks first and states what goes with it. Every run keeps going while another file is in view, and each file has its own conversation and record.
 - **Each document is read for what it is.** The scope pass reads the document's shape before proposing anything:
   - the ITP's commitments are numbered headings in a section (Condition 11, pp. 131–223);
   - the MMRP's are the rows of three landscape tables in Chapter 3 (pp. 16–163). A row runs across page breaks, and its Timing, Implementation Party, Reporting Schedule and Participating Organizations come from the table's columns, not from the model;
   - the Notice of Determination has none. It records that the MMRP was adopted, so Aldo proposes Nothing to scan.
-- **The run checks in before it runs.** After the first three commitments it stops, and Aldo lays each one out: code and title (click to see it on the page), requirements by name, and for a table the column fields, each with Looks right. Corrections typed here become rules for the rest of the document. Then the person lets it run at the pace they choose. Control first, then the option to let it go.
+- **The run checks in before it runs.** After the first three commitments it stops, and Aldo lays out only what step 1 decides: each commitment's ID, name and text, quoted, with a link to its page, Looks right and Fix. Fix opens the three as fields, with Save and Redraw the box. Requirements, timing and parties wait for step 2. What the person fixes becomes an instruction for the rest of the file, and a fixed name is the commitment's name in step 2. Then Continue, at the pace chosen.
 - **Pace is the person's.** One at a time stops after each commitment parses. Watch reads slowly, with a line of narration of what the model just did ("Parsed MM AES-1a: 4 requirements. Timing and party from the table's columns."). Full speed raises only what needs a person. Every pace change is a steer.
-- **One toolbar holds every control** above the documents and the page: the narration, Mark missed, pace, Pause / Resume / Let it run, the Aldo panel's open and close, the page in view with previous and next, and the scrubber.
+- **One panel holds the step and its controls.** The step's title with a status line (the only place the page appears: "Reading 04_DCP_MMRP_ADA.pdf, p. 16 of 170", "Stopped at 3 commitments to check", "Done: 157 commitments in …") and the Aldo toggle; under a gray rule, Mark missed on the left, the pace with icons in the center, and one primary on the right (Start scan, Pause, Resume, Continue) beside a menu for Restart this scan, Download file and Delete file. Below, the scrubber. The workspace is a fixed height: only the panes scroll, and Aldo's composer is always in view.
 - **Scope and steering are a conversation with Aldo.** Aldo opens with the scope pass: "The commitments are in VIII. Conditions of Approval, pp. 80–244: about 293." The person answers in their own words ("Only Condition 11", "Skip Table 3"), and keeps talking to it while the scan runs:
   - narrow or widen the scope;
   - pause and resume, or change the pace;
@@ -32,14 +32,14 @@ The goal is fewer clicks per commitment. A clean commitment costs zero clicks (C
 - **Pause lets the page in flight finish.** Its extraction call is already out, so the run stops after that page ("Pausing after p. 149").
 - **Aldo raises what needs a person** as the scan reaches it, with the answer attached: a find with nothing in it ("COA 11.32 reads like a reference to another condition", Dismiss), a passage split across a page break (Merge), and pages with nothing found (Show p. 152).
 - **The page is the PDF.** pdf.js renders the uploaded file in the browser, page by page, and the boxes are drawn over it. There are no pre-rendered images.
-- **The scan is watched.** This is the one place the wizard breaks the "never watch a model run" rule, because watching is the point: the person sees their own document being read. The page in view shows a box around each commitment as it is found (dashed) and as it parses (solid, with requirement spans filled in).
-- **Scrubber.** Every page of the document, fifty at a time, with chevrons to page the window ("pp. 51–100 of 170"):
-  - pages outside the scope are drawn but muted;
+- **The scan is watched.** This is the one place the wizard breaks the "never watch a model run" rule, because watching is the point: the person sees their own document being read. The page in view shows a box around each commitment as it is found. Requirement spans are not drawn in step 1; they are step 2's.
+- **Boxes are editable.** Aldo's boxes are dashed, a person's solid. Click one to select it: eight handles to resize, drag to move, and a small toolbar (Redraw, Delete, Open in Aldo). Arrows nudge, Delete removes, Escape lets go. Mark missed (or M) draws a new one. Drawing or selecting holds the page still while the scan goes on. Every edit is recorded as a steer with its page.
+- **Scrubber.** Every page of the file, fifty at a time, with chevrons to page the window and no range label (the status line carries the page):
+  - unread pages are white cells; pages outside the scope are a sunken fill;
   - read pages fill in;
-  - a pip marks each find, hollow while found and solid once parsed;
-  - a read page with nothing found is drawn as a gap, which is where a missed commitment hides;
-  - the scan head runs ahead of the page in view.
-- **Corrections on the page and the cards:** mark a missed commitment by dragging over it on the page, and dismiss a card. Both are recorded with the steering.
+  - a pip marks each find;
+  - the scan head is Aldo green, and clicking it takes up following the scan again;
+  - hovering a cell shows its page.
 - **Walk away.** The run renders from events, so it keeps going while the person is in step 2 or away entirely. A return lands where the run is.
 - **One commitment is the unit of review.** Requirements are highlights over the exact words they came from, and the spans partition the commitment's binding text.
 - **Suggested vs confirmed** follows the Comments module: Aldo's proposal until a person touches it, and any edit confirms. There is no approve button per requirement. "Confirm commitment" confirms the rest, and Confirm all confirms every commitment nothing is flagged on, with one-step undo.
@@ -157,16 +157,17 @@ The prototype's scan of the ITP covers pp. 131–223 whatever range is entered. 
 ## Demo path
 
 1. **Scope.** Open step 1. Aldo proposes pp. 80–244. Tell it "Only Condition 11" (pp. 131–223), then "Start".
-2. **Check.** The run stops after COA 11.1 to 11.3, and Aldo lays them out. Show 11.1 on the page, choose Looks right on each, then Watch.
+2. **Check.** The run stops after COA 11.1 to 11.3, and Aldo lays out each one's ID, name and text. Fix 11.1's name and Save, choose Looks right on the other two, then Continue. Drag a corner of a box on the page to tighten it.
 3. **Steer.** Around p. 149, tell Aldo "Pause". It pauses after the page in flight. Tell it "Anything that just says see Condition X is a cross-reference, not a commitment". It adds the rule from p. 150 and offers to re-read pp. 131–149. Resume, then take the re-read: COA 11.32 goes.
-4. **Other documents.** Open the MMRP: Aldo proposes Chapter 3's tables. Tell it "Skip Table 3", then Scan Chapter 3. At the check, the column fields sit under each measure. Choose Let it run. Open the NOD and choose Nothing to scan. The ITP's run has kept going.
-5. **Missed commitment.** When the run is done, Aldo reports nothing found on pp. 152–154. Show p. 152, step back to p. 151, choose Mark missed, and drag over "11.35 Fish Salvage Plan". It parses into 7 requirements. Open Review commitments.
-6. **Exceptions.** In step 2, choose Needs a person, then:
+4. **Other files.** Under Final Environmental Impact Report, open the MMRP: Aldo proposes Chapter 3's tables. Tell it "Skip Table 3", then Scan Chapter 3. Check the first three measures and Continue. Open the NOD and choose Nothing to scan. The ITP's run has kept going.
+5. **Sources.** Create a new source document with a reference number and a PDF, then delete it: the confirm states what goes with it.
+6. **Missed commitment.** When the run is done, Aldo reports nothing found on pp. 152–154. Show p. 152, step back to p. 151, choose Mark missed, and drag over "11.35 Fish Salvage Plan". It parses into 7 requirements. Open Review commitments.
+7. **Exceptions.** In step 2, choose Needs a person, then:
    - COA 11.14: remove the requirement whose quote is not in the source;
    - COA 11.25: merge the duplicate;
    - COA 11.18: turn the uncovered sentence into a new requirement.
-7. **Entities.** Open Project entities and merge the four phrasings into "Initiation of Covered Activities". Four commitments update.
-8. **Confirm.** Confirm all on the clean remainder, then continue to the Compliance Index.
+8. **Entities.** Open Project entities and merge the four phrasings into "Initiation of Covered Activities". Four commitments update.
+9. **Confirm.** Confirm all on the clean remainder, then continue to the Compliance Index.
 
 ## Jacky's notes
 

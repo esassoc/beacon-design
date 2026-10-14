@@ -48,22 +48,22 @@ const { label = 'Page', size = 50 } = Astro.props;
     >
       <span class="bcn-scrub__head" data-scrub-head hidden aria-hidden="true"></span>
       <span class="bcn-scrub__thumb" data-scrub-thumb aria-hidden="true"></span>
+      <span class="bcn-scrub__tip typography-label-sm" data-scrub-tip hidden aria-hidden="true"></span>
     </div>
     <div class="bcn-scrub__ticks typography-microcopy-sm" aria-hidden="true" data-scrub-ticks></div>
   </div>
   <span data-scrub-next><EsaIconButton icon="chevrons-right" label="Later pages" size="sm" /></span>
-  <span class="bcn-scrub__range typography-microcopy-sm" data-scrub-range></span>
 </div>
 
 <style>
   .bcn-scrub {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: start;
     gap: var(--spacing-200);
     user-select: none;
   }
-  .bcn-scrub > span { padding-top: 8px; }
+  .bcn-scrub > span { padding-top: 6px; }
   .bcn-scrub__strip {
     --_cell: calc(100% / var(--_n));
     display: flex;
@@ -71,24 +71,19 @@ const { label = 'Page', size = 50 } = Astro.props;
     gap: var(--spacing-100);
     min-width: 0;
   }
-  .bcn-scrub__range {
-    min-width: 7.5rem;
-    padding-top: 14px !important;
-    color: var(--color-content-default-secondary);
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-  }
 
   .bcn-scrub__track {
     position: relative;
     display: grid;
     grid-template-columns: repeat(var(--_n), minmax(0, 1fr));
     gap: 2px;
-    height: 40px;
-    padding: 4px 0;
+    height: 44px;
+    padding: 6px;
     cursor: pointer;
     touch-action: none;
     border-radius: var(--radius-100);
+    /* Sunken, so a blank (unread) page reads as a white cell on it. */
+    background: var(--color-background-elevation-sunken);
   }
   .bcn-scrub__track:focus-visible {
     outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
@@ -105,30 +100,24 @@ const { label = 'Page', size = 50 } = Astro.props;
     justify-content: flex-start;
     padding-top: 4px;
     border-radius: 2px;
-    background: var(--color-background-elevation-sunken);
-    border: 1px solid var(--color-border-default-subtle);
+    /* Unread and in scope: a blank page, outlined so every page is visible. */
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     transition: background-color 160ms ease;
   }
   .bcn-scrub__track :global(.bcn-scrub__page[data-state='scanned']) {
-    background: color-mix(in srgb, var(--color-content-default) 26%, var(--color-background-elevation-raised));
+    background: color-mix(in srgb, var(--color-content-default) 20%, var(--color-background-elevation-raised));
     border-color: transparent;
   }
-  /* A gap: read, in scope, and nothing found on it. */
+  /* Read with nothing found: just read. Silence is not a warning. */
   .bcn-scrub__track :global(.bcn-scrub__page[data-state='gap']) {
-    background: repeating-linear-gradient(
-      135deg,
-      var(--color-background-warning-subtle),
-      var(--color-background-warning-subtle) 3px,
-      var(--color-background-elevation-raised) 3px,
-      var(--color-background-elevation-raised) 6px
-    );
-    border-color: var(--color-border-warning);
+    background: color-mix(in srgb, var(--color-content-default) 20%, var(--color-background-elevation-raised));
+    border-color: transparent;
   }
   /* Outside the scope: skipped, never read. */
   .bcn-scrub__track :global(.bcn-scrub__page[data-state='out']) {
-    background: transparent;
-    border-style: dashed;
-    opacity: 0.55;
+    background: color-mix(in srgb, var(--color-content-default) 6%, var(--color-background-elevation-sunken));
+    border-color: transparent;
   }
   /* Past the document's end, in the last window. */
   .bcn-scrub__track :global(.bcn-scrub__page[data-state='none']) { visibility: hidden; }
@@ -162,8 +151,8 @@ const { label = 'Page', size = 50 } = Astro.props;
     left: calc(var(--_cell) * var(--_head, 0));
     width: var(--_cell);
     border-radius: 2px;
-    background: color-mix(in srgb, var(--color-background-brand) 22%, transparent);
-    box-shadow: inset 0 -3px 0 var(--color-background-brand);
+    background: color-mix(in srgb, var(--bcn-aldo) 24%, transparent);
+    box-shadow: inset 0 -3px 0 var(--bcn-aldo);
     pointer-events: none;
     transition: left 300ms ease;
   }
@@ -178,6 +167,21 @@ const { label = 'Page', size = 50 } = Astro.props;
     border: 2px solid var(--color-content-default);
     border-radius: 4px;
     pointer-events: none;
+  }
+
+  /* The page under the pointer, floated above its cell while hovering or dragging. */
+  .bcn-scrub__tip {
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: calc(var(--_cell) * var(--_tip, 0) + var(--_cell) / 2);
+    transform: translateX(-50%);
+    padding: 1px var(--spacing-150, 0.375rem);
+    border-radius: var(--radius-100);
+    background: var(--color-content-default);
+    color: var(--color-content-default-knockout);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1;
   }
 
   .bcn-scrub__ticks {

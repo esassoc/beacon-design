@@ -120,6 +120,36 @@ export const initSw3 = (): Sw3Payload => {
   return D;
 };
 
+/** Add a document at runtime (a person's upload). It gets its own run, conversation and record. */
+export const addDoc = (d: Sw3Payload) => {
+  const id = d.id!;
+  if (slots.has(id)) return;
+  const prev = current;
+  const sl: Slot = { D: d, S: fresh(d), cache: new Map(), commitmentByCode: new Map(), findById: new Map(), lastSig: '' };
+  slots.set(id, sl);
+  use(id);
+  load();
+  sl.S = S;
+  if (prev) use(prev);
+  emit();
+};
+
+/** Remove a document and its record. */
+export const removeDoc = (id: string) => {
+  if (!slots.has(id)) return;
+  slots.delete(id);
+  try {
+    localStorage.removeItem(`${KEY}:${id}`);
+  } catch {
+    /* no storage */
+  }
+  if (current === id) {
+    const next = slots.keys().next().value;
+    if (next) use(next);
+  }
+  emit();
+};
+
 export const docIds = () => [...slots.keys()];
 export const activeDoc = () => current;
 /** Bring a document into view: the workspace, the scrubber and Aldo all follow it. */
@@ -217,6 +247,10 @@ export interface Sw3State {
   checked: string[];
   /** A person agreed there is nothing to scan (the NOD). */
   skipped: boolean;
+  /** A person's redraw of a find's boxes, replacing Aldo's. */
+  boxEdits: Record<string, Box[]>;
+  /** A person's correction of how a commitment was identified, at the check. */
+  fixes: Record<string, { code?: string; title?: string; text?: string }>;
 }
 
 export type Pace = 'step' | 'watch' | 'run';
@@ -235,6 +269,8 @@ const fresh = (d?: Sw3Payload): Sw3State => ({
   calibrated: false,
   checked: [],
   skipped: false,
+  boxEdits: {},
+  fixes: {},
   dismissed: [],
   splitMerged: [],
   marks: [],
@@ -594,6 +630,8 @@ const parsedTime = (code: string) =>
 export interface LiveFind extends Find {
   parsed: boolean;
   marked: boolean;
+  /** A person moved, resized or redrew its box: solid, theirs. */
+  edited: boolean;
 }
 
 /** Everything found so far, in page order: the scan's finds and a person's marks. */
@@ -609,7 +647,9 @@ export const finds = (): LiveFind[] =>
       const split = D.finds.find((x) => x.kind === 'split' && x.partOf === f.id);
       if (split && S.splitMerged.includes(split.id)) boxes = [...boxes, ...split.boxes];
       const parsed = f.kind === 'commitment' ? parsedTime(f.code) <= t : f.kind === 'false' ? foundTime(f.id) + 3 <= t : false;
-      out.push({ ...f, boxes, parsed, marked: false });
+      const mine = S.boxEdits[f.id];
+      const fix = S.fixes[f.code];
+      out.push({ ...f, title: fix?.title ?? f.title, boxes: mine ?? boxes, parsed, marked: false, edited: !!mine });
     }
     for (const m of S.marks) {
       if (m.at > t) continue;
@@ -619,7 +659,10 @@ export const finds = (): LiveFind[] =>
         id: m.id,
         parsed: !!base && t >= m.at + MARK_PARSE,
         marked: true,
+        edited: false,
       });
+      const last = out.at(-1)!;
+      if (S.boxEdits[m.id]) (last.boxes = S.boxEdits[m.id]), (last.edited = true);
     }
     return out.sort((a, b) => a.page - b.page || (a.boxes[0]?.y ?? 0) - (b.boxes[0]?.y ?? 0));
   });
@@ -680,6 +723,76 @@ export const markRegion = (page: number, box: Box) =>
       text: `Marked a missed commitment on p. ${page}`,
       actions: [],
       reply: known ? `Reading it: ${D.missed!.code} ${D.missed!.title}.` : 'Reading it.',
+    });
+  });
+
+/** A person's box for a find on one page: moved, resized or redrawn. Recorded as a steer. */
+export const setFindBox = (id: string, page: number, box: Box, label: string) =>
+  commit(() => {
+    const f = finds().find((x) => x.id === id);
+    if (!f) return;
+    const others = f.boxes.filter((b) => b.page !== page);
+    S.boxEdits[id] = [...others, { ...box, page }].sort((a, b) => a.page - b.page);
+    S.steers.push({
+      id: `s${S.steers.length + 1}`,
+      at: now(),
+      page: started() && !finished() ? headPage() : null,
+      via: 'button',
+      text: `${label} ${f.code || 'the marked passage'} on p. ${page}`,
+      actions: [],
+      reply: `Noted. ${f.code || 'It'} now reads from the box you ${label === 'Redrew' ? 'drew' : 'adjusted'}, and its text is re-read from there.`,
+    });
+  });
+
+/** How a commitment was identified, with a person's fix over it. */
+export const identified = (code: string) => {
+  const c = commitmentByCode.get(code) as (ScanCommitment & { text?: string }) | undefined;
+  const fix = S.fixes[code] ?? {};
+  return { code: fix.code ?? code, title: fix.title ?? c?.title ?? code, text: fix.text ?? c?.text ?? '', page: c?.page ?? 0, fixed: !!S.fixes[code] };
+};
+
+/** A person's fix at the check: the ID, name or text as it should have read. Checks it, and
+ *  becomes an instruction for the rest of the file (prod sends it with later calls). */
+export const fixCommitment = (code: string, patch: { code?: string; title?: string; text?: string }) =>
+  commit(() => {
+    const was = identified(code);
+    const changed: string[] = [];
+    if (patch.code !== undefined && patch.code !== was.code) changed.push(`ID to ${patch.code}`);
+    if (patch.title !== undefined && patch.title !== was.title) changed.push(`name to "${patch.title}"`);
+    if (patch.text !== undefined && patch.text !== was.text) changed.push('its text');
+    S.fixes[code] = { ...S.fixes[code], ...patch };
+    if (!S.checked.includes(code)) S.checked.push(code);
+    S.steers.push({
+      id: `s${S.steers.length + 1}`,
+      at: now(),
+      page: started() && !finished() ? headPage() : null,
+      via: 'button',
+      text: changed.length ? `Fixed ${code}: ${changed.join(', ')}` : `Checked ${code}`,
+      actions: [],
+      reply: changed.length ? `Thanks. I will read the rest of the file the way you fixed ${code}.` : `Noted: ${code} read right.`,
+    });
+  });
+
+/** Remove a find's box on one page; with no boxes left the find goes. */
+export const removeFindBox = (id: string, page: number) =>
+  commit(() => {
+    const f = finds().find((x) => x.id === id);
+    if (!f) return;
+    const left = f.boxes.filter((b) => b.page !== page);
+    const name = f.code || 'the marked passage';
+    if (left.length) S.boxEdits[id] = left;
+    else {
+      S.dismissed.push(id);
+      S.marks = S.marks.filter((m) => m.id !== id);
+    }
+    S.steers.push({
+      id: `s${S.steers.length + 1}`,
+      at: now(),
+      page: started() && !finished() ? headPage() : null,
+      via: 'button',
+      text: left.length ? `Removed ${name}'s box on p. ${page}` : `Removed ${name}`,
+      actions: [],
+      reply: left.length ? `${name} no longer includes p. ${page}.` : `Removed ${name}.`,
     });
   });
 

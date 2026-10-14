@@ -1,19 +1,17 @@
 # Aldo
 
-The conversation that scopes, checks and steers the scan of the document in view. Aldo opens with the scope pass and a button for the scope it proposes (Scan Condition 11, Scan Chapter 3) or, for a document with no commitments, Nothing to scan. The run stops after its first three commitments, and Aldo lays each out: the code and title (click to show it on the page), its requirements by name, and for a table its column fields (Timing, Implementation party, Reporting schedule, Participating organizations), each with Looks right. The person corrects in their own words or lets it run at a chosen pace. Afterwards, the person steers in their own words, and Aldo raises what needs a person as the scan reaches it. Instructions lists what every extraction call carries: the scope, the pace, and each rule with the page it took effect from.
+The conversation that scopes, checks and steers the scan of the file in view, with the composer always in view. The run stops after its first three commitments, and Aldo lays out only what step 1 decides: each commitment's ID and name and its text, quoted (clamped, with Show all), with a page link, Looks right and Fix. Fix opens the ID, name and text as fields, with Save and Redraw the box. Requirements, timing and parties are reviewed in step 2. Instructions lists what every extraction call carries: the scope, the pace, and each rule with the page it took effect from.
 
 ## Key decisions
-- The check is the training step: corrections typed there become rules for the rest of the document, so the person trusts the run before letting it go.
-- One structured-output call per message returns actions (scope, rule, pause, resume, pace, check, go, skip, reread, dismiss, merge) and a one-line reply; sw3-steer.ts is the schema, with a pattern matcher standing in for the model.
-- A rule governs the pages not yet read; for pages already read, Aldo offers a re-read and reports what changed.
-- Each document keeps its own conversation; switching documents switches the thread.
+- The check is the training step: what the person fixes there becomes an instruction for the rest of the file.
+- A name fixed at the check is the commitment's name in step 2.
+- One structured-output call per message returns actions and a one-line reply; sw3-steer.ts is the schema, with a pattern matcher standing in for the model.
+- Each file keeps its own conversation; switching files switches the thread.
 
 ## Done when
-- Scan Condition 11: the run stops with COA 11.1 to 11.3 laid out and the toolbar reads "Check the first 3 commitments with Aldo."
-- Type "They look right", then Let it run: the pace is Full speed in Instructions and the run goes on.
-- On the MMRP, type "Skip Table 3": scope becomes pp. 16–150.
-- On the NOD, Nothing to scan: the card reads No commitments.
-- Reload: every document's conversation and run are where they were.
+- Fix COA 11.1, change its name, Save: the card reads Fixed, and step 2 shows the new name.
+- Looks right on the other two, then Continue: the run goes on.
+- Reload: every file's conversation and run are where they were.
 
 ## Markup
 ```html
@@ -195,6 +193,22 @@ The conversation that scopes, checks and steers the scan of the document in view
        Both nodes are always in the DOM (the live region has to pre-exist its content),
        so the gap is opt-IN via .is-shown rather than collapsed with :empty — Lit's
        template whitespace defeats :empty in engines that follow Selectors L3. */
+.help,
+.error {
+  margin: 0;
+}
+/* Type comes from .typography-body-sm — help and error are one size at every
+       control step, so they name the composite directly rather than mapping. */
+/* Both nodes are ALWAYS in the DOM (see render()), so the gap is opt-IN rather
+       than collapsed away. Deliberately not display:none when empty — that removes
+       the node from the accessibility tree, and a live region that is not in the tree
+       cannot announce anything. An empty <p> with no margin occupies no space.
+
+       .is-shown rather than :empty: Lit's template whitespace leaves a text node
+       inside the element, and browsers still disagree about whether :empty ignores
+       whitespace-only children (Selectors L4 says yes, L3 says no). A class is
+       deterministic; :empty here would silently leave 4px of dead space under every
+       clean field in some engines and not others. */
 .help,
 .error {
   margin: 0;
@@ -598,6 +612,11 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
+.bcn-sw3src__foot .esa-button,
+.bcn-sw3src__foot .esa-button__native {
+  justify-content: center;
+  width: 100%;
+}
 .bcn-sw3aldo {
   background: var(--color-background-elevation-raised);
   border: 1px solid var(--color-border-default);
@@ -640,7 +659,7 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-sw3aldo__log {
   gap: var(--spacing-300);
-  min-height: 12rem;
+  min-height: 0;
   padding: var(--spacing-400);
   flex-direction: column;
   flex: 1;
@@ -734,27 +753,43 @@ summary.esa-button--variant-chrome:focus-visible {
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.bcn-sw3aldo__extra .bcn-sw3aldo__reqcount {
-  color: var(--color-content-default-secondary);
-  margin: 0;
-}
-.bcn-sw3aldo__extra .bcn-sw3aldo__reqs {
-  padding-left: var(--spacing-400);
+.bcn-sw3aldo__extra .bcn-sw3aldo__quote {
+  padding-left: var(--spacing-300);
+  border-left: 2px solid var(--color-border-default);
   color: var(--color-content-default);
+  font-family: var(--font-decorative);
+  white-space: pre-line;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
   margin: 0;
+  display: -webkit-box;
+  overflow: hidden;
 }
-.bcn-sw3aldo__extra .bcn-sw3aldo__cols {
-  gap: var(--spacing-100) var(--spacing-200);
-  grid-template-columns: auto 1fr;
-  margin: 0;
-  display: grid;
+.bcn-sw3aldo__extra .bcn-sw3aldo__quote[data-all] {
+  display: block;
 }
-.bcn-sw3aldo__extra .bcn-sw3aldo__cols dt {
-  color: var(--color-content-default-secondary);
+.bcn-sw3aldo__extra .bcn-sw3aldo__checkmeta {
+  gap: var(--spacing-300);
+  display: flex;
 }
-.bcn-sw3aldo__extra .bcn-sw3aldo__cols dd {
-  color: var(--color-content-default);
-  margin: 0;
+.bcn-sw3aldo__extra .bcn-sw3aldo__pagelink {
+  color: var(--color-content-link, var(--color-content-default));
+  text-underline-offset: 2px;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+  background: 0 0;
+  border: 0;
+  padding: 0;
+  text-decoration: underline;
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__pagelink:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+  outline-offset: 2px;
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__fix {
+  gap: var(--spacing-200);
+  flex-direction: column;
+  display: flex;
 }
 .bcn-sw3aldo__extra .bcn-sw3aldo__checkacts {
   gap: var(--spacing-200);
@@ -1007,6 +1042,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--color-content-link`: #005862 _(semantic)_
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-on-utility-success`: #fcfcfc _(semantic)_
 - `--color-content-on-utility-warning`: #4f3422 _(semantic)_
@@ -1017,6 +1053,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
+- `--font-decorative`: "Besley", serif _(component)_
 - `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_

@@ -3,7 +3,7 @@
 // panel at the head of a wizard step. Header row: the 28px step numeral in the step's
 // entity colour, the serif h2 (whose inline parts — text, dropdown chips, the count —
 // come through the `title` slot), an optional right-aligned `actions` slot; then the
-// one-line intro. Anything slotted by default renders BELOW the header inside the
+// one-line intro (or, instead, a live status line in the `meta` slot beside the title). Anything slotted by default renders BELOW the header inside the
 // same panel (prod puts the AI band there; step 5 puts its search and filters there).
 //
 // bcn-lego-checked: esa-card is a titled content card with its own header type and
@@ -15,8 +15,9 @@ import type { SetupStepToken } from '../../data/setup-wizard';
 interface Props {
   n: number;
   token: SetupStepToken;
-  /** One line under the title: what the step asks of the reviewer. */
-  intro: string;
+  /** One line under the title: what the step asks of the reviewer. Omit when a status
+      line in the `meta` slot does that job. */
+  intro?: string;
 }
 const { n, token, intro } = Astro.props;
 ---
@@ -26,9 +27,10 @@ const { n, token, intro } = Astro.props;
     <div class="bcn-swsp__row">
       <span class="bcn-swsp__num" aria-hidden="true">{n}</span>
       <h2 class="bcn-swsp__title"><slot name="title" /></h2>
+      {Astro.slots.has('meta') && <div class="bcn-swsp__meta"><slot name="meta" /></div>}
       <div class="bcn-swsp__actions"><slot name="actions" /></div>
     </div>
-    <p class="bcn-swsp__intro">{intro}</p>
+    {intro && <p class="bcn-swsp__intro">{intro}</p>}
   </header>
   <slot />
 </section>
@@ -72,6 +74,12 @@ const { n, token, intro } = Astro.props;
     font-size: 1.125rem;
     font-weight: 600;
     line-height: 1.2;
+    color: var(--color-content-default);
+  }
+  /* A live status beside the title (step 1's scan): where the work is right now. */
+  .bcn-swsp__meta {
+    flex: 1;
+    min-width: 0;
     color: var(--color-content-default);
   }
   .bcn-swsp__actions {

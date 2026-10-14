@@ -26,6 +26,8 @@ import {
   reopenCommitment,
   mergeSplit,
   payload,
+  state,
+  identified,
   type Flag,
 } from './sw3-store';
 import { paintAnchored } from './anchored-text-paint';
@@ -356,6 +358,14 @@ export function setupSw3Review(root: HTMLElement): void {
 
   // ── Render ──────────────────────────────────────────────────────────────────
   const render = () => {
+    // A name fixed at step 1's check is the name here.
+    for (const code of Object.keys(state().fixes)) {
+      const { title } = identified(code);
+      const nav = root.querySelector(`[data-nav="${CSS.escape(code)}"] .bcn-sw3rev__navtitle`);
+      if (nav && nav.textContent !== title) nav.textContent = title;
+      const h = root.querySelector(`[data-c="${CSS.escape(code)}"] .bcn-sw3c__title`);
+      if (h && h.textContent !== title) h.textContent = title;
+    }
     const found = foundCodes();
     const parsed = new Set(parsedCodes());
     const shown = new Set(visibleCodes());

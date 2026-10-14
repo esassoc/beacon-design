@@ -856,7 +856,7 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'setup-wizard-3-step-scan',
         title: 'Step 1 — Source Documents',
         description:
-          'Three real documents (the ITP, the MMRP and the Notice of Determination), each scoped by Aldo for what it is: numbered headings, table rows with their columns as fields, or nothing to scan. One toolbar holds the narration, pace (One at a time, Watch, Full speed), pause, Mark missed, the Aldo panel and a scrubber of every page fifty at a time. The run stops after its first three commitments for a check, laid out in Aldo with Looks right on each, then runs at the pace chosen. Steer in your own words; every steer is kept with the page it came on, and every run keeps going while another document is in view.',
+          'Source documents hold files, as in prod: upload, name, download and delete, with each file scanned on its own and its state in the sidebar. One panel holds the status line, Mark missed, the pace (One at a time, Watch, Full speed), one primary and a scrubber of every page. The PDF renders live with a box per commitment that a person can select, move, resize, redraw or delete. The run stops after its first three commitments so the person can check each one\'s ID, name and text, fixing any in place, then runs at the pace chosen. Every steer and edit is kept with the page it came on.',
         route: '/prototypes/setup-wizard-3-step',
         createdAt: '2026-10-14',
         status: 'in-progress',
