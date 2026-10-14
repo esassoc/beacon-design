@@ -16,7 +16,11 @@ export type SteerAction =
   | { kind: 'resume' }
   | { kind: 'reread'; first: number; last: number }
   | { kind: 'dismiss'; findId: string; code: string }
-  | { kind: 'merge'; findId: string; code: string };
+  | { kind: 'merge'; findId: string; code: string }
+  | { kind: 'pace'; pace: 'step' | 'watch' | 'run' }
+  | { kind: 'check'; code: string }
+  | { kind: 'go'; pace: 'step' | 'watch' | 'run' }
+  | { kind: 'skip' };
 
 export interface SteerContext {
   started: boolean;
@@ -30,7 +34,19 @@ export interface SteerContext {
   lastRead: number | null;
   /** Commitment code to the page its heading is on (the scope pass's index). */
   headings: Record<string, number>;
+  /** The document's named parts (the ITP's three measure groups, the MMRP's tables). */
+  sections: { match: string; label: string; first: number; last: number }[];
+  /** Stopped after the first commitments, for a person to check them. */
+  checking: boolean;
+  calibrate: string[];
+  hasCommitments: boolean;
 }
+
+const PACE_REPLY = {
+  run: 'Going at full speed. I will raise anything that needs you as I reach it.',
+  watch: 'Going slowly, so you can follow along. Tell me to speed up whenever you like.',
+  step: 'Going one commitment at a time. I will stop after each one.',
+} as const;
 
 export interface Interpretation {
   actions: SteerAction[];
@@ -69,6 +85,33 @@ const ruleScope = (ctx: SteerContext) => {
 export function interpret(raw: string, ctx: SteerContext): Interpretation & { offer?: { first: number; last: number } } {
   const text = raw.trim();
 
+  // Nothing to scan (a document with no commitments of its own).
+  if (/nothing to scan|skip (this|it|the document)|no commitments/i.test(text)) {
+    return { actions: [{ kind: 'skip' }], reply: 'Skipped. It stays in the project as a source document with no commitments.' };
+  }
+
+  // The check after the first commitments: they read right.
+  if (ctx.checking && /looks? (right|good|fine)|correct|all good|that's right|yes/i.test(text)) {
+    return {
+      actions: ctx.calibrate.map((code) => ({ kind: 'check' as const, code })),
+      reply: 'Good. How should I go on? Full speed, slowly so you can watch, or one commitment at a time.',
+    };
+  }
+
+  // Pace.
+  const pace = /let it (run|rip)|go ahead|full speed|faster|speed up|run it|on your own/i.test(text)
+    ? 'run'
+    : /one at a time|step by step|stop after each|one by one/i.test(text)
+      ? 'step'
+      : /slow( down)?|watch|follow along/i.test(text)
+        ? 'watch'
+        : null;
+  if (pace) {
+    if (!ctx.started) return { actions: [{ kind: 'pace', pace }, { kind: 'start' }], reply: PACE_REPLY[pace] };
+    if (ctx.checking) return { actions: [{ kind: 'go', pace }], reply: PACE_REPLY[pace] };
+    return { actions: [{ kind: 'pace', pace }], reply: PACE_REPLY[pace] };
+  }
+
   // Pause / resume.
   if (/^(pause|stop|hold|wait)\b/i.test(text)) {
     if (!ctx.started || ctx.finished) return { actions: [], reply: 'Nothing is running.' };
@@ -89,6 +132,28 @@ export function interpret(raw: string, ctx: SteerContext): Interpretation & { of
     const first = Math.max(ctx.first, Math.min(a, b));
     const last = Math.min(ctx.lastRead, Math.max(a, b));
     return { actions: [{ kind: 'reread', first, last }], reply: `Re-reading ${range(first, last)} with the instructions now in effect.` };
+  }
+
+  // Scope: a named part of the document.
+  const sec = ctx.sections.find((x) => new RegExp(x.match, 'i').test(text));
+  if (sec && !/skip|except|not /i.test(text)) {
+    return {
+      actions: [{ kind: 'scope', first: sec.first, last: sec.last, label: sec.label }],
+      reply: `${sec.label} is ${range(sec.first, sec.last)}: ${countBetween(sec.first, sec.last, ctx.headings)} commitments likely.${ctx.started ? ' Pages outside it are skipped from here.' : ''}`,
+    };
+  }
+
+  // Skipping a named part at either end of the document narrows the scope past it.
+  if (sec && /skip|except|not /i.test(text)) {
+    const lo = Math.min(...ctx.sections.map((x) => x.first));
+    const hi = Math.max(...ctx.sections.map((x) => x.last));
+    const [first, last] = sec.last === hi ? [lo, sec.first - 1] : sec.first === lo ? [sec.last + 1, hi] : [lo, hi];
+    if (first <= last && (first !== lo || last !== hi)) {
+      return {
+        actions: [{ kind: 'scope', first, last, label: range(first, last) }],
+        reply: `Skipping ${sec.label}. Scope is ${range(first, last)}: ${countBetween(first, last, ctx.headings)} commitments likely.`,
+      };
+    }
   }
 
   // Scope: a condition, or a page range.

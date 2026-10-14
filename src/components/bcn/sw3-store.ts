@@ -31,8 +31,20 @@ type ScanCommitment = Omit<ReviewCommitment, 'text'> & { text?: string };
 type ScanRequirement = Pick<ReviewRequirement, 'id' | 'code' | 'anchor'> & Partial<ReviewRequirement>;
 
 export interface Sw3Payload {
+  /** Which document (the scan page carries several; the review page one). */
+  id?: string;
+  short?: string;
+  name?: string;
+  pdf?: string;
+  /** Pages in the document. */
+  total?: number;
+  sections?: { match: string; label: string; first: number; last: number }[];
+  /** Requirement candidates as boxes on the page (the scan page). */
+  spans?: { id: string; code: string; name: string; boxes: Box[] }[];
+  /** The first commitments, checked with a person before the run goes on. */
+  calibrate?: string[];
   finds: Find[];
-  missed: Find;
+  missed: Find | null;
   events: ScanEvent[];
   seconds: number;
   scope: { first: number; last: number };
@@ -43,25 +55,93 @@ export interface Sw3Payload {
   pages?: ScanPage[];
   /** The scope pass's heading index: commitment code to the page it starts on. */
   headings?: Record<string, number>;
-  proposal?: { section: string; first: number; last: number };
+  proposal?: { text: string; go: { label: string; first: number; last: number; scope: string } | null; suggest: string[] };
   entities?: Entity[];
   labels?: { types: Record<string, string>; phases: string[]; frequency: Record<string, string> };
 }
 
+// One slot per document: its payload, its run, and what is derived from them. The
+// functions below all read the ACTIVE slot (D, S); use() re-points them, and peek() reads
+// another document without moving the person's view.
+interface Slot {
+  D: Sw3Payload;
+  S: Sw3State;
+  cache: Map<string, unknown>;
+  commitmentByCode: Map<string, ScanCommitment>;
+  findById: Map<string, Find>;
+  lastSig: string;
+}
+const slots = new Map<string, Slot>();
+let current = '';
 let D: Sw3Payload;
 let commitmentByCode = new Map<string, ScanCommitment>();
 let findById = new Map<string, Find>();
 
-/** Read the page's payload (a JSON script) once. */
+const use = (id: string) => {
+  const sl = slots.get(id)!;
+  current = id;
+  D = sl.D;
+  S = sl.S;
+  cache = sl.cache;
+  commitmentByCode = sl.commitmentByCode;
+  findById = sl.findById;
+};
+
+/** Read the page's payload (a JSON script) once: { docs: [...] } on the scan page, one document on the review. */
 export const initSw3 = (): Sw3Payload => {
   if (D) return D;
   const el = document.querySelector<HTMLScriptElement>('script[data-sw3-payload]');
-  D = JSON.parse(el?.textContent ?? '{}') as Sw3Payload;
-  commitmentByCode = new Map(D.commitments.map((c) => [c.code, c]));
-  findById = new Map([...D.finds, D.missed].map((f) => [f.id, f]));
-  load();
+  const raw = JSON.parse(el?.textContent ?? '{}') as Sw3Payload | { docs: Sw3Payload[] };
+  const docs = 'docs' in raw ? raw.docs : [{ ...raw, id: raw.id ?? 'itp' }];
+  for (const d of docs) {
+    const id = d.id ?? 'itp';
+    const sl: Slot = {
+      D: d,
+      S: fresh(d),
+      cache: new Map(),
+      commitmentByCode: new Map(d.commitments.map((c) => [c.code, c])),
+      findById: new Map([...d.finds, ...(d.missed ? [d.missed] : [])].map((f) => [f.id, f])),
+      lastSig: '',
+    };
+    slots.set(id, sl);
+    use(id);
+    load();
+    sl.S = S;
+  }
+  let want = docs[0].id ?? 'itp';
+  try {
+    const saved = localStorage.getItem(`${KEY}:active`);
+    if (saved && slots.has(saved)) want = saved;
+  } catch {
+    /* no storage */
+  }
+  use(want);
   startTicking();
   return D;
+};
+
+export const docIds = () => [...slots.keys()];
+export const activeDoc = () => current;
+/** Bring a document into view: the workspace, the scrubber and Aldo all follow it. */
+export const setActiveDoc = (id: string) => {
+  if (!slots.has(id) || id === current) return;
+  use(id);
+  try {
+    localStorage.setItem(`${KEY}:active`, id);
+  } catch {
+    /* no storage */
+  }
+  emit();
+};
+/** Read another document's state without moving the person's view. */
+export const peek = <T>(id: string, fn: () => T): T => {
+  const prev = current;
+  use(id);
+  try {
+    return fn();
+  } finally {
+    use(prev);
+  }
 };
 
 export const payload = () => D;
@@ -129,16 +209,32 @@ export interface Sw3State {
   commitmentsConfirmed: string[];
   steers: Steer[];
   rereads: Reread[];
+  /** How fast the run goes: one commitment at a time, watched, or full speed. */
+  pace: Pace;
+  /** The first commitments have been checked with a person, and the run let go. */
+  calibrated: boolean;
+  /** Calibration commitments a person said were read right. */
+  checked: string[];
+  /** A person agreed there is nothing to scan (the NOD). */
+  skipped: boolean;
 }
 
-const KEY = 'sw3:v2';
+export type Pace = 'step' | 'watch' | 'run';
+/** Run-clock speed per pace: watch is slow enough to follow the narration. */
+const PACE_SPEED: Record<Pace, number> = { step: 0.6, watch: 0.6, run: 8 };
+
+const KEY = 'sw3:v3';
 /** Seconds a re-read takes per page: no extraction to wait on for what did not change. */
 export const REREAD_SECONDS = 0.5;
 const MARK_PARSE = 2.4;
 
-const fresh = (): Sw3State => ({
+const fresh = (d?: Sw3Payload): Sw3State => ({
   clock: null,
-  scope: { first: 131, last: 223, instruction: '' },
+  scope: { first: (d ?? D)?.scope.first ?? 1, last: (d ?? D)?.scope.last ?? 1, instruction: '' },
+  pace: 'watch',
+  calibrated: false,
+  checked: [],
+  skipped: false,
   dismissed: [],
   splitMerged: [],
   marks: [],
@@ -159,8 +255,8 @@ let undoSnapshot: string | null = null;
 
 const load = () => {
   try {
-    const raw = localStorage.getItem(KEY);
-    if (raw) S = { ...fresh(), ...(JSON.parse(raw) as Partial<Sw3State>) };
+    const raw = localStorage.getItem(`${KEY}:${current}`);
+    S = raw ? { ...fresh(), ...(JSON.parse(raw) as Partial<Sw3State>) } : fresh();
   } catch {
     S = fresh();
   }
@@ -168,18 +264,19 @@ const load = () => {
 
 const save = () => {
   try {
-    localStorage.setItem(KEY, JSON.stringify(S));
+    localStorage.setItem(`${KEY}:${current}`, JSON.stringify(S));
   } catch {
     /* private window: state lives for this page only */
   }
 };
 
-const emit = (name = 'sw3:change') => document.dispatchEvent(new CustomEvent(name));
+const emit = (name = 'sw3:change') => document.dispatchEvent(new CustomEvent(name, { detail: { doc: current } }));
 
 const commit = (fn: () => void) => {
   fn();
   save();
   cache.clear();
+  slots.get(current)!.S = S;
   emit();
 };
 
@@ -191,6 +288,21 @@ export const resetAll = () => {
   commit(() => {
     S = fresh();
   });
+};
+
+/** Start every document over (the prototype's Restart). */
+export const resetEverything = () => {
+  const prev = current;
+  for (const id of slots.keys()) {
+    use(id);
+    S = fresh();
+    slots.get(id)!.S = S;
+    cache.clear();
+    save();
+  }
+  use(prev);
+  undoSnapshot = null;
+  emit();
 };
 
 // ── The run clock ─────────────────────────────────────────────────────────────
@@ -243,6 +355,64 @@ export const resume = () =>
   commit(() => {
     if (!S.clock) return;
     reanchor({ paused: false, pauseAt: null });
+    S.clock.pauseAt = holdAt();
+  });
+
+// ── Calibration and pace ─────────────────────────────────────────────────────
+
+const parseT = (code: string) =>
+  (D.events.find((e) => e.type === 'commitment_parsed' && e.code === code) as { t: number } | undefined)?.t ?? null;
+
+/** When the calibration commitments have all parsed: where the run first stops. */
+export const calibrationPoint = (): number | null => {
+  const ts = (D.calibrate ?? []).map(parseT).filter((t): t is number => t !== null);
+  return ts.length ? Math.max(...ts) : null;
+};
+
+/** Waiting on a person to check the first commitments. */
+export const checking = () => {
+  const cp = calibrationPoint();
+  return started() && !S.calibrated && cp !== null && now() >= cp;
+};
+export const calibrated = () => S.calibrated || calibrationPoint() === null;
+export const checked = () => S.checked;
+export const pace = () => S.pace;
+export const skipped = () => S.skipped;
+
+/** Where the run should hold next from here: the calibration stop, or (one at a time) the next parse. */
+const holdAt = (): number | null => {
+  const t = now();
+  const cp = calibrationPoint();
+  if (!S.calibrated && cp !== null && t < cp) return cp;
+  if (S.pace === 'step') {
+    const next = D.events.find((e) => e.type === 'commitment_parsed' && e.t > t + 0.01);
+    return next ? next.t : null;
+  }
+  return null;
+};
+
+/** What the run is doing now, in a line: the last thing it did. */
+export const narration = (): string =>
+  memo('narration', () => {
+    const t = now();
+    let last: ScanEvent | undefined;
+    for (const e of D.events) {
+      if (e.t > t) break;
+      if (e.type === 'page_scanned' || e.type === 'commitment_found' || e.type === 'commitment_parsed') {
+        if (e.type === 'page_scanned' && !inScope(e.page)) continue;
+        last = e;
+      }
+    }
+    if (!last) return '';
+    if (last.type === 'page_scanned') return `Read p. ${last.page}.`;
+    if (last.type === 'commitment_found') {
+      const f = findById.get(last.findId);
+      if (!f || S.dismissed.includes(f.id)) return '';
+      return f.code ? `Found ${f.code}, ${f.title}, on p. ${f.page}.` : `Found a passage with no heading on p. ${f.page}.`;
+    }
+    const cols = (commitmentByCode.get(last.code) as { columns?: Record<string, string> } | undefined)?.columns;
+    const fromCols = cols ? ` Timing and party from the table's columns.` : '';
+    return `Parsed ${last.code}: ${last.requirements} requirement${last.requirements === 1 ? '' : 's'}.${fromCols}`;
   });
 export const pausing = () => !!S.clock && S.clock.pauseAt != null && now() < S.clock.pauseAt;
 export const paused = () => !!S.clock && (S.clock.paused || (S.clock.pauseAt != null && now() >= S.clock.pauseAt));
@@ -258,8 +428,30 @@ const scanFirst = () => Math.max(S.scope.first, D.scope.first);
 
 const apply = (a: SteerAction) => {
   switch (a.kind) {
-    case 'start':
-      S.clock = { anchorReal: Date.now(), anchorV: 0, speed: 1, paused: false };
+    case 'start': {
+      S.clock = { anchorReal: Date.now(), anchorV: 0, speed: PACE_SPEED[S.pace], paused: false };
+      // The run stops after the first commitments parse, for a person to check them.
+      const cp = calibrationPoint();
+      if (!S.calibrated && cp !== null) S.clock.pauseAt = cp;
+      break;
+    }
+    case 'pace':
+      S.pace = a.pace;
+      if (S.clock) reanchor({ speed: PACE_SPEED[a.pace], pauseAt: holdAt() });
+      break;
+    case 'check':
+      if (!S.checked.includes(a.code)) S.checked.push(a.code);
+      break;
+    case 'go':
+      S.calibrated = true;
+      S.pace = a.pace;
+      if (S.clock) {
+        reanchor({ speed: PACE_SPEED[a.pace], paused: false, pauseAt: null });
+        S.clock.pauseAt = holdAt();
+      }
+      break;
+    case 'skip':
+      S.skipped = true;
       break;
     case 'scope':
       // The prototype's run covers its own pages whatever range is given.
@@ -276,7 +468,12 @@ const apply = (a: SteerAction) => {
       if (S.clock && !S.clock.paused && S.clock.pauseAt == null) S.clock.pauseAt = pageDoneAfter(now());
       break;
     case 'resume':
-      if (S.clock) reanchor({ paused: false, pauseAt: null });
+      if (S.clock) {
+        // Resuming at the calibration stop is letting it go on as it is.
+        if (checking()) S.calibrated = true;
+        reanchor({ paused: false, pauseAt: null });
+        S.clock.pauseAt = holdAt();
+      }
       break;
     case 'reread':
       // The clock idles at the run's end; restart it from here so the re-read is watched.
@@ -310,6 +507,10 @@ export const say = (text: string) =>
       first: scanFirst(),
       lastRead: lastRead(),
       headings: D.headings ?? {},
+      sections: D.sections ?? [],
+      checking: checking(),
+      calibrate: D.calibrate ?? [],
+      hasCommitments: D.finds.length > 0,
     });
     record(text, 'typed', r.actions, r.reply, r.offer);
   });
@@ -327,29 +528,35 @@ export const rules = () =>
 export const togglePause = () => (paused() || pausing() ? resume() : pause());
 export const cycleSpeed = () =>
   commit(() => reanchor({ speed: SPEEDS[(SPEEDS.indexOf(S.clock?.speed ?? 1) + 1) % SPEEDS.length] }));
-export const skipToEnd = () => commit(() => reanchor({ anchorV: endTime() }));
+export const skipToEnd = () =>
+  commit(() => {
+    S.calibrated = true;
+    reanchor({ anchorV: endTime(), pauseAt: null });
+  });
 
 const rereadSig = (t: number) =>
   S.rereads.map((r) => Math.min(r.last - r.first + 1, Math.max(0, Math.floor((t - r.at) / REREAD_SECONDS)))).join(',');
 
-let lastT = -1;
-let lastSig = '';
 const startTicking = () => {
   const loop = () => {
-    if (started()) {
+    // Every document's run keeps going, in view or not.
+    const prev = current;
+    let changed = false;
+    for (const [id, sl] of slots) {
+      use(id);
+      if (!started()) continue;
       const t = now();
-      if (t !== lastT) {
-        lastT = t;
-        emit('sw3:tick');
-        // A change only when an event crossed: count the events whose time has come.
-        const sig = `${D.events.findIndex((e) => e.t > t)}:${S.marks.filter((m) => t >= m.at + MARK_PARSE).length}:${rereadSig(t)}:${paused()}`;
-        if (sig !== lastSig) {
-          lastSig = sig;
-          cache.clear();
-          emit();
-        }
+      // A change only when an event crossed: count the events whose time has come.
+      const sig = `${D.events.findIndex((e) => e.t > t)}:${S.marks.filter((m) => t >= m.at + MARK_PARSE).length}:${rereadSig(t)}:${paused()}`;
+      if (sig !== sl.lastSig) {
+        sl.lastSig = sig;
+        cache.clear();
+        changed = true;
       }
     }
+    use(prev);
+    emit('sw3:tick');
+    if (changed) emit();
     requestAnimationFrame(loop);
   };
   requestAnimationFrame(loop);
@@ -357,7 +564,7 @@ const startTicking = () => {
 
 // ── What the scan has done by now ────────────────────────────────────────────
 
-const cache = new Map<string, unknown>();
+let cache = new Map<string, unknown>();
 const memo = <T>(key: string, fn: () => T): T => {
   if (!cache.has(key)) cache.set(key, fn());
   return cache.get(key) as T;
@@ -451,18 +658,18 @@ export const gaps = (): Set<number> =>
 /** Mark a region the scan missed. If it lands on the missed commitment, Beacon parses it. */
 export const markRegion = (page: number, box: Box) =>
   commit(() => {
-    const hit = D.missed.boxes.some(
+    const hit = !!D.missed && D.missed.boxes.some(
       (b) => b.page === page && box.y < b.y + b.h && box.y + box.h > b.y,
     );
-    const already = S.marks.some((m) => m.code === D.missed.code);
+    const already = !!D.missed && S.marks.some((m) => m.code === D.missed!.code);
     // The clock idles past the run's end; restart it from here so the parse is watched.
     if (S.clock) reanchor({});
     S.marks.push({
-      id: hit && !already ? D.missed.code : `mark:${page}:${Math.round(box.y * 1000)}`,
+      id: hit && !already ? D.missed!.code : `mark:${page}:${Math.round(box.y * 1000)}`,
       page,
       box,
       at: now(),
-      code: hit && !already ? D.missed.code : undefined,
+      code: hit && !already ? D.missed!.code : undefined,
     });
     const known = hit && !already;
     S.steers.push({
@@ -472,7 +679,7 @@ export const markRegion = (page: number, box: Box) =>
       via: 'button',
       text: `Marked a missed commitment on p. ${page}`,
       actions: [],
-      reply: known ? `Reading it: ${D.missed.code} ${D.missed.title}.` : 'Reading it.',
+      reply: known ? `Reading it: ${D.missed!.code} ${D.missed!.title}.` : 'Reading it.',
     });
   });
 

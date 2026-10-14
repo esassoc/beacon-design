@@ -1,17 +1,18 @@
 # Page and boxes
 
-The page in view, rendered from the uploaded PDF by pdf.js, with a box per commitment drawn as it is found (dashed) and turned solid when it parses, its requirement spans filling in alternating shades. While following the scan, the view is the page being read; picking any page stops following, and Follow the scan resumes. Mark missed commitment turns the page into a drag target: drag over the commitment and Beacon parses it.
+The page in view, rendered from the uploaded PDF by pdf.js, with a box per commitment drawn as it is found (dashed) and turned solid when it parses, its requirement spans filling in alternating shades. On the MMRP's landscape tables a box is the table row, across page breaks. While following the scan, the view is the page being read; picking any page stops following, and Follow the scan resumes. Mark missed turns the page into a drag target.
 
 ## Key decisions
 - pdf.js in the browser, as prod's source-pdf-viewer (ng2-pdfjs-viewer). No pre-rendered images.
 - Boxes are PdfBoundingBoxDto (page, x, y, width, height as page fractions): they arrive in events and sit over the render at any zoom.
-- Boxes come from anchoring each quote against the text layer (PdfPig words for native PDFs, OCR words for scanned ones), not from model citations.
+- Boxes come from anchoring against the text layer (PdfPig words), not from model citations. A table's rows and columns come from the header row's word positions on each page.
 
 ## Gotchas
-- Render each page at the sheet width times devicePixelRatio, off-screen, then swap, so the old page holds until the new one is ready.
+- Assign table words to rows by y with a few points of slack: a cell's first line can sit a hundredth of a point above the row's code.
+- A flattened form (the NOD) has drawn labels and image text; the text layer misses them, so the page needs OCR or a vision pass.
 
 ## Done when
-- On p. 151, Mark missed commitment, drag over the "11.35 Fish Salvage Plan" heading: a card appears, then COA 11.35 parses into 7 requirements and pp. 152–154 stop being gaps.
+- On ITP p. 151, Mark missed, drag over the "11.35 Fish Salvage Plan" heading: a card appears, then COA 11.35 parses into 7 requirements.
 
 ## Markup
 ```html
@@ -22,8 +23,8 @@ The page in view, rendered from the uploaded PDF by pdf.js, with a box per commi
       data-pv-canvas=""
       role="img"
       aria-label="Page 131 of the ITP"
-      width="384"
-      height="496"
+      width="288"
+      height="372"
     ></canvas>
     <div class="bcn-pv__boxes" data-pv-boxes=""></div>
     <div class="bcn-pv__drag" data-pv-drag="" hidden=""></div>

@@ -1,33 +1,73 @@
 # Documents
 
-The project's source documents, one slim card each with where its run is (not started, reading p. 147, paused, or how many commitments it found). The document in view opens to its commitments, one slim card per commitment in page order, growing as the scan finds them: the code chip and the title only. A card is dashed while its commitment is being read and solid once parsed, the same grammar as the boxes on the page. Click a card to go to it on the page; × dismisses it.
+The project's source documents, one slim card each with where its run is (Not started, Reading p. 147, Waiting on your check, Paused, 157 commitments, No commitments). The document in view opens to its commitments, one slim card per commitment in page order, growing as the scan finds them: the code chip and the title only. A card is dashed while its commitment is being read and solid once parsed, the same grammar as the boxes on the page.
 
 ## Key decisions
-- Each document is its own run (a background job per document); the cards are its event stream rendered.
+- Each document is its own run (a background job per document) with its own conversation and record; every run keeps going while another is in view.
 - No page numbers or requirement counts on the cards: state is the border, detail is on the page and in step 2.
-- Dismiss is recorded in the steering record like a typed steer.
+- Dismiss (×) is recorded in the steering record like a typed steer.
 
 ## Done when
-- While the scan runs, new cards appear dashed and turn solid as they parse.
-- Clicking a card moves the page to it and outlines its box.
+- Start the ITP at Full speed, switch to the MMRP: the ITP card keeps counting and reads "157 commitments" when done.
 
 ## Markup
 ```html
 <aside class="bcn-sw3docs" data-sw3-docs="" aria-label="Documents">
   <h3 class="bcn-sw3docs__head typography-title-strong">
-    Documents <span class="bcn-sw3docs__count">1</span>
+    Documents <span class="bcn-sw3docs__count">3</span>
   </h3>
   <section class="bcn-sw3docs__doc" data-doc="itp" data-open="">
-    <div class="bcn-sw3docs__card" title="Incidental Take Permit No. 2081-2024-018-00">
+    <button
+      type="button"
+      class="bcn-sw3docs__card"
+      title="Incidental Take Permit No. 2081-2024-018-00"
+      data-doc-open=""
+    >
       <span class="bcn-sw3docs__name typography-label-md-strong">ITP</span
       ><span class="bcn-sw3docs__state typography-body-sm" data-doc-state=""
         >Not started</span
       >
-    </div>
+    </button>
     <ol
       class="bcn-sw3docs__list"
       data-doc-list=""
       aria-label="Commitments in the ITP"
+    ></ol>
+  </section>
+  <section class="bcn-sw3docs__doc" data-doc="mmrp">
+    <button
+      type="button"
+      class="bcn-sw3docs__card"
+      title="Delta Conveyance Project Mitigation Monitoring and Reporting Program"
+      data-doc-open=""
+    >
+      <span class="bcn-sw3docs__name typography-label-md-strong">MMRP</span
+      ><span class="bcn-sw3docs__state typography-body-sm" data-doc-state=""
+        >Not started</span
+      >
+    </button>
+    <ol
+      class="bcn-sw3docs__list"
+      data-doc-list=""
+      aria-label="Commitments in the MMRP"
+    ></ol>
+  </section>
+  <section class="bcn-sw3docs__doc" data-doc="nod">
+    <button
+      type="button"
+      class="bcn-sw3docs__card"
+      title="Delta Conveyance Project Notice of Determination"
+      data-doc-open=""
+    >
+      <span class="bcn-sw3docs__name typography-label-md-strong">NOD</span
+      ><span class="bcn-sw3docs__state typography-body-sm" data-doc-state=""
+        >Not started</span
+      >
+    </button>
+    <ol
+      class="bcn-sw3docs__list"
+      data-doc-list=""
+      aria-label="Commitments in the NOD"
     ></ol>
   </section>
   <template data-docs-card=""
@@ -454,6 +494,10 @@ summary.esa-button--variant-chrome:focus-visible {
   display: flex;
 }
 .bcn-sw3docs__card {
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
   justify-content: space-between;
   align-items: baseline;
   gap: var(--spacing-200);
@@ -462,6 +506,20 @@ summary.esa-button--variant-chrome:focus-visible {
   background: var(--color-background-elevation-raised);
   border-radius: 6px;
   display: flex;
+}
+.bcn-sw3docs__card:hover {
+  border-color: var(--color-content-default-tertiary);
+}
+.bcn-sw3docs__card:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.bcn-sw3docs__doc[data-open] .bcn-sw3docs__card {
+  border-color: var(--color-content-default);
+  background: var(--color-background-default);
+}
+.bcn-sw3docs__doc[data-open] {
+  flex: 1;
 }
 .bcn-sw3docs__name {
   color: var(--color-content-default);
@@ -595,10 +653,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-title-strong-line-height);
   letter-spacing: var(--typography-title-strong-letter-spacing);
 }
-.esa-collapsible__summary .esa-icon {
-  color: var(--color-content-default-secondary, #646464);
-  flex-shrink: 0;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -627,6 +681,10 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

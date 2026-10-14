@@ -1,0 +1,96 @@
+---
+// <BcnSw3Toolbar> — every control over the scan, in one bar above the documents and the
+// page: what the run is doing right now (a line of narration), its pace, pause and
+// resume, following the scan, marking a missed commitment, the page in view, the
+// scrubber of every page in the document, and the Aldo panel's open / close.
+//
+// Pace is the person's choice of how much to watch:
+//   One at a time  the run stops after each commitment parses;
+//   Watch          slow enough to follow the narration (the default while it learns);
+//   Full speed     let it rip, and raise only what needs a person.
+// In prod pace is how fast the job dispatches page windows, so it is a real control,
+// not a replay speed. Every pace change, like pause and resume, is recorded as a steer.
+//
+// Markup only: the workspace controller (sw3-scan.ts) wires it, since every control here
+// acts on the scan the workspace owns.
+//
+// bcn-lego-checked: buttons ARE esa-button / esa-icon-button, pace IS esa-button-toggle,
+// the strip IS bcn-page-scrubber. No esa- lego is a media-style transport bar over a
+// document; checked Beacon (source-pdf-viewer has a page toolbar only: page number and
+// zoom). bcn-sw3-toolbar is the home for "the controls of a watched run".
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import BcnPageScrubber from './BcnPageScrubber.astro';
+
+const PACES = [
+  { value: 'step', label: 'One at a time' },
+  { value: 'watch', label: 'Watch' },
+  { value: 'run', label: 'Full speed' },
+];
+---
+
+<div class="bcn-sw3bar" data-sw3-toolbar>
+  <div class="bcn-sw3bar__row">
+    <p class="bcn-sw3bar__now typography-label-md" data-bar-status role="status"></p>
+    <div class="bcn-sw3bar__group">
+      <EsaButton variant="secondary" size="sm" data-bar-follow>Follow the scan</EsaButton>
+      <EsaButton variant="secondary" size="sm" data-bar-mark>Mark missed</EsaButton>
+    </div>
+    <div class="bcn-sw3bar__group">
+      <esa-button-toggle size="sm" value="watch" aria-label="Pace" data-bar-pace data-options={JSON.stringify(PACES)}></esa-button-toggle>
+      <EsaButton variant="primary" size="sm" data-bar-toggle>Pause</EsaButton>
+    </div>
+    <EsaButton variant="secondary" size="sm" data-bar-aldo aria-pressed="true">Aldo</EsaButton>
+  </div>
+  <div class="bcn-sw3bar__row">
+    <div class="bcn-sw3bar__pages">
+      <span data-bar-prev><EsaIconButton icon="chevron-left" label="Previous page" size="sm" /></span>
+      <span class="bcn-sw3bar__pageno typography-label-md" data-bar-pageno></span>
+      <span data-bar-next><EsaIconButton icon="chevron-right" label="Next page" size="sm" /></span>
+    </div>
+    <div class="bcn-sw3bar__scrub">
+      <BcnPageScrubber label="Page in view" />
+    </div>
+    <EsaButton variant="ghost" size="sm" data-bar-restart>Restart</EsaButton>
+  </div>
+</div>
+
+<style>
+  .bcn-sw3bar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: var(--spacing-300) var(--spacing-400);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+  }
+  .bcn-sw3bar__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    flex-wrap: wrap;
+  }
+  .bcn-sw3bar__now {
+    flex: 1;
+    min-width: 14rem;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--color-content-default);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-sw3bar__group { display: flex; align-items: center; gap: var(--spacing-200); }
+  .bcn-sw3bar__pages { display: flex; align-items: center; gap: var(--spacing-100); align-self: flex-start; }
+  .bcn-sw3bar__pageno {
+    min-width: 6.5rem;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-sw3bar__scrub { flex: 1; min-width: 20rem; }
+</style>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+</script>

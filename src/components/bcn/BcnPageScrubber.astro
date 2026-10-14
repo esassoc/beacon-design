@@ -1,70 +1,82 @@
 ---
-// <BcnPageScrubber> — every page of a document in one strip: which pages have been read,
-// which have finds (a pip per find, hollow while found and solid once parsed), which were
-// read and have none (a gap, where a missed item hides), how far ahead the reader is (the
-// head), and which page the person is looking at (the thumb). Drag or click to jump to a
-// page; click a pip to land on that find.
+// <BcnPageScrubber> — every page of a document, a window at a time: which pages have
+// been read, which are outside the scope (skipped, not read), which have finds (a pip per
+// find, hollow while found and solid once parsed), which were read and have none (a gap,
+// where a missed item hides), how far ahead the reader is (the head), and which page the
+// person is looking at (the thumb). Drag or click to jump to a page; click a pip to land
+// on that find. A document of hundreds of pages will not fit one strip, so the strip shows
+// a window (50 pages by default) with previous / next beside it; the window follows the
+// page in view unless the person pages it themselves.
 //
 // A slider for the keyboard: arrows step a page, Page Up/Down step five, Home/End go to
-// the ends. Pips are pointer shortcuts; the list beside the strip is the keyboard path to
-// a find.
+// the ends of the document. Pips are pointer shortcuts; the cards beside the page are the
+// keyboard path to a find.
 //
-// Contract: page-scrubber.ts `setupPageScrubber(root, handlers)` returns `update(model)`.
+// Contract: page-scrubber.ts `setupPageScrubber(root, handlers)` returns `update(model)`;
+// the model carries the document's page count, so one strip serves any document.
 //   out  onPage(page)            the person picked a page (click, drag, keys)
 //   out  onFind(id)              the person clicked a pip
 //
 // bcn-lego-checked: esa-range-slider is a single native range input (no per-step state,
 // no markers, no second indicator), esa-progress-bar is one ratio, esa-pagination is
-// numbered buttons; checked Beacon (no page strip; its PDF viewer pages by toolbar).
-// The timeline components here (BcnScheduleTimeline, BcnTimelineExplorer) lay out dated
-// bars, not discrete pages. bcn-page-scrubber is the reusable home for "a document's
-// pages, with per-page state and markers".
+// numbered buttons; the window's previous / next ARE esa-icon-button. Checked Beacon (no
+// page strip; its PDF viewer pages by toolbar). bcn-page-scrubber is the reusable home
+// for "a document's pages, with per-page state and markers".
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+
 interface Props {
-  first: number;
-  last: number;
   /** Accessible name for the strip. */
   label?: string;
+  /** Pages per window. */
+  size?: number;
 }
-const { first, last, label = 'Page' } = Astro.props;
-const pages = Array.from({ length: last - first + 1 }, (_, i) => first + i);
-// Every tenth page and both ends; a round number too close to an end gives way to it.
-const ticks = pages.filter((p) => p === first || p === last || (p % 10 === 0 && p - first >= 4 && last - p >= 4));
+const { label = 'Page', size = 50 } = Astro.props;
 ---
 
-<div class="bcn-scrub" data-page-scrubber data-first={first} data-last={last} style={`--_n: ${pages.length};`}>
-  <div
-    class="bcn-scrub__track"
-    role="slider"
-    tabindex="0"
-    aria-label={label}
-    aria-valuemin={first}
-    aria-valuemax={last}
-    aria-valuenow={first}
-    aria-valuetext={`Page ${first}`}
-    data-scrub-track
-  >
-    {
-      pages.map((n) => (
-        <span class="bcn-scrub__page" data-page={n} data-state="pending">
-          <span class="bcn-scrub__pips" data-scrub-pips />
-        </span>
-      ))
-    }
-    <span class="bcn-scrub__head" data-scrub-head hidden aria-hidden="true"></span>
-    <span class="bcn-scrub__thumb" data-scrub-thumb aria-hidden="true"></span>
+<div class="bcn-scrub" data-page-scrubber data-size={size} style={`--_n: ${size};`}>
+  <span data-scrub-prev><EsaIconButton icon="chevrons-left" label="Earlier pages" size="sm" /></span>
+  <div class="bcn-scrub__strip">
+    <div
+      class="bcn-scrub__track"
+      role="slider"
+      tabindex="0"
+      aria-label={label}
+      aria-valuemin="1"
+      aria-valuemax="1"
+      aria-valuenow="1"
+      data-scrub-track
+    >
+      <span class="bcn-scrub__head" data-scrub-head hidden aria-hidden="true"></span>
+      <span class="bcn-scrub__thumb" data-scrub-thumb aria-hidden="true"></span>
+    </div>
+    <div class="bcn-scrub__ticks typography-microcopy-sm" aria-hidden="true" data-scrub-ticks></div>
   </div>
-  <div class="bcn-scrub__ticks typography-microcopy-sm" aria-hidden="true">
-    {ticks.map((n) => <span class="bcn-scrub__tick" style={`--_i: ${n - first};`}>{n}</span>)}
-  </div>
+  <span data-scrub-next><EsaIconButton icon="chevrons-right" label="Later pages" size="sm" /></span>
+  <span class="bcn-scrub__range typography-microcopy-sm" data-scrub-range></span>
 </div>
 
 <style>
   .bcn-scrub {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    align-items: start;
+    gap: var(--spacing-200);
+    user-select: none;
+  }
+  .bcn-scrub > span { padding-top: 8px; }
+  .bcn-scrub__strip {
     --_cell: calc(100% / var(--_n));
     display: flex;
     flex-direction: column;
     gap: var(--spacing-100);
-    user-select: none;
+    min-width: 0;
+  }
+  .bcn-scrub__range {
+    min-width: 7.5rem;
+    padding-top: 14px !important;
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
 
   .bcn-scrub__track {
@@ -83,8 +95,9 @@ const ticks = pages.filter((p) => p === first || p === last || (p % 10 === 0 && 
     outline-offset: var(--focus-ring-offset, 2px);
   }
 
-  /* A page: empty until read, then filled. Pips sit along its top. */
-  .bcn-scrub__page {
+  /* A page: empty until read, then filled. Pips sit along its top. Cells are built by the
+     controller, so they are reached through :global(). */
+  .bcn-scrub__track :global(.bcn-scrub__page) {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -96,12 +109,12 @@ const ticks = pages.filter((p) => p === first || p === last || (p % 10 === 0 && 
     border: 1px solid var(--color-border-default-subtle);
     transition: background-color 160ms ease;
   }
-  .bcn-scrub__page[data-state='scanned'] {
+  .bcn-scrub__track :global(.bcn-scrub__page[data-state='scanned']) {
     background: color-mix(in srgb, var(--color-content-default) 26%, var(--color-background-elevation-raised));
     border-color: transparent;
   }
   /* A gap: read, in scope, and nothing found on it. */
-  .bcn-scrub__page[data-state='gap'] {
+  .bcn-scrub__track :global(.bcn-scrub__page[data-state='gap']) {
     background: repeating-linear-gradient(
       135deg,
       var(--color-background-warning-subtle),
@@ -111,19 +124,22 @@ const ticks = pages.filter((p) => p === first || p === last || (p % 10 === 0 && 
     );
     border-color: var(--color-border-warning);
   }
-  .bcn-scrub__page[data-state='out'] {
+  /* Outside the scope: skipped, never read. */
+  .bcn-scrub__track :global(.bcn-scrub__page[data-state='out']) {
     background: transparent;
     border-style: dashed;
-    opacity: 0.5;
+    opacity: 0.55;
   }
+  /* Past the document's end, in the last window. */
+  .bcn-scrub__track :global(.bcn-scrub__page[data-state='none']) { visibility: hidden; }
 
-  .bcn-scrub__pips {
+  .bcn-scrub__track :global(.bcn-scrub__pips) {
     display: flex;
     flex-direction: column;
     gap: 2px;
     align-items: center;
   }
-  .bcn-scrub__pips :global(.bcn-scrub__pip) {
+  .bcn-scrub__track :global(.bcn-scrub__pip) {
     display: block;
     width: 7px;
     height: 7px;
@@ -133,8 +149,8 @@ const ticks = pages.filter((p) => p === first || p === last || (p % 10 === 0 && 
     cursor: pointer;
     animation: bcn-scrub-pop 220ms ease-out;
   }
-  .bcn-scrub__pips :global(.bcn-scrub__pip[data-parsed]) { background: var(--color-commitment); }
-  .bcn-scrub__pips :global(.bcn-scrub__pip[data-selected]) {
+  .bcn-scrub__track :global(.bcn-scrub__pip[data-parsed]) { background: var(--color-commitment); }
+  .bcn-scrub__track :global(.bcn-scrub__pip[data-selected]) {
     box-shadow: 0 0 0 2px var(--color-background-elevation-raised), 0 0 0 3.5px var(--color-commitment);
   }
 
@@ -171,7 +187,7 @@ const ticks = pages.filter((p) => p === first || p === last || (p % 10 === 0 && 
     color: var(--color-content-default-secondary);
     font-variant-numeric: tabular-nums;
   }
-  .bcn-scrub__tick {
+  .bcn-scrub__ticks :global(.bcn-scrub__tick) {
     position: absolute;
     left: calc(var(--_cell) * var(--_i) + var(--_cell) / 2);
     transform: translateX(-50%);
@@ -182,7 +198,7 @@ const ticks = pages.filter((p) => p === first || p === last || (p % 10 === 0 && 
     to { transform: scale(1); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .bcn-scrub__pips :global(.bcn-scrub__pip),
+    .bcn-scrub__track :global(.bcn-scrub__pip),
     .bcn-scrub__head { animation: none; transition: none; }
   }
 </style>

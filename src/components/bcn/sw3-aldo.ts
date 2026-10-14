@@ -1,12 +1,16 @@
-// Controller for <BcnSw3Aldo>. setupX shape: owns the conversation. Everything it shows
-// is derived from sw3-store on each change: Aldo's proposal, each steer (what was said,
-// the page the scan was on, Aldo's reply), and the notices the scan raises as it reaches
-// them. Nothing here is stored twice; the steers ARE the record.
+// Controller for <BcnSw3Aldo>. setupX shape: owns the conversation for the document in
+// view. Everything it shows is derived from sw3-store on each change: Aldo's opening (the
+// scope pass), each steer (what was said, the page the scan was on, Aldo's reply), the
+// check after the first commitments, and what the scan raises as it reaches it. Nothing
+// here is stored twice; the steers ARE the record, one per document.
 //
 //   out  sw3:page  detail: { page }   a "Show p. N" answer; the host moves the page
+//   out  sw3:find  detail: { id }     a commitment named in the check; the host shows it
 
 import {
   initSw3,
+  payload,
+  activeDoc,
   started,
   finished,
   now,
@@ -22,6 +26,13 @@ import {
   rereads,
   rereadEnd,
   findOf,
+  commitmentOf,
+  checking,
+  checked,
+  calibrated,
+  calibrationPoint,
+  pace,
+  skipped,
   act,
   say,
   type Steer,
@@ -43,6 +54,8 @@ interface Item {
   who: string;
   text: string;
   acts: Btn[];
+  /** Rich content under the text (the check), rebuilt when its signature changes. */
+  extra?: { sig: string; build: () => HTMLElement };
 }
 
 const range = (a: number, b: number) => (a === b ? `p. ${a}` : `pp. ${a}–${b}`);
@@ -58,10 +71,10 @@ const runs = (pages: number[]) => {
   }
   return out.join(', ');
 };
+const COLUMN_LABEL: Record<string, string> = { timing: 'Timing', party: 'Implementation party', schedule: 'Reporting schedule', orgs: 'Participating organizations' };
 
 export function setupSw3Aldo(root: HTMLElement): void {
-  const D = initSw3();
-  const docShort = root.dataset.doc ?? 'document';
+  initSw3();
   const reviewHref = root.dataset.review ?? '';
   const log = root.querySelector<HTMLElement>('[data-aldo-log]')!;
   const rulesEl = root.querySelector<HTMLElement>('[data-aldo-rules]')!;
@@ -71,8 +84,10 @@ export function setupSw3Aldo(root: HTMLElement): void {
   const msgTpl = root.querySelector<HTMLTemplateElement>('[data-aldo-msg]')!;
   const btnTpl = root.querySelector<HTMLTemplateElement>('[data-aldo-btn]')!;
   const primaryTpl = root.querySelector<HTMLTemplateElement>('[data-aldo-btn-primary]')!;
+  const badgeTpl = root.querySelector<HTMLTemplateElement>('[data-aldo-badge]')!;
 
   const goto = (page: number) => document.dispatchEvent(new CustomEvent('sw3:page', { detail: { page } }));
+  const showFind = (id: string) => document.dispatchEvent(new CustomEvent('sw3:find', { detail: { id } }));
 
   const button = ({ label, run, primary }: Btn) => {
     const host = ((primary ? primaryTpl : btnTpl).content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
@@ -80,6 +95,18 @@ export function setupSw3Aldo(root: HTMLElement): void {
     (b.querySelector('.esa-button__label') ?? b).textContent = label;
     b.addEventListener('click', run);
     return host;
+  };
+  const badge = (code: string) => {
+    const host = (badgeTpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+    const chip = host.querySelector('.bcn-cbadge') ?? host;
+    chip.textContent = code.replace(/^COA\s+/, '');
+    return host;
+  };
+  const el = (tag: string, cls: string, text?: string) => {
+    const e = document.createElement(tag);
+    e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
   };
 
   // ── Send ────────────────────────────────────────────────────────────────────
@@ -102,14 +129,96 @@ export function setupSw3Aldo(root: HTMLElement): void {
     }
   });
 
+  // ── The opening: the scope pass ─────────────────────────────────────────────
+  const opening = (): Item => {
+    const D = payload();
+    const p = D.proposal;
+    const acts: Btn[] = [];
+    if (!started() && !skipped() && p) {
+      if (p.go) {
+        const go = p.go;
+        acts.push({
+          label: go.label,
+          primary: true,
+          run: () => act(go.label, [{ kind: 'scope', first: go.first, last: go.last, label: go.scope }, { kind: 'start' }], `Reading ${range(go.first, go.last)}. I will stop after the first ${D.calibrate?.length ?? 3} commitments so you can check how I read them.`),
+        });
+      } else {
+        acts.push({ label: 'Nothing to scan', primary: true, run: () => act('Nothing to scan', { kind: 'skip' }, 'Skipped. It stays in the project as a source document with no commitments.') });
+      }
+    }
+    return { id: `${activeDoc()}:opening`, t: -1, from: 'aldo', who: 'Aldo', text: p?.text ?? `Tell me which pages of the ${D.short} hold its commitments.`, acts };
+  };
+
+  // ── The check after the first commitments ───────────────────────────────────
+  const checkItem = (t: number): Item[] => {
+    const D = payload();
+    const codes = D.calibrate ?? [];
+    const cp = calibrationPoint();
+    if (!started() || cp === null || t < cp || !codes.length) return [];
+    const done = checked();
+    const open = checking();
+    const build = () => {
+      const wrap = el('div', 'bcn-sw3aldo__checks');
+      for (const code of codes) {
+        const c = commitmentOf(code) as { code: string; title: string; columns?: Record<string, string> } | undefined;
+        const card = el('div', 'bcn-sw3aldo__check');
+        card.dataset.state = done.includes(code) ? 'checked' : 'open';
+        const head = el('button', 'bcn-sw3aldo__checkhead');
+        (head as HTMLButtonElement).type = 'button';
+        head.append(badge(code), el('span', 'bcn-sw3aldo__checktitle typography-label-md', c?.title ?? code));
+        head.addEventListener('click', () => showFind(code));
+        const reqs = (D.spans ?? []).filter((s) => s.code === code);
+        const ol = el('ol', 'bcn-sw3aldo__reqs typography-body-sm');
+        for (const r of reqs) ol.append(el('li', '', r.name));
+        const parts: HTMLElement[] = [head, el('p', 'bcn-sw3aldo__reqcount typography-body-sm', `${reqs.length} requirement${reqs.length === 1 ? '' : 's'}:`), ol];
+        if (c?.columns) {
+          const dl = el('dl', 'bcn-sw3aldo__cols typography-body-sm');
+          for (const [k, label] of Object.entries(COLUMN_LABEL)) {
+            if (!c.columns[k]) continue;
+            dl.append(el('dt', '', label), el('dd', '', c.columns[k]));
+          }
+          parts.push(dl);
+        }
+        const acts = el('div', 'bcn-sw3aldo__checkacts');
+        if (done.includes(code)) acts.append(el('span', 'bcn-sw3aldo__ok typography-body-sm', 'Read right'));
+        else if (open) acts.append(button({ label: 'Looks right', run: () => act(`${code} looks right`, { kind: 'check', code }, `Noted: ${code} read right.`) }));
+        parts.push(acts);
+        card.append(...parts);
+        wrap.append(card);
+      }
+      return wrap;
+    };
+    const allChecked = codes.every((c) => done.includes(c));
+    const go = (p: 'run' | 'watch' | 'step', label: string, reply: string): Btn => ({ label, primary: p === 'run', run: () => act(label, { kind: 'go', pace: p } as SteerAction, reply) });
+    return [
+      {
+        id: `${activeDoc()}:check`,
+        t: cp,
+        from: 'aldo',
+        who: 'Aldo',
+        text: open
+          ? `I have read the first ${codes.length} commitments. Check how I read them before I go on: open each one on the page, and tell me what I got wrong in your own words. What you tell me goes into my instructions for the rest of the ${D.short}.`
+          : `I read the first ${codes.length} commitments and stopped for you to check them.`,
+        acts: open
+          ? allChecked
+            ? [go('run', 'Let it run', 'Going at full speed. I will raise anything that needs you as I reach it.'), go('watch', 'Watch', 'Going slowly, so you can follow along.'), go('step', 'One at a time', 'One commitment at a time: I will stop after each.')]
+            : [go('run', 'Let it run', 'Going at full speed. I will raise anything that needs you as I reach it.'), go('step', 'Keep checking, one at a time', 'One commitment at a time: I will stop after each.')]
+          : [],
+        extra: { sig: `${codes.join(',')}|${done.join(',')}|${open}`, build },
+      },
+    ];
+  };
+
   // ── What the scan raises ────────────────────────────────────────────────────
   const eventT = (findId: string) =>
-    (D.events.find((e) => e.type === 'commitment_found' && e.findId === findId) as { t: number } | undefined)?.t ?? Infinity;
+    (payload().events.find((e) => e.type === 'commitment_found' && e.findId === findId) as { t: number } | undefined)?.t ?? Infinity;
 
   const notices = (t: number): Item[] => {
+    const D = payload();
     const live = new Set(finds().map((f) => f.id));
     const out: Item[] = [];
     const s = state();
+    const doc = activeDoc();
 
     for (const f of D.finds) {
       if (!inScope(f.page)) continue;
@@ -121,7 +230,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
         const ruleAt = steers().find((x) => x.actions.some((a) => a.kind === 'rule' && a.crossRef))?.at;
         if (ruleAt !== undefined && ruleAt <= eventT(f.id)) continue;
         out.push({
-          id: `n:false:${f.id}`,
+          id: `${doc}:n:false:${f.id}`,
           t: at,
           from: 'aldo',
           who: 'Aldo',
@@ -140,7 +249,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
         const parent = f.partOf ? findOf(f.partOf) : undefined;
         const code = parent?.code ?? 'the commitment before it';
         out.push({
-          id: `n:split:${f.id}`,
+          id: `${doc}:n:split:${f.id}`,
           t: at,
           from: 'aldo',
           who: 'Aldo',
@@ -153,21 +262,22 @@ export function setupSw3Aldo(root: HTMLElement): void {
     // The run's end: what was read and where nothing was found.
     const inScopePages = D.events.filter((e) => e.type === 'page_scanned' && inScope((e as { page: number }).page));
     const read = scanned();
-    if (inScopePages.length && inScopePages.every((e) => read.has((e as { page: number }).page))) {
+    if (started() && inScopePages.length && inScopePages.every((e) => read.has((e as { page: number }).page))) {
       const at = Math.max(...inScopePages.map((e) => e.t));
       const n = finds().filter((f) => f.code).length;
       const g = [...gaps()];
       const first = Math.min(...read);
       const last = Math.max(...read);
+      const nothing = g.length && D.finds.length ? ` Nothing found on ${runs(g)}. If a commitment is there, drag over it on the page.` : '';
       out.push({
-        id: 'n:done',
+        id: `${doc}:n:done`,
         t: at,
         from: 'aldo',
         who: 'Aldo',
-        text: `Read ${range(first, last)}: ${n} commitments.${g.length ? ` Nothing found on ${runs(g)}. If a commitment is there, drag over it on the page.` : ''}`,
+        text: `Read ${range(first, last)}: ${n} commitments.${nothing}`,
         acts: [
-          ...(g.length ? [{ label: `Show p. ${Math.min(...g)}`, run: () => goto(Math.min(...g)) }] : []),
-          { label: 'Review commitments', primary: true, run: () => (location.href = reviewHref) },
+          ...(nothing ? [{ label: `Show p. ${Math.min(...g)}`, run: () => goto(Math.min(...g)) }] : []),
+          ...(doc === 'itp' ? [{ label: 'Review commitments', primary: true, run: () => (location.href = reviewHref) }] : []),
         ],
       });
     }
@@ -180,7 +290,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
         (f) => f.kind === 'false' && f.page >= r.first && f.page <= r.last && !live.has(f.id) && !s.dismissed.includes(f.id) && eventT(f.id) <= r.at,
       );
       out.push({
-        id: `n:reread:${i}`,
+        id: `${doc}:n:reread:${i}`,
         t: at,
         from: 'aldo',
         who: 'Aldo',
@@ -191,16 +301,17 @@ export function setupSw3Aldo(root: HTMLElement): void {
     return out;
   };
 
-  // ── The conversation ────────────────────────────────────────────────────────
+  // ── Steers ──────────────────────────────────────────────────────────────────
   const steerItems = (x: Steer): Item[] => {
+    const doc = activeDoc();
     const who = x.page ? `You, at p. ${x.page}` : 'You';
     const offer = x.offer;
     const offerOpen = offer && !rereads().some((r) => r.at >= x.at && r.first <= offer.first && r.last >= offer.last);
     const reread: SteerAction | null = offer ? { kind: 'reread', first: offer.first, last: offer.last } : null;
     return [
-      { id: `${x.id}:you`, t: x.at, from: 'you', via: x.via, who, text: x.text, acts: [] },
+      { id: `${doc}:${x.id}:you`, t: x.at, from: 'you', via: x.via, who, text: x.text, acts: [] },
       {
-        id: `${x.id}:aldo`,
+        id: `${doc}:${x.id}:aldo`,
         t: x.at,
         from: 'aldo',
         who: 'Aldo',
@@ -213,33 +324,15 @@ export function setupSw3Aldo(root: HTMLElement): void {
     ];
   };
 
-  const proposal = (): Item => {
-    const p = D.proposal;
-    const h = D.headings ?? {};
-    const likely = (a: number, b: number) => Object.values(h).filter((n) => n >= a && n <= b).length;
-    const sc = D.scope;
-    const go = () =>
-      act('Scan Condition 11', [{ kind: 'scope', first: sc.first, last: sc.last, label: 'Condition 11' }, { kind: 'start' }], `Reading ${range(sc.first, sc.last)}.`);
-    return {
-      id: 'proposal',
-      t: -1,
-      from: 'aldo',
-      who: 'Aldo',
-      text: p
-        ? `I read the contents and headings of the ${docShort}. The commitments are in ${p.section}, ${range(p.first, p.last)}: about ${likely(p.first, p.last)}. Condition 11, Take Minimization Measures, holds ${likely(sc.first, sc.last)} of them on ${range(sc.first, sc.last)}.\nTell me where to start, or scan Condition 11.`
-        : `Tell me which pages of the ${docShort} hold its commitments.`,
-      acts: started()
-        ? []
-        : [{ label: 'Scan Condition 11', primary: true, run: go }],
-    };
-  };
-
+  // ── Paint ───────────────────────────────────────────────────────────────────
   const els = new Map<string, HTMLElement>();
   const actsSig = new Map<string, string>();
+  const extraSig = new Map<string, string>();
 
   const paintRules = () => {
     const s = state();
     const rows: [string, string][] = [[`Scope: ${range(s.scope.first, s.scope.last)}`, '']];
+    rows.push([`Pace: ${pace() === 'run' ? 'full speed' : pace() === 'step' ? 'one at a time' : 'watch'}`, '']);
     for (const r of rules()) rows.push([r.text, r.page ? `from p. ${r.page}` : '']);
     const sig = JSON.stringify(rows);
     if (rulesEl.dataset.sig === sig) return;
@@ -247,13 +340,10 @@ export function setupSw3Aldo(root: HTMLElement): void {
     rulesEl.replaceChildren(
       ...rows.map(([text, from]) => {
         const li = document.createElement('li');
-        const a = document.createElement('span');
-        a.textContent = text;
-        li.append(a);
+        li.append(el('span', '', text));
         if (from) {
-          const b = document.createElement('span');
+          const b = el('span', '', from);
           b.dataset.ruleFrom = '';
-          b.textContent = from;
           li.append(b);
         }
         return li;
@@ -264,52 +354,75 @@ export function setupSw3Aldo(root: HTMLElement): void {
   };
 
   const paintSuggest = () => {
+    const D = payload();
     const opts: Btn[] = [];
-    if (!started()) opts.push({ label: 'Only Condition 11', run: () => say('Only Condition 11') }, { label: 'Start', run: () => say('Start') });
-    else if (!finished()) {
-      if (paused() || pausing()) opts.push({ label: 'Resume', run: () => say('Resume') });
-      else opts.push({ label: 'Pause', run: () => say('Pause') });
-      if (!rules().length) opts.push({ label: 'Skip the footnotes', run: () => say('Skip the footnotes') });
+    if (skipped()) {
+      // nothing to offer
+    } else if (!started()) for (const text of D.proposal?.suggest ?? []) opts.push({ label: text, run: () => say(text) });
+    else if (checking()) {
+      opts.push({ label: 'They look right', run: () => say('They look right') });
+    } else if (!finished()) {
+      opts.push(paused() || pausing() ? { label: 'Resume', run: () => say('Resume') } : { label: 'Pause', run: () => say('Pause') });
+      if (calibrated()) opts.push(pace() === 'run' ? { label: 'Slow down', run: () => say('Slow down') } : { label: 'Full speed', run: () => say('Full speed') });
     }
-    const sig = opts.map((o) => o.label).join('|');
+    const sig = `${activeDoc()}|${opts.map((o) => o.label).join('|')}`;
     if (suggest.dataset.sig === sig) return;
     suggest.dataset.sig = sig;
     suggest.replaceChildren(...opts.map(button));
   };
 
+  let lastDoc = '';
   const render = () => {
+    const doc = activeDoc();
+    if (doc !== lastDoc) {
+      // Another document: another conversation.
+      lastDoc = doc;
+      log.replaceChildren();
+      els.clear();
+      actsSig.clear();
+      extraSig.clear();
+    }
     const t = now();
-    const items = [proposal(), ...steers().flatMap(steerItems), ...notices(t)]
+    const items = [opening(), ...steers().flatMap(steerItems), ...checkItem(t), ...notices(t)]
       .map((it, i) => ({ it, i }))
       .sort((a, b) => a.it.t - b.it.t || a.i - b.i)
       .map(({ it }) => it);
 
-    const nearBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 80;
+    const nearBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 120;
     let added = false;
+    let lead: HTMLElement | null = null;
     const keep = new Set(items.map((i) => i.id));
-    for (const [id, el] of els) if (!keep.has(id)) (el.remove(), els.delete(id), actsSig.delete(id));
+    for (const [id, e] of els) if (!keep.has(id)) (e.remove(), els.delete(id), actsSig.delete(id), extraSig.delete(id));
     let prev: Element | null = null;
     for (const it of items) {
-      let el = els.get(it.id);
-      if (!el) {
-        el = (msgTpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
-        els.set(it.id, el);
+      let e = els.get(it.id);
+      if (!e) {
+        e = (msgTpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+        els.set(it.id, e);
         added = true;
+        // The check is read from its top, not its last card.
+        if (it.id.endsWith(':check')) lead = e;
       }
-      el.dataset.from = it.from;
-      if (it.via) el.dataset.via = it.via;
-      el.querySelector('[data-msg-who]')!.textContent = it.who;
-      el.querySelector('[data-msg-text]')!.textContent = it.text;
+      e.dataset.from = it.from;
+      if (it.via) e.dataset.via = it.via;
+      e.querySelector('[data-msg-who]')!.textContent = it.who;
+      e.querySelector('[data-msg-text]')!.textContent = it.text;
+      const extraHost = e.querySelector<HTMLElement>('[data-msg-extra]')!;
+      if (it.extra && extraSig.get(it.id) !== it.extra.sig) {
+        extraSig.set(it.id, it.extra.sig);
+        extraHost.replaceChildren(it.extra.build());
+      }
       const sig = it.acts.map((a) => a.label).join('|');
       if (actsSig.get(it.id) !== sig) {
         actsSig.set(it.id, sig);
-        el.querySelector('[data-msg-acts]')!.replaceChildren(...it.acts.map(button));
+        e.querySelector('[data-msg-acts]')!.replaceChildren(...it.acts.map(button));
       }
       const want: Element | null = prev ? prev.nextElementSibling : log.firstElementChild;
-      if (want !== el) log.insertBefore(el, want);
-      prev = el;
+      if (want !== e) log.insertBefore(e, want);
+      prev = e;
     }
-    if (added && nearBottom) log.scrollTop = log.scrollHeight;
+    if (lead) log.scrollTop = lead.offsetTop - log.offsetTop - 8;
+    else if (added && nearBottom) log.scrollTop = log.scrollHeight;
 
     paintRules();
     paintSuggest();

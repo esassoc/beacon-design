@@ -856,7 +856,7 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'setup-wizard-3-step-scan',
         title: 'Step 1 — Source Documents',
         description:
-          'Documents on the left with a slim card per commitment found; the PDF page in the middle, rendered live, with a box per commitment (dashed when found, solid with requirement spans once parsed) and a scrubber with a pip per find and gaps where nothing was found; Aldo on the right. Tell Aldo the scope ("Only Condition 11"), pause, give it a rule mid-run and re-read the pages read without it. Every steer is kept with the page it came on. Drag over a missed commitment to mark it; the run keeps going if you leave.',
+          'Three real documents (the ITP, the MMRP and the Notice of Determination), each scoped by Aldo for what it is: numbered headings, table rows with their columns as fields, or nothing to scan. One toolbar holds the narration, pace (One at a time, Watch, Full speed), pause, Mark missed, the Aldo panel and a scrubber of every page fifty at a time. The run stops after its first three commitments for a check, laid out in Aldo with Looks right on each, then runs at the pace chosen. Steer in your own words; every steer is kept with the page it came on, and every run keeps going while another document is in view.',
         route: '/prototypes/setup-wizard-3-step',
         createdAt: '2026-10-14',
         status: 'in-progress',

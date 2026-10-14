@@ -2,14 +2,16 @@
 // <BcnSw3Docs> — the project's source documents, and what the scan has found in each.
 //
 // One slim card per document: its short name and where its run is (not started,
-// reading p. 147, paused, or how many commitments it found). The document in view opens
-// to its commitments, one slim card each, in page order, growing as the scan finds them:
+// reading p. 147, paused, waiting on a check, or how many commitments it found). Click a
+// document to bring it into view; the page, the scrubber and Aldo follow it, and its run
+// keeps going when another is in view. The document in view opens to its commitments, one slim card each, in page order, growing as the scan finds them:
 // the commitment-code chip and the title, as prod's requirement-row and the setup
 // wizard's other slim cards are. A card is dashed while its commitment is being read and
 // solid once parsed, the same grammar as the boxes on the page. Click a card to go to it
 // on the page; × dismisses it (recorded with the rest of the steering).
 //
-// Contract: sw3-docs.ts `setupSw3Docs(root, { onFind, onDismiss })` returns { update }.
+// Contract: sw3-docs.ts `setupSw3Docs(root, { onDoc, onFind, onDismiss })` returns
+// { update, reveal }.
 //
 // bcn-lego-checked: the code chip IS bcn-commitment-badge, × IS esa-icon-button. The card
 // is prod's requirement-row shape (bcn-sw-requirement-row: slim white card, 6px radius,
@@ -18,20 +20,20 @@
 // Beacon: no source-document list with per-document runs. bcn-sw3-docs is the home.
 import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
-import { SOURCE_DOCS } from '../../data/setup-wizard-3-step';
+import { SCAN_DOCS } from '../../data/sw3-docs';
 ---
 
 <aside class="bcn-sw3docs" data-sw3-docs aria-label="Documents">
   <h3 class="bcn-sw3docs__head typography-title-strong">
-    Documents <span class="bcn-sw3docs__count">{SOURCE_DOCS.length}</span>
+    Documents <span class="bcn-sw3docs__count">{SCAN_DOCS.length}</span>
   </h3>
   {
-    SOURCE_DOCS.map((d) => (
-      <section class="bcn-sw3docs__doc" data-doc={d.id} data-open>
-        <div class="bcn-sw3docs__card" title={d.name}>
+    SCAN_DOCS.map((d) => (
+      <section class="bcn-sw3docs__doc" data-doc={d.id}>
+        <button type="button" class="bcn-sw3docs__card" title={d.name} data-doc-open>
           <span class="bcn-sw3docs__name typography-label-md-strong">{d.short}</span>
           <span class="bcn-sw3docs__state typography-body-sm" data-doc-state>Not started</span>
-        </div>
+        </button>
         <ol class="bcn-sw3docs__list" data-doc-list aria-label={`Commitments in the ${d.short}`} />
       </section>
     ))
@@ -70,6 +72,10 @@ import { SOURCE_DOCS } from '../../data/setup-wizard-3-step';
     min-height: 0;
   }
   .bcn-sw3docs__card {
+    width: 100%;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
@@ -79,6 +85,16 @@ import { SOURCE_DOCS } from '../../data/setup-wizard-3-step';
     border-radius: 6px;
     background: var(--color-background-elevation-raised);
   }
+  .bcn-sw3docs__card:hover { border-color: var(--color-content-default-tertiary); }
+  .bcn-sw3docs__card:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+  .bcn-sw3docs__doc[data-open] .bcn-sw3docs__card {
+    border-color: var(--color-content-default);
+    background: var(--color-background-default);
+  }
+  .bcn-sw3docs__doc[data-open] { flex: 1; }
   .bcn-sw3docs__name { color: var(--color-content-default); }
   .bcn-sw3docs__state {
     color: var(--color-content-default-secondary);

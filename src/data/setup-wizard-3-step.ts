@@ -584,9 +584,8 @@ export const FIND_BY_ID = new Map(FINDS.map((f) => [f.id, f]));
 
 /** Seconds per page at 1×: the 50-page scan runs about a minute. */
 export const PAGE_SECONDS = 1.2;
-/** The parse runs this many seconds behind the find, one commitment at a time. */
-const PARSE_LAG = 3.6;
-const PARSE_EACH = 0.5;
+/** A commitment parses once its end has been read (the next heading found), one at a time. */
+const PARSE_AFTER = 0.35;
 
 export const SCAN_EVENTS: ScanEvent[] = (() => {
   const ev: ScanEvent[] = [];
@@ -595,12 +594,16 @@ export const SCAN_EVENTS: ScanEvent[] = (() => {
   let parseFree = 0;
   const seen = new Set<string>();
   const firstUse = new Map<string, number>();
-  for (const f of FINDS) {
-    const tFound = pageT(f.page) + PAGE_SECONDS * (0.2 + 0.6 * (f.boxes[0]?.y ?? 0));
+  const foundT = (f: Find) => pageT(f.page) + PAGE_SECONDS * (0.2 + 0.6 * (f.boxes[0]?.y ?? 0));
+  const endT = (f: Find) => pageT(Math.max(f.page, ...f.boxes.map((b) => b.page))) + PAGE_SECONDS * 0.95;
+  for (const [i, f] of FINDS.entries()) {
+    const tFound = foundT(f);
     ev.push({ t: tFound, type: 'commitment_found', findId: f.id });
     if (f.kind !== 'commitment') continue;
     const c = COMMITMENT_BY_CODE.get(f.code)!;
-    const tParsed = Math.max(tFound + PARSE_LAG, parseFree + PARSE_EACH);
+    const next = FINDS[i + 1];
+    const tRead = next ? Math.min(foundT(next), endT(f)) : endT(f);
+    const tParsed = Math.max(tRead, tFound, parseFree) + PARSE_AFTER;
     parseFree = tParsed;
     ev.push({ t: tParsed, type: 'commitment_parsed', code: c.code, requirements: c.requirementIds.length });
     for (const id of c.requirementIds) {

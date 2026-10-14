@@ -1,141 +1,119 @@
 ---
-// <BcnSw3Scan> — step 1's workspace: the documents, the page being read, and Aldo.
+// <BcnSw3Scan> — step 1's workspace: the controls, the documents, the page being read,
+// and Aldo.
 //
-// Left, the project's documents and, under the one in view, the commitments found so
-// far as slim cards. Centre, the run's status and controls, a scrubber of every page in
-// scope with the scan head running ahead of where the person is looking, and the page
-// itself, rendered from the PDF, with a box drawn around each commitment as it is found
-// and its requirement spans filling in as they parse. Right, the conversation with Aldo,
-// where the scan is scoped and steered and every steer is kept.
+// The toolbar runs across the top: what the run is doing now, its pace, pause and
+// resume, follow, mark missed, and the scrubber of every page in the document. Below it,
+// the project's documents (with the commitments found in the open one as slim cards) and
+// the page itself, rendered from the PDF, with a box drawn around each commitment as it is
+// found and its requirement spans filling in as they parse. Aldo is the panel on the
+// right, opened and closed from the toolbar: where each document is scoped, where the run
+// stops after its first commitments for a person to check them, and where it is steered.
 //
-// Corrections are on the page and the cards: drag over a commitment the scan missed,
-// dismiss a card. Aldo raises the rest (a find with nothing in it, a split) with the
-// answer attached. All of them land in the same record as typed steers.
+// Each document has its own run, its own conversation and its own record (sw3-store), and
+// every run keeps going while another document is in view. A return lands where it is.
 //
-// It renders from sw3-store's events, so the run keeps going when the person leaves and
-// a return lands where the run is. Speed, skip and restart are prototype controls over
-// the replay (as in BcnCiRunPanel); prod's run is server-side and has none of them.
-// Pause and resume are real: in prod the job stops starting new pages.
+// Composes: bcn-sw3-toolbar, bcn-sw3-docs, bcn-page-view, bcn-sw3-aldo.
 //
-// Composes: bcn-sw3-docs, bcn-page-scrubber, bcn-page-view, bcn-sw3-aldo, esa-button,
-// esa-icon-button.
-//
-// bcn-lego-checked: the chrome is legos (esa-button, esa-icon-button) around bcn- pieces
-// that each own a column. No esa- lego is a three-pane document workspace; checked Beacon
-// (its source-pdf-viewer is the centre pane alone, bcn-page-view here). bcn-sw3-scan is
-// the home for this step's workspace.
-import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
-import BcnPageScrubber from './BcnPageScrubber.astro';
+// bcn-lego-checked: every control is a lego inside bcn-sw3-toolbar; each column is a bcn-
+// component. No esa- lego is a document workspace with a run; checked Beacon (its
+// source-pdf-viewer is the page pane alone, bcn-page-view here). bcn-sw3-scan is the home
+// for this step's workspace.
 import BcnPageView from './BcnPageView.astro';
 import BcnSw3Docs from './BcnSw3Docs.astro';
 import BcnSw3Aldo from './BcnSw3Aldo.astro';
-import { SCAN_SCOPE, SCAN_PAGES, SW3_SCAN_CLIENT, SW3_REVIEW, SOURCE_DOCS } from '../../data/setup-wizard-3-step';
+import BcnSw3Toolbar from './BcnSw3Toolbar.astro';
+import { SW3_REVIEW } from '../../data/setup-wizard-3-step';
+import { SCAN_DOCS } from '../../data/sw3-docs';
 import { withBase } from '../../lib/base';
 
-const aspect = SCAN_PAGES[0]?.aspect ?? 1.2941;
-const doc = SOURCE_DOCS[0];
+const payload = { docs: SCAN_DOCS.map((d) => ({ ...d, requirements: [] })) };
 ---
 
-<section class="bcn-sw3scan" data-sw3-scan data-doc-id={doc.id} data-pdf={withBase(doc.href)}>
-  <div class="bcn-sw3scan__docs">
-    <BcnSw3Docs />
-  </div>
-
-  <div class="bcn-sw3scan__centre">
+<section class="bcn-sw3scan" data-sw3-scan data-base={withBase('/')} data-aldo="open">
+  <div class="bcn-sw3scan__work">
     <div class="bcn-sw3scan__bar">
-      <p class="bcn-sw3scan__status typography-label-md" data-scan-status role="status"></p>
-      <div class="bcn-sw3scan__controls">
-        <EsaButton variant="secondary" size="xs" data-scan-toggle>Pause</EsaButton>
-        <EsaButton variant="ghost" size="xs" data-scan-speed>Speed 1×</EsaButton>
-        <EsaButton variant="ghost" size="xs" data-scan-skip>Skip to end</EsaButton>
-        <EsaButton variant="ghost" size="xs" data-scan-restart>Restart</EsaButton>
-      </div>
+      <BcnSw3Toolbar />
     </div>
-
-    <BcnPageScrubber first={SCAN_SCOPE.first} last={SCAN_SCOPE.last} label="Page in view" />
-
-    <div class="bcn-sw3scan__page">
-      <div class="bcn-sw3scan__tools">
-        <div class="bcn-sw3scan__nav">
-          <span data-scan-prev><EsaIconButton icon="chevron-left" label="Previous page" size="sm" /></span>
-          <span class="bcn-sw3scan__pageno typography-label-md" data-scan-pageno></span>
-          <span data-scan-next><EsaIconButton icon="chevron-right" label="Next page" size="sm" /></span>
-        </div>
-        <div class="bcn-sw3scan__acts">
-          <EsaButton variant="secondary" size="sm" data-scan-follow>Follow the scan</EsaButton>
-          <EsaButton variant="secondary" size="sm" data-scan-mark>Mark missed commitment</EsaButton>
-        </div>
+    <div class="bcn-sw3scan__body">
+      <div class="bcn-sw3scan__docs">
+        <BcnSw3Docs />
       </div>
-      <BcnPageView aspect={aspect} />
+      <div class="bcn-sw3scan__page">
+        <BcnPageView aspect={1.2941} />
+      </div>
     </div>
   </div>
 
   <div class="bcn-sw3scan__aldo">
-    <BcnSw3Aldo doc={doc.short} review={withBase(SW3_REVIEW)} />
+    <BcnSw3Aldo review={withBase(SW3_REVIEW)} />
   </div>
 
-  <script type="application/json" data-sw3-payload set:html={JSON.stringify(SW3_SCAN_CLIENT)} />
+  <script type="application/json" data-sw3-payload set:html={JSON.stringify(payload)} />
 </section>
 
 <style>
   .bcn-sw3scan {
     display: grid;
-    grid-template-columns: 15rem minmax(0, 1fr) 21rem;
+    grid-template-columns: minmax(0, 1fr) 22rem;
     gap: var(--spacing-400);
     align-items: start;
   }
+  .bcn-sw3scan[data-aldo='closed'] { grid-template-columns: minmax(0, 1fr); }
+  .bcn-sw3scan[data-aldo='closed'] .bcn-sw3scan__aldo { display: none; }
 
-  /* The side columns hold to the viewport; their lists scroll inside them. */
-  .bcn-sw3scan__docs,
-  .bcn-sw3scan__aldo {
-    position: sticky;
-    top: var(--spacing-400);
-    display: flex;
-    flex-direction: column;
-    /* 52px: AppShell's header, above the scroller these columns stick in. */
-    height: calc(100vh - 52px - 2 * var(--spacing-400));
-    min-height: 0;
-  }
-  .bcn-sw3scan__aldo > :global(*) { flex: 1; }
-
-  .bcn-sw3scan__centre {
+  .bcn-sw3scan__work {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-300);
     min-width: 0;
   }
-
-  .bcn-sw3scan__bar { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; }
-  .bcn-sw3scan__status {
-    margin: 0;
-    color: var(--color-content-default);
-    font-variant-numeric: tabular-nums;
+  /* The controls stay in reach while the page scrolls. */
+  .bcn-sw3scan__bar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding-top: var(--spacing-200);
+    background: var(--color-background-default);
   }
-  .bcn-sw3scan__controls { display: flex; gap: var(--spacing-200); margin-left: auto; }
 
-  .bcn-sw3scan__page {
+  .bcn-sw3scan__body {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: var(--spacing-400);
+    align-items: start;
+  }
+
+  /* The side columns hold to the viewport; their lists scroll inside them. 52px is
+     AppShell's header, above the scroller these columns stick in. */
+  .bcn-sw3scan__docs {
+    position: sticky;
+    top: 9.5rem;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-300);
+    height: calc(100vh - 52px - 9.5rem - var(--spacing-400));
+    min-height: 0;
+  }
+  .bcn-sw3scan__aldo {
+    position: sticky;
+    top: var(--spacing-200);
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 52px - 2 * var(--spacing-400));
+    min-height: 0;
+  }
+  .bcn-sw3scan__aldo > :global(*) { flex: 1; }
+
+  .bcn-sw3scan__page {
     padding: var(--spacing-300);
     background: var(--color-background-elevation-sunken);
     border-radius: var(--radius-200);
-  }
-  .bcn-sw3scan__tools { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); flex-wrap: wrap; }
-  .bcn-sw3scan__nav,
-  .bcn-sw3scan__acts { display: flex; align-items: center; gap: var(--spacing-200); }
-  .bcn-sw3scan__pageno {
-    min-width: 5.5rem;
-    text-align: center;
-    font-variant-numeric: tabular-nums;
+    min-width: 0;
   }
 
-  @media (max-width: 1280px) {
-    .bcn-sw3scan { grid-template-columns: 13rem minmax(0, 1fr) 18rem; }
-  }
-  @media (max-width: 1000px) {
+  @media (max-width: 1100px) {
     .bcn-sw3scan { grid-template-columns: 1fr; }
+    .bcn-sw3scan__body { grid-template-columns: 1fr; }
     .bcn-sw3scan__docs,
     .bcn-sw3scan__aldo { position: static; height: auto; max-height: 32rem; }
   }

@@ -14,10 +14,17 @@ The goal is fewer clicks per commitment. A clean commitment costs zero clicks (C
 
 ## Settled decisions
 
-- **Several documents, one run each.** The left column lists the project's documents, each with where its run is (not started, reading p. 147, paused, or how many commitments it found). The document in view opens to its commitments, one slim card each: the code chip and the title, dashed while the commitment is being read and solid once parsed.
-- **Scope and steering are a conversation with Aldo.** Aldo opens with the scope pass: "The commitments are in VIII. Conditions of Approval, pp. 80–244: about 293." The person answers in their own words ("Only Condition 11"), and keeps talking to it while the scan runs:
+- **Several documents, one run each.** The left column lists the project's documents, each with where its run is (Not started, Reading p. 147, Waiting on your check, Paused, 157 commitments, No commitments). The document in view opens to its commitments, one slim card each: the code chip and the title, dashed while the commitment is being read and solid once parsed. Every run keeps going while another document is in view, and each document has its own conversation and record.
+- **Each document is read for what it is.** The scope pass reads the document's shape before proposing anything:
+  - the ITP's commitments are numbered headings in a section (Condition 11, pp. 131–223);
+  - the MMRP's are the rows of three landscape tables in Chapter 3 (pp. 16–163). A row runs across page breaks, and its Timing, Implementation Party, Reporting Schedule and Participating Organizations come from the table's columns, not from the model;
+  - the Notice of Determination has none. It records that the MMRP was adopted, so Aldo proposes Nothing to scan.
+- **The run checks in before it runs.** After the first three commitments it stops, and Aldo lays each one out: code and title (click to see it on the page), requirements by name, and for a table the column fields, each with Looks right. Corrections typed here become rules for the rest of the document. Then the person lets it run at the pace they choose. Control first, then the option to let it go.
+- **Pace is the person's.** One at a time stops after each commitment parses. Watch reads slowly, with a line of narration of what the model just did ("Parsed MM AES-1a: 4 requirements. Timing and party from the table's columns."). Full speed raises only what needs a person. Every pace change is a steer.
+- **One toolbar holds every control** above the documents and the page: the narration, Mark missed, pace, Pause / Resume / Let it run, the Aldo panel's open and close, the page in view with previous and next, and the scrubber.
+- **Scope and steering are a conversation with Aldo.** Aldo opens with the scope pass: "The commitments are in VIII. Conditions of Approval, pp. 80–244: about 293." The person answers in their own words ("Only Condition 11", "Skip Table 3"), and keeps talking to it while the scan runs:
   - narrow or widen the scope;
-  - pause and resume;
+  - pause and resume, or change the pace;
   - give a rule ("anything that just says see Condition X is a cross-reference, not a commitment");
   - re-read pages already read.
 - **Every steer is a record.** Each message is kept with the page the scan was on when it was given and what Beacon did with it. Instructions, at the top of the conversation, lists what every extraction call now carries: the scope, and each rule with the page it took effect from. Button presses (dismiss, merge, mark) land in the same record.
@@ -26,7 +33,8 @@ The goal is fewer clicks per commitment. A clean commitment costs zero clicks (C
 - **Aldo raises what needs a person** as the scan reaches it, with the answer attached: a find with nothing in it ("COA 11.32 reads like a reference to another condition", Dismiss), a passage split across a page break (Merge), and pages with nothing found (Show p. 152).
 - **The page is the PDF.** pdf.js renders the uploaded file in the browser, page by page, and the boxes are drawn over it. There are no pre-rendered images.
 - **The scan is watched.** This is the one place the wizard breaks the "never watch a model run" rule, because watching is the point: the person sees their own document being read. The page in view shows a box around each commitment as it is found (dashed) and as it parses (solid, with requirement spans filled in).
-- **Scrubber.** Every page in scope sits in one strip:
+- **Scrubber.** Every page of the document, fifty at a time, with chevrons to page the window ("pp. 51–100 of 170"):
+  - pages outside the scope are drawn but muted;
   - read pages fill in;
   - a pip marks each find, hollow while found and solid once parsed;
   - a read page with nothing found is drawn as a gap, which is where a missed commitment hides;
@@ -66,15 +74,17 @@ Both are built, with a toggle above the review.
 4. **Anchor every quote.** The server fuzzy-matches each quote against the text layer to get the page, character offsets and boxes.
    - A quote that will not anchor is the made-up-text signal. It is flagged, never silently kept.
    - Boxes come from this anchoring and not from model citations, because the PDF citations are page-level only and cannot be combined with structured output.
-5. **Stream events to the UI:** `page_scanned`, `commitment_found`, `commitment_parsed`, `entity_proposed`, `merge_proposed`. The front end renders state from the events, which is what makes working ahead and walking away free.
+5. **Stream events to the UI:** `page_scanned`, `commitment_found`, `commitment_parsed`, `entity_proposed`, `merge_proposed`. A commitment parses as soon as its end has been read (the next heading or row is found), so the run is never more than one commitment ahead of what it has shown; that is what lets it stop cleanly after the first three. The front end renders state from the events, which is what makes working ahead and walking away free.
    - The run is a background job per document. Events reach the browser as server-sent events, which Beacon already uses (`AIController.PostChatCompletions` streams `text/event-stream`).
    - The browser renders the PDF with pdf.js, as `source-pdf-viewer` already does (ng2-pdfjs-viewer). Each box is a `PdfBoundingBoxDto` (page, and x, y, width and height as fractions of the page), the shape Beacon already stores, so a box arriving in an event is drawn over the page at any zoom.
    - For native PDFs the text layer is Beacon's existing PdfPig word extraction (`PdfTextExtractionService`). Scanned PDFs need an OCR pass first, which also returns word boxes.
 6. **Per-commitment parse in the background.** Requirement spans come first, under the partition rule. Entity extraction then runs against a project entity registry. A final pass clusters near-duplicate entities by meaning and proposes merges. Case and punctuation variants fold by code before that pass; they are never a proposal.
-7. **Steering is one structured-output call per message.** The message and the run's state (scope, page reached, pages read) go in, and a list of actions comes out: `scope`, `rule`, `pause`, `resume`, `reread`, `dismiss`, `merge`, plus a one-line reply. `src/components/bcn/sw3-steer.ts` is that schema, with a pattern matcher standing in for the model. Anything that is not a scope, pause, resume or re-read is a rule.
+7. **Steering is one structured-output call per message.** The message and the run's state (scope, page reached, pages read, whether it is waiting on the check) go in, and a list of actions comes out: `scope`, `rule`, `pause`, `resume`, `pace`, `check`, `go`, `skip`, `reread`, `dismiss`, `merge`, plus a one-line reply. `src/components/bcn/sw3-steer.ts` is that schema, with a pattern matcher standing in for the model. Anything that is not a scope, pause, resume or re-read is a rule.
    - **Pause** stops the job from dispatching new page windows. Windows already sent finish.
    - **Rule** is appended to the instruction for later windows. The steer record keeps the page it took effect from.
    - **Re-read** dispatches the windows for those pages again with the current instructions, and diffs the finds.
+   - **Pace** sets how fast the job dispatches windows; One at a time holds after each parse.
+   - **Check** and **go** close the calibration stop: the checked commitments and the corrections become part of the instruction.
 8. **Coverage checks run as code**, not model judgment:
    - pages in scope with no finds;
    - binding sentences less than half covered by the union of requirement spans;
@@ -100,6 +110,16 @@ The 68% is Jacky's "requirements that didn't highlight distinct parts" in number
 
 Runtime is under half a second for 93 pages.
 
+`scripts/anchor-mmrp.mjs` does the same for the MMRP's tables, from the same word boxes:
+
+- It reads each page's header row and takes the column edges from it, so the columns are found, not configured.
+- A row starts wherever the first column holds a code, and runs to the next one, across pages. Words are assigned to rows by y with a few points of slack, because a cell's first line can sit a hundredth of a point above the row's code.
+- Each structured column's text is kept as a field. The commitment text splits at its top-level enumerated items (1., a., i.), each a requirement candidate.
+
+Result: Table 1, pp. 16–127, 71 rows; Table 2, pp. 128–150, 19 rows; Table 3, pp. 151–163, 33 rows. 123 commitments and 547 requirement candidates. One code is the source's own typo (MM Bio-22b).
+
+The NOD shows the limit of a text layer: p. 1 is a flattened form whose labels and check boxes are drawn, and the five component bullets on p. 4 are images. A document like it needs OCR or a vision pass before the scope pass can read it.
+
 ### Data the prototype uses
 
 - `src/data/sw3-anchors.json` holds the script output: commitment text, line boxes and quote offsets.
@@ -123,7 +143,7 @@ The merges are not seeded. They are the extraction's own:
 - **Milestones:** four phrasings of "Initiation of Covered Activities", plus one in-water variant.
 - **Seasons:** three phrasings each of the GGS active season and the dry season.
 
-The prototype's scan covers pp. 131–223 whatever range is entered. The ITP is the only document so far; the documents column takes more as their PDFs are added.
+The prototype's scan of the ITP covers pp. 131–223 whatever range is entered. The MMRP and the NOD are the project's real PDFs; their scans are replayed from `src/data/sw3-mmrp-anchors.json` and the NOD's page count. Requirement names on the MMRP are the item's first words, standing in for the model's naming. Step 2 reviews the ITP only.
 
 ## Open technical questions
 
@@ -131,19 +151,22 @@ The prototype's scan covers pp. 131–223 whatever range is entered. The ITP is 
 - **Shared cached document prefix:** whether the scope pass and the extraction calls can share one, and whether a cache survives across a run that pauses for steering.
 - **Where the merge pass runs:** after every commitment (merges appear early, and they shift as more phrasings arrive) or once at the end (stable, but late).
 - **Re-read after a rule:** offered (as built) or automatic. Automatic is fewer clicks but spends extraction calls on every rule, including ones that change nothing behind the scan.
-- **Several documents at once:** one run per document in parallel, or a queue. Parallel finishes sooner; a queue keeps rate limits and cost predictable, and lets a rule given on the first document carry to the next.
+- **How many commitments to check:** three is a guess. A table document may need one per table; a document whose first commitments are unusual may need the check moved.
+- **Several documents at once:** one run per document in parallel (as built), or a queue. Parallel finishes sooner; a queue keeps rate limits and cost predictable, and lets a rule given on the first document carry to the next.
 
 ## Demo path
 
 1. **Scope.** Open step 1. Aldo proposes pp. 80–244. Tell it "Only Condition 11" (pp. 131–223), then "Start".
-2. **Steer.** Around p. 149, tell Aldo "Pause". It pauses after the page in flight. Tell it "Anything that just says see Condition X is a cross-reference, not a commitment". It adds the rule from p. 150 and offers to re-read pp. 131–149. Resume, then take the re-read: COA 11.32 goes.
-3. **Missed commitment.** When the run is done, Aldo reports nothing found on pp. 152–154. Show p. 152, step back to p. 151, choose Mark missed commitment, and drag over "11.35 Fish Salvage Plan". It parses into 7 requirements. Open Review commitments.
-4. **Exceptions.** In step 2, choose Needs a person, then:
+2. **Check.** The run stops after COA 11.1 to 11.3, and Aldo lays them out. Show 11.1 on the page, choose Looks right on each, then Watch.
+3. **Steer.** Around p. 149, tell Aldo "Pause". It pauses after the page in flight. Tell it "Anything that just says see Condition X is a cross-reference, not a commitment". It adds the rule from p. 150 and offers to re-read pp. 131–149. Resume, then take the re-read: COA 11.32 goes.
+4. **Other documents.** Open the MMRP: Aldo proposes Chapter 3's tables. Tell it "Skip Table 3", then Scan Chapter 3. At the check, the column fields sit under each measure. Choose Let it run. Open the NOD and choose Nothing to scan. The ITP's run has kept going.
+5. **Missed commitment.** When the run is done, Aldo reports nothing found on pp. 152–154. Show p. 152, step back to p. 151, choose Mark missed, and drag over "11.35 Fish Salvage Plan". It parses into 7 requirements. Open Review commitments.
+6. **Exceptions.** In step 2, choose Needs a person, then:
    - COA 11.14: remove the requirement whose quote is not in the source;
    - COA 11.25: merge the duplicate;
    - COA 11.18: turn the uncovered sentence into a new requirement.
-5. **Entities.** Open Project entities and merge the four phrasings into "Initiation of Covered Activities". Four commitments update.
-6. **Confirm.** Confirm all on the clean remainder, then continue to the Compliance Index.
+7. **Entities.** Open Project entities and merge the four phrasings into "Initiation of Covered Activities". Four commitments update.
+8. **Confirm.** Confirm all on the clean remainder, then continue to the Compliance Index.
 
 ## Jacky's notes
 

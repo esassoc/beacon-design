@@ -1,24 +1,25 @@
 # Aldo
 
-The conversation that scopes and steers the scan. Aldo opens with the scope pass ("The commitments are in VIII. Conditions of Approval, pp. 80–244: about 293."). The person answers in their own words: narrow the scope, pause, resume, give a rule, re-read. Aldo replies with what it did. As the scan reaches something that needs a person, Aldo raises it with the answer attached. Instructions, at the top, lists what every extraction call now carries: the scope, and each rule with the page it took effect from.
+The conversation that scopes, checks and steers the scan of the document in view. Aldo opens with the scope pass and a button for the scope it proposes (Scan Condition 11, Scan Chapter 3) or, for a document with no commitments, Nothing to scan. The run stops after its first three commitments, and Aldo lays each out: the code and title (click to show it on the page), its requirements by name, and for a table its column fields (Timing, Implementation party, Reporting schedule, Participating organizations), each with Looks right. The person corrects in their own words or lets it run at a chosen pace. Afterwards, the person steers in their own words, and Aldo raises what needs a person as the scan reaches it. Instructions lists what every extraction call carries: the scope, the pace, and each rule with the page it took effect from.
 
 ## Key decisions
-- One structured-output call per message returns actions (scope, rule, pause, resume, reread, dismiss, merge) and a one-line reply; sw3-steer.ts is the schema, with a pattern matcher standing in for the model.
-- A rule governs the pages not yet read. When pages were read without it, Aldo names them and offers a re-read; the re-read reports what changed.
-- Every steer is kept with the page the scan was on: the record of how this document was read.
-- Enter sends; Shift+Enter is a new line.
+- The check is the training step: corrections typed there become rules for the rest of the document, so the person trusts the run before letting it go.
+- One structured-output call per message returns actions (scope, rule, pause, resume, pace, check, go, skip, reread, dismiss, merge) and a one-line reply; sw3-steer.ts is the schema, with a pattern matcher standing in for the model.
+- A rule governs the pages not yet read; for pages already read, Aldo offers a re-read and reports what changed.
+- Each document keeps its own conversation; switching documents switches the thread.
 
 ## Done when
-- Type "Only Condition 11": Aldo answers pp. 131–223 and Instructions shows the scope.
-- Mid-run, type a cross-reference rule: Aldo adds it from the current page and offers "Re-read pp. 131–N"; taking it removes COA 11.32 and Aldo says so.
-- Reload: the conversation and the run are where they were.
+- Scan Condition 11: the run stops with COA 11.1 to 11.3 laid out and the toolbar reads "Check the first 3 commitments with Aldo."
+- Type "They look right", then Let it run: the pace is Full speed in Instructions and the run goes on.
+- On the MMRP, type "Skip Table 3": scope becomes pp. 16–150.
+- On the NOD, Nothing to scan: the card reads No commitments.
+- Reload: every document's conversation and run are where they were.
 
 ## Markup
 ```html
 <section
   class="bcn-sw3aldo"
   data-sw3-aldo=""
-  data-doc="ITP"
   data-review="/beacon-design/prototypes/setup-wizard-3-step/review"
   aria-label="Aldo"
 >
@@ -47,15 +48,16 @@ The conversation that scopes and steers the scan. Aldo opens with the scope pass
   <div class="bcn-sw3aldo__rules">
     <details class="esa-collapsible esa-collapsible--flush">
       <summary class="esa-collapsible__summary typography-label-sm-strong">
-        <span class="esa-collapsible__title">Instructions (1)</span>
+        <span class="esa-collapsible__title">Instructions (2)</span>
       </summary>
       <div class="esa-collapsible__body typography-body-md">
         <ol
           class="bcn-sw3aldo__rulelist typography-body-sm"
           data-aldo-rules=""
-          data-sig='[["Scope: pp. 131–223",""]]'
+          data-sig='[["Scope: pp. 131–223",""],["Pace: watch",""]]'
         >
-          <li><span>Scope: pp. 131–223</span></li>
+          <li><span class="">Scope: pp. 131–223</span></li>
+          <li><span class="">Pace: watch</span></li>
         </ol>
       </div>
     </details>
@@ -66,9 +68,11 @@ The conversation that scopes and steers the scan. Aldo opens with the scope pass
       <p class="bcn-sw3aldo__text typography-body-sm" data-msg-text="">
         I read the contents and headings of the ITP. The commitments are in VIII.
         Conditions of Approval, pp. 80–244: about 293. Condition 11, Take Minimization
-        Measures, holds 158 of them on pp. 131–223. Tell me where to start, or scan
+        Measures, holds 158 of them on pp. 131–223, in three parts: Multi-Species,
+        Construction Phase, and Operations Phases. Tell me where to start, or scan
         Condition 11.
       </p>
+      <div class="bcn-sw3aldo__extra" data-msg-extra=""></div>
       <span class="bcn-sw3aldo__acts" data-msg-acts=""
         ><span
           class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--xs"
@@ -82,7 +86,7 @@ The conversation that scopes and steers the scan. Aldo opens with the scope pass
   <div
     class="bcn-sw3aldo__suggest"
     data-aldo-suggest=""
-    data-sig="Only Condition 11|Start"
+    data-sig="itp|Only Condition 11|Only the construction measures"
   >
     <span
       class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
@@ -92,7 +96,7 @@ The conversation that scopes and steers the scan. Aldo opens with the scope pass
     ><span
       class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
       ><button class="esa-button__native typography-microcopy-2xs" type="button">
-        <span class="esa-button__label">Start</span>
+        <span class="esa-button__label">Only the construction measures</span>
       </button></span
     >
   </div>
@@ -142,6 +146,7 @@ The conversation that scopes and steers the scan. Aldo opens with the scope pass
         data-msg-text=""
         data-astro-cid-d4oo7fc7=""
       ></p>
+      <div class="bcn-sw3aldo__extra" data-msg-extra="" data-astro-cid-d4oo7fc7=""></div>
       <span
         class="bcn-sw3aldo__acts"
         data-msg-acts=""
@@ -160,6 +165,12 @@ The conversation that scopes and steers the scan. Aldo opens with the scope pass
         <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
       </button></span
     ></template
+  ><template data-aldo-badge=""
+    ><span data-astro-cid-d4oo7fc7=""
+      ><span
+        class="bcn-cbadge bcn-cbadge--sm"
+        data-astro-cid-cqxc3yz3=""
+      ></span></span></template
   ><template data-aldo-btn-primary=""
     ><span
       class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--xs"
@@ -322,6 +333,29 @@ The conversation that scopes and steers the scan. Aldo opens with the scope pass
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
+}
+.bcn-cbadge {
+  font-family: var(--typography-font-family-mono);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  border-radius: var(--radius-100);
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-block;
+}
+.bcn-cbadge--md {
+  font-size: var(--font-size-100);
+  padding: 1px var(--spacing-200);
+}
+.bcn-cbadge--sm {
+  padding: 1px var(--spacing-150);
+  font-size: 0.75rem;
+}
+.bcn-cbadge--neutral {
+  font-family: var(--typography-font-family-sans);
+  color: var(--bcn-gray-700);
+  background: var(--bcn-gray-100);
 }
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -659,8 +693,75 @@ summary.esa-button--variant-chrome:focus-visible {
   flex-wrap: wrap;
   display: flex;
 }
-.bcn-sw3aldo__acts:empty {
+.bcn-sw3aldo__acts:empty,
+.bcn-sw3aldo__extra:empty {
   display: none;
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__checks {
+  gap: var(--spacing-200);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__check {
+  gap: var(--spacing-150, 0.375rem);
+  padding: var(--spacing-200) var(--spacing-300);
+  border: 1px dashed var(--color-border-default);
+  background: var(--color-background-elevation-raised);
+  border-radius: 6px;
+  flex-direction: column;
+  display: flex;
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__check[data-state="checked"] {
+  border-style: solid;
+  border-color: var(--color-border-default-subtle);
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__checkhead {
+  align-items: flex-start;
+  gap: var(--spacing-200);
+  font: inherit;
+  text-align: left;
+  color: var(--color-content-default);
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+  padding: 0;
+  display: flex;
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__checkhead:hover .bcn-sw3aldo__checktitle {
+  text-decoration: underline;
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__checkhead:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__reqcount {
+  color: var(--color-content-default-secondary);
+  margin: 0;
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__reqs {
+  padding-left: var(--spacing-400);
+  color: var(--color-content-default);
+  margin: 0;
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__cols {
+  gap: var(--spacing-100) var(--spacing-200);
+  grid-template-columns: auto 1fr;
+  margin: 0;
+  display: grid;
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__cols dt {
+  color: var(--color-content-default-secondary);
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__cols dd {
+  color: var(--color-content-default);
+  margin: 0;
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__checkacts {
+  gap: var(--spacing-200);
+  display: flex;
+}
+.bcn-sw3aldo__extra .bcn-sw3aldo__ok {
+  color: var(--color-content-default-secondary);
 }
 .bcn-sw3aldo__suggest {
   gap: var(--spacing-200);
@@ -768,6 +869,35 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-title-strong-line-height);
   letter-spacing: var(--typography-title-strong-letter-spacing);
 }
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
 .esa-collapsible {
   border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
   border-radius: var(--radius-md, 0.5rem);
@@ -817,35 +947,6 @@ summary.esa-button--variant-chrome:focus-visible {
   flex-direction: column;
   display: flex;
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -863,9 +964,11 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-aldo-prompt-ring`: #08908b8c _(component)_
 - `--bcn-aldo-prompt-shadow`: 0 1px 2px #1018200f, 0 10px 24px -6px #10182024, 0 28px 60px -18px #08908b61 _(component)_
+- `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
+- `--bcn-gray-700`: #525252 _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
@@ -897,6 +1000,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
+- `--color-commitment`: #58508d _(component)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
 - `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
@@ -913,11 +1017,13 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
+- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
+- `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
 - `--radius-md`: .25rem _(semantic)_
@@ -938,6 +1044,9 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-body-sm-font-weight`: 350 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
+- `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
+- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
 - `--typography-label-sm-strong-font-weight`: 550 _(semantic)_

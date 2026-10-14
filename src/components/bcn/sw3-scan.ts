@@ -1,10 +1,16 @@
 // Controller for <BcnSw3Scan>. setupX shape: owns the workspace's view state (the page in
-// view, whether it follows the scan head, the selected find, select mode) and renders the
-// bar, the scrubber, the page and the document cards from sw3-store on every change. The
-// Aldo column renders itself (sw3-aldo.ts); its "show page" answers arrive as sw3:page.
+// view per document, whether it follows the scan head, the selected find, select mode, the
+// Aldo panel) and renders the toolbar, the scrubber, the page and the document cards from
+// sw3-store on every change. The Aldo column renders itself (sw3-aldo.ts); its answers
+// that move the page arrive as sw3:page / sw3:find, and it opens itself with sw3:aldo.
 
 import {
   initSw3,
+  activeDoc,
+  setActiveDoc,
+  docIds,
+  peek,
+  payload,
   started,
   finished,
   state,
@@ -13,20 +19,21 @@ import {
   finds,
   gaps,
   inScope,
-  commitmentOf,
   markRegion,
   paused,
   pausing,
   rereading,
+  checking,
+  pace,
+  skipped,
+  narration,
   act,
-  cycleSpeed,
-  skipToEnd,
-  resetAll,
+  resetEverything,
+  type Pace,
 } from './sw3-store';
 import { setupPageScrubber, type ScrubberPip } from './page-scrubber';
 import { setupPageView, type PageViewBox } from './page-view';
 import { setupSw3Docs, type DocCard } from './sw3-docs';
-import { boxesFor } from '../../lib/anchored-text';
 
 /** esa-button wraps its text in a label span; write there so the button keeps its shape. */
 const setLabel = (btn: HTMLElement, text: string) => {
@@ -39,40 +46,47 @@ const show = (btn: HTMLElement | null, on: boolean) => {
   host.style.display = on ? '' : 'none';
 };
 const range = (a: number, b: number) => (a === b ? `p. ${a}` : `pp. ${a}–${b}`);
+const PACE_LABEL: Record<Pace, string> = { step: 'One at a time', watch: 'Watch', run: 'Full speed' };
 
 export function setupSw3Scan(root: HTMLElement): void {
-  const D = initSw3();
-  const pdf = root.dataset.pdf!;
-  const docId = root.dataset.docId!;
+  initSw3();
+  const base = root.dataset.base!.replace(/\/$/, '');
+  const $ = <T extends HTMLElement = HTMLElement>(s: string) => root.querySelector<T>(s)!;
 
-  const status = root.querySelector<HTMLElement>('[data-scan-status]')!;
-  const toggle = root.querySelector<HTMLElement>('[data-scan-toggle]')!;
-  const speed = root.querySelector<HTMLElement>('[data-scan-speed]')!;
-  const skip = root.querySelector<HTMLElement>('[data-scan-skip]')!;
-  const restart = root.querySelector<HTMLElement>('[data-scan-restart]')!;
-  const follow = root.querySelector<HTMLElement>('[data-scan-follow]')!;
-  const mark = root.querySelector<HTMLElement>('[data-scan-mark]')!;
-  const pageno = root.querySelector<HTMLElement>('[data-scan-pageno]')!;
+  const status = $('[data-bar-status]');
+  const toggle = $('[data-bar-toggle]');
+  const follow = $('[data-bar-follow]');
+  const mark = $('[data-bar-mark]');
+  const aldoBtn = $('[data-bar-aldo]');
+  const restart = $('[data-bar-restart]');
+  const pageno = $('[data-bar-pageno]');
+  const paceEl = $<HTMLElement & { value: string; options: unknown }>('[data-bar-pace]');
 
-  let view = D.scope.first;
-  let following = true;
+  // Per-document view: where each document was left.
+  const views = new Map<string, number>();
+  const following = new Map<string, boolean>();
   let selected: string | null = null;
   let selecting = false;
 
-  const lastPage = () => Math.min(state().scope.last, D.scope.last);
-  const firstPage = () => Math.max(state().scope.first, D.scope.first);
+  const D = () => payload();
+  const view = () => views.get(activeDoc()) ?? D().scope.first;
+  const setView = (n: number) => views.set(activeDoc(), Math.min(D().total ?? n, Math.max(1, n)));
+  const isFollowing = () => following.get(activeDoc()) ?? true;
+  const setFollowing = (on: boolean) => following.set(activeDoc(), on);
+  const firstPage = () => Math.max(state().scope.first, D().scope.first);
+  const lastPage = () => Math.min(state().scope.last, D().scope.last);
 
   const pick = (page: number) => {
-    view = Math.min(D.scope.last, Math.max(D.scope.first, page));
-    following = false;
+    setView(page);
+    setFollowing(false);
     render();
   };
   const select = (id: string) => {
     const f = finds().find((x) => x.id === id);
     if (!f) return;
     selected = id;
-    view = f.boxes.find((b) => b.page === view)?.page ?? f.page;
-    following = false;
+    setView(f.boxes.find((b) => b.page === view())?.page ?? f.page);
+    setFollowing(false);
     render();
     docs.reveal(id);
   };
@@ -84,11 +98,8 @@ export function setupSw3Scan(root: HTMLElement): void {
     if (selected === id) selected = null;
   };
 
-  const scrubber = setupPageScrubber(root.querySelector<HTMLElement>('[data-page-scrubber]')!, {
-    onPage: pick,
-    onFind: select,
-  });
-  const pageView = setupPageView(root.querySelector<HTMLElement>('[data-page-view]')!, {
+  const scrubber = setupPageScrubber($('[data-page-scrubber]'), { onPage: pick, onFind: select });
+  const pageView = setupPageView($('[data-page-view]'), {
     onBox: select,
     onRegion: (page, box) => {
       markRegion(page, box);
@@ -99,24 +110,38 @@ export function setupSw3Scan(root: HTMLElement): void {
       render();
     },
   });
-  const docs = setupSw3Docs(root.querySelector<HTMLElement>('[data-sw3-docs]')!, { onFind: select, onDismiss: dismiss });
-
-  // ── Bar ─────────────────────────────────────────────────────────────────────
-  // Pause and resume are steers like any other: recorded, with the page they came on.
-  toggle.addEventListener('click', () => {
-    if (paused() || pausing()) act('Resume', { kind: 'resume' }, `Resuming at p. ${headPage()}.`);
-    else act('Pause', { kind: 'pause' }, `Pausing after p. ${headPage()}: that page is already being read.`);
+  const docs = setupSw3Docs($('[data-sw3-docs]'), {
+    onDoc: (id) => {
+      selected = null;
+      selecting = false;
+      pageView.setSelecting(false);
+      setActiveDoc(id);
+    },
+    onFind: select,
+    onDismiss: dismiss,
   });
-  speed.addEventListener('click', cycleSpeed);
-  skip.addEventListener('click', skipToEnd);
-  restart.addEventListener('click', () => {
-    resetAll();
-    view = D.scope.first;
-    following = true;
-    selected = null;
+
+  // ── Toolbar ─────────────────────────────────────────────────────────────────
+  // Pause, resume and pace are steers like any other: recorded, with the page they came on.
+  toggle.addEventListener('click', () => {
+    if (!started()) return;
+    const head = headPage();
+    if (checking()) act('Let it run', { kind: 'go', pace: pace() }, `Going on at ${PACE_LABEL[pace()].toLowerCase()} pace.`);
+    else if (paused() || pausing()) act('Resume', { kind: 'resume' }, `Resuming at p. ${head}.`);
+    else act('Pause', { kind: 'pause' }, `Pausing after p. ${head}: that page is already being read.`);
+  });
+  customElements.whenDefined('esa-button-toggle').then(() => {
+    paceEl.options = JSON.parse(paceEl.dataset.options!);
+    paceEl.value = pace();
+  });
+  paceEl.addEventListener('change', (e) => {
+    const p = (e as CustomEvent<{ value: Pace }>).detail.value;
+    if (p === pace()) return;
+    const reply = p === 'run' ? 'Going at full speed.' : p === 'step' ? 'One commitment at a time: I will stop after each.' : 'Going slowly, so you can follow along.';
+    act(`Pace: ${PACE_LABEL[p]}`, checking() ? { kind: 'go', pace: p } : { kind: 'pace', pace: p }, reply);
   });
   follow.addEventListener('click', () => {
-    following = true;
+    setFollowing(true);
     render();
   });
   mark.addEventListener('click', () => {
@@ -124,53 +149,97 @@ export function setupSw3Scan(root: HTMLElement): void {
     pageView.setSelecting(selecting);
     render();
   });
-  root.querySelector('[data-scan-prev]')?.addEventListener('click', () => pick(view - 1));
-  root.querySelector('[data-scan-next]')?.addEventListener('click', () => pick(view + 1));
+  const setAldo = (open: boolean) => {
+    root.dataset.aldo = open ? 'open' : 'closed';
+    aldoBtn.querySelector('button')?.setAttribute('aria-pressed', String(open));
+    setLabel(aldoBtn, open ? 'Hide Aldo' : 'Aldo');
+  };
+  aldoBtn.addEventListener('click', () => setAldo(root.dataset.aldo !== 'open'));
+  restart.addEventListener('click', () => {
+    resetEverything();
+    views.clear();
+    following.clear();
+    selected = null;
+  });
+  root.querySelector('[data-bar-prev]')?.addEventListener('click', () => pick(view() - 1));
+  root.querySelector('[data-bar-next]')?.addEventListener('click', () => pick(view() + 1));
   document.addEventListener('sw3:page', (e) => pick((e as CustomEvent<{ page: number }>).detail.page));
+  document.addEventListener('sw3:find', (e) => select((e as CustomEvent<{ id: string }>).detail.id));
+  document.addEventListener('sw3:aldo', () => setAldo(true));
+
+  // ── A document's one-line state, for its card ───────────────────────────────
+  const docLine = () => {
+    if (skipped()) return 'No commitments';
+    if (!started()) return 'Not started';
+    const n = finds().filter((f) => f.code).length;
+    if (finished() || headPage() === null) return `${n} commitments`;
+    if (checking()) return 'Waiting on your check';
+    if (paused()) return `Paused after p. ${(headPage() ?? 1) - 1}`;
+    return `Reading p. ${headPage()}`;
+  };
 
   // ── Render ──────────────────────────────────────────────────────────────────
+  let lastDoc = '';
+  let wasChecking = false;
   const render = () => {
+    const doc = activeDoc();
+    if (doc !== lastDoc) {
+      lastDoc = doc;
+      if (paceEl.options) paceEl.value = pace();
+    }
     const on = started();
     const list = on ? finds() : [];
     const head = on ? headPage() : null;
     const done = on && (finished() || head === null);
     const again = rereading();
-    if (following && on) view = done ? (selected ? view : again.size ? Math.min(...again) : firstPage()) : (head ?? lastPage());
-    if (done && following && !again.size) following = false;
+    const isChecking = checking();
+    // The check opens Aldo: that is where the first commitments are walked through.
+    if (isChecking && !wasChecking) setAldo(true);
+    wasChecking = isChecking;
 
-    // Bar
+    if (isFollowing() && on) {
+      if (isChecking) {
+        // Hold on the first commitment to check, unless the person picked one.
+      } else if (again.size) setView(Math.min(...again));
+      else if (!done) setView(head ?? lastPage());
+      else if (!selected) setView(firstPage());
+    }
+    if (done && isFollowing() && !again.size) setFollowing(false);
+
+    // Toolbar
     const nFound = list.filter((f) => f.code).length;
     const isPaused = paused();
-    status.textContent = !on
-      ? 'Not started'
-      : again.size
-        ? `Re-reading p. ${Math.min(...again)}.`
-        : done
-          ? `Read ${range(firstPage(), lastPage())}. ${nFound} commitments.`
-          : isPaused
-            ? `Paused after p. ${(head ?? 1) - 1}. ${nFound} commitments so far.`
-            : pausing()
-              ? `Pausing after p. ${head}.`
-              : `Reading p. ${head}. ${nFound} commitments so far.`;
-    setLabel(toggle, isPaused || pausing() ? 'Resume' : 'Pause');
-    setLabel(speed, `Speed ${state().clock?.speed ?? 1}×`);
+    const line = narration();
+    status.textContent = skipped()
+      ? 'Nothing to scan in this document.'
+      : !on
+        ? 'Not started. Tell Aldo where to start.'
+        : isChecking
+          ? `Check the first ${D().calibrate?.length ?? 3} commitments with Aldo.`
+          : again.size
+            ? `Re-reading p. ${Math.min(...again)}.`
+            : done
+              ? `Read ${range(firstPage(), lastPage())}. ${nFound} commitments.`
+              : isPaused
+                ? `Paused after p. ${(head ?? 1) - 1}. ${nFound} commitments so far.`
+                : pausing()
+                  ? `Pausing after p. ${head}.`
+                  : pace() === 'run'
+                    ? `Reading p. ${head}. ${nFound} commitments so far.`
+                    : line || `Reading p. ${head}.`;
+    setLabel(toggle, isChecking ? 'Let it run' : isPaused || pausing() ? 'Resume' : 'Pause');
     show(toggle, on && !done);
-    show(speed, on && !done);
-    show(skip, on && !done);
-    show(restart, on);
-    show(follow, on && !following && !done);
+    show(follow, on && !isFollowing() && !done);
     show(mark, on);
-    setLabel(mark, selecting ? 'Cancel marking' : 'Mark missed commitment');
+    setLabel(mark, selecting ? 'Cancel marking' : 'Mark missed');
 
-    // Documents
-    const docLine = !on ? 'Not started' : done ? `${nFound} commitments` : isPaused ? `Paused after p. ${(head ?? 1) - 1}` : `Reading p. ${head}`;
-    const cards: DocCard[] = list
-      .filter((f) => f.kind !== 'split')
-      .map((f) => ({ id: f.id, code: f.code, title: f.title, parsed: f.parsed }));
-    docs.update(docId, docLine, cards, selected);
-    if (following && cards.length) docs.reveal(cards.at(-1)!.id);
+    // Documents: every document's line; the open one's cards.
+    for (const id of docIds()) if (id !== doc) docs.line(id, peek(id, docLine), false);
+    const cards: DocCard[] = list.filter((f) => f.kind !== 'split').map((f) => ({ id: f.id, code: f.code, title: f.title, parsed: f.parsed }));
+    docs.update(doc, docLine(), cards, selected);
+    if (isFollowing() && cards.length && !isChecking) docs.reveal(cards.at(-1)!.id);
 
-    // Scrubber: a page being re-read is unread again until the re-read reaches it.
+    // Scrubber: every page of the document; a page being re-read is unread again.
     const read = new Set([...scanned()].filter((p) => !again.has(p)));
     const pips = new Map<number, ScrubberPip[]>();
     for (const f of list) {
@@ -178,30 +247,28 @@ export function setupSw3Scan(root: HTMLElement): void {
       arr.push({ id: f.id, label: `${f.code || f.title}, p. ${f.page}`, parsed: f.parsed });
       pips.set(f.page, arr);
     }
-    const scrubHead = again.size ? Math.min(...again) : done ? null : head;
-    scrubber.update({ scanned: read, gaps: gaps(), inScope, head: scrubHead, view, pips, selectedFind: selected });
+    const scrubHead = again.size ? Math.min(...again) : done || !on ? null : head;
+    scrubber.update({ total: D().total ?? D().scope.last, scanned: read, gaps: gaps(), inScope: (n) => on && inScope(n), head: scrubHead, view: view(), pips, selectedFind: selected });
 
-    // Page
+    // Page: the boxes of every find on it, and the requirement spans of parsed ones.
+    const v = view();
     const boxes: PageViewBox[] = [];
+    const spans = D().spans ?? [];
     for (const f of list) {
-      const onPage = f.boxes.filter((b) => b.page === view);
+      const onPage = f.boxes.filter((b) => b.page === v);
       if (!onPage.length) continue;
       const kind = !f.code && f.marked ? 'mark' : 'find';
-      onPage.forEach((b, i) =>
-        boxes.push({ key: `${f.id}:${i}`, id: f.id, kind, ...b, parsed: f.parsed, selected: f.id === selected, label: f.code || f.title }),
-      );
+      onPage.forEach((b, i) => boxes.push({ key: `${f.id}:${i}`, id: f.id, kind, ...b, parsed: f.parsed, selected: f.id === selected, label: f.code || f.title }));
       if (!f.parsed || !f.code) continue;
-      const c = commitmentOf(f.code);
-      if (!c) continue;
-      const reqs = D.requirements.filter((r) => r.code === f.code && r.anchor).sort((a, b) => a.anchor!.charStart - b.anchor!.charStart);
-      reqs.forEach((r, ri) =>
-        boxesFor(c.lines, r.anchor!.charStart, r.anchor!.charEnd)
-          .filter((b) => b.page === view)
-          .forEach((b, i) => boxes.push({ key: `${r.id}:${i}`, id: f.id, kind: 'span', ...b, shade: (ri % 2) + 1 })),
-      );
+      spans
+        .filter((s) => s.code === f.code)
+        .forEach((s, si) =>
+          s.boxes.filter((b) => b.page === v).forEach((b, i) => boxes.push({ key: `${s.id}:${i}`, id: f.id, kind: 'span', ...b, shade: (si % 2) + 1 })),
+        );
     }
-    pageView.show(pdf, view, boxes, `Page ${view} of the ITP`);
-    pageno.textContent = `Page ${view}`;
+    pageView.show(`${base}${D().pdf}`, v, boxes, `Page ${v} of the ${D().short}`);
+    pageno.textContent = `p. ${v} of ${D().total ?? ''}`;
+    status.title = status.textContent ?? '';
   };
 
   document.addEventListener('sw3:change', render);

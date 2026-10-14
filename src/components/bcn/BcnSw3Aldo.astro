@@ -25,17 +25,16 @@
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
 import BcnAldoMark from './BcnAldoMark.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
 
 interface Props {
-  /** The document's short name, as Aldo says it ("ITP"). */
-  doc: string;
   /** Where "Review commitments" goes. */
   review: string;
 }
-const { doc, review } = Astro.props;
+const { review } = Astro.props;
 ---
 
-<section class="bcn-sw3aldo" data-sw3-aldo data-doc={doc} data-review={review} aria-label="Aldo">
+<section class="bcn-sw3aldo" data-sw3-aldo data-review={review} aria-label="Aldo">
   <header class="bcn-sw3aldo__head">
     <BcnAldoMark size="sm" />
     <h3 class="bcn-sw3aldo__title typography-title-strong">Aldo</h3>
@@ -68,11 +67,15 @@ const { doc, review } = Astro.props;
     <li class="bcn-sw3aldo__msg">
       <span class="bcn-sw3aldo__who" data-msg-who></span>
       <p class="bcn-sw3aldo__text typography-body-sm" data-msg-text></p>
+      <div class="bcn-sw3aldo__extra" data-msg-extra></div>
       <span class="bcn-sw3aldo__acts" data-msg-acts></span>
     </li>
   </template>
   <template data-aldo-btn>
     <EsaButton variant="secondary" size="xs">Action</EsaButton>
+  </template>
+  <template data-aldo-badge>
+    <span><BcnCommitmentBadge code="" size="sm" /></span>
   </template>
   <template data-aldo-btn-primary>
     <EsaButton variant="primary" size="xs">Action</EsaButton>
@@ -157,6 +160,50 @@ const { doc, review } = Astro.props;
   .bcn-sw3aldo__msg[data-via='button'] .bcn-sw3aldo__text { background: none; border: 0; padding: 0; color: var(--color-content-default-secondary); }
   .bcn-sw3aldo__acts { display: flex; flex-wrap: wrap; gap: var(--spacing-200); }
   .bcn-sw3aldo__acts:empty { display: none; }
+
+  /* The check: one card per commitment read before the run goes on. Dashed until the
+     person says it read right, solid after, the grammar of the boxes on the page. */
+  .bcn-sw3aldo__extra:empty { display: none; }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__checks) { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__check) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150, 0.375rem);
+    padding: var(--spacing-200) var(--spacing-300);
+    border: 1px dashed var(--color-border-default);
+    border-radius: 6px;
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__check[data-state='checked']) { border-style: solid; border-color: var(--color-border-default-subtle); }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__checkhead) {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-200);
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    text-align: left;
+    color: var(--color-content-default);
+    cursor: pointer;
+  }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__checkhead:hover .bcn-sw3aldo__checktitle) { text-decoration: underline; }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__checkhead:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__reqcount) { margin: 0; color: var(--color-content-default-secondary); }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__reqs) { margin: 0; padding-left: var(--spacing-400); color: var(--color-content-default); }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__cols) {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--spacing-100) var(--spacing-200);
+    margin: 0;
+  }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__cols dt) { color: var(--color-content-default-secondary); }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__cols dd) { margin: 0; color: var(--color-content-default); }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__checkacts) { display: flex; gap: var(--spacing-200); }
+  .bcn-sw3aldo__extra :global(.bcn-sw3aldo__ok) { color: var(--color-content-default-secondary); }
 
   .bcn-sw3aldo__suggest {
     display: flex;

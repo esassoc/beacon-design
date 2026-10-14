@@ -10,30 +10,42 @@ export interface DocCard {
 }
 
 interface Handlers {
+  onDoc: (id: string) => void;
   onFind: (id: string) => void;
   onDismiss: (id: string) => void;
 }
 
-export function setupSw3Docs(root: HTMLElement, { onFind, onDismiss }: Handlers) {
+export function setupSw3Docs(root: HTMLElement, { onDoc, onFind, onDismiss }: Handlers) {
   const tpl = root.querySelector<HTMLTemplateElement>('[data-docs-card]')!;
   const els = new Map<string, HTMLElement>();
 
   root.addEventListener('click', (e) => {
     const t = e.target as HTMLElement;
+    const docBtn = t.closest<HTMLElement>('[data-doc-open]');
+    if (docBtn) return onDoc(docBtn.closest<HTMLElement>('[data-doc]')!.dataset.doc!);
     const card = t.closest<HTMLElement>('[data-cc]');
     if (!card) return;
     if (t.closest('[data-cc-dismiss]')) onDismiss(card.dataset.cc!);
     else if (t.closest('[data-cc-open]')) onFind(card.dataset.cc!);
   });
 
-  const update = (docId: string, stateLine: string, cards: DocCard[], selected: string | null) => {
+  /** One document's run line; its cards too when it is the one in view (open). */
+  const line = (docId: string, stateLine: string, open: boolean) => {
     const doc = root.querySelector<HTMLElement>(`[data-doc="${CSS.escape(docId)}"]`);
     if (!doc) return;
     doc.querySelector('[data-doc-state]')!.textContent = stateLine;
+    doc.toggleAttribute('data-open', open);
+    if (!open) doc.querySelector('[data-doc-list]')!.replaceChildren();
+  };
+
+  const update = (docId: string, stateLine: string, cards: DocCard[], selected: string | null) => {
+    const doc = root.querySelector<HTMLElement>(`[data-doc="${CSS.escape(docId)}"]`);
+    if (!doc) return;
+    line(docId, stateLine, true);
     const list = doc.querySelector<HTMLElement>('[data-doc-list]')!;
 
     const keep = new Set(cards.map((c) => c.id));
-    for (const [id, el] of els) if (!keep.has(id)) (el.remove(), els.delete(id));
+    for (const [id, el] of els) if (!keep.has(id) || !el.isConnected) (el.remove(), els.delete(id));
     let prev: Element | null = null;
     let newest: HTMLElement | null = null;
     for (const c of cards) {
@@ -70,5 +82,5 @@ export function setupSw3Docs(root: HTMLElement, { onFind, onDismiss }: Handlers)
     else if (top + el.offsetHeight > list.scrollTop + list.clientHeight) list.scrollTop = top + el.offsetHeight - list.clientHeight;
   };
 
-  return { update, reveal };
+  return { update, line, reveal };
 }
