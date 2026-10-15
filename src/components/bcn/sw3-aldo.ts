@@ -53,10 +53,10 @@ import {
   type Steer,
 } from './sw3-store';
 import type { SteerAction } from './sw3-steer';
-import { ALDO, runAt, type ActionButton, type Anchor, type Card, type Choice, type Instruction, type OpenItem, type Status, type Turn } from '../../data/aldo';
+import { ALDO, runAt, type ActionButton, type Anchor, type Card, type Choice, type Instruction, type OpenItem, type Status, type TextRun, type Turn } from '../../data/aldo';
 import { aldoParts, pressWith, type AldoHost } from './aldo/aldo-parts';
 import { mountThread } from './aldo/aldo-thread';
-import { mountInstructions, mountNeeds, mountStatus } from './aldo/aldo-panel';
+import { mountInstructions, mountNeeds } from './aldo/aldo-panel';
 import { mountComposer } from './aldo/aldo-composer';
 
 type Btn = ActionButton<SteerAction>;
@@ -91,8 +91,41 @@ export function setupSw3Aldo(root: HTMLElement): void {
   };
   const press = pressWith(host);
   const parts = aldoParts(root);
-  const thread = mountThread<SteerAction>(root.querySelector('[data-aldo-thread]')!, { parts, press });
-  const status = mountStatus(root, parts, press);
+  // A commitment's ID or a page in Aldo's text is a reference: it moves the page beside Aldo.
+  const REF = /\b(COA \d+(?:\.\d+)*|MM [A-Z]+-\d+[a-z]?)\b|\bpp?\. (\d+)(?:–\d+)?/g;
+  const linkify = (text: string): TextRun[] => {
+    const out: TextRun[] = [];
+    let last = 0;
+    for (const m of text.matchAll(REF)) {
+      const at = m.index ?? 0;
+      let go: Anchor | null = null;
+      if (m[1]) {
+        const f = finds().find((x) => x.code === m[1] || x.shown === m[1]);
+        if (f) go = commitment(f.id);
+      } else if (m[2]) go = page(Number(m[2]));
+      if (!go) continue;
+      if (at > last) out.push(text.slice(last, at));
+      out.push({ label: m[0], go });
+      last = at + m[0].length;
+    }
+    if (last < text.length) out.push(text.slice(last));
+    return out;
+  };
+  const thread = mountThread<SteerAction>(root.querySelector('[data-aldo-thread]')!, { parts, press, linkify });
+  // Where the run is: said by the scan's controls, not in the conversation.
+  const statusEl = document.querySelector<HTMLElement>('[data-bar-status]');
+  let statusSig = '';
+  const setStatus = (s: Status<SteerAction> | null, live: boolean) => {
+    if (!statusEl) return;
+    const sig = s ? `${s.tone}|${s.text}|${s.action?.label ?? ''}|${live}` : '';
+    if (sig === statusSig) return;
+    statusSig = sig;
+    statusEl.hidden = !s;
+    statusEl.dataset.tone = s?.tone ?? '';
+    statusEl.toggleAttribute('data-live', live);
+    statusEl.querySelector('[data-bar-status-text]')!.textContent = s?.text ?? '';
+    statusEl.querySelector('[data-bar-status-action]')!.replaceChildren(...(s?.action ? [parts.button(s.action, press)] : []));
+  };
   const needsList = mountNeeds(root, parts, press);
   const instructions = mountInstructions(root, parts);
   const composer = mountComposer<SteerAction>(root, parts, say);
@@ -348,6 +381,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
     return {
       id: `${activeDoc()}:${x.id}`,
       at: runAt(x.at),
+      time: x.wall ? new Date(x.wall).toISOString() : undefined,
       by: YOU,
       via: x.via,
       text: x.text,
@@ -513,7 +547,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
     thread.render(doc, [opening(), ...checkTurns(t), ...steers().map(steerTurn), ...notices(t), ...editTurn()]);
     instructions.setInstructions(instructionList());
     needsList.setItems(items());
-    status.setStatus(statusOf());
+    setStatus(statusOf(), !!preparing() || (started() && !finished() && headPage() !== null && !paused() && !checking() && !heldForStep()));
     composer.setSuggestions(suggestions(), press);
   };
 

@@ -5,10 +5,14 @@
 // esa-badge. Runtime: aldo-panel.ts mountNeeds(root).setItems(items); the root emits
 // `aldo:needs` { count } when the count changes (the panel's rail dot reads it).
 //
-// bcn-lego-checked: the count IS esa-badge, the answers ARE esa-button (via the parts bin).
+// The head folds the list away (the count stays in view); a new item opens it again.
+//
+// bcn-lego-checked: the fold is a <button> in the heading because esa-collapsible's title is
+// a string and the count must stay an esa-badge beside it; the chevron IS esa-icon. The count IS esa-badge, the answers ARE esa-button (via the parts bin).
 // No esa- lego is a list of open items with actions; checked Beacon (none). Hub candidate
 // esa-open-items (docs/aldo-kit-spec.md, section 6).
 import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
 
 interface Props {
   title?: string;
@@ -17,6 +21,12 @@ const { title = 'Needs you' } = Astro.props;
 ---
 
 <section class="bcn-aldo-needs" data-aldo-needs aria-label={title} hidden>
-  <h4 class="bcn-aldo-needs__head">{title} <span data-needs-count><EsaBadge variant="warning" size="xs" value="0" /></span></h4>
+  <h4 class="bcn-aldo-needs__head">
+    <button type="button" class="bcn-aldo-needs__toggle" data-needs-toggle aria-expanded="true">
+      <EsaIcon name="chevron-down" size="sm" />
+      <span>{title}</span>
+      <span data-needs-count><EsaBadge variant="warning" size="xs" value="0" /></span>
+    </button>
+  </h4>
   <ul class="bcn-aldo-needs__list" data-needs-list></ul>
 </section>

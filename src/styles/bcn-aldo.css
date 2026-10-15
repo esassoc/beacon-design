@@ -22,6 +22,16 @@
   --_aldo-gap: var(--spacing-150, 0.375rem);
   --_aldo-pad: var(--spacing-400);
   --_aldo-line: var(--border-width-default, 1px);
+  /* Rhythm: one scale for every vertical space in the panel.
+       inner   between the parts of one turn (text, its buttons, its card)
+       same    between two turns by the same speaker
+       turn    when the speaker changes
+       region  between the panel's regions (thread, instructions, needs, status, composer) */
+  --_aldo-inner: var(--spacing-200, 0.5rem);
+  --_aldo-same: var(--spacing-300, 0.75rem);
+  --_aldo-turn: var(--spacing-500, 1.5rem);
+  --_aldo-region: var(--spacing-300, 0.75rem);
+  --_aldo-bubble-radius: 1rem;
 
   display: flex;
   flex-direction: column;
@@ -37,6 +47,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  gap: var(--_aldo-region);
+  padding-bottom: var(--spacing-300);
   min-height: 0;
   background: var(--color-background-elevation-raised);
   border-radius: var(--_aldo-radius);
@@ -95,7 +107,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-400);
+  gap: 0;
   /* The conversation never shrinks to a sliver under Needs you and the status. */
   min-height: 8rem;
   margin: 0;
@@ -107,12 +119,14 @@
 .bcn-aldo-msg {
   display: flex;
   flex-direction: column;
-  gap: var(--_aldo-gap);
-  max-width: 94%;
+  gap: var(--_aldo-inner);
+  max-width: 100%;
   animation: bcn-aldo-in 220ms ease-out;
 }
-.bcn-aldo-msg[data-from='aldo'] { align-self: flex-start; }
-.bcn-aldo-msg[data-from='you'] { align-self: flex-end; align-items: flex-end; }
+.bcn-aldo-msg + .bcn-aldo-msg { margin-top: var(--_aldo-turn); }
+.bcn-aldo-msg[data-cont] { margin-top: var(--_aldo-same); }
+.bcn-aldo-msg[data-from='aldo'] { align-self: stretch; }
+.bcn-aldo-msg[data-from='you'] { align-self: flex-end; align-items: flex-end; max-width: 85%; }
 .bcn-aldo-msg[data-from='system'] { align-self: center; align-items: center; }
 .bcn-aldo-msg__who {
   font-size: var(--_aldo-meta);
@@ -129,11 +143,66 @@
   color: var(--color-content-default);
   white-space: pre-line;
 }
-.bcn-aldo-msg[data-from='aldo'] .bcn-aldo-msg__text { background: var(--bcn-aldo-50); }
+/* Neutral bubbles: Aldo's a soft gray on the left, the person's white with a hairline on the
+   right. Color is kept for what it means (a status, a tone on a button), never for who spoke. */
+.bcn-aldo-msg__bubble { position: relative; max-width: 100%; }
+.bcn-aldo-msg__bubble[hidden] { display: none; }
+.bcn-aldo-msg[data-from='you'] .bcn-aldo-msg__bubble { align-self: flex-end; }
+.bcn-aldo-msg[data-from='aldo'] .bcn-aldo-msg__text,
+.bcn-aldo-msg[data-from='you'] .bcn-aldo-msg__text {
+  padding: var(--spacing-250, 0.625rem) var(--spacing-300);
+  border-radius: var(--_aldo-bubble-radius);
+}
+.bcn-aldo-msg[data-from='aldo'] .bcn-aldo-msg__text { background: var(--color-background-elevation-sunken); max-width: 68ch; }
 .bcn-aldo-msg[data-from='you'] .bcn-aldo-msg__text {
   background: var(--color-background-default);
-  border: var(--_aldo-line) solid var(--color-border-default-subtle);
+  border: var(--_aldo-line) solid var(--color-border-default);
 }
+/* Hover: the message's own keys, floating on its top edge. */
+.bcn-aldo-msg__tools {
+  position: absolute;
+  top: calc(-1 * var(--spacing-300, 0.75rem));
+  right: var(--spacing-200);
+  display: flex;
+  padding: 1px;
+  border: var(--_aldo-line) solid var(--color-border-default);
+  border-radius: var(--_aldo-radius);
+  background: var(--color-background-elevation-raised);
+  box-shadow: var(--elevation-2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+.bcn-aldo-msg__tools:empty { display: none; }
+.bcn-aldo-msg__bubble:hover .bcn-aldo-msg__tools,
+.bcn-aldo-msg__tools:focus-within { opacity: 1; pointer-events: auto; }
+.bcn-aldo-msg__tools [data-copied] { color: var(--color-content-utility-success); }
+/* When it was said, under the message, as quiet as meta goes. */
+.bcn-aldo-msg__time {
+  font-size: var(--_aldo-meta);
+  font-weight: var(--_aldo-weight-meta);
+  color: var(--color-content-default-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+.bcn-aldo-msg__time[hidden] { display: none; }
+/* A reference in Aldo's text: a quiet chip that moves the page beside Aldo. */
+.bcn-aldo-ref {
+  display: inline;
+  padding: 0 0.3em;
+  border: 0;
+  border-radius: var(--_aldo-radius-sm);
+  background: var(--color-background-utility-info-subtle, var(--color-background-elevation-raised));
+  color: var(--color-content-utility-info);
+  font: inherit;
+  font-weight: var(--_aldo-weight-meta);
+  cursor: pointer;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.bcn-aldo-ref:hover { text-decoration: underline; }
+.bcn-aldo-ref:focus-visible { outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color); outline-offset: 1px; }
+/* No speaker labels: the bubble says who. A person's line keeps where it was said. */
+.bcn-aldo-msg[data-from='aldo'] .bcn-aldo-msg__who { display: none; }
 /* A button press: recorded, but not a speech bubble. A system turn: a centered line. */
 .bcn-aldo-msg[data-via='button'] .bcn-aldo-msg__text,
 .bcn-aldo-msg[data-from='system'] .bcn-aldo-msg__text {
@@ -243,7 +312,7 @@
 /* ── Instructions in effect ─────────────────────────────────────────────── */
 
 .bcn-aldo-instructions {
-  margin: 0 var(--_aldo-pad) var(--spacing-200);
+  margin: 0;
   padding: 0 var(--spacing-300);
   border: var(--_aldo-line) solid var(--color-border-default-subtle);
   border-radius: var(--_aldo-radius-sm);
@@ -272,7 +341,7 @@
 /* ── Needs you ──────────────────────────────────────────────────────────── */
 
 .bcn-aldo-needs {
-  margin: 0 var(--_aldo-pad) var(--spacing-200);
+  margin: 0;
   border: var(--_aldo-line) solid var(--color-border-default);
   border-radius: var(--_aldo-radius-sm);
   background: var(--color-background-elevation-raised);
@@ -293,6 +362,25 @@
   color: var(--color-content-default);
 }
 .bcn-aldo-needs__head .esa-badge { font-variant-numeric: tabular-nums; }
+.bcn-aldo-needs__head { padding: 0; }
+.bcn-aldo-needs__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--_aldo-gap);
+  width: 100%;
+  padding: var(--_aldo-gap) var(--spacing-300);
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.bcn-aldo-needs__toggle:focus-visible { outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color); outline-offset: calc(-1 * var(--focus-ring-width, 2px)); }
+.bcn-aldo-needs__toggle svg { transition: transform 150ms ease; }
+.bcn-aldo-needs[data-folded] .bcn-aldo-needs__toggle svg { transform: rotate(-90deg); }
+.bcn-aldo-needs[data-folded] .bcn-aldo-needs__list { display: none; }
+.bcn-aldo-needs[data-folded] .bcn-aldo-needs__head { border-bottom: 0; }
 .bcn-aldo-needs__list {
   max-height: 13rem;
   margin: 0;
@@ -325,7 +413,7 @@ button.bcn-aldo-needs__text:focus-visible { outline: var(--focus-ring-width, 2px
 
 /* ── Status ─────────────────────────────────────────────────────────────── */
 
-.bcn-aldo-status { padding: 0 var(--_aldo-pad) var(--spacing-200); }
+.bcn-aldo-status { padding: 0 var(--_aldo-pad); }
 .bcn-aldo-status[hidden],
 .bcn-aldo-status > [hidden] { display: none; }
 .bcn-aldo-status .esa-alert-box {
@@ -344,12 +432,14 @@ button.bcn-aldo-needs__text:focus-visible { outline: var(--focus-ring-width, 2px
 
 /* ── Composer ───────────────────────────────────────────────────────────── */
 
-.bcn-aldo-composer__suggest { padding: 0 var(--_aldo-pad) var(--spacing-200); gap: var(--spacing-200); }
+.bcn-aldo-composer { display: flex; flex-direction: column; gap: var(--_aldo-inner); }
+.bcn-aldo-composer__suggest { padding: 0 var(--_aldo-pad); gap: var(--spacing-200); }
 .bcn-aldo-composer__shell {
+  --_aldo-radius: 0.75rem;
   display: flex;
   align-items: flex-end;
   gap: var(--spacing-200);
-  margin: 0 var(--spacing-300) var(--spacing-300);
+  margin: 0 var(--spacing-300);
   padding: var(--spacing-100) var(--spacing-200) var(--spacing-100) var(--spacing-300);
   border: var(--_aldo-line) solid var(--bcn-aldo-100);
   border-radius: var(--_aldo-radius);
@@ -375,44 +465,167 @@ button.bcn-aldo-needs__text:focus-visible { outline: var(--focus-ring-width, 2px
 .bcn-aldo-composer[data-busy] .bcn-aldo-composer__shell { opacity: 0.7; }
 
 /* ── Expanded: the conversation over the right half of the window ───────── */
+/* Non-modal: the body pins to the right half, the page beside it stays live. */
 
-/* esa-side-dialog's width, re-pointed: half the window, never narrower than a reading column. */
-.bcn-aldo-panel__overlay { --side-dialog-width: max(50vw, 34rem); }
 .bcn-aldo-panel__expand { display: inline-flex; margin-left: auto; }
 .bcn-aldo-panel__expand + .bcn-aldo-panel__close { margin-left: 0; }
 .bcn-aldo-panel [data-aldo-overlay='dock'],
 .bcn-aldo-panel[data-expanded] [data-aldo-overlay='open'],
 .bcn-aldo-panel[data-expanded] .bcn-aldo-panel__close { display: none; }
 .bcn-aldo-panel[data-expanded] [data-aldo-overlay='dock'] { display: inline-flex; }
-/* The head in the dialog's header slot: the dialog draws the rule and the padding. */
-.bcn-aldo-panel__head[slot='header'] { flex: 1; padding: 0; border: 0; }
-.bcn-aldo-panel__head[slot='header'] .bcn-aldo-panel__title { font-size: 1rem; }
-/* The body in the dialog: one reading column, centered, filling the height. */
-.bcn-aldo-panel__body[data-expanded] {
-  /* Slotted, it inherits from the dialog's body (15px): the kit's density, restated. */
+
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__body {
+  /* Expanded, the conversation is the work: a reading size and room, as a desktop chat has. */
+  --_aldo-text: 0.9375rem;
+  --_aldo-meta: 0.8125rem;
+  --_aldo-turn: var(--spacing-600, 2rem);
+  --_aldo-same: var(--spacing-400, 1rem);
+  --_aldo-inner: var(--spacing-300, 0.75rem);
+  --_aldo-region: var(--spacing-400, 1rem);
+  position: fixed;
+  /* Over the workspace, under the app's top bar (1100) and the help bar (1000). */
+  z-index: 900;
+  top: calc(var(--_aldo-top, 0px) + var(--spacing-400, 1rem));
+  right: var(--spacing-400, 1rem);
+  bottom: var(--spacing-400, 1rem);
+  /* About half the window; with room for the sidebar (1440 and up), more. */
+  width: var(--aldo-expanded-width, max(50vw, 36rem));
+  max-width: calc(100vw - 2 * var(--spacing-400, 1rem));
+  padding-bottom: var(--spacing-400, 1rem);
   font-size: var(--_aldo-text);
-  font-weight: var(--_aldo-weight-body);
-  line-height: 1.4;
-  height: 100%;
-  max-width: 48rem;
-  margin-inline: auto;
+  line-height: 1.6;
+  border-radius: var(--radius-300, 0.75rem);
+  box-shadow: var(--elevation-5), var(--bcn-aldo-prompt-shadow);
+  animation: bcn-aldo-pin 240ms ease-out;
+}
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__head { padding-block: var(--spacing-400); }
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__title { font-size: 1rem; }
+.bcn-aldo-panel[data-expanded] .bcn-aldo-thread { padding-block: var(--spacing-500) var(--spacing-200); }
+.bcn-aldo-panel[data-expanded] .bcn-aldo-needs__list { max-height: none; overflow: visible; }
+.bcn-aldo-panel[data-expanded] .bcn-aldo-composer__shell {
+  --_aldo-radius: 1rem;
+  margin-inline: var(--_aldo-pad);
+  padding: var(--spacing-300) var(--spacing-300) var(--spacing-300) var(--spacing-400);
+}
+@keyframes bcn-aldo-pin {
+  from { opacity: 0; transform: translateX(var(--spacing-600, 2rem)); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bcn-aldo-panel[data-expanded] .bcn-aldo-panel__body { animation: none; }
+}
+
+/* ── Main and side ──────────────────────────────────────────────────────── */
+
+.bcn-aldo-panel__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--_aldo-region);
+  min-height: 0;
+}
+.bcn-aldo-panel__body { position: relative; }
+
+/* The indicator: what waits, in the header. Docked only. */
+.bcn-aldo-panel__waiting {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  margin-left: auto;
+  padding: var(--spacing-50, 0.125rem) var(--spacing-150, 0.375rem);
+  border: var(--_aldo-line) solid var(--color-border-utility-warning);
+  border-radius: 999px;
+  background: var(--color-background-utility-warning-subtle);
+  color: var(--color-content-default);
+  font: inherit;
+  font-size: var(--_aldo-meta);
+  font-weight: var(--_aldo-weight-strong);
+  cursor: pointer;
+}
+.bcn-aldo-panel__waiting[hidden] { display: none; }
+.bcn-aldo-panel__waiting:has([data-waiting-count][hidden]) {
+  border-color: var(--color-border-default);
+  background: var(--color-background-elevation-raised);
+  color: var(--color-content-default-secondary);
+}
+.bcn-aldo-panel__waiting [data-waiting-count][hidden] { display: none; }
+.bcn-aldo-panel__waiting:hover { filter: brightness(0.97); }
+.bcn-aldo-panel__waiting:focus-visible { outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color); outline-offset: var(--focus-ring-offset, 2px); }
+.bcn-aldo-panel__waiting svg { transition: transform 150ms ease; }
+.bcn-aldo-panel[data-side-open] .bcn-aldo-panel__waiting svg { transform: rotate(180deg); }
+.bcn-aldo-panel__waiting + .bcn-aldo-panel__expand { margin-left: 0; }
+.bcn-aldo-panel__waiting[data-nudge] { animation: bcn-aldo-nudge 600ms ease-out; }
+@keyframes bcn-aldo-nudge { 30% { transform: scale(1.08); } }
+@media (prefers-reduced-motion: reduce) { .bcn-aldo-panel__waiting[data-nudge] { animation: none; } }
+
+/* Docked: the side region is a tray under the header, over the thread, the panel's width. */
+.bcn-aldo-panel__side {
+  display: none;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.bcn-aldo-panel[data-side-open] .bcn-aldo-panel__side {
+  display: flex;
+  position: absolute;
+  z-index: 5;
+  top: var(--_aldo-head-h, 3rem);
+  left: var(--spacing-200);
+  right: var(--spacing-200);
+  max-height: min(70%, 28rem);
+  overflow-y: auto;
+  padding: var(--spacing-300);
+  border: var(--_aldo-line) solid var(--color-border-default);
+  border-radius: var(--_aldo-radius);
+  background: var(--color-background-elevation-raised);
+  box-shadow: var(--elevation-4);
+  animation: bcn-aldo-tray 160ms ease-out;
+}
+@keyframes bcn-aldo-tray { from { opacity: 0; transform: translateY(-4px); } }
+@media (prefers-reduced-motion: reduce) { .bcn-aldo-panel__side { animation: none !important; } }
+/* In the tray, the list needs no fold of its own: the tray is the fold. */
+.bcn-aldo-panel__side .bcn-aldo-needs__toggle svg { display: none; }
+.bcn-aldo-panel__side .bcn-aldo-needs__toggle { pointer-events: none; }
+.bcn-aldo-panel__side .bcn-aldo-needs[data-folded] .bcn-aldo-needs__list { display: block; }
+
+/* Expanded with room (1440 and up): conversation and sidebar side by side, as a desktop chat
+   with its threads pane. Narrower, the expanded panel keeps the indicator and tray. */
+@media (min-width: 90rem) {
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__body { width: var(--aldo-expanded-width, 60vw); }
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 17.5rem;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0;
+  padding-bottom: 0;
+}
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__head { grid-column: 1 / -1; }
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__waiting { display: none; }
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__main {
+  /* The conversation is a centered reading column inside its own column; the header and
+     the sidebar keep the panel's edges. */
+  --_aldo-pad: max(var(--spacing-500, 1.5rem), calc((100% - 46rem) / 2));
+  padding-bottom: var(--spacing-400);
+}
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__head { padding-inline: var(--spacing-500, 1.5rem); }
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__side {
+  display: flex;
+  position: static;
+  max-height: none;
+  min-height: 0;
+  overflow-y: auto;
   border: 0;
+  border-radius: 0;
   box-shadow: none;
-  background: none;
+  animation: none;
+  padding: var(--spacing-400);
+  border-left: var(--_aldo-line) solid var(--color-border-default-subtle);
+  background: var(--color-background-elevation-sunken);
+  border-bottom-right-radius: inherit;
+  /* The sidebar reads at the dense size, as a list beside the conversation does. */
+  font-size: 0.8125rem;
+  line-height: 1.45;
 }
-.bcn-aldo-panel__body[data-expanded] .bcn-aldo-thread { padding-inline: 0; }
-.bcn-aldo-panel__body[data-expanded] .bcn-aldo-instructions,
-.bcn-aldo-panel__body[data-expanded] .bcn-aldo-needs { margin-inline: 0; }
-.bcn-aldo-panel__body[data-expanded] .bcn-aldo-status { padding-inline: 0; padding-bottom: 0; }
-.bcn-aldo-panel__body[data-expanded] .bcn-aldo-thread { padding-bottom: 0; }
-/* The composer in the dialog's footer: the same reading column. */
-.bcn-aldo-composer[slot='footer'] {
-  max-width: 48rem;
-  margin-inline: auto;
-  font-size: var(--_aldo-text);
-  font-weight: var(--_aldo-weight-body);
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__side .bcn-aldo-needs__toggle { pointer-events: auto; }
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__side .bcn-aldo-needs__toggle svg { display: inline; }
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__side .bcn-aldo-needs[data-folded] .bcn-aldo-needs__list { display: none; }
 }
-.bcn-aldo-composer[slot='footer'] .bcn-aldo-composer__suggest { padding-inline: 0; }
-.bcn-aldo-composer[slot='footer'] .bcn-aldo-composer__shell { margin: 0; }
-/* Needs you has room to breathe here. */
-.bcn-aldo-panel__body[data-expanded] .bcn-aldo-needs__list { max-height: 20rem; }

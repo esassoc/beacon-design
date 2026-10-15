@@ -25,9 +25,13 @@ import BcnAldoMark from './BcnAldoMark.astro';
   <template data-part="message">
     <li class="bcn-aldo-msg">
       <span class="bcn-aldo-msg__who" data-msg-who></span>
-      <p class="bcn-aldo-msg__text" data-msg-text></p>
+      <div class="bcn-aldo-msg__bubble">
+        <p class="bcn-aldo-msg__text" data-msg-text></p>
+        <span class="bcn-aldo-msg__tools" data-msg-tools></span>
+      </div>
       <div class="bcn-aldo-msg__extra" data-msg-extra></div>
       <span class="bcn-aldo-actions" data-msg-acts></span>
+      <time class="bcn-aldo-msg__time" data-msg-time hidden></time>
     </li>
   </template>
   <template data-part="button-neutral"><EsaButton variant="secondary" size="xs">Action</EsaButton></template>
@@ -36,6 +40,7 @@ import BcnAldoMark from './BcnAldoMark.astro';
   <template data-part="button-danger"><EsaButton variant="danger" appearance="soft" size="xs">Action</EsaButton></template>
   <template data-part="button-info"><EsaButton variant="info" appearance="soft" size="xs">Action</EsaButton></template>
   <template data-part="badge"><span><BcnCommitmentBadge code="" size="sm" /></span></template>
+  <template data-part="copy"><EsaButton variant="chrome" iconOnly icon="plus" data-ico="copy" size="xs" label="Copy message" /></template>
   <template data-part="mark"><span><BcnAldoMark size="sm" /></span></template>
 </div>
 

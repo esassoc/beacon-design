@@ -12,7 +12,7 @@ export default {
     {
       label: 'Step header and console',
       selector: '[data-sw3-toolbar]',
-      intent: 'One panel: the step\'s numeral, title and prod\'s description; under a gray rule, the console for the file in view, centered: the transport (Scan or Resume, Pause, Restart), each a neutral key with its icon and name, the page in view of the file\'s page count as one field (type a page to go to it), and the speed (One at a time, Slow, Fast) in a menu. Below, every page of the file in one strip. Where the run is is said once, in Aldo\'s status.',
+      intent: 'One panel: the step\'s numeral, title and prod\'s description; under a gray rule, the console for the file in view, centered: the transport (Scan or Resume, Pause, Restart), each a neutral key with its icon and name, the page in view of the file\'s page count as one field (type a page to go to it), and the speed (One at a time, Slow, Fast) in a menu. Beside the console, where the run is, said once: a plain line of text with a small dot, not an alert (the dot pulses while reading, turns amber at the check and green when done), with its one action when it has one (Review the 12 so far). Below, every page of the file in one strip.',
       decisions: [
         'Each key is live only when it can act, and the run\'s state reads as a pressed key: Scan before the run, Resume when it is paused or stopped for the check, Pause while it reads, Restart once it has begun. Restart asks first and clears the file\'s scan and steers.',
         'Speed is how fast the job dispatches page windows: a real control in prod. Every speed change, pause and resume is recorded as a steer.',
@@ -85,9 +85,9 @@ export default {
     {
       label: 'Aldo',
       selector: '[data-sw3-aldo]',
-      intent: 'The conversation that scopes, checks and steers the scan of the file in view, dense at 13px, with the composer always in view and the run\'s status pinned above it: reading (blue), stopped for the check (yellow), done (green). The run stops after its first three commitments; Aldo says what to check, then gives each commitment its own message: a lead (where it took the ID and name from, how far the text runs) and a card with the ID, name and quoted text (clamped, with Show all), a p. N button, Looks right and Fix. Fix opens the ID, name and text as fields, with Save and Redraw the box. Edit ID and name on the page toolbar opens the same fields for any commitment. Requirements, timing and parties are reviewed in step 2.',
+      intent: 'The conversation that scopes, checks and steers the scan of the file in view, dense at 13px, with the composer always in view. The run\'s status is not here: it sits by the scan\'s controls. The run stops after its first three commitments; Aldo says what to check, then gives each commitment its own message: a lead (where it took the ID and name from, how far the text runs) and a card with the ID, name and quoted text (clamped, with Show all), a p. N button, Looks right and Fix. Fix opens the ID, name and text as fields, with Save and Redraw the box. Edit ID and name on the page toolbar opens the same fields for any commitment. Requirements, timing and parties are reviewed in step 2.',
       decisions: [
-        'Needs you: what waits on the person is listed under the log with its answers until answered (the check, a flagged reference with Dismiss / Keep it / Skip all cross-references, a headless passage with Merge / Keep separate, pages with nothing found with Mark on p. N / Nothing there, a drawn box with no ID). The log keeps the notice text; the buttons live only in the list.',
+        'Needs you: what waits on the person is listed with its answers until answered, behind an indicator in the panel\'s header (a count and "needs you", or "Instructions (n)" when nothing waits) that opens it as a tray over the log; the indicator nods when a new item arrives and never opens on its own. Expanded on a wide window (1440 and up) the list is a sidebar beside the conversation instead (items: the check, a flagged reference with Dismiss / Keep it / Skip all cross-references, a headless passage with Merge / Keep separate, pages with nothing found with Mark on p. N / Nothing there, a drawn box with no ID). The log keeps the notice text; the buttons live only in the list.',
         'After the check: Read the rest (fast, the default), Watch it, One at a time. Before it, the status reads "Stopping after 3 commitments for your check", never a pause.',
         'A question is answered and changes nothing; a message too short to act on gets its readings as buttons. Prod\'s structured call needs answer and unclear kinds.',
         'Instructions in effect, collapsed under the log with a count: the scope, each rule with the page it took effect from, each fix from the check.',
@@ -100,7 +100,7 @@ export default {
         'A name fixed at the check is the commitment\'s name in step 2.',
         'One structured-output call per message returns actions and a one-line reply; sw3-steer.ts is the schema, with a pattern matcher standing in for the model.',
         'Each file keeps its own conversation; switching files switches the thread.',
-        'Expand (beside the fold chevron) lifts the conversation into an overlay over the right half of the window, the page dimmed behind it, for when talking to Aldo is the work. Dock, Esc or a click on the dimmed page puts it back where it was, mid-sentence drafts included.',
+        'Expand (beside the fold chevron) pins the conversation over the right of the window, under the top bar, for when talking to Aldo is the work: about half the window, or 60% with the Needs you sidebar on a wide window. It is not modal: the page beside it stays live and narrows, the Library folds to its rail, and Aldo\'s page and commitment references move the page in view. Dock or Esc puts it back where it was, mid-sentence drafts included (Esc closes an open tray first).',
       ],
       acceptance: [
         'At the check, Needs you reads "Check the first 3: 3 left." All look right, then Read the rest: the run goes on at Fast.',
@@ -110,7 +110,7 @@ export default {
         'Fix COA 11.1, change its name, Save: the card reads Fixed, and step 2 shows the new name.',
         'Looks right on the other two, then Resume: the run goes on.',
         'Reload: every file\'s conversation and run are where they were.',
-        'Type half a message, Expand: the overlay takes half the window with the draft in it; Esc: the panel is docked again with the draft.',
+        'Type half a message, Expand: the panel takes the right of the window with the draft in it; press p. 146 in a message: the page beside it moves to p. 146; Esc: the panel is docked again with the draft.',
       ],
     },
   ],

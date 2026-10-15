@@ -4,18 +4,27 @@
 // surface fills or leaves out. It carries Aldo's glow, renders the parts bin once, and
 // loads the kit's stylesheet. Spec: docs/aldo-kit-spec.md.
 //
-// Expandable: the header's expand key lifts the conversation into an overlay over the right
-// half of the window (esa-side-dialog, its width re-pointed to 50vw), where it is the work in
-// front of the person; the dock key, Esc or a click on the dimmed page puts it back. The same
-// nodes move, so the thread, a half-typed message and an open form survive the move. Events:
-// `aldo:expand-overlay`, `aldo:dock`.
+// Expandable: the header's expand key pins the conversation over the right half of the window,
+// where it is the work in front of the person. It is NOT modal: nothing dims, the page beside
+// it stays live, and Aldo's page buttons move that page in view (a dialog would have to close
+// for them). The host makes room from `--aldo-overlay-left`. Dock or Esc puts it back. Nothing
+// moves in the DOM, so drafts, open forms and the thread are untouched. Events:
+// `aldo:expand-overlay`, `aldo:dock`, `aldo:overlay-resize` (on the host).
+//
+// Needs you and Instructions in effect live in the side region. Docked, it is a tray that
+// drops from the header's indicator ("2 need you"), over the thread, the width of the panel;
+// Esc, a click outside or the indicator closes it. Expanded, it is a sidebar beside the
+// conversation, always open. One region, two placements, by CSS.
 //
 // Collapsible: the header's chevron folds the panel into a rail (the mark, the name, and a
 // dot while something needs the person); the rail opens it again. The state is
 // `data-aldo="open" | "closed"` on the nearest ancestor that carries it (the host's grid
 // reads it), or on the panel. Events on the panel: `aldo:collapse`, `aldo:expand`.
 //
-// bcn-lego-checked: the overlay IS esa-side-dialog, expand and dock ARE esa-button chrome,
+// bcn-lego-checked: the indicator is a <button> holding an esa-badge and esa-icon (esa-button
+// takes one label, not a badge); the tray is the side region placed by CSS, because
+// esa-popover centers on its trigger and would hang off a 22rem panel. Expand and dock ARE esa-button chrome (the expanded panel is the panel
+// itself, pinned: esa-side-dialog is modal, and the page beside Aldo must stay live),
 // the mark IS bcn-aldo-mark, collapse IS esa-button chrome, the dot IS
 // esa-badge dot, the chevron IS esa-icon. The rail is a <button> because it is one vertical
 // target holding the mark and a vertical name; esa-button lays out one horizontal label.
@@ -50,6 +59,11 @@ const back = rail === 'right' ? 'chevrons-left' : 'chevrons-right';
     <header class="bcn-aldo-panel__head">
       <BcnAldoMark size="sm" />
       <h3 class="bcn-aldo-panel__title">{title}</h3>
+      <button type="button" class="bcn-aldo-panel__waiting" data-aldo-side-toggle aria-expanded="false" aria-controls="aldo-side" hidden>
+        <span data-waiting-count><EsaBadge variant="warning" size="xs" value="0" /></span>
+        <span data-waiting-label>Needs you</span>
+        <EsaIcon name="chevron-down" size="sm" />
+      </button>
       {
         expandable && (
           <span class="bcn-aldo-panel__expand">
@@ -66,11 +80,17 @@ const back = rail === 'right' ? 'chevrons-left' : 'chevrons-right';
         )
       }
     </header>
-    <slot name="thread" />
-    <slot name="instructions" />
-    <slot name="needs" />
-    <slot name="status" />
-    <slot name="composer" />
+    <div class="bcn-aldo-panel__main">
+      <slot name="thread" />
+      <slot name="status" />
+      <slot name="composer" />
+    </div>
+    <!-- What waits on the person and what governs Aldo: a tray from the header when docked,
+         a sidebar beside the conversation when expanded. -->
+    <aside class="bcn-aldo-panel__side" id="aldo-side" data-aldo-side aria-label="Needs you and instructions">
+      <slot name="needs" />
+      <slot name="instructions" />
+    </aside>
   </section>
   {
     collapsible && (
@@ -84,16 +104,10 @@ const back = rail === 'right' ? 'chevrons-left' : 'chevrons-right';
       </button>
     )
   }
-  {
-    expandable && (
-      <esa-side-dialog class="bcn-aldo-panel__overlay" position="right" show-close-button="false" data-aldo-overlay-dialog></esa-side-dialog>
-    )
-  }
   <BcnAldoParts />
 </div>
 
 <script>
-  import '@esa/ecology/esa-side-dialog';
   import { setupAldoPanel } from './aldo-panel';
   document.querySelectorAll<HTMLElement>('[data-aldo-panel]').forEach(setupAldoPanel);
 </script>

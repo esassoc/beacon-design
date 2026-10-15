@@ -173,6 +173,8 @@ const fmtLong = (iso: string): string =>
     border-radius: var(--radius-400, 14px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28); /* dark chrome needs more lift; shadows aren't tokenized here */
   }
+  /* Aldo expanded over the right half: the bar keeps to the left half, over the work. */
+  :global(:root[data-aldo-expanded]) .bcn-help-bar { left: calc(var(--aldo-overlay-left, 100vw) / 2); }
   /* No backdrop-filter support (either prefix) → opaque dark fallback. */
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
     .bcn-help-bar {

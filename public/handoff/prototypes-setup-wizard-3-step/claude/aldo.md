@@ -1,9 +1,9 @@
 # Aldo
 
-The conversation that scopes, checks and steers the scan of the file in view, dense at 13px, with the composer always in view and the run's status pinned above it: reading (blue), stopped for the check (yellow), done (green). The run stops after its first three commitments; Aldo says what to check, then gives each commitment its own message: a lead (where it took the ID and name from, how far the text runs) and a card with the ID, name and quoted text (clamped, with Show all), a p. N button, Looks right and Fix. Fix opens the ID, name and text as fields, with Save and Redraw the box. Edit ID and name on the page toolbar opens the same fields for any commitment. Requirements, timing and parties are reviewed in step 2.
+The conversation that scopes, checks and steers the scan of the file in view, dense at 13px, with the composer always in view. The run's status is not here: it sits by the scan's controls. The run stops after its first three commitments; Aldo says what to check, then gives each commitment its own message: a lead (where it took the ID and name from, how far the text runs) and a card with the ID, name and quoted text (clamped, with Show all), a p. N button, Looks right and Fix. Fix opens the ID, name and text as fields, with Save and Redraw the box. Edit ID and name on the page toolbar opens the same fields for any commitment. Requirements, timing and parties are reviewed in step 2.
 
 ## Key decisions
-- Needs you: what waits on the person is listed under the log with its answers until answered (the check, a flagged reference with Dismiss / Keep it / Skip all cross-references, a headless passage with Merge / Keep separate, pages with nothing found with Mark on p. N / Nothing there, a drawn box with no ID). The log keeps the notice text; the buttons live only in the list.
+- Needs you: what waits on the person is listed with its answers until answered, behind an indicator in the panel's header (a count and "needs you", or "Instructions (n)" when nothing waits) that opens it as a tray over the log; the indicator nods when a new item arrives and never opens on its own. Expanded on a wide window (1440 and up) the list is a sidebar beside the conversation instead (items: the check, a flagged reference with Dismiss / Keep it / Skip all cross-references, a headless passage with Merge / Keep separate, pages with nothing found with Mark on p. N / Nothing there, a drawn box with no ID). The log keeps the notice text; the buttons live only in the list.
 - After the check: Read the rest (fast, the default), Watch it, One at a time. Before it, the status reads "Stopping after 3 commitments for your check", never a pause.
 - A question is answered and changes nothing; a message too short to act on gets its readings as buttons. Prod's structured call needs answer and unclear kinds.
 - Instructions in effect, collapsed under the log with a count: the scope, each rule with the page it took effect from, each fix from the check.
@@ -16,7 +16,7 @@ The conversation that scopes, checks and steers the scan of the file in view, de
 - A name fixed at the check is the commitment's name in step 2.
 - One structured-output call per message returns actions and a one-line reply; sw3-steer.ts is the schema, with a pattern matcher standing in for the model.
 - Each file keeps its own conversation; switching files switches the thread.
-- Expand (beside the fold chevron) lifts the conversation into an overlay over the right half of the window, the page dimmed behind it, for when talking to Aldo is the work. Dock, Esc or a click on the dimmed page puts it back where it was, mid-sentence drafts included.
+- Expand (beside the fold chevron) pins the conversation over the right of the window, under the top bar, for when talking to Aldo is the work: about half the window, or 60% with the Needs you sidebar on a wide window. It is not modal: the page beside it stays live and narrows, the Library folds to its rail, and Aldo's page and commitment references move the page in view. Dock or Esc puts it back where it was, mid-sentence drafts included (Esc closes an open tray first).
 
 ## Done when
 - At the check, Needs you reads "Check the first 3: 3 left." All look right, then Read the rest: the run goes on at Fast.
@@ -26,7 +26,7 @@ The conversation that scopes, checks and steers the scan of the file in view, de
 - Fix COA 11.1, change its name, Save: the card reads Fixed, and step 2 shows the new name.
 - Looks right on the other two, then Resume: the run goes on.
 - Reload: every file's conversation and run are where they were.
-- Type half a message, Expand: the overlay takes half the window with the draft in it; Esc: the panel is docked again with the draft.
+- Type half a message, Expand: the panel takes the right of the window with the draft in it; press p. 146 in a message: the page beside it moves to p. 146; Esc: the panel is docked again with the draft.
 
 ## Markup
 ```html
@@ -58,7 +58,35 @@ The conversation that scopes, checks and steers the scan of the file in view, de
               <circle cx="12" cy="12" r="10"></circle></svg></span></span
       ></span>
       <h3 class="bcn-aldo-panel__title">Aldo</h3>
-      <span class="bcn-aldo-panel__expand"
+      <button
+        type="button"
+        class="bcn-aldo-panel__waiting"
+        data-aldo-side-toggle=""
+        aria-expanded="false"
+        aria-controls="aldo-side"
+        hidden=""
+      >
+        <span data-waiting-count="" hidden=""
+          ><span
+            class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong"
+            ><span class="esa-badge__text">0</span></span
+          ></span
+        ><span data-waiting-label="">Instructions (0)</span
+        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <path d="m6 9 6 6 6-6"></path></svg
+        ></span></button
+      ><span class="bcn-aldo-panel__expand"
         ><span
           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
           ><button
@@ -142,233 +170,180 @@ The conversation that scopes, checks and steers the scan of the file in view, de
             ></span></button></span
       ></span>
     </header>
-    <ol class="bcn-aldo-thread" data-aldo-thread="" aria-live="polite">
-      <li class="bcn-aldo-msg" data-from="aldo" data-kind="opening">
-        <span class="bcn-aldo-msg__who" data-msg-who="">Aldo</span>
-        <p class="bcn-aldo-msg__text" data-msg-text="">
-          I read the contents and headings of the ITP. The commitments are in VIII.
-          Conditions of Approval, pp. 80–244: about 293. Condition 11, Take Minimization
-          Measures, holds 158 of them on pp. 131–223, in three parts: Multi-Species,
-          Construction Phase, and Operations Phases. Tell me where to start, or scan
-          Condition 11.
-        </p>
-        <div class="bcn-aldo-msg__extra" data-msg-extra=""></div>
-        <span class="bcn-aldo-actions" data-msg-acts=""
-          ><span
-            class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--xs"
+    <div class="bcn-aldo-panel__main">
+      <ol class="bcn-aldo-thread" data-aldo-thread="" aria-live="polite">
+        <li class="bcn-aldo-msg" data-from="aldo" data-kind="opening">
+          <span class="bcn-aldo-msg__who" data-msg-who="">Aldo</span>
+          <div class="bcn-aldo-msg__bubble">
+            <p
+              class="bcn-aldo-msg__text"
+              data-msg-text=""
+              data-raw="I read the contents and headings of the ITP. The commitments are in VIII. Conditions of Approval, pp. 80–244: about 293. Condition 11, Take Minimization Measures, holds 158 of them on pp. 131–223, in three parts: Multi-Species, Construction Phase, and Operations Phases.
+Tell me where to start, or scan Condition 11."
+            >
+              I read the contents and headings of the ITP. The commitments are in VIII.
+              Conditions of Approval,
+              <button class="bcn-aldo-ref" type="button">pp. 80–244</button>: about 293.
+              Condition 11, Take Minimization Measures, holds 158 of them on
+              <button class="bcn-aldo-ref" type="button">pp. 131–223</button>, in three
+              parts: Multi-Species, Construction Phase, and Operations Phases. Tell me
+              where to start, or scan Condition 11.
+            </p>
+            <span class="bcn-aldo-msg__tools" data-msg-tools=""
+              ><span
+                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                ><button
+                  class="esa-button__native typography-microcopy-2xs"
+                  type="button"
+                  aria-label="Copy message"
+                  title="Copy message"
+                  data-ico="copy"
+                >
+                  <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                      data-ico="copy"
+                    >
+                      <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                      <path
+                        d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                      ></path></svg
+                  ></span></button></span
+            ></span>
+          </div>
+          <div class="bcn-aldo-msg__extra" data-msg-extra=""></div>
+          <span class="bcn-aldo-actions" data-msg-acts=""
+            ><span
+              class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--xs"
+              ><button class="esa-button__native typography-microcopy-2xs" type="button">
+                <span class="esa-button__label">Scan Condition 11</span>
+              </button></span
+            ><span
+              class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
+              ><button class="esa-button__native typography-microcopy-2xs" type="button">
+                <span class="esa-button__label">Mark them myself</span>
+              </button></span
+            ></span
+          ><time class="bcn-aldo-msg__time" data-msg-time="" hidden=""></time>
+        </li>
+      </ol>
+      <div class="bcn-aldo-composer" data-aldo-composer="" data-mode="thread">
+        <div class="bcn-aldo-actions bcn-aldo-composer__suggest" data-composer-suggest="">
+          <span
+            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
             ><button class="esa-button__native typography-microcopy-2xs" type="button">
-              <span class="esa-button__label">Scan Condition 11</span>
+              <span class="esa-button__label">Only Condition 11</span>
             </button></span
           ><span
             class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
             ><button class="esa-button__native typography-microcopy-2xs" type="button">
-              <span class="esa-button__label">Mark them myself</span>
+              <span class="esa-button__label">Only the construction measures</span>
             </button></span
-          ></span
-        >
-      </li>
-    </ol>
-    <div class="bcn-aldo-instructions" data-aldo-instructions="" hidden="">
-      <details class="esa-collapsible esa-collapsible--flush">
-        <summary class="esa-collapsible__summary typography-label-sm-strong">
-          <span class="esa-collapsible__title">Instructions in effect</span>
-        </summary>
-        <div class="esa-collapsible__body typography-body-md">
-          <ol class="bcn-aldo-instructions__list" data-instructions-list=""></ol>
+          >
         </div>
-      </details>
+        <form class="bcn-aldo-composer__shell" data-composer-form="">
+          <esa-textarea
+            class="bcn-aldo-composer__field"
+            data-composer-input="true"
+            size="md"
+            rows="1"
+            max-rows="6"
+            auto-resize=""
+            aria-label="Message Aldo"
+            placeholder="Tell Aldo what to read, skip or fix"
+          ></esa-textarea
+          ><span class="bcn-aldo-composer__send"
+            ><span
+              class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+              ><button
+                class="esa-button__native typography-microcopy-xs"
+                type="button"
+                aria-label="Send"
+                title="Send"
+                data-composer-send="true"
+              >
+                <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="m5 12 7-7 7 7"></path>
+                    <path d="M12 19V5"></path></svg
+                ></span></button></span
+          ></span>
+        </form>
+      </div>
+      <script
+        type="module"
+        src="/beacon-design/_astro/BcnAldoComposer.astro_astro_type_script_index_0_lang.Dwj09Asy.js"
+      ></script>
     </div>
-    <section class="bcn-aldo-needs" data-aldo-needs="" aria-label="Needs you" hidden="">
-      <h4 class="bcn-aldo-needs__head">
-        Needs you
-        <span data-needs-count=""
-          ><span
-            class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong"
-            ><span class="esa-badge__text">0</span></span
-          ></span
-        >
-      </h4>
-      <ul class="bcn-aldo-needs__list" data-needs-list=""></ul>
-    </section>
-    <div class="bcn-aldo-status" data-aldo-status="" role="status" hidden="">
-      <div data-tone="info" hidden="">
-        <div class="esa-alert-box esa-alert-box--info typography-body-sm">
-          <div class="esa-alert-box__icon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
+    <!-- What waits on the person and what governs Aldo: a tray from the header when docked,
+         a sidebar beside the conversation when expanded. -->
+    <aside
+      class="bcn-aldo-panel__side"
+      id="aldo-side"
+      data-aldo-side=""
+      aria-label="Needs you and instructions"
+    >
+      <section class="bcn-aldo-needs" data-aldo-needs="" aria-label="Needs you" hidden="">
+        <h4 class="bcn-aldo-needs__head">
+          <button
+            type="button"
+            class="bcn-aldo-needs__toggle"
+            data-needs-toggle=""
+            aria-expanded="true"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path></svg></span
+            ><span>Needs you</span
+            ><span data-needs-count=""
+              ><span
+                class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong"
+                ><span class="esa-badge__text">0</span></span
+              ></span
             >
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M12 16v-4"></path>
-              <path d="M12 8h.01"></path>
-            </svg>
+          </button>
+        </h4>
+        <ul class="bcn-aldo-needs__list" data-needs-list=""></ul>
+      </section>
+      <div class="bcn-aldo-instructions" data-aldo-instructions="" hidden="">
+        <details class="esa-collapsible esa-collapsible--flush">
+          <summary class="esa-collapsible__summary typography-label-sm-strong">
+            <span class="esa-collapsible__title">Instructions in effect</span>
+          </summary>
+          <div class="esa-collapsible__body typography-body-md">
+            <ol class="bcn-aldo-instructions__list" data-instructions-list=""></ol>
           </div>
-          <div class="esa-alert-box__body">
-            <div class="esa-alert-box__message"><span data-status-text=""></span></div>
-          </div>
-        </div>
-        <script type="module">
-          document.addEventListener(`click`, (e) => {
-            let t = e.target.closest?.(`[data-esa-alert-dismiss]`);
-            if (!t) return;
-            let n = t.closest(`.esa-alert-box`);
-            if (!n) return;
-            let r = Array.from(document.querySelectorAll(FOCUSABLE_SELECTOR)).filter(
-                (e) => !n.contains(e) && e.offsetParent !== null,
-              ),
-              i =
-                r.find(
-                  (e) => n.compareDocumentPosition(e) & Node.DOCUMENT_POSITION_FOLLOWING,
-                ) ?? r[r.length - 1];
-            ((n.style.display = `none`),
-              n.dispatchEvent(new CustomEvent(`dismissed`, { bubbles: !0 })),
-              i?.focus());
-          });
-        </script>
+        </details>
       </div>
-      <div data-tone="warning" hidden="">
-        <div class="esa-alert-box esa-alert-box--warning typography-body-sm">
-          <div class="esa-alert-box__icon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path
-                d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
-              ></path>
-              <path d="M12 9v4"></path>
-              <path d="M12 17h.01"></path>
-            </svg>
-          </div>
-          <div class="esa-alert-box__body">
-            <div class="esa-alert-box__message"><span data-status-text=""></span></div>
-          </div>
-        </div>
-      </div>
-      <div data-tone="success" hidden="">
-        <div class="esa-alert-box esa-alert-box--success typography-body-sm">
-          <div class="esa-alert-box__icon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="m9 12 2 2 4-4"></path>
-            </svg>
-          </div>
-          <div class="esa-alert-box__body">
-            <div class="esa-alert-box__message"><span data-status-text=""></span></div>
-          </div>
-        </div>
-      </div>
-      <div data-tone="neutral" hidden="">
-        <div class="esa-alert-box esa-alert-box--info typography-body-sm">
-          <div class="esa-alert-box__icon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M12 16v-4"></path>
-              <path d="M12 8h.01"></path>
-            </svg>
-          </div>
-          <div class="esa-alert-box__body">
-            <div class="esa-alert-box__message"><span data-status-text=""></span></div>
-          </div>
-        </div>
-      </div>
-      <span class="bcn-aldo-actions" data-status-action=""></span>
-    </div>
-    <div class="bcn-aldo-composer" data-aldo-composer="" data-mode="thread">
-      <div class="bcn-aldo-actions bcn-aldo-composer__suggest" data-composer-suggest="">
-        <span
-          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-          ><button class="esa-button__native typography-microcopy-2xs" type="button">
-            <span class="esa-button__label">Only Condition 11</span>
-          </button></span
-        ><span
-          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-          ><button class="esa-button__native typography-microcopy-2xs" type="button">
-            <span class="esa-button__label">Only the construction measures</span>
-          </button></span
-        >
-      </div>
-      <form class="bcn-aldo-composer__shell" data-composer-form="">
-        <esa-textarea
-          class="bcn-aldo-composer__field"
-          data-composer-input="true"
-          size="md"
-          rows="1"
-          max-rows="6"
-          auto-resize=""
-          aria-label="Message Aldo"
-          placeholder="Tell Aldo what to read, skip or fix"
-        ></esa-textarea
-        ><span class="bcn-aldo-composer__send"
-          ><span
-            class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-            ><button
-              class="esa-button__native typography-microcopy-xs"
-              type="button"
-              aria-label="Send"
-              title="Send"
-              data-composer-send="true"
-            >
-              <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="m5 12 7-7 7 7"></path>
-                  <path d="M12 19V5"></path></svg
-              ></span></button></span
-        ></span>
-      </form>
-    </div>
-    <script
-      type="module"
-      src="/beacon-design/_astro/BcnAldoComposer.astro_astro_type_script_index_0_lang.Dwj09Asy.js"
-    ></script>
+    </aside>
   </section>
   <button
     type="button"
@@ -415,21 +390,23 @@ The conversation that scopes, checks and steers the scan of the file in view, de
         class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong esa-badge--dot"
         ><span class="visually-hidden">Something needs you</span></span
       ></span
-    ></button
-  ><esa-side-dialog
-    class="bcn-aldo-panel__overlay"
-    position="right"
-    show-close-button="false"
-    data-aldo-overlay-dialog="true"
-    size="md"
-  ></esa-side-dialog>
+    >
+  </button>
   <div class="bcn-aldo-parts" data-aldo-parts="" hidden="">
     <template data-part="message"
       ><li class="bcn-aldo-msg">
         <span class="bcn-aldo-msg__who" data-msg-who=""></span>
-        <p class="bcn-aldo-msg__text" data-msg-text=""></p>
+        <div class="bcn-aldo-msg__bubble">
+          <p class="bcn-aldo-msg__text" data-msg-text=""></p>
+          <span class="bcn-aldo-msg__tools" data-msg-tools=""></span>
+        </div>
         <div class="bcn-aldo-msg__extra" data-msg-extra=""></div>
-        <span class="bcn-aldo-actions" data-msg-acts=""></span></li></template
+        <span class="bcn-aldo-actions" data-msg-acts=""></span
+        ><time
+          class="bcn-aldo-msg__time"
+          data-msg-time=""
+          hidden=""
+        ></time></li></template
     ><template data-part="button-neutral"
       ><span
         class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
@@ -496,6 +473,37 @@ The conversation that scopes, checks and steers the scan of the file in view, de
           class="bcn-cbadge bcn-cbadge--sm"
           data-astro-cid-cqxc3yz3=""
         ></span></span></template
+    ><template data-part="copy"
+      ><span
+        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+        data-astro-cid-4xhmycw5=""
+        ><button
+          class="esa-button__native typography-microcopy-2xs"
+          type="button"
+          aria-label="Copy message"
+          title="Copy message"
+          data-ico="copy"
+          data-astro-cid-4xhmycw5=""
+        >
+          <span
+            class="esa-icon esa-icon--xs"
+            aria-hidden="true"
+            data-astro-cid-c7ivvrtd=""
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+              data-astro-cid-c7ivvrtd=""
+            >
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path></svg
+          ></span></button></span></template
     ><template data-part="mark"
       ><span
         ><span
@@ -535,31 +543,6 @@ The conversation that scopes, checks and steers the scan of the file in view, de
 
 ## Styles
 ```css
-/* Type comes from .typography-body-sm on the element.
-
-       Both nodes are always in the DOM (the live region has to pre-exist its content),
-       so the gap is opt-IN via .is-shown rather than collapsed with :empty — Lit's
-       template whitespace defeats :empty in engines that follow Selectors L3. */
-.help,
-.error {
-  margin: 0;
-}
-/* Type comes from .typography-body-sm — help and error are one size at every
-       control step, so they name the composite directly rather than mapping. */
-/* Both nodes are ALWAYS in the DOM (see render()), so the gap is opt-IN rather
-       than collapsed away. Deliberately not display:none when empty — that removes
-       the node from the accessibility tree, and a live region that is not in the tree
-       cannot announce anything. An empty <p> with no margin occupies no space.
-
-       .is-shown rather than :empty: Lit's template whitespace leaves a text node
-       inside the element, and browsers still disagree about whether :empty ignores
-       whitespace-only children (Selectors L4 says yes, L3 says no). A class is
-       deterministic; :empty here would silently leave 4px of dead space under every
-       clean field in some engines and not others. */
-.help,
-.error {
-  margin: 0;
-}
 /* No box of its own — the buttons stay direct flex items of the host. */
 .esa-button-group__slot {
   display: contents;
@@ -595,13 +578,6 @@ The conversation that scopes, checks and steers the scan of the file in view, de
   font-weight: var(--typography-body-md-font-weight);
   line-height: var(--typography-body-md-line-height);
   letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
 }
 .typography-label-sm-strong {
   font-family: var(--typography-label-sm-strong-font-family);
@@ -1051,6 +1027,11 @@ summary.esa-button--variant-chrome:focus-visible {
   --_aldo-gap: var(--spacing-150, 0.375rem);
   --_aldo-pad: var(--spacing-400);
   --_aldo-line: var(--border-width-default, 1px);
+  --_aldo-inner: var(--spacing-200, 0.5rem);
+  --_aldo-same: var(--spacing-300, 0.75rem);
+  --_aldo-turn: var(--spacing-500, 1.5rem);
+  --_aldo-region: var(--spacing-300, 0.75rem);
+  --_aldo-bubble-radius: 1rem;
   min-height: 0;
   font-size: var(--_aldo-text);
   font-weight: var(--_aldo-weight-body);
@@ -1059,6 +1040,8 @@ summary.esa-button--variant-chrome:focus-visible {
   display: flex;
 }
 .bcn-aldo-panel__body {
+  gap: var(--_aldo-region);
+  padding-bottom: var(--spacing-300);
   background: var(--color-background-elevation-raised);
   border-radius: var(--_aldo-radius);
   flex-direction: column;
@@ -1128,29 +1111,36 @@ summary.esa-button--variant-chrome:focus-visible {
   display: none;
 }
 .bcn-aldo-thread {
-  gap: var(--spacing-400);
   min-height: 8rem;
   padding: var(--_aldo-pad);
   flex-direction: column;
   flex: 1;
+  gap: 0;
   margin: 0;
   list-style: none;
   display: flex;
   overflow-y: auto;
 }
 .bcn-aldo-msg {
-  gap: var(--_aldo-gap);
+  gap: var(--_aldo-inner);
   flex-direction: column;
-  max-width: 94%;
+  max-width: 100%;
   animation: 0.22s ease-out bcn-aldo-in;
   display: flex;
 }
+.bcn-aldo-msg + .bcn-aldo-msg {
+  margin-top: var(--_aldo-turn);
+}
+.bcn-aldo-msg[data-cont] {
+  margin-top: var(--_aldo-same);
+}
 .bcn-aldo-msg[data-from="aldo"] {
-  align-self: flex-start;
+  align-self: stretch;
 }
 .bcn-aldo-msg[data-from="you"] {
   align-self: flex-end;
   align-items: flex-end;
+  max-width: 85%;
 }
 .bcn-aldo-msg[data-from="system"] {
   align-self: center;
@@ -1173,12 +1163,88 @@ summary.esa-button--variant-chrome:focus-visible {
   white-space: pre-line;
   margin: 0;
 }
+.bcn-aldo-msg__bubble {
+  max-width: 100%;
+  position: relative;
+}
+.bcn-aldo-msg__bubble[hidden] {
+  display: none;
+}
+.bcn-aldo-msg[data-from="you"] .bcn-aldo-msg__bubble {
+  align-self: flex-end;
+}
+.bcn-aldo-msg[data-from="aldo"] .bcn-aldo-msg__text,
+.bcn-aldo-msg[data-from="you"] .bcn-aldo-msg__text {
+  padding: var(--spacing-250, 0.625rem) var(--spacing-300);
+  border-radius: var(--_aldo-bubble-radius);
+}
 .bcn-aldo-msg[data-from="aldo"] .bcn-aldo-msg__text {
-  background: var(--bcn-aldo-50);
+  background: var(--color-background-elevation-sunken);
+  max-width: 68ch;
 }
 .bcn-aldo-msg[data-from="you"] .bcn-aldo-msg__text {
   background: var(--color-background-default);
-  border: var(--_aldo-line) solid var(--color-border-default-subtle);
+  border: var(--_aldo-line) solid var(--color-border-default);
+}
+.bcn-aldo-msg__tools {
+  top: calc(-1 * var(--spacing-300, 0.75rem));
+  right: var(--spacing-200);
+  border: var(--_aldo-line) solid var(--color-border-default);
+  border-radius: var(--_aldo-radius);
+  background: var(--color-background-elevation-raised);
+  box-shadow: var(--elevation-2);
+  opacity: 0;
+  pointer-events: none;
+  padding: 1px;
+  transition: opacity 0.12s;
+  display: flex;
+  position: absolute;
+}
+.bcn-aldo-msg__tools:empty {
+  display: none;
+}
+.bcn-aldo-msg__bubble:hover .bcn-aldo-msg__tools,
+.bcn-aldo-msg__tools:focus-within {
+  opacity: 1;
+  pointer-events: auto;
+}
+.bcn-aldo-msg__tools [data-copied] {
+  color: var(--color-content-utility-success);
+}
+.bcn-aldo-msg__time {
+  font-size: var(--_aldo-meta);
+  font-weight: var(--_aldo-weight-meta);
+  color: var(--color-content-default-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+.bcn-aldo-msg__time[hidden] {
+  display: none;
+}
+.bcn-aldo-ref {
+  border-radius: var(--_aldo-radius-sm);
+  background: var(
+    --color-background-utility-info-subtle,
+    var(--color-background-elevation-raised)
+  );
+  color: var(--color-content-utility-info);
+  font: inherit;
+  font-weight: var(--_aldo-weight-meta);
+  cursor: pointer;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  border: 0;
+  padding: 0 0.3em;
+  display: inline;
+}
+.bcn-aldo-ref:hover {
+  text-decoration: underline;
+}
+.bcn-aldo-ref:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+  outline-offset: 1px;
+}
+.bcn-aldo-msg[data-from="aldo"] .bcn-aldo-msg__who {
+  display: none;
 }
 .bcn-aldo-msg[data-via="button"] .bcn-aldo-msg__text,
 .bcn-aldo-msg[data-from="system"] .bcn-aldo-msg__text {
@@ -1210,12 +1276,12 @@ summary.esa-button--variant-chrome:focus-visible {
   display: none;
 }
 .bcn-aldo-instructions {
-  margin: 0 var(--_aldo-pad) var(--spacing-200);
   padding: 0 var(--spacing-300);
   border: var(--_aldo-line) solid var(--color-border-default-subtle);
   border-radius: var(--_aldo-radius-sm);
   background: var(--color-background-elevation-sunken);
   --typography-label-sm-strong-font-size: var(--_aldo-text);
+  margin: 0;
 }
 .bcn-aldo-instructions[hidden] {
   display: none;
@@ -1240,11 +1306,11 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--_aldo-weight-meta);
 }
 .bcn-aldo-needs {
-  margin: 0 var(--_aldo-pad) var(--spacing-200);
   border: var(--_aldo-line) solid var(--color-border-default);
   border-radius: var(--_aldo-radius-sm);
   background: var(--color-background-elevation-raised);
   box-shadow: var(--elevation-1);
+  margin: 0;
   overflow: hidden;
 }
 .bcn-aldo-needs[hidden] {
@@ -1264,6 +1330,38 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-aldo-needs__head .esa-badge {
   font-variant-numeric: tabular-nums;
+}
+.bcn-aldo-needs__head {
+  padding: 0;
+}
+.bcn-aldo-needs__toggle {
+  align-items: center;
+  gap: var(--_aldo-gap);
+  width: 100%;
+  padding: var(--_aldo-gap) var(--spacing-300);
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+  display: flex;
+}
+.bcn-aldo-needs__toggle:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+  outline-offset: calc(-1 * var(--focus-ring-width, 2px));
+}
+.bcn-aldo-needs__toggle svg {
+  transition: transform 0.15s;
+}
+.bcn-aldo-needs[data-folded] .bcn-aldo-needs__toggle svg {
+  transform: rotate(-90deg);
+}
+.bcn-aldo-needs[data-folded] .bcn-aldo-needs__list {
+  display: none;
+}
+.bcn-aldo-needs[data-folded] .bcn-aldo-needs__head {
+  border-bottom: 0;
 }
 .bcn-aldo-needs__list {
   max-height: 13rem;
@@ -1305,38 +1403,23 @@ button.bcn-aldo-needs__text:focus-visible {
 .bcn-aldo-needs__item .bcn-aldo-actions {
   gap: var(--spacing-100);
 }
-.bcn-aldo-status {
-  padding: 0 var(--_aldo-pad) var(--spacing-200);
-}
-.bcn-aldo-status[hidden],
-.bcn-aldo-status > [hidden] {
-  display: none;
-}
-.bcn-aldo-status .esa-alert-box {
-  padding: var(--_aldo-gap) var(--spacing-250, 0.625rem);
-  font-size: var(--_aldo-text);
-  align-items: center;
-}
-.bcn-aldo-status .esa-alert-box__icon svg {
-  width: 16px;
-  height: 16px;
-}
-.bcn-aldo-status [data-tone="neutral"] {
-  --color-background-utility-info-subtle: var(--color-background-elevation-sunken);
-  --color-border-utility-info: var(--color-border-default);
-  --color-content-utility-info: var(--color-content-default-secondary);
-}
 .bcn-aldo-status > .bcn-aldo-actions {
   margin-top: var(--_aldo-gap);
 }
+.bcn-aldo-composer {
+  gap: var(--_aldo-inner);
+  flex-direction: column;
+  display: flex;
+}
 .bcn-aldo-composer__suggest {
-  padding: 0 var(--_aldo-pad) var(--spacing-200);
+  padding: 0 var(--_aldo-pad);
   gap: var(--spacing-200);
 }
 .bcn-aldo-composer__shell {
+  --_aldo-radius: 0.75rem;
   align-items: flex-end;
   gap: var(--spacing-200);
-  margin: 0 var(--spacing-300) var(--spacing-300);
+  margin: 0 var(--spacing-300);
   padding: var(--spacing-100) var(--spacing-200) var(--spacing-100) var(--spacing-300);
   border: var(--_aldo-line) solid var(--bcn-aldo-100);
   border-radius: var(--_aldo-radius);
@@ -1363,9 +1446,6 @@ button.bcn-aldo-needs__text:focus-visible {
 .bcn-aldo-composer[data-busy] .bcn-aldo-composer__shell {
   opacity: 0.7;
 }
-.bcn-aldo-panel__overlay {
-  --side-dialog-width: max(50vw, 34rem);
-}
 .bcn-aldo-panel__expand {
   margin-left: auto;
   display: inline-flex;
@@ -1381,53 +1461,171 @@ button.bcn-aldo-needs__text:focus-visible {
 .bcn-aldo-panel[data-expanded] [data-aldo-overlay="dock"] {
   display: inline-flex;
 }
-.bcn-aldo-panel__head[slot="header"] {
-  border: 0;
-  flex: 1;
-  padding: 0;
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__body {
+  --_aldo-text: 0.9375rem;
+  --_aldo-meta: 0.8125rem;
+  --_aldo-turn: var(--spacing-600, 2rem);
+  --_aldo-same: var(--spacing-400, 1rem);
+  --_aldo-inner: var(--spacing-300, 0.75rem);
+  --_aldo-region: var(--spacing-400, 1rem);
+  z-index: 900;
+  top: calc(var(--_aldo-top, 0px) + var(--spacing-400, 1rem));
+  right: var(--spacing-400, 1rem);
+  bottom: var(--spacing-400, 1rem);
+  width: var(--aldo-expanded-width, max(50vw, 36rem));
+  max-width: calc(100vw - 2 * var(--spacing-400, 1rem));
+  padding-bottom: var(--spacing-400, 1rem);
+  font-size: var(--_aldo-text);
+  border-radius: var(--radius-300, 0.75rem);
+  box-shadow: var(--elevation-5), var(--bcn-aldo-prompt-shadow);
+  line-height: 1.6;
+  animation: 0.24s ease-out bcn-aldo-pin;
+  position: fixed;
 }
-.bcn-aldo-panel__head[slot="header"] .bcn-aldo-panel__title {
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__head {
+  padding-block: var(--spacing-400);
+}
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__title {
   font-size: 1rem;
 }
-.bcn-aldo-panel__body[data-expanded] {
-  font-size: var(--_aldo-text);
-  font-weight: var(--_aldo-weight-body);
-  max-width: 48rem;
-  height: 100%;
+.bcn-aldo-panel[data-expanded] .bcn-aldo-thread {
+  padding-block: var(--spacing-500) var(--spacing-200);
+}
+.bcn-aldo-panel[data-expanded] .bcn-aldo-needs__list {
+  max-height: none;
+  overflow: visible;
+}
+.bcn-aldo-panel[data-expanded] .bcn-aldo-composer__shell {
+  --_aldo-radius: 1rem;
+  margin-inline: var(--_aldo-pad);
+  padding: var(--spacing-300) var(--spacing-300) var(--spacing-300) var(--spacing-400);
+}
+.bcn-aldo-panel__main {
+  gap: var(--_aldo-region);
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+.bcn-aldo-panel__body {
+  position: relative;
+}
+.bcn-aldo-panel__waiting {
+  align-items: center;
+  gap: var(--spacing-100);
+  padding: var(--spacing-50, 0.125rem) var(--spacing-150, 0.375rem);
+  border: var(--_aldo-line) solid var(--color-border-utility-warning);
+  background: var(--color-background-utility-warning-subtle);
+  color: var(--color-content-default);
+  font: inherit;
+  font-size: var(--_aldo-meta);
+  font-weight: var(--_aldo-weight-strong);
+  cursor: pointer;
+  border-radius: 999px;
+  margin-left: auto;
+  display: inline-flex;
+}
+.bcn-aldo-panel__waiting[hidden] {
+  display: none;
+}
+.bcn-aldo-panel__waiting:has([data-waiting-count][hidden]) {
+  border-color: var(--color-border-default);
+  background: var(--color-background-elevation-raised);
+  color: var(--color-content-default-secondary);
+}
+.bcn-aldo-panel__waiting [data-waiting-count][hidden] {
+  display: none;
+}
+.bcn-aldo-panel__waiting:hover {
+  filter: brightness(0.97);
+}
+.bcn-aldo-panel__waiting:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.bcn-aldo-panel__waiting svg {
+  transition: transform 0.15s;
+}
+.bcn-aldo-panel[data-side-open] .bcn-aldo-panel__waiting svg {
+  transform: rotate(180deg);
+}
+.bcn-aldo-panel__waiting + .bcn-aldo-panel__expand {
+  margin-left: 0;
+}
+.bcn-aldo-panel__waiting[data-nudge] {
+  animation: 0.6s ease-out bcn-aldo-nudge;
+}
+.bcn-aldo-panel__side {
+  gap: var(--spacing-300);
+  flex-direction: column;
+  display: none;
+}
+.bcn-aldo-panel[data-side-open] .bcn-aldo-panel__side {
+  z-index: 5;
+  top: var(--_aldo-head-h, 3rem);
+  left: var(--spacing-200);
+  right: var(--spacing-200);
+  max-height: min(70%, 28rem);
+  padding: var(--spacing-300);
+  border: var(--_aldo-line) solid var(--color-border-default);
+  border-radius: var(--_aldo-radius);
+  background: var(--color-background-elevation-raised);
+  box-shadow: var(--elevation-4);
+  animation: 0.16s ease-out bcn-aldo-tray;
+  display: flex;
+  position: absolute;
+  overflow-y: auto;
+}
+.bcn-aldo-panel__side .bcn-aldo-needs__toggle svg {
+  display: none;
+}
+.bcn-aldo-panel__side .bcn-aldo-needs__toggle {
+  pointer-events: none;
+}
+.bcn-aldo-panel__side .bcn-aldo-needs[data-folded] .bcn-aldo-needs__list {
+  display: block;
+}
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__head {
+  grid-column: 1/-1;
+}
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__waiting {
+  display: none;
+}
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__main {
+  --_aldo-pad: max(var(--spacing-500, 1.5rem), calc((100% - 46rem) / 2));
+  padding-bottom: var(--spacing-400);
+}
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__head {
+  padding-inline: var(--spacing-500, 1.5rem);
+}
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__side {
+  min-height: 0;
+  max-height: none;
   box-shadow: none;
-  background: 0 0;
+  padding: var(--spacing-400);
   border: 0;
-  margin-inline: auto;
-  line-height: 1.4;
+  border-left: var(--_aldo-line) solid var(--color-border-default-subtle);
+  background: var(--color-background-elevation-sunken);
+  border-radius: 0;
+  border-bottom-right-radius: inherit;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  animation: none;
+  display: flex;
+  position: static;
+  overflow-y: auto;
 }
-.bcn-aldo-panel__body[data-expanded] .bcn-aldo-thread {
-  padding-inline: 0;
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__side .bcn-aldo-needs__toggle {
+  pointer-events: auto;
 }
-.bcn-aldo-panel__body[data-expanded] .bcn-aldo-instructions,
-.bcn-aldo-panel__body[data-expanded] .bcn-aldo-needs {
-  margin-inline: 0;
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__side .bcn-aldo-needs__toggle svg {
+  display: inline;
 }
-.bcn-aldo-panel__body[data-expanded] .bcn-aldo-status {
-  padding-inline: 0;
-  padding-bottom: 0;
-}
-.bcn-aldo-panel__body[data-expanded] .bcn-aldo-thread {
-  padding-bottom: 0;
-}
-.bcn-aldo-composer[slot="footer"] {
-  max-width: 48rem;
-  font-size: var(--_aldo-text);
-  font-weight: var(--_aldo-weight-body);
-  margin-inline: auto;
-}
-.bcn-aldo-composer[slot="footer"] .bcn-aldo-composer__suggest {
-  padding-inline: 0;
-}
-.bcn-aldo-composer[slot="footer"] .bcn-aldo-composer__shell {
-  margin: 0;
-}
-.bcn-aldo-panel__body[data-expanded] .bcn-aldo-needs__list {
-  max-height: 20rem;
+.bcn-aldo-panel[data-expanded]
+  .bcn-aldo-panel__side
+  .bcn-aldo-needs[data-folded]
+  .bcn-aldo-needs__list {
+  display: none;
 }
 .bcn-sw3tools esa-button-group,
 .bcn-sw3tools .esa-button,
@@ -1440,13 +1638,6 @@ button.bcn-aldo-needs__text:focus-visible {
   font-weight: var(--typography-body-md-font-weight);
   line-height: var(--typography-body-md-line-height);
   letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
 }
 .typography-label-sm-strong {
   font-family: var(--typography-label-sm-strong-font-family);
@@ -1688,81 +1879,6 @@ button.bcn-aldo-needs__text:focus-visible {
   border: 0;
   outline: 1px solid canvastext;
 }
-.esa-alert-box {
-  --_alert-bg: var(--color-background-utility-info-subtle, #fbfdff);
-  --_alert-border: var(--color-border-utility-info, #acd8fc);
-  --_alert-accent: var(--color-content-utility-info, #0d74ce);
-  --_alert-icon-color: var(--_alert-accent);
-  --_alert-title-color: var(--_alert-accent);
-  --_alert-text-color: var(
-    --alert-box-text-color,
-    var(--color-content-default-secondary, #646464)
-  );
-  align-items: flex-start;
-  gap: var(--spacing-300, 0.75rem);
-  padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
-  border: var(--border-width-default, 1px) solid var(--_alert-border);
-  border-radius: var(--radius-md, 0.5rem);
-  background: var(--_alert-bg);
-  display: flex;
-}
-.esa-alert-box--success {
-  --_alert-bg: var(--color-background-utility-success-subtle, #fbfefc);
-  --_alert-border: var(--color-border-utility-success, #adddc0);
-  --_alert-accent: var(--color-content-utility-success, #218358);
-}
-.esa-alert-box--warning {
-  --_alert-bg: var(--color-background-utility-warning-subtle, #fefdfb);
-  --_alert-border: var(--color-border-utility-warning, #f3d673);
-  --_alert-accent: var(--color-content-utility-warning, #ab6400);
-}
-.esa-alert-box--danger {
-  --_alert-bg: var(--color-background-utility-danger-subtle, #fffcfc);
-  --_alert-border: var(--color-border-utility-danger, #fdbdbe);
-  --_alert-accent: var(--color-content-utility-danger, #ce2c31);
-}
-.esa-alert-box__icon {
-  color: var(--_alert-icon-color);
-  flex-shrink: 0;
-  padding-top: 1px;
-}
-.esa-alert-box__body {
-  flex: 1;
-  min-width: 0;
-}
-.esa-alert-box__title {
-  color: var(--_alert-title-color);
-  margin-bottom: var(--spacing-050, 0.125rem);
-  display: block;
-}
-.esa-alert-box__message {
-  color: var(--_alert-text-color);
-}
-.esa-alert-box__dismiss {
-  border-radius: var(--radius-sm, 0.25rem);
-  width: 24px;
-  height: 24px;
-  color: var(--color-content-default-secondary, #646464);
-  cursor: pointer;
-  transition:
-    color var(--transition-fast, 0.15s ease),
-    background var(--transition-fast, 0.15s ease);
-  background: 0 0;
-  border: none;
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  display: inline-flex;
-}
-.esa-alert-box__dismiss:hover {
-  color: var(--color-content-default, #202020);
-  background: var(--color-background-overlay-strong-hover, #0000000f);
-}
-.esa-alert-box__dismiss:focus-visible {
-  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
-  outline-offset: var(--focus-ring-offset, 2px);
-}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -1773,13 +1889,11 @@ button.bcn-aldo-needs__text:focus-visible {
 ```
 
 ## Tokens
-- `--alert-box-text-color`: #525252 _(component)_
 - `--animation-spin`: .75s linear infinite _(semantic)_
 - `--badge-bg`: #005862 _(component)_
 - `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-aldo`: #08908b _(component)_
 - `--bcn-aldo-100`: #cfeceb _(component)_
-- `--bcn-aldo-50`: #e8f6f5 _(component)_
 - `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-aldo-prompt-ring`: #08908b8c _(component)_
 - `--bcn-aldo-prompt-shadow`: 0 1px 2px #1018200f, 0 10px 24px -6px #10182024, 0 28px 60px -18px #08908b61 _(component)_
@@ -1808,11 +1922,9 @@ button.bcn-aldo-needs__text:focus-visible {
 - `--color-background-default`: #fafafa _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-overlay-strong-hover`: #0000000d _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-background-utility-danger-hover`: #641723 _(semantic)_
 - `--color-background-utility-danger-muted`: #feebec _(semantic)_
-- `--color-background-utility-danger-subtle`: #fffcfc _(semantic)_
 - `--color-background-utility-info`: #228be6 _(semantic)_
 - `--color-background-utility-info-hover`: #113264 _(semantic)_
 - `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
@@ -1820,7 +1932,6 @@ button.bcn-aldo-needs__text:focus-visible {
 - `--color-background-utility-success`: #2e7571 _(semantic)_
 - `--color-background-utility-success-hover`: #193b2d _(semantic)_
 - `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
-- `--color-background-utility-success-subtle`: #fbfefc _(semantic)_
 - `--color-background-utility-warning`: #f59e0b _(semantic)_
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
 - `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
@@ -1848,6 +1959,8 @@ button.bcn-aldo-needs__text:focus-visible {
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
 - `--elevation-1`: 0 1px 4px 0 #00000008 _(semantic)_
 - `--elevation-2`: 0 2px 12px 0 #0000000a _(semantic)_
+- `--elevation-4`: 0 6px 24px -6px #00000012 _(semantic)_
+- `--elevation-5`: 0 8px 32px -8px #00000014 _(semantic)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
@@ -1859,29 +1972,26 @@ button.bcn-aldo-needs__text:focus-visible {
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
+- `--radius-300`: .5rem _(primitive)_
 - `--radius-chip`: .25rem _(semantic)_
 - `--radius-full`: 9999px _(primitive)_
 - `--radius-md`: .25rem _(semantic)_
 - `--radius-pill`: 9999px _(semantic)_
 - `--radius-sm`: .25rem _(semantic)_
-- `--spacing-050`: .125rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
+- `--spacing-500`: 1.5rem _(primitive)_
+- `--spacing-600`: 2rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
-- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
-- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_

@@ -6,7 +6,7 @@
 // Scroll: a person's own turn and its reply always come into view; a new 'check' turn is
 // read from its top; anything else new scrolls only when the log was already near its end.
 
-import type { ActionButton, AldoAction, Card, Turn } from '../../../data/aldo';
+import type { ActionButton, AldoAction, Card, TextRun, Turn } from '../../../data/aldo';
 import type { Parts, Press } from './aldo-parts';
 import { renderCard } from './aldo-card';
 
@@ -28,6 +28,8 @@ interface Msg<A extends AldoAction> {
   kind?: string;
   who: string;
   text: string;
+  /** Wall-clock time, formatted, or empty. */
+  time: string;
   acts: ActionButton<A>[];
   cards?: Card<A>[];
 }
@@ -36,9 +38,31 @@ const SIG_REPLACER = (_k: string, v: unknown) => (typeof v === 'function' ? unde
 
 export function mountThread<A extends AldoAction>(
   list: HTMLElement,
-  opts: { parts: Parts; press: Press<A>; scroller?: HTMLElement },
+  opts: {
+    parts: Parts;
+    press: Press<A>;
+    scroller?: HTMLElement;
+    /** Split Aldo's text into plain runs and references (a commitment, a page) that open
+     *  what they name. Without it, text is plain. */
+    linkify?: (text: string) => TextRun[];
+  },
 ): Thread<A> {
-  const { parts, press } = opts;
+  const { parts, press, linkify } = opts;
+  const clock = (iso?: string) => (iso ? new Date(iso).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '');
+  const fill = (el: HTMLElement, text: string, from: Msg<A>['from']) => {
+    if (el.dataset.raw === text) return;
+    el.dataset.raw = text;
+    if (!linkify || from !== 'aldo') return void (el.textContent = text);
+    el.replaceChildren(
+      ...linkify(text).map((r) => {
+        if (typeof r === 'string') return document.createTextNode(r);
+        const b = parts.el('button', 'bcn-aldo-ref', r.label);
+        b.type = 'button';
+        b.addEventListener('click', () => press({ label: r.label, does: { go: r.go } }));
+        return b;
+      }),
+    );
+  };
   const scroller = opts.scroller ?? list;
   const els = new Map<string, HTMLElement>();
   const sigs = new Map<string, { acts: string; cards: string }>();
@@ -57,7 +81,7 @@ export function mountThread<A extends AldoAction>(
     return turns.flatMap((t): Msg<A>[] => {
       if (t.by.kind === 'person') {
         const page = t.anchor && 'page' in t.anchor ? t.anchor.page : null;
-        const you: Msg<A> = { id: `${t.id}:you`, turnId: t.id, from: 'you', via: t.via, who: page ? `You, at p. ${page}` : 'You', text: t.text, acts: [] };
+        const you: Msg<A> = { id: `${t.id}:you`, turnId: t.id, from: 'you', via: t.via, who: page ? `At p. ${page}` : '', text: t.text, time: clock(t.time), acts: [] };
         if (!t.reply) return [you];
         // An unclear message: its readings, each sent as is, on the latest reply only.
         const unclear = t.id === lastPerson ? t.actions.flatMap((a) => (a.kind === 'unclear' ? ((a as { choices: { label: string; text: string }[] }).choices ?? []) : [])) : [];
@@ -69,6 +93,7 @@ export function mountThread<A extends AldoAction>(
             from: 'aldo',
             who: 'Aldo',
             text: t.reply.text,
+            time: clock(t.time),
             acts: [...(t.reply.offers ?? []), ...unclear.map((c): ActionButton<A> => ({ label: c.label, does: { say: c.text } }))],
           },
         ];
@@ -82,6 +107,7 @@ export function mountThread<A extends AldoAction>(
           // A check card continues its lead: no who line.
           who: t.kind === 'check' ? '' : t.by.kind === 'system' ? '' : 'Aldo',
           text: t.text,
+          time: clock(t.time),
           acts: t.offers ?? [],
           cards: t.cards,
         },
@@ -123,6 +149,9 @@ export function mountThread<A extends AldoAction>(
         if (m.kind === 'check' && !lead) lead = (prev as HTMLElement | null)?.dataset.kind === 'check' ? e : ((prev as HTMLElement | null) ?? e);
       }
       e.dataset.from = m.from;
+      // The same speaker again: drawn closer to the turn before.
+      const before = msgs[msgs.indexOf(m) - 1];
+      e.toggleAttribute('data-cont', !!before && before.from === m.from);
       if (m.via) e.dataset.via = m.via;
       else delete e.dataset.via;
       if (m.kind) e.dataset.kind = m.kind;
@@ -131,8 +160,13 @@ export function mountThread<A extends AldoAction>(
       if (who.textContent !== m.who) who.textContent = m.who;
       who.hidden = !m.who;
       const text = e.querySelector<HTMLElement>('[data-msg-text]')!;
-      if (text.textContent !== m.text) text.textContent = m.text;
-      text.hidden = !m.text;
+      fill(text, m.text, m.from);
+      (text.parentElement as HTMLElement).hidden = !m.text;
+      const time = e.querySelector<HTMLElement>('[data-msg-time]')!;
+      if (time.textContent !== m.time) time.textContent = m.time;
+      time.hidden = !m.time;
+      const tools = e.querySelector<HTMLElement>('[data-msg-tools]')!;
+      if (!tools.firstChild && m.text && m.via !== 'button') tools.append(parts.copy(() => text.textContent ?? ''));
 
       const sig = sigs.get(m.id) ?? { acts: '\u0000', cards: '\u0000' };
       const actsSig = m.acts.map((a) => `${a.tone ?? ''}:${a.label}`).join('|');

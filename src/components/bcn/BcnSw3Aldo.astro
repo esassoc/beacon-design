@@ -16,7 +16,6 @@ import BcnAldoPanel from './aldo/BcnAldoPanel.astro';
 import BcnAldoThread from './aldo/BcnAldoThread.astro';
 import BcnAldoInstructions from './aldo/BcnAldoInstructions.astro';
 import BcnAldoNeeds from './aldo/BcnAldoNeeds.astro';
-import BcnAldoStatus from './aldo/BcnAldoStatus.astro';
 import BcnAldoComposer from './aldo/BcnAldoComposer.astro';
 
 interface Props {
@@ -30,7 +29,6 @@ const { review } = Astro.props;
   <BcnAldoThread slot="thread" />
   <BcnAldoInstructions slot="instructions" />
   <BcnAldoNeeds slot="needs" />
-  <BcnAldoStatus slot="status" />
   <BcnAldoComposer slot="composer" mode="thread" placeholder="Tell Aldo what to read, skip or fix" />
 </BcnAldoPanel>
 

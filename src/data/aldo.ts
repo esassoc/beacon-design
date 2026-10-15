@@ -54,6 +54,8 @@ export interface Turn<A extends AldoAction = AldoAction> {
   id: string;
   /** ISO. Turns render in this order; a prototype's run clock maps to it (runAt). */
   at: string;
+  /** ISO wall-clock time it was said, shown under the message. Absent: no time shown. */
+  time?: string;
   by: Speaker;
   via: Via;
   /** What was said, or the label of the button pressed. */
@@ -223,6 +225,9 @@ export interface Card<A extends AldoAction = AldoAction> {
     extra?: ActionButton<A>[];
   };
 }
+
+/** A run of message text: plain, or a reference that opens what it names. */
+export type TextRun = string | { label: string; go: Anchor };
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
 

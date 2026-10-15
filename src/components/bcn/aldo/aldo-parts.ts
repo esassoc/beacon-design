@@ -2,6 +2,7 @@
 // resolved. Every runtime piece of the kit takes `Parts` and never builds a lego itself.
 
 import type { ActionButton, AldoAction, Anchor, CardField, Tone } from '../../../data/aldo';
+import { setIcon } from '../../../lib/lucide-extra';
 
 /** What a surface does when a button is pressed. The adapter supplies it. */
 export interface AldoHost<A extends AldoAction = AldoAction> {
@@ -38,6 +39,8 @@ export interface Parts {
   /** The commitment ID chip ("COA " is dropped: the chip says it). */
   badge(code: string): HTMLElement;
   mark(): HTMLElement;
+  /** The hover key that copies a message's text. */
+  copy(text: () => string): HTMLElement;
   /** esa-text-field, or esa-textarea when multiline. These are Lit legos: created, not cloned. */
   field(f: CardField): FieldEl;
   el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string): HTMLElementTagNameMap[K];
@@ -84,6 +87,22 @@ export function aldoParts(scope: ParentNode): Parts {
       return host;
     },
     mark: () => clone('mark'),
+    copy: (text) => {
+      const host = clone('copy');
+      setIcon(host, 'copy');
+      const b = (host.querySelector('button') ?? host) as HTMLElement;
+      b.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(text());
+          b.dataset.copied = '';
+          b.setAttribute('aria-label', 'Copied');
+          setTimeout(() => (delete b.dataset.copied, b.setAttribute('aria-label', 'Copy message')), 1400);
+        } catch {
+          /* clipboard refused: nothing to do */
+        }
+      });
+      return host;
+    },
     field: (f) => {
       const x = document.createElement(f.multiline ? 'esa-textarea' : 'esa-text-field') as FieldEl;
       x.setAttribute('label', f.label);

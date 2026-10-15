@@ -648,6 +648,16 @@ export function setupSw3Scan(root: HTMLElement): void {
   // Aldo's panel folds itself (on this section's data-aldo); keep where it was left.
   root.addEventListener('aldo:collapse', () => setAldo(false));
   root.addEventListener('aldo:expand', () => setAldo(true));
+  // Aldo pinned over the right half: keep the workspace to its left.
+  const reserve = () => {
+    const left = parseFloat(root.style.getPropertyValue('--aldo-overlay-left'));
+    if (!root.hasAttribute('data-aldo-expanded') || !left) return root.style.removeProperty('--_aldo-reserve');
+    root.style.removeProperty('--_aldo-reserve');
+    const right = root.getBoundingClientRect().right;
+    root.style.setProperty('--_aldo-reserve', `${Math.max(0, right - left + 16)}px`);
+  };
+  root.addEventListener('aldo:overlay-resize', reserve);
+  root.addEventListener('aldo:dock', () => requestAnimationFrame(reserve));
   document.addEventListener('sw3:page', (e) => pick((e as CustomEvent<{ page: number }>).detail.page));
   document.addEventListener('sw3:find', (e) => select((e as CustomEvent<{ id: string }>).detail.id));
   document.addEventListener('sw3:aldo', () => setAldo(true));

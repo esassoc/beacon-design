@@ -1193,6 +1193,9 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3scan__rail {
   display: none;
 }
+.bcn-sw3scan[data-aldo-expanded] .bcn-sw3scan__sources > .bcn-sw3src {
+  display: none;
+}
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
   font-size: var(--typography-microcopy-2xs-font-size);

@@ -227,6 +227,8 @@ export interface Steer {
   reply: string;
   /** Pages read before a rule, offered for a re-read. */
   offer?: { first: number; last: number };
+  /** When it was said, on the wall clock (ms). Older steers have none. */
+  wall?: number;
   /** Deprecated: steers recorded before `unclear` was an action kind carry their readings
    *  here. New ones carry them on the action. */
   choices?: { label: string; text: string }[];
@@ -605,7 +607,7 @@ const apply = (a: SteerAction) => {
 
 const record = (text: string, via: Steer['via'], actions: SteerAction[], reply: string, offer?: Steer['offer']) => {
   const live = started() && !finished();
-  S.steers.push({ id: `s${S.steers.length + 1}`, at: now(), page: live ? headPage() : null, via, text, actions, reply, offer });
+  S.steers.push({ id: `s${S.steers.length + 1}`, at: now(), page: live ? headPage() : null, via, text, actions, reply, offer, wall: Date.now() });
   for (const a of actions) apply(a);
 };
 

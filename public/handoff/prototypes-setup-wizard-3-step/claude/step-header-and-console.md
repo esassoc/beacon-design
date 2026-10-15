@@ -1,6 +1,6 @@
 # Step header and console
 
-One panel: the step's numeral, title and prod's description; under a gray rule, the console for the file in view, centered: the transport (Scan or Resume, Pause, Restart), each a neutral key with its icon and name, the page in view of the file's page count as one field (type a page to go to it), and the speed (One at a time, Slow, Fast) in a menu. Below, every page of the file in one strip. Where the run is is said once, in Aldo's status.
+One panel: the step's numeral, title and prod's description; under a gray rule, the console for the file in view, centered: the transport (Scan or Resume, Pause, Restart), each a neutral key with its icon and name, the page in view of the file's page count as one field (type a page to go to it), and the speed (One at a time, Slow, Fast) in a menu. Beside the console, where the run is, said once: a plain line of text with a small dot, not an alert (the dot pulses while reading, turns amber at the check and green when done), with its one action when it has one (Review the 12 so far). Below, every page of the file in one strip.
 
 ## Key decisions
 - Each key is live only when it can act, and the run's state reads as a pressed key: Scan before the run, Resume when it is paused or stopped for the check, Pause while it reads, Restart once it has begun. Restart asks first and clears the file's scan and steers.
@@ -15,151 +15,155 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
 ## Markup
 ```html
 <div class="bcn-sw3bar" data-sw3-toolbar="">
-  <div class="bcn-sw3bar__console">
-    <esa-button-group
-      class="bcn-sw3bar__transport"
-      aria-label="Scan transport"
-      role="group"
-      ><span
-        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-        ><button
-          class="esa-button__native typography-microcopy-xs"
-          type="button"
-          data-ico="scan-text"
-          data-tx="play"
-          aria-pressed="false"
-        >
-          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-            ><svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-              data-ico="scan-text"
-            >
-              <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
-              <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
-              <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
-              <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
-              <path d="M7 8h8"></path>
-              <path d="M7 12h10"></path>
-              <path d="M7 16h6"></path></svg></span
-          ><span class="esa-button__label">Scan</span>
-        </button></span
-      ><span
-        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-        ><button
-          class="esa-button__native typography-microcopy-xs"
-          type="button"
-          data-ico="pause"
-          data-tx="pause"
-          disabled=""
-          aria-pressed="false"
-        >
-          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-            ><svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-              data-ico="pause"
-            >
-              <rect x="14" y="4" width="4" height="16" rx="1"></rect>
-              <rect x="6" y="4" width="4" height="16" rx="1"></rect></svg></span
-          ><span class="esa-button__label">Pause</span>
-        </button></span
-      ><span
-        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-        ><button
-          class="esa-button__native typography-microcopy-xs"
-          type="button"
-          data-tx="restart"
-          disabled=""
-          aria-pressed="false"
-        >
-          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-            ><svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-              <path d="M3 3v5h5"></path></svg></span
-          ><span class="esa-button__label">Restart</span>
-        </button></span
-      ></esa-button-group
-    ><esa-text-field
-      class="bcn-sw3bar__page"
-      size="sm"
-      inputmode="numeric"
-      aria-label="Page"
-      prefix="p."
-      suffix="of 1"
-      data-bar-page="true"
-    ></esa-text-field
-    ><esa-dropdown-menu
-      position="below-start"
-      data-bar-speed="true"
-      data-items='[{"label":"One at a time","action":"step"},{"label":"Slow","action":"watch"},{"label":"Fast","action":"run"}]'
-      width="auto"
-      ><span
-        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-        ><button
-          class="esa-button__native typography-microcopy-xs"
-          type="button"
-          data-ico="gauge"
-          data-bar-speed-btn="true"
-          aria-haspopup="menu"
-          aria-expanded="false"
-          aria-controls="menu"
-        >
-          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-            ><svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-              data-ico="gauge"
-            >
-              <path d="m12 14 4-4"></path>
-              <path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg></span
-          ><span class="esa-button__label">Slow</span
-          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-            ><svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m6 9 6 6 6-6"></path></svg
-          ></span></button></span
-    ></esa-dropdown-menu>
+  <div class="bcn-sw3bar__row">
+    <div class="bcn-sw3bar__console">
+      <esa-button-group
+        class="bcn-sw3bar__transport"
+        aria-label="Scan transport"
+        role="group"
+        ><span
+          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            data-ico="scan-text"
+            data-tx="play"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+                data-ico="scan-text"
+              >
+                <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
+                <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+                <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+                <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
+                <path d="M7 8h8"></path>
+                <path d="M7 12h10"></path>
+                <path d="M7 16h6"></path></svg></span
+            ><span class="esa-button__label">Scan</span>
+          </button></span
+        ><span
+          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            data-ico="pause"
+            data-tx="pause"
+            disabled=""
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+                data-ico="pause"
+              >
+                <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+                <rect x="6" y="4" width="4" height="16" rx="1"></rect></svg></span
+            ><span class="esa-button__label">Pause</span>
+          </button></span
+        ><span
+          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            data-tx="restart"
+            disabled=""
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                <path d="M3 3v5h5"></path></svg></span
+            ><span class="esa-button__label">Restart</span>
+          </button></span
+        ></esa-button-group
+      ><esa-text-field
+        class="bcn-sw3bar__page"
+        size="sm"
+        inputmode="numeric"
+        aria-label="Page"
+        prefix="p."
+        suffix="of 1"
+        data-bar-page="true"
+      ></esa-text-field
+      ><esa-dropdown-menu
+        position="below-start"
+        data-bar-speed="true"
+        data-items='[{"label":"One at a time","action":"step"},{"label":"Slow","action":"watch"},{"label":"Fast","action":"run"}]'
+        width="auto"
+        ><span
+          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            data-ico="gauge"
+            data-bar-speed-btn="true"
+            aria-haspopup="menu"
+            aria-expanded="false"
+            aria-controls="menu"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+                data-ico="gauge"
+              >
+                <path d="m12 14 4-4"></path>
+                <path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg></span
+            ><span class="esa-button__label">Slow</span
+            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path></svg
+            ></span></button></span
+      ></esa-dropdown-menu>
+    </div>
+    <p class="bcn-sw3bar__status" data-bar-status="" role="status" hidden="">
+      <span class="bcn-sw3bar__dot" aria-hidden="true"></span
+      ><span data-bar-status-text=""></span
+      ><span class="bcn-sw3bar__status-act" data-bar-status-action=""></span>
+    </p>
   </div>
   <div class="bcn-sw3bar__scrub">
     <div
@@ -834,13 +838,58 @@ summary.esa-button--variant-chrome:focus-visible {
   flex-direction: column;
   display: flex;
 }
+.bcn-sw3bar__row {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-200) var(--spacing-400);
+  flex-wrap: wrap;
+  display: flex;
+}
+.bcn-sw3bar__status {
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+  color: var(--color-content-default);
+  font-variant-numeric: tabular-nums;
+  flex-wrap: wrap;
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  display: inline-flex;
+}
+.bcn-sw3bar__status[hidden] {
+  display: none;
+}
+.bcn-sw3bar__dot {
+  background: var(--color-content-default-secondary);
+  border-radius: 50%;
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+}
+.bcn-sw3bar__status[data-tone="warning"] .bcn-sw3bar__dot {
+  background: var(--color-background-utility-warning);
+}
+.bcn-sw3bar__status[data-tone="success"] .bcn-sw3bar__dot {
+  background: var(--color-background-utility-success);
+}
+.bcn-sw3bar__status[data-live] .bcn-sw3bar__dot {
+  background: var(--color-background-utility-success);
+  animation: 1.6s ease-in-out infinite bcn-sw3bar-live;
+}
+.bcn-sw3bar__status-act:empty {
+  display: none;
+}
 .bcn-sw3bar__console {
   align-items: center;
   gap: var(--spacing-200);
+  max-width: 100%;
   padding: var(--spacing-100);
   background: var(--color-background-elevation-sunken);
   border: 1px solid var(--color-border-default-subtle);
   border-radius: var(--radius-200);
+  flex-wrap: wrap;
+  justify-content: center;
   align-self: center;
   display: flex;
 }
@@ -887,6 +936,9 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3tools .esa-button,
 .bcn-sw3tools esa-dropdown-menu {
   flex: none;
+}
+.bcn-sw3scan[data-aldo-expanded] .bcn-sw3bar {
+  padding-inline: var(--spacing-300);
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);

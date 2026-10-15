@@ -17,6 +17,8 @@ export function setupAldoPanel(root: HTMLElement): void {
   };
   root.querySelector('[data-aldo-collapse]')?.addEventListener('click', () => set(false));
   root.querySelector('[data-aldo-expand]')?.addEventListener('click', () => set(true));
+  // The tray first: its Esc closes it before Esc would dock the expanded panel.
+  setupSide(root);
   setupOverlay(root);
   const dot = root.querySelector<HTMLElement>('[data-aldo-dot]');
   root.addEventListener('aldo:needs', (e) => {
@@ -24,76 +26,121 @@ export function setupAldoPanel(root: HTMLElement): void {
   });
 }
 
-/** The overlay: the panel's head and body move into esa-side-dialog and back. The head
- *  takes the dialog's header slot; the dialog is labelled by it. */
+/** The side region's indicator and tray (docked). Expanded, CSS shows the region as a sidebar
+ *  and hides the indicator. The indicator reads what waits: the needs count, else the
+ *  instructions count. */
+function setupSide(root: HTMLElement): void {
+  const toggle = root.querySelector<HTMLButtonElement>('[data-aldo-side-toggle]');
+  const side = root.querySelector<HTMLElement>('[data-aldo-side]');
+  if (!toggle || !side) return;
+  const count = toggle.querySelector<HTMLElement>('[data-waiting-count] .esa-badge__text')!;
+  const countHost = toggle.querySelector<HTMLElement>('[data-waiting-count]')!;
+  const label = toggle.querySelector<HTMLElement>('[data-waiting-label]')!;
+  let needs = 0;
+  let rules = 0;
+  const paint = () => {
+    toggle.hidden = !needs && !rules;
+    countHost.hidden = !needs;
+    count.textContent = String(needs);
+    label.textContent = needs ? (needs === 1 ? 'needs you' : 'need you') : `Instructions (${rules})`;
+    if (toggle.hidden) set(false);
+  };
+  const head = root.querySelector<HTMLElement>('.bcn-aldo-panel__head');
+  const set = (open: boolean) => {
+    // The tray hangs from the header, however tall the header wraps.
+    if (open && head) root.style.setProperty('--_aldo-head-h', `${head.offsetTop + head.offsetHeight}px`);
+    root.toggleAttribute('data-side-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+  };
+  toggle.addEventListener('click', () => set(!root.hasAttribute('data-side-open')));
+  root.addEventListener('aldo:needs', (e) => {
+    const n = (e as CustomEvent<{ count: number }>).detail.count;
+    // Something new: the indicator nods, it does not open the tray on its own.
+    if (n > needs) (toggle.removeAttribute('data-nudge'), void toggle.offsetWidth, toggle.setAttribute('data-nudge', ''));
+    needs = n;
+    paint();
+  });
+  root.addEventListener('aldo:instructions', (e) => {
+    rules = (e as CustomEvent<{ count: number }>).detail.count;
+    paint();
+  });
+  document.addEventListener('pointerdown', (e) => {
+    if (!root.hasAttribute('data-side-open')) return;
+    const t = e.target as Node;
+    if (!side.contains(t) && !toggle.contains(t)) set(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && root.hasAttribute('data-side-open')) {
+      // The tray's Esc only: the expanded panel does not dock on the same key.
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      set(false);
+      toggle.focus();
+    }
+  });
+}
+
+/** Expanded: the panel's body pins itself over the right half of the window, non-modal, so
+ *  the page beside it stays live and Aldo's page buttons move it in view. The host learns
+ *  where the panel starts (`--aldo-overlay-left` and `data-aldo-expanded` on the nearest
+ *  `[data-aldo]` ancestor) and makes room. Esc or Dock puts it back. */
 function setupOverlay(root: HTMLElement): void {
-  const dialog = root.querySelector<HTMLElement & { open: boolean; show(): void; close(): void }>('[data-aldo-overlay-dialog]');
-  if (!dialog) return;
+  const keys = root.querySelectorAll<HTMLElement>('[data-aldo-overlay]');
+  if (!keys.length) return;
   paintIcons(root);
   const body = root.querySelector<HTMLElement>('.bcn-aldo-panel__body')!;
-  const head = body.querySelector<HTMLElement>('.bcn-aldo-panel__head')!;
+  const host = root.parentElement?.closest<HTMLElement>('[data-aldo]') ?? null;
   const thread = (): HTMLElement | null => body.querySelector('[data-aldo-thread]');
-  const composer = body.querySelector<HTMLElement>('[data-aldo-composer]');
-  let home: Comment | null = null;
-  let composerHome: Comment | null = null;
-  const keep = () => {
-    // A move re-lays the thread out; hold the reader's place by distance from the end.
+  const expanded = () => root.hasAttribute('data-expanded');
+  // Hold the reader's place across the change of width: distance from the end.
+  const moving = (change: () => void) => {
     const t = thread();
-    return t ? t.scrollHeight - t.scrollTop : 0;
-  };
-  const restore = (fromEnd: number) =>
+    const fromEnd = t ? t.scrollHeight - t.scrollTop : 0;
+    change();
     requestAnimationFrame(() => {
-      const t = thread();
-      if (t) t.scrollTop = t.scrollHeight - fromEnd;
+      const u = thread();
+      if (u) u.scrollTop = u.scrollHeight - fromEnd;
     });
-
-  const open = () => {
-    if (home) return;
-    const at = keep();
-    home = document.createComment('aldo');
-    body.before(home);
-    head.slot = 'header';
-    body.dataset.expanded = '';
-    root.dataset.expanded = '';
-    dialog.append(head, body);
-    // The composer takes the dialog's footer: pinned under the conversation, above its rule.
-    if (composer) {
-      composerHome = document.createComment('aldo-composer');
-      composer.before(composerHome);
-      composer.slot = 'footer';
-      dialog.append(composer);
-    }
-    dialog.show();
-    restore(at);
-    root.dispatchEvent(new CustomEvent('aldo:expand-overlay', { bubbles: true }));
-    requestAnimationFrame(() => composer?.querySelector<HTMLElement>('[data-composer-input]')?.focus());
   };
-  const dock = () => {
-    if (!home) return;
-    const at = keep();
-    head.removeAttribute('slot');
-    if (composer && composerHome) {
-      composer.removeAttribute('slot');
-      composerHome.replaceWith(composer);
-      composerHome = null;
-    }
-    delete body.dataset.expanded;
-    delete root.dataset.expanded;
-    body.prepend(head);
-    home.replaceWith(body);
-    home = null;
-    restore(at);
-    root.dispatchEvent(new CustomEvent('aldo:dock', { bubbles: true }));
+  // The app's fixed top bar: the expanded panel starts under it, never over it.
+  const topbar = document.querySelector<HTMLElement>('[data-app-topbar], header.topbar');
+  const doc = document.documentElement;
+  const measure = () => {
+    if (!expanded()) return;
+    const top = topbar ? topbar.getBoundingClientRect().bottom : 0;
+    root.style.setProperty('--_aldo-top', `${Math.max(0, top)}px`);
+    // Where the panel starts, for the host (it makes room) and the page's floating bars.
+    // offsetLeft, not the bounding box: the panel slides in, and the box moves with the slide.
+    const left = `${body.offsetLeft}px`;
+    doc.style.setProperty('--aldo-overlay-left', left);
+    host?.style.setProperty('--aldo-overlay-left', left);
+    host?.dispatchEvent(new CustomEvent('aldo:overlay-resize', { bubbles: true }));
   };
-  // The head travels with the panel, so its keys are found wherever it is.
-  head.addEventListener('click', (e) => {
-    const key = (e.target as Element).closest<HTMLElement>('[data-aldo-overlay]');
-    if (!key) return;
-    if (key.dataset.aldoOverlay === 'open') open();
-    else dialog.close();
+  const open = () =>
+    moving(() => {
+      root.toggleAttribute('data-expanded', true);
+      host?.toggleAttribute('data-aldo-expanded', true);
+      doc.toggleAttribute('data-aldo-expanded', true);
+      measure();
+      requestAnimationFrame(measure);
+      root.dispatchEvent(new CustomEvent('aldo:expand-overlay', { bubbles: true }));
+      body.querySelector<HTMLElement>('[data-composer-input]')?.focus();
+    });
+  const dock = () =>
+    moving(() => {
+      root.removeAttribute('data-expanded');
+      host?.removeAttribute('data-aldo-expanded');
+      host?.style.removeProperty('--aldo-overlay-left');
+      doc.removeAttribute('data-aldo-expanded');
+      doc.style.removeProperty('--aldo-overlay-left');
+      root.dispatchEvent(new CustomEvent('aldo:dock', { bubbles: true }));
+    });
+  keys.forEach((k) => k.addEventListener('click', () => (k.dataset.aldoOverlay === 'open' ? open() : dock())));
+  window.addEventListener('resize', measure);
+  // Esc docks, unless something inside Aldo (a menu, a field) is using it first.
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && expanded() && !e.defaultPrevented) dock();
   });
-  // Esc, a click on the dimmed page, or Dock: the dialog closes, the panel goes home once it has slid out.
-  dialog.addEventListener('close', () => setTimeout(dock, 220));
 }
 
 // ── Status ──────────────────────────────────────────────────────────────────
@@ -125,8 +172,26 @@ export function mountNeeds<A extends AldoAction>(scope: ParentNode, parts: Parts
   const root = scope.querySelector<HTMLElement>('[data-aldo-needs]')!;
   const list = root.querySelector<HTMLElement>('[data-needs-list]')!;
   const count = root.querySelector<HTMLElement>('[data-needs-count] .esa-badge__text')!;
+  const toggle = root.querySelector<HTMLButtonElement>('[data-needs-toggle]')!;
+  const KEY = 'aldo:needs-folded';
+  const fold = (on: boolean) => {
+    root.toggleAttribute('data-folded', on);
+    toggle.setAttribute('aria-expanded', String(!on));
+    try {
+      localStorage.setItem(KEY, on ? '1' : '');
+    } catch {
+      /* no storage */
+    }
+  };
+  try {
+    if (localStorage.getItem(KEY)) fold(true);
+  } catch {
+    /* no storage */
+  }
+  toggle.addEventListener('click', () => fold(!root.hasAttribute('data-folded')));
   let sig = '';
   let last = -1;
+  let seen = new Set<string>();
   return {
     /** Newest first is the caller's order. */
     setItems(items: OpenItem<A>[]) {
@@ -147,6 +212,10 @@ export function mountNeeds<A extends AldoAction>(scope: ParentNode, parts: Parts
           }),
         );
       }
+      // Something new waits on the person: open the list, even if it was folded.
+      const ids = new Set(items.map((n) => n.id));
+      if (last >= 0 && items.some((n) => !seen.has(n.id))) fold(false);
+      seen = ids;
       root.hidden = !items.length;
       count.textContent = String(items.length);
       if (items.length !== last) {
@@ -177,6 +246,7 @@ export function mountInstructions(scope: ParentNode, parts: Parts) {
       // The scope alone is not worth a list: it shows once a rule or a fix joins it.
       const show = items.some((i) => i.kind !== 'scope');
       root.hidden = !show;
+      root.dispatchEvent(new CustomEvent('aldo:instructions', { bubbles: true, detail: { count: show ? items.length : 0 } }));
       if (!show) return;
       const next = JSON.stringify(items);
       if (next === sig) return;
