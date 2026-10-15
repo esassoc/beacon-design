@@ -6,6 +6,13 @@
 //
 //   out  sw3:page  detail: { page }   a "Show p. N" answer; the host moves the page
 //   out  sw3:find  detail: { id }     a commitment named in the check; the host shows it
+//   out  sw3:mark  detail: { page? }  Mark (on a page): the host arms drawing
+//   out  sw3:needs detail: { count }  how many things wait on the person (the rail's dot)
+//
+// What waits on the person is listed once, above the composer, until it is answered: the
+// check, a flagged reference, a passage with no heading, pages with nothing found, a box
+// with no ID. The log is the record of what happened; the list is the work left. A notice
+// in the log keeps its text; its buttons live in the list, so each answer has one place.
 
 import {
   initSw3,
@@ -30,6 +37,12 @@ import {
   identified,
   fixCommitment,
   editFind,
+  keptFinds,
+  openGaps,
+  commitmentCount,
+  headedForCheck,
+  heldForStep,
+  manual,
   now as runNow,
   calibrated,
   calibrationPoint,
@@ -151,7 +164,15 @@ export function setupSw3Aldo(root: HTMLElement): void {
     if (!started() && !skipped() && p) {
       if (p.go) {
         const go = p.go;
-        acts.push({
+        if (!manual())
+          acts.push({
+            label: 'Mark them myself',
+            run: () => {
+              act('Mark them myself', { kind: 'manual' }, 'Draw a box over each commitment. I read only the text inside your boxes.');
+              document.dispatchEvent(new CustomEvent('sw3:mark', { detail: {} }));
+            },
+          });
+        acts.unshift({
           label: go.label,
           primary: true,
           run: () => act(go.label, [{ kind: 'scope', first: go.first, last: go.last, label: go.scope }, { kind: 'start' }], `Reading ${range(go.first, go.last)}. I will stop after the first ${D.calibrate?.length ?? 3} commitments so you can check how I read them.`),
@@ -262,8 +283,8 @@ export function setupSw3Aldo(root: HTMLElement): void {
       who: 'Aldo',
       text: open
         ? allChecked
-          ? `All ${codes.length} checked. Resume when you are ready; I read the rest the way you checked these.`
-          : `I have read the first ${codes.length} commitments of the ${D.short} and stopped. For each one, check the ID, the name, and that the text starts and ends where the page does. Looks right if it does; Fix if I got any part wrong. What you fix is how I read the rest.`
+          ? `All ${codes.length} checked.`
+          : `First ${codes.length} of the ${D.short}. Check each ID, name, and where its text starts and ends. What you fix, I apply to the rest of the file.`
         : `I read the first ${codes.length} commitments and stopped for you to check them.`,
       acts: [],
     };
@@ -378,12 +399,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
           from: 'aldo',
           who: 'Aldo',
           text: `${f.code} on p. ${f.page} has no requirements of its own. It reads like a reference to another condition.`,
-          acts: open
-            ? [
-                { label: `Dismiss ${f.code}`, tone: 'danger', run: () => act(`Dismiss ${f.code}`, { kind: 'dismiss', findId: f.id, code: f.code }, `Removed ${f.code}.`) },
-                { label: 'References are not commitments', run: () => say('References to another condition are not commitments') },
-              ]
-            : [],
+          acts: [],
         });
       }
       if (f.kind === 'split') {
@@ -397,7 +413,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
           from: 'aldo',
           who: 'Aldo',
           text: `The passage at the top of p. ${f.page} has no heading of its own. It reads as the rest of ${code}.`,
-          acts: live.has(f.id) ? [{ label: `Merge into ${code}`, tone: 'info', run: () => act(`Merge p. ${f.page} into ${code}`, { kind: 'merge', findId: f.id, code }, `Merged. ${code} now runs onto p. ${f.page}.`) }] : [],
+          acts: [],
         });
       }
     }
@@ -407,21 +423,17 @@ export function setupSw3Aldo(root: HTMLElement): void {
     const read = scanned();
     if (started() && inScopePages.length && inScopePages.every((e) => read.has((e as { page: number }).page))) {
       const at = Math.max(...inScopePages.map((e) => e.t));
-      const n = finds().filter((f) => f.code).length;
-      const g = [...gaps()];
+      const n = commitmentCount();
       const first = Math.min(...read);
       const last = Math.max(...read);
-      const nothing = g.length && D.finds.length ? ` Nothing found on ${runs(g)}. If a commitment is there, drag over it on the page.` : '';
+      const open = needs(t).length;
       out.push({
         id: `${doc}:n:done`,
         t: at,
         from: 'aldo',
         who: 'Aldo',
-        text: `Read ${range(first, last)}: ${n} commitments.${nothing}`,
-        acts: [
-          ...(nothing ? [{ label: `Show p. ${Math.min(...g)}`, run: () => goto(Math.min(...g)) }] : []),
-          ...(doc === 'itp' ? [{ label: 'Review commitments', primary: true, run: () => (location.href = reviewHref) }] : []),
-        ],
+        text: `Read ${range(first, last)}: ${n} commitments.${open ? ` ${open} to settle, listed below.` : ''}`,
+        acts: doc === 'itp' ? [{ label: 'Review commitments', primary: true, run: () => (location.href = reviewHref) }] : [],
       });
     }
 
@@ -459,12 +471,162 @@ export function setupSw3Aldo(root: HTMLElement): void {
         from: 'aldo',
         who: 'Aldo',
         text: x.reply,
-        acts:
-          offerOpen && reread
-            ? [{ label: `Re-read ${range(offer.first, offer.last)}`, tone: 'info', run: () => act(`Re-read ${range(offer.first, offer.last)}`, reread, `Re-reading ${range(offer.first, offer.last)} with the instructions now in effect.`) }]
-            : [],
+        acts: [
+          ...(offerOpen && reread
+            ? [{ label: `Re-read ${range(offer.first, offer.last)}`, tone: 'info' as Tone, run: () => act(`Re-read ${range(offer.first, offer.last)}`, reread, `Re-reading ${range(offer.first, offer.last)} with the instructions now in effect.`) }]
+            : []),
+          // An unclear message: the readings, each sent as is. Only the latest steer offers them.
+          ...(x.choices && x.id === steers().at(-1)?.id ? x.choices.map((c) => ({ label: c.label, run: () => say(c.text) })) : []),
+        ],
       },
     ];
+  };
+
+  // ── What waits on the person ────────────────────────────────────────────────
+  interface Need {
+    id: string;
+    t: number;
+    text: string;
+    acts: Btn[];
+    /** Clicking the text shows this find, or this page. */
+    find?: string;
+    page?: number;
+  }
+  const PACE_REPLY_GO = {
+    run: 'Reading the rest. I will raise anything that needs you as I reach it.',
+    watch: 'Reading the rest slowly, so you can follow along.',
+    step: 'One commitment at a time: I will stop after each.',
+  } as const;
+  const needs = (t: number): Need[] => {
+    const D = payload();
+    const out: Need[] = [];
+    const doc = activeDoc();
+    // The check after the first commitments.
+    if (checking()) {
+      const codes = D.calibrate ?? [];
+      const left = codes.filter((c) => !checked().includes(c));
+      const cp = calibrationPoint() ?? 0;
+      out.push(
+        left.length
+          ? {
+              id: `${doc}:need:check`,
+              t: cp,
+              text: `Check the first ${codes.length}: ${left.length} left.`,
+              acts: [
+                { label: 'All look right', tone: 'success', run: () => act('All look right', left.map((code) => ({ kind: 'check' as const, code })), 'Good. How should I read the rest?') },
+                { label: 'Show them', run: () => showCheck() },
+              ],
+            }
+          : {
+              id: `${doc}:need:go`,
+              t: cp,
+              text: `All ${codes.length} checked. How should I read the rest?`,
+              acts: [
+                { label: 'Read the rest', primary: true, run: () => act('Read the rest', { kind: 'go', pace: 'run' }, PACE_REPLY_GO.run) },
+                { label: 'Watch it', run: () => act('Watch it', { kind: 'go', pace: 'watch' }, PACE_REPLY_GO.watch) },
+                { label: 'One at a time', run: () => act('One at a time', { kind: 'go', pace: 'step' }, PACE_REPLY_GO.step) },
+              ],
+            },
+      );
+    }
+    const live = new Set(finds().map((f) => f.id));
+    const kept = keptFinds();
+    const ruleAt = steers().find((x) => x.actions.some((a) => a.kind === 'rule' && a.crossRef))?.at;
+    for (const f of D.finds) {
+      if (!inScope(f.page) || !live.has(f.id) || kept.includes(f.id)) continue;
+      if (f.kind === 'false') {
+        const at = eventT(f.id) + 3;
+        if (at > t || (ruleAt !== undefined && ruleAt <= eventT(f.id))) continue;
+        out.push({
+          id: `${doc}:need:false:${f.id}`,
+          t: at,
+          find: f.id,
+          text: `${f.code} on p. ${f.page} reads like a reference to another condition.`,
+          acts: [
+            { label: `Dismiss ${f.code}`, tone: 'danger', run: () => act(`Dismiss ${f.code}`, { kind: 'dismiss', findId: f.id, code: f.code }, `Removed ${f.code}.`) },
+            { label: 'Keep it', run: () => act(`Keep ${f.code}`, { kind: 'keep', findId: f.id, code: f.code }, `Kept ${f.code} as a commitment.`) },
+            { label: 'Skip all cross-references', tone: 'info', run: () => say('References to another condition are not commitments') },
+          ],
+        });
+      }
+      if (f.kind === 'split') {
+        const at = eventT(f.id);
+        if (at > t) continue;
+        const code = (f.partOf ? findOf(f.partOf)?.code : undefined) ?? 'the commitment before it';
+        out.push({
+          id: `${doc}:need:split:${f.id}`,
+          t: at,
+          find: f.id,
+          text: `The top of p. ${f.page} has no heading. It reads as the rest of ${code}.`,
+          acts: [
+            { label: `Merge into ${code}`, tone: 'info', run: () => act(`Merge p. ${f.page} into ${code}`, { kind: 'merge', findId: f.id, code }, `Merged. ${code} now runs onto p. ${f.page}.`) },
+            { label: 'Keep separate', run: () => act(`Keep p. ${f.page} separate`, { kind: 'keep', findId: f.id, code }, `Kept the passage on p. ${f.page} as its own.`) },
+          ],
+        });
+      }
+    }
+    for (const g of openGaps()) {
+      const where = range(g.first, g.last);
+      out.push({
+        id: `${doc}:need:gap:${g.first}`,
+        t: Infinity,
+        page: g.first,
+        text: `Nothing found on ${where}.`,
+        acts: [
+          { label: `Mark on p. ${g.first}`, tone: 'info', run: () => document.dispatchEvent(new CustomEvent('sw3:mark', { detail: { page: g.first } })) },
+          { label: 'Nothing there', run: () => act(`Nothing on ${where}`, { kind: 'clear', first: g.first, last: g.last }, `Noted: no commitments on ${where}.`) },
+        ],
+      });
+    }
+    // A box a person drew that has no ID yet.
+    for (const f of finds()) {
+      if (!f.marked || f.shown) continue;
+      const page = f.boxes[0]?.page ?? f.page;
+      out.push({
+        id: `${doc}:need:mark:${f.id}`,
+        t: Infinity,
+        find: f.id,
+        text: `Your box on p. ${page} has no ID.`,
+        acts: [{ label: 'Edit ID and name', run: () => (showFind(f.id), document.dispatchEvent(new CustomEvent('sw3:edit', { detail: { id: f.id } }))) }],
+      });
+    }
+    return out;
+  };
+  /** Bring the check (its first message) into the log's view. */
+  const showCheck = () => {
+    const el = els.get(`${activeDoc()}:check`);
+    if (el) log.scrollTop = Math.max(0, el.offsetTop - log.offsetTop - 8);
+  };
+  const queue = root.querySelector<HTMLElement>('[data-aldo-queue]')!;
+  const queueList = root.querySelector<HTMLElement>('[data-queue-list]')!;
+  const queueCount = root.querySelector<HTMLElement>('[data-queue-count]')!;
+  let lastNeeds = -1;
+  const paintQueue = () => {
+    const list = needs(now()).sort((a, b) => b.t - a.t);
+    const sig = `${activeDoc()}|${list.map((n) => `${n.id}:${n.text}:${n.acts.map((a) => a.label).join(',')}`).join('|')}`;
+    if (queue.dataset.sig !== sig) {
+      queue.dataset.sig = sig;
+      queueList.replaceChildren(
+        ...list.map((n) => {
+          const li = elx('li', 'bcn-sw3aldo__need');
+          const text = elx(n.find || n.page ? 'button' : 'p', 'bcn-sw3aldo__needtext', n.text);
+          if (text instanceof HTMLButtonElement) {
+            text.type = 'button';
+            text.addEventListener('click', () => (n.find ? showFind(n.find) : goto(n.page!)));
+          }
+          const acts = elx('span', 'bcn-sw3aldo__needacts');
+          acts.append(...n.acts.map(button));
+          li.append(text, acts);
+          return li;
+        }),
+      );
+    }
+    queue.hidden = !list.length;
+    queueCount.textContent = String(list.length);
+    if (list.length !== lastNeeds) {
+      lastNeeds = list.length;
+      document.dispatchEvent(new CustomEvent('sw3:needs', { detail: { count: list.length } }));
+    }
   };
 
   // ── Paint ───────────────────────────────────────────────────────────────────
@@ -477,23 +639,35 @@ export function setupSw3Aldo(root: HTMLElement): void {
     const D = payload();
     const total = D.total ?? D.scope.last;
     const head = started() ? headPage() : null;
-    const n = finds().filter((f) => f.code).length;
+    const n = commitmentCount();
+    const open = needs(now()).length;
     let kind: 'check' | 'reading' | 'done' | null = null;
     let text = '';
-    if (skipped() || !started()) kind = null;
-    else if (checking()) {
+    if (skipped()) kind = null;
+    else if (!started()) {
+      // Marking by hand: no run, only the person's boxes.
+      const marked = finds().length;
+      kind = manual() ? 'reading' : null;
+      text = `By hand. ${marked} marked.`;
+    } else if (checking()) {
       const left = (D.calibrate?.length ?? 3) - checked().length;
       kind = 'check';
       text = left > 0 ? `Stopped for your check: ${left} left.` : 'Checked. Resume to read the rest.';
     } else if (finished() || head === null) {
       kind = 'done';
-      text = stopped() ? `Stopped. ${n} commitment${n === 1 ? '' : 's'} found.` : `Done. ${n} commitment${n === 1 ? '' : 's'} found.`;
+      text = `${stopped() ? 'Stopped' : 'Done'}. ${n} commitment${n === 1 ? '' : 's'} found.${open ? ` ${open} to settle.` : ''}`;
+    } else if (heldForStep()) {
+      kind = 'reading';
+      text = `One at a time: stopped at p. ${head}. Resume reads the next commitment.`;
     } else if (paused() || pausing()) {
       kind = 'reading';
       text = paused() ? `Paused at p. ${Math.max(1, head - 1)} of ${total}. ${n} found so far.` : `Pausing after p. ${head}.`;
     } else {
       kind = 'reading';
-      text = `Reading p. ${head} of ${total}. ${n} found so far.`;
+      const toCheck = D.calibrate?.length ?? 3;
+      text = headedForCheck()
+        ? `Reading p. ${head} of ${total}. Stopping after ${toCheck} commitments for your check.`
+        : `Reading p. ${head} of ${total}. ${n} found so far.`;
     }
     statusEl.querySelectorAll<HTMLElement>('[data-status]').forEach((el) => {
       const on = el.dataset.status === kind;
@@ -511,9 +685,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
     if (skipped()) {
       // nothing to offer
     } else if (!started()) for (const text of D.proposal?.suggest ?? []) opts.push({ label: text, run: () => say(text) });
-    else if (checking()) {
-      if (checked().length < (D.calibrate?.length ?? 3)) opts.push({ label: 'They look right', run: () => say('They look right') });
-    }
+    // The check's answers are in the list of what waits on the person.
     // Pause, resume and speed are the console's; the chat offers only what is said in words.
     const sig = `${activeDoc()}|${opts.map((o) => o.label).join('|')}`;
     if (suggest.dataset.sig === sig) return;
@@ -522,6 +694,8 @@ export function setupSw3Aldo(root: HTMLElement): void {
   };
 
   let lastDoc = '';
+  let lastSaid = 0;
+  let lastSaidDoc = '';
   const render = () => {
     const doc = activeDoc();
     if (doc !== lastDoc) {
@@ -576,10 +750,17 @@ export function setupSw3Aldo(root: HTMLElement): void {
       if (want !== e) log.insertBefore(e, want);
       prev = e;
     }
-    if (lead) log.scrollTop = lead.offsetTop - log.offsetTop - 8;
+    // A person's own message, and the reply to it, always come into view.
+    const said = steers().length;
+    const spoke = said > lastSaid && lastSaidDoc === doc;
+    lastSaid = said;
+    lastSaidDoc = doc;
+    if (spoke) log.scrollTop = log.scrollHeight;
+    else if (lead) log.scrollTop = lead.offsetTop - log.offsetTop - 8;
     else if (added && nearBottom) log.scrollTop = log.scrollHeight;
 
     paintStatus();
+    paintQueue();
     paintSuggest();
   };
 

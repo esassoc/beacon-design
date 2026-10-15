@@ -9,7 +9,9 @@
 // it (a find with nothing in it, a passage split across a page break, pages with nothing
 // found), each with the one-click answer; a click is recorded like a typed message.
 //
-// Where the run is sits pinned above the composer as its status: reading (blue, with the
+// What waits on the person (the check, a flagged reference, a headless passage, pages with
+// nothing found, a box with no ID) is listed under the log as Needs you, with its buttons,
+// until answered; the log keeps the record. Where the run is sits pinned above the composer as its status: reading (blue, with the
 // page), stopped for the person's check (yellow), paused or stopped (neutral), done
 // (green). A rule governs the pages not yet read; for pages already read Aldo offers a
 // re-read.
@@ -47,6 +49,12 @@ const { review } = Astro.props;
   </header>
 
   <ol class="bcn-sw3aldo__log" data-aldo-log aria-live="polite"></ol>
+
+  <!-- What waits on the person, until answered: the work left, apart from the record. -->
+  <section class="bcn-sw3aldo__queue" data-aldo-queue aria-label="Needs you" hidden>
+    <h4 class="bcn-sw3aldo__queuehead">Needs you <span class="bcn-sw3aldo__queuecount" data-queue-count>0</span></h4>
+    <ul class="bcn-sw3aldo__queuelist" data-queue-list></ul>
+  </section>
 
   <div class="bcn-sw3aldo__status" data-aldo-status role="status">
     <div data-status="check" hidden><EsaAlertBox variant="warning"><span data-status-text></span></EsaAlertBox></div>
@@ -233,6 +241,69 @@ const { review } = Astro.props;
   .bcn-sw3aldo__msg[data-kind='check'] { max-width: 100%; width: 100%; margin-bottom: var(--spacing-200); }
 
   /* Where the run is, pinned above the composer. */
+  /* Needs you: a compact stack between the log and the status, newest first. It caps its
+     height and scrolls, so the composer stays in view. */
+  .bcn-sw3aldo__queue {
+    margin: 0 var(--spacing-400) var(--spacing-200);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-raised);
+    box-shadow: var(--elevation-1);
+    overflow: hidden;
+  }
+  .bcn-sw3aldo__queue[hidden] { display: none; }
+  .bcn-sw3aldo__queuehead {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150, 0.375rem);
+    margin: 0;
+    padding: var(--spacing-150, 0.375rem) var(--spacing-300);
+    background: var(--color-background-elevation-sunken);
+    border-bottom: 1px solid var(--color-border-default);
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+  .bcn-sw3aldo__queuecount {
+    min-width: 1.25rem;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: var(--color-background-utility-warning);
+    color: var(--color-content-default);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-sw3aldo__queuelist {
+    max-height: 13rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-y: auto;
+  }
+  .bcn-sw3aldo__queuelist :global(.bcn-sw3aldo__need) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150, 0.375rem);
+    padding: var(--spacing-200) var(--spacing-300);
+  }
+  .bcn-sw3aldo__queuelist :global(.bcn-sw3aldo__need + .bcn-sw3aldo__need) { border-top: 1px solid var(--color-border-default-subtle); }
+  .bcn-sw3aldo__queuelist :global(.bcn-sw3aldo__needtext) {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--color-content-default);
+    text-align: left;
+  }
+  .bcn-sw3aldo__queuelist :global(button.bcn-sw3aldo__needtext) { cursor: pointer; }
+  .bcn-sw3aldo__queuelist :global(button.bcn-sw3aldo__needtext:hover) { text-decoration: underline; }
+  .bcn-sw3aldo__queuelist :global(.bcn-sw3aldo__needacts) { display: flex; flex-wrap: wrap; gap: var(--spacing-100); }
+
   .bcn-sw3aldo__status { padding: 0 var(--spacing-400) var(--spacing-200); }
   .bcn-sw3aldo__status:not(:has(> :not([hidden]))) { display: none; }
   .bcn-sw3aldo__status > [hidden] { display: none; }

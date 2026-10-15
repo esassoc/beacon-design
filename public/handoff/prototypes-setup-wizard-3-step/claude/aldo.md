@@ -3,6 +3,10 @@
 The conversation that scopes, checks and steers the scan of the file in view, dense at 13px, with the composer always in view and the run's status pinned above it: reading (blue), stopped for the check (yellow), done (green). The run stops after its first three commitments; Aldo says what to check, then gives each commitment its own message: a lead (where it took the ID and name from, how far the text runs) and a card with the ID, name and quoted text (clamped, with Show all), a p. N button, Looks right and Fix. Fix opens the ID, name and text as fields, with Save and Redraw the box. Edit ID and name on the page toolbar opens the same fields for any commitment. Requirements, timing and parties are reviewed in step 2.
 
 ## Key decisions
+- Needs you: what waits on the person is listed under the log with its answers until answered (the check, a flagged reference with Dismiss / Keep it / Skip all cross-references, a headless passage with Merge / Keep separate, pages with nothing found with Mark on p. N / Nothing there, a drawn box with no ID). The log keeps the notice text; the buttons live only in the list.
+- After the check: Read the rest (fast, the default), Watch it, One at a time. Before it, the status reads "Stopping after 3 commitments for your check", never a pause.
+- A question is answered and changes nothing; a message too short to act on gets its readings as buttons. Prod's structured call needs answer and unclear kinds.
+- Mark them myself (on the opening): the person draws each commitment; Aldo names what is inside each box. Status: "By hand. N marked."
 - The check is the training step: what the person fixes there becomes an instruction for the rest of the file.
 - Buttons carry meaning in their color: green to accept, red to remove (Dismiss), blue to change the record (Merge, Re-read), the primary for the next step, neutral otherwise. Only send is Aldo's green.
 - A name fixed at the check is the commitment's name in step 2.
@@ -10,6 +14,10 @@ The conversation that scopes, checks and steers the scan of the file in view, de
 - Each file keeps its own conversation; switching files switches the thread.
 
 ## Done when
+- At the check, Needs you reads "Check the first 3: 3 left." All look right, then Read the rest: the run goes on at Fast.
+- When the run is done: Needs you lists COA 11.32, the top of p. 156 and pp. 152 to 154; Keep it on 11.32 and Merge on p. 156 leave one, and the status reads "1 to settle."
+- Type "why did you flag 11.32?": Aldo explains and the instructions are unchanged.
+- On the MMRP, Mark them myself, then drag over MM AES-1a: Aldo reads it as MM AES-1a and the status reads "By hand. 1 marked."
 - Fix COA 11.1, change its name, Save: the card reads Fixed, and step 2 shows the new name.
 - Looks right on the other two, then Resume: the run goes on.
 - Reload: every file's conversation and run are where they were.
@@ -87,10 +95,28 @@ The conversation that scopes, checks and steers the scan of the file in view, de
           ><button class="esa-button__native typography-microcopy-2xs" type="button">
             <span class="esa-button__label">Scan Condition 11</span>
           </button></span
+        ><span
+          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
+          ><button class="esa-button__native typography-microcopy-2xs" type="button">
+            <span class="esa-button__label">Mark them myself</span>
+          </button></span
         ></span
       >
     </li>
   </ol>
+  <!-- What waits on the person, until answered: the work left, apart from the record. -->
+  <section
+    class="bcn-sw3aldo__queue"
+    data-aldo-queue=""
+    aria-label="Needs you"
+    hidden=""
+    data-sig="itp|"
+  >
+    <h4 class="bcn-sw3aldo__queuehead">
+      Needs you <span class="bcn-sw3aldo__queuecount" data-queue-count="">0</span>
+    </h4>
+    <ul class="bcn-sw3aldo__queuelist" data-queue-list=""></ul>
+  </section>
   <div class="bcn-sw3aldo__status" data-aldo-status="" role="status">
     <div data-status="check" hidden="">
       <div class="esa-alert-box esa-alert-box--warning typography-body-sm">
@@ -930,6 +956,78 @@ summary.esa-button--variant-chrome:focus-visible {
   max-width: 100%;
   margin-bottom: var(--spacing-200);
 }
+.bcn-sw3aldo__queue {
+  margin: 0 var(--spacing-400) var(--spacing-200);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-raised);
+  box-shadow: var(--elevation-1);
+  overflow: hidden;
+}
+.bcn-sw3aldo__queue[hidden] {
+  display: none;
+}
+.bcn-sw3aldo__queuehead {
+  align-items: center;
+  gap: var(--spacing-150, 0.375rem);
+  padding: var(--spacing-150, 0.375rem) var(--spacing-300);
+  background: var(--color-background-elevation-sunken);
+  border-bottom: 1px solid var(--color-border-default);
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  display: flex;
+}
+.bcn-sw3aldo__queuecount {
+  background: var(--color-background-utility-warning);
+  min-width: 1.25rem;
+  color: var(--color-content-default);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  border-radius: 999px;
+  padding: 0 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.bcn-sw3aldo__queuelist {
+  max-height: 13rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+}
+.bcn-sw3aldo__queuelist .bcn-sw3aldo__need {
+  gap: var(--spacing-150, 0.375rem);
+  padding: var(--spacing-200) var(--spacing-300);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-sw3aldo__queuelist .bcn-sw3aldo__need + .bcn-sw3aldo__need {
+  border-top: 1px solid var(--color-border-default-subtle);
+}
+.bcn-sw3aldo__queuelist .bcn-sw3aldo__needtext {
+  font: inherit;
+  color: var(--color-content-default);
+  text-align: left;
+  background: 0 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+.bcn-sw3aldo__queuelist button.bcn-sw3aldo__needtext {
+  cursor: pointer;
+}
+.bcn-sw3aldo__queuelist button.bcn-sw3aldo__needtext:hover {
+  text-decoration: underline;
+}
+.bcn-sw3aldo__queuelist .bcn-sw3aldo__needacts {
+  gap: var(--spacing-100);
+  flex-wrap: wrap;
+  display: flex;
+}
 .bcn-sw3aldo__status {
   padding: 0 var(--spacing-400) var(--spacing-200);
 }
@@ -1229,6 +1327,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
+- `--elevation-1`: 0 1px 4px 0 #00000008 _(semantic)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_

@@ -1003,7 +1003,8 @@ export const commitmentCount = () =>
   finds().filter((f) => f.shown && (f.kind !== 'false' || keptFinds().includes(f.id))).length;
 /** Runs of read pages with nothing found that a person has not answered. */
 export const openGaps = (): { first: number; last: number }[] => {
-  if (!started() || !finished() || !D.finds.length) return [];
+  // Done reading the scope (the clock may idle on past it).
+  if (!started() || (!finished() && headPage() !== null) || !D.finds.length) return [];
   const g = [...gaps()].sort((a, b) => a - b);
   const out: { first: number; last: number }[] = [];
   for (let i = 0; i < g.length; ) {

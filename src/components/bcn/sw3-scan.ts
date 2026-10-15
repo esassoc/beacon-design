@@ -29,6 +29,7 @@ import {
   redo,
   canUndo,
   canRedo,
+  manual,
   paused,
   pausing,
   rereading,
@@ -251,6 +252,8 @@ export function setupSw3Scan(root: HTMLElement): void {
       if (m) (also.clear(), (selected = m.id));
       render();
       focusSelected();
+      // No heading inside the box: its ID and name open in Aldo at once.
+      if (m && !m.code) editSelected();
     },
     onEdit: (id, page, box) => setFindBox(id, page, { page, ...box }, 'Adjusted'),
     onRemove: () => deleteSelected(),
@@ -522,7 +525,11 @@ export function setupSw3Scan(root: HTMLElement): void {
     if (!started()) {
       if (!go) return;
       act('Start', [{ kind: 'scope', first: go.first, last: go.last, label: go.scope }, { kind: 'start' }], `Reading ${go.scope}. I will stop after the first ${D().calibrate?.length ?? 3} commitments so you can check how I read them.`);
-    } else if (checking()) act('Resume', { kind: 'go', pace: pace() }, PACE_REPLY[pace()]);
+    } else if (checking()) {
+      // After the check the default is to let it read: Fast, unless One at a time was chosen.
+      const p: Pace = pace() === 'step' ? 'step' : 'run';
+      act('Resume', { kind: 'go', pace: p }, PACE_REPLY[p]);
+    }
     else act('Resume', { kind: 'resume' }, `Resuming at p. ${headPage()}.`);
   });
   tx.pause.addEventListener('click', () => act('Pause', { kind: 'pause' }, `Pausing after p. ${headPage()}: that page is already being read.`));
@@ -631,6 +638,21 @@ export function setupSw3Scan(root: HTMLElement): void {
   document.addEventListener('sw3:page', (e) => pick((e as CustomEvent<{ page: number }>).detail.page));
   document.addEventListener('sw3:find', (e) => select((e as CustomEvent<{ id: string }>).detail.id));
   document.addEventListener('sw3:aldo', () => setAldo(true));
+  // Aldo's Mark (on a page): go there and arm drawing.
+  document.addEventListener('sw3:mark', (e) => {
+    const page = (e as CustomEvent<{ page?: number }>).detail?.page;
+    if (sel?.kind !== 'file') return;
+    if (page) setView(page);
+    clearSel();
+    setDrawing(true);
+    render();
+  });
+  // Anything waiting on the person puts a dot on Aldo's rail.
+  let needsYou = false;
+  document.addEventListener('sw3:needs', (e) => {
+    needsYou = (e as CustomEvent<{ count: number }>).detail.count > 0;
+    railDot.hidden = !needsYou;
+  });
   // Fix at the check: redraw the commitment's box.
   document.addEventListener('sw3:redraw', (e) => {
     const id = (e as CustomEvent<{ id: string }>).detail.id;
@@ -709,14 +731,15 @@ export function setupSw3Scan(root: HTMLElement): void {
     if (!fileMode) return;
 
     const on = started();
-    const list = on ? finds() : [];
+    // Marking by hand draws the person's boxes before any scan.
+    const list = on || manual() ? finds() : [];
     const head = on ? headPage() : null;
     const done = on && (finished() || head === null);
     const again = rereading();
     const isChecking = checking();
     if (isChecking && !wasChecking) setAldo(true);
     wasChecking = isChecking;
-    railDot.hidden = !isChecking;
+    railDot.hidden = !needsYou;
 
     if (isFollowing() && on) {
       if (isChecking) {
