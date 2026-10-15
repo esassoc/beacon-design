@@ -227,6 +227,20 @@ import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
   .bcn-sw3src__list :global(.bcn-sw3src__file:hover > .bcn-sw3src__menu),
   .bcn-sw3src__list :global(.bcn-sw3src__menu:focus-within),
   .bcn-sw3src__list :global(.bcn-sw3src__menu[open]) { opacity: 1; }
+  /* The row menus are dense, as the page tools' More menu is (the lego has no density hook):
+     13px, medium, about 25px rows. The trigger gets its spacing back. */
+  .bcn-sw3src__list :global(.bcn-sw3src__menu) {
+    --spacing-200: 0.25rem;
+    --spacing-300: 0.5rem;
+    --dropdown-menu-min-width: 10rem;
+    --typography-body-md-font-size: 0.8125rem;
+    --typography-body-md-line-height: 1.3;
+    --typography-body-md-font-weight: var(--typography-font-weight-medium);
+  }
+  .bcn-sw3src__list :global(.bcn-sw3src__menu > *) {
+    --spacing-200: 0.5rem;
+    --spacing-300: 0.75rem;
+  }
 </style>
 
 <script>

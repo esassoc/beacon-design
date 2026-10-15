@@ -48,6 +48,7 @@ import {
   skipped,
   stopped,
   headPage,
+  pace as currentPace,
   act,
   say,
   takeBack,
@@ -87,6 +88,12 @@ const PACE_REPLY_GO = {
 } as const;
 
 export function setupSw3Aldo(root: HTMLElement): void {
+  /** Confirming the check goes on reading: Fast after it, unless One at a time was chosen. */
+  const goOn = (): { action: SteerAction; reply: string } => {
+    const p = currentPace() === 'step' ? 'step' : 'run';
+    return { action: { kind: 'go', pace: p }, reply: PACE_REPLY_GO[p] };
+  };
+  const leftToCheck = () => (payload().calibrate ?? []).filter((c) => !checked().includes(c));
   initSw3();
   const reviewHref = root.dataset.review ?? '';
   const review: Anchor = { kind: 'route', path: reviewHref };
@@ -149,10 +156,9 @@ export function setupSw3Aldo(root: HTMLElement): void {
     const sig = s ? `${s.tone}|${s.text}|${s.action?.label ?? ''}|${live}` : '';
     if (sig === statusSig) return;
     statusSig = sig;
-    statusEl.hidden = !s;
+    statusEl.hidden = !s?.action;
     statusEl.dataset.tone = s?.tone ?? '';
     statusEl.toggleAttribute('data-live', live);
-    statusEl.querySelector('[data-bar-status-text]')!.textContent = s?.text ?? '';
     statusEl.querySelector('[data-bar-status-action]')!.replaceChildren(...(s?.action ? [parts.button(s.action, press)] : []));
   };
   const needsList = mountNeeds(root, parts, press);
@@ -277,7 +283,10 @@ export function setupSw3Aldo(root: HTMLElement): void {
         actions:
           open && !done.includes(code)
             ? [
-                { label: 'Looks right', tone: 'success', does: { act: { kind: 'check', code }, reply: `Noted: ${code} read right.` } },
+                leftToCheck().length === 1 && leftToCheck()[0] === code
+                  ? // The last of the check: confirming it goes on reading.
+                    { label: 'Looks right', tone: 'success', does: { act: [{ kind: 'check', code }, goOn().action], reply: `Noted: ${code} read right. ${goOn().reply}` } }
+                  : { label: 'Looks right', tone: 'success', does: { act: { kind: 'check', code }, reply: `Noted: ${code} read right.` } },
                 { label: 'Fix', does: { run: () => (fixing.add(code), render()) } },
               ]
             : [],
@@ -499,7 +508,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
         switch (it.kind) {
           case 'check':
             return raised('check', it.t, it.kind, `Check the first ${it.total}: ${it.left.length} left.`, [
-              { label: 'All look right', tone: 'success', does: { act: it.left.map((code) => ({ kind: 'check' as const, code })), reply: 'Good. How should I read the rest?' } },
+              { label: 'All look right', tone: 'success', does: { act: [...it.left.map((code) => ({ kind: 'check' as const, code })), goOn().action], reply: `Good. ${goOn().reply}` } },
               { label: 'Show them', does: { run: () => thread.scrollTo(`${doc}:check`) } },
             ]);
           case 'go':

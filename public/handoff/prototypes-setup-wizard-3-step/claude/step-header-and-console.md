@@ -1,6 +1,6 @@
 # Step header and console
 
-One panel: the step's numeral, title and prod's description; under a gray rule, the console for the file in view, centered: the transport (Scan or Resume, Pause, Restart), each a neutral key with its icon and name, the page in view of the file's page count as one field (type a page to go to it), and the speed (One at a time, Slow, Fast) in a menu. Beside the console, where the run is, said once: a plain line of text with a small dot, not an alert (the dot pulses while reading and turns amber at the check; once the run is done the line goes away, and the Library row carries what is left to settle), with its one action when it has one (Review the 12 so far). Below, every page of the file in one strip.
+One panel: the step's numeral, title and prod's description; under a gray rule, the console for the file in view, centered: the transport (Scan or Resume, Pause, Restart), each a neutral key with its icon and name, the page in view of the file's page count as one field (type a page to go to it), and the speed (One at a time, Slow, Fast) in a menu. Nothing beside the console says where the run is: the console's pressed key, the page field and the strip show it. When the run is paused partway, one button sits beside it: Review the N so far, with its one action when it has one (Review the 12 so far). Below, every page of the file in one strip.
 
 ## Key decisions
 - Each key is live only when it can act, and the run's state reads as a pressed key: Scan before the run, Resume when it is paused or stopped for the check, Pause while it reads, Restart once it has begun. Restart asks first and clears the file's scan and steers.
@@ -163,9 +163,11 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
       ></esa-dropdown-menu>
     </div>
     <p class="bcn-sw3bar__status" data-bar-status="" role="status" hidden="">
-      <span class="bcn-sw3bar__dot" aria-hidden="true"></span
-      ><span data-bar-status-text=""></span
-      ><span class="bcn-sw3bar__status-act" data-bar-status-action=""></span>
+      <!-- No readout (text and dot removed 2026-10-14): the keys, the page and the strip say
+         where the run is. Only the status's action shows here. --><span
+        class="bcn-sw3bar__status-act"
+        data-bar-status-action=""
+      ></span>
     </p>
   </div>
   <div class="bcn-sw3bar__scrub">
@@ -863,26 +865,7 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: 1.4;
   display: inline-flex;
 }
-.bcn-sw3bar__status[hidden] {
-  display: none;
-}
-.bcn-sw3bar__dot {
-  background: var(--color-content-default-secondary);
-  border-radius: 50%;
-  flex: none;
-  width: 0.5rem;
-  height: 0.5rem;
-}
-.bcn-sw3bar__status[data-tone="warning"] .bcn-sw3bar__dot {
-  background: var(--color-background-utility-warning);
-}
-.bcn-sw3bar__status[data-tone="success"] .bcn-sw3bar__dot {
-  background: var(--color-background-utility-success);
-}
-.bcn-sw3bar__status[data-live] .bcn-sw3bar__dot {
-  background: var(--color-background-utility-success);
-  animation: 1.6s ease-in-out infinite bcn-sw3bar-live;
-}
+.bcn-sw3bar__status[hidden],
 .bcn-sw3bar__status-act:empty {
   display: none;
 }

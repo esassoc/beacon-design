@@ -131,8 +131,9 @@ export function interpret(raw: string, ctx: SteerContext): Interpretation & { of
   // The check after the first commitments: they read right.
   if (ctx.checking && /looks? (right|good|fine)|correct|all good|that's right|yes/i.test(text)) {
     return {
-      actions: ctx.calibrate.map((code) => ({ kind: 'check' as const, code })),
-      reply: 'Good. How should I go on? Fast, slow so you can follow along, or one commitment at a time.',
+      // Confirming the check goes on reading, fast; the speed menu changes it.
+      actions: [...ctx.calibrate.map((code) => ({ kind: 'check' as const, code })), { kind: 'go', pace: 'run' }],
+      reply: 'Good. Reading the rest. I will raise anything that needs you as I reach it.',
     };
   }
 

@@ -2,8 +2,8 @@
 // <BcnSw3Toolbar> — the console for the scan of the file in view, under the step's header
 // in one panel (a gray rule between). Transport on the left, as on a deck: Scan (start,
 // resume, or go on past the check), Pause and Restart. Then the page in view of the file's page count (type a page to go to it),
-// and the speed. Beside them, where the run is, in a word: the status, said here and nowhere
-// else (it left the Aldo panel: the run is the workspace's, not the conversation's). Below,
+// and the speed. Beside them, the status's one action when it has one (Review the N so far).
+// Below,
 // every page of the file in one strip.
 //
 // The buttons set the run's state, so each one is enabled only when it can act: Scan
@@ -56,8 +56,8 @@ const SPEEDS = [
     </esa-dropdown-menu>
   </div>
   <p class="bcn-sw3bar__status" data-bar-status role="status" hidden>
-    <span class="bcn-sw3bar__dot" aria-hidden="true"></span>
-    <span data-bar-status-text></span>
+    <!-- No readout (text and dot removed 2026-10-14): the keys, the page and the strip say
+         where the run is. Only the status's action shows here. -->
     <span class="bcn-sw3bar__status-act" data-bar-status-action></span>
   </p>
   </div>
@@ -82,7 +82,7 @@ const SPEEDS = [
     justify-content: center;
     gap: var(--spacing-200) var(--spacing-400);
   }
-  /* The status: a readout, not an alert. Plain text by the keys; the dot carries the tone. */
+  /* The status: only its action, by the keys. */
   .bcn-sw3bar__status {
     display: inline-flex;
     flex-wrap: wrap;
@@ -96,22 +96,7 @@ const SPEEDS = [
     font-variant-numeric: tabular-nums;
   }
   .bcn-sw3bar__status[hidden] { display: none; }
-  .bcn-sw3bar__dot {
-    flex: none;
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 50%;
-    background: var(--color-content-default-secondary);
-  }
-  .bcn-sw3bar__status[data-tone='warning'] .bcn-sw3bar__dot { background: var(--color-background-utility-warning); }
-  .bcn-sw3bar__status[data-tone='success'] .bcn-sw3bar__dot { background: var(--color-background-utility-success); }
-  .bcn-sw3bar__status[data-live] .bcn-sw3bar__dot {
-    background: var(--color-background-utility-success);
-    animation: bcn-sw3bar-live 1.6s ease-in-out infinite;
-  }
   .bcn-sw3bar__status-act:empty { display: none; }
-  @keyframes bcn-sw3bar-live { 50% { opacity: 0.35; } }
-  @media (prefers-reduced-motion: reduce) { .bcn-sw3bar__status[data-live] .bcn-sw3bar__dot { animation: none; } }
   /* The console: the transport and the speed side by side on a sunken tray. */
   .bcn-sw3bar__console {
     display: flex;

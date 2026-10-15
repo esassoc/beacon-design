@@ -4,7 +4,7 @@ The conversation that scopes, checks and steers the scan of the file in view, de
 
 ## Key decisions
 - Open items: what waits on the person is listed with its answers until answered, behind an indicator in the panel's header (a count and "open items", or "Instructions (n)" when nothing waits) that opens it as a tray over the log; the indicator nods when a new item arrives and never opens on its own. Expanded on a wide window (1440 and up) the list is a sidebar beside the conversation instead (items: the check, a flagged reference with Dismiss / Keep it / Skip all cross-references, a headless passage with Merge / Keep separate, pages with nothing found with Mark on p. N / Nothing there, a drawn box with no ID). The log keeps the notice text; the buttons live only in the list.
-- After the check: Read the rest (fast, the default), Watch it, One at a time. Before it, the status reads "Stopping after 3 commitments for your check", never a pause.
+- Confirming the last commitment of the check (Looks right, All look right, or saying so) goes on reading, Fast, or One at a time if that was chosen; the speed menu changes it. Before the check, the status reads "Stopping after 3 commitments for your check", never a pause.
 - A question is answered and changes nothing; a message too short to act on gets its readings as buttons. Prod's structured call needs answer and unclear kinds.
 - Instructions in effect, collapsed under the log with a count: the scope, each rule with the page it took effect from, each fix from the check.
 - A scanned file (no text layer) shows Reading page images, p. N of M in its row, the status and Aldo's opening until OCR is done; nothing else starts before it.

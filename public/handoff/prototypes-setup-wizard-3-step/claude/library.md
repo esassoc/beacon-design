@@ -1181,6 +1181,18 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3src__list .bcn-sw3src__menu[open] {
   opacity: 1;
 }
+.bcn-sw3src__list .bcn-sw3src__menu {
+  --spacing-200: 0.25rem;
+  --spacing-300: 0.5rem;
+  --dropdown-menu-min-width: 10rem;
+  --typography-body-md-font-size: 0.8125rem;
+  --typography-body-md-line-height: 1.3;
+  --typography-body-md-font-weight: var(--typography-font-weight-medium);
+}
+.bcn-sw3src__list .bcn-sw3src__menu > * {
+  --spacing-200: 0.5rem;
+  --spacing-300: 0.75rem;
+}
 .bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
   color: var(--bcn-aldo-600);
 }
