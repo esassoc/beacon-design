@@ -30,6 +30,8 @@ import {
   canUndo,
   canRedo,
   manual,
+  preparing,
+  toSettle,
   paused,
   pausing,
   rereading,
@@ -663,6 +665,13 @@ export function setupSw3Scan(root: HTMLElement): void {
 
   // ── A file's state, for its row ─────────────────────────────────────────────
   const fileState = (): FileState => {
+    const prep = preparing();
+    if (prep) return { kind: 'preparing', ...prep };
+    const st = fileStateOf();
+    const settle = toSettle();
+    return settle ? { ...st, settle } : st;
+  };
+  const fileStateOf = (): FileState => {
     if (skipped()) return { kind: 'none' };
     if (!started()) return { kind: 'idle' };
     const n = finds().filter((f) => f.code).length;
@@ -676,6 +685,8 @@ export function setupSw3Scan(root: HTMLElement): void {
   const scanLine = (st: FileState) =>
     st.kind === 'idle'
       ? 'Not scanned.'
+      : st.kind === 'preparing'
+        ? `Reading page images, p. ${st.page} of ${st.total}.`
       : st.kind === 'reading'
         ? `Reading p. ${st.page}.`
         : st.kind === 'check'

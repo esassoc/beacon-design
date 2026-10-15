@@ -5,6 +5,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
 ## Key decisions
 - SetupWizardSourceDto and SetupWizardSourceFileDto as they are: source fields plus files with PageCount and CommitmentCount. The per-file scan state is new.
 - Every run keeps going while another file is in view.
+- Each row carries one badge for what waits on that file: "3 to check" at the check, otherwise "N to settle" (its Needs you list). A scanned file reads "Reading page images, p. N of M" with a progress bar while OCR runs.
 - Deletes ask first through a confirm dialog that states the impact (DeletionImpactGet): how many files and commitments go with it.
 
 ## Done when
@@ -1302,6 +1303,10 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .esa-progress-bar__fill {
   background: highlight;
+}
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
 }
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));

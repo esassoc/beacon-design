@@ -37,8 +37,9 @@ import {
   identified,
   fixCommitment,
   editFind,
-  keptFinds,
-  openGaps,
+  openItems,
+  preparing,
+  rules,
   commitmentCount,
   headedForCheck,
   heldForStep,
@@ -80,6 +81,14 @@ interface Item {
   extra?: { sig: string; build: () => HTMLElement };
 }
 
+/** The MMRP columns Aldo takes as fields (its opening names these four), in the table's order. */
+const COLUMN_LABELS: [string, string][] = [
+  ['timing', 'Timing'],
+  ['party', 'Implementation party'],
+  ['schedule', 'Reporting schedule'],
+  ['orgs', 'Permitting organizations'],
+];
+
 const range = (a: number, b: number) => (a === b ? `p. ${a}` : `pp. ${a}–${b}`);
 /** Runs of consecutive pages, as "pp. 152–154" / "p. 160". */
 const runs = (pages: number[]) => {
@@ -99,6 +108,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
   const reviewHref = root.dataset.review ?? '';
   const log = root.querySelector<HTMLElement>('[data-aldo-log]')!;
   const statusEl = root.querySelector<HTMLElement>('[data-aldo-status]')!;
+  statusEl.querySelector('[data-aldo-review-btn]')?.addEventListener('click', () => (location.href = reviewHref));
   const suggest = root.querySelector<HTMLElement>('[data-aldo-suggest]')!;
   const form = root.querySelector<HTMLFormElement>('[data-aldo-form]')!;
   const field = root.querySelector<Field>('[data-aldo-input]')!;
@@ -181,6 +191,17 @@ export function setupSw3Aldo(root: HTMLElement): void {
         acts.push({ label: 'Nothing to scan', primary: true, run: () => act('Nothing to scan', { kind: 'skip' }, 'Skipped. It stays in the project as a source document with no commitments.') });
       }
     }
+    // A scanned file: its page images are read before anything can be proposed.
+    const prep = preparing();
+    if (prep)
+      return {
+        id: `${activeDoc()}:opening`,
+        t: -1,
+        from: 'aldo',
+        who: 'Aldo',
+        text: `This file is scanned: it has no text layer. I am reading its pages as images first, p. ${prep.page} of ${prep.total}. Then I will tell you what is in it.`,
+        acts: [],
+      };
     return { id: `${activeDoc()}:opening`, t: -1, from: 'aldo', who: 'Aldo', text: p?.text ?? `Tell me which pages of the ${D.short} hold its commitments.`, acts };
   };
 
@@ -242,6 +263,15 @@ export function setupSw3Aldo(root: HTMLElement): void {
       const quote = elx('blockquote', 'bcn-sw3aldo__quote');
       quote.append(elx('span', 'bcn-sw3aldo__quotetext', c.text || 'No text identified.'));
       el.append(quote);
+      // A table row: the fields Aldo took from its columns are what the person checks too.
+      if (c.columns && Object.keys(c.columns).length) {
+        const dl = elx('dl', 'bcn-sw3aldo__cols');
+        for (const [k, label] of COLUMN_LABELS) {
+          const v = c.columns[k];
+          if (v) dl.append(elx('dt', '', label), elx('dd', '', v));
+        }
+        el.append(dl);
+      }
       const meta = elx('div', 'bcn-sw3aldo__checkmeta');
       meta.append(button({ label: `p. ${c.page}`, run: () => showFind(code) }));
       if (c.text.length > 320) {
@@ -273,6 +303,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
       const pages = [...new Set((f?.boxes ?? []).map((b) => b.page))].sort((a, b) => a - b);
       const words = c.text.trim() ? c.text.trim().split(/\s+/).length : 0;
       const runsOn = pages.length > 1 ? `, onto p. ${pages.at(-1)}` : '';
+      if (c.columns) return `${i + 1} of ${codes.length}. I took the ID and name from the row on p. ${c.page}, and its fields from the table's columns. The text runs ${words} words${runsOn}, up to the next row.`;
       return `${i + 1} of ${codes.length}. I took the ID and name from the heading on p. ${c.page}. The text runs ${words} words${runsOn}, up to the next heading.`;
     };
     const allChecked = codes.every((c) => done.includes(c));
@@ -497,100 +528,77 @@ export function setupSw3Aldo(root: HTMLElement): void {
     watch: 'Reading the rest slowly, so you can follow along.',
     step: 'One commitment at a time: I will stop after each.',
   } as const;
-  const needs = (t: number): Need[] => {
-    const D = payload();
-    const out: Need[] = [];
+  const needs = (_t?: number): Need[] => {
     const doc = activeDoc();
-    // The check after the first commitments.
-    if (checking()) {
-      const codes = D.calibrate ?? [];
-      const left = codes.filter((c) => !checked().includes(c));
-      const cp = calibrationPoint() ?? 0;
-      out.push(
-        left.length
-          ? {
-              id: `${doc}:need:check`,
-              t: cp,
-              text: `Check the first ${codes.length}: ${left.length} left.`,
-              acts: [
-                { label: 'All look right', tone: 'success', run: () => act('All look right', left.map((code) => ({ kind: 'check' as const, code })), 'Good. How should I read the rest?') },
-                { label: 'Show them', run: () => showCheck() },
-              ],
-            }
-          : {
-              id: `${doc}:need:go`,
-              t: cp,
-              text: `All ${codes.length} checked. How should I read the rest?`,
-              acts: [
-                { label: 'Read the rest', primary: true, run: () => act('Read the rest', { kind: 'go', pace: 'run' }, PACE_REPLY_GO.run) },
-                { label: 'Watch it', run: () => act('Watch it', { kind: 'go', pace: 'watch' }, PACE_REPLY_GO.watch) },
-                { label: 'One at a time', run: () => act('One at a time', { kind: 'go', pace: 'step' }, PACE_REPLY_GO.step) },
-              ],
-            },
-      );
-    }
-    const live = new Set(finds().map((f) => f.id));
-    const kept = keptFinds();
-    const ruleAt = steers().find((x) => x.actions.some((a) => a.kind === 'rule' && a.crossRef))?.at;
-    for (const f of D.finds) {
-      if (!inScope(f.page) || !live.has(f.id) || kept.includes(f.id)) continue;
-      if (f.kind === 'false') {
-        const at = eventT(f.id) + 3;
-        if (at > t || (ruleAt !== undefined && ruleAt <= eventT(f.id))) continue;
-        out.push({
-          id: `${doc}:need:false:${f.id}`,
-          t: at,
-          find: f.id,
-          text: `${f.code} on p. ${f.page} reads like a reference to another condition.`,
-          acts: [
-            { label: `Dismiss ${f.code}`, tone: 'danger', run: () => act(`Dismiss ${f.code}`, { kind: 'dismiss', findId: f.id, code: f.code }, `Removed ${f.code}.`) },
-            { label: 'Keep it', run: () => act(`Keep ${f.code}`, { kind: 'keep', findId: f.id, code: f.code }, `Kept ${f.code} as a commitment.`) },
-            { label: 'Skip all cross-references', tone: 'info', run: () => say('References to another condition are not commitments') },
-          ],
-        });
+    return openItems().map((it): Need => {
+      switch (it.kind) {
+        case 'check':
+          return {
+            id: `${doc}:need:check`,
+            t: it.t,
+            text: `Check the first ${it.total}: ${it.left.length} left.`,
+            acts: [
+              { label: 'All look right', tone: 'success', run: () => act('All look right', it.left.map((code) => ({ kind: 'check' as const, code })), 'Good. How should I read the rest?') },
+              { label: 'Show them', run: () => showCheck() },
+            ],
+          };
+        case 'go':
+          return {
+            id: `${doc}:need:go`,
+            t: it.t,
+            text: `All ${it.total} checked. How should I read the rest?`,
+            acts: [
+              { label: 'Read the rest', primary: true, run: () => act('Read the rest', { kind: 'go', pace: 'run' }, PACE_REPLY_GO.run) },
+              { label: 'Watch it', run: () => act('Watch it', { kind: 'go', pace: 'watch' }, PACE_REPLY_GO.watch) },
+              { label: 'One at a time', run: () => act('One at a time', { kind: 'go', pace: 'step' }, PACE_REPLY_GO.step) },
+            ],
+          };
+        case 'false':
+          return {
+            id: `${doc}:need:false:${it.findId}`,
+            t: it.t,
+            find: it.findId,
+            text: `${it.code} on p. ${it.page} reads like a reference to another condition.`,
+            acts: [
+              { label: `Dismiss ${it.code}`, tone: 'danger', run: () => act(`Dismiss ${it.code}`, { kind: 'dismiss', findId: it.findId, code: it.code }, `Removed ${it.code}.`) },
+              { label: 'Keep it', run: () => act(`Keep ${it.code}`, { kind: 'keep', findId: it.findId, code: it.code }, `Kept ${it.code} as a commitment.`) },
+              { label: 'Skip all cross-references', tone: 'info', run: () => say('References to another condition are not commitments') },
+            ],
+          };
+        case 'split':
+          return {
+            id: `${doc}:need:split:${it.findId}`,
+            t: it.t,
+            find: it.findId,
+            text: `The top of p. ${it.page} has no heading. It reads as the rest of ${it.code}.`,
+            acts: [
+              { label: `Merge into ${it.code}`, tone: 'info', run: () => act(`Merge p. ${it.page} into ${it.code}`, { kind: 'merge', findId: it.findId, code: it.code }, `Merged. ${it.code} now runs onto p. ${it.page}.`) },
+              { label: 'Keep separate', run: () => act(`Keep p. ${it.page} separate`, { kind: 'keep', findId: it.findId, code: it.code }, `Kept the passage on p. ${it.page} as its own.`) },
+            ],
+          };
+        case 'gap': {
+          const where = range(it.first, it.last);
+          return {
+            id: `${doc}:need:gap:${it.first}`,
+            t: it.t,
+            page: it.first,
+            text: `Nothing found on ${where}.`,
+            acts: [
+              { label: `Mark on p. ${it.first}`, tone: 'info', run: () => document.dispatchEvent(new CustomEvent('sw3:mark', { detail: { page: it.first } })) },
+              { label: 'Nothing there', run: () => act(`Nothing on ${where}`, { kind: 'clear', first: it.first, last: it.last }, `Noted: no commitments on ${where}.`) },
+            ],
+          };
+        }
+        case 'mark':
+          return {
+            id: `${doc}:need:mark:${it.findId}`,
+            t: it.t,
+            find: it.findId,
+            text: `Your box on p. ${it.page} has no ID.`,
+            acts: [{ label: 'Edit ID and name', run: () => (showFind(it.findId), document.dispatchEvent(new CustomEvent('sw3:edit', { detail: { id: it.findId } }))) }],
+          };
       }
-      if (f.kind === 'split') {
-        const at = eventT(f.id);
-        if (at > t) continue;
-        const code = (f.partOf ? findOf(f.partOf)?.code : undefined) ?? 'the commitment before it';
-        out.push({
-          id: `${doc}:need:split:${f.id}`,
-          t: at,
-          find: f.id,
-          text: `The top of p. ${f.page} has no heading. It reads as the rest of ${code}.`,
-          acts: [
-            { label: `Merge into ${code}`, tone: 'info', run: () => act(`Merge p. ${f.page} into ${code}`, { kind: 'merge', findId: f.id, code }, `Merged. ${code} now runs onto p. ${f.page}.`) },
-            { label: 'Keep separate', run: () => act(`Keep p. ${f.page} separate`, { kind: 'keep', findId: f.id, code }, `Kept the passage on p. ${f.page} as its own.`) },
-          ],
-        });
-      }
-    }
-    for (const g of openGaps()) {
-      const where = range(g.first, g.last);
-      out.push({
-        id: `${doc}:need:gap:${g.first}`,
-        t: Infinity,
-        page: g.first,
-        text: `Nothing found on ${where}.`,
-        acts: [
-          { label: `Mark on p. ${g.first}`, tone: 'info', run: () => document.dispatchEvent(new CustomEvent('sw3:mark', { detail: { page: g.first } })) },
-          { label: 'Nothing there', run: () => act(`Nothing on ${where}`, { kind: 'clear', first: g.first, last: g.last }, `Noted: no commitments on ${where}.`) },
-        ],
-      });
-    }
-    // A box a person drew that has no ID yet.
-    for (const f of finds()) {
-      if (!f.marked || f.shown) continue;
-      const page = f.boxes[0]?.page ?? f.page;
-      out.push({
-        id: `${doc}:need:mark:${f.id}`,
-        t: Infinity,
-        find: f.id,
-        text: `Your box on p. ${page} has no ID.`,
-        acts: [{ label: 'Edit ID and name', run: () => (showFind(f.id), document.dispatchEvent(new CustomEvent('sw3:edit', { detail: { id: f.id } }))) }],
-      });
-    }
-    return out;
+    });
   };
   /** Bring the check (its first message) into the log's view. */
   const showCheck = () => {
@@ -629,6 +637,38 @@ export function setupSw3Aldo(root: HTMLElement): void {
     }
   };
 
+  // ── Instructions in effect ──────────────────────────────────────────────────
+  const rulesEl = root.querySelector<HTMLElement>('[data-aldo-rules]')!;
+  const rulesList = root.querySelector<HTMLElement>('[data-rules-list]')!;
+  const rulesTitle = rulesEl.querySelector<HTMLElement>('.esa-collapsible__title');
+  const paintRules = () => {
+    const lines: { text: string; from: string }[] = [];
+    if (started()) {
+      const sc = state().scope;
+      lines.push({ text: `Read ${range(sc.first, sc.last)}.`, from: 'Scope' });
+    }
+    for (const r of rules()) lines.push({ text: r.text, from: r.page ? `From p. ${r.page}` : 'From the start' });
+    for (const [code, f] of Object.entries(state().fixes)) {
+      const what = [f.code && f.code !== code ? `ID ${f.code}` : '', f.title ? `name "${f.title}"` : '', f.text !== undefined ? 'its text' : ''].filter(Boolean).join(', ');
+      if (what) lines.push({ text: `Read like your fix of ${code}: ${what}.`, from: 'From the check' });
+    }
+    // The scope alone is not worth a list; it shows once a rule or a fix joins it.
+    const show = lines.length > 1;
+    rulesEl.hidden = !show;
+    if (!show) return;
+    const sig = JSON.stringify(lines);
+    if (rulesList.dataset.sig === sig) return;
+    rulesList.dataset.sig = sig;
+    if (rulesTitle) rulesTitle.textContent = `Instructions in effect (${lines.length})`;
+    rulesList.replaceChildren(
+      ...lines.map((l) => {
+        const li = document.createElement('li');
+        li.append(elx('span', 'bcn-sw3aldo__rulefrom', `${l.from}. `), document.createTextNode(l.text));
+        return li;
+      }),
+    );
+  };
+
   // ── Paint ───────────────────────────────────────────────────────────────────
   const els = new Map<string, HTMLElement>();
   const actsSig = new Map<string, string>();
@@ -643,7 +683,11 @@ export function setupSw3Aldo(root: HTMLElement): void {
     const open = needs(now()).length;
     let kind: 'check' | 'reading' | 'done' | null = null;
     let text = '';
-    if (skipped()) kind = null;
+    const prep = preparing();
+    if (prep) {
+      kind = 'reading';
+      text = `Reading page images: p. ${prep.page} of ${prep.total}.`;
+    } else if (skipped()) kind = null;
     else if (!started()) {
       // Marking by hand: no run, only the person's boxes.
       const marked = finds().length;
@@ -669,6 +713,15 @@ export function setupSw3Aldo(root: HTMLElement): void {
         ? `Reading p. ${head} of ${total}. Stopping after ${toCheck} commitments for your check.`
         : `Reading p. ${head} of ${total}. ${n} found so far.`;
     }
+    // Paused partway (by the person): what was found so far can be reviewed now.
+    const review = statusEl.querySelector<HTMLElement>('[data-aldo-review]')!;
+    const pausedHere = !!started() && !finished() && head !== null && paused() && !checking() && !heldForStep() && !prep;
+    review.hidden = !(pausedHere && activeDoc() === 'itp' && n > 0);
+    if (!review.hidden) {
+      const b = review.querySelector('.esa-button__label');
+      const label = `Review the ${n} so far`;
+      if (b && b.textContent !== label) b.textContent = label;
+    }
     statusEl.querySelectorAll<HTMLElement>('[data-status]').forEach((el) => {
       const on = el.dataset.status === kind;
       el.hidden = !on;
@@ -682,8 +735,8 @@ export function setupSw3Aldo(root: HTMLElement): void {
   const paintSuggest = () => {
     const D = payload();
     const opts: Btn[] = [];
-    if (skipped()) {
-      // nothing to offer
+    if (skipped() || preparing()) {
+      // nothing to offer (a scanned file is still being read as images)
     } else if (!started()) for (const text of D.proposal?.suggest ?? []) opts.push({ label: text, run: () => say(text) });
     // The check's answers are in the list of what waits on the person.
     // Pause, resume and speed are the console's; the chat offers only what is said in words.
@@ -760,6 +813,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
     else if (added && nearBottom) log.scrollTop = log.scrollHeight;
 
     paintStatus();
+    paintRules();
     paintQueue();
     paintSuggest();
   };

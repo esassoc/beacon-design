@@ -80,6 +80,9 @@ export interface ScanDoc {
   pdf: string;
   /** Pages in the document. */
   total: number;
+  /** A scanned file (no text layer): seconds per page to read its page images first (OCR),
+   *  before the scope pass can run. */
+  prepare?: number;
   /** The pages this prototype's replay covers; a wider scope clamps to it. */
   scope: { first: number; last: number };
   pageSeconds: number;
@@ -227,6 +230,7 @@ const nod: ScanDoc = {
   file: '02.0_Delta Conveyance Project Notice of Determination Signed 21DEC23.pdf',
   pdf: '/source-docs/dcp-nod.pdf',
   total: 4,
+  prepare: 2,
   scope: { first: 1, last: 4 },
   pageSeconds: PAGE_SECONDS,
   sections: [],

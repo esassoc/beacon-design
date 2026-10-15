@@ -31,6 +31,7 @@
 // bcn-sw3-aldo is the home for "a conversation that steers a running job".
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
 import BcnAldoMark from './BcnAldoMark.astro';
 import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
 
@@ -50,6 +51,14 @@ const { review } = Astro.props;
 
   <ol class="bcn-sw3aldo__log" data-aldo-log aria-live="polite"></ol>
 
+  <!-- What governs the read: the scope, each rule with the page it took effect from, and
+       each fix from the check. Collapsed: a count. -->
+  <div class="bcn-sw3aldo__rules" data-aldo-rules hidden>
+    <EsaCollapsible title="Instructions in effect" flush>
+      <ol class="bcn-sw3aldo__ruleslist" data-rules-list></ol>
+    </EsaCollapsible>
+  </div>
+
   <!-- What waits on the person, until answered: the work left, apart from the record. -->
   <section class="bcn-sw3aldo__queue" data-aldo-queue aria-label="Needs you" hidden>
     <h4 class="bcn-sw3aldo__queuehead">Needs you <span class="bcn-sw3aldo__queuecount" data-queue-count>0</span></h4>
@@ -60,6 +69,8 @@ const { review } = Astro.props;
     <div data-status="check" hidden><EsaAlertBox variant="warning"><span data-status-text></span></EsaAlertBox></div>
     <div data-status="reading" hidden><EsaAlertBox variant="info"><span data-status-text></span></EsaAlertBox></div>
     <div data-status="done" hidden><EsaAlertBox variant="success"><span data-status-text></span></EsaAlertBox></div>
+    <!-- Paused partway: what was found so far can be reviewed now. -->
+    <span class="bcn-sw3aldo__review" data-aldo-review hidden><EsaButton variant="secondary" size="xs" data-aldo-review-btn>Review so far</EsaButton></span>
   </div>
 
   <div class="bcn-sw3aldo__suggest" data-aldo-suggest></div>
@@ -305,6 +316,44 @@ const { review } = Astro.props;
   .bcn-sw3aldo__queuelist :global(.bcn-sw3aldo__needacts) { display: flex; flex-wrap: wrap; gap: var(--spacing-100); }
 
   .bcn-sw3aldo__status { padding: 0 var(--spacing-400) var(--spacing-200); }
+  .bcn-sw3aldo__review { display: flex; margin-top: var(--spacing-150, 0.375rem); }
+  .bcn-sw3aldo__review[hidden] { display: none; }
+
+  /* Instructions in effect: a quiet disclosure under the log, open to read the list. */
+  .bcn-sw3aldo__rules {
+    margin: 0 var(--spacing-400) var(--spacing-200);
+    padding: 0 var(--spacing-300);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-sunken);
+    --typography-label-sm-strong-font-size: 0.8125rem;
+  }
+  .bcn-sw3aldo__rules[hidden] { display: none; }
+  .bcn-sw3aldo__rules :global(.esa-collapsible__summary) { padding-block: var(--spacing-150, 0.375rem); }
+  .bcn-sw3aldo__ruleslist {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150, 0.375rem);
+    max-height: 9rem;
+    margin: 0;
+    padding: 0 0 var(--spacing-200) 1.1rem;
+    overflow-y: auto;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+  }
+  .bcn-sw3aldo__ruleslist :global(.bcn-sw3aldo__rulefrom) { color: var(--color-content-default-secondary); font-size: 0.75rem; font-weight: 500; }
+
+  /* A table row's columns on its check card: label beside value, dense. */
+  .bcn-sw3aldo__log :global(.bcn-sw3aldo__cols) {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 2px var(--spacing-200);
+    margin: var(--spacing-200) 0 0;
+    font-size: 0.75rem;
+    line-height: 1.35;
+  }
+  .bcn-sw3aldo__log :global(.bcn-sw3aldo__cols dt) { color: var(--color-content-default-secondary); font-weight: 500; }
+  .bcn-sw3aldo__log :global(.bcn-sw3aldo__cols dd) { margin: 0; font-weight: 500; }
   .bcn-sw3aldo__status:not(:has(> :not([hidden]))) { display: none; }
   .bcn-sw3aldo__status > [hidden] { display: none; }
   .bcn-sw3aldo__status :global(.esa-alert-box) { padding: var(--spacing-150, 0.375rem) var(--spacing-250, 0.625rem); font-size: 0.8125rem; align-items: center; }

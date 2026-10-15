@@ -38,6 +38,8 @@ export interface Sw3Payload {
   pdf?: string;
   /** Pages in the document. */
   total?: number;
+  /** A scanned file: seconds per page to read its page images (OCR) before anything else. */
+  prepare?: number;
   sections?: { match: string; label: string; first: number; last: number }[];
   /** Requirement candidates as boxes on the page (the scan page). */
   spans?: { id: string; code: string; name: string; boxes: Box[] }[];
@@ -116,6 +118,7 @@ export const initSw3 = (): Sw3Payload => {
     /* no storage */
   }
   use(want);
+  beginPrepare();
   startTicking();
   return D;
 };
@@ -156,6 +159,7 @@ export const activeDoc = () => current;
 export const setActiveDoc = (id: string) => {
   if (!slots.has(id) || id === current) return;
   use(id);
+  beginPrepare();
   try {
     localStorage.setItem(`${KEY}:active`, id);
   } catch {
@@ -172,6 +176,23 @@ export const peek = <T>(id: string, fn: () => T): T => {
   } finally {
     use(prev);
   }
+};
+
+// ── A scanned file: its page images are read first ─────────────────────────────
+// In prod a file with no text layer goes through OCR at upload, which takes minutes for a
+// long permit; nothing else (the scope pass, the run) can start until it is done. Here it
+// starts the first time the file is opened.
+const beginPrepare = () => {
+  if (!D?.prepare || S.prepStart) return;
+  S.prepStart = Date.now();
+  save();
+};
+/** Reading a scanned file's page images: the page it is on, or null when done (or none). */
+export const preparing = (): { page: number; total: number } | null => {
+  if (!D?.prepare || !S.prepStart) return null;
+  const total = D.total ?? 1;
+  const page = Math.floor((Date.now() - S.prepStart) / 1000 / D.prepare) + 1;
+  return page > total ? null : { page, total };
 };
 
 export const payload = () => D;
@@ -266,6 +287,8 @@ export interface Sw3State {
   clear?: string[];
   /** The person chose to mark the commitments themselves (no scan run). */
   manual?: boolean;
+  /** A scanned file: when reading its page images began (epoch ms). */
+  prepStart?: number;
 }
 
 export type Pace = 'step' | 'watch' | 'run';
@@ -651,6 +674,12 @@ const startTicking = () => {
     let changed = false;
     for (const [id, sl] of slots) {
       use(id);
+      const prep = preparing();
+      if (prep || (D.prepare && sl.lastSig.startsWith('prep:'))) {
+        const sig = prep ? `prep:${prep.page}` : 'prepared';
+        if (sig !== sl.lastSig) (sl.lastSig = sig), cache.clear(), (changed = true);
+        continue;
+      }
       if (!started()) continue;
       const t = now();
       // A change only when an event crossed: count the events whose time has come.
@@ -837,7 +866,8 @@ export const setFindBox = (id: string, page: number, box: Box, label: string) =>
 export const identified = (code: string) => {
   const c = commitmentByCode.get(code) as (ScanCommitment & { text?: string }) | undefined;
   const fix = S.fixes[code] ?? {};
-  return { code: fix.code ?? code, title: fix.title ?? c?.title ?? code, text: fix.text ?? c?.text ?? '', page: c?.page ?? 0, fixed: !!S.fixes[code] };
+  const columns = (c as { columns?: Record<string, string> } | undefined)?.columns;
+  return { code: fix.code ?? code, title: fix.title ?? c?.title ?? code, text: fix.text ?? c?.text ?? '', page: c?.page ?? 0, fixed: !!S.fixes[code], columns };
 };
 
 /** A person's fix at the check: the ID, name or text as it should have read. Checks it, and
@@ -996,6 +1026,40 @@ export const editFind = (id: string, patch: { code?: string; title?: string; tex
   });
 
 // ── What needs a person ──────────────────────────────────────────────────────
+/** One thing waiting on the person, as data: Aldo gives it words and buttons, the Library
+ *  counts it. */
+export type OpenItem =
+  | { kind: 'check'; t: number; left: string[]; total: number }
+  | { kind: 'go'; t: number; total: number }
+  | { kind: 'false'; t: number; findId: string; code: string; page: number }
+  | { kind: 'split'; t: number; findId: string; code: string; page: number }
+  | { kind: 'gap'; t: number; first: number; last: number }
+  | { kind: 'mark'; t: number; findId: string; page: number };
+export const openItems = (): OpenItem[] =>
+  memo('openItems', () => {
+    const t = now();
+    const out: OpenItem[] = [];
+    if (checking()) {
+      const codes = D.calibrate ?? [];
+      const left = codes.filter((c) => !S.checked.includes(c));
+      const cp = calibrationPoint() ?? 0;
+      out.push(left.length ? { kind: 'check', t: cp, left, total: codes.length } : { kind: 'go', t: cp, total: codes.length });
+    }
+    const live = new Set(finds().map((f) => f.id));
+    const kept = keptFinds();
+    const ruleAt = S.steers.find((x) => x.actions.some((a) => a.kind === 'rule' && a.crossRef))?.at;
+    for (const f of D.finds) {
+      if (!inScope(f.page) || !live.has(f.id) || kept.includes(f.id)) continue;
+      const at = foundTime(f.id);
+      if (f.kind === 'false' && at + 3 <= t && !(ruleAt !== undefined && ruleAt <= at)) out.push({ kind: 'false', t: at + 3, findId: f.id, code: f.code, page: f.page });
+      if (f.kind === 'split' && at <= t) out.push({ kind: 'split', t: at, findId: f.id, code: (f.partOf ? findById.get(f.partOf)?.code : undefined) ?? 'the commitment before it', page: f.page });
+    }
+    for (const g of openGaps()) out.push({ kind: 'gap', t: Infinity, ...g });
+    for (const f of finds()) if (f.marked && !f.shown) out.push({ kind: 'mark', t: Infinity, findId: f.id, page: f.boxes[0]?.page ?? f.page });
+    return out;
+  });
+/** What is left to settle, not counting the check (which has its own badge). */
+export const toSettle = () => openItems().filter((i) => i.kind !== 'check' && i.kind !== 'go').length;
 export const keptFinds = () => S.keptFinds ?? [];
 export const manual = () => !!S.manual;
 /** Commitments found, counting a flagged reference only once a person kept it. */

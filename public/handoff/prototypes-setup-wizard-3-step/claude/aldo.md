@@ -6,6 +6,10 @@ The conversation that scopes, checks and steers the scan of the file in view, de
 - Needs you: what waits on the person is listed under the log with its answers until answered (the check, a flagged reference with Dismiss / Keep it / Skip all cross-references, a headless passage with Merge / Keep separate, pages with nothing found with Mark on p. N / Nothing there, a drawn box with no ID). The log keeps the notice text; the buttons live only in the list.
 - After the check: Read the rest (fast, the default), Watch it, One at a time. Before it, the status reads "Stopping after 3 commitments for your check", never a pause.
 - A question is answered and changes nothing; a message too short to act on gets its readings as buttons. Prod's structured call needs answer and unclear kinds.
+- Instructions in effect, collapsed under the log with a count: the scope, each rule with the page it took effect from, each fix from the check.
+- A scanned file (no text layer) shows Reading page images, p. N of M in its row, the status and Aldo's opening until OCR is done; nothing else starts before it.
+- An MMRP check card shows the four fields taken from the table's columns under the quote.
+- A paused run offers Review the N so far.
 - Mark them myself (on the opening): the person draws each commitment; Aldo names what is inside each box. Status: "By hand. N marked."
 - The check is the training step: what the person fixes there becomes an instruction for the rest of the file.
 - Buttons carry meaning in their color: green to accept, red to remove (Dismiss), blue to change the record (Merge, Re-read), the primary for the next step, neutral otherwise. Only send is Aldo's green.
@@ -104,6 +108,18 @@ The conversation that scopes, checks and steers the scan of the file in view, de
       >
     </li>
   </ol>
+  <!-- What governs the read: the scope, each rule with the page it took effect from, and
+       each fix from the check. Collapsed: a count. -->
+  <div class="bcn-sw3aldo__rules" data-aldo-rules="" hidden="">
+    <details class="esa-collapsible esa-collapsible--flush">
+      <summary class="esa-collapsible__summary typography-label-sm-strong">
+        <span class="esa-collapsible__title">Instructions in effect</span>
+      </summary>
+      <div class="esa-collapsible__body typography-body-md">
+        <ol class="bcn-sw3aldo__ruleslist" data-rules-list=""></ol>
+      </div>
+    </details>
+  </div>
   <!-- What waits on the person, until answered: the work left, apart from the record. -->
   <section
     class="bcn-sw3aldo__queue"
@@ -212,6 +228,21 @@ The conversation that scopes, checks and steers the scan of the file in view, de
         </div>
       </div>
     </div>
+    <!-- Paused partway: what was found so far can be reviewed now. --><span
+      class="bcn-sw3aldo__review"
+      data-aldo-review=""
+      hidden=""
+      ><span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
+        ><button
+          class="esa-button__native typography-microcopy-2xs"
+          type="button"
+          data-aldo-review-btn="true"
+        >
+          <span class="esa-button__label">Review so far</span>
+        </button></span
+      ></span
+    >
   </div>
   <div
     class="bcn-sw3aldo__suggest"
@@ -388,12 +419,26 @@ The conversation that scopes, checks and steers the scan of the file in view, de
 .esa-button-group__slot {
   display: contents;
 }
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
 .typography-body-sm {
   font-family: var(--typography-body-sm-font-family);
   font-size: var(--typography-body-sm-font-size);
   font-weight: var(--typography-body-sm-font-weight);
   line-height: var(--typography-body-sm-line-height);
   letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
 }
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
@@ -1031,6 +1076,59 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3aldo__status {
   padding: 0 var(--spacing-400) var(--spacing-200);
 }
+.bcn-sw3aldo__review {
+  margin-top: var(--spacing-150, 0.375rem);
+  display: flex;
+}
+.bcn-sw3aldo__review[hidden] {
+  display: none;
+}
+.bcn-sw3aldo__rules {
+  margin: 0 var(--spacing-400) var(--spacing-200);
+  padding: 0 var(--spacing-300);
+  border: 1px solid var(--color-border-default-subtle);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-sunken);
+  --typography-label-sm-strong-font-size: 0.8125rem;
+}
+.bcn-sw3aldo__rules[hidden] {
+  display: none;
+}
+.bcn-sw3aldo__rules .esa-collapsible__summary {
+  padding-block: var(--spacing-150, 0.375rem);
+}
+.bcn-sw3aldo__ruleslist {
+  gap: var(--spacing-150, 0.375rem);
+  max-height: 9rem;
+  padding: 0 0 var(--spacing-200) 1.1rem;
+  flex-direction: column;
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  display: flex;
+  overflow-y: auto;
+}
+.bcn-sw3aldo__ruleslist .bcn-sw3aldo__rulefrom {
+  color: var(--color-content-default-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.bcn-sw3aldo__log .bcn-sw3aldo__cols {
+  gap: 2px var(--spacing-200);
+  margin: var(--spacing-200) 0 0;
+  grid-template-columns: max-content 1fr;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  display: grid;
+}
+.bcn-sw3aldo__log .bcn-sw3aldo__cols dt {
+  color: var(--color-content-default-secondary);
+  font-weight: 500;
+}
+.bcn-sw3aldo__log .bcn-sw3aldo__cols dd {
+  margin: 0;
+  font-weight: 500;
+}
 .bcn-sw3aldo__status:not(:has(> :not([hidden]))),
 .bcn-sw3aldo__status > [hidden] {
   display: none;
@@ -1090,12 +1188,26 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3scan__rail {
   display: none;
 }
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
 .typography-body-sm {
   font-family: var(--typography-body-sm-font-family);
   font-size: var(--typography-body-sm-font-size);
   font-weight: var(--typography-body-sm-font-weight);
   line-height: var(--typography-body-sm-line-height);
   letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
 }
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
@@ -1174,6 +1286,55 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.esa-collapsible {
+  border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
+  border-radius: var(--radius-md, 0.5rem);
+  background: var(--color-background-elevation-raised, #fcfcfc);
+}
+.esa-collapsible--flush {
+  background: 0 0;
+  border: none;
+  border-radius: 0;
+}
+.esa-collapsible--flush > .esa-collapsible__summary,
+.esa-collapsible--flush > .esa-collapsible__body {
+  padding-inline: 0;
+}
+.esa-collapsible__summary {
+  align-items: center;
+  gap: var(--spacing-200, 0.5rem);
+  padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
+  color: var(--color-content-default, #202020);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+}
+.esa-collapsible__summary::-webkit-details-marker {
+  display: none;
+}
+.esa-collapsible__summary:after {
+  content: "";
+  border-right: 2px solid var(--color-content-default-secondary, #646464);
+  border-bottom: 2px solid var(--color-content-default-secondary, #646464);
+  width: 8px;
+  height: 8px;
+  margin-left: auto;
+  transition: transform 0.15s;
+  transform: rotate(-45deg);
+}
+.esa-collapsible[open] > .esa-collapsible__summary:after {
+  transform: rotate(45deg);
+}
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
+}
+.esa-collapsible__body {
+  gap: var(--spacing-400, 1rem);
+  padding: 0 var(--spacing-400, 1rem) var(--spacing-400, 1rem);
+  flex-direction: column;
+  display: flex;
 }
 .esa-alert-box {
   --_alert-bg: var(--color-background-utility-info-subtle, #fbfdff);
@@ -1351,6 +1512,11 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
+- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
+- `--typography-body-md-letter-spacing`: .01em _(semantic)_
+- `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
 - `--typography-body-sm-font-weight`: 400 _(semantic)_
@@ -1359,6 +1525,11 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
+- `--typography-label-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-sm-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-sm-strong-line-height`: 1.6 _(semantic)_
 - `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
 - `--typography-microcopy-2xs-font-weight`: 500 _(semantic)_

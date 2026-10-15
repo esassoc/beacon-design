@@ -41,6 +41,7 @@ export default {
       decisions: [
         'SetupWizardSourceDto and SetupWizardSourceFileDto as they are: source fields plus files with PageCount and CommitmentCount. The per-file scan state is new.',
         'Every run keeps going while another file is in view.',
+        'Each row carries one badge for what waits on that file: "3 to check" at the check, otherwise "N to settle" (its Needs you list). A scanned file reads "Reading page images, p. N of M" with a progress bar while OCR runs.',
         'Deletes ask first through a confirm dialog that states the impact (DeletionImpactGet): how many files and commitments go with it.',
       ],
       acceptance: [
@@ -89,6 +90,10 @@ export default {
         'Needs you: what waits on the person is listed under the log with its answers until answered (the check, a flagged reference with Dismiss / Keep it / Skip all cross-references, a headless passage with Merge / Keep separate, pages with nothing found with Mark on p. N / Nothing there, a drawn box with no ID). The log keeps the notice text; the buttons live only in the list.',
         'After the check: Read the rest (fast, the default), Watch it, One at a time. Before it, the status reads "Stopping after 3 commitments for your check", never a pause.',
         'A question is answered and changes nothing; a message too short to act on gets its readings as buttons. Prod\'s structured call needs answer and unclear kinds.',
+        'Instructions in effect, collapsed under the log with a count: the scope, each rule with the page it took effect from, each fix from the check.',
+        'A scanned file (no text layer) shows Reading page images, p. N of M in its row, the status and Aldo\'s opening until OCR is done; nothing else starts before it.',
+        'An MMRP check card shows the four fields taken from the table\'s columns under the quote.',
+        'A paused run offers Review the N so far.',
         'Mark them myself (on the opening): the person draws each commitment; Aldo names what is inside each box. Status: "By hand. N marked."',
         'The check is the training step: what the person fixes there becomes an instruction for the rest of the file.',
         'Buttons carry meaning in their color: green to accept, red to remove (Dismiss), blue to change the record (Merge, Re-read), the primary for the next step, neutral otherwise. Only send is Aldo\'s green.',

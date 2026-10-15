@@ -5,13 +5,18 @@
 import type { EsaMenuItem } from '@esa/ecology/esa-dropdown-menu';
 import { paintIcons } from '../../lib/lucide-extra';
 
-export type FileState =
+export type FileState = (
   | { kind: 'idle' }
+  | { kind: 'preparing'; page: number; total: number }
   | { kind: 'reading'; page: number; total: number; ratio: number }
   | { kind: 'check'; count: number }
   | { kind: 'paused'; page: number }
   | { kind: 'done'; commitments: number }
-  | { kind: 'none' };
+  | { kind: 'none' }
+) & {
+  /** Items in Aldo's Needs you, the check aside: a badge on the row. */
+  settle?: number;
+};
 
 export interface SourceRow {
   id: string;
@@ -47,6 +52,8 @@ export const middle = (s: string, max = 30) => (s.length <= max ? s : `${s.slice
 const stateText = (s: FileState) =>
   s.kind === 'idle'
     ? 'Not scanned'
+    : s.kind === 'preparing'
+      ? `Reading page images, p. ${s.page} of ${s.total}`
     : s.kind === 'reading'
       ? `Reading p. ${s.page} of ${s.total}`
       : s.kind === 'check'
@@ -156,17 +163,20 @@ export function setupSw3SourcesUi(root: HTMLElement, h: Handlers) {
         fe.title = f.name;
         fe.querySelector('[data-file-state]')!.textContent = stateText(f.state);
         const badge = fe.querySelector<HTMLElement>('[data-file-badge]')!;
-        badge.hidden = f.state.kind !== 'check' || !f.state.count;
-        if (f.state.kind === 'check' && f.state.count) {
+        // One badge: what waits on the person in this file, the check first.
+        const badgeText = f.state.kind === 'check' && f.state.count ? `${f.state.count} to check` : f.state.settle ? `${f.state.settle} to settle` : '';
+        badge.hidden = !badgeText;
+        if (badgeText) {
           const b = badge.querySelector('.esa-badge') ?? badge.firstElementChild;
-          if (b) b.textContent = `${f.state.count} to check`;
+          if (b && b.textContent !== badgeText) b.textContent = badgeText;
         }
         const prog = fe.querySelector<HTMLElement>('[data-file-progress]')!;
-        prog.hidden = f.state.kind !== 'reading';
-        if (f.state.kind === 'reading') {
+        prog.hidden = f.state.kind !== 'reading' && f.state.kind !== 'preparing';
+        if (f.state.kind === 'reading' || f.state.kind === 'preparing') {
+          const ratio = f.state.kind === 'reading' ? f.state.ratio : (f.state.page - 1) / f.state.total;
           const fill = prog.querySelector<HTMLElement>('.esa-progress-bar__fill');
-          if (fill) fill.style.width = `${Math.round(f.state.ratio * 100)}%`;
-          prog.querySelector('[role="progressbar"]')?.setAttribute('aria-valuenow', String(Math.round(f.state.ratio * 100)));
+          if (fill) fill.style.width = `${Math.round(ratio * 100)}%`;
+          prog.querySelector('[role="progressbar"]')?.setAttribute('aria-valuenow', String(Math.round(ratio * 100)));
         }
         const fw: Element | null = fprev ? fprev.nextElementSibling : fl.firstElementChild;
         if (fw !== fe) fl.insertBefore(fe, fw);
