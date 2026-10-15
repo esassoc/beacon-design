@@ -168,18 +168,6 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
-.bcn-disc__head .esa-icon {
-  color: var(--color-content-default-secondary);
-  flex-shrink: 0;
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
 .bcn-list-link .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
@@ -208,9 +196,6 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
 .bcn-reqref__key .esa-icon {
   --_icon-size: 11px;
   color: var(--color-content-default-tertiary);
@@ -223,9 +208,20 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
   --_icon-size: 12px;
   opacity: 0.75;
 }
-.esa-collapsible__summary .esa-icon {
-  color: var(--color-content-default-secondary, #646464);
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-disc__head .esa-icon {
+  color: var(--color-content-default-secondary);
   flex-shrink: 0;
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -394,6 +390,10 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
 }
 .page-layout__title h1 .esa-icon {
   color: var(--page-title-icon-color, var(--bcn-gray-1000));
+  flex-shrink: 0;
+}
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
   flex-shrink: 0;
 }
 ```

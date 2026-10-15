@@ -2486,18 +2486,6 @@ Due Sep 16, 2026"
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
-.bcn-disc__head .esa-icon {
-  color: var(--color-content-default-secondary);
-  flex-shrink: 0;
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
 .typography-body-xs {
   font-family: var(--typography-body-xs-font-family);
   font-size: var(--typography-body-xs-font-size);
@@ -2613,12 +2601,17 @@ Due Sep 16, 2026"
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
+.bcn-disc__head .esa-icon {
+  color: var(--color-content-default-secondary);
   flex-shrink: 0;
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
 }
 .bcn-evidence-card__lead .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -2635,6 +2628,13 @@ Due Sep 16, 2026"
 .bcn-evidence-card__actions .esa-icon {
   width: 15px;
   height: 15px;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
+  flex-shrink: 0;
 }
 ```
 

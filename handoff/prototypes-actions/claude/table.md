@@ -5026,9 +5026,6 @@ The same filtered implementations as an AG Grid: one row per implementation with
 .nav-section__header>.esa-icon:last-child{color:var(--bcn-gray-400);flex-shrink:0;transition:transform .15s,opacity .2s ease-in-out}
 .nav-section--collapsed .nav-section__header>.esa-icon:last-child{transform:rotate(-90deg)}
 .side-nav.collapsed .nav-section__title,.side-nav.collapsed .nav-section__header>.esa-icon:last-child{display:none}
-.bcn-disc__head .esa-icon{color:var(--color-content-default-secondary);flex-shrink:0}
-.bcn-disc__actions .esa-icon-button{width:26px;height:26px}
-.bcn-disc__actions .esa-icon{width:15px;height:15px}
 .esa-button{--_btn-pad-y:var(--spacing-300,.75rem);--_btn-padding-x:var(--spacing-300,.75rem);--_btn-radius:var(--button-radius-md,.5rem);--_accent:var(--color-background-brand,#46a758);--_accent-hover:var(--color-background-brand-hover,#3e9b4f);--_on:var(--color-content-default-knockout,#fcfcfc);--_accent-text:var(--_accent);--_btn-tint-hover:color-mix(in srgb, var(--_accent) 8%, transparent);--_btn-tint-active:color-mix(in srgb, var(--_accent) 14%, transparent);display:inline-block}
 .esa-button--xs{--_btn-pad-y:var(--spacing-200,.5rem);--_btn-padding-x:var(--spacing-200,.5rem);--_btn-radius:var(--button-radius-xs,4px)}
 .esa-button--sm{--_btn-pad-y:var(--spacing-250,.625rem);--_btn-padding-x:var(--spacing-250,.625rem);--_btn-radius:var(--button-radius-sm,4px)}
@@ -5071,6 +5068,8 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 .typography-microcopy-xs-strong{font-family:var(--typography-microcopy-xs-strong-font-family);font-size:var(--typography-microcopy-xs-strong-font-size);font-weight:var(--typography-microcopy-xs-strong-font-weight);line-height:var(--typography-microcopy-xs-strong-line-height);letter-spacing:var(--typography-microcopy-xs-strong-letter-spacing)}
 .typography-meta{font-family:var(--typography-meta-font-family);font-size:var(--typography-meta-font-size);font-weight:var(--typography-meta-font-weight);line-height:var(--typography-meta-line-height);letter-spacing:var(--typography-meta-letter-spacing)}
 .bcn-component-picker__trigger>.esa-icon{color:var(--color-content-default-tertiary);flex-shrink:0}
+.cluster{--gap:var(--spacing-300,.75rem);--align:center;--justify:flex-start;gap:var(--gap);align-items:var(--align);justify-content:var(--justify);flex-wrap:wrap;display:flex}
+.repel{--gap:var(--spacing-400,1rem);--align:center;gap:var(--gap);align-items:var(--align);flex-wrap:wrap;justify-content:space-between;display:flex}
 .esa-icon{--_icon-size:var(--icon-size-md,20px);width:var(--_icon-size);height:var(--_icon-size);color:inherit;justify-content:center;align-items:center;display:inline-flex}
 .esa-icon--xs{--_icon-size:var(--icon-size-xs,14px)}
 .esa-icon--sm{--_icon-size:var(--icon-size-sm,16px)}
@@ -5085,16 +5084,17 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 .bcn-gfoot__filtered[hidden]{display:none}
 .esa-collapsible__summary .esa-icon{color:var(--color-content-default-secondary,#646464);flex-shrink:0}
 .bcn-key-value__key .esa-icon{color:var(--color-content-default-tertiary)}
-.breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
-.page-layout__title h1 .esa-icon{color:var(--page-title-icon-color,var(--bcn-gray-1000));flex-shrink:0}
-.cluster{--gap:var(--spacing-300,.75rem);--align:center;--justify:flex-start;gap:var(--gap);align-items:var(--align);justify-content:var(--justify);flex-wrap:wrap;display:flex}
-.repel{--gap:var(--spacing-400,1rem);--align:center;gap:var(--gap);align-items:var(--align);flex-wrap:wrap;justify-content:space-between;display:flex}
+.bcn-disc__head .esa-icon{color:var(--color-content-default-secondary);flex-shrink:0}
+.bcn-disc__actions .esa-icon-button{width:26px;height:26px}
+.bcn-disc__actions .esa-icon{width:15px;height:15px}
 .bcn-evidence-card .esa-card__header{min-height:0;padding-block:var(--spacing-100)}
 .bcn-evidence-card:not(.is-expanded) .esa-card__header{border-bottom:0}
 .bcn-evidence-card__lead .esa-icon{color:var(--color-content-default-tertiary);flex-shrink:0;transition:transform .15s}
 .bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon{transform:rotate(90deg)}
 .bcn-evidence-card__actions .esa-icon-button{width:26px;height:26px}
 .bcn-evidence-card__actions .esa-icon{width:15px;height:15px}
+.breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
+.page-layout__title h1 .esa-icon{color:var(--page-title-icon-color,var(--bcn-gray-1000));flex-shrink:0}
 ```
 
 ## Tokens
