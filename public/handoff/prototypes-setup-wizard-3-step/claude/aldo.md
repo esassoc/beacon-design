@@ -16,6 +16,9 @@ The conversation that scopes, checks and steers the scan of the file in view, de
 - A name fixed at the check is the commitment's name in step 2.
 - One structured-output call per message returns actions and a one-line reply; sw3-steer.ts is the schema, with a pattern matcher standing in for the model.
 - Each file keeps its own conversation; switching files switches the thread.
+- The composer carries what rides along as chips above the field: the page in view and the selected commitment attach themselves (dashed, removable; a removed one stays off until the person moves), @ adds a commitment from a menu that filters as you type and writes its ID into the sentence, and a file is attached with the paperclip or dropped on the composer. Aldo reads a file as context for this document, never as a source of commitments. A sent message shows its chips under it; pressing one opens what it names.
+- / at the start of the field lists the commands (scope, skip, rule, reread, why, pause, resume); each puts the start of a message in the field to finish.
+- A reply comes in as it is written: three dots, then the words. While it does, send is Stop; Stop ends the reply where it is and marks it Stopped (in prod it cancels the call). The latest messages have hover keys beside Copy: Edit on the person's (takes the message back, and what it did, and puts it in the field with its chips) and Retry on Aldo's (asks again).
 - Expand (beside the fold chevron) pins the conversation over the right of the window, under the top bar, for when talking to Aldo is the work: about half the window, or 60% with the Needs you sidebar on a wide window. It is not modal: the page beside it stays live and narrows, the Library folds to its rail, and Aldo's page and commitment references move the page in view. Dock or Esc puts it back where it was, mid-sentence drafts included (Esc closes an open tray first).
 
 ## Done when
@@ -189,7 +192,7 @@ Tell me where to start, or scan Condition 11."
               parts: Multi-Species, Construction Phase, and Operations Phases. Tell me
               where to start, or scan Condition 11.
             </p>
-            <span class="bcn-aldo-msg__tools" data-msg-tools=""
+            <span class="bcn-aldo-msg__tools" data-msg-tools="" data-keys="copy"
               ><span
                 class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
                 ><button
@@ -249,29 +252,30 @@ Tell me where to start, or scan Condition 11."
             </button></span
           >
         </div>
-        <form class="bcn-aldo-composer__shell" data-composer-form="">
-          <esa-textarea
-            class="bcn-aldo-composer__field"
-            data-composer-input="true"
-            size="md"
-            rows="1"
-            max-rows="6"
-            auto-resize=""
-            aria-label="Message Aldo"
-            placeholder="Tell Aldo what to read, skip or fix"
-          ></esa-textarea
-          ><span class="bcn-aldo-composer__send"
-            ><span
-              class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-              ><button
-                class="esa-button__native typography-microcopy-xs"
-                type="button"
-                aria-label="Send"
-                title="Send"
-                data-composer-send="true"
-              >
-                <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                  ><svg
+        <div class="bcn-aldo-composer__anchor">
+          <ul
+            class="bcn-aldo-composer__menu"
+            data-composer-menu=""
+            role="listbox"
+            aria-label="Suggestions"
+            hidden=""
+          ></ul>
+          <form class="bcn-aldo-composer__shell" data-composer-form="">
+            <div class="bcn-aldo-composer__context" data-composer-context="">
+              <span
+                class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                data-kind="page"
+                data-auto=""
+                title="Attached from where you are"
+                ><span class="esa-pill__label">p. 131</span
+                ><button
+                  class="esa-pill__remove"
+                  type="button"
+                  aria-label="Remove"
+                  data-esa-pill-remove=""
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
                     width="16"
                     height="16"
                     viewBox="0 0 24 24"
@@ -280,13 +284,83 @@ Tell me where to start, or scan Condition 11."
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    focusable="false"
+                    aria-hidden="true"
                   >
-                    <path d="m5 12 7-7 7 7"></path>
-                    <path d="M12 19V5"></path></svg
-                ></span></button></span
-          ></span>
-        </form>
+                    <path d="M18 6 6 18"></path>
+                    <path d="m6 6 12 12"></path>
+                  </svg></button
+              ></span>
+            </div>
+            <esa-textarea
+              class="bcn-aldo-composer__field"
+              data-composer-input="true"
+              size="md"
+              rows="1"
+              max-rows="6"
+              auto-resize=""
+              aria-label="Message Aldo"
+              placeholder="Tell Aldo what to read, skip or fix"
+            ></esa-textarea
+            ><span class="bcn-aldo-composer__attach"
+              ><span
+                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                ><button
+                  class="esa-button__native typography-microcopy-xs"
+                  type="button"
+                  aria-label="Attach a file"
+                  title="Attach a file"
+                  data-ico="paperclip"
+                  data-composer-attach="true"
+                >
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                      data-ico="paperclip"
+                    >
+                      <path
+                        d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"
+                      ></path></svg
+                  ></span></button></span
+              ><input type="file" multiple="" hidden="" data-composer-file="" /></span
+            ><span class="bcn-aldo-composer__send"
+              ><span
+                class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                ><button
+                  class="esa-button__native typography-microcopy-xs"
+                  type="button"
+                  aria-label="Send"
+                  title="Send"
+                  data-composer-send="true"
+                >
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path d="m5 12 7-7 7 7"></path>
+                      <path d="M12 19V5"></path></svg
+                  ></span></button></span
+            ></span>
+          </form>
+          <p class="bcn-aldo-composer__drop" data-composer-drop="" hidden="">
+            Drop to attach
+          </p>
+        </div>
       </div>
       <script
         type="module"
@@ -483,6 +557,99 @@ Tell me where to start, or scan Condition 11."
           aria-label="Copy message"
           title="Copy message"
           data-ico="copy"
+          data-astro-cid-4xhmycw5=""
+        >
+          <span
+            class="esa-icon esa-icon--xs"
+            aria-hidden="true"
+            data-astro-cid-c7ivvrtd=""
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+              data-astro-cid-c7ivvrtd=""
+            >
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path></svg
+          ></span></button></span></template
+    ><template data-part="chip"
+      ><span
+        class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+        data-astro-cid-65ixjgm5=""
+        ><span class="esa-pill__label" data-astro-cid-65ixjgm5="">Context</span
+        ><button
+          class="esa-pill__remove"
+          type="button"
+          aria-label="Remove"
+          data-esa-pill-remove=""
+          data-astro-cid-65ixjgm5=""
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            data-astro-cid-65ixjgm5=""
+          >
+            <path d="M18 6 6 18" data-astro-cid-65ixjgm5=""></path>
+            <path d="m6 6 12 12" data-astro-cid-65ixjgm5=""></path>
+          </svg></button
+      ></span>
+      <script type="module">
+        document.addEventListener(
+          `click`,
+          (e) => {
+            let t = e.target.closest?.(`[data-esa-pill-remove]`);
+            if (!t) return;
+            e.stopPropagation();
+            let n = t.closest(`.esa-pill`);
+            n &&
+              (n.dispatchEvent(new CustomEvent(`removed`, { bubbles: !0 })), n.remove());
+          },
+          !0,
+        );
+      </script></template
+    ><template data-part="chip-fixed"
+      ><span
+        class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+        data-astro-cid-65ixjgm5=""
+        ><span class="esa-pill__label" data-astro-cid-65ixjgm5="">Context</span></span
+      >
+      <script type="module">
+        document.addEventListener(
+          `click`,
+          (e) => {
+            let t = e.target.closest?.(`[data-esa-pill-remove]`);
+            if (!t) return;
+            e.stopPropagation();
+            let n = t.closest(`.esa-pill`);
+            n &&
+              (n.dispatchEvent(new CustomEvent(`removed`, { bubbles: !0 })), n.remove());
+          },
+          !0,
+        );
+      </script></template
+    ><template data-part="tool"
+      ><span
+        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+        data-astro-cid-4xhmycw5=""
+        ><button
+          class="esa-button__native typography-microcopy-2xs"
+          type="button"
+          aria-label="Tool"
+          title="Tool"
           data-astro-cid-4xhmycw5=""
         >
           <span
@@ -732,6 +899,19 @@ Tell me where to start, or scan Condition 11."
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
+}
+.bcn-ev-card__count .esa-pill {
+  --pill-bg: transparent;
+  --pill-border-color: var(--color-border-default);
+  --pill-text-color: var(--color-content-default-secondary);
+}
+.bcn-ev-card__files .esa-pill {
+  max-width: 100%;
+}
+.bcn-ev-card__files .esa-pill__label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .bcn-cbadge {
   font-family: var(--typography-font-family-mono);
@@ -1259,6 +1439,49 @@ summary.esa-button--variant-chrome:focus-visible {
   flex-direction: column;
   display: flex;
 }
+.bcn-aldo-msg[data-from="you"] .bcn-aldo-msg__extra {
+  align-items: flex-end;
+}
+.bcn-aldo-msg__context {
+  justify-content: flex-end;
+  gap: var(--spacing-100);
+  flex-wrap: wrap;
+  display: flex;
+}
+.bcn-aldo-msg__context [role="button"] {
+  cursor: pointer;
+}
+.bcn-aldo-msg__context [role="button"]:hover {
+  text-decoration: underline;
+}
+.bcn-aldo-msg[data-streaming] .bcn-aldo-actions,
+.bcn-aldo-msg[data-streaming] .bcn-aldo-msg__time,
+.bcn-aldo-msg[data-streaming] .bcn-aldo-msg__tools {
+  display: none;
+}
+.bcn-aldo-msg[data-thinking] .bcn-aldo-msg__text:before {
+  content: "";
+  width: 2.25em;
+  height: 0.5em;
+  color: var(--color-content-default-tertiary);
+  background:
+    radial-gradient(circle, currentColor 45%, #0000 50%) 0/0.5em 0.5em no-repeat,
+    radial-gradient(circle, currentColor 45%, #0000 50%) 50%/0.5em 0.5em no-repeat,
+    radial-gradient(circle, currentColor 45%, #0000 50%) 100%/0.5em 0.5em no-repeat;
+  animation: 1s ease-in-out infinite bcn-aldo-think;
+  display: inline-block;
+}
+.bcn-aldo-msg[data-stopped] .bcn-aldo-msg__bubble:after {
+  content: "Stopped";
+  margin-top: var(--spacing-100);
+  font-size: var(--_aldo-meta);
+  font-weight: var(--_aldo-weight-meta);
+  color: var(--color-content-default-secondary);
+  display: block;
+}
+.bcn-aldo-msg[data-stopped] .bcn-aldo-actions {
+  display: none;
+}
 .bcn-aldo-msg__extra:empty {
   display: none;
 }
@@ -1415,6 +1638,9 @@ button.bcn-aldo-needs__text:focus-visible {
   padding: 0 var(--_aldo-pad);
   gap: var(--spacing-200);
 }
+.bcn-aldo-composer__anchor {
+  position: relative;
+}
 .bcn-aldo-composer__shell {
   --_aldo-radius: 0.75rem;
   align-items: flex-end;
@@ -1425,6 +1651,7 @@ button.bcn-aldo-needs__text:focus-visible {
   border-radius: var(--_aldo-radius);
   background: var(--color-background-elevation-raised);
   box-shadow: var(--bcn-aldo-prompt-shadow);
+  flex-wrap: wrap;
   display: flex;
 }
 .bcn-aldo-composer__shell:focus-within {
@@ -1443,8 +1670,107 @@ button.bcn-aldo-needs__text:focus-visible {
   padding-bottom: var(--spacing-100);
   display: inline-flex;
 }
-.bcn-aldo-composer[data-busy] .bcn-aldo-composer__shell {
-  opacity: 0.7;
+.bcn-aldo-composer__send[data-stop] {
+  --color-background-brand: var(--color-content-default);
+  --color-background-brand-hover: var(--color-content-default-secondary);
+}
+.bcn-aldo-composer__attach {
+  padding-bottom: var(--spacing-100);
+  color: var(--color-content-default-secondary);
+  display: inline-flex;
+}
+.bcn-aldo-composer__context {
+  gap: var(--spacing-100);
+  padding-top: var(--spacing-150, 0.375rem);
+  flex-wrap: wrap;
+  flex-basis: 100%;
+  display: flex;
+}
+.bcn-aldo-composer__context[hidden] {
+  display: none;
+}
+.bcn-aldo-composer__context .esa-pill[data-auto] {
+  --_pill-bg: transparent;
+  border-style: dashed;
+}
+.bcn-aldo-composer__context .esa-pill {
+  max-width: 100%;
+}
+.bcn-aldo-composer__context .esa-pill__label,
+.bcn-aldo-msg__context .esa-pill__label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 16rem;
+  overflow: hidden;
+}
+.bcn-aldo-composer__menu {
+  z-index: 10;
+  bottom: calc(100% + var(--spacing-100));
+  left: var(--spacing-300);
+  right: var(--spacing-300);
+  max-height: 15rem;
+  padding: var(--spacing-100);
+  border: var(--_aldo-line) solid var(--color-border-default);
+  border-radius: var(--_aldo-radius);
+  background: var(--color-background-elevation-raised);
+  box-shadow: var(--elevation-4);
+  margin: 0;
+  list-style: none;
+  position: absolute;
+  overflow-y: auto;
+}
+.bcn-aldo-composer__menu[hidden] {
+  display: none;
+}
+.bcn-aldo-composer__option {
+  align-items: baseline;
+  gap: var(--spacing-200);
+  padding: var(--spacing-150, 0.375rem) var(--spacing-200);
+  border-radius: var(--_aldo-radius-sm);
+  cursor: pointer;
+  font-size: var(--_aldo-text);
+  display: flex;
+}
+.bcn-aldo-composer__option[aria-selected="true"] {
+  background: var(--color-background-elevation-sunken);
+}
+.bcn-aldo-composer__option-label {
+  font-weight: var(--_aldo-weight-strong);
+  color: var(--color-content-default);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex: 0 auto;
+  min-width: 3.5rem;
+  overflow: hidden;
+}
+.bcn-aldo-composer__option-detail {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  font-size: var(--_aldo-meta);
+  color: var(--color-content-default-secondary);
+  flex: 0 auto;
+  margin-left: auto;
+  overflow: hidden;
+}
+.bcn-aldo-composer[data-dropping] .bcn-aldo-composer__shell {
+  border-style: dashed;
+  border-color: var(--bcn-aldo);
+  background: var(--color-background-elevation-sunken);
+}
+.bcn-aldo-composer__drop {
+  inset: 0 var(--spacing-300);
+  font-size: var(--_aldo-text);
+  font-weight: var(--_aldo-weight-strong);
+  color: var(--color-content-default);
+  pointer-events: none;
+  place-items: center;
+  margin: 0;
+  display: grid;
+  position: absolute;
+}
+.bcn-aldo-composer__drop[hidden] {
+  display: none;
 }
 .bcn-aldo-panel__expand {
   margin-left: auto;
@@ -1499,6 +1825,10 @@ button.bcn-aldo-needs__text:focus-visible {
   --_aldo-radius: 1rem;
   margin-inline: var(--_aldo-pad);
   padding: var(--spacing-300) var(--spacing-300) var(--spacing-300) var(--spacing-400);
+}
+.bcn-aldo-panel[data-expanded] .bcn-aldo-composer__menu {
+  left: var(--_aldo-pad);
+  right: var(--_aldo-pad);
 }
 .bcn-aldo-panel__main {
   gap: var(--_aldo-region);
@@ -1687,6 +2017,99 @@ button.bcn-aldo-needs__text:focus-visible {
   font-weight: var(--typography-microcopy-xs-strong-font-weight);
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.esa-pill {
+  --_pill-bg: var(--color-background-elevation-sunken, #f0f0f0);
+  --_pill-text: var(--color-content-default, #202020);
+  --_pill-border: var(--color-border-default-subtle, #d9d9d9);
+  --_pill-padding-y: var(--spacing-150, 0.375rem);
+  --_pill-padding-x: var(--spacing-200, 0.5rem);
+  --_pill-gap: var(--spacing-100, 0.25rem);
+  align-items: center;
+  gap: var(--_pill-gap);
+  padding-block: var(--_pill-padding-y);
+  padding-inline: var(--_pill-padding-x);
+  border: var(--border-width-default, 1px) solid var(--_pill-border);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_pill-bg);
+  color: var(--_pill-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+  display: inline-flex;
+}
+.esa-pill--xs {
+  --_pill-padding-y: var(--spacing-100, 0.25rem);
+  --_pill-padding-x: var(--spacing-100, 0.25rem);
+}
+.esa-pill--sm {
+  --_pill-padding-y: var(--spacing-100, 0.25rem);
+  --_pill-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-pill--lg {
+  --_pill-padding-y: var(--spacing-200, 0.5rem);
+  --_pill-padding-x: var(--spacing-300, 0.75rem);
+}
+.esa-pill--round {
+  border-radius: var(--radius-pill, 9999px);
+}
+.esa-pill--primary {
+  --_pill-bg: var(--color-background-brand-subtle, var(--color-grass-2));
+  --_pill-text: var(--color-content-brand, var(--color-grass-11));
+  --_pill-border: var(--color-border-brand, var(--color-grass-6));
+}
+.esa-pill--info {
+  --_pill-bg: var(--color-background-utility-info-subtle, var(--color-blue-2));
+  --_pill-text: var(--color-content-utility-info, #0d74ce);
+  --_pill-border: var(--color-border-utility-info, var(--color-blue-6));
+}
+.esa-pill--success {
+  --_pill-bg: var(--color-background-utility-success-subtle, var(--color-green-2));
+  --_pill-text: var(--color-content-utility-success, #218358);
+  --_pill-border: var(--color-border-utility-success, var(--color-green-6));
+}
+.esa-pill--warning {
+  --_pill-bg: var(--color-background-utility-warning-subtle, var(--color-yellow-2));
+  --_pill-text: var(--color-content-utility-warning, #ab6400);
+  --_pill-border: var(--color-border-utility-warning, var(--color-yellow-6));
+}
+.esa-pill--danger {
+  --_pill-bg: var(--color-background-utility-danger-subtle, var(--color-red-2));
+  --_pill-text: var(--color-content-utility-danger, #ce2c31);
+  --_pill-border: var(--color-border-utility-danger, var(--color-red-6));
+}
+.esa-pill[data-category] {
+  --_pill-bg: var(--category-2, var(--color-background-elevation-sunken, #f0f0f0));
+  --_pill-border: var(--category-6, var(--color-border-default-subtle, #d9d9d9));
+  --_pill-text: var(--category-11, var(--color-content-default, #202020));
+}
+.esa-pill__icon {
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.esa-pill__remove {
+  border-radius: var(--radius-pill, 9999px);
+  width: 16px;
+  height: 16px;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.6;
+  transition:
+    opacity var(--transition-fast, 0.15s ease),
+    background var(--transition-fast, 0.15s ease);
+  background: 0 0;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  display: inline-flex;
+}
+.esa-pill__remove:hover {
+  opacity: 1;
+  background: var(--color-background-overlay-heavy-hover, #0000001a);
+}
+.esa-pill__remove:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline-offset: var(--focus-ring-offset, 2px);
 }
 .esa-collapsible {
   border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
@@ -1919,12 +2342,15 @@ button.bcn-aldo-needs__text:focus-visible {
 - `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
+- `--color-background-brand-subtle`: #effefb _(semantic)_
 - `--color-background-default`: #fafafa _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
+- `--color-background-overlay-heavy-hover`: #0000001a _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-background-utility-danger-hover`: #641723 _(semantic)_
 - `--color-background-utility-danger-muted`: #feebec _(semantic)_
+- `--color-background-utility-danger-subtle`: #fffcfc _(semantic)_
 - `--color-background-utility-info`: #228be6 _(semantic)_
 - `--color-background-utility-info-hover`: #113264 _(semantic)_
 - `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
@@ -1932,10 +2358,14 @@ button.bcn-aldo-needs__text:focus-visible {
 - `--color-background-utility-success`: #2e7571 _(semantic)_
 - `--color-background-utility-success-hover`: #193b2d _(semantic)_
 - `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
+- `--color-background-utility-success-subtle`: #fbfefc _(semantic)_
 - `--color-background-utility-warning`: #f59e0b _(semantic)_
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
 - `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
 - `--color-background-utility-warning-subtle`: #fefdfb _(semantic)_
+- `--color-blue-2`: #f4faff _(primitive)_
+- `--color-blue-6`: #acd8fc _(primitive)_
+- `--color-border-brand`: #b9d6d2 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
@@ -1957,6 +2387,15 @@ button.bcn-aldo-needs__text:focus-visible {
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
+- `--color-grass-11`: #2a7e3b _(primitive)_
+- `--color-grass-2`: #f5fbf5 _(primitive)_
+- `--color-grass-6`: #b2ddb5 _(primitive)_
+- `--color-green-2`: #f4fbf6 _(primitive)_
+- `--color-green-6`: #adddc0 _(primitive)_
+- `--color-red-2`: #fff7f7 _(primitive)_
+- `--color-red-6`: #fdbdbe _(primitive)_
+- `--color-yellow-2`: #fefbe9 _(primitive)_
+- `--color-yellow-6`: #f3d673 _(primitive)_
 - `--elevation-1`: 0 1px 4px 0 #00000008 _(semantic)_
 - `--elevation-2`: 0 2px 12px 0 #0000000a _(semantic)_
 - `--elevation-4`: 0 6px 24px -6px #00000012 _(semantic)_

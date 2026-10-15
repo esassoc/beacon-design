@@ -28,6 +28,7 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
             type="button"
             data-ico="scan-text"
             data-tx="play"
+            aria-pressed="false"
           >
             <span class="esa-icon esa-icon--sm" aria-hidden="true"
               ><svg
@@ -59,6 +60,7 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
             data-ico="pause"
             data-tx="pause"
             disabled=""
+            aria-pressed="false"
           >
             <span class="esa-icon esa-icon--sm" aria-hidden="true"
               ><svg
@@ -84,6 +86,7 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
             type="button"
             data-tx="restart"
             disabled=""
+            aria-pressed="false"
           >
             <span class="esa-icon esa-icon--sm" aria-hidden="true"
               ><svg

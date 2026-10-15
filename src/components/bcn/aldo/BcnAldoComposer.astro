@@ -6,14 +6,23 @@
 //   mode="thread"  Enter sends, Shift+Enter is a new line: a turn is a line.
 //   mode="card"    Cmd/Ctrl+Enter sends: a one-shot prompt is a paragraph.
 //
-// Runtime: aldo-composer.ts mountComposer(root, onSend) returns
-// { setSuggestions(choices, press), setBusy(on), focus() }. The root also emits
-// `aldo:send` { text }.
+// What rides along with the message sits in the shell above the field, as removable chips:
+//   the surface's own context   the page in view, the selected record (setContext)
+//   @                           a record, from a menu filtered as you type (setMentions)
+//   a file                      picked with the paperclip or dropped on the composer
+// `/` at the start of the field opens the commands (setCommands): each puts the start of a
+// message in the field to finish. While Aldo answers, send becomes Stop.
 //
-// bcn-lego-checked: the field IS esa-textarea, send IS esa-button re-pointed to a round
-// Aldo-green control (radius and brand tokens), suggestions are esa-button via the parts
-// bin. No esa- lego is a composer with an embedded trailing control; checked Beacon (its AI
-// prompt is a plain textarea). Hub candidate esa-composer (docs/aldo-kit-spec.md, section 6).
+// Runtime: aldo-composer.ts mountComposer(root, parts, onSend) returns
+// { setSuggestions, setContext, setMentions, setCommands, setBusy, setDraft, focus }.
+// onSend(text, context). The root also emits `aldo:send` { text, context }.
+//
+// bcn-lego-checked: the field IS esa-textarea, send and attach ARE esa-button (send
+// re-pointed to a round Aldo-green control), chips ARE esa-pill (cloned from the parts bin),
+// suggestions are esa-button. The @ and / menu is the kit's own listbox: esa-dropdown-menu
+// opens from a button, not from a caret in a field, and esa-popover has no alignment option
+// (docs/aldo-kit-spec.md, section 6). Checked Beacon: its AI prompt is a plain textarea.
+// Hub candidate esa-composer.
 import EsaButton from '@esa/ecology/esa-button.astro';
 
 interface Props {
@@ -22,24 +31,39 @@ interface Props {
   placeholder?: string;
   label?: string;
   maxRows?: number;
+  /** Offer the paperclip and take dropped files. */
+  attach?: boolean;
 }
-const { mode = 'thread', placeholder = '', label = 'Message Aldo', maxRows = 6 } = Astro.props;
+const { mode = 'thread', placeholder = '', label = 'Message Aldo', maxRows = 6, attach = true } = Astro.props;
 ---
 
 <div class="bcn-aldo-composer" data-aldo-composer data-mode={mode}>
   <div class="bcn-aldo-actions bcn-aldo-composer__suggest" data-composer-suggest></div>
-  <form class="bcn-aldo-composer__shell" data-composer-form>
-    <esa-textarea
-      class="bcn-aldo-composer__field"
-      data-composer-input
-      size="md"
-      rows="1"
-      max-rows={String(maxRows)}
-      auto-resize
-      aria-label={label}
-      placeholder={placeholder}></esa-textarea>
-    <span class="bcn-aldo-composer__send"><EsaButton iconOnly icon="arrow-up" size="sm" label="Send" data-composer-send /></span>
-  </form>
+  <div class="bcn-aldo-composer__anchor">
+    <ul class="bcn-aldo-composer__menu" data-composer-menu role="listbox" aria-label="Suggestions" hidden></ul>
+    <form class="bcn-aldo-composer__shell" data-composer-form>
+      <div class="bcn-aldo-composer__context" data-composer-context hidden></div>
+      <esa-textarea
+        class="bcn-aldo-composer__field"
+        data-composer-input
+        size="md"
+        rows="1"
+        max-rows={String(maxRows)}
+        auto-resize
+        aria-label={label}
+        placeholder={placeholder}></esa-textarea>
+      {
+        attach && (
+          <span class="bcn-aldo-composer__attach">
+            <EsaButton variant="chrome" iconOnly icon="plus" data-ico="paperclip" size="sm" label="Attach a file" data-composer-attach />
+            <input type="file" multiple hidden data-composer-file />
+          </span>
+        )
+      }
+      <span class="bcn-aldo-composer__send"><EsaButton iconOnly icon="arrow-up" size="sm" label="Send" data-composer-send /></span>
+    </form>
+    <p class="bcn-aldo-composer__drop" data-composer-drop hidden>Drop to attach</p>
+  </div>
 </div>
 
 <script>

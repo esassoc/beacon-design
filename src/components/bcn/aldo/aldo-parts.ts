@@ -1,8 +1,8 @@
 // aldo-parts — the typed cloner over <BcnAldoParts>, and the one place a button press is
 // resolved. Every runtime piece of the kit takes `Parts` and never builds a lego itself.
 
-import type { ActionButton, AldoAction, Anchor, CardField, Tone } from '../../../data/aldo';
-import { setIcon } from '../../../lib/lucide-extra';
+import type { ActionButton, AldoAction, Anchor, CardField, ContextRef, Tone } from '../../../data/aldo';
+import { setIcon, type ExtraIcon } from '../../../lib/lucide-extra';
 
 /** What a surface does when a button is pressed. The adapter supplies it. */
 export interface AldoHost<A extends AldoAction = AldoAction> {
@@ -41,6 +41,11 @@ export interface Parts {
   mark(): HTMLElement;
   /** The hover key that copies a message's text. */
   copy(text: () => string): HTMLElement;
+  /** A hover key on a message: an icon, a name, what it does. */
+  tool(icon: ExtraIcon, label: string, run: () => void): HTMLElement;
+  /** A context chip (esa-pill): removable in the composer, fixed under a sent message. A
+   *  removable chip dispatches `removed` and takes itself off. */
+  chip(ref: ContextRef, removable: boolean, open?: (r: ContextRef) => void): HTMLElement;
   /** esa-text-field, or esa-textarea when multiline. These are Lit legos: created, not cloned. */
   field(f: CardField): FieldEl;
   el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string): HTMLElementTagNameMap[K];
@@ -101,6 +106,30 @@ export function aldoParts(scope: ParentNode): Parts {
           /* clipboard refused: nothing to do */
         }
       });
+      return host;
+    },
+    tool: (icon, label, run) => {
+      const host = clone('tool');
+      setIcon(host, icon);
+      const b = (host.querySelector('button') ?? host) as HTMLElement;
+      b.setAttribute('aria-label', label);
+      b.title = label;
+      b.addEventListener('click', run);
+      return host;
+    },
+    chip: (ref, removable, open) => {
+      const host = clone(removable ? 'chip' : 'chip-fixed');
+      host.dataset.kind = ref.kind;
+      if (ref.auto) host.dataset.auto = '';
+      const l = host.querySelector<HTMLElement>('.esa-pill__label')!;
+      l.textContent = ref.label;
+      host.title = ref.kind === 'file' ? 'Attached file' : ref.auto ? 'Attached from where you are' : 'Attached';
+      if (open && ref.anchor) {
+        l.setAttribute('role', 'button');
+        l.tabIndex = 0;
+        l.addEventListener('click', () => open(ref));
+        l.addEventListener('keydown', (e) => e.key === 'Enter' && open(ref));
+      }
       return host;
     },
     field: (f) => {

@@ -11,7 +11,7 @@
 //   info     change the record          variant="info" appearance="soft"
 //   neutral  everything else            variant="secondary"
 //
-// bcn-lego-checked: every template IS a lego render (esa-button, bcn-commitment-badge,
+// bcn-lego-checked: every template IS a lego render (esa-button, esa-pill, bcn-commitment-badge,
 // bcn-aldo-mark), cloned at runtime because those legos are compile-time .astro and do not
 // exist in the browser. The message <li> is the kit's own markup (no esa- lego is a chat
 // message; checked Beacon: AIController has no thread UI). bcn-aldo-parts is the home for
@@ -19,6 +19,7 @@
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnCommitmentBadge from '../BcnCommitmentBadge.astro';
 import BcnAldoMark from './BcnAldoMark.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
 ---
 
 <div class="bcn-aldo-parts" data-aldo-parts hidden>
@@ -41,6 +42,9 @@ import BcnAldoMark from './BcnAldoMark.astro';
   <template data-part="button-info"><EsaButton variant="info" appearance="soft" size="xs">Action</EsaButton></template>
   <template data-part="badge"><span><BcnCommitmentBadge code="" size="sm" /></span></template>
   <template data-part="copy"><EsaButton variant="chrome" iconOnly icon="plus" data-ico="copy" size="xs" label="Copy message" /></template>
+  <template data-part="chip"><EsaPill label="Context" size="sm" removable /></template>
+  <template data-part="chip-fixed"><EsaPill label="Context" size="sm" removable={false} /></template>
+  <template data-part="tool"><EsaButton variant="chrome" iconOnly icon="plus" size="xs" label="Tool" /></template>
   <template data-part="mark"><span><BcnAldoMark size="sm" /></span></template>
 </div>
 

@@ -5,8 +5,12 @@
 //
 // Scroll: a person's own turn and its reply always come into view; a new 'check' turn is
 // read from its top; anything else new scrolls only when the log was already near its end.
+//
+// A reply to what the person just said comes in as it is written: a moment of thinking, then
+// the words. Stop ends it where it is. The latest message has its keys on hover: Edit on the
+// person's (puts it back in the field, taking back what it did), Retry on Aldo's.
 
-import type { ActionButton, AldoAction, Card, TextRun, Turn } from '../../../data/aldo';
+import type { ActionButton, AldoAction, Card, ContextRef, TextRun, Turn } from '../../../data/aldo';
 import type { Parts, Press } from './aldo-parts';
 import { renderCard } from './aldo-card';
 
@@ -18,6 +22,10 @@ export interface Thread<A extends AldoAction = AldoAction> {
   scrollToEnd(): void;
   /** The message element for a turn, if rendered. */
   element(turnId: string): HTMLElement | undefined;
+  /** Write a turn's reply again, as if new (Retry). */
+  replay(turnId: string): void;
+  /** End the reply coming in, where it is. */
+  stop(): void;
 }
 
 interface Msg<A extends AldoAction> {
@@ -32,6 +40,9 @@ interface Msg<A extends AldoAction> {
   time: string;
   acts: ActionButton<A>[];
   cards?: Card<A>[];
+  context?: ContextRef[];
+  /** The hover keys beyond Copy. */
+  keys: ('edit' | 'retry')[];
 }
 
 const SIG_REPLACER = (_k: string, v: unknown) => (typeof v === 'function' ? undefined : v);
@@ -45,6 +56,16 @@ export function mountThread<A extends AldoAction>(
     /** Split Aldo's text into plain runs and references (a commitment, a page) that open
      *  what they name. Without it, text is plain. */
     linkify?: (text: string) => TextRun[];
+    /** Edit the person's latest message. Absent: no Edit key. */
+    onEdit?: (turnId: string) => void;
+    /** Ask again. Absent: no Retry key. */
+    onRetry?: (turnId: string) => void;
+    /** Whether a turn can still be edited or retried (it is the last thing said). */
+    canChange?: (turnId: string) => boolean;
+    /** Open a context chip under a message. */
+    openRef?: (r: ContextRef) => void;
+    /** A reply started or finished coming in; `stop` ends it. */
+    onStream?: (on: boolean) => void;
   },
 ): Thread<A> {
   const { parts, press, linkify } = opts;
@@ -81,7 +102,19 @@ export function mountThread<A extends AldoAction>(
     return turns.flatMap((t): Msg<A>[] => {
       if (t.by.kind === 'person') {
         const page = t.anchor && 'page' in t.anchor ? t.anchor.page : null;
-        const you: Msg<A> = { id: `${t.id}:you`, turnId: t.id, from: 'you', via: t.via, who: page ? `At p. ${page}` : '', text: t.text, time: clock(t.time), acts: [] };
+        const live = t.id === lastPerson && t.via === 'typed' && (opts.canChange?.(t.id) ?? false);
+        const you: Msg<A> = {
+          id: `${t.id}:you`,
+          turnId: t.id,
+          from: 'you',
+          via: t.via,
+          who: page ? `At p. ${page}` : '',
+          text: t.text,
+          time: clock(t.time),
+          acts: [],
+          context: t.context,
+          keys: live && opts.onEdit ? ['edit'] : [],
+        };
         if (!t.reply) return [you];
         // An unclear message: its readings, each sent as is, on the latest reply only.
         const unclear = t.id === lastPerson ? t.actions.flatMap((a) => (a.kind === 'unclear' ? ((a as { choices: { label: string; text: string }[] }).choices ?? []) : [])) : [];
@@ -95,6 +128,7 @@ export function mountThread<A extends AldoAction>(
             text: t.reply.text,
             time: clock(t.time),
             acts: [...(t.reply.offers ?? []), ...unclear.map((c): ActionButton<A> => ({ label: c.label, does: { say: c.text } }))],
+            keys: live && opts.onRetry ? ['retry'] : [],
           },
         ];
       }
@@ -110,13 +144,61 @@ export function mountThread<A extends AldoAction>(
           time: clock(t.time),
           acts: t.offers ?? [],
           cards: t.cards,
+          keys: [],
         },
       ];
     });
   };
 
+  // ── A reply coming in ──────────────────────────────────────────────────────
+  let streaming: { el: HTMLElement; text: string; timer: number; shown: number } | null = null;
+  const words = (t: string) => t.match(/\S+\s*/g) ?? [];
+  const finish = (stopped: boolean) => {
+    if (!streaming) return;
+    const { el, text, timer, shown } = streaming;
+    clearTimeout(timer);
+    streaming = null;
+    const p = el.querySelector<HTMLElement>('[data-msg-text]')!;
+    delete el.dataset.streaming;
+    delete el.dataset.thinking;
+    if (stopped) {
+      // What was written stays; the rest is not shown. Prod cancels the call.
+      el.dataset.stopped = '';
+      p.textContent = words(text).slice(0, shown).join('').trimEnd() || ' ';
+      p.dataset.raw = text;
+    } else {
+      delete p.dataset.raw;
+      fill(p, text, 'aldo');
+    }
+    opts.onStream?.(false);
+  };
+  const stream = (el: HTMLElement, text: string) => {
+    finish(true);
+    const p = el.querySelector<HTMLElement>('[data-msg-text]')!;
+    const all = words(text);
+    delete el.dataset.stopped;
+    el.dataset.streaming = '';
+    el.dataset.thinking = '';
+    (p.parentElement as HTMLElement).hidden = false;
+    p.dataset.raw = text;
+    p.textContent = '';
+    streaming = { el, text, shown: 0, timer: 0 };
+    opts.onStream?.(true);
+    const step = () => {
+      if (!streaming) return;
+      delete el.dataset.thinking;
+      streaming.shown = Math.min(all.length, streaming.shown + 2);
+      p.textContent = all.slice(0, streaming.shown).join('');
+      if (scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight < 160) toEnd();
+      if (streaming.shown >= all.length) return finish(false);
+      streaming.timer = window.setTimeout(step, 45);
+    };
+    streaming.timer = window.setTimeout(step, 650);
+  };
+
   const render = (k: string, turns: Turn<A>[]) => {
     if (k !== key) {
+      finish(false);
       key = k;
       list.replaceChildren();
       els.clear();
@@ -139,12 +221,14 @@ export function mountThread<A extends AldoAction>(
     for (const [id, e] of els) if (!keep.has(id)) (e.remove(), els.delete(id), sigs.delete(id));
 
     let prev: Element | null = null;
+    let fresh: { el: HTMLElement; text: string } | null = null;
     for (const m of msgs) {
       let e = els.get(m.id);
       if (!e) {
         e = parts.message();
         els.set(m.id, e);
         added = true;
+        if (m.from === 'aldo' && m.id.endsWith(':aldo') && persons >= 0) fresh = { el: e, text: m.text };
         // A new run of check turns is read from its top: the lead before the first card.
         if (m.kind === 'check' && !lead) lead = (prev as HTMLElement | null)?.dataset.kind === 'check' ? e : ((prev as HTMLElement | null) ?? e);
       }
@@ -166,7 +250,16 @@ export function mountThread<A extends AldoAction>(
       if (time.textContent !== m.time) time.textContent = m.time;
       time.hidden = !m.time;
       const tools = e.querySelector<HTMLElement>('[data-msg-tools]')!;
-      if (!tools.firstChild && m.text && m.via !== 'button') tools.append(parts.copy(() => text.textContent ?? ''));
+      const keysSig = m.text && m.via !== 'button' ? ['copy', ...m.keys].join('|') : '';
+      if (tools.dataset.keys !== keysSig) {
+        tools.dataset.keys = keysSig;
+        const turnId = m.turnId;
+        tools.replaceChildren(
+          ...(keysSig ? [parts.copy(() => text.textContent ?? '')] : []),
+          ...(keysSig && m.keys.includes('edit') ? [parts.tool('pencil', 'Edit', () => opts.onEdit?.(turnId))] : []),
+          ...(keysSig && m.keys.includes('retry') ? [parts.tool('rotate-ccw', 'Retry', () => opts.onRetry?.(turnId))] : []),
+        );
+      }
 
       const sig = sigs.get(m.id) ?? { acts: '\u0000', cards: '\u0000' };
       const actsSig = m.acts.map((a) => `${a.tone ?? ''}:${a.label}`).join('|');
@@ -174,11 +267,13 @@ export function mountThread<A extends AldoAction>(
         sig.acts = actsSig;
         e.querySelector('[data-msg-acts]')!.replaceChildren(...m.acts.map((a) => parts.button(a, press)));
       }
-      const cardsSig = JSON.stringify(m.cards ?? [], SIG_REPLACER);
+      const cardsSig = JSON.stringify([m.cards ?? [], m.context ?? []], SIG_REPLACER);
       if (sig.cards !== cardsSig) {
         const wasEditing = sig.cards.includes('"edit":');
         sig.cards = cardsSig;
-        e.querySelector('[data-msg-extra]')!.replaceChildren(...(m.cards ?? []).map((c) => renderCard(c, parts, press)));
+        const ctx = m.context?.length ? [parts.el('span', 'bcn-aldo-msg__context')] : [];
+        ctx[0]?.append(...m.context!.map((r) => parts.chip(r, false, opts.openRef)));
+        e.querySelector('[data-msg-extra]')!.replaceChildren(...ctx, ...(m.cards ?? []).map((c) => renderCard(c, parts, press)));
         // A form just opened: bring all of it, Save included, into view.
         if (!wasEditing && cardsSig.includes('"edit":')) editing = e;
       }
@@ -192,6 +287,7 @@ export function mountThread<A extends AldoAction>(
     const n = ordered.filter((t) => t.by.kind === 'person').length;
     const spoke = persons >= 0 && n > persons;
     persons = n;
+    if (spoke && fresh) stream(fresh.el, fresh.text);
     if (spoke) toEnd();
     else if (editing) {
       const form = editing;
@@ -213,5 +309,11 @@ export function mountThread<A extends AldoAction>(
     },
     scrollToEnd: toEnd,
     element: (turnId) => els.get(firstOf.get(turnId) ?? turnId),
+    replay: (turnId) => {
+      const e = els.get(`${turnId}:aldo`);
+      const raw = e?.querySelector<HTMLElement>('[data-msg-text]')?.dataset.raw;
+      if (e && raw) (stream(e, raw), toEnd());
+    },
+    stop: () => finish(true),
   };
 }

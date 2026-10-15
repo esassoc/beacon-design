@@ -261,7 +261,8 @@ export function initOmniSearch(): void {
   }
   // "/" opens the palette from anywhere (when not typing in another field).
   document.addEventListener('keydown', (e) => {
-    if (e.key === '/' && !isOpen() && !isEditable(e.target)) {
+    // composedPath()[0]: inside a Lit field (esa-textarea) the target is the host, not the field.
+    if (e.key === '/' && !isOpen() && !isEditable(e.composedPath()[0] ?? e.target)) {
       e.preventDefault();
       open();
     }

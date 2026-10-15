@@ -100,6 +100,9 @@ export default {
         'A name fixed at the check is the commitment\'s name in step 2.',
         'One structured-output call per message returns actions and a one-line reply; sw3-steer.ts is the schema, with a pattern matcher standing in for the model.',
         'Each file keeps its own conversation; switching files switches the thread.',
+        'The composer carries what rides along as chips above the field: the page in view and the selected commitment attach themselves (dashed, removable; a removed one stays off until the person moves), @ adds a commitment from a menu that filters as you type and writes its ID into the sentence, and a file is attached with the paperclip or dropped on the composer. Aldo reads a file as context for this document, never as a source of commitments. A sent message shows its chips under it; pressing one opens what it names.',
+        '/ at the start of the field lists the commands (scope, skip, rule, reread, why, pause, resume); each puts the start of a message in the field to finish.',
+        'A reply comes in as it is written: three dots, then the words. While it does, send is Stop; Stop ends the reply where it is and marks it Stopped (in prod it cancels the call). The latest messages have hover keys beside Copy: Edit on the person\'s (takes the message back, and what it did, and puts it in the field with its chips) and Retry on Aldo\'s (asks again).',
         'Expand (beside the fold chevron) pins the conversation over the right of the window, under the top bar, for when talking to Aldo is the work: about half the window, or 60% with the Needs you sidebar on a wide window. It is not modal: the page beside it stays live and narrows, the Library folds to its rail, and Aldo\'s page and commitment references move the page in view. Dock or Esc puts it back where it was, mid-sentence drafts included (Esc closes an open tray first).',
       ],
       acceptance: [

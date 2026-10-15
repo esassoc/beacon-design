@@ -50,10 +50,12 @@ import {
   headPage,
   act,
   say,
+  takeBack,
+  canTakeBack,
   type Steer,
 } from './sw3-store';
 import type { SteerAction } from './sw3-steer';
-import { ALDO, runAt, type ActionButton, type Anchor, type Card, type Choice, type Instruction, type OpenItem, type Status, type TextRun, type Turn } from '../../data/aldo';
+import { ALDO, runAt, type ActionButton, type Anchor, type Card, type Choice, type Command, type ContextRef, type Instruction, type Mention, type OpenItem, type Status, type TextRun, type Turn } from '../../data/aldo';
 import { aldoParts, pressWith, type AldoHost } from './aldo/aldo-parts';
 import { mountThread } from './aldo/aldo-thread';
 import { mountInstructions, mountNeeds } from './aldo/aldo-panel';
@@ -65,6 +67,18 @@ type T = Turn<SteerAction>;
 const YOU = { kind: 'person', id: 'me', name: 'You' } as const;
 
 const range = (a: number, b: number) => (a === b ? `p. ${a}` : `pp. ${a}–${b}`);
+
+/** What / offers on a scan: each starts a message the interpreter reads. */
+const COMMANDS: Command[] = [
+  { name: 'scope', hint: 'Read only these pages', text: 'Only read pp. ' },
+  { name: 'skip', hint: 'Skip a named part, such as an appendix', text: 'Skip ' },
+  { name: 'rule', hint: 'An instruction for the pages ahead', text: 'Rule: ' },
+  { name: 'reread', hint: 'Read pages again with the instructions in effect', text: 'Re-read pp. ' },
+  { name: 'why', hint: 'Ask how a commitment was read', text: 'Why did you read ' },
+  { name: 'pause', hint: 'Pause the scan', text: 'Pause' },
+  { name: 'resume', hint: 'Go on reading', text: 'Resume' },
+];
+const QUESTION = /^(why|what|how|where|when|which|who|did|does|is|are)\b|\?\s*$/i;
 
 const PACE_REPLY_GO = {
   run: 'Reading the rest. I will raise anything that needs you as I reach it.',
@@ -111,7 +125,22 @@ export function setupSw3Aldo(root: HTMLElement): void {
     if (last < text.length) out.push(text.slice(last));
     return out;
   };
-  const thread = mountThread<SteerAction>(root.querySelector('[data-aldo-thread]')!, { parts, press, linkify });
+  const openRef = (r: ContextRef) => r.anchor && host.go(r.anchor);
+  // Edit takes the message back, and what it did, and puts it in the field. Retry asks again.
+  const edit = (turnId: string) => {
+    const said = takeBack(turnId.split(':').pop()!);
+    if (said) composer.setDraft(said.text, said.context);
+  };
+  const thread = mountThread<SteerAction>(root.querySelector('[data-aldo-thread]')!, {
+    parts,
+    press,
+    linkify,
+    openRef,
+    canChange: (turnId) => canTakeBack(turnId.split(':').pop()!),
+    onEdit: edit,
+    onRetry: (turnId) => thread.replay(turnId),
+    onStream: (on) => composer.setBusy(on, () => thread.stop()),
+  });
   // Where the run is: said by the scan's controls, not in the conversation.
   const statusEl = document.querySelector<HTMLElement>('[data-bar-status]');
   let statusSig = '';
@@ -128,7 +157,32 @@ export function setupSw3Aldo(root: HTMLElement): void {
   };
   const needsList = mountNeeds(root, parts, press);
   const instructions = mountInstructions(root, parts);
-  const composer = mountComposer<SteerAction>(root, parts, say);
+  /** Send with what rode along: a commitment chip names what a question is about; a file is
+   *  context for this document, never a source of commitments. */
+  const sayWith = (text: string, context: ContextRef[]) => {
+    const codes = context.filter((r) => r.kind === 'entity').map((r) => findOf(r.anchor && 'id' in r.anchor ? r.anchor.id : '')?.code).filter(Boolean);
+    const files = context.filter((r) => r.kind === 'file').map((r) => r.file!.name);
+    say(text, {
+      context,
+      hint: codes.length && QUESTION.test(text) && !/\d+\.\d+/.test(text) ? `(${codes[0]})` : undefined,
+      note: files.length ? `I have ${files.join(' and ')} as context for this file. I read ${files.length > 1 ? 'them' : 'it'} for what ${files.length > 1 ? 'they say' : 'it says'} about the commitments, never as a source of new ones.` : undefined,
+    });
+  };
+  const composer = mountComposer<SteerAction>(root, parts, sayWith);
+  composer.setCommands(COMMANDS);
+  // Where the person is rides along: the page in view and the commitment selected.
+  let view: { page: number; find: string | null } | null = null;
+  const paintContext = () => {
+    if (!view) return;
+    const refs: ContextRef[] = [{ id: `page:${activeDoc()}:${view.page}`, kind: 'page', label: `p. ${view.page}`, anchor: page(view.page) }];
+    const f = view.find ? finds().find((x) => x.id === view!.find) : null;
+    if (f) refs.unshift({ id: `entity:commitment:${f.id}`, kind: 'entity', label: f.shown ? f.shown.replace(/^COA\s+/, '') : f.title || 'No ID', anchor: commitment(f.id) });
+    composer.setContext(refs);
+  };
+  document.addEventListener('sw3:view', (e) => {
+    view = (e as CustomEvent<{ page: number; find: string | null }>).detail;
+    paintContext();
+  });
 
   // View state: which check cards are open as forms, and the page tools' edit.
   const fixing = new Set<string>();
@@ -386,6 +440,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
       via: x.via,
       text: x.text,
       anchor: x.page ? page(x.page) : undefined,
+      context: x.context,
       actions,
       reply: {
         text: x.reply,
@@ -549,6 +604,18 @@ export function setupSw3Aldo(root: HTMLElement): void {
     needsList.setItems(items());
     setStatus(statusOf(), !!preparing() || (started() && !finished() && headPage() !== null && !paused() && !checking() && !heldForStep()));
     composer.setSuggestions(suggestions(), press);
+    composer.setMentions(
+      finds()
+        .filter((f) => f.shown || f.title)
+        .map((f): Mention => {
+          const code = f.shown ? f.shown.replace(/^COA\s+/, '') : '';
+          return {
+            label: code ? `${code} ${f.title ?? ''}`.trim() : f.title,
+            detail: `p. ${f.page}`,
+            ref: { id: `entity:commitment:${f.id}`, kind: 'entity', label: code || f.title, anchor: commitment(f.id) },
+          };
+        }),
+    );
   };
 
   document.addEventListener('sw3:change', render);

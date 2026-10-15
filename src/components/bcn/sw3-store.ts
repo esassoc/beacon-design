@@ -11,6 +11,7 @@
 // Contract, on `document`:
 //   out  sw3:change   any state change (a person's call, or the clock crossing an event)
 //   out  sw3:tick     the clock moved (fires while the run is live)
+import type { ContextRef } from '../../data/aldo';
 import type {
   Box,
   Entity,
@@ -229,6 +230,8 @@ export interface Steer {
   offer?: { first: number; last: number };
   /** When it was said, on the wall clock (ms). Older steers have none. */
   wall?: number;
+  /** What rode along with it: the page in view, a commitment, a file. */
+  context?: ContextRef[];
   /** Deprecated: steers recorded before `unclear` was an action kind carry their readings
    *  here. New ones carry them on the action. */
   choices?: { label: string; text: string }[];
@@ -605,9 +608,9 @@ const apply = (a: SteerAction) => {
   }
 };
 
-const record = (text: string, via: Steer['via'], actions: SteerAction[], reply: string, offer?: Steer['offer']) => {
+const record = (text: string, via: Steer['via'], actions: SteerAction[], reply: string, offer?: Steer['offer'], context?: ContextRef[]) => {
   const live = started() && !finished();
-  S.steers.push({ id: `s${S.steers.length + 1}`, at: now(), page: live ? headPage() : null, via, text, actions, reply, offer, wall: Date.now() });
+  S.steers.push({ id: `s${S.steers.length + 1}`, at: now(), page: live ? headPage() : null, via, text, actions, reply, offer, wall: Date.now(), ...(context?.length ? { context } : {}) });
   for (const a of actions) apply(a);
 };
 
@@ -629,10 +632,16 @@ const describe = (code: string): string | null => {
   return `I read ${name}, ${f.title}, from its heading on p. ${f.page}${span}.${'marked' in f && f.marked ? ' You marked it.' : ''}`;
 };
 
-/** A person's message in the conversation: interpret it, record it, apply it. */
-export const say = (text: string) =>
+/** The state before the last typed message, so it can be taken back (Edit, Retry). */
+let lastSay: { doc: string; id: string; snap: string } | null = null;
+
+/** A person's message in the conversation: interpret it, record it, apply it. `hint` is read
+ *  with the text but not shown (what the attached context names); `note` follows the reply
+ *  (what Aldo does with an attached file). */
+export const say = (text: string, opts: { context?: ContextRef[]; hint?: string; note?: string } = {}) =>
   commit(() => {
-    const r = interpret(text, {
+    const snap = JSON.stringify(S);
+    const r = interpret(opts.hint ? `${text} ${opts.hint}` : text, {
       started: started(),
       finished: finished(),
       paused: paused() || pausing(),
@@ -646,8 +655,22 @@ export const say = (text: string) =>
       hasCommitments: D.finds.length > 0,
       describe,
     });
-    record(text, 'typed', r.actions, r.reply, r.offer);
+    record(text, 'typed', r.actions, opts.note ? `${r.reply} ${opts.note}` : r.reply, r.offer, opts.context);
+    lastSay = { doc: current, id: S.steers.at(-1)!.id, snap };
   });
+
+/** Take back the last typed message, and what it did, if it is still the last thing said.
+ *  Returns what was said, for Edit to put back in the field. */
+export const canTakeBack = (id: string) => !!lastSay && lastSay.doc === current && lastSay.id === id && S.steers.at(-1)?.id === id;
+export const takeBack = (id: string): Steer | null => {
+  if (!canTakeBack(id)) return null;
+  const said = S.steers.at(-1)!;
+  commit(() => {
+    S = { ...fresh(), ...(JSON.parse(lastSay!.snap) as Partial<Sw3State>) };
+    lastSay = null;
+  });
+  return said;
+};
 
 /** One of Aldo's buttons: a known action, recorded the same way as a typed steer. */
 export const act = (label: string, action: SteerAction | SteerAction[], reply: string) =>

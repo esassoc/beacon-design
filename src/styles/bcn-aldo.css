@@ -213,6 +213,40 @@
   font-weight: var(--_aldo-weight-meta);
 }
 .bcn-aldo-msg__extra { display: flex; flex-direction: column; gap: var(--spacing-200); }
+.bcn-aldo-msg[data-from='you'] .bcn-aldo-msg__extra { align-items: flex-end; }
+/* What rode along with a message: its chips, under the bubble. */
+.bcn-aldo-msg__context { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--spacing-100); }
+.bcn-aldo-msg__context [role='button'] { cursor: pointer; }
+.bcn-aldo-msg__context [role='button']:hover { text-decoration: underline; }
+/* A reply coming in: a moment of thinking (three dots), then the words. Its buttons and time
+   wait until it is written. */
+.bcn-aldo-msg[data-streaming] .bcn-aldo-actions,
+.bcn-aldo-msg[data-streaming] .bcn-aldo-msg__time,
+.bcn-aldo-msg[data-streaming] .bcn-aldo-msg__tools { display: none; }
+.bcn-aldo-msg[data-thinking] .bcn-aldo-msg__text::before {
+  content: '';
+  display: inline-block;
+  width: 2.25em;
+  height: 0.5em;
+  background:
+    radial-gradient(circle, currentColor 45%, transparent 50%) 0 50% / 0.5em 0.5em no-repeat,
+    radial-gradient(circle, currentColor 45%, transparent 50%) 50% 50% / 0.5em 0.5em no-repeat,
+    radial-gradient(circle, currentColor 45%, transparent 50%) 100% 50% / 0.5em 0.5em no-repeat;
+  color: var(--color-content-default-tertiary);
+  animation: bcn-aldo-think 1s ease-in-out infinite;
+}
+@keyframes bcn-aldo-think { 50% { opacity: 0.35; } }
+/* Stopped: what was written stays, marked as cut short. */
+.bcn-aldo-msg[data-stopped] .bcn-aldo-msg__bubble::after {
+  content: 'Stopped';
+  display: block;
+  margin-top: var(--spacing-100);
+  font-size: var(--_aldo-meta);
+  font-weight: var(--_aldo-weight-meta);
+  color: var(--color-content-default-secondary);
+}
+.bcn-aldo-msg[data-stopped] .bcn-aldo-actions { display: none; }
+@media (prefers-reduced-motion: reduce) { .bcn-aldo-msg[data-thinking] .bcn-aldo-msg__text::before { animation: none; } }
 .bcn-aldo-msg__extra:empty { display: none; }
 /* A check turn is a card at full width, with room after it. */
 .bcn-aldo-msg[data-kind='check'] { max-width: 100%; width: 100%; margin-bottom: var(--spacing-200); }
@@ -434,9 +468,11 @@ button.bcn-aldo-needs__text:focus-visible { outline: var(--focus-ring-width, 2px
 
 .bcn-aldo-composer { display: flex; flex-direction: column; gap: var(--_aldo-inner); }
 .bcn-aldo-composer__suggest { padding: 0 var(--_aldo-pad); gap: var(--spacing-200); }
+.bcn-aldo-composer__anchor { position: relative; }
 .bcn-aldo-composer__shell {
   --_aldo-radius: 0.75rem;
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   gap: var(--spacing-200);
   margin: 0 var(--spacing-300);
@@ -462,7 +498,70 @@ button.bcn-aldo-needs__text:focus-visible { outline: var(--focus-ring-width, 2px
   display: inline-flex;
   padding-bottom: var(--spacing-100);
 }
-.bcn-aldo-composer[data-busy] .bcn-aldo-composer__shell { opacity: 0.7; }
+/* While Aldo answers, send is Stop: a square, in the default ink, not green. */
+.bcn-aldo-composer__send[data-stop] {
+  --color-background-brand: var(--color-content-default);
+  --color-background-brand-hover: var(--color-content-default-secondary);
+}
+.bcn-aldo-composer__attach { display: inline-flex; padding-bottom: var(--spacing-100); color: var(--color-content-default-secondary); }
+/* What rides along: chips across the top of the shell, the field under them. */
+.bcn-aldo-composer__context {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-100);
+  flex-basis: 100%;
+  padding-top: var(--spacing-150, 0.375rem);
+}
+.bcn-aldo-composer__context[hidden] { display: none; }
+/* A chip the surface attached from where the person is reads quieter than one they added. */
+.bcn-aldo-composer__context .esa-pill[data-auto] { --_pill-bg: transparent; border-style: dashed; }
+.bcn-aldo-composer__context .esa-pill { max-width: 100%; }
+.bcn-aldo-composer__context .esa-pill__label,
+.bcn-aldo-msg__context .esa-pill__label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 16rem; }
+/* @ and /: a list over the field, the width of the shell. */
+.bcn-aldo-composer__menu {
+  position: absolute;
+  z-index: 10;
+  bottom: calc(100% + var(--spacing-100));
+  left: var(--spacing-300);
+  right: var(--spacing-300);
+  max-height: 15rem;
+  margin: 0;
+  padding: var(--spacing-100);
+  overflow-y: auto;
+  list-style: none;
+  border: var(--_aldo-line) solid var(--color-border-default);
+  border-radius: var(--_aldo-radius);
+  background: var(--color-background-elevation-raised);
+  box-shadow: var(--elevation-4);
+}
+.bcn-aldo-composer__menu[hidden] { display: none; }
+.bcn-aldo-composer__option {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-200);
+  padding: var(--spacing-150, 0.375rem) var(--spacing-200);
+  border-radius: var(--_aldo-radius-sm);
+  cursor: pointer;
+  font-size: var(--_aldo-text);
+}
+.bcn-aldo-composer__option[aria-selected='true'] { background: var(--color-background-elevation-sunken); }
+.bcn-aldo-composer__option-label { flex: 0 1 auto; font-weight: var(--_aldo-weight-strong); color: var(--color-content-default); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 3.5rem; }
+.bcn-aldo-composer__option-detail { flex: 0 1 auto; min-width: 0; margin-left: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--_aldo-meta); color: var(--color-content-default-secondary); }
+/* A file over the composer: the shell says it will take it. */
+.bcn-aldo-composer[data-dropping] .bcn-aldo-composer__shell { border-style: dashed; border-color: var(--bcn-aldo); background: var(--color-background-elevation-sunken); }
+.bcn-aldo-composer__drop {
+  position: absolute;
+  inset: 0 var(--spacing-300);
+  display: grid;
+  place-items: center;
+  margin: 0;
+  font-size: var(--_aldo-text);
+  font-weight: var(--_aldo-weight-strong);
+  color: var(--color-content-default);
+  pointer-events: none;
+}
+.bcn-aldo-composer__drop[hidden] { display: none; }
 
 /* ── Expanded: the conversation over the right half of the window ───────── */
 /* Non-modal: the body pins to the right half, the page beside it stays live. */
@@ -507,6 +606,7 @@ button.bcn-aldo-needs__text:focus-visible { outline: var(--focus-ring-width, 2px
   margin-inline: var(--_aldo-pad);
   padding: var(--spacing-300) var(--spacing-300) var(--spacing-300) var(--spacing-400);
 }
+.bcn-aldo-panel[data-expanded] .bcn-aldo-composer__menu { left: var(--_aldo-pad); right: var(--_aldo-pad); }
 @keyframes bcn-aldo-pin {
   from { opacity: 0; transform: translateX(var(--spacing-600, 2rem)); }
   to { opacity: 1; transform: none; }

@@ -74,6 +74,42 @@ export interface Turn<A extends AldoAction = AldoAction> {
   cards?: Card<A>[];
   /** A kind with its own layout. 'check' renders as lead + card, with no who line. */
   kind?: 'message' | 'check' | 'notice' | 'opening';
+  /** On a person's turn: what was attached to it (the page in view, a commitment, a file). */
+  context?: ContextRef[];
+}
+
+// ── Context ─────────────────────────────────────────────────────────────────
+// What rides along with a message: the page in view and the selected record attach
+// themselves (removable), @ adds a record, a file is dropped or picked. The model reads them
+// with the text; the thread shows them under the message.
+
+export interface ContextRef {
+  /** Stable within the conversation: 'page:146', 'entity:commitment:f12', 'file:<name>'. */
+  id: string;
+  kind: 'page' | 'entity' | 'file';
+  /** As the chip reads: "p. 146", "11.32 Covered Species Observations", "CDFW letter.pdf". */
+  label: string;
+  /** Pressing the chip opens it. Files have none. */
+  anchor?: Anchor;
+  /** Attached by the surface from where the person is, not by the person. */
+  auto?: boolean;
+  file?: { name: string; size: number; type: string };
+}
+
+/** Something @ can reference: what the menu shows and the chip it makes. */
+export interface Mention {
+  label: string;
+  /** A second line in the menu: a title, a page. */
+  detail?: string;
+  ref: ContextRef;
+}
+
+/** A / command: a name, what it does, and the message it starts. */
+export interface Command {
+  name: string;
+  hint: string;
+  /** Put in the field for the person to finish (a trailing space leaves the cursor ready). */
+  text: string;
 }
 
 export interface Reply<A extends AldoAction = AldoAction> {

@@ -122,6 +122,7 @@ export function setupSw3Scan(root: HTMLElement): void {
   /** Scroll the selected box into view on the next paint (a selection, not a re-render). */
   let reveal = false;
   let lastNewest = '';
+  let lastViewSig = '';
   let selecting = false;
   /** Redraw or continue: the next rectangle dragged is this find's box on the page. */
   let redrawing: string | null = null;
@@ -806,6 +807,12 @@ export function setupSw3Scan(root: HTMLElement): void {
 
     // Page: one box per commitment. Requirements are step 2's; they are not drawn here.
     const v = view();
+    // Where the person is, for Aldo to attach to what they say: the page in view, the box selected.
+    const viewSig = `${doc}|${v}|${selected ?? ''}`;
+    if (viewSig !== lastViewSig) {
+      lastViewSig = viewSig;
+      document.dispatchEvent(new CustomEvent('sw3:view', { detail: { page: v, find: selected } }));
+    }
     const boxes: PageViewBox[] = [];
     for (const f of list) {
       const onPage = f.boxes.filter((b) => b.page === v);
