@@ -138,6 +138,13 @@ function setupOverlay(root: HTMLElement): void {
     });
   keys.forEach((k) => k.addEventListener('click', () => (k.dataset.aldoOverlay === 'open' ? open() : dock())));
   root.addEventListener('aldo:dock-request', () => expanded() && dock());
+  // A press anywhere off the expanded panel docks it, and the press goes on to what it hit.
+  document.addEventListener('pointerdown', (e) => {
+    if (!expanded()) return;
+    const path = e.composedPath();
+    if (path.includes(body) || [...keys].some((k) => path.includes(k))) return;
+    dock();
+  });
   window.addEventListener('resize', measure);
   // Esc docks, unless something inside Aldo (a menu, a field) is using it first.
   document.addEventListener('keydown', (e) => {
