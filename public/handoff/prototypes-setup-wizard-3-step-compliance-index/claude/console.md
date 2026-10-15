@@ -311,7 +311,7 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
       </div>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnSw3IndexActions.astro_astro_type_script_index_0_lang.CkAyEBep.js"
+        src="/beacon-design/_astro/BcnSw3IndexActions.astro_astro_type_script_index_0_lang.Ch3nHx6e.js"
       ></script></span
     ><span class="bcn-swsn__end bcn-swsn__end--next" data-ix-step="" hidden=""
       ><span

@@ -5,29 +5,49 @@
 // the items it would hold); and items better left without a bin of their own, which go to
 // Unfiled › Needs a home. Apply files them; the next Draft again makes drafts of them.
 //
+// Each suggestion is a card whose head is where its items would land, read as the index
+// reads it: the category's hue dot, Category › Subcategory. A new bin's head is that same
+// placement as two fields, Category then Subcategory. Below the head, the items as review
+// rows draw a draft: kind mark, statement, the commitments it rests on. Unticking a card
+// mutes it, so what Apply will file is what stays bright.
+//
 // Contract, on `document`:
 //   in   sw3i:suggest   open
 //
 // bcn-lego-checked: the dialog IS esa-dialog; ticks ARE esa-checkbox; the name IS
-// esa-text-field; the category IS esa-select; keys ARE esa-button. Checked Beacon:
+// esa-text-field; the category IS esa-select; keys ARE esa-button; kind marks ARE
+// bcn-draft-kind (draft-kind.ts); commitment codes ARE bcn-commitment-badge, cloned from a
+// template as the subcategory page does. The suggestion card is BcnSw3IndexMerge's card
+// (esa-card is compile-time and cannot be built at run time). Checked Beacon:
 // suggest-subcategories-dialog has these three sections. bcn-sw3-index-suggest is its home.
 import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
 ---
 
-<esa-dialog heading="Suggest subcategories" size="lg" data-sw3-index-suggest>
+<esa-dialog heading="Suggest subcategories" size="lg" class="bcn-sw3is-dialog" data-sw3-index-suggest>
+  <template data-is-badge><BcnCommitmentBadge code="" size="sm" /></template>
   <div class="bcn-sw3is">
-    <section class="bcn-sw3is__sec" data-is-existing>
-      <h3 class="bcn-sw3is__h">Fits a bin you already have</h3>
+    <section class="bcn-sw3is__sec" data-is-existing aria-labelledby="sw3-is-ex-h">
+      <h3 class="bcn-sw3is__h" id="sw3-is-ex-h">Fits a bin you already have</h3>
       <ol class="bcn-sw3is__list" data-is-existing-list></ol>
     </section>
-    <section class="bcn-sw3is__sec" data-is-new>
-      <h3 class="bcn-sw3is__h">New bins</h3>
+    <section class="bcn-sw3is__sec" data-is-new aria-labelledby="sw3-is-new-h">
+      <h3 class="bcn-sw3is__h" id="sw3-is-new-h">New bins</h3>
       <ol class="bcn-sw3is__list" data-is-new-list></ol>
     </section>
-    <section class="bcn-sw3is__sec" data-is-left>
-      <h3 class="bcn-sw3is__h">Better left without a bin of their own</h3>
-      <p class="bcn-sw3is__where">Filed under Unfiled › Needs a home.</p>
-      <ol class="bcn-sw3is__list" data-is-left-list></ol>
+    <section class="bcn-sw3is__sec" data-is-left aria-labelledby="sw3-is-left-h">
+      <h3 class="bcn-sw3is__h" id="sw3-is-left-h">Better left without a bin of their own</h3>
+      <div class="bcn-sw3is__card" data-is-left-card>
+        <div class="bcn-sw3is__head">
+          <span class="bcn-sw3is__dest">
+            <span class="bcn-sw3is__dot" aria-hidden="true"></span>
+            <span class="bcn-sw3is__cat">Unfiled</span>
+            <span class="bcn-sw3is__sep" aria-hidden="true">›</span>
+            <span class="bcn-sw3is__sub">Needs a home</span>
+          </span>
+        </div>
+        <ul class="bcn-sw3is__items" data-is-left-list></ul>
+      </div>
     </section>
   </div>
   <div slot="footer" class="bcn-sw3is__foot">
@@ -37,18 +57,84 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 </esa-dialog>
 
 <style>
-  .bcn-sw3is { display: flex; flex-direction: column; gap: var(--spacing-500); font-size: 0.875rem; }
+  .bcn-sw3is-dialog { --dialog-width-lg: min(56rem, calc(100vw - 4rem)); }
+  .bcn-sw3is {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-content-default);
+  }
   .bcn-sw3is [hidden] { display: none !important; }
   .bcn-sw3is__sec { display: flex; flex-direction: column; gap: var(--spacing-200); }
-  .bcn-sw3is__h { margin: 0; font-size: 0.9375rem; font-weight: 600; padding-bottom: var(--spacing-100); border-bottom: 1px solid var(--color-border-default); }
-  .bcn-sw3is__where { margin: 0; color: var(--color-content-default-secondary); }
-  .bcn-sw3is__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-400); }
-  .bcn-sw3is :global(.bcn-sw3is__bin) { display: grid; grid-template-columns: 1.5rem minmax(0, 1fr); gap: var(--spacing-200) var(--spacing-200); align-items: start; }
-  .bcn-sw3is :global(.bcn-sw3is__bin > :not(esa-checkbox)) { grid-column: 2; }
-  .bcn-sw3is :global(.bcn-sw3is__name) { font-weight: 600; }
-  .bcn-sw3is :global(.bcn-sw3is__fields) { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--spacing-300); }
-  .bcn-sw3is :global(.bcn-sw3is__reason) { margin: 0; color: var(--color-content-default-secondary); }
-  .bcn-sw3is :global(.bcn-sw3is__items) { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: var(--spacing-100); }
+  .bcn-sw3is__h { margin: 0; font-size: 0.9375rem; font-weight: 600; }
+  .bcn-sw3is__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-300); }
+
+  /* A suggestion: BcnSw3IndexMerge's card, its head the placement. */
+  .bcn-sw3is :global(.bcn-sw3is__card) {
+    --_hue: var(--color-content-default-tertiary);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised, var(--color-background-default));
+    overflow: hidden;
+  }
+  .bcn-sw3is :global(.bcn-sw3is__head) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
+    background: var(--color-background-elevation-sunken);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+  .bcn-sw3is :global(.bcn-sw3is__head--fields) { align-items: end; }
+  .bcn-sw3is :global(.bcn-sw3is__head--fields esa-checkbox) { padding-bottom: var(--spacing-150); }
+  .bcn-sw3is :global(.bcn-sw3is__dest) { display: flex; align-items: center; gap: var(--spacing-200); min-width: 0; font-size: 0.875rem; }
+  .bcn-sw3is :global(.bcn-sw3is__dot) { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--_hue); }
+  .bcn-sw3is :global(.bcn-sw3is__cat) { color: var(--color-content-default-secondary); font-weight: 500; white-space: nowrap; }
+  .bcn-sw3is :global(.bcn-sw3is__sep) { color: var(--color-content-default-tertiary); }
+  .bcn-sw3is :global(.bcn-sw3is__sub) { font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* A new bin's placement, as fields: Category (with its hue) then Subcategory. */
+  .bcn-sw3is :global(.bcn-sw3is__fields) {
+    flex: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    gap: var(--spacing-300);
+    align-items: end;
+    min-width: 0;
+  }
+  .bcn-sw3is :global(.bcn-sw3is__catfield) { display: grid; grid-template-columns: 8px minmax(0, 1fr); gap: var(--spacing-200); align-items: end; }
+  .bcn-sw3is :global(.bcn-sw3is__catfield .bcn-sw3is__dot) { margin-bottom: 0.9rem; }
+  .bcn-sw3is :global(.bcn-sw3is__reason) {
+    margin: 0;
+    padding: var(--spacing-300) var(--spacing-400) 0;
+    color: var(--color-content-default-secondary);
+  }
+
+  /* The items, as review rows draw a draft. */
+  .bcn-sw3is :global(.bcn-sw3is__items) { list-style: none; margin: 0; padding: var(--spacing-100) var(--spacing-400); }
+  .bcn-sw3is :global(.bcn-sw3is__item) {
+    display: grid;
+    grid-template-columns: 4.75rem minmax(0, 1fr) auto;
+    gap: var(--spacing-100) var(--spacing-300);
+    align-items: baseline;
+    padding: var(--spacing-250) 0;
+  }
+  .bcn-sw3is :global(.bcn-sw3is__item + .bcn-sw3is__item) { border-top: 1px solid var(--color-border-subtle, var(--color-border-default)); }
+  .bcn-sw3is :global(.bcn-sw3is__item--tick) { grid-template-columns: auto 4.75rem minmax(0, 1fr) auto; align-items: start; }
+  .bcn-sw3is :global(.bcn-sw3is__item .bcn-draft-kind) { justify-self: start; max-width: 100%; }
+  .bcn-sw3is :global(.bcn-sw3is__item--tick .bcn-draft-kind) { margin-top: 0.15em; }
+  .bcn-sw3is :global(.bcn-sw3is__text) { display: flex; flex-direction: column; gap: var(--spacing-050); min-width: 0; }
+  .bcn-sw3is :global(.bcn-sw3is__why) { color: var(--color-content-default-secondary); }
+  .bcn-sw3is :global(.bcn-sw3is__cites) { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--spacing-100); max-width: 14rem; }
+  .bcn-sw3is :global(.bcn-sw3is__item--tick .bcn-sw3is__cites) { margin-top: 0.1em; }
+
+  /* Unticked: what Apply leaves alone recedes. */
+  .bcn-sw3is :global(.bcn-sw3is__card:has(> .bcn-sw3is__head > esa-checkbox:not([checked])) > :not(.bcn-sw3is__head)),
+  .bcn-sw3is :global(.bcn-sw3is__item--tick:has(> esa-checkbox:not([checked])) > :not(esa-checkbox)) { opacity: 0.45; }
+  .bcn-sw3is :global(.bcn-sw3is__card:has(> .bcn-sw3is__head > esa-checkbox:not([checked])) .bcn-sw3is__dest) { opacity: 0.6; }
+
   .bcn-sw3is__foot { display: flex; gap: var(--spacing-200); justify-content: flex-end; width: 100%; }
 </style>
 
@@ -58,6 +144,9 @@ import EsaButton from '@esa/ecology/esa-button.astro';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-select';
   import { initIndex, suggestions, unfiled, subOf, cats, applySuggestions, type SuggestPlan } from './sw3-index-store';
+  import { assignHues, hueOf } from './sw3-index-hues';
+  import { draftKind } from './draft-kind';
+  import type { IndexUnfiled } from '../../data/sw3-index-types';
   import { toast } from '../../lib/snackbar';
 
   type Box = HTMLElement & { checked: boolean };
@@ -66,22 +155,56 @@ import EsaButton from '@esa/ecology/esa-button.astro';
   if (dialog) {
     initIndex();
     const $ = (s: string) => dialog.querySelector<HTMLElement>(s)!;
+    const badgeTpl = dialog.querySelector<HTMLTemplateElement>('[data-is-badge]')!;
     const el = <K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string) => {
       const x = document.createElement(tag);
       if (cls) x.className = cls;
       if (text) x.textContent = text;
       return x;
     };
+    const itemOf = (id: string) => unfiled().find((u) => u.id === id);
+    const badge = (code: string) => {
+      const b = badgeTpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+      b.textContent = code;
+      return b;
+    };
+    /** The commitments an item rests on, once each. */
+    const cites = (u: IndexUnfiled) => {
+      const s = el('span', 'bcn-sw3is__cites');
+      s.append(...[...new Set(u.locators.map((l) => l.code))].map(badge));
+      return s;
+    };
+    /** One item, as a review row: kind mark, statement, commitments. */
+    const item = (id: string) => {
+      const u = itemOf(id);
+      const li = el('li', 'bcn-sw3is__item');
+      if (!u) {
+        li.append(el('span'), el('span', 'bcn-sw3is__text', id), el('span'));
+        return li;
+      }
+      li.append(draftKind({ kind: u.kind, class: u.class }), el('span', 'bcn-sw3is__text', u.statement), cites(u));
+      return li;
+    };
     const items = (ids: string[]) => {
       const ul = el('ul', 'bcn-sw3is__items');
-      for (const id of ids) ul.append(el('li', undefined, unfiled().find((u) => u.id === id)?.statement ?? id));
+      ul.append(...ids.map(item));
       return ul;
     };
     const box = (label: string) => {
       const b = document.createElement('esa-checkbox') as Box;
       b.setAttribute('aria-label', label);
+      b.setAttribute('size', 'sm');
       b.checked = true;
       return b;
+    };
+    const dest = (cat: string, sub: string) => {
+      const d = el('span', 'bcn-sw3is__dest');
+      const dot = el('span', 'bcn-sw3is__dot');
+      dot.setAttribute('aria-hidden', 'true');
+      const sep = el('span', 'bcn-sw3is__sep', '›');
+      sep.setAttribute('aria-hidden', 'true');
+      d.append(dot, el('span', 'bcn-sw3is__cat', cat), sep, el('span', 'bcn-sw3is__sub', sub));
+      return d;
     };
     let plan: ReturnType<typeof suggestions> = null;
 
@@ -89,42 +212,63 @@ import EsaButton from '@esa/ecology/esa-button.astro';
       plan = suggestions();
       if (!plan) return;
       const s = plan;
+      assignHues(cats().map((c) => c.id));
+
       $('[data-is-existing]').hidden = !s.existing.length;
       $('[data-is-existing-list]').replaceChildren(
         ...s.existing.map((e) => {
-          const li = el('li', 'bcn-sw3is__bin');
+          const li = el('li', 'bcn-sw3is__card');
           const ref = subOf(e.sub);
-          li.append(box(`File in ${ref?.sub.name}`), el('span', 'bcn-sw3is__name', ref ? `${ref.cat.name} › ${ref.sub.name}` : e.sub), items(e.unfiledIds));
+          if (ref) li.style.setProperty('--_hue', hueOf(ref.cat.id));
+          const head = el('div', 'bcn-sw3is__head');
+          head.append(box(`File in ${ref?.sub.name ?? e.sub}`), dest(ref?.cat.name ?? '', ref?.sub.name ?? e.sub));
+          li.append(head, items(e.unfiledIds));
           return li;
         }),
       );
+
       const catOptions = cats().map((c) => ({ value: c.id, label: c.name }));
       $('[data-is-new]').hidden = !s.newBins.length;
       $('[data-is-new-list]').replaceChildren(
         ...s.newBins.map((b) => {
-          const li = el('li', 'bcn-sw3is__bin');
+          const li = el('li', 'bcn-sw3is__card');
+          const head = el('div', 'bcn-sw3is__head bcn-sw3is__head--fields');
           const fields = el('div', 'bcn-sw3is__fields');
-          const name = document.createElement('esa-text-field') as Field;
-          name.setAttribute('label', 'Name');
-          name.setAttribute('size', 'sm');
-          name.setAttribute('maxlength', '60');
-          name.value = b.name;
+          const catField = el('div', 'bcn-sw3is__catfield');
+          const dot = el('span', 'bcn-sw3is__dot');
+          dot.setAttribute('aria-hidden', 'true');
           const cat = document.createElement('esa-select') as Field;
           cat.setAttribute('label', 'Category');
           cat.setAttribute('size', 'sm');
           cat.options = catOptions;
           cat.value = cats().find((c) => c.name.toLowerCase() === b.category.toLowerCase())?.id ?? catOptions[0]?.value ?? '';
-          fields.append(name, cat);
-          li.append(box(`Make ${b.name}`), fields, el('p', 'bcn-sw3is__reason', b.reason), items(b.unfiledIds));
+          const paintHue = () => li.style.setProperty('--_hue', hueOf(cat.value));
+          paintHue();
+          cat.addEventListener('change', paintHue);
+          catField.append(dot, cat);
+          const name = document.createElement('esa-text-field') as Field;
+          name.setAttribute('label', 'Subcategory');
+          name.setAttribute('size', 'sm');
+          name.setAttribute('maxlength', '60');
+          name.value = b.name;
+          fields.append(catField, name);
+          head.append(box(`Make ${b.name}`), fields);
+          li.append(head);
+          if (b.reason) li.append(el('p', 'bcn-sw3is__reason', b.reason));
+          li.append(items(b.unfiledIds));
           return li;
         }),
       );
+
       $('[data-is-left]').hidden = !s.left.length;
       $('[data-is-left-list]').replaceChildren(
         ...s.left.map((l) => {
-          const li = el('li', 'bcn-sw3is__bin');
-          const u = unfiled().find((x) => x.id === l.unfiledId);
-          li.append(box('File under Needs a home'), el('span', undefined, u?.statement ?? l.unfiledId), el('p', 'bcn-sw3is__reason', l.reason));
+          const u = itemOf(l.unfiledId);
+          const li = el('li', 'bcn-sw3is__item bcn-sw3is__item--tick');
+          const text = el('span', 'bcn-sw3is__text');
+          text.append(el('span', undefined, u?.statement ?? l.unfiledId));
+          if (l.reason) text.append(el('span', 'bcn-sw3is__why', l.reason));
+          li.append(box('File under Needs a home'), u ? draftKind({ kind: u.kind, class: u.class }) : el('span'), text, u ? cites(u) : el('span'));
           return li;
         }),
       );
@@ -141,7 +285,8 @@ import EsaButton from '@esa/ecology/esa-button.astro';
         existing: plan.existing.filter((_, i) => on(ex[i])),
         newBins: plan.newBins.flatMap((b, i) => {
           if (!on(nb[i])) return [];
-          const [name, cat] = [...nb[i].querySelectorAll<Field>('esa-text-field, esa-select')];
+          const name = nb[i].querySelector<Field>('esa-text-field')!;
+          const cat = nb[i].querySelector<Field>('esa-select')!;
           return [{ catId: cat.value, name: (name.value.trim() || b.name).slice(0, 60), unfiledIds: b.unfiledIds }];
         }),
         left: plan.left.filter((_, i) => on(lf[i])).map((l) => l.unfiledId),

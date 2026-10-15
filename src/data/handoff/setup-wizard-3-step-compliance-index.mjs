@@ -113,7 +113,8 @@ export default {
     {
       label: 'Suggest subcategories',
       selector: '[data-sw3-index-suggest]',
-      intent: 'Homes for what fit no subcategory, in develop\'s three parts: fits a bin you already have, new bins (named and placed), and better left without a bin of their own (Unfiled › Needs a home). Apply files them; Draft again makes drafts of them.',
+      intent: 'Homes for what fit no subcategory, in develop\'s three parts: fits a bin you already have, new bins (named and placed), and better left without a bin of their own (Unfiled › Needs a home). Each suggestion is a card whose header is where its items land, as the index draws it: the category\'s hue dot, the category, ›, the subcategory. A new bin\'s header is that placement as two fields, Category then Subcategory, its dot following the category chosen. Under the header, the items as review rows: kind chip, statement, commitment badges. Better left without a bin of their own is one card, Unfiled › Needs a home, each item with its own tick and its reason under it. Unticking fades what Apply will leave out. Apply files them; Draft again makes drafts of them.',
+      decisions: ['A suggestion is accepted whole, one tick a card; the plan already takes a subset, so per-item ticks are a later option.', 'Unfiled actions carry no requirement type yet, so their chip reads Action.'],
     },
   ],
 };
