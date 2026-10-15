@@ -1,46 +1,42 @@
-# Subcategory scrubber
+# Console
 
-The foot of the step's panel, as step 1 carries its scan toolbar: header and scrubber are one panel. Every subcategory in index order, step 2's scrubber, a rule and the category's name where each category starts, a band of the category's hue along the foot of its cells and its name marked in the same hue. Drafted: amber for drafts never opened, gray for opened with drafts to review, green when every draft is decided. Next to review walks the unopened first.
+The foot of the step's panel, as step 1 carries its scan console: header and console are one panel, and the header carries no keys. A sunken tray of keys centered under the header rule: Previous and Next, then Confirm all and Export. Under it, every commitment of every source file in one run, file after file, one cell each: gray while parsing, darker gray until confirmed, a light tint of the step's purple once confirmed. A rule through the strip marks where one file ends and the next begins, and the file's short name (ITP, MMRP) sits under the strip where its run starts. The strip shows 40 at a time; the double chevrons page the window, which otherwise follows the commitment in view. The thumb is the one in view. Click or drag to land on one; Previous and Next, or the arrow keys, step one at a time across files.
 
 ## Key decisions
-- Opened is not reviewed. Prod sets FirstOpenedDate the first time a bin with drafts is opened.
+- No position line and no Next to settle: where you are is the thumb, and what is left to settle is in each cell's tooltip and in Aldo.
+- No amber: a commitment with something to settle reads as any other unconfirmed one. Only confirmed has a color.
+- No link on to the Compliance Index here: the wizard's step bar is the way on.
+- Confirm all confirms only clean, parsed commitments, and says how many; the toast carries a one-step Undo.
+- Export produces no real file in the prototype.
+- A window of 40, as the source step shows 50 pages: a commitment's tick label ("MM AES-1a") is wider than a page number, and 40 keeps a label every tenth cell legible at the 1280 layout.
+- Landing on a commitment in another file makes that file the active one: the text, the rail, Aldo and the side panels all read it.
+
+## Done when
+- Previous is off on the first commitment and Next on the last; Next from the last ITP commitment lands on the first MMRP one.
+- Confirm all paints every clean cell light purple.
 
 ## Markup
 ```html
-<div class="bcn-swsn" data-ix-nav="" hidden="">
-  <div class="bcn-swsn__where">
-    <span class="bcn-swsn__pos" data-ix-pos=""></span
-    ><span data-ix-next-open="" class="astro-qcf6lh4y"
+<div
+  class="bcn-swsn"
+  data-rev-nav=""
+  data-tinted=""
+  style="--_step: var(--color-commitment)"
+>
+  <div class="bcn-swsn__console">
+    <esa-button-group
+      class="bcn-swsn__step"
+      aria-label="Step through commitments"
+      data-rev-step=""
+      role="group"
       ><span
-        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-        ><button class="esa-button__native typography-microcopy-2xs" type="button">
-          <span class="esa-button__label">Next to review</span
-          ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-            ><svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="M5 12h14"></path>
-              <path d="m12 5 7 7-7 7"></path></svg
-          ></span></button></span
-    ></span>
-  </div>
-  <div class="bcn-cscrub" data-commitment-scrubber="" data-size="40" style="--_n: 40">
-    <span data-cs-prev=""
-      ><span
-        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
         ><button
           class="esa-button__native typography-microcopy-xs"
           type="button"
-          aria-label="Earlier commitments"
-          title="Earlier commitments"
+          title="Previous commitment (Left arrow)"
+          data-rev-prev=""
+          disabled=""
         >
           <span class="esa-icon esa-icon--sm" aria-hidden="true"
             ><svg
@@ -54,85 +50,222 @@ The foot of the step's panel, as step 1 carries its scan toolbar: header and scr
               stroke-linejoin="round"
               focusable="false"
             >
-              <path d="m11 17-5-5 5-5"></path>
-              <path d="m18 17-5-5 5-5"></path></svg
+              <path d="m15 18-6-6 6-6"></path></svg></span
+          ><span class="esa-button__label">Previous</span>
+        </button></span
+      ><span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          title="Next commitment (Right arrow)"
+          data-rev-next=""
+        >
+          <span class="esa-button__label">Next</span
+          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path></svg
           ></span></button></span
-    ></span>
-    <div
-      class="bcn-cscrub__track"
-      role="slider"
-      tabindex="0"
-      aria-label="Subcategory"
-      aria-valuemin="1"
-      aria-valuemax="1"
-      aria-valuenow="1"
-      data-cs-track=""
-    >
-      <span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-      ><span class="bcn-cscrub__thumb" data-cs-thumb="" aria-hidden="true"></span>
+    ></esa-button-group>
+    <div class="bcn-sw3ra" data-sw3-review-actions="">
+      <span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          data-ra-confirm-all="true"
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="m9 12 2 2 4-4"></path></svg></span
+          ><span class="esa-button__label">Confirm all (87)</span>
+        </button></span
+      ><span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          title="Export for offline review (.docx)"
+          data-ra-export="true"
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" x2="12" y1="15" y2="3"></line></svg></span
+          ><span class="esa-button__label">Export</span>
+        </button></span
+      >
     </div>
-    <span data-cs-next=""
-      ><span
-        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-        ><button
-          class="esa-button__native typography-microcopy-xs"
-          type="button"
-          aria-label="Later commitments"
-          title="Later commitments"
-        >
-          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-            ><svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m6 17 5-5-5-5"></path>
-              <path d="m13 17 5-5-5-5"></path></svg
-          ></span></button></span
-    ></span>
-    <div class="bcn-cscrub__ticks" aria-hidden="true" data-cs-ticks=""></div>
-    <span class="bcn-cscrub__tip" data-cs-tip="" hidden="" aria-hidden="true"
-      ><span class="bcn-cscrub__tipcode" data-cs-tip-code=""></span
-      ><span data-cs-tip-title=""></span
-      ><span class="bcn-cscrub__tipstate" data-cs-tip-state=""></span
-    ></span>
+    <script
+      type="module"
+      src="/beacon-design/_astro/BcnSw3ReviewActions.astro_astro_type_script_index_0_lang.VhYmki28.js"
+    ></script>
+  </div>
+  <div class="bcn-swsn__scrub" data-rev-scrub="">
+    <div
+      class="bcn-cscrub"
+      data-commitment-scrubber=""
+      data-size="40"
+      style="--_n: 40; --_at: 0"
+    >
+      <span data-cs-prev="" style="visibility: hidden"
+        ><span
+          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            aria-label="Earlier commitments"
+            title="Earlier commitments"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m11 17-5-5 5-5"></path>
+                <path d="m18 17-5-5 5-5"></path></svg
+            ></span></button></span
+      ></span>
+      <div
+        class="bcn-cscrub__track"
+        role="slider"
+        tabindex="0"
+        aria-label="Commitment"
+        aria-valuemin="1"
+        aria-valuemax="279"
+        aria-valuenow="1"
+        data-cs-track=""
+        aria-valuetext="ITP 11.1 Covered Species Observations, 3 requirements"
+      >
+        <span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="flagged"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        ><span class="bcn-cscrub__thumb" data-cs-thumb="" aria-hidden="true"></span>
+      </div>
+      <span data-cs-next=""
+        ><span
+          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            aria-label="Later commitments"
+            title="Later commitments"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 17 5-5-5-5"></path>
+                <path d="m13 17 5-5-5-5"></path></svg
+            ></span></button></span
+      ></span>
+      <div class="bcn-cscrub__ticks" aria-hidden="true" data-cs-ticks="">
+        <span class="bcn-cscrub__file" title="ITP" style="--_i: 0; max-width: 32px"
+          >ITP</span
+        ><span class="bcn-cscrub__tick" style="--_i: 10">11.11</span
+        ><span class="bcn-cscrub__tick" style="--_i: 20">11.19.1</span
+        ><span class="bcn-cscrub__tick" style="--_i: 30">11.28</span
+        ><span class="bcn-cscrub__tick" data-end="" style="--_i: 39">11.38</span>
+      </div>
+      <span class="bcn-cscrub__tip" data-cs-tip="" hidden="" aria-hidden="true"
+        ><span class="bcn-cscrub__tipcode" data-cs-tip-code=""></span
+        ><span data-cs-tip-title=""></span
+        ><span class="bcn-cscrub__tipstate" data-cs-tip-state=""></span
+      ></span>
+    </div>
   </div>
 </div>
 ```
 
 ## Styles
 ```css
-.typography-microcopy-2xs {
-  font-family: var(--typography-microcopy-2xs-font-family);
-  font-size: var(--typography-microcopy-2xs-font-size);
-  font-weight: var(--typography-microcopy-2xs-font-weight);
-  line-height: var(--typography-microcopy-2xs-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
+/* No box of its own — the buttons stay direct flex items of the host. */
+.esa-button-group__slot {
+  display: contents;
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -141,26 +274,12 @@ The foot of the step's panel, as step 1 carries its scan toolbar: header and scr
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-2xs-subtle {
-  font-family: var(--typography-microcopy-2xs-subtle-font-family);
-  font-size: var(--typography-microcopy-2xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-2xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-2xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
-}
 .typography-microcopy-xs-subtle {
   font-family: var(--typography-microcopy-xs-subtle-font-family);
   font-size: var(--typography-microcopy-xs-subtle-font-size);
   font-weight: var(--typography-microcopy-xs-subtle-font-weight);
   line-height: var(--typography-microcopy-xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-2xs-strong {
-  font-family: var(--typography-microcopy-2xs-strong-font-family);
-  font-size: var(--typography-microcopy-2xs-strong-font-size);
-  font-weight: var(--typography-microcopy-2xs-strong-font-weight);
-  line-height: var(--typography-microcopy-2xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
 }
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
@@ -392,45 +511,54 @@ The foot of the step's panel, as step 1 carries its scan toolbar: header and scr
   opacity: 0.8;
 }
 .bcn-swsn {
-  gap: var(--spacing-150);
+  gap: var(--spacing-300);
   padding: var(--spacing-300) var(--spacing-500) var(--spacing-200);
   border-top: 1px solid var(--color-border-default);
+  --color-background-brand-muted: var(--color-background-elevation-raised);
+  --color-background-brand-muted-hover: var(--color-background-elevation-sunken);
+  --color-content-on-brand-muted: var(--color-content-default);
   flex-direction: column;
   display: flex;
 }
-.bcn-swsn[hidden] {
-  display: none;
+.bcn-swsn[hidden],
+.bcn-swsn [hidden] {
+  display: none !important;
 }
-.bcn-swsn__where {
-  justify-content: space-between;
+.bcn-swsn__console {
+  justify-content: center;
   align-items: center;
-  gap: var(--spacing-300);
-  min-height: 28px;
+  gap: var(--spacing-200);
+  max-width: 100%;
+  padding: var(--spacing-100);
+  background: var(--color-background-elevation-sunken);
+  border: 1px solid var(--color-border-default-subtle);
+  border-radius: var(--radius-200);
+  flex-wrap: wrap;
+  align-self: center;
   display: flex;
 }
-.bcn-swsn__where [hidden] {
+.bcn-swsn__console > * {
+  flex: none;
+}
+.bcn-swsn button:disabled {
+  opacity: 0.38;
+}
+.bcn-swsn__scrub:empty {
   display: none;
 }
-.bcn-swsn__pos {
-  color: var(--color-content-default-secondary);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  overflow: hidden;
+.bcn-swsn[data-tinted] .bcn-cscrub__cell[data-state="confirmed"] {
+  background: color-mix(
+    in srgb,
+    var(--_step) 42%,
+    var(--color-background-elevation-raised)
+  );
 }
-.bcn-console__more .esa-button__native {
-  font-family: var(--_mono);
-  height: auto;
-  min-height: 0;
-  padding: 0 1ch;
-  font-size: 0.8125rem;
-  font-weight: 400;
-  line-height: 1.65;
-}
-.bcn-console__more .esa-button__native:hover {
-  color: var(--bcn-console-fg);
+.bcn-swsn[data-tinted] .bcn-cscrub__cell[data-state="flagged"] {
+  background: color-mix(
+    in srgb,
+    var(--color-content-default) 38%,
+    var(--color-background-elevation-raised)
+  );
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -632,15 +760,14 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
+.bcn-sw3ra {
+  align-items: center;
+  gap: var(--spacing-200);
+  flex-wrap: wrap;
+  display: flex;
+}
 .bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
   color: var(--bcn-aldo-600);
-}
-.typography-microcopy-2xs {
-  font-family: var(--typography-microcopy-2xs-font-family);
-  font-size: var(--typography-microcopy-2xs-font-size);
-  font-weight: var(--typography-microcopy-2xs-font-weight);
-  line-height: var(--typography-microcopy-2xs-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -649,13 +776,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-2xs-subtle {
-  font-family: var(--typography-microcopy-2xs-subtle-font-family);
-  font-size: var(--typography-microcopy-2xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-2xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-2xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
-}
 .typography-microcopy-xs-subtle {
   font-family: var(--typography-microcopy-xs-subtle-font-family);
   font-size: var(--typography-microcopy-xs-subtle-font-size);
@@ -663,19 +783,16 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
-.typography-microcopy-2xs-strong {
-  font-family: var(--typography-microcopy-2xs-strong-font-family);
-  font-size: var(--typography-microcopy-2xs-strong-font-size);
-  font-weight: var(--typography-microcopy-2xs-strong-font-weight);
-  line-height: var(--typography-microcopy-2xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
-}
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
   font-size: var(--typography-microcopy-xs-strong-font-size);
   font-weight: var(--typography-microcopy-xs-strong-font-weight);
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -706,10 +823,6 @@ summary.esa-button--variant-chrome:focus-visible {
   height: var(--_icon-size);
   display: block;
 }
-.esa-collapsible__summary .esa-icon {
-  color: var(--color-content-default-secondary, #646464);
-  flex-shrink: 0;
-}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -722,7 +835,6 @@ summary.esa-button--variant-chrome:focus-visible {
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
 - `--bcn-aldo-600`: #06736f _(component)_
-- `--bcn-console-fg`: #ffffffed _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
@@ -759,6 +871,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-warning`: #f59e0b _(component)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
+- `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
 - `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
@@ -782,30 +895,15 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
+- `--radius-200`: .5rem _(primitive)_
 - `--shadow-300`: 0 6px 24px -6px #00000012 _(component)_
 - `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
-- `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-2xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-2xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-2xs-strong-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-2xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-font-weight`: 500 _(semantic)_

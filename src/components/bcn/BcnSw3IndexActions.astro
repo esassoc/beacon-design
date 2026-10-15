@@ -1,6 +1,9 @@
 ---
-// <BcnSw3IndexActions> — step 3's page actions, in the step panel's header, by phase:
+// <BcnSw3IndexActions> — step 3's keys, in the console at the foot of its panel
+// (bcn-sw-step-nav's slot) after Previous and Next, by phase:
 //
+//   empty     Build index, and + Category to start one by hand
+//   building  Build index, disabled, reading Building
 //   built     Re-run (Aldo takes the guidance and answers with the Re-run key), and
 //             Draft actions & obligations, the one Draft run
 //   drafting  the run's key, disabled
@@ -11,6 +14,7 @@
 //
 // Contract, on `document`:
 //   out  sw3i:rerun-ask   Re-run pressed: Aldo asks for guidance
+//   out  sw3i:rename      detail: { id }   + Category made one: its name opens for typing
 //
 // bcn-lego-checked: the keys ARE esa-button; the guards ARE esa-confirm-dialog. Checked
 // Beacon: compliance-index-step and draft-obligations carry these verbs and confirms.
@@ -19,6 +23,12 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 ---
 
 <div class="bcn-sw3ia" data-sw3-index-actions>
+  <span data-ia-empty>
+    <EsaButton variant="primary" size="sm" icon="sparkles" data-ia-build>Build index</EsaButton>
+  </span>
+  <span data-ia-empty-cat>
+    <EsaButton variant="secondary" size="sm" icon="plus" data-ia-add-cat>Category</EsaButton>
+  </span>
   <span data-ia-built>
     <EsaButton variant="secondary" size="sm" icon="rotate-ccw" data-ia-rerun>Re-run</EsaButton>
   </span>
@@ -45,7 +55,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 
 <script>
   import '@esa/ecology/esa-confirm-dialog';
-  import { initIndex, phase, startOver, approveIndex, totals, pendingAll, subs, pendingIn, isOpened, startDraft, pendingWork } from './sw3-index-store';
+  import { initIndex, phase, buildIndex, addCategory, startOver, approveIndex, totals, pendingAll, subs, pendingIn, isOpened, startDraft, pendingWork } from './sw3-index-store';
   import { fillGlyph } from './comment-glyphs';
   import { toast } from '../../lib/snackbar';
 
@@ -58,7 +68,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     const approveDlg = $('[data-ia-confirm-approve]') as Confirm;
     const n = (x: number) => x.toLocaleString('en-US');
     const plural = (x: number, one: string, many = `${one}s`) => `${n(x)} ${x === 1 ? one : many}`;
-    for (const s of ['[data-ia-again]', '[data-ia-draft]']) fillGlyph($(s), 'sparkles');
+    for (const s of ['[data-ia-again]', '[data-ia-draft]', '[data-ia-build]']) fillGlyph($(s), 'sparkles');
     const btn = (host: HTMLElement) => (host.matches('button') ? (host as HTMLButtonElement) : host.querySelector('button'))!;
     const label = (host: HTMLElement, text: string) => {
       const l = host.querySelector('.esa-button__label');
@@ -71,6 +81,8 @@ import EsaButton from '@esa/ecology/esa-button.astro';
       b.classList.toggle('esa-button--variant-secondary', !primary);
     };
 
+    $('[data-ia-build]').addEventListener('click', () => buildIndex());
+    $('[data-ia-add-cat]').addEventListener('click', () => document.dispatchEvent(new CustomEvent('sw3i:rename', { detail: { id: addCategory() } })));
     $('[data-ia-rerun]').addEventListener('click', () => document.dispatchEvent(new CustomEvent('sw3i:rerun-ask')));
     $('[data-ia-draft]').addEventListener('click', () => void startDraft());
     $('[data-ia-again]').addEventListener('click', () => void startDraft());
@@ -109,7 +121,10 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 
     const render = () => {
       const ph = phase();
-      root.hidden = ph === 'empty' || ph === 'building';
+      $('[data-ia-empty]').hidden = !(ph === 'empty' || ph === 'building');
+      $('[data-ia-empty-cat]').hidden = ph !== 'empty';
+      btn($('[data-ia-build]')).disabled = ph === 'building';
+      label($('[data-ia-build]'), ph === 'building' ? 'Building' : 'Build index');
       $('[data-ia-built]').hidden = ph !== 'built';
       $('[data-ia-draft-wrap]').hidden = !(ph === 'built' || (ph === 'drafting' && !totals().drafts));
       $('[data-ia-drafted]').hidden = !(ph === 'drafted' || (ph === 'drafting' && totals().drafts > 0));

@@ -46,6 +46,10 @@ Homes for what fit no subcategory, in develop's three parts: fits a bin you alre
 
 ## Styles
 ```css
+/* No box of its own — the buttons stay direct flex items of the host. */
+.esa-button-group__slot {
+  display: contents;
+}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);

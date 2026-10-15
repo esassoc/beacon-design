@@ -7,39 +7,37 @@
 export default {
   sections: [
     {
-      label: 'Page actions',
-      selector: '[data-sw3-review-actions]',
-      intent: 'Confirm all for every commitment nothing is flagged on, More with one item (Export for offline review), and Compliance Index to continue. Project entities is not a panel any more: entity merges are decided in the rail, where the entities are used.',
-      decisions: [
-        'Confirm all confirms only clean, parsed commitments, and says how many; the toast carries a one-step Undo.',
-        'Export is one menu item and produces no real file in the prototype.',
-      ],
-    },
-    {
-      label: 'Commitment scrubber',
+      label: 'Console',
       selector: '[data-rev-nav]',
-      intent: 'The foot of the step\'s panel, as step 1 carries its scan toolbar: header and scrubber are one panel. Every commitment of every source file in one run, file after file, one cell each: gray while parsing, darker gray when ready to confirm, amber with something to settle, green once confirmed. A rule through the strip marks where one file ends and the next begins, and the file\'s short name (ITP, MMRP) sits under the strip where its run starts. The strip shows 40 at a time; the double chevrons page the window, which otherwise follows the commitment in view. The thumb is the one in view. Click or drag to land on one; the arrow keys step one at a time; Next to settle jumps to the next amber one, across files. Above the strip: the file, where you are in it, and what is left across all of them ("ITP: 45 of 156. 0 confirmed, 20 to settle.").',
+      intent: 'The foot of the step\'s panel, as step 1 carries its scan console: header and console are one panel, and the header carries no keys. A sunken tray of keys centered under the header rule: Previous and Next, then Confirm all and Export. Under it, every commitment of every source file in one run, file after file, one cell each: gray while parsing, darker gray until confirmed, a light tint of the step\'s purple once confirmed. A rule through the strip marks where one file ends and the next begins, and the file\'s short name (ITP, MMRP) sits under the strip where its run starts. The strip shows 40 at a time; the double chevrons page the window, which otherwise follows the commitment in view. The thumb is the one in view. Click or drag to land on one; Previous and Next, or the arrow keys, step one at a time across files.',
       decisions: [
-        'One commitment at a time. The continuous scroll and the All / Needs a person filter are gone: Next to settle is the exceptions-first path.',
+        'No position line and no Next to settle: where you are is the thumb, and what is left to settle is in each cell\'s tooltip and in Aldo.',
+        'No amber: a commitment with something to settle reads as any other unconfirmed one. Only confirmed has a color.',
+        'No link on to the Compliance Index here: the wizard\'s step bar is the way on.',
+        'Confirm all confirms only clean, parsed commitments, and says how many; the toast carries a one-step Undo.',
+        'Export produces no real file in the prototype.',
         'A window of 40, as the source step shows 50 pages: a commitment\'s tick label ("MM AES-1a") is wider than a page number, and 40 keeps a label every tenth cell legible at the 1280 layout.',
         'Landing on a commitment in another file makes that file the active one: the text, the rail, Aldo and the side panels all read it.',
       ],
-      acceptance: ['Next to settle from 11.1 lands on 11.2 (one type to check); pressing it again walks the amber cells in order and wraps.'],
+      acceptance: ['Previous is off on the first commitment and Next on the last; Next from the last ITP commitment lands on the first MMRP one.', 'Confirm all paints every clean cell light purple.'],
     },
     {
       label: 'Commitment',
       selector: '[data-c]',
-      intent: 'The commitment as a marked-up page in Beacon\'s document voice. Each requirement is a highlighter stroke over the words that are its basis, drawn by hand: every line of it its own stroke, ragged at the ends. Requirements take six bright inks in turn, in text order (yellow, pink, green, orange, blue, aqua). What the parse pulled out of those words (a species, a milestone, a season) is underlined inside the stroke. Plain text is what nothing will be tracked from: the gap a spot check reads. Plain text the review thinks binds has a wavy warning underline: the prompt keeps each passage contiguous, so a duty stated elsewhere in the text can fall outside every requirement, and this is where a person catches it. The header: the code, the page (opens the PDF beside it), Edit (the ID, name and text), Confirm.',
+      intent: 'The commitment as a marked-up page in Beacon\'s document voice. Each requirement is a highlighter stroke over the words that are its basis, drawn by hand: every line of it its own stroke, ragged at the ends. Requirements take six bright inks in turn, in text order (yellow, pink, green, orange, blue, aqua). What the parse pulled out of those words (a species, a milestone, a season) is underlined inside the stroke. Plain text is what nothing will be tracked from: the gap a spot check reads. Plain text the review thinks binds has a wavy warning underline: the prompt keeps each passage contiguous, so a duty stated elsewhere in the text can fall outside every requirement, and this is where a person catches it. Above it, one bar pinned across the top of the pane, as the PDF\'s page tools are on step 1: Select (V) and Highlight (H), Delete (the selected requirement); then the page (opens the PDF beside it), Edit (the ID, name and text) and Confirm. Under the bar, the code and the name.',
       decisions: [
         'No borders on the highlighter, and no list numbers ("R1"). Selected is a heavier pass of the same ink; with one selected or hovered from the rail, the others\' ink fades and their words stay black.',
-        'The text is read only. Its words change by telling Aldo (split, merge, you missed this); a requirement\'s record changes in its side panel.',
+        'The highlights are edited by hand, as on the comments prototype. The selected requirement grows a grip at each end; dragging one moves that end to the word under the pointer, live, and release saves it. Ends snap to whole words and stop at a paragraph break or the next requirement.',
+        'Highlight mode: one drag over free words makes them a new requirement ("New requirement"), selected, its record opened in the side panel to name it; then the mode returns to Select. A drag over words another requirement holds is clipped to the free words. Esc cancels.',
+        'Delete removes the selected requirement, highlight and record. Words can still change by telling Aldo (split, merge, you missed this).',
         'Confirm is disabled while a blocking item is open (a type to check and a hand-marked commitment do not block).',
       ],
       gotchas: [
+        'Text offsets come from src/lib/text-offsets.ts, shared with the comments prototype: each paragraph is <p data-off>, and a point converts by walking its text nodes. The grips sit in the page pane and are re-placed on scroll and resize.',
         'The painter cuts a mark wherever a value\'s words start or end; the controller joins touching pieces of one requirement back into one mark so the stroke is not broken.',
         'The stroke is an SVG in a theme token (--bcn-marker-1 to -6, and -faint-1 to -6), stretched to each line with box-decoration-break: clone. The painter numbers each mark\'s turn in data-ink.',
       ],
-      acceptance: ['Requirements are Beacon\'s own: its ExtractRequirementsFromCommitment v6 prompt over each commitment, split by who does the work, one contiguous passage each (scripts/extract-requirements.mjs). COA 11.3 is two: the biologist\'s capture and handling, and the capture records.', 'COA 11.7: the sentence about the U.S. Naval Observatory times is plain, between two strokes: the spot check sees what is not tracked.'],
+      acceptance: ['On 11.1, selecting the first requirement and dragging its start grip left takes in "maintenance,"; Highlight over "During all phases of" makes 11.1:1 and opens its record.', 'Requirements are Beacon\'s own: its ExtractRequirementsFromCommitment v6 prompt over each commitment, split by who does the work, one contiguous passage each (scripts/extract-requirements.mjs). COA 11.3 is two: the biologist\'s capture and handling, and the capture records.', 'COA 11.7: the sentence about the U.S. Naval Observatory times is plain, between two strokes: the spot check sees what is not tracked.'],
     },
     {
       label: 'Parsed from the commitment',

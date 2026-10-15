@@ -12,6 +12,11 @@
 //   out  sw3:req-edit       detail: { id }                          Edit a requirement (side panel)
 //   out  sw3:edit           detail: { id }                          Edit the commitment (side panel)
 //   out  sw3:peek           detail: { code, reqId? }                the source page (side panel)
+//
+// The highlights are edited by hand, as on the comments prototype: the selected one grows a
+// grip at each end to drag (ends snap to whole words, stop at a paragraph break or the next
+// requirement); in Highlight mode a selection of free words becomes a new requirement, its
+// record opened to name it; Delete removes the selected one.
 
 import {
   initSw3,
@@ -27,6 +32,9 @@ import {
   isConfirmed,
   confirmCommitment,
   reopenCommitment,
+  createRequirement,
+  removeRequirement,
+  editRequirement,
   identified,
   finds,
   payload,
@@ -41,6 +49,8 @@ import { paintAnchored } from './anchored-text-paint';
 import { setupCommitmentScrubber, type ScrubCell, type ScrubGroup } from './commitment-scrubber';
 import { setupSw3Attributes, type AttrHover } from './sw3-attributes';
 import type { Range } from '../../lib/anchored-text';
+import { offsetAt, offsetFromPoint, snapToWords } from '../../lib/text-offsets';
+import { paintIcons } from '../../lib/lucide-extra';
 
 const short = (code: string) => code.replace(/^COA\s+/, '');
 const norm = (s: string) => s.toLowerCase().replace(/\(.*?\)/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
@@ -66,9 +76,8 @@ export function setupSw3Review(root: HTMLElement): void {
   const fire = (name: string, detail: unknown) => document.dispatchEvent(new CustomEvent(name, { detail }));
   const art = root.querySelector<HTMLElement>('[data-c]')!;
   const body = art.querySelector<HTMLElement>('[data-c-text]')!;
-  // The scrubber band sits in the step's panel, above this workspace (BcnSwStepNav).
+  // The console sits in the step's panel, above this workspace (BcnSwStepNav).
   const nav = document.querySelector<HTMLElement>('[data-rev-nav]')!;
-  const pos = nav.querySelector<HTMLElement>('[data-rev-pos]')!;
 
   // The commitment in view, in the active file.
   let current: string | null = null;
@@ -124,26 +133,26 @@ export function setupSw3Review(root: HTMLElement): void {
 
   // ── The scrubber ────────────────────────────────────────────────────────────
   const scrub = setupCommitmentScrubber(nav.querySelector('[data-commitment-scrubber]')!, { onPick: (id) => go(id) });
-  const stateAt = (key: string) => {
-    const { doc, code } = split(key);
-    return peek(doc, () => stateOf(code));
-  };
-  nav.querySelector('[data-rev-next-open]')!.addEventListener('click', () => {
+  /** One commitment along the run, file after file. */
+  const step = (by: 1 | -1) => {
     const list = keys();
-    const i = list.indexOf(here());
-    const order = [...list.slice(i + 1), ...list.slice(0, i + 1)];
-    const next = order.find((k) => stateAt(k) === 'flagged');
+    const next = list[list.indexOf(here()) + by];
     if (next) go(next);
-  });
+    return !!next;
+  };
+  const stepKey = (name: 'prev' | 'next') => {
+    const host = nav.querySelector<HTMLElement>(`[data-rev-${name}]`)!;
+    return (host.matches('button') ? host : host.querySelector('button')) as HTMLButtonElement;
+  };
+  nav.querySelector('[data-rev-prev]')!.addEventListener('click', () => step(-1));
+  nav.querySelector('[data-rev-next]')!.addEventListener('click', () => step(1));
   // Arrow keys step commitments when nothing else has the keys.
   document.addEventListener('keydown', (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const t = e.target as HTMLElement;
     if (t.closest('input, textarea, select, [contenteditable], esa-textarea, esa-text-field, esa-combobox, esa-select, esa-side-dialog, [role="slider"], [data-aldo-panel]')) return;
     if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-    const list = keys();
-    const next = list[list.indexOf(here()) + (e.key === 'ArrowRight' ? 1 : -1)];
-    if (next) (e.preventDefault(), go(next));
+    if (step(e.key === 'ArrowRight' ? 1 : -1)) e.preventDefault();
   });
 
   // ── The rail ────────────────────────────────────────────────────────────────
@@ -160,7 +169,25 @@ export function setupSw3Review(root: HTMLElement): void {
     onEdit: (id) => fire('sw3:req-edit', { id }),
   });
 
-  // ── The header keys ─────────────────────────────────────────────────────────
+  // ── The tools ───────────────────────────────────────────────────────────────
+  paintIcons(art);
+  const tool = (name: string) => art.querySelector<HTMLElement>(`[data-c-tool="${name}"]`)!;
+  const btnOf = (host: HTMLElement) => (host.matches('button') ? host : host.querySelector('button')) as HTMLButtonElement;
+  const setMode = (mode: 'select' | 'mark') => {
+    art.dataset.mode = mode;
+    tool('select').setAttribute('aria-pressed', String(mode === 'select'));
+    tool('mark').setAttribute('aria-pressed', String(mode === 'mark'));
+    if (mode === 'mark') fire('sw3:rev-selection', null);
+  };
+  tool('select').addEventListener('click', () => setMode('select'));
+  tool('mark').addEventListener('click', () => setMode(art.dataset.mode === 'mark' ? 'select' : 'mark'));
+  const deleteSelected = () => {
+    if (!current || !selected) return;
+    const id = selected;
+    selected = null;
+    removeRequirement(id);
+  };
+  tool('delete').addEventListener('click', deleteSelected);
   art.querySelector('[data-c-peek]')!.addEventListener('click', () => current && fire('sw3:peek', { code: current, reqId: selected ?? undefined }));
   art.querySelector('[data-c-edit]')!.addEventListener('click', () => {
     const f = finds().find((x) => x.code === current);
@@ -168,6 +195,95 @@ export function setupSw3Review(root: HTMLElement): void {
   });
   art.querySelector('[data-c-confirm]')!.addEventListener('click', () => current && !blocking(current).length && confirmCommitment(current));
   art.querySelector('[data-c-reopen]')!.addEventListener('click', () => current && reopenCommitment(current));
+  // V, H, Delete and Esc, when nothing else has the keys.
+  document.addEventListener('keydown', (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const t = e.target as HTMLElement;
+    if (t.closest('input, textarea, select, [contenteditable], esa-textarea, esa-text-field, esa-combobox, esa-select, esa-side-dialog, esa-dialog, [data-aldo-panel]')) return;
+    const k = e.key.toLowerCase();
+    if (k === 'v') setMode('select');
+    else if (k === 'h') setMode('mark');
+    else if (k === 'escape' && art.dataset.mode === 'mark') setMode('select');
+    else if ((e.key === 'Delete' || e.key === 'Backspace') && selected) (e.preventDefault(), deleteSelected());
+  });
+
+  // ── Editing a highlight: the free words around it, and its grips ─────────────
+  /** A range clipped to one paragraph and to words no other requirement holds. */
+  const clipToFree = (code: string, start: number, end: number, exceptId?: string) => {
+    const text = commitmentOf(code)!.text!;
+    const paraEnd = text.indexOf('\n\n', start);
+    if (paraEnd !== -1) end = Math.min(end, paraEnd);
+    for (const r of requirementsOf(code)) {
+      if (r.id === exceptId || !r.anchor) continue;
+      const a = r.anchor.charStart;
+      const b = r.anchor.charEnd;
+      if (a <= start && b > start) start = b;
+      if (a >= start && a < end) end = a;
+    }
+    return snapToWords(text, start, end);
+  };
+  const page = art.querySelector<HTMLElement>('[data-c-page]')!;
+  const grips = {
+    start: art.querySelector<HTMLElement>('[data-c-grip="start"]')!,
+    end: art.querySelector<HTMLElement>('[data-c-grip="end"]')!,
+  };
+  let drag: { which: 'start' | 'end'; start: number; end: number } | null = null;
+  const placeGrips = () => {
+    const marks = selected ? body.querySelectorAll<HTMLElement>(`mark.bcn-hl[data-sid="${CSS.escape(selected)}"]`) : [];
+    if (!marks.length || body.hidden) {
+      grips.start.hidden = grips.end.hidden = true;
+      return;
+    }
+    const box = page.getBoundingClientRect();
+    const first = marks[0].getClientRects()[0];
+    const lastRects = marks[marks.length - 1].getClientRects();
+    const last = lastRects[lastRects.length - 1];
+    for (const [g, r, x] of [[grips.start, first, first.left], [grips.end, last, last.right]] as const) {
+      g.hidden = false;
+      g.style.left = `${x - box.left}px`;
+      g.style.top = `${r.top - box.top}px`;
+      g.style.height = `${r.height}px`;
+    }
+  };
+  for (const which of ['start', 'end'] as const) {
+    const grip = grips[which];
+    grip.addEventListener('pointerdown', (e) => {
+      const r = current && selected ? requirementsOf(current).find((x) => x.id === selected) : null;
+      if (!r?.anchor) return;
+      e.preventDefault();
+      grip.setPointerCapture(e.pointerId);
+      drag = { which, start: r.anchor.charStart, end: r.anchor.charEnd };
+      art.dataset.dragging = '';
+    });
+    grip.addEventListener('pointermove', (e) => {
+      if (!drag || !current || !selected) return;
+      grip.style.pointerEvents = 'none'; // so the hit test finds the text beneath
+      const off = offsetFromPoint(body, e.clientX, e.clientY);
+      grip.style.pointerEvents = '';
+      if (off < 0) return;
+      const p =
+        drag.which === 'start'
+          ? clipToFree(current, Math.min(off, drag.end - 1), drag.end, selected)
+          : clipToFree(current, drag.start, Math.max(off, drag.start + 1), selected);
+      if (p.end - p.start < 3 || (p.start === drag.start && p.end === drag.end)) return;
+      drag.start = p.start;
+      drag.end = p.end;
+      paintText(current, { id: selected, start: p.start, end: p.end });
+      paintFocus();
+      placeGrips();
+    });
+    grip.addEventListener('pointerup', () => {
+      if (!drag || !current || !selected) return;
+      const { start, end } = drag;
+      drag = null;
+      delete art.dataset.dragging;
+      const r = requirementsOf(current).find((x) => x.id === selected);
+      if (!r?.anchor || (r.anchor.charStart === start && r.anchor.charEnd === end)) return render();
+      editRequirement(selected, { anchor: { ...r.anchor, charStart: start, charEnd: end }, quote: commitmentOf(current)!.text!.slice(start, end) });
+    });
+  }
+  window.addEventListener('resize', placeGrips);
+  root.querySelector('[data-rev-doc]')!.addEventListener('scroll', placeGrips, { passive: true });
 
   // ── The text: click a highlight to select it; select words to talk about them ──
   body.addEventListener('click', (e) => {
@@ -188,7 +304,26 @@ export function setupSw3Review(root: HTMLElement): void {
     }
     return node === p ? n : null;
   };
+  /** Highlight mode: the selected free words become a requirement, its record opened. */
+  const markSelection = () => {
+    const sel = document.getSelection();
+    if (!current || !sel || sel.isCollapsed || !sel.rangeCount) return;
+    const r = sel.getRangeAt(0);
+    if (!body.contains(r.commonAncestorContainer)) return;
+    const a = offsetAt(body, r.startContainer, r.startOffset);
+    const b = offsetAt(body, r.endContainer, r.endOffset);
+    sel.removeAllRanges();
+    if (a < 0 || b < 0) return;
+    const range = clipToFree(current, a, b);
+    if (range.end - range.start < 3) return;
+    const id = createRequirement(current, range);
+    selected = id;
+    setMode('select');
+    render();
+    fire('sw3:req-edit', { id });
+  };
   const onSelection = () => {
+    if (art.dataset.mode === 'mark') return markSelection();
     const sel = document.getSelection();
     if (!current || !sel || sel.isCollapsed || !sel.rangeCount) return fire('sw3:rev-selection', null);
     const r = sel.getRangeAt(0);
@@ -222,10 +357,13 @@ export function setupSw3Review(root: HTMLElement): void {
   };
 
   let textSig = '';
-  const paintText = (code: string) => {
+  const paintText = (code: string, preview?: { id: string; start: number; end: number }) => {
     const c = commitmentOf(code);
     if (!c?.text) return;
-    const reqs = requirementsOf(code);
+    // A grip being dragged: that requirement at its proposed words, nothing saved yet.
+    const reqs = requirementsOf(code).map((r) =>
+      preview && r.id === preview.id && r.anchor ? { ...r, anchor: { ...r.anchor, charStart: preview.start, charEnd: preview.end } } : r,
+    );
     const flags = flagsOf(code);
     const dups = new Set(flags.filter((f) => f.kind === 'duplicate').map((f) => f.reqId));
     const spans = reqs
@@ -302,24 +440,18 @@ export function setupSw3Review(root: HTMLElement): void {
     // Every file's cells, end to end.
     const cells: ScrubCell[] = [];
     const groups: ScrubGroup[] = [];
-    let left = 0;
-    let confirmed = 0;
     for (const f of fs)
       peek(f.doc, () => {
         groups.push({ label: f.short, start: cells.length });
         for (const x of f.codes) {
           const state = stateOf(x);
-          left += state === 'flagged' ? 1 : 0;
-          confirmed += state === 'confirmed' ? 1 : 0;
           cells.push({ id: keyOf(f.doc, x), label: short(x), title: identified(x).title, state, note: noteOf(x) });
         }
       });
     const at = cells.findIndex((x) => x.id === here());
     scrub.update({ cells, at, groups });
-    const file = fs.find((f) => f.doc === activeDoc())!;
-    pos.textContent = `${file.short}: ${list.indexOf(code) + 1} of ${list.length}. ${confirmed} confirmed, ${left} to settle.`;
-    const nextBtn = nav.querySelector<HTMLElement>('[data-rev-next-open]')!;
-    nextBtn.hidden = !left;
+    stepKey('prev').disabled = at <= 0;
+    stepKey('next').disabled = at >= cells.length - 1;
 
     // The commitment.
     art.dataset.c = code;
@@ -348,6 +480,8 @@ export function setupSw3Review(root: HTMLElement): void {
       body.replaceChildren();
     }
     paintFocus();
+    btnOf(tool('delete')).disabled = !selected;
+    requestAnimationFrame(placeGrips);
     attrs.show(code, selected);
     fire('sw3:rev-current', { code, reqId: selected });
   };

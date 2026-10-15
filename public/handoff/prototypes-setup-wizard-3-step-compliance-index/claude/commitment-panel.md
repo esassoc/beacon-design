@@ -13,18 +13,20 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
   ><article
     class="bcn-sw3c"
     data-c=""
+    data-mode="select"
     aria-labelledby="sw3c-ro-title"
     data-readonly="true"
   >
-    <header class="bcn-sw3c__head">
-      <span data-c-badge=""><span class="bcn-cbadge bcn-cbadge--md"></span></span>
-      <div class="bcn-sw3c__acts">
+    <div class="bcn-sw3c__tools" role="toolbar" aria-label="Commitment tools">
+      <span></span>
+      <div class="bcn-sw3c__group">
         <span data-c-peek=""
           ><span
-            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+            class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
             ><button
               class="esa-button__native typography-microcopy-xs"
               type="button"
+              title="Open the source page"
               data-c-pages="true"
             >
               <span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -71,16 +73,27 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
               ></span></button></span
         ></span>
       </div>
-      <h2 class="bcn-sw3c__title" id="sw3c-ro-title" data-c-title=""></h2>
-    </header>
-    <p class="bcn-sw3c__parsing" data-c-parsing="" hidden="">Parsing</p>
-    <div class="bcn-sw3c__text" data-c-text=""></div>
-    <div class="bcn-sw3c__unanchored" data-c-unanchored=""></div></article
+    </div>
+    <div class="bcn-sw3c__page" data-c-page="">
+      <header class="bcn-sw3c__head">
+        <span data-c-badge=""><span class="bcn-cbadge bcn-cbadge--md"></span></span>
+        <h2 class="bcn-sw3c__title" id="sw3c-ro-title" data-c-title=""></h2>
+      </header>
+      <p class="bcn-sw3c__parsing" data-c-parsing="" hidden="">Parsing</p>
+      <div class="bcn-sw3c__text" data-c-text=""></div>
+      <div class="bcn-sw3c__unanchored" data-c-unanchored=""></div>
+      <span class="bcn-sw3c__grip" data-c-grip="start" hidden="" aria-hidden="true"></span
+      ><span class="bcn-sw3c__grip" data-c-grip="end" hidden="" aria-hidden="true"></span>
+    </div></article
 ></esa-side-dialog>
 ```
 
 ## Styles
 ```css
+/* No box of its own — the buttons stay direct flex items of the host. */
+.esa-button-group__slot {
+  display: contents;
+}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
@@ -197,33 +210,69 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
   display: none;
 }
 .bcn-sw3c {
-  gap: var(--spacing-400);
-  box-sizing: border-box;
+  flex-direction: column;
   min-height: 100%;
+  display: flex;
+}
+.bcn-sw3c__tools {
+  z-index: 2;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-100) var(--spacing-300);
+  padding: var(--spacing-150, 0.375rem) var(--spacing-200);
+  background: var(--color-background-elevation-raised);
+  border-bottom: 1px solid var(--color-border-default);
+  flex-wrap: wrap;
+  display: flex;
+  position: sticky;
+  top: 0;
+}
+.bcn-sw3c__group {
+  align-items: center;
+  gap: var(--spacing-100);
+  flex: none;
+  display: flex;
+}
+.bcn-sw3c__group > * {
+  flex: none;
+}
+.bcn-sw3c__rule {
+  width: 1px;
+  margin: 2px var(--spacing-100);
+  background: var(--color-border-default);
+  align-self: stretch;
+}
+.bcn-sw3c__tools [data-c-tool]:disabled,
+.bcn-sw3c__tools [data-c-tool] button:disabled,
+.bcn-sw3c__tools button:disabled {
+  opacity: 0.38;
+}
+.bcn-sw3c__tools [data-c-tool][aria-pressed="true"] {
+  background: var(--color-background-elevation-sunken);
+  box-shadow: inset 0 1px 3px
+    color-mix(in srgb, var(--color-content-default) 22%, transparent);
+}
+.bcn-sw3c__page {
+  gap: var(--spacing-400);
   padding: var(--spacing-500) var(--spacing-600);
   flex-direction: column;
   display: flex;
+  position: relative;
 }
 .bcn-sw3c__head {
   align-items: center;
   gap: var(--spacing-300);
-  flex-wrap: wrap;
   display: flex;
 }
 .bcn-sw3c__title {
+  min-width: 0;
   font-family: var(--font-decorative, var(--typography-font-family-sans));
   text-wrap: balance;
-  flex: 100%;
+  flex: 1;
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.25;
-}
-.bcn-sw3c__acts {
-  align-items: center;
-  gap: var(--spacing-150);
-  margin-left: auto;
-  display: flex;
 }
 .bcn-sw3c:not([data-confirmed]) [data-c-reopen],
 .bcn-sw3c[data-confirmed] [data-c-confirm] {
@@ -313,6 +362,13 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
   mark.bcn-hl[data-ink="6"]:not([data-active]):not([data-hover]) {
   background-image: var(--bcn-marker-faint-6);
 }
+.bcn-sw3c[data-mode="mark"] .bcn-sw3c__text {
+  cursor: text;
+}
+.bcn-sw3c[data-mode="mark"] .bcn-sw3c__text ::selection,
+.bcn-sw3c[data-mode="mark"] .bcn-sw3c__text ::selection {
+  background: var(--bcn-marker-selection);
+}
 .bcn-sw3c__text mark.bcn-hl[data-dup] {
   box-shadow: none;
   text-decoration: underline wavy var(--color-content-warning);
@@ -348,6 +404,44 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
     transparent
   );
 }
+.bcn-sw3c__grip {
+  background: var(--color-content-default);
+  cursor: ew-resize;
+  touch-action: none;
+  z-index: 1;
+  width: 2px;
+  margin-left: -1px;
+  position: absolute;
+}
+.bcn-sw3c__grip[hidden] {
+  display: none;
+}
+.bcn-sw3c__grip:after {
+  content: "";
+  background: var(--color-content-default);
+  border: 2px solid var(--color-background-elevation-raised);
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+.bcn-sw3c__grip[data-c-grip="start"]:after {
+  top: -10px;
+}
+.bcn-sw3c__grip[data-c-grip="end"]:after {
+  bottom: -10px;
+}
+.bcn-sw3c__grip:before {
+  content: "";
+  position: absolute;
+  inset: -6px -10px;
+}
+.bcn-sw3c[data-dragging] .bcn-sw3c__text {
+  user-select: none;
+  cursor: ew-resize;
+}
 .bcn-sw3c__unanchored {
   gap: var(--spacing-200);
   flex-direction: column;
@@ -379,9 +473,12 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
 .bcn-sw3cp-dialog {
   --side-dialog-width-lg: min(760px, 56vw);
 }
-.bcn-sw3cp-dialog .bcn-sw3c {
+.bcn-sw3cp-dialog .bcn-sw3c__page {
+  padding: var(--spacing-400) 0 0;
   gap: var(--spacing-300);
-  padding: 0;
+}
+.bcn-sw3cp-dialog .bcn-sw3c__tools {
+  padding-inline: 0;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -675,6 +772,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--bcn-marker-faint-4`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%23ffeccf' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3C/svg%3E") _(component)_
 - `--bcn-marker-faint-5`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%23e2f3ff' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3C/svg%3E") _(component)_
 - `--bcn-marker-faint-6`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%23dbfbf5' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3C/svg%3E") _(component)_
+- `--bcn-marker-selection`: #ffeb5c _(component)_
 - `--bcn-topic-amber-3`: #e9c162 _(component)_
 - `--bcn-topic-amber-ink`: #ab6400 _(component)_
 - `--border-width-default`: 1px _(semantic)_
@@ -730,6 +828,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
+- `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_

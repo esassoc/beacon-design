@@ -294,6 +294,10 @@ Everything parsed out of the commitment, read only: its requirements in text ord
 
 ## Styles
 ```css
+/* No box of its own — the buttons stay direct flex items of the host. */
+.esa-button-group__slot {
+  display: contents;
+}
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
   font-size: var(--typography-microcopy-2xs-font-size);

@@ -658,6 +658,10 @@ A conversation per commitment. The person says what to change in their own words
 .error {
   margin: 0;
 }
+/* No box of its own — the buttons stay direct flex items of the host. */
+.esa-button-group__slot {
+  display: contents;
+}
 /* Both message nodes ALWAYS render — a live region created at the same moment as
        its text is routinely not announced, so it has to already exist. When empty they
        carry .visually-hidden, which takes them out of flow: .field is a flex column

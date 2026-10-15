@@ -30,10 +30,10 @@ const STEP = SW3_STEPS[2];
   layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(md)   # SPINE
   sections:
     - wizard chrome     -> bcn-setup-wizard-frame   # three steps, straight run, step 3 active
-    - step panel        -> bcn-sw-step-panel        # numeral, title; its actions slot holds page actions
-    - page actions      -> bcn-sw3-index-actions    # Re-run, Draft; then Start over, Draft again, Approve
-    - status line       -> bcn-sw3-index-run        # the index in numbers, the run, what is left
-    - scrubber band     -> bcn-sw-step-nav          # the panel's foot: where you are, Next, the subcategory scrubber
+    - step panel        -> bcn-sw-step-panel        # numeral, title
+    - status line       -> bcn-sw3-index-run        # the run, what is left
+    - console           -> bcn-sw-step-nav          # the panel's foot: Previous, Next, the step's keys, the subcategory scrubber
+    - step keys         -> bcn-sw3-index-actions    # in the console: Build index; Re-run, Draft; then Start over, Draft again, Approve
     - index review      -> bcn-sw3-index            # empty state; index, subcategory, Aldo
     - entry edit        -> bcn-sw3-entry-edit       # side panel: a draft's record
     - merge             -> bcn-sw3-index-merge      # dialog: ticked drafts into one
@@ -48,9 +48,8 @@ const STEP = SW3_STEPS[2];
       <div class="stack" data-gap="md">
         <BcnSwStepPanel n={STEP.n} token={STEP.token} intro="Build the index, then draft its actions and obligations and review them.">
           <Fragment slot="title"><span>Compliance Index</span></Fragment>
-          <Fragment slot="actions"><BcnSw3IndexActions /></Fragment>
           <BcnSw3IndexRun />
-          <BcnSwStepNav hook="ix" label="Subcategory" next="Next to review" />
+          <BcnSwStepNav hook="ix" label="Subcategory"><BcnSw3IndexActions /></BcnSwStepNav>
         </BcnSwStepPanel>
         <BcnSw3Index />
       </div>

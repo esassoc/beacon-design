@@ -58,6 +58,10 @@ The Draft run as a session. In the step panel it is a peek no taller than 100px:
 
 ## Styles
 ```css
+/* No box of its own — the buttons stay direct flex items of the host. */
+.esa-button-group__slot {
+  display: contents;
+}
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
   font-size: var(--typography-microcopy-2xs-font-size);

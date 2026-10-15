@@ -1,30 +1,35 @@
-# Commitment scrubber
+# Console
 
-The foot of the step's panel, as step 1 carries its scan toolbar: header and scrubber are one panel. Every commitment of every source file in one run, file after file, one cell each: gray while parsing, darker gray when ready to confirm, amber with something to settle, green once confirmed. A rule through the strip marks where one file ends and the next begins, and the file's short name (ITP, MMRP) sits under the strip where its run starts. The strip shows 40 at a time; the double chevrons page the window, which otherwise follows the commitment in view. The thumb is the one in view. Click or drag to land on one; the arrow keys step one at a time; Next to settle jumps to the next amber one, across files. Above the strip: the file, where you are in it, and what is left across all of them ("ITP: 45 of 156. 0 confirmed, 20 to settle.").
+The foot of the step's panel, as step 1 carries its scan console: the header carries no keys. A sunken tray of keys centered under the header rule, by phase. No index yet: Build index and + Category. Built: Previous, Next, Re-run and Draft actions & obligations. During a run: Previous, Next and the run's key, disabled. After it: Previous, Next, Start over, Draft again (primary while something is outstanding) and Approve Compliance Index. Under the tray, once there is an index, every subcategory in index order, step 2's scrubber, a rule and the category's name where each category starts, a band of the category's hue along the foot of its cells and its name marked in the same hue. Drafted: amber for drafts never opened, gray for opened with drafts to review, green when every draft is decided.
 
 ## Key decisions
-- One commitment at a time. The continuous scroll and the All / Needs a person filter are gone: Next to settle is the exceptions-first path.
-- A window of 40, as the source step shows 50 pages: a commitment's tick label ("MM AES-1a") is wider than a page number, and 40 keeps a label every tenth cell legible at the 1280 layout.
-- Landing on a commitment in another file makes that file the active one: the text, the rail, Aldo and the side panels all read it.
-
-## Done when
-- Next to settle from 11.1 lands on 11.2 (one type to check); pressing it again walks the amber cells in order and wraps.
+- Start over is PR #1520's: once a Draft run exists it replaces Re-run, and it deletes the index and every draft back to "No index yet". Prod refuses it while a run is live or an approved record has evidence.
+- Approve Compliance Index approves every pending draft after a confirm that counts the subcategories never opened. Draft actions with no scope stay drafts.
+- No position line and no Next to review: Previous and Next, or the arrow keys, step one subcategory at a time; the thumb is where you are.
+- Opened is not reviewed. Prod sets FirstOpenedDate the first time a bin with drafts is opened.
 
 ## Markup
 ```html
-<div class="bcn-swsn" data-rev-nav="">
-  <div class="bcn-swsn__where">
-    <span class="bcn-swsn__pos" data-rev-pos=""
-      >ITP: 1 of 156. 0 confirmed, 157 to settle.</span
-    ><span data-rev-next-open="" class="astro-qcf6lh4y"
+<div class="bcn-swsn" data-ix-nav="">
+  <div class="bcn-swsn__console">
+    <esa-button-group
+      class="bcn-swsn__step"
+      aria-label="Step through subcategorys"
+      data-ix-step=""
+      role="group"
+      hidden=""
       ><span
-        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-        ><button class="esa-button__native typography-microcopy-2xs" type="button">
-          <span class="esa-button__label">Next to settle</span
-          ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          title="Previous subcategory (Left arrow)"
+          data-ix-prev=""
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
             ><svg
-              width="14"
-              height="14"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -33,144 +38,350 @@ The foot of the step's panel, as step 1 carries its scan toolbar: header and scr
               stroke-linejoin="round"
               focusable="false"
             >
-              <path d="M5 12h14"></path>
-              <path d="m12 5 7 7-7 7"></path></svg
+              <path d="m15 18-6-6 6-6"></path></svg></span
+          ><span class="esa-button__label">Previous</span>
+        </button></span
+      ><span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          title="Next subcategory (Right arrow)"
+          data-ix-next=""
+        >
+          <span class="esa-button__label">Next</span
+          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path></svg
           ></span></button></span
-    ></span>
+    ></esa-button-group>
+    <div class="bcn-sw3ia" data-sw3-index-actions="">
+      <span data-ia-empty=""
+        ><span
+          class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            data-ia-build="true"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path
+                  d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"
+                ></path>
+                <path d="M20 3v4"></path>
+                <path d="M22 5h-4"></path>
+                <path d="M4 17v2"></path>
+                <path d="M5 18H3"></path></svg></span
+            ><span class="esa-button__label">Build index</span>
+          </button></span
+        ></span
+      ><span data-ia-empty-cat=""
+        ><span
+          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            data-ia-add-cat="true"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M5 12h14"></path>
+                <path d="M12 5v14"></path></svg></span
+            ><span class="esa-button__label">Category</span>
+          </button></span
+        ></span
+      ><span data-ia-built="" hidden=""
+        ><span
+          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            data-ia-rerun="true"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                <path d="M3 3v5h5"></path></svg></span
+            ><span class="esa-button__label">Re-run</span>
+          </button></span
+        ></span
+      ><span data-ia-drafted="" hidden=""
+        ><span
+          class="esa-button esa-button--variant-danger esa-button--appearance-outline esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            data-ia-start-over="true"
+            title=""
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M3 6h18"></path>
+                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                <line x1="10" x2="10" y1="11" y2="17"></line>
+                <line x1="14" x2="14" y1="11" y2="17"></line></svg></span
+            ><span class="esa-button__label">Start over</span>
+          </button></span
+        ></span
+      ><span data-ia-again-wrap="" hidden=""
+        ><span
+          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs esa-button--variant-secondary"
+            type="button"
+            data-ia-again="true"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path
+                  d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"
+                ></path>
+                <path d="M20 3v4"></path>
+                <path d="M22 5h-4"></path>
+                <path d="M4 17v2"></path>
+                <path d="M5 18H3"></path></svg></span
+            ><span class="esa-button__label">Draft again</span>
+          </button></span
+        ></span
+      ><span data-ia-draft-wrap="" hidden=""
+        ><span
+          class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            data-ia-draft="true"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path
+                  d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"
+                ></path>
+                <path d="M20 3v4"></path>
+                <path d="M22 5h-4"></path>
+                <path d="M4 17v2"></path>
+                <path d="M5 18H3"></path></svg></span
+            ><span class="esa-button__label">Draft actions &amp; obligations</span>
+          </button></span
+        ></span
+      ><span data-ia-approve-wrap="" hidden=""
+        ><span
+          class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            data-ia-approve="true"
+            disabled=""
+            title=""
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="m9 12 2 2 4-4"></path></svg></span
+            ><span class="esa-button__label">Approve Compliance Index</span>
+          </button></span
+        ></span
+      ><esa-confirm-dialog
+        heading="Start over?"
+        variant="danger"
+        confirm-label="Start over"
+        cancel-label="Cancel"
+        data-ia-confirm-start="true"
+      ></esa-confirm-dialog
+      ><esa-confirm-dialog
+        heading="Approve the Compliance Index?"
+        confirm-label="Approve"
+        cancel-label="Cancel"
+        data-ia-confirm-approve="true"
+        variant="default"
+      ></esa-confirm-dialog>
+    </div>
+    <script
+      type="module"
+      src="/beacon-design/_astro/BcnSw3IndexActions.astro_astro_type_script_index_0_lang.B9xPdZzu.js"
+    ></script>
   </div>
-  <div
-    class="bcn-cscrub"
-    data-commitment-scrubber=""
-    data-size="40"
-    style="--_n: 40; --_at: 0"
-  >
-    <span data-cs-prev="" style="visibility: hidden"
-      ><span
-        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-        ><button
-          class="esa-button__native typography-microcopy-xs"
-          type="button"
-          aria-label="Earlier commitments"
-          title="Earlier commitments"
-        >
-          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-            ><svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m11 17-5-5 5-5"></path>
-              <path d="m18 17-5-5 5-5"></path></svg
-          ></span></button></span
-    ></span>
-    <div
-      class="bcn-cscrub__track"
-      role="slider"
-      tabindex="0"
-      aria-label="Commitment"
-      aria-valuemin="1"
-      aria-valuemax="279"
-      aria-valuenow="1"
-      data-cs-track=""
-      aria-valuetext="ITP 11.1 Covered Species Observations, 3 requirements"
-    >
-      <span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__thumb" data-cs-thumb="" aria-hidden="true"></span>
+  <div class="bcn-swsn__scrub" data-ix-scrub="" hidden="">
+    <div class="bcn-cscrub" data-commitment-scrubber="" data-size="40" style="--_n: 40">
+      <span data-cs-prev=""
+        ><span
+          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            aria-label="Earlier commitments"
+            title="Earlier commitments"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m11 17-5-5 5-5"></path>
+                <path d="m18 17-5-5 5-5"></path></svg
+            ></span></button></span
+      ></span>
+      <div
+        class="bcn-cscrub__track"
+        role="slider"
+        tabindex="0"
+        aria-label="Subcategory"
+        aria-valuemin="1"
+        aria-valuemax="1"
+        aria-valuenow="1"
+        data-cs-track=""
+      >
+        <span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__thumb" data-cs-thumb="" aria-hidden="true"></span>
+      </div>
+      <span data-cs-next=""
+        ><span
+          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            aria-label="Later commitments"
+            title="Later commitments"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 17 5-5-5-5"></path>
+                <path d="m13 17 5-5-5-5"></path></svg
+            ></span></button></span
+      ></span>
+      <div class="bcn-cscrub__ticks" aria-hidden="true" data-cs-ticks=""></div>
+      <span class="bcn-cscrub__tip" data-cs-tip="" hidden="" aria-hidden="true"
+        ><span class="bcn-cscrub__tipcode" data-cs-tip-code=""></span
+        ><span data-cs-tip-title=""></span
+        ><span class="bcn-cscrub__tipstate" data-cs-tip-state=""></span
+      ></span>
     </div>
-    <span data-cs-next=""
-      ><span
-        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-        ><button
-          class="esa-button__native typography-microcopy-xs"
-          type="button"
-          aria-label="Later commitments"
-          title="Later commitments"
-        >
-          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-            ><svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m6 17 5-5-5-5"></path>
-              <path d="m13 17 5-5-5-5"></path></svg
-          ></span></button></span
-    ></span>
-    <div class="bcn-cscrub__ticks" aria-hidden="true" data-cs-ticks="">
-      <span class="bcn-cscrub__file" style="--_i: 0">ITP</span
-      ><span class="bcn-cscrub__tick" style="--_i: 10">11.11</span
-      ><span class="bcn-cscrub__tick" style="--_i: 20">11.19.1</span
-      ><span class="bcn-cscrub__tick" style="--_i: 30">11.28</span
-      ><span class="bcn-cscrub__tick" data-end="" style="--_i: 39">11.38</span>
-    </div>
-    <span class="bcn-cscrub__tip" data-cs-tip="" hidden="" aria-hidden="true"
-      ><span class="bcn-cscrub__tipcode" data-cs-tip-code=""></span
-      ><span data-cs-tip-title=""></span
-      ><span class="bcn-cscrub__tipstate" data-cs-tip-state=""></span
-    ></span>
   </div>
 </div>
 ```
 
 ## Styles
 ```css
-.typography-microcopy-2xs {
-  font-family: var(--typography-microcopy-2xs-font-family);
-  font-size: var(--typography-microcopy-2xs-font-size);
-  font-weight: var(--typography-microcopy-2xs-font-weight);
-  line-height: var(--typography-microcopy-2xs-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
+/* No box of its own — the buttons stay direct flex items of the host. */
+.esa-button-group__slot {
+  display: contents;
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -179,26 +390,12 @@ The foot of the step's panel, as step 1 carries its scan toolbar: header and scr
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-2xs-subtle {
-  font-family: var(--typography-microcopy-2xs-subtle-font-family);
-  font-size: var(--typography-microcopy-2xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-2xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-2xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
-}
 .typography-microcopy-xs-subtle {
   font-family: var(--typography-microcopy-xs-subtle-font-family);
   font-size: var(--typography-microcopy-xs-subtle-font-size);
   font-weight: var(--typography-microcopy-xs-subtle-font-weight);
   line-height: var(--typography-microcopy-xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-2xs-strong {
-  font-family: var(--typography-microcopy-2xs-strong-font-family);
-  font-size: var(--typography-microcopy-2xs-strong-font-size);
-  font-weight: var(--typography-microcopy-2xs-strong-font-weight);
-  line-height: var(--typography-microcopy-2xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
 }
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
@@ -344,9 +541,9 @@ The foot of the step's panel, as step 1 carries its scan toolbar: header and scr
 }
 .bcn-cscrub__track .bcn-cscrub__sep {
   top: -4px;
-  bottom: -4px;
+  bottom: -6px;
   left: calc(5px + (100% - 10px) / var(--_n, 1) * var(--_i, 0) - 1.5px);
-  background: var(--color-content-default);
+  background: var(--_hue, var(--color-content-default));
   pointer-events: none;
   border-radius: 1px;
   width: 2px;
@@ -390,8 +587,9 @@ The foot of the step's panel, as step 1 carries its scan toolbar: header and scr
 }
 .bcn-cscrub__ticks .bcn-cscrub__file {
   top: 0;
-  left: calc(100% / var(--_n, 1) * var(--_i, 0));
+  left: calc(100% / var(--_n, 1) * var(--_i, 0) - 1.5px);
   border-left: 2px solid var(--_hue, var(--color-content-default));
+  text-overflow: ellipsis;
   color: var(--color-content-default);
   white-space: nowrap;
   padding-left: 4px;
@@ -399,6 +597,7 @@ The foot of the step's panel, as step 1 carries its scan toolbar: header and scr
   font-weight: 600;
   line-height: 16px;
   position: absolute;
+  overflow: hidden;
 }
 .bcn-cscrub__tip {
   z-index: 50;
@@ -428,33 +627,75 @@ The foot of the step's panel, as step 1 carries its scan toolbar: header and scr
   opacity: 0.8;
 }
 .bcn-swsn {
-  gap: var(--spacing-150);
+  gap: var(--spacing-300);
   padding: var(--spacing-300) var(--spacing-500) var(--spacing-200);
   border-top: 1px solid var(--color-border-default);
+  --color-background-brand-muted: var(--color-background-elevation-raised);
+  --color-background-brand-muted-hover: var(--color-background-elevation-sunken);
+  --color-content-on-brand-muted: var(--color-content-default);
   flex-direction: column;
   display: flex;
 }
-.bcn-swsn[hidden] {
-  display: none;
+.bcn-swsn[hidden],
+.bcn-swsn [hidden] {
+  display: none !important;
 }
-.bcn-swsn__where {
-  justify-content: space-between;
+.bcn-swsn__console {
+  justify-content: center;
   align-items: center;
-  gap: var(--spacing-300);
-  min-height: 28px;
+  gap: var(--spacing-200);
+  max-width: 100%;
+  padding: var(--spacing-100);
+  background: var(--color-background-elevation-sunken);
+  border: 1px solid var(--color-border-default-subtle);
+  border-radius: var(--radius-200);
+  flex-wrap: wrap;
+  align-self: center;
   display: flex;
 }
-.bcn-swsn__where [hidden] {
+.bcn-swsn__console > * {
+  flex: none;
+}
+.bcn-swsn button:disabled {
+  opacity: 0.38;
+}
+.bcn-swsn__scrub:empty {
   display: none;
 }
-.bcn-swsn__pos {
-  color: var(--color-content-default-secondary);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+.bcn-swsn[data-tinted] .bcn-cscrub__cell[data-state="confirmed"] {
+  background: color-mix(
+    in srgb,
+    var(--_step) 42%,
+    var(--color-background-elevation-raised)
+  );
+}
+.bcn-swsn[data-tinted] .bcn-cscrub__cell[data-state="flagged"] {
+  background: color-mix(
+    in srgb,
+    var(--color-content-default) 38%,
+    var(--color-background-elevation-raised)
+  );
+}
+.bcn-sw3ia {
+  align-items: center;
+  gap: var(--spacing-200);
+  flex-wrap: wrap;
+  display: flex;
+}
+.bcn-sw3ia [hidden] {
+  display: none !important;
+}
+.bcn-console__more .esa-button__native {
+  font-family: var(--_mono);
+  height: auto;
+  min-height: 0;
+  padding: 0 1ch;
   font-size: 0.8125rem;
-  font-weight: 500;
-  overflow: hidden;
+  font-weight: 400;
+  line-height: 1.65;
+}
+.bcn-console__more .esa-button__native:hover {
+  color: var(--bcn-console-fg);
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -659,26 +900,12 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
   color: var(--bcn-aldo-600);
 }
-.typography-microcopy-2xs {
-  font-family: var(--typography-microcopy-2xs-font-family);
-  font-size: var(--typography-microcopy-2xs-font-size);
-  font-weight: var(--typography-microcopy-2xs-font-weight);
-  line-height: var(--typography-microcopy-2xs-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
-}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
   font-weight: var(--typography-microcopy-xs-font-weight);
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-2xs-subtle {
-  font-family: var(--typography-microcopy-2xs-subtle-font-family);
-  font-size: var(--typography-microcopy-2xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-2xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-2xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
 }
 .typography-microcopy-xs-subtle {
   font-family: var(--typography-microcopy-xs-subtle-font-family);
@@ -687,23 +914,12 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
-.typography-microcopy-2xs-strong {
-  font-family: var(--typography-microcopy-2xs-strong-font-family);
-  font-size: var(--typography-microcopy-2xs-strong-font-size);
-  font-weight: var(--typography-microcopy-2xs-strong-font-weight);
-  line-height: var(--typography-microcopy-2xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
-}
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
   font-size: var(--typography-microcopy-xs-strong-font-size);
   font-weight: var(--typography-microcopy-xs-strong-font-weight);
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.esa-collapsible__summary .esa-icon {
-  color: var(--color-content-default-secondary, #646464);
-  flex-shrink: 0;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -734,6 +950,10 @@ summary.esa-button--variant-chrome:focus-visible {
   height: var(--_icon-size);
   display: block;
 }
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
+}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -746,6 +966,7 @@ summary.esa-button--variant-chrome:focus-visible {
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
 - `--bcn-aldo-600`: #06736f _(component)_
+- `--bcn-console-fg`: #ffffffed _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
@@ -782,6 +1003,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-warning`: #f59e0b _(component)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
+- `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
 - `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
@@ -805,30 +1027,15 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
+- `--radius-200`: .5rem _(primitive)_
 - `--shadow-300`: 0 6px 24px -6px #00000012 _(component)_
 - `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
-- `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-2xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-2xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-2xs-strong-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-2xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-font-weight`: 500 _(semantic)_

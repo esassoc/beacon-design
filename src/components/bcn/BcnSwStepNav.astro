@@ -1,58 +1,93 @@
 ---
-// <BcnSwStepNav> — the scrubber band at the foot of a wizard step's panel: where you are
-// (a line the step's controller writes), its Next key, and the scrubber. Step 1 puts its
-// scan toolbar in the same place; steps 2 and 3 put this, so the step's header and the way
-// through it are one panel.
+// <BcnSwStepNav> — the console at the foot of a wizard step's panel, as step 1's scan
+// console is (bcn-sw3-toolbar): a sunken tray of keys centered under the header, then the
+// scrubber. The tray opens with Previous and Next, which step the scrubber one record at a
+// time; the step's own keys follow in the default slot (step 2: Confirm all, Export; step 3:
+// Build index, Re-run, Draft, Start over, Approve).
 //
 // Usage, in <BcnSwStepPanel>'s default slot:
-//   <BcnSwStepNav hook="ix" label="Subcategory" next="Next to review" />
-// The controller finds `[data-ix-nav]`, and inside it `[data-ix-pos]`, `[data-ix-next-open]`
-// and the scrubber's `[data-commitment-scrubber]`.
+//   <BcnSwStepNav hook="ix" label="Subcategory"><BcnSw3IndexActions /></BcnSwStepNav>
+// The controller finds `[data-ix-nav]`, and inside it `[data-ix-prev]`, `[data-ix-next]`,
+// `[data-ix-step]` (the pair, hidden when there is nothing to step) and the scrubber's
+// `[data-commitment-scrubber]` inside `[data-ix-scrub]`.
 //
-// bcn-lego-checked: the scrubber IS bcn-commitment-scrubber; the key IS esa-button. The
-// band is step 1's bcn-sw3bar geometry (a hairline under the header, the panel's own
-// gutters). No esa- lego is a panel's footer band. bcn-sw-step-nav is its home.
+// `token` (step 2): a decided record's cell takes a light tint of the step's color, and a
+// record with something to settle reads as any other undecided one.
+//
+// bcn-lego-checked: Previous and Next ARE esa-button in esa-button-group; the scrubber IS
+// bcn-commitment-scrubber. The tray is step 1's bcn-sw3bar console geometry (sunken, a
+// hairline, centered). No esa- lego is a panel's footer console. bcn-sw-step-nav is its home.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnCommitmentScrubber from './BcnCommitmentScrubber.astro';
+import type { SetupStepToken } from '../../data/setup-wizard';
 
 interface Props {
-  /** Prefix of the controller's hooks: "ix" gives data-ix-nav, data-ix-pos, data-ix-next-open. */
+  /** Prefix of the controller's hooks: "ix" gives data-ix-nav, data-ix-prev, data-ix-next. */
   hook: string;
   /** The scrubber's accessible name: what one cell is. */
   label: string;
-  /** The Next key's words. */
-  next: string;
+  /** The step's color: decided cells take a light tint of it. */
+  token?: SetupStepToken;
 }
-const { hook, label, next } = Astro.props;
+const { hook, label, token } = Astro.props;
 const at = (name: string) => ({ [`data-${hook}-${name}`]: '' });
+const lower = label.toLowerCase();
 ---
 
-<div class="bcn-swsn" {...at('nav')}>
-  <div class="bcn-swsn__where">
-    <span class="bcn-swsn__pos" {...at('pos')}></span>
-    <span {...at('next-open')}><EsaButton variant="secondary" size="xs" iconRight="arrow-right">{next}</EsaButton></span>
+<div class="bcn-swsn" {...at('nav')} data-tinted={token ? '' : undefined} style={token ? `--_step: var(--color-${token});` : undefined}>
+  <div class="bcn-swsn__console">
+    <esa-button-group class="bcn-swsn__step" aria-label={`Step through ${lower}s`} {...at('step')}>
+      <EsaButton variant="secondary" size="sm" icon="chevron-left" title={`Previous ${lower} (Left arrow)`} {...at('prev')}>Previous</EsaButton>
+      <EsaButton variant="secondary" size="sm" iconRight="chevron-right" title={`Next ${lower} (Right arrow)`} {...at('next')}>Next</EsaButton>
+    </esa-button-group>
+    <slot />
   </div>
-  <BcnCommitmentScrubber label={label} />
+  <div class="bcn-swsn__scrub" {...at('scrub')}>
+    <BcnCommitmentScrubber label={label} />
+  </div>
 </div>
 
 <style>
   .bcn-swsn {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-150);
+    gap: var(--spacing-300);
     padding: var(--spacing-300) var(--spacing-500) var(--spacing-200);
     border-top: 1px solid var(--color-border-default);
+    /* The keys are white on the tray, as step 1's console keys are. */
+    --color-background-brand-muted: var(--color-background-elevation-raised);
+    --color-background-brand-muted-hover: var(--color-background-elevation-sunken);
+    --color-content-on-brand-muted: var(--color-content-default);
   }
-  .bcn-swsn[hidden] { display: none; }
-  .bcn-swsn__where { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); min-height: 28px; }
-  .bcn-swsn__where [hidden] { display: none; }
-  .bcn-swsn__pos {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--color-content-default-secondary);
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .bcn-swsn[hidden],
+  .bcn-swsn [hidden] { display: none !important; }
+  /* The tray: the keys side by side on a sunken strip, centered, as on step 1. */
+  .bcn-swsn__console {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-200);
+    align-self: center;
+    max-width: 100%;
+    padding: var(--spacing-100);
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-200);
+  }
+  .bcn-swsn__console > :global(*) { flex: none; }
+  /* A key that cannot act now is plainly off, as on step 1's console. */
+  .bcn-swsn :global(button:disabled) { opacity: 0.38; }
+  .bcn-swsn__scrub:empty { display: none; }
+  /* Step 2: a decided record in a light tint of the step's color; nothing reads as alarm. */
+  .bcn-swsn[data-tinted] :global(.bcn-cscrub__cell[data-state='confirmed']) {
+    background: color-mix(in srgb, var(--_step) 42%, var(--color-background-elevation-raised));
+  }
+  .bcn-swsn[data-tinted] :global(.bcn-cscrub__cell[data-state='flagged']) {
+    background: color-mix(in srgb, var(--color-content-default) 38%, var(--color-background-elevation-raised));
   }
 </style>
+
+<script>
+  import '@esa/ecology/esa-button-group';
+</script>

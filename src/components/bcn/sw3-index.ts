@@ -20,8 +20,6 @@ import {
   cats,
   subs,
   subOf,
-  addCategory,
-  buildIndex,
   finishBuild,
   BUILD_MS,
   loadDrafts,
@@ -102,14 +100,12 @@ export function setupSw3Index(root: HTMLElement): void {
       skipToEnd();
     });
   const fire = (name: string, detail?: unknown) => document.dispatchEvent(new CustomEvent(name, { detail }));
-  // The scrubber band sits in the step's panel, above this workspace (BcnSwStepNav).
+  // The console sits in the step's panel, above this workspace (BcnSwStepNav).
   const nav = document.querySelector<HTMLElement>('[data-ix-nav]')!;
-  const pos = nav.querySelector<HTMLElement>('[data-ix-pos]')!;
   const page = root.querySelector<HTMLElement>('[data-sw3-index-page]')!;
   const pane = root.querySelector<HTMLElement>('[data-ix-page]')!;
   const groupsEl = page.querySelector<HTMLElement>('[data-ip-groups]')!;
   const tpl = (name: string) => (page.querySelector<HTMLTemplateElement>(`[data-ip-tpl="${name}"]`)!.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
-  fillGlyph(root.querySelector('[data-ix-build]')!, 'sparkles');
   fillGlyph(page.querySelector('[data-ip-merge]')!, 'merge');
 
   let current = '';
@@ -137,10 +133,6 @@ export function setupSw3Index(root: HTMLElement): void {
     if (entryId) page.querySelector(`[data-entry="${CSS.escape(entryId)}"]`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   };
 
-  // ── No index yet ─────────────────────────────────────────────────────────────
-  root.querySelector('[data-ix-build]')!.addEventListener('click', () => buildIndex());
-  root.querySelector('[data-ix-add-cat]')!.addEventListener('click', () => fire('sw3i:rename', { id: addCategory() }));
-
   // ── The scrubber ─────────────────────────────────────────────────────────────
   const scrub = setupCommitmentScrubber(nav.querySelector('[data-commitment-scrubber]')!, { onPick: (id) => go(id) });
   const cellOf = (id: string, ph: string): { state: ScrubCell['state']; note: string } => {
@@ -153,22 +145,25 @@ export function setupSw3Index(root: HTMLElement): void {
     if (all) return { state: 'confirmed', note: 'Every draft decided' };
     return { state: 'ready', note: 'Nothing drafted' };
   };
-  const toReview = () => subs().filter(({ sub }) => pendingIn(sub.id) > 0);
-  nav.querySelector('[data-ix-next-open]')!.addEventListener('click', () => {
+  /** One subcategory along the index. */
+  const step = (by: 1 | -1) => {
     const list = subs().map((s) => s.sub.id);
-    const i = list.indexOf(current);
-    const order = [...list.slice(i + 1), ...list.slice(0, i + 1)];
-    const next = order.find((id) => pendingIn(id) && !isOpened(id)) ?? order.find((id) => pendingIn(id));
+    const next = list[list.indexOf(current) + by];
     if (next) go(next);
-  });
+    return !!next;
+  };
+  const stepKey = (name: 'prev' | 'next') => {
+    const host = nav.querySelector<HTMLElement>(`[data-ix-${name}]`)!;
+    return (host.matches('button') ? host : host.querySelector('button')) as HTMLButtonElement;
+  };
+  nav.querySelector('[data-ix-prev]')!.addEventListener('click', () => step(-1));
+  nav.querySelector('[data-ix-next]')!.addEventListener('click', () => step(1));
   document.addEventListener('keydown', (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const t = e.target as HTMLElement;
     if (t.closest('input, textarea, select, [contenteditable], esa-textarea, esa-text-field, esa-select, esa-side-dialog, esa-dialog, [role="slider"], [data-aldo-panel]')) return;
     if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-    const list = subs().map((s) => s.sub.id);
-    const next = list[list.indexOf(current) + (e.key === 'ArrowRight' ? 1 : -1)];
-    if (next) (e.preventDefault(), go(next));
+    if (step(e.key === 'ArrowRight' ? 1 : -1)) e.preventDefault();
   });
 
   // ── The page: helpers ────────────────────────────────────────────────────────
@@ -334,23 +329,35 @@ export function setupSw3Index(root: HTMLElement): void {
   };
 
   const paintTicked = () => {
-    const bar = page.querySelector<HTMLElement>('[data-ip-selected]')!;
-    bar.hidden = ticked.size < 2;
-    page.querySelector<HTMLElement>('[data-ip-selected-n]')!.textContent = `${ticked.size} selected`;
     const why = mergeRefusal([...ticked]);
     const m = page.querySelector<HTMLElement>('[data-ip-merge]')!;
-    setLabel(m, 'Merge', !!why);
+    setLabel(m, ticked.size >= 2 ? `Merge (${ticked.size})` : 'Merge', !!why);
     const b = m.matches('button') ? (m as HTMLButtonElement) : m.querySelector('button');
-    if (b) b.title = why ?? '';
+    if (b) b.title = why ?? `Merge the ${ticked.size} ticked drafts`;
   };
 
+  /** Category > Subcategory, in the breadcrumb lego: its text and its dots. */
+  const paintCrumbs = (cat: string, sub: string, hue: string) => {
+    page.querySelectorAll<HTMLElement>('[data-ip-crumbs] .esa-breadcrumbs__item').forEach((item, i) => {
+      const label = item.querySelector<HTMLElement>('.esa-breadcrumbs__link, .esa-breadcrumbs__current')!;
+      const text = i === 0 ? cat : sub;
+      const node = [...label.childNodes].reverse().find((n) => n.nodeType === Node.TEXT_NODE);
+      if (node) node.nodeValue = text;
+      else label.append(text);
+      label.title = text;
+      label.style.setProperty('--_hue', hue);
+    });
+  };
+  page.querySelector('[data-ip-crumbs] .esa-breadcrumbs__link')!.addEventListener('click', (e) => {
+    e.preventDefault();
+    const ref = subOf(current);
+    const first = ref && subs().find((s) => s.cat.id === ref.cat.id);
+    if (first) go(first.sub.id);
+  });
   const paintPage = () => {
     const ph = phase();
     const ref = subOf(current)!;
-    page.querySelector<HTMLElement>('[data-ip-cat]')!.textContent = ref.cat.name;
-    page.querySelector<HTMLElement>('[data-ip-title]')!.textContent = ref.sub.name;
-    page.querySelector<HTMLElement>('[data-ip-title]')!.title = ref.sub.name;
-    page.querySelector<HTMLElement>('[data-ip-cat]')!.title = ref.cat.name;
+    paintCrumbs(ref.cat.name, ref.sub.name, hueOf(ref.cat.id));
     // A Draft again run keeps the review on screen; its keys pause until the run ends.
     const drafted = (ph === 'drafted' || (ph === 'drafting' && totals().drafts > 0)) && draftsReady();
     page.querySelector<HTMLElement>('[data-ip-acts]')!.hidden = false;
@@ -424,26 +431,21 @@ export function setupSw3Index(root: HTMLElement): void {
   page.querySelector('[data-ip-merge]')!.addEventListener('click', () => {
     if (!mergeRefusal([...ticked])) fire('sw3i:merge', { ids: [...ticked] });
   });
-  page.querySelector('[data-ip-clear]')!.addEventListener('click', () => {
-    ticked.clear();
-    render();
-  });
   document.addEventListener('sw3i:merged', () => ticked.clear());
 
   // ── Repaint ──────────────────────────────────────────────────────────────────
   const render = () => {
     const ph = phase();
     root.dataset.phase = ph;
-    nav.hidden = ph === 'empty' || ph === 'building';
+    // No index yet, or one on its way: the console holds Build index alone.
+    const all = ph === 'empty' || ph === 'building' ? [] : subs();
+    nav.querySelector<HTMLElement>('[data-ix-step]')!.hidden = !all.length;
+    nav.querySelector<HTMLElement>('[data-ix-scrub]')!.hidden = !all.length;
     if (ph === 'empty' || ph === 'building') return;
-    const all = subs();
     if (!all.length) {
       // Categories made by hand, no subcategory yet: the index pane is the work.
       scrub.update({ cells: [], at: -1, groups: [] });
-      pos.textContent = 'No subcategories yet.';
-      nav.querySelector<HTMLElement>('[data-ix-next-open]')!.hidden = true;
-      page.querySelector<HTMLElement>('[data-ip-cat]')!.textContent = '';
-      page.querySelector<HTMLElement>('[data-ip-title]')!.textContent = '';
+      paintCrumbs('', '', '');
       page.querySelector<HTMLElement>('[data-ip-acts]')!.hidden = true;
       page.querySelector<HTMLElement>('[data-ip-review]')!.hidden = true;
       return;
@@ -457,14 +459,10 @@ export function setupSw3Index(root: HTMLElement): void {
       const c = cellOf(sub.id, ph);
       cells.push({ id: sub.id, label: sub.name, title: cat.name, state: c.state, note: c.note });
     }
-    scrub.update({ cells, at: all.findIndex((s) => s.sub.id === current), groups });
-    const ref = subOf(current)!;
-    const left = ph === 'drafted' ? toReview().length : 0;
-    pos.textContent =
-      ph === 'drafted'
-        ? `${ref.sub.name}: ${ref.i + 1} of ${all.length}. ${left ? `${plural(left, 'subcategory', 'subcategories')} with drafts to review.` : 'Every draft decided.'}`
-        : `${ref.sub.name}: ${ref.i + 1} of ${all.length}.`;
-    nav.querySelector<HTMLElement>('[data-ix-next-open]')!.hidden = !left;
+    const at = all.findIndex((s) => s.sub.id === current);
+    scrub.update({ cells, at, groups });
+    stepKey('prev').disabled = at <= 0;
+    stepKey('next').disabled = at >= all.length - 1;
     paintPage();
     fire('sw3i:current', { sub: current, entryId: open });
   };

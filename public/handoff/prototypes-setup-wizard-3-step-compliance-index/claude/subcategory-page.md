@@ -1,11 +1,12 @@
 # Subcategory page
 
-Before drafting: the lists as develop renders them before a run fills them, Actions (0) and Obligations (0) each reading None, Approve all and Discard all disabled. Drafted: actions first, then obligations by who reads them, then Discarded (N), folded, with Restore and Restore all. Each draft is one line, its title cut to the row (the category and subcategory names over the page are cut the same way), with a box to tick for Merge; its title opens the record in place. Approve all (N) asks first; Discard all does not.
+One bar pinned across the top of the pane, as the PDF's page tools are on step 1: where it sits as a breadcrumb, Category › Subcategory, each with its color dot in the category's hue (as in the index and the scrubber), each cut to fit with the full name in its title; then Merge (off until two or more are ticked, then Merge (N)), Discard all and Approve all (N). Pressing the category goes to its first subcategory. In a pane under 720px, Merge and Discard all fold to their icons. No title in the document voice. Before drafting: the lists as develop renders them before a run fills them, Actions (0) and Obligations (0) each reading None, Approve all and Discard all disabled. Drafted: actions first, then obligations by who reads them, then Discarded (N), folded, with Restore and Restore all. Each draft is one line, its title cut to the row, with a box to tick for Merge; its title opens the record in place. Approve all (N) asks first; Discard all does not.
 
 ## Key decisions
 - Review is by home subcategory only. Also filed in shows on the obligation, read only.
 - A draft action with no scope cannot be approved: "This draft has no scope. Set one in Edit before approving it."
-- Merge takes two or more drafts of one kind and, for obligations, one audience. The merged draft keeps every source.
+- Merge takes two or more drafts of one kind and, for obligations, one audience; when it cannot, its title says why. The merged draft keeps every source.
+- The breadcrumb is esa-breadcrumbs; its icon slot holds the dot, and the controller writes the names and the hue at run time.
 - Rationale is never stored or shown, as in prod.
 - Kind marks are develop's: an action is the Action icon in the action hue; an obligation is its class chip (Adhere, Monitor, Notify, Roster) tinted from the class hue.
 
@@ -14,15 +15,74 @@ Before drafting: the lists as develop renders them before a run fills them, Acti
 
 ## Markup
 ```html
-<article class="bcn-sw3ip" data-sw3-index-page="" aria-labelledby="sw3ip-title">
-  <header class="bcn-sw3ip__head">
-    <p class="bcn-sw3ip__cat" data-ip-cat=""></p>
-    <div class="bcn-sw3ip__acts" data-ip-acts="">
+<article class="bcn-sw3ip" data-sw3-index-page="" aria-label="Subcategory">
+  <div class="bcn-sw3ip__tools" role="toolbar" aria-label="Subcategory tools">
+    <div class="bcn-sw3ip__crumbs" data-ip-crumbs="">
+      <nav class="esa-breadcrumbs esa-breadcrumbs--sm" aria-label="Breadcrumb">
+        <ol class="esa-breadcrumbs__list">
+          <li class="esa-breadcrumbs__item">
+            <a href="#" class="esa-breadcrumbs__link typography-body-sm"
+              ><span class="esa-breadcrumbs__icon"
+                ><span class="bcn-sw3ip__dot" data-ip-dot=""></span></span
+              >Category</a
+            ><svg
+              class="esa-breadcrumbs__separator"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </li>
+          <li class="esa-breadcrumbs__item" aria-current="page">
+            <span class="esa-breadcrumbs__current typography-label-sm"
+              ><span class="esa-breadcrumbs__icon"
+                ><span class="bcn-sw3ip__dot" data-ip-dot=""></span></span
+              >Subcategory</span
+            >
+          </li>
+        </ol>
+      </nav>
+    </div>
+    <div class="bcn-sw3ip__toolkeys" data-ip-acts="">
       <span
         class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
         ><button
           class="esa-button__native typography-microcopy-xs"
           type="button"
+          title="Merge the ticked drafts"
+          data-ip-merge="true"
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m8 6 4-4 4 4"></path>
+              <path d="M12 2v10.3a4 4 0 0 1-1.172 2.872L4 22"></path>
+              <path d="m20 22-5-5"></path></svg></span
+          ><span class="esa-button__label">Merge</span>
+        </button></span
+      ><span class="bcn-sw3ip__rule" aria-hidden="true"></span
+      ><span
+        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          title="Discard all"
           data-ip-discard-all="true"
         >
           <span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -66,46 +126,8 @@ Before drafting: the lists as develop renders them before a run fills them, Acti
         </button></span
       >
     </div>
-    <h2 class="bcn-sw3ip__title" id="sw3ip-title" data-ip-title=""></h2>
-  </header>
+  </div>
   <div class="bcn-sw3ip__review" data-ip-review="">
-    <div class="bcn-sw3ip__selected" data-ip-selected="" hidden="">
-      <span data-ip-selected-n=""></span
-      ><span
-        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-        ><button
-          class="esa-button__native typography-microcopy-2xs"
-          type="button"
-          data-ip-merge="true"
-        >
-          <span class="esa-icon esa-icon--xs" aria-hidden="true"
-            ><svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m8 6 4-4 4 4"></path>
-              <path d="M12 2v10.3a4 4 0 0 1-1.172 2.872L4 22"></path>
-              <path d="m20 22-5-5"></path></svg></span
-          ><span class="esa-button__label">Merge</span>
-        </button></span
-      ><span
-        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-        ><button
-          class="esa-button__native typography-microcopy-2xs"
-          type="button"
-          data-ip-clear="true"
-        >
-          <span class="esa-button__label">Clear</span>
-        </button></span
-      >
-    </div>
     <div class="bcn-sw3ip__groups" data-ip-groups=""></div>
     <p class="bcn-sw3ip__empty" data-ip-empty="" hidden=""></p>
     <details class="bcn-sw3ip__discarded" data-ip-discarded="">
@@ -341,6 +363,56 @@ Before drafting: the lists as develop renders them before a run fills them, Acti
 
 ## Styles
 ```css
+/* Type comes from .typography-body-sm on the element.
+
+       Both nodes are always in the DOM (the live region has to pre-exist its content),
+       so the gap is opt-IN via .is-shown rather than collapsed with :empty — Lit's
+       template whitespace defeats :empty in engines that follow Selectors L3. */
+.help,
+.error {
+  margin: 0;
+}
+/* Type comes from .typography-body-sm — help and error are one size at every
+       control step, so they name the composite directly rather than mapping. */
+/* Both nodes are ALWAYS in the DOM (see render()), so the gap is opt-IN rather
+       than collapsed away. Deliberately not display:none when empty — that removes
+       the node from the accessibility tree, and a live region that is not in the tree
+       cannot announce anything. An empty <p> with no margin occupies no space.
+
+       .is-shown rather than :empty: Lit's template whitespace leaves a text node
+       inside the element, and browsers still disagree about whether :empty ignores
+       whitespace-only children (Selectors L4 says yes, L3 says no). A class is
+       deterministic; :empty here would silently leave 4px of dead space under every
+       clean field in some engines and not others. */
+.help,
+.error {
+  margin: 0;
+}
+/* No box of its own — the buttons stay direct flex items of the host. */
+.esa-button-group__slot {
+  display: contents;
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-sm {
+  font-family: var(--typography-label-sm-font-family);
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  line-height: var(--typography-label-sm-line-height);
+  letter-spacing: var(--typography-label-sm-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+}
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
   font-size: var(--typography-microcopy-2xs-font-size);
@@ -466,50 +538,127 @@ Before drafting: the lists as develop renders them before a run fills them, Acti
 .bcn-console__more .esa-button__native:hover {
   color: var(--bcn-console-fg);
 }
+.esa-breadcrumbs {
+  --_crumb-link-color: var(--breadcrumbs-link-color, #646464);
+  --_crumb-link-hover: var(--breadcrumbs-link-hover, #202020);
+  --_crumb-current-color: var(--color-content-default, #202020);
+  --_crumb-separator-color: var(--color-border-default-strong, #bbb);
+  --_crumb-gap: var(--spacing-200, 8px);
+  background: var(--breadcrumbs-bg, transparent);
+  display: block;
+}
+.esa-breadcrumbs__list {
+  align-items: center;
+  gap: var(--_crumb-gap);
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+.esa-breadcrumbs__item {
+  align-items: center;
+  gap: var(--_crumb-gap);
+  display: flex;
+}
+.esa-breadcrumbs__link {
+  align-items: center;
+  gap: var(--spacing-100, 4px);
+  color: var(--_crumb-link-color);
+  text-decoration-color: #0000;
+  display: inline-flex;
+}
+.esa-breadcrumbs__link:hover {
+  color: var(--_crumb-link-hover);
+  text-decoration: underline;
+}
+.esa-breadcrumbs__current {
+  align-items: center;
+  gap: var(--spacing-100, 4px);
+  color: var(--_crumb-current-color);
+  display: inline-flex;
+}
+.esa-breadcrumbs__icon {
+  align-items: center;
+  display: inline-flex;
+}
+.esa-breadcrumbs__separator {
+  color: var(--_crumb-separator-color);
+  flex-shrink: 0;
+}
 .bcn-sw3ip {
-  gap: var(--spacing-500);
-  box-sizing: border-box;
-  min-height: 100%;
-  padding: var(--spacing-500) var(--spacing-600);
   flex-direction: column;
+  min-height: 100%;
   display: flex;
 }
 .bcn-sw3ip [hidden] {
   display: none !important;
 }
-.bcn-sw3ip__head {
+.bcn-sw3ip__tools {
+  z-index: 2;
+  justify-content: space-between;
   align-items: center;
-  gap: var(--spacing-200) var(--spacing-300);
-  flex-wrap: wrap;
+  gap: var(--spacing-100) var(--spacing-300);
+  box-sizing: border-box;
+  min-height: 2.75rem;
+  padding: var(--spacing-150, 0.375rem) var(--spacing-200) var(--spacing-150, 0.375rem)
+    var(--spacing-600);
+  background: var(--color-background-elevation-raised);
+  border-bottom: 1px solid var(--color-border-default);
+  display: flex;
+  position: sticky;
+  top: 0;
+  container-type: inline-size;
+}
+.bcn-sw3ip__toolkeys {
+  align-items: center;
+  gap: var(--spacing-100);
+  flex: none;
   display: flex;
 }
-.bcn-sw3ip__cat {
+.bcn-sw3ip__rule {
+  width: 1px;
+  margin: 2px var(--spacing-100);
+  background: var(--color-border-default);
+  align-self: stretch;
+}
+.bcn-sw3ip__tools button:disabled {
+  opacity: 0.38;
+}
+.bcn-sw3ip__crumbs {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.8125rem;
+}
+.bcn-sw3ip__crumbs .esa-breadcrumbs__list {
+  --_crumb-gap: var(--spacing-150, 6px);
+  flex-wrap: nowrap;
+}
+.bcn-sw3ip__crumbs .esa-breadcrumbs__item {
+  min-width: 0;
+}
+.bcn-sw3ip__crumbs .esa-breadcrumbs__item:first-child {
+  flex: 0 auto;
+  max-width: 45%;
+}
+.bcn-sw3ip__crumbs .esa-breadcrumbs__link,
+.bcn-sw3ip__crumbs .esa-breadcrumbs__current {
   text-overflow: ellipsis;
   white-space: nowrap;
   min-width: 0;
-  color: var(--color-content-default-secondary);
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: 500;
+  display: block;
   overflow: hidden;
 }
-.bcn-sw3ip__acts {
-  align-items: center;
-  gap: var(--spacing-150);
-  margin-left: auto;
-  display: flex;
+.bcn-sw3ip__crumbs .esa-breadcrumbs__icon {
+  vertical-align: middle;
+  margin-right: var(--spacing-150, 6px);
+  display: inline-flex;
 }
-.bcn-sw3ip__title {
-  font-family: var(--font-decorative, var(--typography-font-family-sans));
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  flex: 100%;
-  min-width: 0;
-  margin: 0;
-  font-size: 1.375rem;
-  font-weight: 600;
-  line-height: 1.25;
-  overflow: hidden;
+.bcn-sw3ip__crumbs .bcn-sw3ip__dot {
+  background: var(--_hue, var(--color-content-default-tertiary));
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
 }
 .bcn-sw3ip .bcn-sw3ip__gh {
   color: var(--color-content-default);
@@ -526,17 +675,8 @@ Before drafting: the lists as develop renders them before a run fills them, Acti
 }
 .bcn-sw3ip__review {
   gap: var(--spacing-500);
+  padding: var(--spacing-500) var(--spacing-600);
   flex-direction: column;
-  display: flex;
-}
-.bcn-sw3ip__selected {
-  align-items: center;
-  gap: var(--spacing-200);
-  padding: var(--spacing-150) var(--spacing-300);
-  border-radius: var(--radius-100);
-  background: var(--color-background-elevation-sunken);
-  font-size: 0.875rem;
-  font-weight: 500;
   display: flex;
 }
 .bcn-sw3ip__groups {
@@ -925,6 +1065,27 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
   color: var(--bcn-aldo-600);
 }
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-sm {
+  font-family: var(--typography-label-sm-font-family);
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  line-height: var(--typography-label-sm-line-height);
+  letter-spacing: var(--typography-label-sm-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+}
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
   font-size: var(--typography-microcopy-2xs-font-size);
@@ -1021,6 +1182,9 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
 - `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
 - `--border-width-default`: 1px _(semantic)_
+- `--breadcrumbs-bg`: transparent _(component)_
+- `--breadcrumbs-link-color`: #525252 _(component)_
+- `--breadcrumbs-link-hover`: #3d3d3d _(component)_
 - `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--button-on-warning`: #fff _(component)_
 - `--button-radius-lg`: .25rem _(component)_
@@ -1081,7 +1245,22 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-600`: 2rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
+- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-body-sm-font-weight`: 400 _(semantic)_
+- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
+- `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-sm-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-font-weight`: 500 _(semantic)_
+- `--typography-label-sm-letter-spacing`: .01em _(semantic)_
+- `--typography-label-sm-line-height`: 1.6 _(semantic)_
+- `--typography-label-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-sm-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-sm-strong-line-height`: 1.6 _(semantic)_
 - `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
 - `--typography-microcopy-2xs-font-weight`: 500 _(semantic)_

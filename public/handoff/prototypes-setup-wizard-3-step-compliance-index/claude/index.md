@@ -601,6 +601,10 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
 
 ## Styles
 ```css
+/* No box of its own — the buttons stay direct flex items of the host. */
+.esa-button-group__slot {
+  display: contents;
+}
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
   font-size: var(--typography-microcopy-2xs-font-size);
@@ -1213,6 +1217,10 @@ summary.esa-button--variant-chrome:focus-visible {
   height: var(--_icon-size);
   display: block;
 }
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
+}
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
   --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
@@ -1301,10 +1309,6 @@ summary.esa-button--variant-chrome:focus-visible {
   background: canvastext;
   border: 0;
   outline: 1px solid canvastext;
-}
-.esa-collapsible__summary .esa-icon {
-  color: var(--color-content-default-secondary, #646464);
-  flex-shrink: 0;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

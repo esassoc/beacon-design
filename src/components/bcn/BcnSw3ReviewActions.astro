@@ -1,22 +1,17 @@
 ---
-// <BcnSw3ReviewActions> — step 2's page actions: Confirm All for every commitment nothing is flagged on
-// (one-step undo in the toast), and a More menu whose one item exports the review for
-// offline reading. Continue goes to the Compliance Index.
+// <BcnSw3ReviewActions> — step 2's keys in the console at the foot of its panel
+// (bcn-sw-step-nav's slot), after Previous and Next: Confirm all for every commitment nothing
+// is flagged on (one-step undo in the toast), and Export, the review for offline reading.
 //
-// bcn-lego-checked: esa-button triggers, esa-dropdown-menu for More, the toast is
-// esa-snackbar-container via src/lib/snackbar. Checked Beacon (page actions are
-// ui-button + ui-dropdown-menu). bcn-sw3-review-actions is the home.
+// bcn-lego-checked: the keys ARE esa-button, the toast is esa-snackbar-container via
+// src/lib/snackbar. Checked Beacon (page actions are ui-button). bcn-sw3-review-actions is
+// the home.
 import EsaButton from '@esa/ecology/esa-button.astro';
-import { SW3_INDEX } from '../../data/setup-wizard-3-step';
-import { withBase } from '../../lib/base';
 ---
 
 <div class="bcn-sw3ra" data-sw3-review-actions>
   <EsaButton variant="secondary" size="sm" icon="circle-check" data-ra-confirm-all>Confirm all</EsaButton>
-  <esa-dropdown-menu position="below-end" width="auto" data-ra-more>
-    <EsaButton variant="secondary" size="sm" iconRight="chevron-down">More</EsaButton>
-  </esa-dropdown-menu>
-  <EsaButton variant="primary" size="sm" iconRight="arrow-right" href={withBase(SW3_INDEX)}>Compliance Index</EsaButton>
+  <EsaButton variant="secondary" size="sm" icon="download" title="Export for offline review (.docx)" data-ra-export>Export</EsaButton>
 </div>
 
 <style>
@@ -24,7 +19,6 @@ import { withBase } from '../../lib/base';
 </style>
 
 <script>
-  import '@esa/ecology/esa-dropdown-menu';
   import { initSw3, cleanUnconfirmed, confirmAllClean, undoConfirmAll } from './sw3-store';
   import { snackbarHost, toast } from '../../lib/snackbar';
 
@@ -36,13 +30,7 @@ import { withBase } from '../../lib/base';
       (b.querySelector('.esa-button__label') ?? b).textContent = text;
       return b;
     };
-    const menu = root.querySelector<HTMLElement & { items: unknown }>('[data-ra-more]')!;
-    customElements.whenDefined('esa-dropdown-menu').then(() => {
-      menu.items = [{ label: 'Export for offline review', action: 'export', icon: 'download' }];
-    });
-    menu.addEventListener('menu-action', (e) => {
-      if ((e as CustomEvent<string>).detail === 'export') toast('Exported ITP commitments for review (.docx).', 'success');
-    });
+    root.querySelector('[data-ra-export]')!.addEventListener('click', () => toast('Exported the commitments for review (.docx).', 'success'));
 
     let undoToast: string | null = null;
     root.querySelector('[data-ra-confirm-all]')!.addEventListener('click', () => {

@@ -1,32 +1,130 @@
 # Commitment
 
-The commitment as a marked-up page in Beacon's document voice. Each requirement is a highlighter stroke over the words that are its basis, drawn by hand: every line of it its own stroke, ragged at the ends. Requirements take six bright inks in turn, in text order (yellow, pink, green, orange, blue, aqua). What the parse pulled out of those words (a species, a milestone, a season) is underlined inside the stroke. Plain text is what nothing will be tracked from: the gap a spot check reads. Plain text the review thinks binds has a wavy warning underline: the prompt keeps each passage contiguous, so a duty stated elsewhere in the text can fall outside every requirement, and this is where a person catches it. The header: the code, the page (opens the PDF beside it), Edit (the ID, name and text), Confirm.
+The commitment as a marked-up page in Beacon's document voice. Each requirement is a highlighter stroke over the words that are its basis, drawn by hand: every line of it its own stroke, ragged at the ends. Requirements take six bright inks in turn, in text order (yellow, pink, green, orange, blue, aqua). What the parse pulled out of those words (a species, a milestone, a season) is underlined inside the stroke. Plain text is what nothing will be tracked from: the gap a spot check reads. Plain text the review thinks binds has a wavy warning underline: the prompt keeps each passage contiguous, so a duty stated elsewhere in the text can fall outside every requirement, and this is where a person catches it. Above it, one bar pinned across the top of the pane, as the PDF's page tools are on step 1: Select (V) and Highlight (H), Delete (the selected requirement); then the page (opens the PDF beside it), Edit (the ID, name and text) and Confirm. Under the bar, the code and the name.
 
 ## Key decisions
 - No borders on the highlighter, and no list numbers ("R1"). Selected is a heavier pass of the same ink; with one selected or hovered from the rail, the others' ink fades and their words stay black.
-- The text is read only. Its words change by telling Aldo (split, merge, you missed this); a requirement's record changes in its side panel.
+- The highlights are edited by hand, as on the comments prototype. The selected requirement grows a grip at each end; dragging one moves that end to the word under the pointer, live, and release saves it. Ends snap to whole words and stop at a paragraph break or the next requirement.
+- Highlight mode: one drag over free words makes them a new requirement ("New requirement"), selected, its record opened in the side panel to name it; then the mode returns to Select. A drag over words another requirement holds is clipped to the free words. Esc cancels.
+- Delete removes the selected requirement, highlight and record. Words can still change by telling Aldo (split, merge, you missed this).
 - Confirm is disabled while a blocking item is open (a type to check and a hand-marked commitment do not block).
 
 ## Gotchas
+- Text offsets come from src/lib/text-offsets.ts, shared with the comments prototype: each paragraph is <p data-off>, and a point converts by walking its text nodes. The grips sit in the page pane and are re-placed on scroll and resize.
 - The painter cuts a mark wherever a value's words start or end; the controller joins touching pieces of one requirement back into one mark so the stroke is not broken.
 - The stroke is an SVG in a theme token (--bcn-marker-1 to -6, and -faint-1 to -6), stretched to each line with box-decoration-break: clone. The painter numbers each mark's turn in data-ink.
 
 ## Done when
+- On 11.1, selecting the first requirement and dragging its start grip left takes in "maintenance,"; Highlight over "During all phases of" makes 11.1:1 and opens its record.
 - Requirements are Beacon's own: its ExtractRequirementsFromCommitment v6 prompt over each commitment, split by who does the work, one contiguous passage each (scripts/extract-requirements.mjs). COA 11.3 is two: the biologist's capture and handling, and the capture records.
 - COA 11.7: the sentence about the U.S. Naval Observatory times is plain, between two strokes: the spot check sees what is not tracked.
 
 ## Markup
 ```html
-<article class="bcn-sw3c" data-c="COA 11.1" aria-labelledby="sw3c-title">
-  <header class="bcn-sw3c__head">
-    <span data-c-badge=""><span class="bcn-cbadge bcn-cbadge--md">11.1</span></span>
-    <div class="bcn-sw3c__acts">
+<article
+  class="bcn-sw3c"
+  data-c="COA 11.1"
+  data-mode="select"
+  aria-labelledby="sw3c-title"
+>
+  <div class="bcn-sw3c__tools" role="toolbar" aria-label="Commitment tools">
+    <div class="bcn-sw3c__group">
+      <span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          data-ico="mouse-pointer-2"
+          data-c-tool="select"
+          title="Select a requirement (V)"
+          aria-pressed="true"
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+              data-ico="mouse-pointer-2"
+            >
+              <path
+                d="M4.037 4.688a.495.495 0 0 1 .651-.651l16 6.5a.5.5 0 0 1-.063.947l-6.124 1.58a2 2 0 0 0-1.438 1.435l-1.579 6.126a.5.5 0 0 1-.947.063z"
+              ></path></svg></span
+          ><span class="esa-button__label">Select</span>
+        </button></span
+      ><span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          data-ico="highlighter"
+          data-c-tool="mark"
+          title="Highlight a new requirement (H)"
+          aria-pressed="false"
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+              data-ico="highlighter"
+            >
+              <path d="m9 11-6 6v3h9l3-3"></path>
+              <path
+                d="m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"
+              ></path></svg></span
+          ><span class="esa-button__label">Highlight</span>
+        </button></span
+      ><span class="bcn-sw3c__rule" aria-hidden="true"></span
+      ><span
+        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          aria-label="Delete the selected requirement (Delete)"
+          title="Delete the selected requirement (Delete)"
+          data-c-tool="delete"
+          disabled=""
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="M3 6h18"></path>
+              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+              <line x1="10" x2="10" y1="11" y2="17"></line>
+              <line x1="14" x2="14" y1="11" y2="17"></line></svg
+          ></span></button
+      ></span>
+    </div>
+    <div class="bcn-sw3c__group">
       <span data-c-peek=""
         ><span
-          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
           ><button
             class="esa-button__native typography-microcopy-xs"
             type="button"
+            title="Open the source page"
             data-c-pages="true"
           >
             <span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -53,12 +151,12 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
         ></span
       ><span data-c-edit=""
         ><span
-          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only"
           ><button
             class="esa-button__native typography-microcopy-xs"
             type="button"
-            aria-label="Edit commitment"
-            title="Edit commitment"
+            aria-label="Edit ID, name and text"
+            title="Edit ID, name and text"
           >
             <span class="esa-icon esa-icon--sm" aria-hidden="true"
               ><svg
@@ -77,6 +175,7 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
                 ></path>
                 <path d="m15 5 4 4"></path></svg
             ></span></button></span></span
+      ><span class="bcn-sw3c__rule" aria-hidden="true"></span
       ><span data-c-confirm=""
         ><span
           class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
@@ -104,7 +203,11 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
       ><span data-c-reopen=""
         ><span
           class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
-          ><button class="esa-button__native typography-microcopy-xs" type="button">
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            title="Reopen the commitment"
+          >
             <span class="esa-icon esa-icon--sm" aria-hidden="true"
               ><svg
                 width="16"
@@ -124,64 +227,76 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
         ></span
       >
     </div>
-    <h2 class="bcn-sw3c__title" id="sw3c-title" data-c-title="">
-      Covered Species Observations
-    </h2>
-  </header>
-  <p class="bcn-sw3c__parsing" data-c-parsing="" hidden="">Parsing</p>
-  <div class="bcn-sw3c__text" data-c-text="">
-    <p data-off="0">
-      During all phases of Project construction, operations, and maintenance,
-      <mark
-        class="bcn-hl"
-        data-sid="coa-11-1-1"
-        data-family="amber"
-        data-shade="1"
-        data-ink="1"
-        data-suggested=""
-        title="11.1:1 Report Covered Species Encounters and Halt Work"
-        >Permittee shall direct all workers to inform the Designated Biologist(s),
-        Fisheries Biologist(s), or Biological Monitor(s) if they encounter any Covered
-        Species within or near the Project site. All Covered Activities with potential to
-        take Covered Species shall cease until the animal moves from the Project site on
-        its own accord.</mark
-      >
-      <mark
-        class="bcn-hl"
-        data-sid="coa-11-1-2"
-        data-family="amber"
-        data-shade="3"
-        data-ink="2"
-        data-suggested=""
-        title="11.1:2 Relocate Trapped Covered Species by Designated Biologist"
-        >If the animal is found within a fenced Project construction site and cannot move
-        of its own volition, the Designated Biologist(s) shall move the animal outside of
-        the area of construction according to their species-specific relocation or
-        transplantation plans described in this ITP for each Covered Species. Capture and
-        relocation of trapped or injured special-status wildlife may only be performed by
-        the Designated Biologist(s) and Fisheries Biologist(s).</mark
-      >
-      <mark
-        class="bcn-hl"
-        data-sid="coa-11-1-3"
-        data-family="amber"
-        data-shade="1"
-        data-ink="3"
-        data-suggested=""
-        title="11.1:3 Record and Report Covered Species Sightings to CDFW"
-        >Covered Species sightings shall be recorded with a GPS (including datum and
-        horizontal accuracy in feet) and the Designated Biologist(s), Fisheries
-        Biologist(S), or Biological Monitor(s) shall report Covered Species observed
-        locations to CDFW within one business day of the observation.</mark
-      >
-    </p>
   </div>
-  <div class="bcn-sw3c__unanchored" data-c-unanchored=""></div>
+  <div class="bcn-sw3c__page" data-c-page="">
+    <header class="bcn-sw3c__head">
+      <span data-c-badge=""><span class="bcn-cbadge bcn-cbadge--md">11.1</span></span>
+      <h2 class="bcn-sw3c__title" id="sw3c-title" data-c-title="">
+        Covered Species Observations
+      </h2>
+    </header>
+    <p class="bcn-sw3c__parsing" data-c-parsing="" hidden="">Parsing</p>
+    <div class="bcn-sw3c__text" data-c-text="">
+      <p data-off="0">
+        During all phases of Project construction, operations, and maintenance,
+        <mark
+          class="bcn-hl"
+          data-sid="coa-11-1-1"
+          data-family="amber"
+          data-shade="1"
+          data-ink="1"
+          data-suggested=""
+          title="11.1:1 Report Covered Species Encounters and Halt Work"
+          >Permittee shall direct all workers to inform the Designated Biologist(s),
+          Fisheries Biologist(s), or Biological Monitor(s) if they encounter any Covered
+          Species within or near the Project site. All Covered Activities with potential
+          to take Covered Species shall cease until the animal moves from the Project site
+          on its own accord.</mark
+        >
+        <mark
+          class="bcn-hl"
+          data-sid="coa-11-1-2"
+          data-family="amber"
+          data-shade="3"
+          data-ink="2"
+          data-suggested=""
+          title="11.1:2 Relocate Trapped Covered Species by Designated Biologist"
+          >If the animal is found within a fenced Project construction site and cannot
+          move of its own volition, the Designated Biologist(s) shall move the animal
+          outside of the area of construction according to their species-specific
+          relocation or transplantation plans described in this ITP for each Covered
+          Species. Capture and relocation of trapped or injured special-status wildlife
+          may only be performed by the Designated Biologist(s) and Fisheries
+          Biologist(s).</mark
+        >
+        <mark
+          class="bcn-hl"
+          data-sid="coa-11-1-3"
+          data-family="amber"
+          data-shade="1"
+          data-ink="3"
+          data-suggested=""
+          title="11.1:3 Record and Report Covered Species Sightings to CDFW"
+          >Covered Species sightings shall be recorded with a GPS (including datum and
+          horizontal accuracy in feet) and the Designated Biologist(s), Fisheries
+          Biologist(S), or Biological Monitor(s) shall report Covered Species observed
+          locations to CDFW within one business day of the observation.</mark
+        >
+      </p>
+    </div>
+    <div class="bcn-sw3c__unanchored" data-c-unanchored=""></div>
+    <span class="bcn-sw3c__grip" data-c-grip="start" hidden="" aria-hidden="true"></span
+    ><span class="bcn-sw3c__grip" data-c-grip="end" hidden="" aria-hidden="true"></span>
+  </div>
 </article>
 ```
 
 ## Styles
 ```css
+/* No box of its own — the buttons stay direct flex items of the host. */
+.esa-button-group__slot {
+  display: contents;
+}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
@@ -424,33 +539,69 @@ mark.bcn-hl[data-family="none"] {
   --_hl: var(--bcn-topic-slate-4);
 }
 .bcn-sw3c {
-  gap: var(--spacing-400);
-  box-sizing: border-box;
+  flex-direction: column;
   min-height: 100%;
+  display: flex;
+}
+.bcn-sw3c__tools {
+  z-index: 2;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-100) var(--spacing-300);
+  padding: var(--spacing-150, 0.375rem) var(--spacing-200);
+  background: var(--color-background-elevation-raised);
+  border-bottom: 1px solid var(--color-border-default);
+  flex-wrap: wrap;
+  display: flex;
+  position: sticky;
+  top: 0;
+}
+.bcn-sw3c__group {
+  align-items: center;
+  gap: var(--spacing-100);
+  flex: none;
+  display: flex;
+}
+.bcn-sw3c__group > * {
+  flex: none;
+}
+.bcn-sw3c__rule {
+  width: 1px;
+  margin: 2px var(--spacing-100);
+  background: var(--color-border-default);
+  align-self: stretch;
+}
+.bcn-sw3c__tools [data-c-tool]:disabled,
+.bcn-sw3c__tools [data-c-tool] button:disabled,
+.bcn-sw3c__tools button:disabled {
+  opacity: 0.38;
+}
+.bcn-sw3c__tools [data-c-tool][aria-pressed="true"] {
+  background: var(--color-background-elevation-sunken);
+  box-shadow: inset 0 1px 3px
+    color-mix(in srgb, var(--color-content-default) 22%, transparent);
+}
+.bcn-sw3c__page {
+  gap: var(--spacing-400);
   padding: var(--spacing-500) var(--spacing-600);
   flex-direction: column;
   display: flex;
+  position: relative;
 }
 .bcn-sw3c__head {
   align-items: center;
   gap: var(--spacing-300);
-  flex-wrap: wrap;
   display: flex;
 }
 .bcn-sw3c__title {
+  min-width: 0;
   font-family: var(--font-decorative, var(--typography-font-family-sans));
   text-wrap: balance;
-  flex: 100%;
+  flex: 1;
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.25;
-}
-.bcn-sw3c__acts {
-  align-items: center;
-  gap: var(--spacing-150);
-  margin-left: auto;
-  display: flex;
 }
 .bcn-sw3c:not([data-confirmed]) [data-c-reopen],
 .bcn-sw3c[data-confirmed] [data-c-confirm] {
@@ -540,6 +691,13 @@ mark.bcn-hl[data-family="none"] {
   mark.bcn-hl[data-ink="6"]:not([data-active]):not([data-hover]) {
   background-image: var(--bcn-marker-faint-6);
 }
+.bcn-sw3c[data-mode="mark"] .bcn-sw3c__text {
+  cursor: text;
+}
+.bcn-sw3c[data-mode="mark"] .bcn-sw3c__text ::selection,
+.bcn-sw3c[data-mode="mark"] .bcn-sw3c__text ::selection {
+  background: var(--bcn-marker-selection);
+}
 .bcn-sw3c__text mark.bcn-hl[data-dup] {
   box-shadow: none;
   text-decoration: underline wavy var(--color-content-warning);
@@ -574,6 +732,44 @@ mark.bcn-hl[data-family="none"] {
     var(--bcn-aldo, var(--color-background-info)) 28%,
     transparent
   );
+}
+.bcn-sw3c__grip {
+  background: var(--color-content-default);
+  cursor: ew-resize;
+  touch-action: none;
+  z-index: 1;
+  width: 2px;
+  margin-left: -1px;
+  position: absolute;
+}
+.bcn-sw3c__grip[hidden] {
+  display: none;
+}
+.bcn-sw3c__grip:after {
+  content: "";
+  background: var(--color-content-default);
+  border: 2px solid var(--color-background-elevation-raised);
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+.bcn-sw3c__grip[data-c-grip="start"]:after {
+  top: -10px;
+}
+.bcn-sw3c__grip[data-c-grip="end"]:after {
+  bottom: -10px;
+}
+.bcn-sw3c__grip:before {
+  content: "";
+  position: absolute;
+  inset: -6px -10px;
+}
+.bcn-sw3c[data-dragging] .bcn-sw3c__text {
+  user-select: none;
+  cursor: ew-resize;
 }
 .bcn-sw3c__unanchored {
   gap: var(--spacing-200);
@@ -882,6 +1078,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--bcn-marker-faint-4`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%23ffeccf' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3C/svg%3E") _(component)_
 - `--bcn-marker-faint-5`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%23e2f3ff' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3C/svg%3E") _(component)_
 - `--bcn-marker-faint-6`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%23dbfbf5' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3C/svg%3E") _(component)_
+- `--bcn-marker-selection`: #ffeb5c _(component)_
 - `--bcn-topic-amber-1`: #ffee9c _(component)_
 - `--bcn-topic-amber-2`: #f3d673 _(component)_
 - `--bcn-topic-amber-3`: #e9c162 _(component)_
@@ -971,6 +1168,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-xs`: .125rem _(semantic)_
+- `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_

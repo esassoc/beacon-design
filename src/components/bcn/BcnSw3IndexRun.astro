@@ -2,7 +2,7 @@
 // <BcnSw3IndexRun> — step 3's run console and status line, inside the step panel under its
 // header (PR #1520's draft strip, made watchable).
 //
-//   built     the index in numbers; after a Re-run, the console shows it as a diff: the
+//   built     nothing, until a Re-run: then the console shows it as a diff: the
 //             guidance as the prompt, Propose index as the tool, + added, − removed, and
 //             the bins kept because they are locked
 //   drafting  the console's peek: its newest lines in a strip no taller than 100px; pressing
@@ -28,9 +28,6 @@ import BcnConsole from './BcnConsole.astro';
 ---
 
 <div class="bcn-sw3ir" data-sw3-index-run>
-  <div class="bcn-sw3ir__line" data-ir-built>
-    <span data-ir-built-text></span>
-  </div>
 
   <div class="bcn-sw3ir__line" data-ir-drafted>
     <span class="bcn-sw3ir__ok" data-ir-approved-mark><EsaIcon name="circle-check" size="sm" /></span>
@@ -106,10 +103,7 @@ import BcnConsole from './BcnConsole.astro';
   import {
     initIndex,
     phase,
-    cats,
-    subs,
     subOf,
-    lockedCount,
     rerunSummary,
     runProgress,
     currentRun,
@@ -350,13 +344,7 @@ import BcnConsole from './BcnConsole.astro';
     const render = () => {
       const ph = phase();
       if (ph === 'drafting') frame++;
-      $('[data-ir-built]').hidden = ph !== 'built';
       $('[data-ir-drafted]').hidden = ph !== 'drafted';
-
-      if (ph === 'built') {
-        const locked = lockedCount();
-        $('[data-ir-built-text]').textContent = `${plural(cats().length, 'category', 'categories')}, ${plural(subs().length, 'subcategory', 'subcategories')}${locked ? `, ${n(locked)} locked` : ''}.`;
-      }
 
       if (ph === 'drafted') {
         const t = totals();
