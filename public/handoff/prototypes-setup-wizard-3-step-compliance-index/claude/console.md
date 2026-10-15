@@ -1,6 +1,6 @@
 # Console
 
-The foot of the step's panel, as step 1 carries its scan console: the header carries no keys. A sunken tray of keys centered under the header rule, by phase. No index yet: Build index and + Category. Built: Previous, Next, Re-run and Draft actions & obligations. During a run: Previous, Next and the run's key, disabled. After it: Previous, Next, Start over, Draft again (primary while something is outstanding) and Approve Compliance Index. Under the tray, once there is an index, every subcategory in index order, step 2's scrubber, a rule and the category's name where each category starts, a band of the category's hue along the foot of its cells and its name marked in the same hue. Drafted: amber for drafts never opened, gray for opened with drafts to review, green when every draft is decided.
+The foot of the step's panel, as step 1 carries its scan console: the header carries no keys. A sunken tray of keys centered under the header rule, by phase. No index yet: Build index and + Category. Built: Previous, Next, Re-run and Draft actions & obligations. During a run: Previous, Next and the run's key, disabled. After it: Previous, Next, Start over, Draft again (primary while something is outstanding) and Approve Compliance Index. Under the tray, once there is an index, every subcategory in index order, step 2's scrubber, a rule and the category's name where each category starts, a band of the category's hue along the foot of its cells and its name marked in the same hue. Drafted: dark gray for drafts never opened, mid gray for opened with drafts to review, green when every draft is decided. No amber: nothing on the strip reads as alarm.
 
 ## Key decisions
 - Start over is PR #1520's: once a Draft run exists it replaces Re-run, and it deletes the index and every draft back to "No index yet". Prod refuses it while a run is live or an approved record has evidence.
@@ -661,6 +661,13 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
 }
 .bcn-swsn__scrub:empty {
   display: none;
+}
+.bcn-swsn .bcn-cscrub__cell[data-state="flagged"] {
+  background: color-mix(
+    in srgb,
+    var(--color-content-default) 62%,
+    var(--color-background-elevation-raised)
+  );
 }
 .bcn-swsn[data-tinted] .bcn-cscrub__cell[data-state="confirmed"] {
   background: color-mix(

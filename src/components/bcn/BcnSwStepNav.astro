@@ -11,8 +11,9 @@
 // `[data-ix-step]` (the pair, hidden when there is nothing to step) and the scrubber's
 // `[data-commitment-scrubber]` inside `[data-ix-scrub]`.
 //
-// `token` (step 2): a decided record's cell takes a light tint of the step's color, and a
-// record with something to settle reads as any other undecided one.
+// A record that still wants a look (step 3: drafts never opened) is a darker gray, never
+// amber. `token` (step 2): a decided record's cell takes a light tint of the step's color,
+// and a record with something to settle reads as any other undecided one.
 //
 // bcn-lego-checked: Previous and Next ARE esa-button in esa-button-group; the scrubber IS
 // bcn-commitment-scrubber. The tray is step 1's bcn-sw3bar console geometry (sunken, a
@@ -79,6 +80,10 @@ const lower = label.toLowerCase();
   /* A key that cannot act now is plainly off, as on step 1's console. */
   .bcn-swsn :global(button:disabled) { opacity: 0.38; }
   .bcn-swsn__scrub:empty { display: none; }
+  /* Nothing reads as alarm: a record that still wants a look is a darker gray, not amber. */
+  .bcn-swsn :global(.bcn-cscrub__cell[data-state='flagged']) {
+    background: color-mix(in srgb, var(--color-content-default) 62%, var(--color-background-elevation-raised));
+  }
   /* Step 2: a decided record in a light tint of the step's color; nothing reads as alarm. */
   .bcn-swsn[data-tinted] :global(.bcn-cscrub__cell[data-state='confirmed']) {
     background: color-mix(in srgb, var(--_step) 42%, var(--color-background-elevation-raised));
