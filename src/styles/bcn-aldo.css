@@ -177,9 +177,11 @@
 .bcn-aldo-card[data-state='editing'] { border-style: dashed; border-color: var(--color-content-default-tertiary); }
 .bcn-aldo-card[data-state='confirmed'] { border-style: solid; border-color: var(--color-border-default-subtle); }
 .bcn-aldo-card__head {
+  /* ID, then the name, then the text below: one column. */
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  gap: var(--spacing-200);
+  gap: var(--spacing-100);
   padding: 0;
   border: 0;
   background: none;

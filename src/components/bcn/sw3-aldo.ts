@@ -64,14 +64,6 @@ type T = Turn<SteerAction>;
 
 const YOU = { kind: 'person', id: 'me', name: 'You' } as const;
 
-/** The MMRP columns Aldo takes as fields (its opening names these four), in the table's order. */
-const COLUMN_LABELS: [string, string][] = [
-  ['timing', 'Timing'],
-  ['party', 'Implementation party'],
-  ['schedule', 'Reporting schedule'],
-  ['orgs', 'Permitting organizations'],
-];
-
 const range = (a: number, b: number) => (a === b ? `p. ${a}` : `pp. ${a}–${b}`);
 
 const PACE_REPLY_GO = {
@@ -191,12 +183,9 @@ export function setupSw3Aldo(root: HTMLElement): void {
             ],
           },
         };
-      // A table row: the fields Aldo took from its columns are what the person checks too.
-      const fields = c.columns ? COLUMN_LABELS.flatMap(([k, label]) => (c.columns![k] ? [{ label, value: c.columns![k] }] : [])) : undefined;
       return {
         ...base,
         quote: c.text,
-        fields,
         where: { label: `p. ${c.page}`, go: commitment(code) },
         actions:
           open && !done.includes(code)
@@ -214,7 +203,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
       const pages = [...new Set((f?.boxes ?? []).map((b) => b.page))].sort((a, b) => a - b);
       const words = c.text.trim() ? c.text.trim().split(/\s+/).length : 0;
       const runsOn = pages.length > 1 ? `, onto p. ${pages.at(-1)}` : '';
-      if (c.columns) return `${i + 1} of ${codes.length}. I took the ID and name from the row on p. ${c.page}, and its fields from the table's columns. The text runs ${words} words${runsOn}, up to the next row.`;
+      if (c.columns) return `${i + 1} of ${codes.length}. I took the ID and name from the row on p. ${c.page}. The text runs ${words} words${runsOn}, up to the next row.`;
       return `${i + 1} of ${codes.length}. I took the ID and name from the heading on p. ${c.page}. The text runs ${words} words${runsOn}, up to the next heading.`;
     };
     const allChecked = codes.every((c) => done.includes(c));

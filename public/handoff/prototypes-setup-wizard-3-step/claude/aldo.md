@@ -8,7 +8,7 @@ The conversation that scopes, checks and steers the scan of the file in view, de
 - A question is answered and changes nothing; a message too short to act on gets its readings as buttons. Prod's structured call needs answer and unclear kinds.
 - Instructions in effect, collapsed under the log with a count: the scope, each rule with the page it took effect from, each fix from the check.
 - A scanned file (no text layer) shows Reading page images, p. N of M in its row, the status and Aldo's opening until OCR is done; nothing else starts before it.
-- An MMRP check card shows the four fields taken from the table's columns under the quote.
+- A check card is the ID, the name and the text, stacked. Timing, parties and the MMRP's columns are step 2's, not the card's.
 - A paused run offers Review the N so far.
 - Mark them myself (on the opening): the person draws each commitment; Aldo names what is inside each box. Status: "By hand. N marked."
 - The check is the training step: what the person fixes there becomes an instruction for the rest of the file.
@@ -1064,7 +1064,7 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-aldo-thread {
   gap: var(--spacing-400);
-  min-height: 0;
+  min-height: 8rem;
   padding: var(--_aldo-pad);
   flex-direction: column;
   flex: 1;
