@@ -101,11 +101,11 @@ const { label = 'Commitment', size = 40 } = Astro.props;
   .bcn-cscrub__track :global(.bcn-cscrub__sep) {
     position: absolute;
     top: -4px;
-    bottom: -4px;
+    bottom: -6px;
     left: calc(5px + (100% - 10px) / var(--_n, 1) * var(--_i, 0) - 1.5px);
     width: 2px;
     border-radius: 1px;
-    background: var(--color-content-default);
+    background: var(--_hue, var(--color-content-default));
     pointer-events: none;
   }
 
@@ -146,9 +146,12 @@ const { label = 'Commitment', size = 40 } = Astro.props;
   .bcn-cscrub__ticks :global(.bcn-cscrub__file) {
     position: absolute;
     top: 0;
-    left: calc(100% / var(--_n, 1) * var(--_i, 0));
+    /* Its marker lands exactly under the rule through the strip, and continues it. */
+    left: calc(100% / var(--_n, 1) * var(--_i, 0) - 1.5px);
     padding-left: 4px;
     border-left: 2px solid var(--_hue, var(--color-content-default));
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 0.75rem;
     font-weight: 600;
     line-height: 16px;

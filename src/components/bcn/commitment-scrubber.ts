@@ -128,6 +128,7 @@ export function setupCommitmentScrubber(root: HTMLElement, { onPick }: { onPick:
       const el = document.createElement('span');
       el.className = 'bcn-cscrub__sep';
       el.style.setProperty('--_i', String(g.start - start));
+      if (g.hue) el.style.setProperty('--_hue', g.hue);
       track.insertBefore(el, thumb);
     }
 
@@ -136,21 +137,25 @@ export function setupCommitmentScrubber(root: HTMLElement, { onPick }: { onPick:
     const out: HTMLElement[] = [];
     const slot = Math.max(1, ticks.clientWidth) / size;
     const taken: [number, number][] = [];
-    const place = (el: HTMLElement, from: number, width: number) => {
-      if (taken.some(([a, b]) => from < b + 8 && from + width > a - 8)) return;
+    const place = (el: HTMLElement, from: number, width: number, pad = 8) => {
+      if (taken.some(([a, b]) => from < b + pad && from + width > a - pad)) return;
       taken.push([from, from + width]);
       out.push(el);
     };
-    const files = groups.length > 1 ? [{ label: groupOf(start)?.label ?? '', start }, ...inside] : [];
-    for (const f of files) {
+    const files = groups.length > 1 ? [{ label: '', ...groupOf(start), start }, ...inside] : [];
+    files.forEach((f, k) => {
       const el = document.createElement('span');
       el.className = 'bcn-cscrub__file';
       el.style.setProperty('--_i', String(f.start - start));
-      const hue = groups.find((g) => g.start <= f.start && g.label === f.label)?.hue;
-      if (hue) el.style.setProperty('--_hue', hue);
+      if (f.hue) el.style.setProperty('--_hue', f.hue);
       el.textContent = f.label;
-      place(el, (f.start - start) * slot, f.label.length * 8 + 8);
-    }
+      el.title = f.label;
+      // Every boundary keeps its name: one that would run into the next is cut to its run.
+      const room = ((files[k + 1]?.start ?? last + 1) - f.start) * slot - 6;
+      const width = Math.min(f.label.length * 8 + 8, Math.max(18, room));
+      el.style.maxWidth = `${width}px`;
+      place(el, (f.start - start) * slot, width, 0);
+    });
     const tickAt = [...new Set([start, ...Array.from({ length: size }, (_, i) => start + i).filter((i) => i % 10 === 0), last])].filter((i) => i <= last);
     for (const i of tickAt) {
       const label = model.cells[i]?.label ?? '';
