@@ -7862,6 +7862,35 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-md-strong-line-height);
   letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
 }
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
 .esa-empty-state {
   --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
   --_empty-gap: var(--spacing-200, 0.5rem);
@@ -8226,35 +8255,6 @@ summary.esa-button--variant-chrome:focus-visible {
   font-size: var(--_stat-sub-size);
   color: var(--_stat-sub-color);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
 .esa-progress-bar {
   --_progress-height: var(--progress-bar-height-md, 8px);
   --_progress-radius: var(--radius-pill, 9999px);
@@ -8445,7 +8445,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
 - `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-body-xs-font-weight`: 350 _(semantic)_
+- `--typography-body-xs-font-weight`: 400 _(semantic)_
 - `--typography-body-xs-letter-spacing`: .01em _(semantic)_
 - `--typography-body-xs-line-height`: 1.6 _(semantic)_
 - `--typography-display-sm-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -8488,7 +8488,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-sm-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -8503,7 +8503,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-sm-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-sm-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-sm-subtle-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-sm-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-sm-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-sm-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -8518,6 +8518,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

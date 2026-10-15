@@ -1,0 +1,1 @@
+function e(e){let t=document.createElement(`span`);if(t.className=`bcn-draft-kind bcn-draft-kind--class`,e.kind===`action`){let n=e.type||`Action`;t.dataset.class=`action`,t.textContent=n,t.title=n}else t.dataset.class=(e.class??`Adhere`).toLowerCase(),t.textContent=e.class??`Adhere`;return t}export{e as t};

@@ -566,7 +566,7 @@
         },
         {
           "name": "--typography-body-md-font-weight",
-          "value": "350",
+          "value": "400",
           "tier": "semantic"
         },
         {
@@ -601,7 +601,7 @@
         },
         {
           "name": "--typography-meta-font-weight",
-          "value": "350",
+          "value": "400",
           "tier": "semantic"
         },
         {
@@ -1081,7 +1081,7 @@
         },
         {
           "name": "--typography-body-md-font-weight",
-          "value": "350",
+          "value": "400",
           "tier": "semantic"
         },
         {
@@ -1116,7 +1116,7 @@
         },
         {
           "name": "--typography-meta-font-weight",
-          "value": "350",
+          "value": "400",
           "tier": "semantic"
         },
         {

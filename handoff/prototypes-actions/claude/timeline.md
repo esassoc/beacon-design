@@ -2687,7 +2687,7 @@ Due Sep 16, 2026"
 - `--spacing-800`: 4rem _(primitive)_
 - `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-body-xs-font-weight`: 350 _(semantic)_
+- `--typography-body-xs-font-weight`: 400 _(semantic)_
 - `--typography-body-xs-letter-spacing`: .01em _(semantic)_
 - `--typography-body-xs-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_

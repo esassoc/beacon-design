@@ -37,23 +37,25 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
     <div class="bcn-ap__bar">
       <button type="button" class="bcn-ap__open" aria-expanded="false" data-ap-open="">
         <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-          ><span class="bcn-aldo-mark__glyph"
-            ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-              ><svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path
-                  d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                ></path>
-                <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+          ><svg
+            class="bcn-aldo-mark__glyph"
+            viewBox="0 0 64 64"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+            <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+            <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+            <circle
+              cx="33.2"
+              cy="31.1"
+              r="2"
+              fill="currentColor"
+              stroke="none"
+            ></circle></svg></span
         ><span class="bcn-ap__prompt typography-label-md-strong"
           >Give Aldo guidance on your topic index</span
         ></button
@@ -82,27 +84,25 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
       <div class="bcn-ap__head">
         <span data-ap-mark=""
           ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-            ><span class="bcn-aldo-mark__glyph"
-              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                ><svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path
-                    d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                  ></path>
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="10"
-                  ></circle></svg></span></span></span></span
+            ><svg
+              class="bcn-aldo-mark__glyph"
+              viewBox="0 0 64 64"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+              <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+              <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+              <circle
+                cx="33.2"
+                cy="31.1"
+                r="2"
+                fill="currentColor"
+                stroke="none"
+              ></circle></svg></span></span
         ><span class="typography-label-md-strong">Guide the Topic Index</span
         ><span class="bcn-ap__close"
           ><span
@@ -3880,7 +3880,6 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
   display: inline-flex;
 }
 .bcn-aldo-mark[data-size="sm"] {
-  --icon-size-xs: 12px;
   width: 20px;
   height: 20px;
 }
@@ -3893,16 +3892,15 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
   height: 64px;
 }
 .bcn-aldo-mark__glyph {
-  justify-content: center;
-  align-items: center;
-  line-height: 0;
-  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .bcn-aldo-mark[data-animated] {
   animation: 2s ease-in-out infinite bcn-aldo-pulse;
 }
 .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
-  animation: 8s linear infinite bcn-aldo-spin;
+  animation: 12s linear infinite bcn-aldo-spin;
 }
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
@@ -5029,10 +5027,10 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-font-weight`: 400 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
-- `--typography-font-weight-regular`: 350 _(semantic)_
+- `--typography-font-weight-regular`: 400 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-2xs-strong-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
@@ -5057,7 +5055,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -5072,7 +5070,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -5087,7 +5085,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-title-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_

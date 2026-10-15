@@ -1968,23 +1968,25 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
             data-ap-open=""
           >
             <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-              ><span class="bcn-aldo-mark__glyph"
-                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path
-                      d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                    ></path>
-                    <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+              ><svg
+                class="bcn-aldo-mark__glyph"
+                viewBox="0 0 64 64"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+                <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+                <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+                <circle
+                  cx="33.2"
+                  cy="31.1"
+                  r="2"
+                  fill="currentColor"
+                  stroke="none"
+                ></circle></svg></span
             ><span class="bcn-ap__prompt typography-label-md-strong"
               >Give Aldo guidance on your topic index</span
             ></button
@@ -2013,27 +2015,25 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
           <div class="bcn-ap__head">
             <span data-ap-mark=""
               ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-                ><span class="bcn-aldo-mark__glyph"
-                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                    ><svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      focusable="false"
-                    >
-                      <path
-                        d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                      ></path>
-                      <circle
-                        cx="12"
-                        cy="12"
-                        r="10"
-                      ></circle></svg></span></span></span></span
+                ><svg
+                  class="bcn-aldo-mark__glyph"
+                  viewBox="0 0 64 64"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+                  <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+                  <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+                  <circle
+                    cx="33.2"
+                    cy="31.1"
+                    r="2"
+                    fill="currentColor"
+                    stroke="none"
+                  ></circle></svg></span></span
             ><span class="typography-label-md-strong">Guide the Topic Index</span
             ><span class="bcn-ap__close"
               ><span
@@ -5137,7 +5137,7 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
     </section>
     <script
       type="module"
-      src="/beacon-design/_astro/BcnCommentsByTopic.astro_astro_type_script_index_0_lang.CLaM3RyZ.js"
+      src="/beacon-design/_astro/BcnCommentsByTopic.astro_astro_type_script_index_0_lang.DWuXGSab.js"
     ></script>
   </div>
   <div data-inbox-responses="" hidden="">
@@ -5775,7 +5775,7 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
     </div>
     <script
       type="module"
-      src="/beacon-design/_astro/BcnResponseIndex.astro_astro_type_script_index_0_lang.u5pjRG47.js"
+      src="/beacon-design/_astro/BcnResponseIndex.astro_astro_type_script_index_0_lang.C-f41apl.js"
     ></script>
   </div>
 </div>
@@ -5991,7 +5991,6 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
   display: inline-flex;
 }
 .bcn-aldo-mark[data-size="sm"] {
-  --icon-size-xs: 12px;
   width: 20px;
   height: 20px;
 }
@@ -6004,16 +6003,15 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
   height: 64px;
 }
 .bcn-aldo-mark__glyph {
-  justify-content: center;
-  align-items: center;
-  line-height: 0;
-  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .bcn-aldo-mark[data-animated] {
   animation: 2s ease-in-out infinite bcn-aldo-pulse;
 }
 .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
-  animation: 8s linear infinite bcn-aldo-spin;
+  animation: 12s linear infinite bcn-aldo-spin;
 }
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
@@ -7101,35 +7099,6 @@ summary.esa-button--variant-chrome:focus-visible {
   width: 100%;
   height: 100%;
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
 .esa-empty-state {
   --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
   --_empty-gap: var(--spacing-200, 0.5rem);
@@ -7176,6 +7145,35 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .esa-empty-state__actions:empty {
   display: none;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
 }
 .visually-hidden {
   white-space: nowrap;
@@ -7498,21 +7496,21 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-font-weight`: 400 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-body-xs-font-weight`: 350 _(semantic)_
+- `--typography-body-xs-font-weight`: 400 _(semantic)_
 - `--typography-body-xs-letter-spacing`: .01em _(semantic)_
 - `--typography-body-xs-line-height`: 1.6 _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-regular`: 350 _(semantic)_
+- `--typography-font-weight-regular`: 400 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-2xs-strong-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
@@ -7547,7 +7545,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -7562,7 +7560,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -7577,7 +7575,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-title-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_

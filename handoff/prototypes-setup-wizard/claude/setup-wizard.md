@@ -1104,7 +1104,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.B0-2TFz8.js"
+    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.BWpiHCjJ.js"
   ></script>
   <!-- Aldo — help & guidance, app-wide like the palette above: the floating
          bottom-center utility bar and the route-aware guidance drawer it opens.
@@ -1123,23 +1123,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       aria-haspopup="dialog"
     >
       <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-        ><span class="bcn-aldo-mark__glyph"
-          ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-            ><svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path
-                d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-              ></path>
-              <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+        ><svg
+          class="bcn-aldo-mark__glyph"
+          viewBox="0 0 64 64"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+          <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+          <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+          <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg></span
       ><span class="bcn-help-bar__guidance-label">Guidance</span></button
     ><span class="bcn-help-bar__divider" aria-hidden="true"></span
     ><!-- Attach Evidence of Compliance — icon-only; the tooltip host carries the drawer's open hook.
@@ -1285,46 +1281,38 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     size="md"
     ><div slot="header" class="bcn-gd__header">
       <span class="bcn-aldo-mark" data-size="md" aria-hidden="true"
-        ><span class="bcn-aldo-mark__glyph"
-          ><span class="esa-icon esa-icon--md" aria-hidden="true"
-            ><svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path
-                d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-              ></path>
-              <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+        ><svg
+          class="bcn-aldo-mark__glyph"
+          viewBox="0 0 64 64"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+          <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+          <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+          <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg></span
       ><span class="bcn-gd__title">Help &amp; Guidance</span>
     </div>
     <div class="bcn-gd__stream">
       <div class="bcn-gd-msg bcn-gd-msg--aldo" data-gd-intro="">
         <div class="bcn-gd-msg__avatar">
           <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-            ><span class="bcn-aldo-mark__glyph"
-              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                ><svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path
-                    d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                  ></path>
-                  <circle cx="12" cy="12" r="10"></circle></svg></span></span
+            ><svg
+              class="bcn-aldo-mark__glyph"
+              viewBox="0 0 64 64"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+              <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+              <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+              <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg
           ></span>
         </div>
         <div class="bcn-gd-msg__group">
@@ -2292,25 +2280,28 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       </div></div></esa-side-dialog
   ><!-- Aldo avatar cloned into each reply message (reuses the real mark). --><template
     data-gd-aldo-avatar=""
-    ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-breadewf=""
-      ><span class="bcn-aldo-mark__glyph" data-astro-cid-breadewf=""
-        ><span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
-          ><svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-            data-astro-cid-wcwfib5m=""
-          >
-            <path
-              d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-            ></path>
-            <circle cx="12" cy="12" r="10"></circle></svg></span></span></span></template
+    ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-lgb5fntv=""
+      ><svg
+        class="bcn-aldo-mark__glyph"
+        viewBox="0 0 64 64"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        data-astro-cid-lgb5fntv=""
+      >
+        <path d="M47.59 23A18 18 0 1 1 31.37 14.01" data-astro-cid-lgb5fntv=""></path>
+        <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41" data-astro-cid-lgb5fntv=""></path>
+        <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8" data-astro-cid-lgb5fntv=""></path>
+        <circle
+          cx="33.2"
+          cy="31.1"
+          r="2"
+          fill="currentColor"
+          stroke="none"
+          data-astro-cid-lgb5fntv=""
+        ></circle></svg></span></template
   ><!-- ── Article reader (child, stacked above the drawer) ── --><esa-side-dialog
     class="bcn-gd-article"
     data-gd-article="true"
@@ -9993,161 +9984,152 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.bcn-swo {
-  gap: var(--spacing-700);
-  max-width: 72rem;
-  padding: var(--spacing-600) 0;
+.bcn-swf {
   flex-direction: column;
-  margin: 0 auto;
+  min-height: 100%;
   display: flex;
 }
-.bcn-swo__hero {
-  text-align: center;
+.bcn-swf__head {
   align-items: center;
   gap: var(--spacing-300);
-  flex-direction: column;
+  padding: var(--spacing-200) 0 var(--spacing-400);
+  flex-wrap: wrap;
   display: flex;
 }
-.bcn-swo__mark {
-  border-radius: var(--radius-full);
-  background: var(--bcn-teal-600, var(--color-background-brand));
-  width: 40px;
-  height: 40px;
-  color: var(--color-content-default-knockout);
-  justify-content: center;
+.bcn-swf__home {
   align-items: center;
+  gap: var(--spacing-300);
+  color: inherit;
+  border-radius: var(--radius-200);
+  text-decoration: none;
   display: inline-flex;
 }
-.bcn-swo__headline {
+.bcn-swf__mark {
+  border-radius: var(--radius-full);
+  background: var(--bcn-teal-600, var(--color-background-brand));
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+}
+.bcn-swf__title {
   font-family: var(--font-decorative, var(--typography-font-family-sans));
-  font-size: var(--font-size-600);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-  margin: 0;
-  line-height: 1.15;
-}
-.bcn-swo__lede {
-  max-width: 44rem;
-  font-size: var(--font-size-200);
-  line-height: var(--line-height-relaxed, 1.6);
-  color: var(--color-content-default-secondary);
-  margin: 0;
-}
-.bcn-swo__overview {
-  gap: var(--spacing-400);
-  padding: var(--spacing-600);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-300);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-swo__title {
   font-size: var(--font-size-300);
   font-weight: var(--typography-font-weight-semibold);
   color: var(--color-content-default);
   margin: 0;
+  line-height: 1.2;
 }
-.bcn-swo__sub {
+.bcn-swf__sub {
   font-size: var(--font-size-150);
   color: var(--color-content-default-secondary);
   margin: 0;
+  line-height: 1;
 }
-.bcn-swo__flow {
-  padding: var(--spacing-400) 0 0;
-  border-top: 1px solid var(--color-border-default-subtle);
-  grid-template-columns: repeat(var(--_cols), minmax(0, 1fr));
-  gap: var(--spacing-400);
+.bcn-swf__nav {
+  padding: 0 0 var(--spacing-500);
+}
+.bcn-swf__steps {
+  align-items: center;
   margin: 0;
+  padding: 0;
   list-style: none;
-  display: grid;
-}
-.bcn-swo__step {
-  min-width: 0;
-}
-.bcn-swo__link {
-  gap: var(--spacing-200);
-  height: 100%;
-  padding: var(--spacing-400);
-  border-radius: var(--radius-200);
-  background: var(--color-background-elevation-sunken);
-  border: 1px solid var(--color-border-default);
-  color: inherit;
-  flex-direction: column;
-  text-decoration: none;
-  transition: border-color 0.15s;
   display: flex;
 }
-.bcn-swo__num {
-  border-radius: var(--radius-full);
-  background: var(--_step);
-  width: 28px;
-  height: 28px;
-  color: var(--color-content-default-knockout);
-  font-size: var(--font-size-100);
-  font-weight: var(--typography-font-weight-semibold);
-  justify-content: center;
+.bcn-swf__item {
+  flex: 1;
   align-items: center;
-  display: inline-flex;
+  min-width: 0;
+  display: flex;
 }
-.bcn-swo__name {
+.bcn-swf__step {
   align-items: center;
-  gap: var(--spacing-150);
-  font-size: var(--font-size-200);
+  gap: var(--spacing-200);
+  padding: var(--spacing-200) var(--spacing-300);
+  border-radius: var(--radius-200);
+  font-size: var(--font-size-100);
   font-weight: var(--typography-font-weight-semibold);
   color: var(--color-content-default);
+  white-space: nowrap;
+  text-decoration: none;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
   display: inline-flex;
 }
-.bcn-swo__glyph {
+.bcn-swf__icon {
   color: var(--_step);
+  flex-shrink: 0;
   display: inline-flex;
 }
-.bcn-swo__line {
-  font-size: var(--font-size-100);
-  line-height: var(--line-height-normal, 1.5);
-  color: var(--color-content-default-secondary);
+.bcn-swf__label {
+  line-height: 1;
 }
-.bcn-swo__cta {
-  padding-top: var(--spacing-200);
-  justify-content: flex-end;
+.bcn-swf__check {
+  margin-left: var(--spacing-100);
+  color: var(--_step);
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-swf__connector {
+  height: 0;
+  margin: 0 var(--spacing-200);
+  border-top: 2px dotted var(--color-border-default);
+  flex: 1;
+}
+.bcn-swf__item--fork,
+.bcn-swf__item:last-child {
+  flex: none;
+}
+.bcn-swf__branches {
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
   display: flex;
 }
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+.bcn-swf__branch {
+  align-items: center;
+  display: flex;
+}
+.bcn-swf__tine {
+  width: 28px;
+  margin-right: var(--spacing-200);
+  flex: none;
+  align-self: stretch;
+  position: relative;
+}
+.bcn-swf__tine:before {
+  content: "";
+  border-top: 2px dotted var(--color-border-default);
+  height: 0;
+  position: absolute;
+  inset: 50% 0 auto;
+}
+.bcn-swf__tine:after {
+  content: "";
+  border-left: 2px dotted var(--color-border-default);
+  width: 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+.bcn-swf__branch:first-child .bcn-swf__tine:after {
+  top: 50%;
+}
+.bcn-swf__branch .bcn-swf__step {
+  margin: var(--spacing-150) 0;
+  flex: 1;
+}
+.bcn-swf__branch:last-child .bcn-swf__tine:after {
+  bottom: 50%;
+}
+.bcn-swf__body {
+  flex: 1;
+  min-width: 0;
 }
 .modern-layout {
   flex-direction: column;
@@ -10585,15 +10567,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   display: inline-flex;
 }
 .bcn-aldo-mark[data-size="sm"] {
-  --icon-size-xs: 12px;
   width: 20px;
   height: 20px;
 }
 .bcn-aldo-mark__glyph {
-  justify-content: center;
-  align-items: center;
-  line-height: 0;
-  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .bcn-help-bar__guidance-label {
   white-space: nowrap;
@@ -10987,6 +10967,162 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-button__label {
   white-space: nowrap;
 }
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.bcn-swo {
+  gap: var(--spacing-700);
+  max-width: 72rem;
+  padding: var(--spacing-600) 0;
+  flex-direction: column;
+  margin: 0 auto;
+  display: flex;
+}
+.bcn-swo__hero {
+  text-align: center;
+  align-items: center;
+  gap: var(--spacing-300);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-swo__mark {
+  border-radius: var(--radius-full);
+  background: var(--bcn-teal-600, var(--color-background-brand));
+  width: 40px;
+  height: 40px;
+  color: var(--color-content-default-knockout);
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.bcn-swo__headline {
+  font-family: var(--font-decorative, var(--typography-font-family-sans));
+  font-size: var(--font-size-600);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  margin: 0;
+  line-height: 1.15;
+}
+.bcn-swo__lede {
+  max-width: 44rem;
+  font-size: var(--font-size-200);
+  line-height: var(--line-height-relaxed, 1.6);
+  color: var(--color-content-default-secondary);
+  margin: 0;
+}
+.bcn-swo__overview {
+  gap: var(--spacing-400);
+  padding: var(--spacing-600);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-300);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-swo__title {
+  font-size: var(--font-size-300);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  margin: 0;
+}
+.bcn-swo__sub {
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
+  margin: 0;
+}
+.bcn-swo__flow {
+  padding: var(--spacing-400) 0 0;
+  border-top: 1px solid var(--color-border-default-subtle);
+  grid-template-columns: repeat(var(--_cols), minmax(0, 1fr));
+  gap: var(--spacing-400);
+  margin: 0;
+  list-style: none;
+  display: grid;
+}
+.bcn-swo__step {
+  min-width: 0;
+}
+.bcn-swo__link {
+  gap: var(--spacing-200);
+  height: 100%;
+  padding: var(--spacing-400);
+  border-radius: var(--radius-200);
+  background: var(--color-background-elevation-sunken);
+  border: 1px solid var(--color-border-default);
+  color: inherit;
+  flex-direction: column;
+  text-decoration: none;
+  transition: border-color 0.15s;
+  display: flex;
+}
+.bcn-swo__num {
+  border-radius: var(--radius-full);
+  background: var(--_step);
+  width: 28px;
+  height: 28px;
+  color: var(--color-content-default-knockout);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.bcn-swo__name {
+  align-items: center;
+  gap: var(--spacing-150);
+  font-size: var(--font-size-200);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  display: inline-flex;
+}
+.bcn-swo__glyph {
+  color: var(--_step);
+  display: inline-flex;
+}
+.bcn-swo__line {
+  font-size: var(--font-size-100);
+  line-height: var(--line-height-normal, 1.5);
+  color: var(--color-content-default-secondary);
+}
+.bcn-swo__cta {
+  padding-top: var(--spacing-200);
+  justify-content: flex-end;
+  display: flex;
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
 .page-layout {
   min-height: calc(100vh - 52px);
   padding: var(--spacing-600);
@@ -11011,154 +11147,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 html,
 .modern-layout__content {
   scroll-behavior: smooth;
-}
-.bcn-swf {
-  flex-direction: column;
-  min-height: 100%;
-  display: flex;
-}
-.bcn-swf__head {
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-200) 0 var(--spacing-400);
-  flex-wrap: wrap;
-  display: flex;
-}
-.bcn-swf__home {
-  align-items: center;
-  gap: var(--spacing-300);
-  color: inherit;
-  border-radius: var(--radius-200);
-  text-decoration: none;
-  display: inline-flex;
-}
-.bcn-swf__mark {
-  border-radius: var(--radius-full);
-  background: var(--bcn-teal-600, var(--color-background-brand));
-  width: 20px;
-  height: 20px;
-  color: var(--color-content-default-knockout);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.bcn-swf__title {
-  font-family: var(--font-decorative, var(--typography-font-family-sans));
-  font-size: var(--font-size-300);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-  margin: 0;
-  line-height: 1.2;
-}
-.bcn-swf__sub {
-  font-size: var(--font-size-150);
-  color: var(--color-content-default-secondary);
-  margin: 0;
-  line-height: 1;
-}
-.bcn-swf__nav {
-  padding: 0 0 var(--spacing-500);
-}
-.bcn-swf__steps {
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-}
-.bcn-swf__item {
-  flex: 1;
-  align-items: center;
-  min-width: 0;
-  display: flex;
-}
-.bcn-swf__step {
-  align-items: center;
-  gap: var(--spacing-200);
-  padding: var(--spacing-200) var(--spacing-300);
-  border-radius: var(--radius-200);
-  font-size: var(--font-size-100);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-  white-space: nowrap;
-  text-decoration: none;
-  transition:
-    background-color 0.15s,
-    color 0.15s;
-  display: inline-flex;
-}
-.bcn-swf__icon {
-  color: var(--_step);
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-swf__label {
-  line-height: 1;
-}
-.bcn-swf__check {
-  margin-left: var(--spacing-100);
-  color: var(--_step);
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-swf__connector {
-  height: 0;
-  margin: 0 var(--spacing-200);
-  border-top: 2px dotted var(--color-border-default);
-  flex: 1;
-}
-.bcn-swf__item--fork,
-.bcn-swf__item:last-child {
-  flex: none;
-}
-.bcn-swf__branches {
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-}
-.bcn-swf__branch {
-  align-items: center;
-  display: flex;
-}
-.bcn-swf__tine {
-  width: 28px;
-  margin-right: var(--spacing-200);
-  flex: none;
-  align-self: stretch;
-  position: relative;
-}
-.bcn-swf__tine:before {
-  content: "";
-  border-top: 2px dotted var(--color-border-default);
-  height: 0;
-  position: absolute;
-  inset: 50% 0 auto;
-}
-.bcn-swf__tine:after {
-  content: "";
-  border-left: 2px dotted var(--color-border-default);
-  width: 0;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-}
-.bcn-swf__branch:first-child .bcn-swf__tine:after {
-  top: 50%;
-}
-.bcn-swf__branch .bcn-swf__step {
-  margin: var(--spacing-150) 0;
-  flex: 1;
-}
-.bcn-swf__branch:last-child .bcn-swf__tine:after {
-  bottom: 50%;
-}
-.bcn-swf__body {
-  flex: 1;
-  min-width: 0;
 }
 ```
 
@@ -11231,7 +11219,7 @@ html,
 | `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
 | `--typography-font-weight-bold` | `650` | semantic |
 | `--typography-font-weight-medium` | `500` | semantic |
-| `--typography-font-weight-regular` | `350` | semantic |
+| `--typography-font-weight-regular` | `400` | semantic |
 | `--typography-font-weight-semibold` | `550` | semantic |
 | `--typography-label-md-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |

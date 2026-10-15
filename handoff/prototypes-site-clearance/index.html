@@ -106,18 +106,18 @@
         --transition-fast: 0.15s ease;
         --typography-body-md-font-family: "DM Sans", sans-serif;
         --typography-body-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-        --typography-body-md-font-weight: 350;
+        --typography-body-md-font-weight: 400;
         --typography-body-md-letter-spacing: 0.01em;
         --typography-body-md-line-height: 1.6;
         --typography-body-sm-font-family: "DM Sans", sans-serif;
         --typography-body-sm-font-size: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
-        --typography-body-sm-font-weight: 350;
+        --typography-body-sm-font-weight: 400;
         --typography-body-sm-letter-spacing: 0.01em;
         --typography-body-sm-line-height: 1.6;
         --typography-font-family-sans: "DM Sans", sans-serif;
         --typography-font-weight-bold: 650;
         --typography-font-weight-medium: 500;
-        --typography-font-weight-regular: 350;
+        --typography-font-weight-regular: 400;
         --typography-font-weight-semibold: 550;
         --typography-label-md-font-family: "DM Sans", sans-serif;
         --typography-label-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
@@ -141,7 +141,7 @@
         --typography-microcopy-md-strong-line-height: 1;
         --typography-microcopy-md-subtle-font-family: "DM Sans", sans-serif;
         --typography-microcopy-md-subtle-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-        --typography-microcopy-md-subtle-font-weight: 350;
+        --typography-microcopy-md-subtle-font-weight: 400;
         --typography-microcopy-md-subtle-letter-spacing: 0.01em;
         --typography-microcopy-md-subtle-line-height: 1;
         --typography-microcopy-sm-font-family: "DM Sans", sans-serif;
@@ -161,7 +161,7 @@
         --typography-microcopy-xs-strong-line-height: 1;
         --typography-microcopy-xs-subtle-font-family: "DM Sans", sans-serif;
         --typography-microcopy-xs-subtle-font-size: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
-        --typography-microcopy-xs-subtle-font-weight: 350;
+        --typography-microcopy-xs-subtle-font-weight: 400;
         --typography-microcopy-xs-subtle-letter-spacing: 0.01em;
         --typography-microcopy-xs-subtle-line-height: 1;
       }
@@ -177,163 +177,6 @@
         white-space: nowrap;
         clip: rect(0 0 0 0);
         clip-path: inset(50%);
-      }
-      :host {
-        --_tab-height: var(--tab-layout-height-md, 44px);
-        --_tab-color: var(--color-content-default-secondary, #646464);
-        --_tab-color-active: var(--color-background-brand, #46a758);
-        --_tab-color-hover: var(--color-content-default, #202020);
-        --_tab-indicator-color: var(--color-background-brand, #46a758);
-        --_tab-indicator-height: 2px;
-        --_tab-bg-hover: var(--color-background-elevation-sunken, #f0f0f0);
-        --_tab-gap: var(--spacing-100, 4px);
-        --_tab-padding-x: var(--spacing-400, 16px);
-        --_tab-border: var(--color-border-default, #cecece);
-        --_tab-badge-bg: var(--color-background-brand, #46a758);
-        --_tab-badge-color: var(--color-content-default-knockout, #fcfcfc);
-
-        display: block;
-      }
-      .tabs {
-        display: flex;
-        border-bottom: var(--border-width-default, 1px) solid var(--_tab-border);
-        gap: var(--_tab-gap);
-      }
-      .tab {
-        display: inline-flex;
-        align-items: center;
-        gap: var(--spacing-200, 8px);
-        height: var(--_tab-height);
-        padding-inline: var(--_tab-padding-x);
-        color: var(--_tab-color);
-        background: none;
-        border: none;
-        cursor: pointer;
-        position: relative;
-        text-decoration: none;
-        white-space: nowrap;
-        transition:
-          color 150ms ease,
-          background-color 150ms ease;
-      }
-      .tab--active {
-        color: var(--_tab-color-active);
-      }
-      .icon {
-        display: inline-flex;
-      }
-      .tab--active::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: var(--_tab-indicator-height);
-        background: var(--_tab-indicator-color);
-        border-radius: var(--_tab-indicator-height);
-      }
-      .panel {
-        padding-top: var(--spacing-400, 16px);
-      }
-      .esa-icon {
-        --_icon-size: var(--icon-size-md, 20px);
-        width: var(--_icon-size);
-        height: var(--_icon-size);
-        color: inherit;
-        justify-content: center;
-        align-items: center;
-        display: inline-flex;
-      }
-      .esa-icon--xs {
-        --_icon-size: var(--icon-size-xs, 14px);
-      }
-      .esa-icon svg {
-        width: var(--_icon-size);
-        height: var(--_icon-size);
-        display: block;
-      }
-      .esa-icon--sm {
-        --_icon-size: var(--icon-size-sm, 16px);
-      }
-      .esa-icon--md {
-        --_icon-size: var(--icon-size-md, 20px);
-      }
-      .esa-icon--lg {
-        --_icon-size: var(--icon-size-lg, 24px);
-      }
-      .esa-filter-container {
-        align-items: center;
-        gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
-        padding: var(--filter-container-padding, 0);
-        flex-wrap: wrap;
-        display: flex;
-      }
-      .esa-filter-clear-button {
-        --_clear-text: var(--color-content-default-secondary, #646464);
-        --_clear-text-hover: var(
-          --color-content-utility-danger,
-          var(--color-content-brand, #2a7e3b)
-        );
-        --_clear-icon-size: 18px;
-        align-items: center;
-        gap: var(--spacing-100, 0.25rem);
-        padding: var(--spacing-100, 0.25rem) var(--spacing-200, 0.5rem);
-        border-radius: var(--radius-sm, 0.25rem);
-        color: var(--_clear-text);
-        cursor: pointer;
-        text-underline-offset: 2px;
-        transition:
-          color var(--transition-fast, 0.15s ease),
-          background var(--transition-fast, 0.15s ease);
-        background: 0 0;
-        border: none;
-        text-decoration: underline;
-        display: inline-flex;
-      }
-      .esa-filter-clear-button__icon {
-        width: var(--_clear-icon-size);
-        height: var(--_clear-icon-size);
-        flex: none;
-      }
-      .esa-filter-clear-button__label {
-        white-space: nowrap;
-      }
-      .esa-collapsible {
-        border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
-        border-radius: var(--radius-md, 0.5rem);
-        background: var(--color-background-elevation-raised, #fcfcfc);
-      }
-      .esa-collapsible--flush {
-        background: 0 0;
-        border: none;
-        border-radius: 0;
-      }
-      .esa-collapsible__summary {
-        align-items: center;
-        gap: var(--spacing-200, 0.5rem);
-        padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
-        color: var(--color-content-default, #202020);
-        cursor: pointer;
-        list-style: none;
-        display: flex;
-      }
-      .esa-collapsible--flush > .esa-collapsible__summary,
-      .esa-collapsible--flush > .esa-collapsible__body {
-        padding-inline: 0;
-      }
-      .esa-collapsible__summary .esa-icon {
-        color: var(--color-content-default-secondary, #646464);
-        flex-shrink: 0;
-      }
-      .esa-collapsible__summary:after {
-        content: "";
-        border-right: 2px solid var(--color-content-default-secondary, #646464);
-        border-bottom: 2px solid var(--color-content-default-secondary, #646464);
-        width: 8px;
-        height: 8px;
-        margin-left: auto;
-        transition: transform 0.15s;
-        transform: rotate(-45deg);
       }
       .typography-microcopy-md {
         font-family: var(--typography-microcopy-md-font-family);
@@ -376,123 +219,6 @@
         font-weight: var(--typography-microcopy-xs-strong-font-weight);
         line-height: var(--typography-microcopy-xs-strong-line-height);
         letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-      }
-      :host {
-        --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
-        --_popover-border: var(--color-border-default, #cecece);
-        --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-        --_popover-radius: var(--radius-md, 0.5rem);
-        --_popover-padding: var(--spacing-300, 0.75rem);
-        --_popover-arrow-size: 8px;
-        --_popover-color: var(--color-content-default, #202020);
-        display: inline-block;
-      }
-      .esa-popover-anchor {
-        position: relative;
-        display: inline-block;
-      }
-      *,
-      :before,
-      :after {
-        box-sizing: border-box;
-      }
-      body {
-        font-family: var(--typography-font-family-sans, system-ui, sans-serif);
-        font-weight: var(--typography-font-weight-regular, 350);
-        color: var(--color-content-default, #3d3d3d);
-        background: var(--color-background-elevation-raised, #fff);
-        -webkit-font-smoothing: antialiased;
-        margin: 0;
-      }
-      button {
-        cursor: pointer;
-        background: 0 0;
-        border: 0;
-        font-family: inherit;
-      }
-      a {
-        color: var(--color-content-link, #005862);
-        text-decoration: none;
-      }
-      img {
-        max-width: 100%;
-        display: block;
-      }
-      :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-        margin: 0;
-      }
-      .page-layout {
-        min-height: calc(100vh - 52px);
-        padding: var(--spacing-600);
-        background: var(--bcn-gray-50);
-        box-sizing: border-box;
-        flex-direction: column;
-        display: flex;
-      }
-      .page-layout__bleed,
-      .page-layout section {
-        width: 100%;
-      }
-      .breadcrumbs {
-        padding: var(--spacing-400) 0;
-        justify-content: space-between;
-        align-items: center;
-        gap: var(--spacing-400);
-        display: flex;
-      }
-      .breadcrumbs__items {
-        gap: var(--spacing-100);
-        flex-wrap: wrap;
-        align-items: center;
-        display: flex;
-      }
-      .breadcrumbs__items .esa-icon {
-        color: var(--bcn-gray-400);
-      }
-      .breadcrumb-item {
-        color: var(--bcn-gray-600);
-        text-transform: capitalize;
-        font-size: 0.875rem;
-      }
-      a.breadcrumb-item {
-        text-decoration: none;
-      }
-      .page-layout__container {
-        flex-direction: column;
-        display: flex;
-      }
-      .page-layout__title {
-        border-bottom: 1px solid var(--bcn-gray-200);
-        padding: var(--spacing-500) 0;
-        box-sizing: border-box;
-        justify-content: space-between;
-        align-items: center;
-        display: flex;
-      }
-      .page-layout__title-main {
-        align-items: center;
-        gap: var(--spacing-400);
-        min-width: 0;
-        display: flex;
-      }
-      .page-layout__title h1 {
-        align-items: center;
-        gap: var(--spacing-300);
-        font-family: var(--font-decorative);
-        font-weight: var(--typography-font-weight-bold);
-        font-size: var(--font-size-500);
-        color: var(--bcn-gray-1000);
-        margin: 0;
-        display: flex;
-      }
-      .page-layout__title h1 .esa-icon {
-        color: var(--page-title-icon-color, var(--bcn-gray-1000));
-        flex-shrink: 0;
-      }
-      .page-layout__content {
-        padding: var(--spacing-500) 0;
-        min-height: 70vh;
-        position: relative;
       }
       .leaflet-container {
         overflow: hidden;
@@ -766,290 +492,72 @@
         pointer-events: visiblePainted;
         pointer-events: auto;
       }
-      :host {
+      .esa-button {
+        --_btn-pad-y: var(--spacing-300, 0.75rem);
+        --_btn-padding-x: var(--spacing-300, 0.75rem);
+        --_btn-radius: var(--button-radius-md, 0.5rem);
+        --_accent: var(--color-background-brand, #46a758);
+        --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+        --_on: var(--color-content-default-knockout, #fcfcfc);
+        --_accent-text: var(--_accent);
+        --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+        --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
         display: inline-block;
       }
-      .esa-tooltip-anchor {
-        position: relative;
-        display: inline-flex;
-      }
-      :host {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-100, 4px);
-        --_pad-y: var(--spacing-300, 0.75rem);
-        --_padding-x: var(--spacing-300, 0.75rem);
-        --_radius: var(--radius-md, 0.5rem);
-        --_border-width: var(--form-border-width, 1px);
-        --_border-color: var(--form-border-color, #cecece);
-        --_icon-size: 18px;
-      }
-      .group {
-        display: inline-flex;
-        width: fit-content;
-        max-width: 100%;
-        gap: 2px;
-        padding: 2px;
-        background: var(--color-background-elevation-sunken, #f0f0f0);
-        border: var(--_border-width) solid var(--_border-color);
-        border-radius: var(--_radius);
-      }
-      .option {
-        appearance: none;
-        display: inline-flex;
-        align-items: center;
+      .esa-button__native {
         justify-content: center;
-        gap: var(--spacing-150, 6px);
-        /* Was calc(height - 4px) to compensate for the track's 2px padding. With no
-         height token the segment is its own text plus padding, and the track wraps
-         it — the compensation has nothing left to compensate for. */
-        padding: var(--_pad-y) var(--_padding-x);
-        color: var(--color-content-default-secondary, #646464);
-        background: transparent;
-        border: 0;
-        border-radius: calc(var(--_radius) - 2px);
-        cursor: pointer;
-        user-select: none;
-        white-space: nowrap;
-        transition:
-          background-color var(--transition-fast, 150ms ease),
-          color var(--transition-fast, 150ms ease),
-          box-shadow var(--transition-fast, 150ms ease);
-      }
-      .option--selected {
-        background: var(--color-background-elevation-raised, #fcfcfc);
-        color: var(--color-content-brand, #2a7e3b);
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-      }
-      :host {
-        --_width: var(--side-dialog-width, 400px);
-      }
-      dialog.panel {
-        --_inset: var(--side-dialog-inset, 16px);
-        position: fixed;
-        top: var(--_inset);
-        bottom: var(--_inset);
-        inset-inline: auto;
-        height: auto;
-        margin: 0;
-        border: none;
-        padding: 0;
-        width: min(var(--_width), calc(100vw - var(--_inset) * 2));
-        max-width: none;
-        max-height: none;
-        background: var(--color-background-elevation-raised, #fcfcfc);
-        color: var(--color-content-default, #202020);
-        border-radius: var(--radius-md, 0.5rem);
-        box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
-        outline: none;
-        overflow: hidden;
-        /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
-         second dialog on top) — ease the reposition instead of jumping. */
-        transition:
-          top 220ms ease,
-          right 220ms ease,
-          bottom 220ms ease,
-          left 220ms ease;
-      }
-      :host([position="right"]) dialog.panel {
-        right: var(--_inset);
-        animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
-      }
-      .typography-microcopy-md {
-        font-family: var(--typography-microcopy-md-font-family);
-        font-size: var(--typography-microcopy-md-font-size);
-        font-weight: var(--typography-microcopy-md-font-weight);
-        line-height: var(--typography-microcopy-md-line-height);
-        letter-spacing: var(--typography-microcopy-md-letter-spacing);
-      }
-      .typography-microcopy-md-subtle {
-        font-family: var(--typography-microcopy-md-subtle-font-family);
-        font-size: var(--typography-microcopy-md-subtle-font-size);
-        font-weight: var(--typography-microcopy-md-subtle-font-weight);
-        line-height: var(--typography-microcopy-md-subtle-line-height);
-        letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-      }
-      .typography-body-md {
-        font-family: var(--typography-body-md-font-family);
-        font-size: var(--typography-body-md-font-size);
-        font-weight: var(--typography-body-md-font-weight);
-        line-height: var(--typography-body-md-line-height);
-        letter-spacing: var(--typography-body-md-letter-spacing);
-      }
-      .typography-microcopy-md-strong {
-        font-family: var(--typography-microcopy-md-strong-font-family);
-        font-size: var(--typography-microcopy-md-strong-font-size);
-        font-weight: var(--typography-microcopy-md-strong-font-weight);
-        line-height: var(--typography-microcopy-md-strong-line-height);
-        letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
-      }
-      .typography-microcopy-xs-subtle {
-        font-family: var(--typography-microcopy-xs-subtle-font-family);
-        font-size: var(--typography-microcopy-xs-subtle-font-size);
-        font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-        line-height: var(--typography-microcopy-xs-subtle-line-height);
-        letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-      }
-      .typography-body-sm {
-        font-family: var(--typography-body-sm-font-family);
-        font-size: var(--typography-body-sm-font-size);
-        font-weight: var(--typography-body-sm-font-weight);
-        line-height: var(--typography-body-sm-line-height);
-        letter-spacing: var(--typography-body-sm-letter-spacing);
-      }
-      .typography-microcopy-sm {
-        font-family: var(--typography-microcopy-sm-font-family);
-        font-size: var(--typography-microcopy-sm-font-size);
-        font-weight: var(--typography-microcopy-sm-font-weight);
-        line-height: var(--typography-microcopy-sm-line-height);
-        letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-      }
-      .typography-label-md {
-        font-family: var(--typography-label-md-font-family);
-        font-size: var(--typography-label-md-font-size);
-        font-weight: var(--typography-label-md-font-weight);
-        line-height: var(--typography-label-md-line-height);
-        letter-spacing: var(--typography-label-md-letter-spacing);
-      }
-      :host {
-        display: block;
-        --_field-padding-y: var(--spacing-300, 0.75rem);
-        --_field-padding-x: var(--spacing-300, 0.75rem);
-        --_field-radius: var(--radius-md, 0.5rem);
-        --_field-border-color: var(--form-border-color, #cecece);
-      }
-      :host([size="sm"]) {
-        --_field-padding-y: var(--spacing-250, 0.625rem);
-        --_field-padding-x: var(--spacing-250, 0.625rem);
-        --_field-radius: var(--radius-sm, 0.25rem);
-      }
-      .field {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-100, 4px);
-      }
-      .container {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-100, 4px);
-      }
-      .input-wrapper {
-        position: relative;
-        display: flex;
         align-items: center;
-      }
-      .input {
+        gap: var(--spacing-200, 8px);
         width: 100%;
-        padding: var(--_field-padding-y) var(--_field-padding-x);
-        padding-inline-end: calc(var(--_field-padding-x) + 24px);
-        /* Leading is load-bearing on a content-sized box — see the long note in
-         esa-select's .input. Single line, so the composite's relaxed leading only
-         adds height. */
-        color: var(--form-text-color, #202020);
-        background: var(--color-background-field, transparent);
-        border: var(--form-border-width, 1px) solid var(--_field-border-color);
-        border-radius: var(--_field-radius);
-        outline: none;
-        box-sizing: border-box;
-        transition:
-          border-color var(--transition-fast, 150ms ease),
-          box-shadow var(--transition-fast, 150ms ease);
-      }
-      .input::placeholder {
-        color: var(--form-placeholder-color, #838383);
-      }
-      .field__error {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-100, 4px);
-        color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
-      }
-      .field__help {
-        color: var(--form-help-color, #838383);
-      }
-      :host {
-        display: inline-block;
-
-        --_filter-height: 40px;
-        --_filter-padding-x: var(--spacing-400, 1rem);
-        --_filter-radius: var(--radius-md, 0.5rem);
-        --_filter-bg: var(--color-background-elevation-raised, #fcfcfc);
-        --_filter-bg-active: var(--color-background-brand-subtle, #fbfefb);
-        --_filter-text: var(--color-content-default, #202020);
-        --_filter-text-active: var(--color-background-brand, #46a758);
-        --_filter-border: var(--color-border-default, #cecece);
-        --_filter-border-active: var(--color-background-brand, #46a758);
-      }
-      :host([size="sm"]) {
-        --_filter-height: 32px;
-        --_filter-padding-x: var(--spacing-300, 0.75rem);
-        --_filter-radius: var(--radius-sm, 0.25rem);
-      }
-      .esa-filter-dropdown {
-        position: relative;
-        display: inline-flex;
-      }
-      .esa-filter-dropdown__trigger {
-        display: inline-flex;
-        align-items: center;
-        gap: var(--spacing-100, 0.25rem);
-        height: var(--_filter-height);
-        padding-inline: var(--_filter-padding-x);
-        border: var(--border-width-default, 1px) solid var(--_filter-border);
-        border-radius: var(--_filter-radius);
-        background: var(--_filter-bg);
-        color: var(--_filter-text);
+        padding-block: var(--_btn-pad-y);
+        padding-inline: var(--_btn-padding-x);
+        border: var(--border-width-default, 1px) solid transparent;
+        border-radius: var(--_btn-radius);
         cursor: pointer;
-        white-space: nowrap;
         transition:
-          background var(--transition-fast, 150ms ease),
-          border-color var(--transition-fast, 150ms ease),
-          color var(--transition-fast, 150ms ease);
+          background var(--transition-fast, 0.15s ease),
+          border-color var(--transition-fast, 0.15s ease);
         -webkit-appearance: none;
         appearance: none;
-      }
-      .esa-filter-dropdown__label {
-        /* clip/visible, not "overflow: hidden" — the trigger sets a microcopy composite,
-         whose line-height "none" (1) leaves the line box 1em against DM Sans's 1.30em
-         glyph box, so hiding the Y axis clips the descenders in a label like
-         "Category" or "Region type". Same fix as esa-file-list's .file__name, where
-         the arithmetic is written out. */
-        overflow-x: clip;
-        overflow-y: visible;
-        text-overflow: ellipsis;
-        max-width: 200px;
-      }
-      .esa-filter-dropdown__arrow {
+        text-decoration: none;
         display: inline-flex;
-        width: 20px;
-        height: 20px;
-        transition: transform var(--transition-fast, 150ms ease);
       }
-      .esa-filter-dropdown__arrow svg {
-        width: 20px;
-        height: 20px;
+      .esa-button--appearance-fill .esa-button__native {
+        background: var(--_accent);
+        color: var(--_on);
+        border-color: var(--_accent-border, transparent);
       }
-      .esa-badge {
-        --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-        --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-        --_badge-padding-y: var(--spacing-150, 0.375rem);
-        --_badge-padding-x: var(--spacing-200, 0.5rem);
-        min-width: calc(1lh + 2 * var(--_badge-padding-y));
-        padding-block: var(--_badge-padding-y);
-        padding-inline: var(--_badge-padding-x);
-        border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-        background: var(--_badge-bg);
-        color: var(--_badge-text);
+      .esa-button--variant-chrome .esa-button__native {
+        color: inherit;
+        background: 0 0;
+        border-color: #0000;
+      }
+      .esa-button--icon-only .esa-button__native {
+        padding-inline: var(--_btn-pad-y);
+        aspect-ratio: 1;
+      }
+      .esa-button--appearance-outline .esa-button__native,
+      .esa-button--appearance-dashed .esa-button__native {
+        color: var(--_accent-text);
+        border-color: var(--_accent);
+        background: 0 0;
+      }
+      .esa-button--variant-ghost .esa-button__native {
+        color: var(--color-content-default, #202020);
+        background: 0 0;
+        border-color: #0000;
+      }
+      .esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+      .esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+        border-color: var(--color-border-default, #cecece);
+      }
+      .esa-button__label {
         white-space: nowrap;
-        box-sizing: border-box;
-        justify-content: center;
-        align-items: center;
-        display: inline-flex;
       }
-      .esa-badge--sm {
-        --_badge-padding-y: var(--spacing-100, 0.25rem);
-        --_badge-padding-x: var(--spacing-150, 0.375rem);
+      .esa-button--sm {
+        --_btn-pad-y: var(--spacing-250, 0.625rem);
+        --_btn-padding-x: var(--spacing-250, 0.625rem);
+        --_btn-radius: var(--button-radius-sm, 4px);
       }
       .modern-layout {
         flex-direction: column;
@@ -1491,15 +999,13 @@
         display: inline-flex;
       }
       .bcn-aldo-mark[data-size="sm"] {
-        --icon-size-xs: 12px;
         width: 20px;
         height: 20px;
       }
       .bcn-aldo-mark__glyph {
-        justify-content: center;
-        align-items: center;
-        line-height: 0;
-        display: inline-flex;
+        width: 100%;
+        height: 100%;
+        display: block;
       }
       .bcn-help-bar__guidance-label {
         white-space: nowrap;
@@ -1865,6 +1371,20 @@
         overflow: hidden;
         transform: translate(-50%);
         box-shadow: 0 -12px 48px -12px #00000052;
+      }
+      :host {
+        --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
+        --_popover-border: var(--color-border-default, #cecece);
+        --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+        --_popover-radius: var(--radius-md, 0.5rem);
+        --_popover-padding: var(--spacing-300, 0.75rem);
+        --_popover-arrow-size: 8px;
+        --_popover-color: var(--color-content-default, #202020);
+        display: inline-block;
+      }
+      .esa-popover-anchor {
+        position: relative;
+        display: inline-block;
       }
       .print-header {
         display: none;
@@ -2291,6 +1811,205 @@
         height: 16px;
         display: block;
       }
+      :host {
+        display: inline-block;
+      }
+      .esa-tooltip-anchor {
+        position: relative;
+        display: inline-flex;
+      }
+      :host {
+        display: inline-block;
+
+        --_filter-height: 40px;
+        --_filter-padding-x: var(--spacing-400, 1rem);
+        --_filter-radius: var(--radius-md, 0.5rem);
+        --_filter-bg: var(--color-background-elevation-raised, #fcfcfc);
+        --_filter-bg-active: var(--color-background-brand-subtle, #fbfefb);
+        --_filter-text: var(--color-content-default, #202020);
+        --_filter-text-active: var(--color-background-brand, #46a758);
+        --_filter-border: var(--color-border-default, #cecece);
+        --_filter-border-active: var(--color-background-brand, #46a758);
+      }
+      :host([size="sm"]) {
+        --_filter-height: 32px;
+        --_filter-padding-x: var(--spacing-300, 0.75rem);
+        --_filter-radius: var(--radius-sm, 0.25rem);
+      }
+      .esa-filter-dropdown {
+        position: relative;
+        display: inline-flex;
+      }
+      .esa-filter-dropdown__trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-100, 0.25rem);
+        height: var(--_filter-height);
+        padding-inline: var(--_filter-padding-x);
+        border: var(--border-width-default, 1px) solid var(--_filter-border);
+        border-radius: var(--_filter-radius);
+        background: var(--_filter-bg);
+        color: var(--_filter-text);
+        cursor: pointer;
+        white-space: nowrap;
+        transition:
+          background var(--transition-fast, 150ms ease),
+          border-color var(--transition-fast, 150ms ease),
+          color var(--transition-fast, 150ms ease);
+        -webkit-appearance: none;
+        appearance: none;
+      }
+      .esa-filter-dropdown__label {
+        /* clip/visible, not "overflow: hidden" — the trigger sets a microcopy composite,
+         whose line-height "none" (1) leaves the line box 1em against DM Sans's 1.30em
+         glyph box, so hiding the Y axis clips the descenders in a label like
+         "Category" or "Region type". Same fix as esa-file-list's .file__name, where
+         the arithmetic is written out. */
+        overflow-x: clip;
+        overflow-y: visible;
+        text-overflow: ellipsis;
+        max-width: 200px;
+      }
+      .esa-filter-dropdown__arrow {
+        display: inline-flex;
+        width: 20px;
+        height: 20px;
+        transition: transform var(--transition-fast, 150ms ease);
+      }
+      .esa-filter-dropdown__arrow svg {
+        width: 20px;
+        height: 20px;
+      }
+      .typography-label-md {
+        font-family: var(--typography-label-md-font-family);
+        font-size: var(--typography-label-md-font-size);
+        font-weight: var(--typography-label-md-font-weight);
+        line-height: var(--typography-label-md-line-height);
+        letter-spacing: var(--typography-label-md-letter-spacing);
+      }
+      .typography-microcopy-md {
+        font-family: var(--typography-microcopy-md-font-family);
+        font-size: var(--typography-microcopy-md-font-size);
+        font-weight: var(--typography-microcopy-md-font-weight);
+        line-height: var(--typography-microcopy-md-line-height);
+        letter-spacing: var(--typography-microcopy-md-letter-spacing);
+      }
+      .typography-microcopy-md-subtle {
+        font-family: var(--typography-microcopy-md-subtle-font-family);
+        font-size: var(--typography-microcopy-md-subtle-font-size);
+        font-weight: var(--typography-microcopy-md-subtle-font-weight);
+        line-height: var(--typography-microcopy-md-subtle-line-height);
+        letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+      }
+      .typography-body-md {
+        font-family: var(--typography-body-md-font-family);
+        font-size: var(--typography-body-md-font-size);
+        font-weight: var(--typography-body-md-font-weight);
+        line-height: var(--typography-body-md-line-height);
+        letter-spacing: var(--typography-body-md-letter-spacing);
+      }
+      .typography-microcopy-md-strong {
+        font-family: var(--typography-microcopy-md-strong-font-family);
+        font-size: var(--typography-microcopy-md-strong-font-size);
+        font-weight: var(--typography-microcopy-md-strong-font-weight);
+        line-height: var(--typography-microcopy-md-strong-line-height);
+        letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+      }
+      .typography-microcopy-xs-subtle {
+        font-family: var(--typography-microcopy-xs-subtle-font-family);
+        font-size: var(--typography-microcopy-xs-subtle-font-size);
+        font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+        line-height: var(--typography-microcopy-xs-subtle-line-height);
+        letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+      }
+      .typography-body-sm {
+        font-family: var(--typography-body-sm-font-family);
+        font-size: var(--typography-body-sm-font-size);
+        font-weight: var(--typography-body-sm-font-weight);
+        line-height: var(--typography-body-sm-line-height);
+        letter-spacing: var(--typography-body-sm-letter-spacing);
+      }
+      .typography-microcopy-sm {
+        font-family: var(--typography-microcopy-sm-font-family);
+        font-size: var(--typography-microcopy-sm-font-size);
+        font-weight: var(--typography-microcopy-sm-font-weight);
+        line-height: var(--typography-microcopy-sm-line-height);
+        letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+      }
+      .esa-filter-container {
+        align-items: center;
+        gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
+        padding: var(--filter-container-padding, 0);
+        flex-wrap: wrap;
+        display: flex;
+      }
+      .esa-filter-clear-button {
+        --_clear-text: var(--color-content-default-secondary, #646464);
+        --_clear-text-hover: var(
+          --color-content-utility-danger,
+          var(--color-content-brand, #2a7e3b)
+        );
+        --_clear-icon-size: 18px;
+        align-items: center;
+        gap: var(--spacing-100, 0.25rem);
+        padding: var(--spacing-100, 0.25rem) var(--spacing-200, 0.5rem);
+        border-radius: var(--radius-sm, 0.25rem);
+        color: var(--_clear-text);
+        cursor: pointer;
+        text-underline-offset: 2px;
+        transition:
+          color var(--transition-fast, 0.15s ease),
+          background var(--transition-fast, 0.15s ease);
+        background: 0 0;
+        border: none;
+        text-decoration: underline;
+        display: inline-flex;
+      }
+      .esa-filter-clear-button__icon {
+        width: var(--_clear-icon-size);
+        height: var(--_clear-icon-size);
+        flex: none;
+      }
+      .esa-filter-clear-button__label {
+        white-space: nowrap;
+      }
+      .esa-collapsible {
+        border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
+        border-radius: var(--radius-md, 0.5rem);
+        background: var(--color-background-elevation-raised, #fcfcfc);
+      }
+      .esa-collapsible--flush {
+        background: 0 0;
+        border: none;
+        border-radius: 0;
+      }
+      .esa-collapsible__summary {
+        align-items: center;
+        gap: var(--spacing-200, 0.5rem);
+        padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
+        color: var(--color-content-default, #202020);
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+      }
+      .esa-collapsible--flush > .esa-collapsible__summary,
+      .esa-collapsible--flush > .esa-collapsible__body {
+        padding-inline: 0;
+      }
+      .esa-collapsible__summary .esa-icon {
+        color: var(--color-content-default-secondary, #646464);
+        flex-shrink: 0;
+      }
+      .esa-collapsible__summary:after {
+        content: "";
+        border-right: 2px solid var(--color-content-default-secondary, #646464);
+        border-bottom: 2px solid var(--color-content-default-secondary, #646464);
+        width: 8px;
+        height: 8px;
+        margin-left: auto;
+        transition: transform 0.15s;
+        transform: rotate(-45deg);
+      }
       .bcn-status-chip {
         align-items: center;
         gap: var(--spacing-150);
@@ -2325,76 +2044,355 @@
         gap: var(--spacing-100);
         display: inline-flex;
       }
+      *,
+      :before,
+      :after {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: var(--typography-font-family-sans, system-ui, sans-serif);
+        font-weight: var(--typography-font-weight-regular, 350);
+        color: var(--color-content-default, #3d3d3d);
+        background: var(--color-background-elevation-raised, #fff);
+        -webkit-font-smoothing: antialiased;
+        margin: 0;
+      }
+      button {
+        cursor: pointer;
+        background: 0 0;
+        border: 0;
+        font-family: inherit;
+      }
+      a {
+        color: var(--color-content-link, #005862);
+        text-decoration: none;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+        margin: 0;
+      }
+      .page-layout {
+        min-height: calc(100vh - 52px);
+        padding: var(--spacing-600);
+        background: var(--bcn-gray-50);
+        box-sizing: border-box;
+        flex-direction: column;
+        display: flex;
+      }
+      .page-layout__bleed,
+      .page-layout section {
+        width: 100%;
+      }
+      .breadcrumbs {
+        padding: var(--spacing-400) 0;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-400);
+        display: flex;
+      }
+      .breadcrumbs__items {
+        gap: var(--spacing-100);
+        flex-wrap: wrap;
+        align-items: center;
+        display: flex;
+      }
+      .breadcrumbs__items .esa-icon {
+        color: var(--bcn-gray-400);
+      }
+      .breadcrumb-item {
+        color: var(--bcn-gray-600);
+        text-transform: capitalize;
+        font-size: 0.875rem;
+      }
+      a.breadcrumb-item {
+        text-decoration: none;
+      }
+      .page-layout__container {
+        flex-direction: column;
+        display: flex;
+      }
+      .page-layout__title {
+        border-bottom: 1px solid var(--bcn-gray-200);
+        padding: var(--spacing-500) 0;
+        box-sizing: border-box;
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+      }
+      .page-layout__title-main {
+        align-items: center;
+        gap: var(--spacing-400);
+        min-width: 0;
+        display: flex;
+      }
+      .page-layout__title h1 {
+        align-items: center;
+        gap: var(--spacing-300);
+        font-family: var(--font-decorative);
+        font-weight: var(--typography-font-weight-bold);
+        font-size: var(--font-size-500);
+        color: var(--bcn-gray-1000);
+        margin: 0;
+        display: flex;
+      }
+      .page-layout__title h1 .esa-icon {
+        color: var(--page-title-icon-color, var(--bcn-gray-1000));
+        flex-shrink: 0;
+      }
+      .page-layout__content {
+        padding: var(--spacing-500) 0;
+        min-height: 70vh;
+        position: relative;
+      }
+      :host {
+        display: block;
+        --_field-padding-y: var(--spacing-300, 0.75rem);
+        --_field-padding-x: var(--spacing-300, 0.75rem);
+        --_field-radius: var(--radius-md, 0.5rem);
+        --_field-border-color: var(--form-border-color, #cecece);
+      }
+      :host([size="sm"]) {
+        --_field-padding-y: var(--spacing-250, 0.625rem);
+        --_field-padding-x: var(--spacing-250, 0.625rem);
+        --_field-radius: var(--radius-sm, 0.25rem);
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-100, 4px);
+      }
+      .container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-100, 4px);
+      }
+      .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .input {
+        width: 100%;
+        padding: var(--_field-padding-y) var(--_field-padding-x);
+        padding-inline-end: calc(var(--_field-padding-x) + 24px);
+        /* Leading is load-bearing on a content-sized box — see the long note in
+         esa-select's .input. Single line, so the composite's relaxed leading only
+         adds height. */
+        color: var(--form-text-color, #202020);
+        background: var(--color-background-field, transparent);
+        border: var(--form-border-width, 1px) solid var(--_field-border-color);
+        border-radius: var(--_field-radius);
+        outline: none;
+        box-sizing: border-box;
+        transition:
+          border-color var(--transition-fast, 150ms ease),
+          box-shadow var(--transition-fast, 150ms ease);
+      }
+      .input::placeholder {
+        color: var(--form-placeholder-color, #838383);
+      }
+      .field__error {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-100, 4px);
+        color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
+      }
+      .field__help {
+        color: var(--form-help-color, #838383);
+      }
+      :host {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-100, 4px);
+        --_pad-y: var(--spacing-300, 0.75rem);
+        --_padding-x: var(--spacing-300, 0.75rem);
+        --_radius: var(--radius-md, 0.5rem);
+        --_border-width: var(--form-border-width, 1px);
+        --_border-color: var(--form-border-color, #cecece);
+        --_icon-size: 18px;
+      }
+      .group {
+        display: inline-flex;
+        width: fit-content;
+        max-width: 100%;
+        gap: 2px;
+        padding: 2px;
+        background: var(--color-background-elevation-sunken, #f0f0f0);
+        border: var(--_border-width) solid var(--_border-color);
+        border-radius: var(--_radius);
+      }
+      .option {
+        appearance: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-150, 6px);
+        /* Was calc(height - 4px) to compensate for the track's 2px padding. With no
+         height token the segment is its own text plus padding, and the track wraps
+         it — the compensation has nothing left to compensate for. */
+        padding: var(--_pad-y) var(--_padding-x);
+        color: var(--color-content-default-secondary, #646464);
+        background: transparent;
+        border: 0;
+        border-radius: calc(var(--_radius) - 2px);
+        cursor: pointer;
+        user-select: none;
+        white-space: nowrap;
+        transition:
+          background-color var(--transition-fast, 150ms ease),
+          color var(--transition-fast, 150ms ease),
+          box-shadow var(--transition-fast, 150ms ease);
+      }
+      .option--selected {
+        background: var(--color-background-elevation-raised, #fcfcfc);
+        color: var(--color-content-brand, #2a7e3b);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+      }
       html,
       .modern-layout__content {
         scroll-behavior: smooth;
       }
-      .esa-button {
-        --_btn-pad-y: var(--spacing-300, 0.75rem);
-        --_btn-padding-x: var(--spacing-300, 0.75rem);
-        --_btn-radius: var(--button-radius-md, 0.5rem);
-        --_accent: var(--color-background-brand, #46a758);
-        --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-        --_on: var(--color-content-default-knockout, #fcfcfc);
-        --_accent-text: var(--_accent);
-        --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-        --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-        display: inline-block;
+      :host {
+        --_width: var(--side-dialog-width, 400px);
       }
-      .esa-button__native {
+      dialog.panel {
+        --_inset: var(--side-dialog-inset, 16px);
+        position: fixed;
+        top: var(--_inset);
+        bottom: var(--_inset);
+        inset-inline: auto;
+        height: auto;
+        margin: 0;
+        border: none;
+        padding: 0;
+        width: min(var(--_width), calc(100vw - var(--_inset) * 2));
+        max-width: none;
+        max-height: none;
+        background: var(--color-background-elevation-raised, #fcfcfc);
+        color: var(--color-content-default, #202020);
+        border-radius: var(--radius-md, 0.5rem);
+        box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
+        outline: none;
+        overflow: hidden;
+        /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
+         second dialog on top) — ease the reposition instead of jumping. */
+        transition:
+          top 220ms ease,
+          right 220ms ease,
+          bottom 220ms ease,
+          left 220ms ease;
+      }
+      :host([position="right"]) dialog.panel {
+        right: var(--_inset);
+        animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
+      }
+      .esa-icon {
+        --_icon-size: var(--icon-size-md, 20px);
+        width: var(--_icon-size);
+        height: var(--_icon-size);
+        color: inherit;
         justify-content: center;
         align-items: center;
-        gap: var(--spacing-200, 8px);
-        width: 100%;
-        padding-block: var(--_btn-pad-y);
-        padding-inline: var(--_btn-padding-x);
-        border: var(--border-width-default, 1px) solid transparent;
-        border-radius: var(--_btn-radius);
-        cursor: pointer;
-        transition:
-          background var(--transition-fast, 0.15s ease),
-          border-color var(--transition-fast, 0.15s ease);
-        -webkit-appearance: none;
-        appearance: none;
-        text-decoration: none;
         display: inline-flex;
       }
-      .esa-button--appearance-fill .esa-button__native {
-        background: var(--_accent);
-        color: var(--_on);
-        border-color: var(--_accent-border, transparent);
+      .esa-icon--xs {
+        --_icon-size: var(--icon-size-xs, 14px);
       }
-      .esa-button--variant-chrome .esa-button__native {
-        color: inherit;
-        background: 0 0;
-        border-color: #0000;
+      .esa-icon svg {
+        width: var(--_icon-size);
+        height: var(--_icon-size);
+        display: block;
       }
-      .esa-button--icon-only .esa-button__native {
-        padding-inline: var(--_btn-pad-y);
-        aspect-ratio: 1;
+      .esa-icon--sm {
+        --_icon-size: var(--icon-size-sm, 16px);
       }
-      .esa-button--appearance-outline .esa-button__native,
-      .esa-button--appearance-dashed .esa-button__native {
-        color: var(--_accent-text);
-        border-color: var(--_accent);
-        background: 0 0;
+      .esa-icon--md {
+        --_icon-size: var(--icon-size-md, 20px);
       }
-      .esa-button--variant-ghost .esa-button__native {
-        color: var(--color-content-default, #202020);
-        background: 0 0;
-        border-color: #0000;
+      .esa-icon--lg {
+        --_icon-size: var(--icon-size-lg, 24px);
       }
-      .esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
-      .esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
-        border-color: var(--color-border-default, #cecece);
-      }
-      .esa-button__label {
+      .esa-badge {
+        --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+        --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+        --_badge-padding-y: var(--spacing-150, 0.375rem);
+        --_badge-padding-x: var(--spacing-200, 0.5rem);
+        min-width: calc(1lh + 2 * var(--_badge-padding-y));
+        padding-block: var(--_badge-padding-y);
+        padding-inline: var(--_badge-padding-x);
+        border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+        background: var(--_badge-bg);
+        color: var(--_badge-text);
         white-space: nowrap;
+        box-sizing: border-box;
+        justify-content: center;
+        align-items: center;
+        display: inline-flex;
       }
-      .esa-button--sm {
-        --_btn-pad-y: var(--spacing-250, 0.625rem);
-        --_btn-padding-x: var(--spacing-250, 0.625rem);
-        --_btn-radius: var(--button-radius-sm, 4px);
+      .esa-badge--sm {
+        --_badge-padding-y: var(--spacing-100, 0.25rem);
+        --_badge-padding-x: var(--spacing-150, 0.375rem);
+      }
+      :host {
+        --_tab-height: var(--tab-layout-height-md, 44px);
+        --_tab-color: var(--color-content-default-secondary, #646464);
+        --_tab-color-active: var(--color-background-brand, #46a758);
+        --_tab-color-hover: var(--color-content-default, #202020);
+        --_tab-indicator-color: var(--color-background-brand, #46a758);
+        --_tab-indicator-height: 2px;
+        --_tab-bg-hover: var(--color-background-elevation-sunken, #f0f0f0);
+        --_tab-gap: var(--spacing-100, 4px);
+        --_tab-padding-x: var(--spacing-400, 16px);
+        --_tab-border: var(--color-border-default, #cecece);
+        --_tab-badge-bg: var(--color-background-brand, #46a758);
+        --_tab-badge-color: var(--color-content-default-knockout, #fcfcfc);
+
+        display: block;
+      }
+      .tabs {
+        display: flex;
+        border-bottom: var(--border-width-default, 1px) solid var(--_tab-border);
+        gap: var(--_tab-gap);
+      }
+      .tab {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-200, 8px);
+        height: var(--_tab-height);
+        padding-inline: var(--_tab-padding-x);
+        color: var(--_tab-color);
+        background: none;
+        border: none;
+        cursor: pointer;
+        position: relative;
+        text-decoration: none;
+        white-space: nowrap;
+        transition:
+          color 150ms ease,
+          background-color 150ms ease;
+      }
+      .tab--active {
+        color: var(--_tab-color-active);
+      }
+      .icon {
+        display: inline-flex;
+      }
+      .tab--active::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: var(--_tab-indicator-height);
+        background: var(--_tab-indicator-color);
+        border-radius: var(--_tab-indicator-height);
+      }
+      .panel {
+        padding-top: var(--spacing-400, 16px);
       }
     </style>
   </head>
@@ -9314,7 +9312,7 @@
       </div>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.B0-2TFz8.js"
+        src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.BWpiHCjJ.js"
       ></script>
       <!-- Aldo — help & guidance, app-wide like the palette above: the floating
          bottom-center utility bar and the route-aware guidance drawer it opens.
@@ -9333,23 +9331,25 @@
           aria-haspopup="dialog"
         >
           <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-            ><span class="bcn-aldo-mark__glyph"
-              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                ><svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path
-                    d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                  ></path>
-                  <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+            ><svg
+              class="bcn-aldo-mark__glyph"
+              viewBox="0 0 64 64"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+              <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+              <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+              <circle
+                cx="33.2"
+                cy="31.1"
+                r="2"
+                fill="currentColor"
+                stroke="none"
+              ></circle></svg></span
           ><span class="bcn-help-bar__guidance-label">Guidance</span></button
         ><span class="bcn-help-bar__divider" aria-hidden="true"></span
         ><!-- Attach Evidence of Compliance — icon-only; the tooltip host carries the drawer's open hook.
@@ -9496,46 +9496,44 @@
         size="md"
         ><div slot="header" class="bcn-gd__header">
           <span class="bcn-aldo-mark" data-size="md" aria-hidden="true"
-            ><span class="bcn-aldo-mark__glyph"
-              ><span class="esa-icon esa-icon--md" aria-hidden="true"
-                ><svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path
-                    d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                  ></path>
-                  <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+            ><svg
+              class="bcn-aldo-mark__glyph"
+              viewBox="0 0 64 64"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+              <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+              <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+              <circle
+                cx="33.2"
+                cy="31.1"
+                r="2"
+                fill="currentColor"
+                stroke="none"
+              ></circle></svg></span
           ><span class="bcn-gd__title">Help &amp; Guidance</span>
         </div>
         <div class="bcn-gd__stream">
           <div class="bcn-gd-msg bcn-gd-msg--aldo" data-gd-intro="">
             <div class="bcn-gd-msg__avatar">
               <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-                ><span class="bcn-aldo-mark__glyph"
-                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                    ><svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      focusable="false"
-                    >
-                      <path
-                        d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                      ></path>
-                      <circle cx="12" cy="12" r="10"></circle></svg></span></span
+                ><svg
+                  class="bcn-aldo-mark__glyph"
+                  viewBox="0 0 64 64"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+                  <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+                  <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+                  <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg
               ></span>
             </div>
             <div class="bcn-gd-msg__group">
@@ -10509,25 +10507,28 @@
           </div></div></esa-side-dialog
       ><!-- Aldo avatar cloned into each reply message (reuses the real mark). --><template
         data-gd-aldo-avatar=""
-        ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-breadewf=""
-          ><span class="bcn-aldo-mark__glyph" data-astro-cid-breadewf=""
-            ><span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
-              ><svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-                data-astro-cid-wcwfib5m=""
-              >
-                <path
-                  d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                ></path>
-                <circle cx="12" cy="12" r="10"></circle></svg></span></span></span></template
+        ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-lgb5fntv=""
+          ><svg
+            class="bcn-aldo-mark__glyph"
+            viewBox="0 0 64 64"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            data-astro-cid-lgb5fntv=""
+          >
+            <path d="M47.59 23A18 18 0 1 1 31.37 14.01" data-astro-cid-lgb5fntv=""></path>
+            <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41" data-astro-cid-lgb5fntv=""></path>
+            <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8" data-astro-cid-lgb5fntv=""></path>
+            <circle
+              cx="33.2"
+              cy="31.1"
+              r="2"
+              fill="currentColor"
+              stroke="none"
+              data-astro-cid-lgb5fntv=""
+            ></circle></svg></span></template
       ><!-- ── Article reader (child, stacked above the drawer) ── --><esa-side-dialog
         class="bcn-gd-article"
         data-gd-article="true"

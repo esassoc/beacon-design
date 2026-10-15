@@ -218,7 +218,7 @@ Four campaign-wide counts: drill holes with a missing document, missing document
 - `--switcher-threshold`: 40rem _(component)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-font-weight`: 400 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-display-sm-font-family`: "DM Sans", sans-serif _(semantic)_

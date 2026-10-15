@@ -6122,7 +6122,7 @@ The Kanban. All actions is the merged board: one column per backbone category (N
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-font-weight`: 400 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_

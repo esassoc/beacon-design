@@ -1,6 +1,6 @@
 # Token contract — prototypes-homepage
 
-The 71 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 65 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -18,7 +18,6 @@ The 71 design tokens this page actually uses, resolved to their final values for
 | `--color-background-utility-success` | `#2e7571` |
 | `--color-background-utility-success-subtle` | `#fbfefc` |
 | `--color-border-default` | `#dcdcdc` |
-| `--color-border-default-strong` | `#bdbdbd` |
 | `--color-border-default-subtle` | `#efefef` |
 | `--color-border-utility-danger` | `#fdbdbe` |
 | `--color-border-utility-success` | `#adddc0` |
@@ -32,15 +31,10 @@ The 71 design tokens this page actually uses, resolved to their final values for
 | `--color-content-utility-success` | `#218358` |
 | `--radius-lg` | `.75rem` |
 | `--transition-fast` | `.15s ease` |
-| `--typography-body-md-font-family` | `"DM Sans", sans-serif` |
-| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
-| `--typography-body-md-font-weight` | `350` |
-| `--typography-body-md-letter-spacing` | `.01em` |
-| `--typography-body-md-line-height` | `1.6` |
 | `--typography-font-family-sans` | `"DM Sans", sans-serif` |
 | `--typography-font-weight-bold` | `650` |
 | `--typography-font-weight-medium` | `500` |
-| `--typography-font-weight-regular` | `350` |
+| `--typography-font-weight-regular` | `400` |
 | `--typography-font-weight-semibold` | `550` |
 | `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` |
 | `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
@@ -88,10 +82,3 @@ The 71 design tokens this page actually uses, resolved to their final values for
 | `--spacing-600` | `2rem` |
 | `--spacing-700` | `3rem` |
 
-## Component-scoped
-
-Defined per-component (not at `:root`); see the component's own rule in `styles.css`.
-
-- `--align`
-- `--gap`
-- `--justify`

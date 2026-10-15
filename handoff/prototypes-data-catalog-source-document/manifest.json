@@ -398,7 +398,7 @@
         },
         {
           "name": "--typography-microcopy-xs-subtle-font-weight",
-          "value": "350",
+          "value": "400",
           "tier": "semantic"
         },
         {
@@ -1208,7 +1208,7 @@
         },
         {
           "name": "--typography-microcopy-md-subtle-font-weight",
-          "value": "350",
+          "value": "400",
           "tier": "semantic"
         },
         {
@@ -1571,7 +1571,7 @@
         },
         {
           "name": "--typography-microcopy-md-subtle-font-weight",
-          "value": "350",
+          "value": "400",
           "tier": "semantic"
         },
         {
@@ -1907,7 +1907,7 @@
         },
         {
           "name": "--typography-microcopy-md-subtle-font-weight",
-          "value": "350",
+          "value": "400",
           "tier": "semantic"
         },
         {

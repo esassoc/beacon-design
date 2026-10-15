@@ -529,6 +529,22 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
   font-size: var(--typography-label-sm-strong-font-size);
   font-weight: var(--typography-label-sm-strong-font-weight);
 }
+.bcn-evidence-card__lead .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
+  transform: rotate(90deg);
+}
+.bcn-evidence-card__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-evidence-card__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -557,22 +573,6 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
-}
-.bcn-evidence-card__lead .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  transition: transform 0.15s;
-}
-.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
-  transform: rotate(90deg);
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-evidence-card__actions .esa-icon {
-  width: 15px;
-  height: 15px;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
@@ -627,7 +627,7 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
 - `--spacing-400`: 1rem _(primitive)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_

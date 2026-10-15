@@ -566,7 +566,7 @@ The H1 is the response's title (title case) with its number (R-004) trailing as 
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnRecordPager.astro_astro_type_script_index_0_lang.D99I0gxI.js"
+    src="/beacon-design/_astro/BcnRecordPager.astro_astro_type_script_index_0_lang.eNyx_b48.js"
   ></script>
 </div>
 ```
@@ -1275,6 +1275,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

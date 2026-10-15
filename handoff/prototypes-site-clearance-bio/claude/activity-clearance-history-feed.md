@@ -1115,7 +1115,7 @@ esa-tab-layout::part(tabs),
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-body-xs-font-weight`: 350 _(semantic)_
+- `--typography-body-xs-font-weight`: 400 _(semantic)_
 - `--typography-body-xs-letter-spacing`: .01em _(semantic)_
 - `--typography-body-xs-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
@@ -1147,6 +1147,6 @@ esa-tab-layout::part(tabs),
 - `--typography-microcopy-sm-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-sm-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-sm-subtle-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-sm-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-sm-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-sm-subtle-line-height`: 1 _(semantic)_

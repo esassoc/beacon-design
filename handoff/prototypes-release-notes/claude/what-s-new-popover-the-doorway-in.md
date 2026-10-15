@@ -185,5 +185,5 @@ The app-wide entry point to this page: a popover anchored above the floating hel
 - `--spacing-300`: .75rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-regular`: 350 _(semantic)_
+- `--typography-font-weight-regular`: 400 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_

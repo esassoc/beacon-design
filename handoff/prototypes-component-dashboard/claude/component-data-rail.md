@@ -239,9 +239,6 @@ The quiet utility rail: four links that open component-data side panels via the 
 .bcn-sw__head .esa-icon {
   color: var(--color-content-default-secondary);
 }
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -270,6 +267,9 @@ The quiet utility rail: four links that open component-data side panels via the 
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

@@ -9779,35 +9779,6 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
 .bcn-laf__clear[hidden] {
   display: none;
 }
@@ -9930,6 +9901,35 @@ details[open] > .bcn-lao__row .bcn-lao__chevron {
   gap: var(--spacing-200);
   display: inline-flex;
 }
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
 .esa-filter-container {
   align-items: center;
   gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
@@ -10044,6 +10044,6 @@ details[open] > .bcn-lao__row .bcn-lao__chevron {
 - `--typography-microcopy-sm-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-sm-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-sm-subtle-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-sm-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-sm-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-sm-subtle-line-height`: 1 _(semantic)_

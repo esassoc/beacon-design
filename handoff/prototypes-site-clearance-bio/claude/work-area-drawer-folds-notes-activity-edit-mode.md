@@ -280,6 +280,7 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 .esa-collapsible[open]>.esa-collapsible__summary:after{transform:rotate(45deg)}
 .esa-collapsible__summary .esa-icon{color:var(--color-content-default-secondary,#646464);flex-shrink:0}
 .esa-collapsible__body{gap:var(--spacing-400,1rem);padding:0 var(--spacing-400,1rem) var(--spacing-400,1rem);flex-direction:column;display:flex}
+.bcn-key-value__key .esa-icon{color:var(--color-content-default-tertiary)}
 .esa-icon{--_icon-size:var(--icon-size-md,20px);width:var(--_icon-size);height:var(--_icon-size);color:inherit;justify-content:center;align-items:center;display:inline-flex}
 .esa-icon--xs{--_icon-size:var(--icon-size-xs,14px)}
 .esa-icon--sm{--_icon-size:var(--icon-size-sm,16px)}
@@ -287,7 +288,6 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 .esa-icon--lg{--_icon-size:var(--icon-size-lg,24px)}
 .esa-icon--xl{--_icon-size:var(--icon-size-xl,28px)}
 .esa-icon svg{width:var(--_icon-size);height:var(--_icon-size);display:block}
-.bcn-key-value__key .esa-icon{color:var(--color-content-default-tertiary)}
 .breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
 .page-layout__title h1 .esa-icon{color:var(--page-title-icon-color,var(--bcn-gray-1000));flex-shrink:0}
 ```
@@ -366,7 +366,7 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
@@ -388,6 +388,6 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

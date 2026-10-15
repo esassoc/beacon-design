@@ -371,7 +371,7 @@ mark.bcn-hl[data-family="none"] {
 - `--spacing-400`: 1rem _(primitive)_
 - `--typography-body-lg-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-lg-font-size`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(semantic)_
-- `--typography-body-lg-font-weight`: 350 _(semantic)_
+- `--typography-body-lg-font-weight`: 400 _(semantic)_
 - `--typography-body-lg-letter-spacing`: .01em _(semantic)_
 - `--typography-body-lg-line-height`: 1.8 _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_

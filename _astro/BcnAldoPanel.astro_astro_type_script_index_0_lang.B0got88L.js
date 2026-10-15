@@ -1,0 +1,1 @@
+import{r as e}from"./aldo-panel.Buc-Bnim.js";document.querySelectorAll(`[data-aldo-panel]`).forEach(e);

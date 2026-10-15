@@ -6543,6 +6543,6 @@ details[open] > .bcn-lao__row .bcn-lao__chevron {
 - `--typography-microcopy-sm-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-sm-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-sm-subtle-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-sm-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-sm-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-sm-subtle-line-height`: 1 _(semantic)_
