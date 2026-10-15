@@ -60,7 +60,9 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--spacing-300);
+    /* A narrow pane (a laptop): the second group wraps under the first, never over it. */
+    flex-wrap: wrap;
+    gap: var(--spacing-100) var(--spacing-300);
     padding: var(--spacing-150, 0.375rem) var(--spacing-200);
     background: var(--color-background-elevation-raised);
     border-bottom: 1px solid var(--color-border-default);
@@ -70,7 +72,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     display: flex;
     align-items: center;
     gap: var(--spacing-100);
-    min-width: 0;
+    flex: none;
   }
   /* Keys never squeeze: the mode pair keeps both its names. */
   .bcn-sw3tools :global(esa-button-group),
@@ -108,10 +110,10 @@ import EsaButton from '@esa/ecology/esa-button.astro';
   /* The zoom readout keeps its width as the number changes. */
   .bcn-sw3tools :global([data-tool='zoom-fit']) { min-width: 3.75rem; font-variant-numeric: tabular-nums; }
   /* A narrow pane: the labels fold away, the titles carry them. */
-  @container (max-width: 680px) {
+  @container (max-width: 720px) {
     .bcn-sw3tools :global([data-tool='follow'] .esa-button__label) { display: none; }
   }
-  @container (max-width: 520px) {
+  @container (max-width: 660px) {
     .bcn-sw3tools :global([data-tool]:not([data-tool='zoom-fit']) .esa-button__label) { display: none; }
   }
 </style>

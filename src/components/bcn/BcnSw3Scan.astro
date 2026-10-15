@@ -107,14 +107,14 @@ const sources = {
 
 <style>
   /* The workspace fills the window below the stepper (height set by sw3-scan.ts from where
-     it starts); only the panes scroll. */
+     it starts); only the panes scroll. On a short window the panes keep 520px of their
+     own and the page scrolls to them (sw3-scan.ts, PANES_MIN). */
   .bcn-sw3scan {
     display: grid;
     grid-template-columns: 16rem minmax(0, 1fr) 22rem;
     grid-template-rows: auto minmax(0, 1fr);
     gap: var(--spacing-300);
     height: var(--_fit, calc(100vh - 12rem));
-    min-height: 32rem;
     /* Secondary buttons here are neutral, not brand-tinted: white keys with a gray edge.
        Color is kept for what it means (a primary, a danger, Aldo). */
     --color-background-brand-muted: var(--color-background-elevation-raised);

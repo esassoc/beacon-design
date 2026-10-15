@@ -508,7 +508,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
 
   // ── Suggestions: before the run, what Aldo proposes saying ──────────────────
   const suggestions = (): Choice[] =>
-    skipped() || preparing() || started() ? [] : (payload().proposal?.suggest ?? []).map((text) => ({ label: text, text }));
+    skipped() || preparing() || started() || manual() ? [] : (payload().proposal?.suggest ?? []).map((text) => ({ label: text, text }));
 
   // ── Render ──────────────────────────────────────────────────────────────────
   let lastDoc = '';

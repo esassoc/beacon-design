@@ -165,15 +165,26 @@ export function setupSw3Scan(root: HTMLElement): void {
   };
 
   // ── Fit the workspace to the window below the stepper ───────────────────────
+  /** The least height the library, page and Aldo get: Aldo's thread, Needs you, status and
+   *  composer all in view. */
+  const PANES_MIN = 520;
   const fit = () => {
     const scroller = root.closest<HTMLElement>('.modern-layout__content, main') ?? document.scrollingElement;
     const top = root.getBoundingClientRect().top + (scroller?.scrollTop ?? 0);
     // Stop short of the layout's own bottom padding, so the workspace ends at the fold.
     const pad = scroller instanceof HTMLElement ? parseFloat(getComputedStyle(scroller).paddingBottom) || 0 : 0;
-    root.style.setProperty('--_fit', `${Math.max(512, window.innerHeight - top - pad - 8)}px`);
+    // On a short window (a laptop) the panes keep a working height of their own, below the
+    // step's panel, and the page scrolls to reach them instead of crushing them.
+    const head = root.querySelector<HTMLElement>('.bcn-sw3scan__panel')?.offsetHeight ?? 0;
+    const gap = parseFloat(getComputedStyle(root).rowGap) || 0;
+    const floor = head + gap + PANES_MIN;
+    root.style.setProperty('--_fit', `${Math.max(floor, window.innerHeight - top - pad - 8)}px`);
   };
   window.addEventListener('resize', fit);
   requestAnimationFrame(fit);
+  // The step's panel changes height (a source selected, the console dimmed): fit again.
+  const panelEl = root.querySelector('.bcn-sw3scan__panel');
+  if (panelEl) new ResizeObserver(fit).observe(panelEl);
 
   // ── The page ────────────────────────────────────────────────────────────────
   const pick = (page: number) => {
