@@ -592,8 +592,8 @@ export function setupSw3Aldo(root: HTMLElement): void {
       const left = (D.calibrate?.length ?? 3) - checked().length;
       return { tone: 'warning', text: left > 0 ? `Stopped for your check: ${left} left.` : 'Checked. Resume to read the rest.' };
     }
-    if (finished() || head === null)
-      return { tone: 'success', text: `${stopped() ? 'Stopped' : 'Done'}. ${n} commitment${n === 1 ? '' : 's'} found.${open ? ` ${open} to settle.` : ''}` };
+    // Done: nothing to say by the controls. The Library row carries what is left to settle.
+    if (finished() || head === null) return null;
     if (heldForStep()) return { tone: 'info', text: `One at a time: stopped at p. ${head}. Resume reads the next commitment.` };
     if (paused() || pausing()) {
       if (!paused()) return { tone: 'info', text: `Pausing after p. ${head}.` };

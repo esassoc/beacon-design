@@ -24,7 +24,7 @@ The conversation that scopes, checks and steers the scan of the file in view, de
 
 ## Done when
 - At the check, Open items reads "Check the first 3: 3 left." All look right, then Read the rest: the run goes on at Fast.
-- When the run is done: Open items lists COA 11.32, the top of p. 156 and pp. 152 to 154; Keep it on 11.32 and Merge on p. 156 leave one, and the status reads "1 to settle."
+- When the run is done: Open items lists COA 11.32, the top of p. 156 and pp. 152 to 154; Keep it on 11.32 and Merge on p. 156 leave one, and the Library row reads "1 to settle."
 - Type "why did you flag 11.32?": Aldo explains and the instructions are unchanged.
 - On the MMRP, Mark them myself, then drag over MM AES-1a: Aldo reads it as MM AES-1a and the status reads "By hand. 1 marked."
 - Fix COA 11.1, change its name, Save: the card reads Fixed, and step 2 shows the new name.

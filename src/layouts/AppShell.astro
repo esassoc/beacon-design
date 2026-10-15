@@ -64,6 +64,8 @@ interface Props {
   sectionItems?: Record<string, NavItem[]>;
   /** Per-page rename of a section (title, glyph): a prototype test-driving a name. */
   sectionOverrides?: Record<string, Partial<Pick<NavSection, 'title' | 'icon' | 'iconPaths'>>>;
+  /** Sections a prototype leaves out of the nav. */
+  hiddenSections?: string[];
 }
 
 // ── Lucide glyphs not in esa-icon's built-in registry (inner SVG markup only) ──
@@ -106,6 +108,7 @@ const {
   expandedSections,
   sectionItems,
   sectionOverrides,
+  hiddenSections,
   // Verbatim nav structure from side-nav-modern.component.ts (standard labels).
   navSections = [
     {
@@ -193,6 +196,10 @@ const {
   ],
 } = Astro.props as Props;
 
+// Per-page removal of whole sections (spliced: the destructured list is const).
+if (hiddenSections) {
+  for (let i = navSections.length - 1; i >= 0; i--) if (hiddenSections.includes(navSections[i].id)) navSections.splice(i, 1);
+}
 if (sectionOverrides) {
   for (const section of navSections) Object.assign(section, sectionOverrides[section.id] ?? {});
 }

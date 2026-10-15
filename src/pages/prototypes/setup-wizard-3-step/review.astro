@@ -13,7 +13,7 @@ import BcnSw3ReviewActions from '../../../components/bcn/BcnSw3ReviewActions.ast
 import BcnSw3Review from '../../../components/bcn/BcnSw3Review.astro';
 import BcnSw3Entities from '../../../components/bcn/BcnSw3Entities.astro';
 import { PROJECT } from '../../../data/project-dashboard';
-import { SW3_STEPS, SW3_BASE, SW3_NAME, SW3_GLYPH } from '../../../data/setup-wizard-3-step';
+import { SW3_STEPS, SW3_BASE, SW3_NAME, SW3_GLYPH, SW3_NAV } from '../../../data/setup-wizard-3-step';
 
 const STEP = SW3_STEPS[1];
 ---
@@ -28,7 +28,7 @@ const STEP = SW3_STEPS[1];
     - entity registry -> bcn-sw3-entities         # overlay outside the stack (esa-side-dialog): proposed merges, milestones / seasons / activities / species
 -->
 
-<AppShell title={SW3_NAME} sectionOverrides={{ 'setup-wizard': { title: SW3_NAME, icon: 'folder-cog', iconPaths: SW3_GLYPH } }} tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard" expandedSections={[]}>
+<AppShell title={SW3_NAME} hiddenSections={['setup-wizard']} sectionItems={{ project: SW3_NAV }} tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="sw3-setup" expandedSections={['project']}>
   <PageLayout title="Setup Wizard" hideTitleRow>
     <BcnSetupWizardFrame steps={SW3_STEPS} active="commitments" complete={['source-documents']} homeHref={SW3_BASE} title={SW3_NAME} glyph={SW3_GLYPH}>
       <div class="stack" data-gap="md">

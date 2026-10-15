@@ -12,7 +12,7 @@ export default {
     {
       label: 'Step header and console',
       selector: '[data-sw3-toolbar]',
-      intent: 'One panel: the step\'s numeral, title and prod\'s description; under a gray rule, the console for the file in view, centered: the transport (Scan or Resume, Pause, Restart), each a neutral key with its icon and name, the page in view of the file\'s page count as one field (type a page to go to it), and the speed (One at a time, Slow, Fast) in a menu. Beside the console, where the run is, said once: a plain line of text with a small dot, not an alert (the dot pulses while reading, turns amber at the check and green when done), with its one action when it has one (Review the 12 so far). Below, every page of the file in one strip.',
+      intent: 'One panel: the step\'s numeral, title and prod\'s description; under a gray rule, the console for the file in view, centered: the transport (Scan or Resume, Pause, Restart), each a neutral key with its icon and name, the page in view of the file\'s page count as one field (type a page to go to it), and the speed (One at a time, Slow, Fast) in a menu. Beside the console, where the run is, said once: a plain line of text with a small dot, not an alert (the dot pulses while reading and turns amber at the check; once the run is done the line goes away, and the Library row carries what is left to settle), with its one action when it has one (Review the 12 so far). Below, every page of the file in one strip.',
       decisions: [
         'Each key is live only when it can act, and the run\'s state reads as a pressed key: Scan before the run, Resume when it is paused or stopped for the check, Pause while it reads, Restart once it has begun. Restart asks first and clears the file\'s scan and steers.',
         'Speed is how fast the job dispatches page windows: a real control in prod. Every speed change, pause and resume is recorded as a steer.',
@@ -108,7 +108,7 @@ export default {
       ],
       acceptance: [
         'At the check, Open items reads "Check the first 3: 3 left." All look right, then Read the rest: the run goes on at Fast.',
-        'When the run is done: Open items lists COA 11.32, the top of p. 156 and pp. 152 to 154; Keep it on 11.32 and Merge on p. 156 leave one, and the status reads "1 to settle."',
+        'When the run is done: Open items lists COA 11.32, the top of p. 156 and pp. 152 to 154; Keep it on 11.32 and Merge on p. 156 leave one, and the Library row reads "1 to settle."',
         'Type "why did you flag 11.32?": Aldo explains and the instructions are unchanged.',
         'On the MMRP, Mark them myself, then drag over MM AES-1a: Aldo reads it as MM AES-1a and the status reads "By hand. 1 marked."',
         'Fix COA 11.1, change its name, Save: the card reads Fixed, and step 2 shows the new name.',
