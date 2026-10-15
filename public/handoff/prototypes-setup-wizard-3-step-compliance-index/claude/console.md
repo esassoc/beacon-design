@@ -1,10 +1,10 @@
 # Console
 
-The foot of the step's panel, as step 1 carries its scan console: the header carries no keys. A sunken tray across the panel under the header rule, every key neutral: Prev at its left end, Next at its right, the step's keys centered between, by phase. No index yet: Build index and + Category (no Prev or Next). Built: Re-run and Draft actions & obligations. During a run: the run's key, disabled. After it: Start over (the undo glyph), Draft again (its title names what is outstanding), Suggest Subcategories (while something fits no subcategory), View Log (the run's record in the console lightbox) and Approve All. Under the tray, once there is an index, every subcategory in index order, step 2's scrubber, a rule and the category's name where each category starts, a band of the category's hue along the foot of its cells and its name marked in the same hue. Drafted: dark gray for drafts never opened, mid gray for opened with drafts to review, green when every draft is decided. No amber: nothing on the strip reads as alarm.
+The foot of the step's panel, as step 1 carries its scan console: the header carries no keys. A sunken tray across the panel under the header rule, every key neutral: Prev at its left end, Next at its right, the step's keys centered between, by phase. No index yet: Build index and + Category (no Prev or Next). Built: Re-run and Draft actions & obligations. During a run: the run's key, disabled. After it: Start over (the undo glyph), Draft again (its title names what is outstanding), Suggest Subcategories (while something fits no subcategory), View Log (the run's record in the console lightbox) and Approve All. Under the tray, once there is an index, every subcategory in index order, step 2's scrubber, a rule and the category's name where each category starts, a band of the category's hue along the foot of its cells and its name marked in the same hue. Drafted: darker gray for drafts never opened, light gray for opened with drafts to review, the step's color once every draft is decided. A dot along a cell's top for each draft, at most three, dim while left to review, so a cell's dots fill in as its drafts are decided. No amber: nothing on the strip reads as alarm.
 
 ## Key decisions
 - Reset the prototype, under the workspace as on step 1, starts step 3 over after a confirm: no index, no drafts, no talk with Aldo.
-- Scrubber cells are 32px tall, as step 1's page tiles are.
+- The strip is step 1's: 50 cells, 32px tall, the same gaps and the same color logic (light gray undecided, darker gray wants a look, the step's color done).
 - Start over is PR #1520's: once a Draft run exists it replaces Re-run, and it deletes the index and every draft back to "No index yet". Prod refuses it while a run is live or an approved record has evidence.
 - Approve All approves every pending draft after a confirm that counts the subcategories never opened. Draft actions with no scope stay drafts.
 - No position line and no Next to review: Prev and Next, or the arrow keys, step one subcategory at a time; the thumb is where you are.
@@ -12,7 +12,7 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
 
 ## Markup
 ```html
-<div class="bcn-swsn" data-ix-nav="">
+<div class="bcn-swsn" data-ix-nav="" style="--_done: var(--color-obligation)">
   <div class="bcn-swsn__console">
     <span class="bcn-swsn__end" data-ix-step="" hidden=""
       ><span
@@ -340,7 +340,7 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
     ></span>
   </div>
   <div class="bcn-swsn__scrub" data-ix-scrub="" hidden="">
-    <div class="bcn-cscrub" data-commitment-scrubber="" data-size="40" style="--_n: 40">
+    <div class="bcn-cscrub" data-commitment-scrubber="" data-size="50" style="--_n: 50">
       <span data-cs-prev=""
         ><span
           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -377,6 +377,11 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
         data-cs-track=""
       >
         <span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
         ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
         ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
         ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
@@ -555,7 +560,7 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
   touch-action: none;
   border-radius: var(--radius-100);
   background: var(--color-background-elevation-sunken);
-  gap: 1px;
+  gap: 2px;
   height: 44px;
   padding: 6px;
   display: grid;
@@ -568,29 +573,49 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
 .bcn-cscrub__track .bcn-cscrub__cell {
   background: color-mix(
     in srgb,
-    var(--color-content-default) 14%,
+    var(--color-content-default) 16%,
     var(--color-background-elevation-raised)
   );
-  border-radius: 1px;
+  box-shadow: inset 0 -4px 0 var(--_hue, transparent);
+  --_mark: color-mix(
+    in srgb,
+    var(--color-content-default) 52%,
+    var(--color-background-elevation-raised)
+  );
+  border-radius: 2px;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding-top: 4px;
+  transition: background-color 0.16s;
+  display: flex;
 }
 .bcn-cscrub__track .bcn-cscrub__cell[data-state="none"] {
+  box-shadow: none;
   background: 0 0;
 }
-.bcn-cscrub__track .bcn-cscrub__cell[data-state="ready"] {
+.bcn-cscrub__track .bcn-cscrub__cell[data-state="flagged"] {
   background: color-mix(
     in srgb,
-    var(--color-content-default) 38%,
+    var(--color-content-default) 34%,
     var(--color-background-elevation-raised)
   );
-}
-.bcn-cscrub__track .bcn-cscrub__cell[data-state="flagged"] {
-  background: var(--color-background-warning, var(--bcn-topic-amber-3));
+  --_mark: var(--color-content-default);
 }
 .bcn-cscrub__track .bcn-cscrub__cell[data-state="confirmed"] {
-  background: var(--color-background-success, var(--color-content-success));
+  background: var(--_done, var(--color-background-success, var(--color-content-success)));
+  --_mark: var(--color-background-elevation-raised);
 }
-.bcn-cscrub__track .bcn-cscrub__cell {
-  box-shadow: inset 0 -4px 0 var(--_hue, transparent);
+.bcn-cscrub__track .bcn-cscrub__mark {
+  background: var(--_mark);
+  border-radius: 50%;
+  flex: none;
+  width: 7px;
+  height: 7px;
+  display: block;
+}
+.bcn-cscrub__track .bcn-cscrub__mark[data-dim] {
+  opacity: 0.45;
 }
 .bcn-cscrub__track .bcn-cscrub__sep {
   top: -4px;
@@ -726,27 +751,6 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
 }
 .bcn-swsn__scrub:empty {
   display: none;
-}
-.bcn-swsn .bcn-cscrub__cell[data-state="flagged"] {
-  background: color-mix(
-    in srgb,
-    var(--color-content-default) 62%,
-    var(--color-background-elevation-raised)
-  );
-}
-.bcn-swsn[data-tinted] .bcn-cscrub__cell[data-state="confirmed"] {
-  background: color-mix(
-    in srgb,
-    var(--_step) 42%,
-    var(--color-background-elevation-raised)
-  );
-}
-.bcn-swsn[data-tinted] .bcn-cscrub__cell[data-state="flagged"] {
-  background: color-mix(
-    in srgb,
-    var(--color-content-default) 38%,
-    var(--color-background-elevation-raised)
-  );
 }
 .bcn-sw3ia {
   align-items: center;
@@ -1046,7 +1050,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
 - `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--bcn-topic-amber-3`: #e9c162 _(component)_
 - `--border-width-default`: 1px _(semantic)_
 - `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--button-on-warning`: #fff _(component)_
@@ -1072,7 +1075,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-utility-success-hover`: #193b2d _(semantic)_
 - `--color-background-utility-warning`: #f59e0b _(semantic)_
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-background-warning`: #f59e0b _(component)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_

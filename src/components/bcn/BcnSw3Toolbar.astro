@@ -1,6 +1,8 @@
 ---
 // <BcnSw3Toolbar> — the console for the scan of the file in view, under the step's header
-// in one panel (a gray rule between). Transport on the left, as on a deck: Scan (start,
+// in one panel (a gray rule between). A sunken tray across the panel, as steps 2 and 3
+// carry theirs (bcn-sw-step-nav): Prev at its left end and Next at its right, each a page;
+// the scan's keys centered between. Transport first, as on a deck: Scan (start,
 // resume, or go on past the check), Pause and Restart. Then the page in view of the file's page count (type a page to go to it),
 // and the speed. Beside them, the status's one action when it has one (Review the N so far).
 // Below,
@@ -36,30 +38,36 @@ const SPEEDS = [
 ---
 
 <div class="bcn-sw3bar" data-sw3-toolbar>
-  <div class="bcn-sw3bar__row">
   <div class="bcn-sw3bar__console">
-    <esa-button-group class="bcn-sw3bar__transport" aria-label="Scan transport">
-      <EsaButton variant="secondary" size="sm" icon="plus" data-ico="scan-text" data-tx="play">Scan</EsaButton>
-      <EsaButton variant="secondary" size="sm" icon="plus" data-ico="pause" data-tx="pause">Pause</EsaButton>
-      <EsaButton variant="secondary" size="sm" icon="rotate-ccw" data-tx="restart">Restart</EsaButton>
-    </esa-button-group>
-    <esa-text-field
-      class="bcn-sw3bar__page"
-      size="sm"
-      inputmode="numeric"
-      aria-label="Page"
-      prefix="p."
-      suffix="of 1"
-      data-bar-page></esa-text-field>
-    <esa-dropdown-menu position="below-start" data-bar-speed data-items={JSON.stringify(SPEEDS)}>
-      <EsaButton variant="secondary" size="sm" icon="plus" data-ico="gauge" iconRight="chevron-down" data-bar-speed-btn>Slow</EsaButton>
-    </esa-dropdown-menu>
-  </div>
-  <p class="bcn-sw3bar__status" data-bar-status role="status" hidden>
-    <!-- No readout (text and dot removed 2026-10-14): the keys, the page and the strip say
-         where the run is. Only the status's action shows here. -->
-    <span class="bcn-sw3bar__status-act" data-bar-status-action></span>
-  </p>
+    <span class="bcn-sw3bar__end">
+      <EsaButton variant="secondary" size="sm" icon="chevron-left" title="Previous page ([)" data-bar-prev>Prev</EsaButton>
+    </span>
+    <span class="bcn-sw3bar__keys">
+      <esa-button-group class="bcn-sw3bar__transport" aria-label="Scan transport">
+        <EsaButton variant="secondary" size="sm" icon="plus" data-ico="scan-text" data-tx="play">Scan</EsaButton>
+        <EsaButton variant="secondary" size="sm" icon="plus" data-ico="pause" data-tx="pause">Pause</EsaButton>
+        <EsaButton variant="secondary" size="sm" icon="rotate-ccw" data-tx="restart">Restart</EsaButton>
+      </esa-button-group>
+      <esa-text-field
+        class="bcn-sw3bar__page"
+        size="sm"
+        inputmode="numeric"
+        aria-label="Page"
+        prefix="p."
+        suffix="of 1"
+        data-bar-page></esa-text-field>
+      <esa-dropdown-menu position="below-start" data-bar-speed data-items={JSON.stringify(SPEEDS)}>
+        <EsaButton variant="secondary" size="sm" icon="plus" data-ico="gauge" iconRight="chevron-down" data-bar-speed-btn>Slow</EsaButton>
+      </esa-dropdown-menu>
+      <p class="bcn-sw3bar__status" data-bar-status role="status" hidden>
+        <!-- No readout (text and dot removed 2026-10-14): the keys, the page and the strip say
+             where the run is. Only the status's action shows here. -->
+        <span class="bcn-sw3bar__status-act" data-bar-status-action></span>
+      </p>
+    </span>
+    <span class="bcn-sw3bar__end bcn-sw3bar__end--next">
+      <EsaButton variant="secondary" size="sm" iconRight="chevron-right" title="Next page (])" data-bar-next>Next</EsaButton>
+    </span>
   </div>
   <div class="bcn-sw3bar__scrub">
     <BcnPageScrubber label="Pages of the file" />
@@ -73,14 +81,6 @@ const SPEEDS = [
     gap: var(--spacing-300);
     padding: var(--spacing-300) var(--spacing-500) var(--spacing-200);
     border-top: 1px solid var(--color-border-default);
-  }
-  /* The console and the status on one line, centered; the status wraps under when narrow. */
-  .bcn-sw3bar__row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-200) var(--spacing-400);
   }
   /* The status: only its action, by the keys. */
   .bcn-sw3bar__status {
@@ -97,21 +97,32 @@ const SPEEDS = [
   }
   .bcn-sw3bar__status[hidden] { display: none; }
   .bcn-sw3bar__status-act:empty { display: none; }
-  /* The console: the transport and the speed side by side on a sunken tray. */
+  /* The tray: sunken, across the panel, as on steps 2 and 3; Prev at its left end, Next at
+     its right, the scan's keys centered between. */
   .bcn-sw3bar__console {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: var(--spacing-200);
-    align-self: center;
-    /* A narrow pane (Aldo expanded beside it) wraps the console, never spills it. */
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 100%;
     padding: var(--spacing-100);
     background: var(--color-background-elevation-sunken);
     border: 1px solid var(--color-border-default-subtle);
     border-radius: var(--radius-200);
   }
+  /* A narrow pane (Aldo expanded beside it) wraps the keys, never spills them. */
+  .bcn-sw3bar__keys {
+    grid-column: 2;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+  .bcn-sw3bar__end { grid-row: 1; grid-column: 1; justify-self: start; }
+  .bcn-sw3bar__end--next { grid-column: 3; justify-self: end; }
+  .bcn-sw3bar :global([data-bar-prev]:disabled),
+  .bcn-sw3bar :global([data-bar-next]:disabled) { opacity: 0.38; }
   /* The page in view, of how many: a field as tall as the keys, as wide as its number. */
   .bcn-sw3bar__page {
     width: 7.25rem;

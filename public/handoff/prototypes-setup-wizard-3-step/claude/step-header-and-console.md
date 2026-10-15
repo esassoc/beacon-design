@@ -1,11 +1,12 @@
 # Step header and console
 
-One panel: the step's numeral, title and prod's description; under a gray rule, the console for the file in view, centered: the transport (Scan or Resume, Pause, Restart), each a neutral key with its icon and name, the page in view of the file's page count as one field (type a page to go to it), and the speed (One at a time, Slow, Fast) in a menu. Nothing beside the console says where the run is: the console's pressed key, the page field and the strip show it. When the run is paused partway, one button sits beside it: Review the N so far, with its one action when it has one (Review the 12 so far). Below, every page of the file in one strip.
+One panel: the step's numeral, title and prod's description; under a gray rule, the console for the file in view: a sunken tray across the panel, as steps 2 and 3 carry theirs, with Prev at its left end and Next at its right (a page each, as [ and ] are), and centered between them the transport (Scan or Resume, Pause, Restart), each a neutral key with its icon and name, the page in view of the file's page count as one field (type a page to go to it), and the speed (One at a time, Slow, Fast) in a menu. Nothing beside the console says where the run is: the console's pressed key, the page field and the strip show it. When the run is paused partway, one button sits beside it: Review the N so far, with its one action when it has one (Review the 12 so far). Below, every page of the file in one strip.
 
 ## Key decisions
 - Each key is live only when it can act, and the run's state reads as a pressed key: Scan before the run, Resume when it is paused or stopped for the check, Pause while it reads, Restart once it has begun. Restart asks first and clears the file's scan and steers.
 - Speed is how fast the job dispatches page windows: a real control in prod. Every speed change, pause and resume is recorded as a steer.
 - With a source (not a file) selected, the console is dimmed and inert.
+- Prev is off on the first page and Next on the last.
 
 ## Done when
 - At the check after the first three commitments, Resume goes on past it at the speed chosen.
@@ -15,9 +16,34 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
 ## Markup
 ```html
 <div class="bcn-sw3bar" data-sw3-toolbar="">
-  <div class="bcn-sw3bar__row">
-    <div class="bcn-sw3bar__console">
-      <esa-button-group
+  <div class="bcn-sw3bar__console">
+    <span class="bcn-sw3bar__end"
+      ><span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          title="Previous page ([)"
+          data-bar-prev="true"
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m15 18-6-6 6-6"></path></svg></span
+          ><span class="esa-button__label">Prev</span>
+        </button></span
+      ></span
+    ><span class="bcn-sw3bar__keys"
+      ><esa-button-group
         class="bcn-sw3bar__transport"
         aria-label="Scan transport"
         role="group"
@@ -161,14 +187,37 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
                 <path d="m6 9 6 6 6-6"></path></svg
             ></span></button></span
       ></esa-dropdown-menu>
-    </div>
-    <p class="bcn-sw3bar__status" data-bar-status="" role="status" hidden="">
-      <!-- No readout (text and dot removed 2026-10-14): the keys, the page and the strip say
-         where the run is. Only the status's action shows here. --><span
-        class="bcn-sw3bar__status-act"
-        data-bar-status-action=""
-      ></span>
-    </p>
+      <p class="bcn-sw3bar__status" data-bar-status="" role="status" hidden="">
+        <!-- No readout (text and dot removed 2026-10-14): the keys, the page and the strip say
+             where the run is. Only the status's action shows here. --><span
+          class="bcn-sw3bar__status-act"
+          data-bar-status-action=""
+        ></span></p></span
+    ><span class="bcn-sw3bar__end bcn-sw3bar__end--next"
+      ><span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          title="Next page (])"
+          data-bar-next="true"
+        >
+          <span class="esa-button__label">Next</span
+          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path></svg
+          ></span></button></span
+    ></span>
   </div>
   <div class="bcn-sw3bar__scrub">
     <div
@@ -668,9 +717,6 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
-}
 .bcn-scrub {
   --_cell: calc(100% / var(--_n));
   align-items: center;
@@ -754,8 +800,24 @@ summary.esa-button--variant-chrome:focus-visible {
   animation: 0.22s ease-out bcn-scrub-pop;
   display: block;
 }
-.bcn-scrub__track .bcn-scrub__pip[data-parsed] {
+.bcn-scrub__track .bcn-scrub__pip[data-role="whole"] {
   background: var(--color-background-elevation-raised);
+}
+.bcn-scrub__track .bcn-scrub__pip[data-role="start"],
+.bcn-scrub__track .bcn-scrub__pip[data-role="end"] {
+  background: linear-gradient(
+      var(--_dir, 180deg),
+      var(--color-background-elevation-raised) 50%,
+      transparent 50%
+    )
+    border-box;
+  border-color: #0000;
+}
+.bcn-scrub__track .bcn-scrub__pip[data-role="end"] {
+  --_dir: 0deg;
+}
+.bcn-scrub__track .bcn-scrub__pip:not([data-parsed]) {
+  opacity: 0.5;
 }
 .bcn-scrub__track .bcn-scrub__pip[data-selected] {
   box-shadow:
@@ -846,13 +908,6 @@ summary.esa-button--variant-chrome:focus-visible {
   flex-direction: column;
   display: flex;
 }
-.bcn-sw3bar__row {
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-200) var(--spacing-400);
-  flex-wrap: wrap;
-  display: flex;
-}
 .bcn-sw3bar__status {
   align-items: center;
   gap: var(--spacing-200);
@@ -872,15 +927,33 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3bar__console {
   align-items: center;
   gap: var(--spacing-200);
-  max-width: 100%;
   padding: var(--spacing-100);
   background: var(--color-background-elevation-sunken);
   border: 1px solid var(--color-border-default-subtle);
   border-radius: var(--radius-200);
-  flex-wrap: wrap;
+  grid-template-columns: 1fr auto 1fr;
+  display: grid;
+}
+.bcn-sw3bar__keys {
   justify-content: center;
-  align-self: center;
+  align-items: center;
+  gap: var(--spacing-200);
+  flex-wrap: wrap;
+  grid-column: 2;
+  min-width: 0;
   display: flex;
+}
+.bcn-sw3bar__end {
+  grid-area: 1/1;
+  justify-self: start;
+}
+.bcn-sw3bar__end--next {
+  grid-column: 3;
+  justify-self: end;
+}
+.bcn-sw3bar [data-bar-prev]:disabled,
+.bcn-sw3bar [data-bar-next]:disabled {
+  opacity: 0.38;
 }
 .bcn-sw3bar__page {
   --_field-padding-x: 0.4375rem;
@@ -925,6 +998,9 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3tools .esa-button,
 .bcn-sw3tools esa-dropdown-menu {
   flex: none;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);

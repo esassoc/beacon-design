@@ -12,9 +12,9 @@
 // `[data-ix-step]` (on each of the two, hidden when there is nothing to step) and the scrubber's
 // `[data-commitment-scrubber]` inside `[data-ix-scrub]`.
 //
-// A record that still wants a look (step 3: drafts never opened) is a darker gray, never
-// amber. `token` (step 2): a decided record's cell takes a light tint of the step's color,
-// and a record with something to settle reads as any other undecided one.
+// The scrubber's cells read as step 1's pages: light gray while undecided, a darker gray when
+// one wants a look (step 2: something to settle; step 3: drafts never opened), and `token`,
+// the step's color, once decided.
 //
 // bcn-lego-checked: Prev and Next ARE esa-button; the scrubber IS
 // bcn-commitment-scrubber. The tray is step 1's bcn-sw3bar console geometry (sunken, a
@@ -28,7 +28,7 @@ interface Props {
   hook: string;
   /** The scrubber's accessible name: what one cell is. */
   label: string;
-  /** The step's color: decided cells take a light tint of it. */
+  /** The step's color: decided cells take it. */
   token?: SetupStepToken;
 }
 const { hook, label, token } = Astro.props;
@@ -36,7 +36,7 @@ const at = (name: string) => ({ [`data-${hook}-${name}`]: '' });
 const lower = label.toLowerCase();
 ---
 
-<div class="bcn-swsn" {...at('nav')} data-tinted={token ? '' : undefined} style={token ? `--_step: var(--color-${token});` : undefined}>
+<div class="bcn-swsn" {...at('nav')} style={token ? `--_done: var(--color-${token});` : undefined}>
   <div class="bcn-swsn__console">
     <span class="bcn-swsn__end" {...at('step')}>
       <EsaButton variant="secondary" size="sm" icon="chevron-left" title={`Previous ${lower} (Left arrow)`} {...at('prev')}>Prev</EsaButton>
@@ -84,16 +84,5 @@ const lower = label.toLowerCase();
   /* A key that cannot act now is plainly off, as on step 1's console. */
   .bcn-swsn :global(button:disabled) { opacity: 0.38; }
   .bcn-swsn__scrub:empty { display: none; }
-  /* Nothing reads as alarm: a record that still wants a look is a darker gray, not amber. */
-  .bcn-swsn :global(.bcn-cscrub__cell[data-state='flagged']) {
-    background: color-mix(in srgb, var(--color-content-default) 62%, var(--color-background-elevation-raised));
-  }
-  /* Step 2: a decided record in a light tint of the step's color; nothing reads as alarm. */
-  .bcn-swsn[data-tinted] :global(.bcn-cscrub__cell[data-state='confirmed']) {
-    background: color-mix(in srgb, var(--_step) 42%, var(--color-background-elevation-raised));
-  }
-  .bcn-swsn[data-tinted] :global(.bcn-cscrub__cell[data-state='flagged']) {
-    background: color-mix(in srgb, var(--color-content-default) 38%, var(--color-background-elevation-raised));
-  }
 </style>
 

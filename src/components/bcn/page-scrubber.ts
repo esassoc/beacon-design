@@ -2,10 +2,14 @@
 // key handling, and repaints from a model the host passes to update(). The cells are built
 // here for the window in view, so one strip serves documents of any length.
 
+/** Where the page falls in the find: all of it, where it opens, where it closes, or between. */
+export type PipRole = 'whole' | 'start' | 'end' | 'middle';
+
 export interface ScrubberPip {
   id: string;
   label: string;
   parsed: boolean;
+  role?: PipRole;
 }
 
 export interface ScrubberModel {
@@ -148,7 +152,7 @@ export function setupPageScrubber(root: HTMLElement, { onPage, onFind }: Handler
       if (el.dataset.state !== state) el.dataset.state = state;
       const pipsEl = el.firstElementChild as HTMLElement;
       const pips = n > total ? [] : (m.pips.get(n) ?? []);
-      const sig = `${n}:${pips.map((p) => `${p.id}${p.parsed ? '+' : ''}${p.id === m.selectedFind ? '*' : ''}`).join('|')}`;
+      const sig = `${n}:${pips.map((p) => `${p.id}${p.role ?? ''}${p.parsed ? '+' : ''}${p.id === m.selectedFind ? '*' : ''}`).join('|')}`;
       if (pipsEl.dataset.sig !== sig) {
         const samePage = pipsEl.dataset.sig?.startsWith(`${n}:`);
         pipsEl.dataset.sig = sig;
@@ -161,6 +165,7 @@ export function setupPageScrubber(root: HTMLElement, { onPage, onFind }: Handler
             pip.dataset.find = p.id;
             pip.title = p.label;
             pip.toggleAttribute('data-parsed', p.parsed);
+            pip.dataset.role = p.role ?? 'whole';
             pip.toggleAttribute('data-selected', p.id === m.selectedFind);
             return pip;
           }),

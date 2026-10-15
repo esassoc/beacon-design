@@ -1,10 +1,12 @@
 # Scrubber
 
-Every page of the file, fifty at a time, with chevrons centered on the pages to page the window and small page guides under them. Unread pages are light gray; read pages take the Source Documents color, each find a white dot on them; pages outside the scope are blank. The scan head is Aldo green. Hovering a page shows a small dark popover: its number, whether it is read, and what was found on it. Clicking the head cell takes up following the scan again.
+Every page of the file, fifty at a time, with chevrons centered on the pages to page the window and small page guides under them. Unread pages are light gray; read pages take the Source Documents color, each find a white mark on every page it runs across: a dot where the find is whole on the page, the top half of the dot on the page where it opens, the bottom half on the page where it closes, and a bare ring on a page it runs through. A mark is dim until its find is parsed. Pages outside the scope are blank. The scan head is Aldo green. Hovering a page shows a small dark popover: its number, whether it is read, and what was found on it. Clicking the head cell takes up following the scan again.
 
 ## Key decisions
 - All pages, not only those holding commitments: the person sees where the scope sits in the whole document.
 - No page or range label here: the header's status line carries it once.
+- At most three marks a page, in reading order: one closing first, then one running through, then whole ones, then one opening. Any mark lands on its find; the popover names it and its page range ("opens, pp. 131–132").
+- Steps 2 and 3 carry the same strip: the same cells, the same four colors (light gray undecided, darker gray wants a look, the step's color done, blank out of scope) and the same marks.
 
 ## Done when
 - On the ITP, page the window forward: the pages past Condition 11 read as out of scope.
@@ -501,9 +503,6 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
-}
 .bcn-scrub {
   --_cell: calc(100% / var(--_n));
   align-items: center;
@@ -587,8 +586,24 @@ summary.esa-button--variant-chrome:focus-visible {
   animation: 0.22s ease-out bcn-scrub-pop;
   display: block;
 }
-.bcn-scrub__track .bcn-scrub__pip[data-parsed] {
+.bcn-scrub__track .bcn-scrub__pip[data-role="whole"] {
   background: var(--color-background-elevation-raised);
+}
+.bcn-scrub__track .bcn-scrub__pip[data-role="start"],
+.bcn-scrub__track .bcn-scrub__pip[data-role="end"] {
+  background: linear-gradient(
+      var(--_dir, 180deg),
+      var(--color-background-elevation-raised) 50%,
+      transparent 50%
+    )
+    border-box;
+  border-color: #0000;
+}
+.bcn-scrub__track .bcn-scrub__pip[data-role="end"] {
+  --_dir: 0deg;
+}
+.bcn-scrub__track .bcn-scrub__pip:not([data-parsed]) {
+  opacity: 0.5;
 }
 .bcn-scrub__track .bcn-scrub__pip[data-selected] {
   box-shadow:
@@ -676,6 +691,9 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3tools .esa-button,
 .bcn-sw3tools esa-dropdown-menu {
   flex: none;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);

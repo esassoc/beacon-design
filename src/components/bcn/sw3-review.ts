@@ -658,7 +658,9 @@ export function setupSw3Review(root: HTMLElement): void {
         groups.push({ label: f.short, start: cells.length });
         for (const x of f.codes) {
           const state = stateOf(x);
-          cells.push({ id: keyOf(f.doc, x), label: short(x), title: identified(x).title, state, note: noteOf(x) });
+          // A dot a requirement, once the parse has them.
+          const marks = state === 'parsing' ? [] : requirementsOf(x).map(() => ({}));
+          cells.push({ id: keyOf(f.doc, x), label: short(x), title: identified(x).title, state, note: noteOf(x), marks });
         }
       });
     const at = cells.findIndex((x) => x.id === here());

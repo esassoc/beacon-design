@@ -57,7 +57,7 @@ import {
   downloadFile,
   resetSources,
 } from './sw3-sources';
-import { setupPageScrubber, type ScrubberPip } from './page-scrubber';
+import { setupPageScrubber, type ScrubberPip, type PipRole } from './page-scrubber';
 import { setupPageView, countPages, type PageViewBox } from './page-view';
 import { setupSw3SourcesUi, middle, type FileState, type SourceRow } from './sw3-sources-ui';
 import { setupSw3SourceEditor, type EditorSource } from './sw3-source-editor';
@@ -334,6 +334,9 @@ export function setupSw3Scan(root: HTMLElement): void {
     render();
   };
   const goPage = (d: number) => pick(Math.min(total(), Math.max(1, view() + d)));
+  // The console's Prev and Next: a page each, as [ and ] are (EsaButton puts data-* on the button).
+  $('button[data-bar-prev]').addEventListener('click', () => goPage(-1));
+  $('button[data-bar-next]').addEventListener('click', () => goPage(1));
   const toolActions: Record<string, () => void> = {
     select: () => (setDrawing(false), setSplitting(null), render()),
     mark: () => toggleMark(),
@@ -778,6 +781,8 @@ export function setupSw3Scan(root: HTMLElement): void {
     key('play', !skipped() && !done && (on ? !reading : !!go), reading);
     key('pause', reading, isPaused || isChecking);
     key('restart', on || skipped(), false);
+    $<HTMLButtonElement>('button[data-bar-prev]').disabled = view() <= 1;
+    $<HTMLButtonElement>('button[data-bar-next]').disabled = view() >= total();
     setLabel(tx.play, on ? 'Resume' : 'Scan');
     // The page in view, of the file's pages.
     if (!pageField.matches(':focus-within')) pageField.value = String(view());
@@ -788,11 +793,22 @@ export function setupSw3Scan(root: HTMLElement): void {
     // Scrubber: every page of the file; a page being re-read is unread again.
     const read = new Set([...scanned()].filter((p) => !again.has(p)));
     const pips = new Map<number, ScrubberPip[]>();
+    // A find on every page it runs across: whole on one page, else opening, between, closing.
+    const ORDER: Record<PipRole, number> = { end: 0, middle: 1, whole: 2, start: 3 };
     for (const f of list) {
-      const arr = pips.get(f.page) ?? [];
-      arr.push({ id: f.id, label: `${f.code || f.title}, p. ${f.page}`, parsed: f.parsed || f.edited });
-      pips.set(f.page, arr);
+      const pages = f.boxes.length ? f.boxes.map((b) => b.page) : [f.page];
+      const from = Math.min(f.page, ...pages);
+      const to = Math.max(f.page, ...pages);
+      const name = f.code || f.title;
+      for (let p = from; p <= to; p++) {
+        const role: PipRole = from === to ? 'whole' : p === from ? 'start' : p === to ? 'end' : 'middle';
+        const where = from === to ? `p. ${p}` : role === 'start' ? `opens, pp. ${from}–${to}` : role === 'end' ? `closes, pp. ${from}–${to}` : `continues, pp. ${from}–${to}`;
+        const arr = pips.get(p) ?? [];
+        arr.push({ id: f.id, label: `${name}, ${where}`, parsed: f.parsed || f.edited, role });
+        pips.set(p, arr);
+      }
     }
+    for (const arr of pips.values()) arr.sort((a, b) => ORDER[a.role!] - ORDER[b.role!]);
     const scrubHead = again.size ? Math.min(...again) : done || !on ? null : head;
     scrubber.update({ total: total(), scanned: read, gaps: gaps(), inScope: (n) => !on || inScope(n), head: scrubHead, view: view(), pips, selectedFind: selected });
 

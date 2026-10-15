@@ -11,6 +11,9 @@ export interface ScrubCell {
   state: CellState;
   /** The tip's second line: "2 to settle", "Confirmed". */
   note: string;
+  /** Dots along the cell's top, as step 1's pages carry their finds: at most three drawn.
+   *  A dim one is not done yet. */
+  marks?: { dim?: boolean }[];
 }
 
 /** A source file's run of cells: commitments come from several files, end to end. */
@@ -30,7 +33,7 @@ export interface CommitmentScrubberModel {
 }
 
 export function setupCommitmentScrubber(root: HTMLElement, { onPick }: { onPick: (id: string) => void }) {
-  const size = Number(root.dataset.size) || 40;
+  const size = Number(root.dataset.size) || 50;
   const track = root.querySelector<HTMLElement>('[data-cs-track]')!;
   const thumb = root.querySelector<HTMLElement>('[data-cs-thumb]')!;
   const ticks = root.querySelector<HTMLElement>('[data-cs-ticks]')!;
@@ -47,7 +50,7 @@ export function setupCommitmentScrubber(root: HTMLElement, { onPick }: { onPick:
 
   const indexAt = (x: number) => {
     const r = track.getBoundingClientRect();
-    const f = Math.min(0.9999, Math.max(0, (x - r.left - 5) / (r.width - 10)));
+    const f = Math.min(0.9999, Math.max(0, (x - r.left - 6) / (r.width - 12)));
     return windowStart() + Math.floor(f * size);
   };
   const pick = (i: number) => {
@@ -79,7 +82,7 @@ export function setupCommitmentScrubber(root: HTMLElement, { onPick }: { onPick:
     tip.hidden = !c;
     if (c) {
       const r = track.getBoundingClientRect();
-      tip.style.left = `${r.left + 5 + ((i - windowStart() + 0.5) / size) * (r.width - 10)}px`;
+      tip.style.left = `${r.left + 6 + ((i - windowStart() + 0.5) / size) * (r.width - 12)}px`;
       tip.style.top = `${r.top - 6}px`;
       const g = groupOf(i);
       tip.querySelector('[data-cs-tip-code]')!.textContent = g && (model.groups?.length ?? 0) > 1 ? `${g.label} ${c.label}` : c.label;
@@ -114,8 +117,22 @@ export function setupCommitmentScrubber(root: HTMLElement, { onPick }: { onPick:
     const start = windowStart();
     const last = Math.min(n, start + size) - 1;
     cells.forEach((el, i) => {
-      const state = model.cells[start + i]?.state ?? 'none';
+      const cell = model.cells[start + i];
+      const state = cell?.state ?? 'none';
       if (el.dataset.state !== state) el.dataset.state = state;
+      const marks = (cell?.marks ?? []).slice(0, 3);
+      const sig = marks.map((m) => (m.dim ? 'o' : '*')).join('');
+      if (el.dataset.marks !== sig) {
+        el.dataset.marks = sig;
+        el.replaceChildren(
+          ...marks.map((m) => {
+            const dot = document.createElement('span');
+            dot.className = 'bcn-cscrub__mark';
+            dot.toggleAttribute('data-dim', !!m.dim);
+            return dot;
+          }),
+        );
+      }
       const hue = (model.cells[start + i] && groupOf(start + i)?.hue) || '';
       if (el.style.getPropertyValue('--_hue') !== hue) hue ? el.style.setProperty('--_hue', hue) : el.style.removeProperty('--_hue');
     });

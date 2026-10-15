@@ -700,27 +700,13 @@ summary.esa-button--variant-chrome:focus-visible {
   flex: none;
   display: flex;
 }
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
-}
-.bcn-sw3edf {
-  gap: var(--spacing-400);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-sw3edf [hidden] {
-  display: none;
-}
-.bcn-sw3edf__foot {
-  justify-content: flex-end;
-  gap: var(--spacing-200);
-  width: 100%;
-  display: flex;
-}
 .bcn-sw3tools esa-button-group,
 .bcn-sw3tools .esa-button,
 .bcn-sw3tools esa-dropdown-menu {
   flex: none;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
 }
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
@@ -784,6 +770,20 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-title-sm-strong-font-weight);
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
+}
+.bcn-sw3edf {
+  gap: var(--spacing-400);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-sw3edf [hidden] {
+  display: none;
+}
+.bcn-sw3edf__foot {
+  justify-content: flex-end;
+  gap: var(--spacing-200);
+  width: 100%;
+  display: flex;
 }
 .esa-collapsible__summary .esa-icon {
   color: var(--color-content-default-secondary, #646464);

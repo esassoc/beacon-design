@@ -7,11 +7,13 @@
 // flag key jumps to the next one with something to settle. Ticks under the strip name a
 // commitment every so often, so a person knows where they are.
 //
-// A few hundred will not fit one strip at a size worth reading, so it shows a window (40 by
-// default, as the source step shows 50 pages) with previous / next beside it; the window
-// follows the commitment in view unless the person pages it themselves. 40, not 50: a
-// commitment's tick label ("MM AES-1a") is wider than a page number, and 40 leaves a label
-// every tenth cell room at the 1280 layout.
+// A few hundred will not fit one strip at a size worth reading, so it shows a window of 50,
+// as the source step shows 50 pages, with previous / next beside it; the window follows the
+// commitment in view unless the person pages it themselves. Cells are step 1's page tiles in
+// size and color: light gray while undecided, a darker gray when one wants a look, the step's
+// color (--_done) once decided. Dots along a cell's top are what it holds (`marks`), white
+// on the step's color and gray on gray, as step 1's pages carry their finds. A tick label that
+// would run into its neighbor is dropped.
 //
 // A slider for the keyboard: arrows step one, Page Up/Down step ten, Home/End go to the
 // ends of the run.
@@ -32,7 +34,7 @@ interface Props {
   /** Commitments per window. */
   size?: number;
 }
-const { label = 'Commitment', size = 40 } = Astro.props;
+const { label = 'Commitment', size = 50 } = Astro.props;
 ---
 
 <div class="bcn-cscrub" data-commitment-scrubber data-size={size}>
@@ -68,8 +70,8 @@ const { label = 'Commitment', size = 40 } = Astro.props;
     position: relative;
     display: grid;
     grid-template-columns: repeat(var(--_n, 1), minmax(0, 1fr));
-    gap: 1px;
-    /* Cells as tall as step 1's page tiles (bcn-page-scrubber): 32px in a 44px track. */
+    gap: 2px;
+    /* Cells as step 1's page tiles (bcn-page-scrubber): 50 in a window, 32px in a 44px track. */
     height: 44px;
     padding: 6px;
     cursor: pointer;
@@ -82,21 +84,43 @@ const { label = 'Commitment', size = 40 } = Astro.props;
     outline-offset: var(--focus-ring-offset, 2px);
   }
 
-  /* A commitment. Built by the controller, so reached through :global(). */
+  /* A commitment. Built by the controller, so reached through :global(). Undecided: step 1's
+     unread page, a light gray. */
   .bcn-cscrub__track :global(.bcn-cscrub__cell) {
-    border-radius: 1px;
-    background: color-mix(in srgb, var(--color-content-default) 14%, var(--color-background-elevation-raised));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding-top: 4px;
+    border-radius: 2px;
+    background: color-mix(in srgb, var(--color-content-default) 16%, var(--color-background-elevation-raised));
+    /* A run with a hue (step 3's categories): a band along the foot of each of its cells. */
+    box-shadow: inset 0 -4px 0 var(--_hue, transparent);
+    transition: background-color 160ms ease;
+    --_mark: color-mix(in srgb, var(--color-content-default) 52%, var(--color-background-elevation-raised));
   }
   /* Past the run's end, in the last window. */
-  .bcn-cscrub__track :global(.bcn-cscrub__cell[data-state='none']) { background: none; }
-  /* Parsed, nothing to settle: ready to confirm. */
-  .bcn-cscrub__track :global(.bcn-cscrub__cell[data-state='ready']) {
-    background: color-mix(in srgb, var(--color-content-default) 38%, var(--color-background-elevation-raised));
+  .bcn-cscrub__track :global(.bcn-cscrub__cell[data-state='none']) { background: none; box-shadow: none; }
+  /* Something to settle, or never opened: a darker gray. */
+  .bcn-cscrub__track :global(.bcn-cscrub__cell[data-state='flagged']) {
+    background: color-mix(in srgb, var(--color-content-default) 34%, var(--color-background-elevation-raised));
+    --_mark: var(--color-content-default);
   }
-  .bcn-cscrub__track :global(.bcn-cscrub__cell[data-state='flagged']) { background: var(--color-background-warning, var(--bcn-topic-amber-3)); }
-  .bcn-cscrub__track :global(.bcn-cscrub__cell[data-state='confirmed']) { background: var(--color-background-success, var(--color-content-success)); }
-  /* A run with a hue (step 3's categories): a band along the foot of each of its cells. */
-  .bcn-cscrub__track :global(.bcn-cscrub__cell) { box-shadow: inset 0 -4px 0 var(--_hue, transparent); }
+  /* Decided: the step's color, as a read page takes Source Documents' color. */
+  .bcn-cscrub__track :global(.bcn-cscrub__cell[data-state='confirmed']) {
+    background: var(--_done, var(--color-background-success, var(--color-content-success)));
+    --_mark: var(--color-background-elevation-raised);
+  }
+  /* What the cell holds: step 1's pip, filled. */
+  .bcn-cscrub__track :global(.bcn-cscrub__mark) {
+    display: block;
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--_mark);
+  }
+  .bcn-cscrub__track :global(.bcn-cscrub__mark[data-dim]) { opacity: 0.45; }
 
   /* A file boundary: a rule through the strip, in the gap between two cells. */
   .bcn-cscrub__track :global(.bcn-cscrub__sep) {

@@ -51,7 +51,7 @@ const STEP = SW3_STEPS[2];
         <BcnSwStepPanel n={STEP.n} token={STEP.token} intro="Build the index, then draft its actions and obligations and review them.">
           <Fragment slot="title"><span>Compliance Index</span></Fragment>
           <BcnSw3IndexRun />
-          <BcnSwStepNav hook="ix" label="Subcategory"><BcnSw3IndexActions /></BcnSwStepNav>
+          <BcnSwStepNav hook="ix" label="Subcategory" token={STEP.token}><BcnSw3IndexActions /></BcnSwStepNav>
         </BcnSwStepPanel>
         <BcnSw3Index />
         <BcnSwReset step="index" />

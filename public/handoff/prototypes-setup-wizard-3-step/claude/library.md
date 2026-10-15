@@ -1225,12 +1225,6 @@ summary.esa-button--variant-chrome:focus-visible {
   --spacing-200: 0.5rem;
   --spacing-300: 0.75rem;
 }
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
-}
-.bcn-aldo-needs__head .esa-badge {
-  font-variant-numeric: tabular-nums;
-}
 .bcn-sw3tools esa-button-group,
 .bcn-sw3tools .esa-button,
 .bcn-sw3tools esa-dropdown-menu {
@@ -1239,6 +1233,12 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3scan[data-library="closed"] .bcn-sw3scan__sources > .bcn-sw3src,
 .bcn-sw3scan__rail {
   display: none;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
+.bcn-aldo-needs__head .esa-badge {
+  font-variant-numeric: tabular-nums;
 }
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);

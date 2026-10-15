@@ -9,19 +9,18 @@ export default {
     {
       label: 'Console',
       selector: '[data-rev-nav]',
-      intent: 'The foot of the step\'s panel, as step 1 carries its scan console: header and console are one panel, and the header carries no keys. A sunken tray across the panel under the header rule, every key neutral: Prev at its left end, Next at its right, Confirm all and Export centered between. Under it, every commitment of every source file in one run, file after file, one cell each: gray while parsing, darker gray until confirmed, a light tint of the step\'s purple once confirmed. A rule through the strip marks where one file ends and the next begins, and the file\'s short name (ITP, MMRP) sits under the strip where its run starts. The strip shows 40 at a time; the double chevrons page the window, which otherwise follows the commitment in view. The thumb is the one in view. Click or drag to land on one; Previous and Next, or the arrow keys, step one at a time across files.',
+      intent: 'The foot of the step\'s panel, as step 1 carries its scan console: header and console are one panel, and the header carries no keys. A sunken tray across the panel under the header rule, every key neutral: Prev at its left end, Next at its right, Confirm all and Export centered between. Under it, every commitment of every source file in one run, file after file, one cell each, as step 1\'s page tiles: light gray until confirmed, darker gray while it has something to settle, the step\'s purple once confirmed. A dot along a cell\'s top for each of its requirements, at most three: gray on gray, white on purple. A rule through the strip marks where one file ends and the next begins, and the file\'s short name (ITP, MMRP) sits under the strip where its run starts. The strip shows 50 at a time, as step 1 shows 50 pages; the double chevrons page the window, which otherwise follows the commitment in view. The thumb is the one in view. Click or drag to land on one; Previous and Next, or the arrow keys, step one at a time across files.',
       decisions: [
         'Reset the prototype, under the workspace as on step 1, starts step 2 over after a confirm: every commitment as the parse left it, no edits, confirmations or talk with Aldo. The scans are kept.',
-        'Scrubber cells are 32px tall, as step 1\'s page tiles are.',
+        'The strip is step 1\'s: 50 cells, 32px tall, the same gaps and the same color logic (light gray undecided, darker gray wants a look, the step\'s color done).',
         'No position line and no Next to settle: where you are is the thumb, and what is left to settle is in each cell\'s tooltip and in Aldo.',
-        'No amber: a commitment with something to settle reads as any other unconfirmed one. Only confirmed has a color.',
+        'No amber: a commitment with something to settle is a darker gray, as step 3\'s unopened subcategories are. Only confirmed has a color.',
         'No link on to the Compliance Index here: the wizard\'s step bar is the way on.',
         'Confirm all confirms only clean, parsed commitments, and says how many; the toast carries a one-step Undo.',
         'Export produces no real file in the prototype.',
-        'A window of 40, as the source step shows 50 pages: a commitment\'s tick label ("MM AES-1a") is wider than a page number, and 40 keeps a label every tenth cell legible at the 1280 layout.',
         'Landing on a commitment in another file makes that file the active one: the text, the rail, Aldo and the side panels all read it.',
       ],
-      acceptance: ['Prev is off on the first commitment and Next on the last; Next from the last ITP commitment lands on the first MMRP one.', 'Confirm all paints every clean cell light purple.'],
+      acceptance: ['Prev is off on the first commitment and Next on the last; Next from the last ITP commitment lands on the first MMRP one.', 'Confirm all paints every clean cell purple, its requirement dots white.'],
     },
     {
       label: 'Commitment',

@@ -1,7 +1,9 @@
 ---
 // <BcnPageScrubber> — every page of a document, a window at a time: which pages have
 // been read, which are outside the scope (skipped, not read), which have finds (a pip per
-// find, hollow while found and solid once parsed), which were read and have none (a gap,
+// find on every page it runs across: a dot where it is whole, the top half filled where it
+// opens, the bottom half where it closes, a ring between; dim until parsed), which were
+// read and have none (a gap,
 // where a missed item hides), how far ahead the reader is (the head), and which page the
 // person is looking at (the thumb). Drag or click to jump to a page; click a pip to land
 // on that find. A document of hundreds of pages will not fit one strip, so the strip shows
@@ -139,7 +141,17 @@ const { label = 'Page', size = 50 } = Astro.props;
     cursor: pointer;
     animation: bcn-scrub-pop 220ms ease-out;
   }
-  .bcn-scrub__track :global(.bcn-scrub__pip[data-parsed]) { background: var(--color-background-elevation-raised); }
+  /* The pip's shape is where the page falls in the find: a dot for a find whole on the page,
+     the top half of the dot where it opens, the bottom half where it closes, the bare ring on
+     a page between. Dim until parsed. */
+  .bcn-scrub__track :global(.bcn-scrub__pip[data-role='whole']) { background: var(--color-background-elevation-raised); }
+  .bcn-scrub__track :global(.bcn-scrub__pip[data-role='start']),
+  .bcn-scrub__track :global(.bcn-scrub__pip[data-role='end']) {
+    border-color: transparent;
+    background: linear-gradient(var(--_dir, 180deg), var(--color-background-elevation-raised) 50%, transparent 50%) border-box;
+  }
+  .bcn-scrub__track :global(.bcn-scrub__pip[data-role='end']) { --_dir: 0deg; }
+  .bcn-scrub__track :global(.bcn-scrub__pip:not([data-parsed])) { opacity: 0.5; }
   .bcn-scrub__track :global(.bcn-scrub__pip[data-selected]) {
     box-shadow: 0 0 0 1.5px var(--color-source), 0 0 0 3px var(--color-background-elevation-raised);
   }

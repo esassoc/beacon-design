@@ -12,11 +12,12 @@ export default {
     {
       label: 'Step header and console',
       selector: '[data-sw3-toolbar]',
-      intent: 'One panel: the step\'s numeral, title and prod\'s description; under a gray rule, the console for the file in view, centered: the transport (Scan or Resume, Pause, Restart), each a neutral key with its icon and name, the page in view of the file\'s page count as one field (type a page to go to it), and the speed (One at a time, Slow, Fast) in a menu. Nothing beside the console says where the run is: the console\'s pressed key, the page field and the strip show it. When the run is paused partway, one button sits beside it: Review the N so far, with its one action when it has one (Review the 12 so far). Below, every page of the file in one strip.',
+      intent: 'One panel: the step\'s numeral, title and prod\'s description; under a gray rule, the console for the file in view: a sunken tray across the panel, as steps 2 and 3 carry theirs, with Prev at its left end and Next at its right (a page each, as [ and ] are), and centered between them the transport (Scan or Resume, Pause, Restart), each a neutral key with its icon and name, the page in view of the file\'s page count as one field (type a page to go to it), and the speed (One at a time, Slow, Fast) in a menu. Nothing beside the console says where the run is: the console\'s pressed key, the page field and the strip show it. When the run is paused partway, one button sits beside it: Review the N so far, with its one action when it has one (Review the 12 so far). Below, every page of the file in one strip.',
       decisions: [
         'Each key is live only when it can act, and the run\'s state reads as a pressed key: Scan before the run, Resume when it is paused or stopped for the check, Pause while it reads, Restart once it has begun. Restart asks first and clears the file\'s scan and steers.',
         'Speed is how fast the job dispatches page windows: a real control in prod. Every speed change, pause and resume is recorded as a steer.',
         'With a source (not a file) selected, the console is dimmed and inert.',
+        'Prev is off on the first page and Next on the last.',
       ],
       acceptance: [
         'At the check after the first three commitments, Resume goes on past it at the speed chosen.',
@@ -27,10 +28,12 @@ export default {
     {
       label: 'Scrubber',
       selector: '[data-page-scrubber]',
-      intent: 'Every page of the file, fifty at a time, with chevrons centered on the pages to page the window and small page guides under them. Unread pages are light gray; read pages take the Source Documents color, each find a white dot on them; pages outside the scope are blank. The scan head is Aldo green. Hovering a page shows a small dark popover: its number, whether it is read, and what was found on it. Clicking the head cell takes up following the scan again.',
+      intent: 'Every page of the file, fifty at a time, with chevrons centered on the pages to page the window and small page guides under them. Unread pages are light gray; read pages take the Source Documents color, each find a white mark on every page it runs across: a dot where the find is whole on the page, the top half of the dot on the page where it opens, the bottom half on the page where it closes, and a bare ring on a page it runs through. A mark is dim until its find is parsed. Pages outside the scope are blank. The scan head is Aldo green. Hovering a page shows a small dark popover: its number, whether it is read, and what was found on it. Clicking the head cell takes up following the scan again.',
       decisions: [
         'All pages, not only those holding commitments: the person sees where the scope sits in the whole document.',
         'No page or range label here: the header\'s status line carries it once.',
+        'At most three marks a page, in reading order: one closing first, then one running through, then whole ones, then one opening. Any mark lands on its find; the popover names it and its page range ("opens, pp. 131–132").',
+        'Steps 2 and 3 carry the same strip: the same cells, the same four colors (light gray undecided, darker gray wants a look, the step\'s color done, blank out of scope) and the same marks.',
       ],
       acceptance: ['On the ITP, page the window forward: the pages past Condition 11 read as out of scope.'],
     },

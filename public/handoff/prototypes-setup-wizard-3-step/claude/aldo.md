@@ -1214,6 +1214,11 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3src__list .bcn-sw3src__fstate .esa-badge--secondary {
   border: 1px solid var(--color-border-default);
 }
+.bcn-sw3tools esa-button-group,
+.bcn-sw3tools .esa-button,
+.bcn-sw3tools esa-dropdown-menu {
+  flex: none;
+}
 .bcn-aldo-panel {
   --_aldo-text: 0.8125rem;
   --_aldo-meta: 0.75rem;
@@ -2051,11 +2056,6 @@ button.bcn-aldo-needs__text:focus-visible {
   .bcn-aldo-panel__body:not(:has(.bcn-aldo-panel__side > :not([hidden])))
   .bcn-aldo-panel__side {
   display: none;
-}
-.bcn-sw3tools esa-button-group,
-.bcn-sw3tools .esa-button,
-.bcn-sw3tools esa-dropdown-menu {
-  flex: none;
 }
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);

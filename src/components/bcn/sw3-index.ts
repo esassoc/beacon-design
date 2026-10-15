@@ -144,6 +144,13 @@ export function setupSw3Index(root: HTMLElement): void {
 
   // ── The scrubber ─────────────────────────────────────────────────────────────
   const scrub = setupCommitmentScrubber(nav.querySelector('[data-commitment-scrubber]')!, { onPick: (id) => go(id) });
+  /** A dot a draft, at most three: the ones left to review dim, so the dots fill in as drafts are decided. */
+  const marksOf = (id: string, ph: string): ScrubCell['marks'] => {
+    if (ph !== 'drafted') return [];
+    const all = Math.min(3, homeIn(id).length);
+    const pending = Math.min(all, pendingIn(id));
+    return Array.from({ length: all }, (_, i) => ({ dim: i < pending }));
+  };
   const cellOf = (id: string, ph: string): { state: ScrubCell['state']; note: string } => {
     if (ph === 'drafting') return { state: 'parsing', note: 'Drafting' };
     if (ph !== 'drafted') return { state: 'ready', note: 'Nothing drafted yet' };
@@ -447,7 +454,7 @@ export function setupSw3Index(root: HTMLElement): void {
     for (const { sub, cat } of all) {
       if (!groups.length || groups.at(-1)!.label !== cat.name) groups.push({ label: cat.name, start: cells.length, hue: hueOf(cat.id) });
       const c = cellOf(sub.id, ph);
-      cells.push({ id: sub.id, label: sub.name, title: cat.name, state: c.state, note: c.note });
+      cells.push({ id: sub.id, label: sub.name, title: cat.name, state: c.state, note: c.note, marks: marksOf(sub.id, ph) });
     }
     const at = all.findIndex((s) => s.sub.id === current);
     scrub.update({ cells, at, groups });

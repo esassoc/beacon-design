@@ -1,30 +1,24 @@
 # Console
 
-The foot of the step's panel, as step 1 carries its scan console: header and console are one panel, and the header carries no keys. A sunken tray across the panel under the header rule, every key neutral: Prev at its left end, Next at its right, Confirm all and Export centered between. Under it, every commitment of every source file in one run, file after file, one cell each: gray while parsing, darker gray until confirmed, a light tint of the step's purple once confirmed. A rule through the strip marks where one file ends and the next begins, and the file's short name (ITP, MMRP) sits under the strip where its run starts. The strip shows 40 at a time; the double chevrons page the window, which otherwise follows the commitment in view. The thumb is the one in view. Click or drag to land on one; Previous and Next, or the arrow keys, step one at a time across files.
+The foot of the step's panel, as step 1 carries its scan console: header and console are one panel, and the header carries no keys. A sunken tray across the panel under the header rule, every key neutral: Prev at its left end, Next at its right, Confirm all and Export centered between. Under it, every commitment of every source file in one run, file after file, one cell each, as step 1's page tiles: light gray until confirmed, darker gray while it has something to settle, the step's purple once confirmed. A dot along a cell's top for each of its requirements, at most three: gray on gray, white on purple. A rule through the strip marks where one file ends and the next begins, and the file's short name (ITP, MMRP) sits under the strip where its run starts. The strip shows 50 at a time, as step 1 shows 50 pages; the double chevrons page the window, which otherwise follows the commitment in view. The thumb is the one in view. Click or drag to land on one; Previous and Next, or the arrow keys, step one at a time across files.
 
 ## Key decisions
 - Reset the prototype, under the workspace as on step 1, starts step 2 over after a confirm: every commitment as the parse left it, no edits, confirmations or talk with Aldo. The scans are kept.
-- Scrubber cells are 32px tall, as step 1's page tiles are.
+- The strip is step 1's: 50 cells, 32px tall, the same gaps and the same color logic (light gray undecided, darker gray wants a look, the step's color done).
 - No position line and no Next to settle: where you are is the thumb, and what is left to settle is in each cell's tooltip and in Aldo.
-- No amber: a commitment with something to settle reads as any other unconfirmed one. Only confirmed has a color.
+- No amber: a commitment with something to settle is a darker gray, as step 3's unopened subcategories are. Only confirmed has a color.
 - No link on to the Compliance Index here: the wizard's step bar is the way on.
 - Confirm all confirms only clean, parsed commitments, and says how many; the toast carries a one-step Undo.
 - Export produces no real file in the prototype.
-- A window of 40, as the source step shows 50 pages: a commitment's tick label ("MM AES-1a") is wider than a page number, and 40 keeps a label every tenth cell legible at the 1280 layout.
 - Landing on a commitment in another file makes that file the active one: the text, the rail, Aldo and the side panels all read it.
 
 ## Done when
 - Prev is off on the first commitment and Next on the last; Next from the last ITP commitment lands on the first MMRP one.
-- Confirm all paints every clean cell light purple.
+- Confirm all paints every clean cell purple, its requirement dots white.
 
 ## Markup
 ```html
-<div
-  class="bcn-swsn"
-  data-rev-nav=""
-  data-tinted=""
-  style="--_step: var(--color-commitment)"
->
+<div class="bcn-swsn" data-rev-nav="" style="--_done: var(--color-commitment)">
   <div class="bcn-swsn__console">
     <span class="bcn-swsn__end" data-rev-step=""
       ><span
@@ -138,8 +132,8 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
     <div
       class="bcn-cscrub"
       data-commitment-scrubber=""
-      data-size="40"
-      style="--_n: 40; --_at: 0"
+      data-size="50"
+      style="--_n: 50; --_at: 0"
     >
       <span data-cs-prev="" style="visibility: hidden"
         ><span
@@ -177,46 +171,149 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
         data-cs-track=""
         aria-valuetext="ITP 11.1 Covered Species Observations, 3 requirements"
       >
-        <span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="flagged"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
-        ><span class="bcn-cscrub__cell" data-state="ready"></span
+        <span class="bcn-cscrub__cell" data-state="ready" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="**"
+          ><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="*"
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="**"
+          ><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="**"
+          ><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="**"
+          ><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="**"
+          ><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="**"
+          ><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="**"
+          ><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="**"
+          ><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="*"
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="*"
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="**"
+          ><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="*"
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="**"
+          ><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="**"
+          ><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="*"
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="*"
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="*"
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="**"
+          ><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="flagged" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="**"
+          ><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
+        ><span class="bcn-cscrub__cell" data-state="ready" data-marks="***"
+          ><span class="bcn-cscrub__mark"></span><span class="bcn-cscrub__mark"></span
+          ><span class="bcn-cscrub__mark"></span></span
         ><span class="bcn-cscrub__thumb" data-cs-thumb="" aria-hidden="true"></span>
       </div>
       <span data-cs-next=""
@@ -250,7 +347,8 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
         ><span class="bcn-cscrub__tick" style="--_i: 10">11.11</span
         ><span class="bcn-cscrub__tick" style="--_i: 20">11.19.1</span
         ><span class="bcn-cscrub__tick" style="--_i: 30">11.28</span
-        ><span class="bcn-cscrub__tick" data-end="" style="--_i: 39">11.38</span>
+        ><span class="bcn-cscrub__tick" style="--_i: 40">11.39</span
+        ><span class="bcn-cscrub__tick" data-end="" style="--_i: 49">11.45</span>
       </div>
       <span class="bcn-cscrub__tip" data-cs-tip="" hidden="" aria-hidden="true"
         ><span class="bcn-cscrub__tipcode" data-cs-tip-code=""></span
@@ -383,7 +481,7 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
   touch-action: none;
   border-radius: var(--radius-100);
   background: var(--color-background-elevation-sunken);
-  gap: 1px;
+  gap: 2px;
   height: 44px;
   padding: 6px;
   display: grid;
@@ -396,29 +494,49 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
 .bcn-cscrub__track .bcn-cscrub__cell {
   background: color-mix(
     in srgb,
-    var(--color-content-default) 14%,
+    var(--color-content-default) 16%,
     var(--color-background-elevation-raised)
   );
-  border-radius: 1px;
+  box-shadow: inset 0 -4px 0 var(--_hue, transparent);
+  --_mark: color-mix(
+    in srgb,
+    var(--color-content-default) 52%,
+    var(--color-background-elevation-raised)
+  );
+  border-radius: 2px;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding-top: 4px;
+  transition: background-color 0.16s;
+  display: flex;
 }
 .bcn-cscrub__track .bcn-cscrub__cell[data-state="none"] {
+  box-shadow: none;
   background: 0 0;
 }
-.bcn-cscrub__track .bcn-cscrub__cell[data-state="ready"] {
+.bcn-cscrub__track .bcn-cscrub__cell[data-state="flagged"] {
   background: color-mix(
     in srgb,
-    var(--color-content-default) 38%,
+    var(--color-content-default) 34%,
     var(--color-background-elevation-raised)
   );
-}
-.bcn-cscrub__track .bcn-cscrub__cell[data-state="flagged"] {
-  background: var(--color-background-warning, var(--bcn-topic-amber-3));
+  --_mark: var(--color-content-default);
 }
 .bcn-cscrub__track .bcn-cscrub__cell[data-state="confirmed"] {
-  background: var(--color-background-success, var(--color-content-success));
+  background: var(--_done, var(--color-background-success, var(--color-content-success)));
+  --_mark: var(--color-background-elevation-raised);
 }
-.bcn-cscrub__track .bcn-cscrub__cell {
-  box-shadow: inset 0 -4px 0 var(--_hue, transparent);
+.bcn-cscrub__track .bcn-cscrub__mark {
+  background: var(--_mark);
+  border-radius: 50%;
+  flex: none;
+  width: 7px;
+  height: 7px;
+  display: block;
+}
+.bcn-cscrub__track .bcn-cscrub__mark[data-dim] {
+  opacity: 0.45;
 }
 .bcn-cscrub__track .bcn-cscrub__sep {
   top: -4px;
@@ -554,27 +672,6 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
 }
 .bcn-swsn__scrub:empty {
   display: none;
-}
-.bcn-swsn .bcn-cscrub__cell[data-state="flagged"] {
-  background: color-mix(
-    in srgb,
-    var(--color-content-default) 62%,
-    var(--color-background-elevation-raised)
-  );
-}
-.bcn-swsn[data-tinted] .bcn-cscrub__cell[data-state="confirmed"] {
-  background: color-mix(
-    in srgb,
-    var(--_step) 42%,
-    var(--color-background-elevation-raised)
-  );
-}
-.bcn-swsn[data-tinted] .bcn-cscrub__cell[data-state="flagged"] {
-  background: color-mix(
-    in srgb,
-    var(--color-content-default) 38%,
-    var(--color-background-elevation-raised)
-  );
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -858,7 +955,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
 - `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--bcn-topic-amber-3`: #e9c162 _(component)_
 - `--border-width-default`: 1px _(semantic)_
 - `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--button-on-warning`: #fff _(component)_
@@ -884,7 +980,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-utility-success-hover`: #193b2d _(semantic)_
 - `--color-background-utility-warning`: #f59e0b _(semantic)_
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-background-warning`: #f59e0b _(component)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
