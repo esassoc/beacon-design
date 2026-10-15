@@ -74,6 +74,8 @@ export function setupSw3ReviewAldo(root: HTMLElement): void {
   let code = '';
   /** The requirement selected in the rail: what "this" means. */
   let focusId: string | null = null;
+  /** Every requirement selected in the text (shift-click adds neighbors): "these". */
+  let focusIds: string[] = [];
   let chips: ContextRef[] = [];
   let selection: { range: Range; quote: string } | null = null;
 
@@ -293,8 +295,9 @@ export function setupSw3ReviewAldo(root: HTMLElement): void {
   const paintContext = () => {
     if (!code) return;
     const refs: ContextRef[] = [{ id: `entity:commitment:${code}`, kind: 'entity', label: short(code), anchor: { kind: 'entity', entity: 'commitment', id: code } }];
-    const focus = focusId && requirementsOf(code).find((r) => r.id === focusId);
-    if (focus) refs.push({ id: `entity:requirement:${focus.id}`, kind: 'entity', label: words(focus.name, 5), anchor: { kind: 'entity', entity: 'requirement', id: focus.id } });
+    const ids = focusIds.length ? focusIds : focusId ? [focusId] : [];
+    for (const r of requirementsOf(code).filter((x) => ids.includes(x.id)))
+      refs.push({ id: `entity:requirement:${r.id}`, kind: 'entity', label: words(r.name, 5), anchor: { kind: 'entity', entity: 'requirement', id: r.id } });
     if (selection) refs.push({ id: `sel:${code}:${selection.range.start}`, kind: 'entity', label: `“${words(selection.quote, 6)}”` });
     chips = refs;
     composer.setContext(refs);
@@ -328,14 +331,16 @@ export function setupSw3ReviewAldo(root: HTMLElement): void {
   };
 
   document.addEventListener('sw3:rev-current', (e) => {
-    const d = (e as CustomEvent<{ code: string; reqId?: string | null }>).detail;
+    const d = (e as CustomEvent<{ code: string; reqId?: string | null; reqIds?: string[] }>).detail;
     const next = d.code;
     const nextFocus = d.reqId ?? null;
+    const nextIds = d.reqIds ?? [];
     if (next === code) {
-      if (nextFocus !== focusId) ((focusId = nextFocus), paintContext());
+      if (nextFocus !== focusId || nextIds.join() !== focusIds.join()) ((focusId = nextFocus), (focusIds = nextIds), paintContext());
       return;
     }
     focusId = nextFocus;
+    focusIds = nextIds;
     code = next;
     selection = null;
     choices = [];
@@ -346,6 +351,16 @@ export function setupSw3ReviewAldo(root: HTMLElement): void {
     const d = (e as CustomEvent<{ code: string; range: Range; quote: string } | null>).detail;
     selection = d && d.code === code ? { range: d.range, quote: d.quote } : null;
     paintContext();
+  });
+  // Ask Aldo, from the card on a selected requirement: with several, "Merge these" is said
+  // for them; with one, the composer takes it as a chip and waits.
+  document.addEventListener('sw3:aldo-ask', (e) => {
+    const d = (e as CustomEvent<{ reqIds: string[]; text?: string }>).detail;
+    focusIds = d.reqIds;
+    focusId = d.reqIds[0] ?? null;
+    paintContext();
+    if (d.text) send(d.text, chips, 'button');
+    else composer.focus();
   });
   document.addEventListener('sw3:change', render);
 }

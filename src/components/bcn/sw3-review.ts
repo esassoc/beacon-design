@@ -2,7 +2,8 @@
 // requirement is selected, and repaints the scrubber, the text and the rail from sw3-store.
 //
 // Contract, on `document`:
-//   out  sw3:rev-current    detail: { code }                        the commitment in view (Aldo)
+//   out  sw3:rev-current    detail: { code, reqId, reqIds }         the commitment in view, what is selected (Aldo)
+//   out  sw3:aldo-ask       detail: { reqIds, text? }               Ask Aldo about these requirements
 //   out  sw3:rev-selection  detail: { code, range, quote } | null   words selected in the text
 //   in   sw3:rev-go         detail: { code, reqId?, doc? }          a reference pressed in Aldo
 //
@@ -16,7 +17,11 @@
 // The highlights are edited by hand, as on the comments prototype: the selected one grows a
 // grip at each end to drag (ends snap to whole words, stop at a paragraph break or the next
 // requirement); in Highlight mode a selection of free words becomes a new requirement, its
-// record opened to name it; Delete removes the selected one.
+// record opened to name it; Delete removes the selected one. Shift-click adds neighbors to
+// the selection; Merge (M) makes neighbors one requirement over both spans, the first
+// keeping its name. A selected requirement gets a card under its last line: Edit, Merge
+// with previous or next, Ask Aldo, Delete; with several selected, Merge (N) and Ask Aldo,
+// which hands them to Aldo with "Merge these".
 
 import {
   initSw3,
@@ -57,6 +62,7 @@ import { setupSw3Attributes, type AttrHover } from './sw3-attributes';
 import type { Range } from '../../lib/anchored-text';
 import { offsetAt, offsetFromPoint, snapToWords } from '../../lib/text-offsets';
 import { paintIcons } from '../../lib/lucide-extra';
+import { applyProposal } from './sw3-review-talk';
 
 const short = (code: string) => code.replace(/^COA\s+/, '');
 const norm = (s: string) => s.toLowerCase().replace(/\(.*?\)/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
@@ -88,6 +94,8 @@ export function setupSw3Review(root: HTMLElement): void {
   // The commitment in view, in the active file.
   let current: string | null = null;
   let selected: string | null = null;
+  /** Requirements shift-clicked into the selection with `selected`. */
+  let picked: string[] = [];
   let hover: AttrHover | null = null;
   /** An untracked sentence selected in the text: where it starts. */
   let selectedGap: number | null = null;
@@ -123,6 +131,7 @@ export function setupSw3Review(root: HTMLElement): void {
     const moved = key !== here();
     current = code;
     selected = reqId;
+    picked = [];
     selectedGap = null;
     try {
       localStorage.setItem(KEY, key);
@@ -252,6 +261,98 @@ export function setupSw3Review(root: HTMLElement): void {
     if (t.closest('[data-c-gap-pop], mark.bcn-at-gap, [data-c-tool="mark"], [data-at-gap]')) return;
     closePop();
   });
+  // ── Merging requirements, and the card on a selected one ─────────────────────
+  /** The selection, in text order. */
+  const chosen = (): string[] => {
+    if (!current || !selected) return [];
+    const ids = [selected, ...picked];
+    return requirementsOf(current).filter((r) => ids.includes(r.id)).map((r) => r.id);
+  };
+  /** Requirements in the text, in order: what "neighbor" means. */
+  const anchoredOf = (code: string) => requirementsOf(code).filter((r) => r.anchor);
+  /** Why these cannot merge: only neighbors in the text do, so no other's words are taken. */
+  const mergeRefusal = (ids: string[]): string | null => {
+    if (!current || ids.length < 2) return 'Select two or more requirements';
+    const order = anchoredOf(current).map((r) => r.id);
+    const at = ids.map((id) => order.indexOf(id)).sort((a, b) => a - b);
+    if (at.some((i) => i < 0)) return 'A requirement with no words in the text cannot merge';
+    for (let i = 1; i < at.length; i++)
+      if (at[i] !== at[i - 1] + 1) return `Only neighbors merge: ${requirementRef(current, order[at[i - 1] + 1])} sits between them`;
+    return null;
+  };
+  const merge = (ids: string[]) => {
+    if (!current || mergeRefusal(ids)) return;
+    const order = anchoredOf(current).map((r) => r.id);
+    const [keep, ...others] = [...ids].sort((a, b) => order.indexOf(a) - order.indexOf(b));
+    applyProposal({ kind: 'merge', keepId: keep, otherIds: others });
+    selected = keep;
+    picked = [];
+    revealReq = true;
+    render();
+  };
+  const mergeChosen = () => merge(chosen());
+  /** The requirement before or after the selected one, in the text. */
+  const neighbor = (by: -1 | 1): string | null => {
+    if (!current || !selected) return null;
+    const order = anchoredOf(current);
+    const i = order.findIndex((r) => r.id === selected);
+    return i < 0 ? null : (order[i + by]?.id ?? null);
+  };
+  tool('merge').addEventListener('click', mergeChosen);
+
+  const reqPop = art.querySelector<HTMLElement>('[data-c-req-pop]')!;
+  let revealReq = false;
+  const popKey = (name: string) => reqPop.querySelector<HTMLElement>(`[data-c-req-${name}]`)!;
+  const placeReqPop = () => {
+    const ids = chosen();
+    const lastId = ids.at(-1);
+    const marks = lastId && !drag && art.dataset.mode === 'select' ? [...body.querySelectorAll<HTMLElement>(`mark.bcn-hl[data-sid="${CSS.escape(lastId)}"]`)] : [];
+    if (!marks.length || body.hidden || selectedGap !== null) {
+      reqPop.hidden = true;
+      return;
+    }
+    const many = ids.length > 1;
+    const why = many ? mergeRefusal(ids) : null;
+    reqPop.querySelector<HTMLElement>('[data-c-req-ref]')!.textContent = many ? `${ids.length} selected` : requirementRef(current!, ids[0]);
+    popKey('edit').hidden = many;
+    popKey('prev').hidden = many || !neighbor(-1);
+    popKey('next').hidden = many || !neighbor(1);
+    popKey('delete').hidden = many;
+    popKey('merge').hidden = !many;
+    const mb = btnOf(popKey('merge'));
+    const ml = popKey('merge').querySelector('.esa-button__label');
+    if (ml) ml.textContent = `Merge ${ids.length}`;
+    mb.disabled = !!why;
+    mb.title = why ?? '';
+    reqPop.hidden = false;
+    const box = page.getBoundingClientRect();
+    const rects = marks.at(-1)!.getClientRects();
+    const last = rects[rects.length - 1];
+    const left = Math.max(8, Math.min(last.left - box.left, box.width - reqPop.offsetWidth - 8));
+    reqPop.style.left = `${left}px`;
+    // Under the line, clear of the end grip's knob.
+    reqPop.style.top = `${last.bottom - box.top + (many ? 6 : 14)}px`;
+    if (revealReq) {
+      revealReq = false;
+      reqPop.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  };
+  popKey('edit').addEventListener('click', () => selected && fire('sw3:req-edit', { id: selected }));
+  popKey('prev').addEventListener('click', () => {
+    const n = neighbor(-1);
+    if (n && selected) merge([n, selected]);
+  });
+  popKey('next').addEventListener('click', () => {
+    const n = neighbor(1);
+    if (n && selected) merge([selected, n]);
+  });
+  popKey('merge').addEventListener('click', mergeChosen);
+  popKey('delete').addEventListener('click', () => deleteSelected());
+  popKey('aldo').addEventListener('click', () => {
+    const ids = chosen();
+    if (ids.length) fire('sw3:aldo-ask', { reqIds: ids, text: ids.length > 1 ? 'Merge these' : undefined });
+  });
+
   const deleteSelected = () => {
     if (!current || !selected) return;
     const id = selected;
@@ -290,6 +391,8 @@ export function setupSw3Review(root: HTMLElement): void {
     else if (k === 'h') trackGap() || setMode('mark');
     else if (k === 'escape' && selectedGap !== null) closePop();
     else if (k === 'escape' && art.dataset.mode === 'mark') setMode('select');
+    else if (k === 'escape' && selected) ((selected = null), (picked = []), render());
+    else if (k === 'm' && chosen().length >= 2 && !mergeRefusal(chosen())) mergeChosen();
     else if ((e.key === 'Delete' || e.key === 'Backspace') && selected) (e.preventDefault(), deleteSelected());
   });
 
@@ -315,7 +418,7 @@ export function setupSw3Review(root: HTMLElement): void {
   };
   let drag: { which: 'start' | 'end'; start: number; end: number } | null = null;
   const placeGrips = () => {
-    const marks = selected ? body.querySelectorAll<HTMLElement>(`mark.bcn-hl[data-sid="${CSS.escape(selected)}"]`) : [];
+    const marks = selected && !picked.length ? body.querySelectorAll<HTMLElement>(`mark.bcn-hl[data-sid="${CSS.escape(selected)}"]`) : [];
     if (!marks.length || body.hidden) {
       grips.start.hidden = grips.end.hidden = true;
       return;
@@ -372,8 +475,12 @@ export function setupSw3Review(root: HTMLElement): void {
   root.querySelector('[data-rev-doc]')!.addEventListener('scroll', placeGrips, { passive: true });
 
   // ── The text: click a highlight to select it; select words to talk about them ──
+  // Shift on a highlight adds it to the selection; it must not extend a text selection.
+  body.addEventListener('mousedown', (e) => {
+    if (e.shiftKey && art.dataset.mode === 'select' && (e.target as HTMLElement).closest('mark.bcn-hl[data-sid]')) e.preventDefault();
+  });
   body.addEventListener('click', (e) => {
-    if (!current || !document.getSelection()?.isCollapsed) return;
+    if (!current || (!e.shiftKey && !document.getSelection()?.isCollapsed)) return;
     // A sentence nothing tracks (the wavy rule): select it, for Highlight to make it one.
     const gap = (e.target as HTMLElement).closest<HTMLElement>('mark.bcn-at-gap[data-gap]');
     if (gap) {
@@ -384,8 +491,16 @@ export function setupSw3Review(root: HTMLElement): void {
       return render();
     }
     const mark = (e.target as HTMLElement).closest<HTMLElement>('mark.bcn-hl[data-sid]');
-    selected = mark && mark.dataset.sid !== selected ? mark.dataset.sid! : null;
+    const id = mark?.dataset.sid ?? null;
+    if (id && selected && e.shiftKey && id !== selected) {
+      // Shift-click: add it to the selection, or take it back out.
+      picked = picked.includes(id) ? picked.filter((x) => x !== id) : [...picked, id];
+    } else {
+      selected = id && (id !== selected || picked.length) ? id : null;
+      picked = [];
+    }
     selectedGap = null;
+    revealReq = !!selected;
     render();
   });
   /** A point in the text, as an offset into the commitment's text. */
@@ -500,7 +615,7 @@ export function setupSw3Review(root: HTMLElement): void {
     const on = new Set<string>([...(hover?.reqIds ?? [])]);
     const keys = new Set(hover?.valueKeys ?? []);
     body.querySelectorAll<HTMLElement>('mark.bcn-hl[data-sid]').forEach((m) => {
-      m.toggleAttribute('data-active', m.dataset.sid === selected);
+      m.toggleAttribute('data-active', m.dataset.sid === selected || picked.includes(m.dataset.sid!));
       m.toggleAttribute('data-hover', on.has(m.dataset.sid!));
     });
     body.querySelectorAll<HTMLElement>('.bcn-at-val').forEach((v) => v.toggleAttribute('data-lit', keys.has(v.dataset.v!)));
@@ -533,6 +648,7 @@ export function setupSw3Review(root: HTMLElement): void {
     const c = commitmentOf(code)!;
     const parsed = parsedCodes().includes(code);
     if (selected && !requirementsOf(code).some((r) => r.id === selected)) selected = null;
+    picked = selected ? picked.filter((id) => id !== selected && requirementsOf(code).some((r) => r.id === id)) : [];
 
     // Every file's cells, end to end.
     const cells: ScrubCell[] = [];
@@ -580,14 +696,17 @@ export function setupSw3Review(root: HTMLElement): void {
     }
     paintFocus();
     btnOf(tool('delete')).disabled = !selected;
+    const why = chosen().length < 2 ? 'Shift-click a neighboring requirement to merge with it' : mergeRefusal(chosen());
+    btnOf(tool('merge')).disabled = !!why;
+    btnOf(tool('merge')).title = why ?? `Merge the ${chosen().length} selected requirements (M)`;
     btnOf(tool('mark')).title = selectedGap !== null ? 'Make the selected sentence a requirement (H)' : 'Highlight a new requirement (H)';
     root.querySelectorAll<HTMLElement>('[data-at-gap]').forEach((li) => li.toggleAttribute('data-selected', li.dataset.atGap === String(selectedGap)));
     btnOf(tool('undo')).disabled = !canUndoReview();
     btnOf(tool('redo')).disabled = !canRedoReview();
     setReviewFocus(code);
-    requestAnimationFrame(() => (placeGrips(), placePop()));
+    requestAnimationFrame(() => (placeGrips(), placePop(), placeReqPop()));
     attrs.show(code, selected);
-    fire('sw3:rev-current', { code, reqId: selected });
+    fire('sw3:rev-current', { code, reqId: selected, reqIds: chosen() });
   };
 
   document.addEventListener('sw3:rev-go', (e) => {

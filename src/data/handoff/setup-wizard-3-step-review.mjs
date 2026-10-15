@@ -34,6 +34,10 @@ export default {
         'Undo and Redo (Cmd+Z, Shift+Cmd+Z) step through every change to the step\'s record: highlights, records, not binding, merges, confirmations, Aldo\'s proposals accepted (a proposal and its edits are one step, and its keys come back). Each step lands on the commitment it was made on. The conversation itself is not undone. History lives for the page load, per file.',
         'In a narrow pane the mode labels fold away, then the page key\'s; titles carry them.',
         'Delete removes the selected requirement, highlight and record. Words can still change by telling Aldo (split, merge, you missed this).',
+        'The header stacks the commitment ID over its title. In a pane 46rem or wider the text steps in under the header, 4rem growing to 8rem, its measure unchanged.',
+        'Highlights and underlines each switch off from the tool bar (the key struck when off), remembered across commitments and visits. With highlights off the selected requirement keeps its stroke; with underlines off a selected sentence nothing tracks keeps its rule.',
+        'Clicking a highlight selects it and opens a card under its last line: its ID, Edit, Merge with previous, Merge with next, Ask Aldo and Delete. Shift-click adds neighbors to the selection; the card then reads N selected with Merge N and Ask Aldo, and the Merge tool (M) does the same. Only neighbors in the text merge, so no other requirement\'s words are taken; the first keeps its name and takes the union of species, seasons, activities, milestones and phases. Esc clears the selection.',
+        'Ask Aldo with several selected says "Merge these" for them, and Aldo answers with a Merge proposal to accept. With one, the composer takes it as a chip. Aldo also reads "merge this with the next one" (or the previous).',
         'Confirm is disabled while a blocking item is open (a type to check and a hand-marked commitment do not block).',
       ],
       gotchas: [

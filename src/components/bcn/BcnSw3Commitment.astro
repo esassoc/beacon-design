@@ -61,12 +61,16 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
         <EsaButton variant="secondary" size="sm" icon="plus" data-ico="highlighter" data-c-tool="mark" title="Highlight a new requirement (H)" aria-pressed="false">Highlight</EsaButton>
         <span class="bcn-sw3c__rule" aria-hidden="true"></span>
         <EsaButton variant="ghost" size="sm" icon="trash-2" iconOnly label="Delete the selected requirement (Delete)" data-c-tool="delete" />
+        <EsaButton variant="ghost" size="sm" icon="plus" data-ico="merge" iconOnly label="Merge the selected requirements (M); shift-click to select more" data-c-tool="merge" />
         <span class="bcn-sw3c__rule" aria-hidden="true"></span>
         <EsaButton variant="ghost" size="sm" icon="plus" data-ico="undo-2" iconOnly label="Undo (Cmd+Z)" data-c-tool="undo" />
         <EsaButton variant="ghost" size="sm" icon="plus" data-ico="redo-2" iconOnly label="Redo (Shift+Cmd+Z)" data-c-tool="redo" />
       </div>
     )}
     <div class="bcn-sw3c__group">
+      <EsaButton variant="ghost" size="sm" icon="plus" data-ico="highlighter" iconOnly label="Hide highlights" data-c-view="marks" aria-pressed="true" />
+      <EsaButton variant="ghost" size="sm" icon="plus" data-ico="underline" iconOnly label="Hide underlines" data-c-view="lines" aria-pressed="true" />
+      <span class="bcn-sw3c__rule" aria-hidden="true"></span>
       <span data-c-peek><EsaButton variant="ghost" size="sm" icon="file-text" title="Open the source page" data-c-pages>{pagesLabel(pages)}</EsaButton></span>
       {readonly ? (
         <span data-c-open><EsaButton variant="secondary" size="sm" iconRight="arrow-right">Open in Commitments</EsaButton></span>
@@ -88,6 +92,17 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
     <p class="bcn-sw3c__parsing" data-c-parsing hidden>Parsing</p>
     <div class="bcn-sw3c__text" data-c-text set:html={html} />
     <div class="bcn-sw3c__unanchored" data-c-unanchored />
+    {!readonly && (
+      <div class="bcn-sw3c__pop" data-c-req-pop role="group" aria-label="Requirement" hidden>
+        <span class="bcn-sw3c__pop-ref" data-c-req-ref></span>
+        <span data-c-req-edit><EsaButton variant="ghost" size="xs">Edit</EsaButton></span>
+        <span data-c-req-prev><EsaButton variant="ghost" size="xs">Merge with previous</EsaButton></span>
+        <span data-c-req-next><EsaButton variant="ghost" size="xs">Merge with next</EsaButton></span>
+        <span data-c-req-merge><EsaButton variant="ghost" size="xs">Merge</EsaButton></span>
+        <span data-c-req-aldo><EsaButton variant="ghost" size="xs">Ask Aldo</EsaButton></span>
+        <span data-c-req-delete><EsaButton variant="ghost" size="xs">Delete</EsaButton></span>
+      </div>
+    )}
     {!readonly && (
       <div class="bcn-sw3c__pop" data-c-gap-pop role="group" aria-label="Not tracked" hidden>
         <span data-c-gap-track><EsaButton variant="ghost" size="xs">Make a requirement</EsaButton></span>
@@ -136,6 +151,7 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
     box-shadow: inset 0 1px 3px color-mix(in srgb, var(--color-content-default) 22%, transparent);
   }
   .bcn-sw3c__page {
+    container: sw3c-page / inline-size;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -144,9 +160,9 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
   }
   /* Room under the last line for the card on a sentence nothing tracks. */
   .bcn-sw3c:not([data-readonly]) .bcn-sw3c__page { padding-bottom: calc(var(--spacing-500) + 2.5rem); }
-  .bcn-sw3c__head { display: flex; align-items: center; gap: var(--spacing-300); }
+  /* The ID over the title, both flush left. */
+  .bcn-sw3c__head { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-200); }
   .bcn-sw3c__title {
-    flex: 1;
     min-width: 0;
     margin: 0;
     font-family: var(--font-decorative, var(--typography-font-family-sans));
@@ -167,6 +183,13 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
     color: var(--color-content-default);
   }
   .bcn-sw3c__text[hidden] { display: none; }
+  /* A wide pane: the text steps in under the header, 4rem growing to 8rem, its measure
+     unchanged, so the header hangs to its left. */
+  @container sw3c-page (min-width: 46rem) {
+    .bcn-sw3c__text,
+    .bcn-sw3c__unanchored,
+    .bcn-sw3c__parsing { padding-left: clamp(4rem, 14cqi - 2.5rem, 8rem); }
+  }
   .bcn-sw3c__text :global(p) { margin: 0 0 var(--spacing-400) 0; max-width: 70ch; white-space: pre-line; }
   .bcn-sw3c__text :global(p:last-child) { margin-bottom: 0; }
 
@@ -254,6 +277,30 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
     font-family: var(--typography-font-family-sans);
   }
   .bcn-sw3c__pop[hidden] { display: none; }
+  .bcn-sw3c__pop { align-items: center; }
+  .bcn-sw3c__pop [hidden] { display: none; }
+  .bcn-sw3c__pop :global(button:disabled) { opacity: 0.38; }
+  .bcn-sw3c__pop-ref { padding: 0 var(--spacing-200); font-size: 0.75rem; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--color-content-default-secondary); white-space: nowrap; }
+  .bcn-sw3c__pop[data-c-req-pop] { max-width: calc(100% - 16px); flex-wrap: wrap; }
+
+  /* The view: highlights and underlines each switch off. Off, the key's glyph is struck;
+     the selected requirement keeps its stroke so a selection still reads. */
+  .bcn-sw3c__tools :global([data-c-view]) { position: relative; }
+  .bcn-sw3c__tools :global([data-c-view][aria-pressed='false'])::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 18px;
+    height: 1.5px;
+    background: currentColor;
+    border-radius: 1px;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    pointer-events: none;
+  }
+  .bcn-sw3c__tools :global([data-c-view][aria-pressed='false'] svg) { opacity: 0.55; }
+  .bcn-sw3c[data-hide-marks] .bcn-sw3c__text :global(mark.bcn-hl:not([data-active])) { background: none; }
+  .bcn-sw3c[data-hide-lines] .bcn-sw3c__text :global(:is(.bcn-at-val, mark.bcn-at-gap:not([data-lit]), mark.bcn-hl[data-dup])) { text-decoration: none; }
   .bcn-sw3c__grip {
     position: absolute;
     width: 2px;
@@ -291,3 +338,48 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
     font-size: 0.875rem;
   }
 </style>
+
+<script>
+  // The view keys, on every commitment pane (step 2's, and step 3's read-only one): each
+  // switches its marks off and on, remembered across commitments and visits.
+  import { setIcon } from '../../lib/lucide-extra';
+  const KEY = 'sw3:c-view';
+  const read = (): Record<string, boolean> => {
+    try {
+      return JSON.parse(localStorage.getItem(KEY) ?? '{}');
+    } catch {
+      return {};
+    }
+  };
+  const LABEL: Record<string, [string, string]> = { marks: ['highlights', 'Highlights'], lines: ['underlines', 'Underlines'] };
+  for (const art of document.querySelectorAll<HTMLElement>('.bcn-sw3c')) {
+    const keys = [...art.querySelectorAll<HTMLElement>('[data-c-view]')];
+    const paint = () => {
+      const hidden = read();
+      for (const k of keys) {
+        const v = k.dataset.cView!;
+        const off = !!hidden[v];
+        art.toggleAttribute(`data-hide-${v}`, off);
+        k.setAttribute('aria-pressed', String(!off));
+        const label = `${off ? 'Show' : 'Hide'} ${LABEL[v][0]}`;
+        k.setAttribute('aria-label', label);
+        k.title = label;
+      }
+    };
+    for (const k of keys) {
+      setIcon(k, k.dataset.ico as 'highlighter' | 'underline');
+      k.addEventListener('click', () => {
+        const hidden = read();
+        hidden[k.dataset.cView!] = !hidden[k.dataset.cView!];
+        try {
+          localStorage.setItem(KEY, JSON.stringify(hidden));
+        } catch {
+          /* no storage */
+        }
+        document.querySelectorAll('.bcn-sw3c').forEach((a) => a.dispatchEvent(new CustomEvent('sw3c:view')));
+      });
+    }
+    art.addEventListener('sw3c:view', paint);
+    paint();
+  }
+</script>

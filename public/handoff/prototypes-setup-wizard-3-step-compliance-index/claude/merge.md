@@ -39,7 +39,21 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
           auto-resize=""
           max-rows="6"
           data-im-title="true"
-        ></esa-textarea>
+        ></esa-textarea
+        ><esa-button-toggle
+          label="Audience"
+          size="sm"
+          data-im-audience="true"
+          data-options='[{"value":"Crews","label":"Crews"},{"value":"Monitors","label":"Monitors"},{"value":"Compliance staff","label":"Compliance staff"}]'
+          hidden="true"
+        ></esa-button-toggle
+        ><esa-button-toggle
+          label="Class"
+          size="sm"
+          data-im-class="true"
+          data-options='[{"value":"Adhere","label":"Adhere"},{"value":"Monitor","label":"Monitor"},{"value":"Notify","label":"Notify"},{"value":"Roster","label":"Roster"}]'
+          hidden="true"
+        ></esa-button-toggle>
         <dl class="bcn-sw3im__fields" data-im-res-fields=""></dl>
         <div class="bcn-sw3im__block">
           <h4 class="bcn-sw3im__bh" data-im-res-locs-h=""></h4>
@@ -111,6 +125,9 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
 }
 .bcn-console__more .esa-button__native:hover {
   color: var(--bcn-console-fg);
+}
+.bcn-sw3im [hidden] {
+  display: none !important;
 }
 .bcn-sw3im-dialog {
   --dialog-width-lg: min(68rem, calc(100vw - 4rem));
@@ -275,7 +292,7 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
 }
 .bcn-sw3im .bcn-sw3im__loc {
   gap: var(--spacing-300);
-  grid-template-columns: 4.75rem minmax(0, 1fr) auto;
+  grid-template-columns: minmax(4.75rem, max-content) minmax(0, 1fr) auto;
   align-items: baseline;
   display: grid;
 }
@@ -322,7 +339,7 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
   border-top: 1px solid var(--color-border-subtle, var(--color-border-default));
 }
 .bcn-sw3im .bcn-sw3im__card--source .bcn-sw3im__loc {
-  grid-template-columns: 4.75rem minmax(0, 1fr);
+  grid-template-columns: minmax(4.75rem, max-content) minmax(0, 1fr);
 }
 .bcn-sw3im__foot {
   gap: var(--spacing-200);

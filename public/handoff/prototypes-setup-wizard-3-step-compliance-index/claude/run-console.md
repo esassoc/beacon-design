@@ -1,6 +1,6 @@
 # Run console
 
-The Draft run as a session. In the step panel it is a peek no taller than 100px: the newest lines of the stage running and the spinner, fading out at the top. Pressing it (or Open log) opens the console by itself in a lightbox over the page, its close key in the corner; Esc and a click outside also close it. When the run ends the peek goes and View log reopens the same lightbox. The key pressed is the prompt line. Each stage is a tool call: a dot (blinking while it runs, green when done), its name and what it works over ("910 requirements"). Under it, behind an elbow, what the run is doing to this project streams: the commitments read with their requirements and items, the subcategories filed into with their item counts and each item that fits none, each draft merged from more than one item with its requirement IDs, each action completed with its type, scope and responsible party. A done stage folds to its sentence ("2,463 of 2,473 items filed, 10 fit no subcategory") with Show N to unfold every line. Below the stages, a spinner names the stage in progress with elapsed seconds and its count, and the four stages tick off under it. The run ends on "Done in 13s." with the drafts filed and what needs attention. After a Re-run (built phase), the same console shows the guidance as the prompt and Propose index as a diff: + added, − removed, and bins kept because they are locked.
+The Draft run as a session. In the step panel it is a peek no taller than 100px: the newest lines of the stage running and the spinner, fading out at the top. Pressing it (or Open log) opens the console by itself in a lightbox over the page, its close key in the corner; Esc and a click outside also close it. When the run ends the peek goes and View log reopens the same lightbox. The key pressed is the prompt line. Each stage is a tool call: a dot (blinking while it runs, green when done), its name and what it works over ("910 requirements"). Under it, behind an elbow, what the run is doing to this project streams: the commitments read with their requirements and items, the subcategories filed into with their item counts and each item that fits none, each draft merged from more than one item with its requirement IDs, each action completed with its type, scope and responsible party. A done stage folds to its sentence ("2,463 of 2,473 items filed, 10 fit no subcategory") with Show N to unfold every line. Below the stages, a spinner names the stage in progress with elapsed seconds and its count, and the four stages tick off under it. The run ends on "Done in 26s." with the drafts filed and what needs attention. After a Re-run (built phase), the same console shows the guidance as the prompt and Propose index as a diff: + added, − removed, and bins kept because they are locked.
 
 ## Key decisions
 - No percentage bar and no form dialog: the lightbox is the console alone, a thin border on a dimmed page. The count that moves is always a real noun (requirements, items, actions), and the lines are the drafts file's own: commitment codes, subcategory names, requirement IDs.
@@ -11,7 +11,9 @@ The Draft run as a session. In the step panel it is a peek no taller than 100px:
 ## Done when
 - Pressing Draft actions & obligations opens the console with the prompt line and Read requirements streaming commitment codes; the spinner reads "Reading requirements…" with seconds and "N of 910 requirements".
 - The peek is at most 100px tall during a run; pressing it opens the full console in the lightbox, which keeps streaming until the run ends.
-- When the run ends the peek goes; View log opens the same record in the lightbox.
+- When the run ends the peek goes; View Log in the console opens the same record in the lightbox.
+- The lightbox is a terminal window's shape and one fixed size (50rem by 32rem, smaller on a small screen): it never grows as the log fills; the log scrolls inside it.
+- The demo runs at twice prod's pace (about 26 seconds for a full run) so it can be watched.
 - After a Re-run with guidance, added bins read as green + lines and removed bins as red − lines.
 
 ## Markup
@@ -367,6 +369,8 @@ The Draft run as a session. In the step panel it is a peek no taller than 100px:
   color: var(--bcn-console-fg);
 }
 .bcn-sw3ir-box .bcn-console__body {
+  box-sizing: border-box;
+  height: min(32rem, 100vh - 6rem);
   padding-right: calc(var(--spacing-500) + 2.25rem);
 }
 .esa-button {

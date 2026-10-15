@@ -11,6 +11,10 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
 - Undo and Redo (Cmd+Z, Shift+Cmd+Z) step through every change to the step's record: highlights, records, not binding, merges, confirmations, Aldo's proposals accepted (a proposal and its edits are one step, and its keys come back). Each step lands on the commitment it was made on. The conversation itself is not undone. History lives for the page load, per file.
 - In a narrow pane the mode labels fold away, then the page key's; titles carry them.
 - Delete removes the selected requirement, highlight and record. Words can still change by telling Aldo (split, merge, you missed this).
+- The header stacks the commitment ID over its title. In a pane 46rem or wider the text steps in under the header, 4rem growing to 8rem, its measure unchanged.
+- Highlights and underlines each switch off from the tool bar (the key struck when off), remembered across commitments and visits. With highlights off the selected requirement keeps its stroke; with underlines off a selected sentence nothing tracks keeps its rule.
+- Clicking a highlight selects it and opens a card under its last line: its ID, Edit, Merge with previous, Merge with next, Ask Aldo and Delete. Shift-click adds neighbors to the selection; the card then reads N selected with Merge N and Ask Aldo, and the Merge tool (M) does the same. Only neighbors in the text merge, so no other requirement's words are taken; the first keeps its name and takes the union of species, seasons, activities, milestones and phases. Esc clears the selection.
+- Ask Aldo with several selected says "Merge these" for them, and Aldo answers with a Merge proposal to accept. With one, the composer takes it as a chip. Aldo also reads "merge this with the next one" (or the previous).
 - Confirm is disabled while a blocking item is open (a type to check and a hand-marked commitment do not block).
 
 ## Gotchas
@@ -119,6 +123,34 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
               <line x1="10" x2="10" y1="11" y2="17"></line>
               <line x1="14" x2="14" y1="11" y2="17"></line></svg
           ></span></button></span
+      ><span
+        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          aria-label="Merge the selected requirements (M); shift-click to select more"
+          title="Shift-click a neighboring requirement to merge with it"
+          data-ico="merge"
+          data-c-tool="merge"
+          disabled=""
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+              data-ico="merge"
+            >
+              <path d="m8 6 4-4 4 4"></path>
+              <path d="M12 2v10.3a4 4 0 0 1-1.172 2.872L4 22"></path>
+              <path d="m20 22-5-5"></path></svg
+          ></span></button></span
       ><span class="bcn-sw3c__rule" aria-hidden="true"></span
       ><span
         class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -181,7 +213,64 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
       ></span>
     </div>
     <div class="bcn-sw3c__group">
-      <span data-c-peek=""
+      <span
+        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          aria-label="Hide highlights"
+          title="Hide highlights"
+          data-ico="highlighter"
+          data-c-view="marks"
+          aria-pressed="true"
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+              data-ico="highlighter"
+            >
+              <path d="m9 11-6 6v3h9l3-3"></path>
+              <path
+                d="m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"
+              ></path></svg
+          ></span></button></span
+      ><span
+        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          aria-label="Hide underlines"
+          title="Hide underlines"
+          data-ico="underline"
+          data-c-view="lines"
+          aria-pressed="true"
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+              data-ico="underline"
+            >
+              <path d="M6 4v6a6 6 0 0 0 12 0V4"></path>
+              <line x1="4" x2="20" y1="20" y2="20"></line></svg
+          ></span></button></span
+      ><span class="bcn-sw3c__rule" aria-hidden="true"></span
+      ><span data-c-peek=""
         ><span
           class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
           ><button
@@ -348,6 +437,58 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
       </p>
     </div>
     <div class="bcn-sw3c__unanchored" data-c-unanchored=""></div>
+    <div
+      class="bcn-sw3c__pop"
+      data-c-req-pop=""
+      role="group"
+      aria-label="Requirement"
+      hidden=""
+    >
+      <span class="bcn-sw3c__pop-ref" data-c-req-ref=""></span
+      ><span data-c-req-edit=""
+        ><span
+          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+          ><button class="esa-button__native typography-microcopy-2xs" type="button">
+            <span class="esa-button__label">Edit</span>
+          </button></span
+        ></span
+      ><span data-c-req-prev=""
+        ><span
+          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+          ><button class="esa-button__native typography-microcopy-2xs" type="button">
+            <span class="esa-button__label">Merge with previous</span>
+          </button></span
+        ></span
+      ><span data-c-req-next=""
+        ><span
+          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+          ><button class="esa-button__native typography-microcopy-2xs" type="button">
+            <span class="esa-button__label">Merge with next</span>
+          </button></span
+        ></span
+      ><span data-c-req-merge=""
+        ><span
+          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+          ><button class="esa-button__native typography-microcopy-2xs" type="button">
+            <span class="esa-button__label">Merge</span>
+          </button></span
+        ></span
+      ><span data-c-req-aldo=""
+        ><span
+          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+          ><button class="esa-button__native typography-microcopy-2xs" type="button">
+            <span class="esa-button__label">Ask Aldo</span>
+          </button></span
+        ></span
+      ><span data-c-req-delete=""
+        ><span
+          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+          ><button class="esa-button__native typography-microcopy-2xs" type="button">
+            <span class="esa-button__label">Delete</span>
+          </button></span
+        ></span
+      >
+    </div>
     <div
       class="bcn-sw3c__pop"
       data-c-gap-pop=""
@@ -691,20 +832,21 @@ mark.bcn-hl[data-family="none"] {
   flex-direction: column;
   display: flex;
   position: relative;
+  container: sw3c-page/inline-size;
 }
 .bcn-sw3c:not([data-readonly]) .bcn-sw3c__page {
   padding-bottom: calc(var(--spacing-500) + 2.5rem);
 }
 .bcn-sw3c__head {
-  align-items: center;
-  gap: var(--spacing-300);
+  align-items: flex-start;
+  gap: var(--spacing-200);
+  flex-direction: column;
   display: flex;
 }
 .bcn-sw3c__title {
   min-width: 0;
   font-family: var(--font-decorative, var(--typography-font-family-sans));
   text-wrap: balance;
-  flex: 1;
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
@@ -861,6 +1003,53 @@ mark.bcn-hl[data-family="none"] {
 }
 .bcn-sw3c__pop[hidden] {
   display: none;
+}
+.bcn-sw3c__pop {
+  align-items: center;
+}
+.bcn-sw3c__pop [hidden] {
+  display: none;
+}
+.bcn-sw3c__pop button:disabled {
+  opacity: 0.38;
+}
+.bcn-sw3c__pop-ref {
+  padding: 0 var(--spacing-200);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-content-default-secondary);
+  white-space: nowrap;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.bcn-sw3c__pop[data-c-req-pop] {
+  flex-wrap: wrap;
+  max-width: calc(100% - 16px);
+}
+.bcn-sw3c__tools [data-c-view] {
+  position: relative;
+}
+.bcn-sw3c__tools [data-c-view][aria-pressed="false"]:after {
+  content: "";
+  pointer-events: none;
+  background: currentColor;
+  border-radius: 1px;
+  width: 18px;
+  height: 1.5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+.bcn-sw3c__tools [data-c-view][aria-pressed="false"] svg {
+  opacity: 0.55;
+}
+.bcn-sw3c[data-hide-marks] .bcn-sw3c__text mark.bcn-hl:not([data-active]) {
+  background: 0 0;
+}
+.bcn-sw3c[data-hide-lines]
+  .bcn-sw3c__text
+  :is(.bcn-at-val, mark.bcn-at-gap:not([data-lit]), mark.bcn-hl[data-dup]) {
+  text-decoration: none;
 }
 .bcn-sw3c__grip {
   background: var(--color-content-default);

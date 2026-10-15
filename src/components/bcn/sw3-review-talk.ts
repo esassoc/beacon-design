@@ -190,8 +190,23 @@ export function interpretReview(code: string, text: string, selection: Range | n
     };
   }
 
-  // Merge.
+  // Merge. "Merge this with the next one" (or the previous) takes its neighbor in the text;
+  // requirements between the ones named come along, so no other's words are taken.
+  if (/\b(merge|combine|same requirement|one requirement)\b/i.test(s) && refs.length) {
+    const order = reqs.filter((r) => r.anchor).map((r) => r.id);
+    if (refs.length === 1) {
+      const i = order.indexOf(refs[0]);
+      const n = /\b(previous|prior|before|above|preceding)\b/i.test(s) ? order[i - 1] : /\b(next|following|after|below)\b/i.test(s) ? order[i + 1] : undefined;
+      if (i >= 0 && n) refs = /\b(previous|prior|before|above|preceding)\b/i.test(s) ? [n, refs[0]] : [refs[0], n];
+    }
+  }
   if (/\b(merge|combine|same requirement|one requirement)\b/i.test(s) && refs.length >= 2) {
+    const order = reqs.filter((r) => r.anchor).map((r) => r.id);
+    const at = refs.map((id) => order.indexOf(id)).filter((i) => i >= 0);
+    const lo = Math.min(...at);
+    const hi = Math.max(...at);
+    if (at.length === refs.length && hi - lo + 1 > refs.length) refs = order.slice(lo, hi + 1);
+    else refs = [...refs].sort((a, b) => order.indexOf(a) - order.indexOf(b));
     const [keep, ...others] = refs;
     return {
       reply: `One requirement over both: ${label(code, keep)} takes ${others.map((id) => label(code, id)).join(' and ')}'s words and keeps its own name.`,

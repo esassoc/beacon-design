@@ -8,18 +8,21 @@
 // the right, the merged draft composing as the person decides: its title (editable), the
 // first draft's fields, and the union of the requirements and monitor signs, each marked
 // with the numbers of the drafts it came from. merge() in the store keeps exactly that
-// union.
+// union. Obligations read by different people, or of different classes, can merge: the
+// merged draft's Audience and Class are asked for, the first draft's by default (prod's
+// Merge refuses different audiences).
 //
 // Contract, on `document`:
 //   in   sw3i:merge   detail: { ids }   open on these drafts
 //   out  sw3i:merged  detail: { id }    the merged draft
 //
-// bcn-lego-checked: the dialog IS esa-dialog; the title IS esa-textarea (titles run to 510 characters); kind marks ARE
+// bcn-lego-checked: the dialog IS esa-dialog; Audience and Class ARE esa-button-toggle; the title IS esa-textarea (titles run to 510 characters); kind marks ARE
 // bcn-draft-kind (draft-kind.ts, styled by BcnSw3IndexPage); keys ARE esa-button. Picking a title is a role="radio" on each draft's own
 // title: esa-radio-group takes label-only options and cannot hold a draft's record. Checked
 // Beacon: subcategory-review's merge dialog ("Merge N drafts", "Use a draft's title").
 // bcn-sw3-index-merge is its home.
 import EsaButton from '@esa/ecology/esa-button.astro';
+import { AUDIENCE_OPTIONS, CLASS_OPTIONS } from '../../data/sw3-index-types';
 ---
 
 <esa-dialog heading="Merge drafts" size="lg" class="bcn-sw3im-dialog" data-sw3-index-merge>
@@ -33,6 +36,8 @@ import EsaButton from '@esa/ecology/esa-button.astro';
       <div class="bcn-sw3im__card bcn-sw3im__card--result">
         <div data-im-res-head></div>
         <esa-textarea label="Title" size="sm" required maxlength="510" rows="3" auto-resize max-rows="6" data-im-title></esa-textarea>
+        <esa-button-toggle label="Audience" size="sm" data-im-audience data-options={JSON.stringify(AUDIENCE_OPTIONS)} hidden></esa-button-toggle>
+        <esa-button-toggle label="Class" size="sm" data-im-class data-options={JSON.stringify(CLASS_OPTIONS)} hidden></esa-button-toggle>
         <dl class="bcn-sw3im__fields" data-im-res-fields></dl>
         <div class="bcn-sw3im__block">
           <h4 class="bcn-sw3im__bh" data-im-res-locs-h></h4>
@@ -52,6 +57,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 </esa-dialog>
 
 <style>
+  .bcn-sw3im [hidden] { display: none !important; }
   .bcn-sw3im-dialog { --dialog-width-lg: min(68rem, calc(100vw - 4rem)); }
   .bcn-sw3im {
     display: grid;
@@ -147,7 +153,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
   .bcn-sw3im__block { display: flex; flex-direction: column; gap: var(--spacing-150); padding-top: var(--spacing-300); border-top: 1px solid var(--color-border-subtle, var(--color-border-default)); }
   .bcn-sw3im__bh { margin: 0; font-size: 0.875rem; font-weight: 600; }
   .bcn-sw3im :global(.bcn-sw3im__locs) { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-250); }
-  .bcn-sw3im :global(.bcn-sw3im__loc) { display: grid; grid-template-columns: 4.75rem minmax(0, 1fr) auto; gap: var(--spacing-300); align-items: baseline; }
+  .bcn-sw3im :global(.bcn-sw3im__loc) { display: grid; grid-template-columns: minmax(4.75rem, max-content) minmax(0, 1fr) auto; gap: var(--spacing-300); align-items: baseline; }
   .bcn-sw3im :global(.bcn-sw3im__ref) { font-variant-numeric: tabular-nums; font-weight: 500; color: var(--color-content-default-secondary); white-space: nowrap; }
   .bcn-sw3im :global(.bcn-sw3im__loc q) {
     font-family: var(--font-decorative, var(--typography-font-family-sans));
@@ -161,7 +167,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
   .bcn-sw3im :global(.bcn-sw3im__signs li) { padding-left: var(--spacing-100); }
   .bcn-sw3im :global(.bcn-sw3im__sign) { display: flex; gap: var(--spacing-300); justify-content: space-between; align-items: baseline; }
   .bcn-sw3im :global(.bcn-sw3im__card .bcn-sw3im__locs) { padding-top: var(--spacing-300); border-top: 1px solid var(--color-border-subtle, var(--color-border-default)); }
-  .bcn-sw3im :global(.bcn-sw3im__card--source .bcn-sw3im__loc) { grid-template-columns: 4.75rem minmax(0, 1fr); }
+  .bcn-sw3im :global(.bcn-sw3im__card--source .bcn-sw3im__loc) { grid-template-columns: minmax(4.75rem, max-content) minmax(0, 1fr); }
 
   .bcn-sw3im__foot { display: flex; gap: var(--spacing-200); justify-content: flex-end; width: 100%; }
 </style>
@@ -169,10 +175,11 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 <script>
   import '@esa/ecology/esa-dialog';
   import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-button-toggle';
   import { initIndex, entry, titleOf, merge, mergeRefusal } from './sw3-index-store';
   import { locatorRef, deadlineText, recurrenceText } from './sw3-index';
   import { draftKind } from './draft-kind';
-  import type { IndexEntry, IndexLocator } from '../../data/sw3-index-types';
+  import type { IndexAudience, IndexClass, IndexEntry, IndexLocator } from '../../data/sw3-index-types';
   import { toast } from '../../lib/snackbar';
 
   const dialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>('[data-sw3-index-merge]');
@@ -183,6 +190,17 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     const sources = $('[data-im-sources]');
     let ids: string[] = [];
     let es: IndexEntry[] = [];
+    type Toggle = HTMLElement & { value: string; options: unknown };
+    const audience = $<Toggle>('[data-im-audience]');
+    const cls = $<Toggle>('[data-im-class]');
+    customElements.whenDefined('esa-button-toggle').then(() => {
+      for (const t of [audience, cls]) t.options = JSON.parse(t.dataset.options!);
+    });
+    /** The first draft, as the merged one will carry it: with the audience and class picked. */
+    const firstAsMerged = (): IndexEntry => {
+      const f = es[0];
+      return f.kind === 'obligation' ? { ...f, audience: (audience.value || f.audience) as IndexAudience, class: (cls.value || f.class) as IndexClass } : f;
+    };
 
     const make = <K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string) => {
       const el = document.createElement(tag);
@@ -235,7 +253,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     /** The merged draft as merge() will make it: the first draft's fields, the union of
      *  every source, and the title as it stands. */
     const paintResult = () => {
-      const first = es[0];
+      const first = firstAsMerged();
       $('[data-im-res-head]').replaceChildren(head(first));
 
       const dl = $('[data-im-res-fields]');
@@ -328,17 +346,26 @@ import EsaButton from '@esa/ecology/esa-button.astro';
       $('[data-im-src-h]').textContent = `Drafts (${es.length})`;
       sources.replaceChildren(...es.map(sourceCard));
       title.value = titleOf(es[0]);
+      const obs = es.filter((e) => e.kind === 'obligation');
+      audience.hidden = new Set(obs.map((e) => e.audience)).size < 2;
+      cls.hidden = new Set(obs.map((e) => e.class)).size < 2;
+      const f = es[0];
+      audience.value = f.kind === 'obligation' ? f.audience : '';
+      cls.value = f.kind === 'obligation' ? f.class : '';
       paintResult();
       paintPicks();
       dialog.open = true;
     });
+    audience.addEventListener('change', paintResult);
+    cls.addEventListener('change', paintResult);
     title.addEventListener('input', paintPicks);
     title.addEventListener('change', paintPicks);
     $('[data-im-form]').addEventListener('submit', (ev) => {
       ev.preventDefault();
       const t = title.value.trim();
       if (!t) return;
-      const id = merge(ids, t.slice(0, 510));
+      const f = firstAsMerged();
+      const id = merge(ids, t.slice(0, 510), f.kind === 'obligation' ? { audience: f.audience, class: f.class } : {});
       dialog.open = false;
       if (id) {
         document.dispatchEvent(new CustomEvent('sw3i:merged', { detail: { id } }));

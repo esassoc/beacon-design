@@ -6,7 +6,7 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
 - Review is by home subcategory only. Also filed in shows on the obligation, read only.
 - A draft action with no scope cannot be approved: "This draft has no scope. Set one before approving it."
 - Actions and obligations are the structure. Audience is a field on the obligation, not a grouping; sorting, filtering or grouping by it can come later as options.
-- Merge takes two or more drafts of one kind and, for obligations, one audience; when it cannot, its title says why. The merged draft keeps every source.
+- Merge takes two or more drafts of one kind; when it cannot, its title says why. Obligations read by different people, or of different classes, merge: the dialog asks which Audience and Class the merged draft keeps (prod refuses different audiences). The merged draft keeps every source.
 - The header is esa-breadcrumbs with no links; its icon slot holds the dot, and the controller writes the names and the hue at run time.
 - Rationale is never stored or shown, as in prod.
 - Kind chips: an action is its requirement type (Plan, Reporting, Approval & Consultation…) tinted from the action hue; an obligation is develop's class chip (Adhere, Monitor, Notify, Roster) tinted from the class hue. Each list's kind column is as wide as its widest chip.

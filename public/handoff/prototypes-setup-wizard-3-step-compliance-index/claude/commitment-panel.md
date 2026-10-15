@@ -20,7 +20,64 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
     <div class="bcn-sw3c__tools" role="toolbar" aria-label="Commitment tools">
       <span></span>
       <div class="bcn-sw3c__group">
-        <span data-c-peek=""
+        <span
+          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            aria-label="Hide highlights"
+            title="Hide highlights"
+            data-ico="highlighter"
+            data-c-view="marks"
+            aria-pressed="true"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+                data-ico="highlighter"
+              >
+                <path d="m9 11-6 6v3h9l3-3"></path>
+                <path
+                  d="m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"
+                ></path></svg
+            ></span></button></span
+        ><span
+          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            aria-label="Hide underlines"
+            title="Hide underlines"
+            data-ico="underline"
+            data-c-view="lines"
+            aria-pressed="true"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+                data-ico="underline"
+              >
+                <path d="M6 4v6a6 6 0 0 0 12 0V4"></path>
+                <line x1="4" x2="20" y1="20" y2="20"></line></svg
+            ></span></button></span
+        ><span class="bcn-sw3c__rule" aria-hidden="true"></span
+        ><span data-c-peek=""
           ><span
             class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
             ><button
@@ -255,20 +312,21 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
   flex-direction: column;
   display: flex;
   position: relative;
+  container: sw3c-page/inline-size;
 }
 .bcn-sw3c:not([data-readonly]) .bcn-sw3c__page {
   padding-bottom: calc(var(--spacing-500) + 2.5rem);
 }
 .bcn-sw3c__head {
-  align-items: center;
-  gap: var(--spacing-300);
+  align-items: flex-start;
+  gap: var(--spacing-200);
+  flex-direction: column;
   display: flex;
 }
 .bcn-sw3c__title {
   min-width: 0;
   font-family: var(--font-decorative, var(--typography-font-family-sans));
   text-wrap: balance;
-  flex: 1;
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
@@ -425,6 +483,53 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
 }
 .bcn-sw3c__pop[hidden] {
   display: none;
+}
+.bcn-sw3c__pop {
+  align-items: center;
+}
+.bcn-sw3c__pop [hidden] {
+  display: none;
+}
+.bcn-sw3c__pop button:disabled {
+  opacity: 0.38;
+}
+.bcn-sw3c__pop-ref {
+  padding: 0 var(--spacing-200);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-content-default-secondary);
+  white-space: nowrap;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.bcn-sw3c__pop[data-c-req-pop] {
+  flex-wrap: wrap;
+  max-width: calc(100% - 16px);
+}
+.bcn-sw3c__tools [data-c-view] {
+  position: relative;
+}
+.bcn-sw3c__tools [data-c-view][aria-pressed="false"]:after {
+  content: "";
+  pointer-events: none;
+  background: currentColor;
+  border-radius: 1px;
+  width: 18px;
+  height: 1.5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+.bcn-sw3c__tools [data-c-view][aria-pressed="false"] svg {
+  opacity: 0.55;
+}
+.bcn-sw3c[data-hide-marks] .bcn-sw3c__text mark.bcn-hl:not([data-active]) {
+  background: 0 0;
+}
+.bcn-sw3c[data-hide-lines]
+  .bcn-sw3c__text
+  :is(.bcn-at-val, mark.bcn-at-gap:not([data-lit]), mark.bcn-hl[data-dup]) {
+  text-decoration: none;
 }
 .bcn-sw3c__grip {
   background: var(--color-content-default);

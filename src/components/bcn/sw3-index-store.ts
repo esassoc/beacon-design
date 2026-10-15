@@ -425,8 +425,9 @@ export const lockedCount = () => subs().filter(({ sub }) => sub.locked).length;
 
 /** The four stages, project-wide, as draft-stages.ts names them. */
 export const STAGES = ['Read requirements', 'File into bins', 'Merge duties', 'Complete drafts'] as const;
-const STAGE_MS = [4200, 3400, 3000, 2200];
-const AGAIN_MS = [600, 1400, 1400, 900];
+// Twice the pace prod runs at, so the run can be watched in a demo.
+const STAGE_MS = [8400, 6800, 6000, 4400];
+const AGAIN_MS = [1200, 2800, 2800, 1800];
 
 export interface RunCounts {
   requirements: number;
@@ -694,19 +695,17 @@ export const editEntry = (id: string, patch: EntryPatch) =>
     S.edits[id] = { ...(S.edits[id] ?? {}), ...patch };
   });
 
-/** Why these drafts cannot merge, if they cannot: prod's Merge takes drafts of one kind
- *  and, for obligations, one audience. */
+/** Why these drafts cannot merge, if they cannot: drafts of one kind. Prod's Merge also
+ *  takes one audience; here the merge dialog asks which audience the merged draft keeps. */
 export const mergeRefusal = (ids: string[]): string | null => {
   const es = ids.map((id) => entry(id)).filter((e): e is IndexEntry => !!e);
   if (es.length < 2) return 'Pick two or more drafts.';
   if (es.some((e) => statusOf(e.id) !== 'draft')) return 'Only drafts merge.';
   if (new Set(es.map((e) => e.kind)).size > 1) return 'An action and an obligation stay separate.';
-  const aud = new Set(es.map((e) => (e.kind === 'obligation' ? e.audience : '')));
-  if (aud.size > 1) return 'They are read by different people, so they stay separate.';
   return null;
 };
 /** Merge: one draft that keeps every source behind these. */
-export const merge = (ids: string[], title: string): string | null => {
+export const merge = (ids: string[], title: string, keep: Partial<Pick<IndexObligation, 'audience' | 'class'>> = {}): string | null => {
   if (mergeRefusal(ids)) return null;
   const es = ids.map((id) => entry(id)!);
   const sub = homeOf(ids[0]);
@@ -718,7 +717,7 @@ export const merge = (ids: string[], title: string): string | null => {
     S.made[id] =
       first.kind === 'action'
         ? { ...first, id, name: title, locators }
-        : { ...first, id, title, locators, monitorSigns: [...new Set(es.flatMap((e) => (e.kind === 'obligation' ? e.monitorSigns : [])))] };
+        : { ...first, ...keep, id, title, locators, monitorSigns: [...new Set(es.flatMap((e) => (e.kind === 'obligation' ? e.monitorSigns : [])))] };
     const home = S.place[sub].home;
     home.splice(home.indexOf(ids[0]), 0, id);
     for (const x of ids) S.folded[x] = id;
