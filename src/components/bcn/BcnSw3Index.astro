@@ -1,44 +1,59 @@
 ---
-// <BcnSw3Index> — step 3: the Compliance Index, reviewed one subcategory at a time.
+// <BcnSw3Index> — step 3's workspace: the Compliance Index, in develop's two phases.
 //
-// Layout, step 2's shell: the subcategory scrubber across the top (every subcategory in
-// index order, a rule and the category's name where each category starts, colored by what
-// is left to do); under it the index (left, three levels, folds to a rail), the subcategory
-// as a page (center), and Aldo, one conversation per subcategory (right). Nothing on the page
-// is a form: an entry's record changes in its side panel (Edit) or by telling Aldo.
+// No index yet: an empty state with Build index and + Category. Building: the proposal is
+// on its way. Then step 2's shell: the subcategory scrubber across the top (a rule and the
+// category's name where each category starts); under it the index (left, edited by hand,
+// folds to a rail), the subcategory in view (center), and Aldo, one conversation per
+// subcategory (right). Before drafting, the center shows what the proposal cited for the
+// subcategory and Aldo takes Re-run guidance; once drafted, the center is the review.
 //
 // A locator opens the commitment it rests on (bcn-sw3-commitment-panel), so the page carries
-// step 2's payload as well as the index.
+// step 2's payload as well as the plan.
 //
-// Composes: bcn-commitment-scrubber, bcn-sw3-index-tree, bcn-sw3-index-page,
-// bcn-sw3-index-aldo, esa-button.
+// Composes: esa-empty-state, esa-loading-spinner, esa-button, bcn-commitment-scrubber,
+// bcn-sw3-index-tree, bcn-sw3-index-page, bcn-sw3-index-aldo.
 //
-// bcn-lego-checked: every key is esa-button; the panes are the review's own grid, as step
-// 2's bcn-sw3-review is. Checked Beacon: compliance-index-step is a bin sidebar and a main
-// pane with no strip of bins. bcn-sw3-index is this step's home.
+// bcn-lego-checked: every key is esa-button; the empty and building states ARE
+// esa-empty-state and esa-loading-spinner; the panes are the review's own grid, as step 2's
+// bcn-sw3-review is. Checked Beacon: compliance-index-step is a bin sidebar and a main pane
+// with no strip of bins. bcn-sw3-index is this step's home.
 import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
 import BcnCommitmentScrubber from './BcnCommitmentScrubber.astro';
 import BcnSw3IndexTree from './BcnSw3IndexTree.astro';
 import BcnSw3IndexPage from './BcnSw3IndexPage.astro';
 import BcnSw3IndexAldo from './BcnSw3IndexAldo.astro';
-import INDEX from '../../data/sw3-index.json';
-import type { Sw3Index } from '../../data/sw3-index-types';
+import PLAN from '../../data/sw3-index.json';
+import type { Sw3IndexPlan } from '../../data/sw3-index-types';
 import { REVIEW_DOCS } from '../../data/sw3-docs';
 
-const index = INDEX as unknown as Sw3Index;
+const plan = PLAN as unknown as Sw3IndexPlan;
 ---
 
-<section class="bcn-sw3ix" data-sw3-ix data-aldo="open" data-index="open">
+<section class="bcn-sw3ix" data-sw3-ix data-aldo="open" data-index="open" data-phase="empty">
+  <div class="bcn-sw3ix__start" data-ix-empty>
+    <EsaEmptyState title="No index yet" description={`Build it from ${plan.requirements.toLocaleString('en-US')} approved requirements.`}>
+      <EsaButton variant="primary" size="md" icon="sparkles" data-ix-build>Build index</EsaButton>
+      <EsaButton variant="secondary" size="md" icon="plus" data-ix-add-cat>Category</EsaButton>
+    </EsaEmptyState>
+  </div>
+  <div class="bcn-sw3ix__start" data-ix-building>
+    <EsaLoadingSpinner size="md" label="Building the index" />
+    <p class="bcn-sw3ix__building">Building the index</p>
+  </div>
+
   <div class="bcn-sw3ix__nav">
     <div class="bcn-sw3ix__where">
       <span class="bcn-sw3ix__pos" data-ix-pos></span>
-      <span data-ix-next-open><EsaButton variant="secondary" size="xs" iconRight="arrow-right">Next to settle</EsaButton></span>
+      <span data-ix-next-open><EsaButton variant="secondary" size="xs" iconRight="arrow-right">Next to review</EsaButton></span>
     </div>
     <BcnCommitmentScrubber label="Subcategory" />
   </div>
 
   <div class="bcn-sw3ix__tree">
-    <BcnSw3IndexTree index={index} />
+    <BcnSw3IndexTree />
   </div>
 
   <div class="bcn-sw3ix__page" data-ix-page>
@@ -49,7 +64,7 @@ const index = INDEX as unknown as Sw3Index;
     <BcnSw3IndexAldo />
   </div>
 
-  <script type="application/json" data-sw3-index set:html={JSON.stringify(index)} />
+  <script type="application/json" data-sw3-index set:html={JSON.stringify(plan)} />
   <script type="application/json" data-sw3-payload set:html={JSON.stringify({ docs: REVIEW_DOCS })} />
 </section>
 
@@ -71,6 +86,25 @@ const index = INDEX as unknown as Sw3Index;
   .bcn-sw3ix[data-aldo='closed'] { grid-template-columns: 17rem minmax(0, 1fr) 2.75rem; }
   .bcn-sw3ix[data-index='closed'][data-aldo='closed'] { grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem; }
 
+  /* No index yet, or one on its way: the whole workspace is the start. */
+  .bcn-sw3ix__start {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-300);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+  }
+  .bcn-sw3ix[data-phase='empty'] [data-ix-empty],
+  .bcn-sw3ix[data-phase='building'] [data-ix-building] { display: flex; }
+  .bcn-sw3ix[data-phase='empty'] > :not(.bcn-sw3ix__start, script),
+  .bcn-sw3ix[data-phase='building'] > :not(.bcn-sw3ix__start, script) { display: none; }
+  .bcn-sw3ix__building { margin: 0; font-size: 0.9375rem; font-weight: 500; color: var(--color-content-default-secondary); }
+
   .bcn-sw3ix__nav {
     grid-column: 1 / 3;
     display: flex;
@@ -82,6 +116,7 @@ const index = INDEX as unknown as Sw3Index;
     border-radius: var(--radius-200);
   }
   .bcn-sw3ix__where { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); min-height: 28px; }
+  .bcn-sw3ix__where [hidden] { display: none; }
   .bcn-sw3ix__pos {
     font-size: 0.8125rem;
     font-weight: 500;
@@ -113,5 +148,5 @@ const index = INDEX as unknown as Sw3Index;
 
 <script>
   import { setupSw3Index } from './sw3-index';
-  document.querySelectorAll<HTMLElement>("[data-sw3-ix]").forEach(setupSw3Index);
+  document.querySelectorAll<HTMLElement>('[data-sw3-ix]').forEach(setupSw3Index);
 </script>

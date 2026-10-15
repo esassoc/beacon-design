@@ -874,7 +874,7 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'setup-wizard-3-step-compliance-index',
         title: 'Step 3: Compliance Index',
         description:
-          'The Compliance Index as a book\'s back index, reviewed one subcategory at a time: category the heading, subcategory the subheading, each action and obligation an entry with its locators, the step 2 requirement IDs it rests on. A scrubber of every subcategory, the index folding to a rail, the subcategory as a page with actions first and obligations by audience, each entry opening in place to its passages. A locator opens the commitment as step 2 marked it up, with the PDF one key away. Aldo takes approve, merge, move, also file and why in plain words.',
+          'The Compliance Index in develop\'s two phases. Build the index from every approved requirement, then shape it by hand (rename, lock, delete, drag, add) and re-run it with guidance typed to Aldo. Then one Draft run reads, files, merges and completes the actions and obligations, and a person reviews them a subcategory at a time: approve, discard, merge, edit, with Suggest subcategories for what fit nowhere. Every draft rests on step 2 requirement IDs that open the commitment as step 2 marked it up.',
         route: '/prototypes/setup-wizard-3-step/compliance-index',
         createdAt: '2026-10-14',
         status: 'in-progress',

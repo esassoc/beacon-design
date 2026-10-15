@@ -1,5 +1,5 @@
-// Glyphs shared by the Comments components: the hub registry, plus the Lucide icons it
-// does not carry yet.
+// Glyphs shared by bcn components (Comments first, then step 3's index): the hub registry,
+// plus the Lucide icons it does not carry yet.
 import { iconSvg } from '@esa/ecology/icon-registry';
 
 // Lucide glyphs the hub's icon registry does not carry yet.
@@ -16,7 +16,20 @@ const GLYPH: Record<string, string> = {
   'send': '<path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/>',
   // The record pager's table of contents.
   'list': '<path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/>',
+  // Step 3's index: Build index and Draft run (sparkles), drag (grip), expand and collapse all.
+  sparkles: '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>',
+  'grip-vertical': '<circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/>',
+  'chevrons-up-down': '<path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/>',
+  'chevrons-down-up': '<path d="m7 20 5-5 5 5"/><path d="m7 4 5 5 5-5"/>',
+  merge: '<path d="m8 6 4-4 4 4"/><path d="M12 2v10.3a4 4 0 0 1-1.172 2.872L4 22"/><path d="m20 22-5-5"/>',
   'file-minus': '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M9 15h6"/>',
+};
+/** A glyph's inner SVG, for an esa-icon `paths` prop or to fill a lego's empty svg. */
+export const glyphPaths = (name: string) => GLYPH[name] ?? '';
+/** Fill the esa-icon svg inside `host` (an esa-button given an icon the registry lacks). */
+export const fillGlyph = (host: Element, name: string) => {
+  const svg = host.querySelector('.esa-icon svg');
+  if (svg && GLYPH[name]) svg.innerHTML = GLYPH[name];
 };
 export const glyph = (name: string, size = 14) =>
   GLYPH[name]

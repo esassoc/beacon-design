@@ -1,10 +1,10 @@
 # Aldo
 
-One conversation per subcategory. The person says what to change in their own words: approve all, merge two entries (@ each), move this to another subcategory, also file it under another, this is a monitor's duty, discard this, why is this here (answered from its locators, not obeyed). Nothing applies until a proposal is pressed. Open items: an action with nobody named to do it (Edit, Discard), a proposed merge (Merge, Keep separate), and what File put in no subcategory (File here, Not an obligation), which shows on every page because it is the whole index's.
+One conversation per subcategory. Before drafting it takes Re-run guidance in plain words and answers with the Re-run key and what a re-run keeps; Re-run in the step's actions opens the same exchange. Drafted, it approves all, discards, merges two drafts (@ each), makes an obligation a monitor's duty, and says why a draft is here from its sources. Open items: a draft action with nobody named to do it, or no scope.
 
 ## Key decisions
-- A merge across audiences is refused with the reason, as prod's Merge never groups different audiences; an action and an obligation never merge.
-- Subcategory names in Aldo's replies open them.
+- Guidance holds for one run and is not kept, as prod's.
+- One Re-run with guidance was run ahead through Beacon's prompt ("give each listed species its own subcategory under an Endangered Species category"). Other guidance gets a plain answer that offers it.
 
 ## Markup
 ```html
@@ -43,12 +43,12 @@ One conversation per subcategory. The person says what to change in their own wo
         data-aldo-side-toggle=""
         aria-expanded="false"
         aria-controls="aldo-side"
-        data-nudge=""
+        hidden=""
       >
         <span data-waiting-count=""
           ><span
             class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong"
-            ><span class="esa-badge__text">2</span></span
+            ><span class="esa-badge__text">0</span></span
           ></span
         ><span data-waiting-label="">open items</span
         ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -150,62 +150,12 @@ One conversation per subcategory. The person says what to change in their own wo
       ></span>
     </header>
     <div class="bcn-aldo-panel__main">
-      <ol class="bcn-aldo-thread" data-aldo-thread="" aria-live="polite">
-        <li class="bcn-aldo-msg" data-from="aldo" data-kind="opening">
-          <span class="bcn-aldo-msg__who" data-msg-who="">Aldo</span>
-          <div class="bcn-aldo-msg__bubble">
-            <p
-              class="bcn-aldo-msg__text"
-              data-msg-text=""
-              data-raw="3 obligations and 1 action filed under Nighttime lighting. 2 to settle in Open items."
-            >
-              3 obligations and 1 action filed under Nighttime lighting. 2 to settle in
-              Open items.
-            </p>
-            <span class="bcn-aldo-msg__tools" data-msg-tools="" data-keys="copy"
-              ><span
-                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-                ><button
-                  class="esa-button__native typography-microcopy-2xs"
-                  type="button"
-                  aria-label="Copy message"
-                  title="Copy message"
-                  data-ico="copy"
-                >
-                  <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                    ><svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      focusable="false"
-                      data-ico="copy"
-                    >
-                      <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
-                      <path
-                        d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
-                      ></path></svg
-                  ></span></button></span
-            ></span>
-          </div>
-          <div class="bcn-aldo-msg__extra" data-msg-extra=""></div>
-          <span class="bcn-aldo-actions" data-msg-acts=""></span
-          ><time class="bcn-aldo-msg__time" data-msg-time="" hidden=""></time>
-        </li>
-      </ol>
+      <ol class="bcn-aldo-thread" data-aldo-thread="" aria-live="polite"></ol>
       <div class="bcn-aldo-composer" data-aldo-composer="" data-mode="thread">
-        <div class="bcn-aldo-actions bcn-aldo-composer__suggest" data-composer-suggest="">
-          <span
-            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-            ><button class="esa-button__native typography-microcopy-2xs" type="button">
-              <span class="esa-button__label">Approve all</span>
-            </button></span
-          >
-        </div>
+        <div
+          class="bcn-aldo-actions bcn-aldo-composer__suggest"
+          data-composer-suggest=""
+        ></div>
         <div class="bcn-aldo-composer__anchor">
           <ul
             class="bcn-aldo-composer__menu"
@@ -215,36 +165,11 @@ One conversation per subcategory. The person says what to change in their own wo
             hidden=""
           ></ul>
           <form class="bcn-aldo-composer__shell" data-composer-form="">
-            <div class="bcn-aldo-composer__context" data-composer-context="">
-              <span
-                class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                data-kind="entity"
-                data-auto=""
-                title="Attached from where you are"
-                ><span class="esa-pill__label">Nighttime lighting</span
-                ><button
-                  class="esa-pill__remove"
-                  type="button"
-                  aria-label="Remove"
-                  data-esa-pill-remove=""
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M18 6 6 18"></path>
-                    <path d="m6 6 12 12"></path>
-                  </svg></button
-              ></span>
-            </div>
+            <div
+              class="bcn-aldo-composer__context"
+              data-composer-context=""
+              hidden=""
+            ></div>
             <esa-textarea
               class="bcn-aldo-composer__field"
               data-composer-input="true"
@@ -300,7 +225,12 @@ One conversation per subcategory. The person says what to change in their own wo
       data-aldo-side=""
       aria-label="Open items and instructions"
     >
-      <section class="bcn-aldo-needs" data-aldo-needs="" aria-label="Open items">
+      <section
+        class="bcn-aldo-needs"
+        data-aldo-needs=""
+        aria-label="Open items"
+        hidden=""
+      >
         <h4 class="bcn-aldo-needs__head">
           <button
             type="button"
@@ -325,62 +255,12 @@ One conversation per subcategory. The person says what to change in their own wo
             ><span data-needs-count=""
               ><span
                 class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong"
-                ><span class="esa-badge__text">2</span></span
+                ><span class="esa-badge__text">0</span></span
               ></span
             >
           </button>
         </h4>
-        <ul class="bcn-aldo-needs__list" data-needs-list="">
-          <li class="bcn-aldo-needs__item">
-            <button class="bcn-aldo-needs__text" type="button">
-              Nobody is named to do “Justify nighttime work in the Construction Phase
-              Authorization Package”.</button
-            ><span class="bcn-aldo-actions"
-              ><span
-                class="esa-button esa-button--variant-info esa-button--appearance-soft esa-button--xs"
-                ><button
-                  class="esa-button__native typography-microcopy-2xs"
-                  type="button"
-                >
-                  <span class="esa-button__label">Edit</span>
-                </button></span
-              ><span
-                class="esa-button esa-button--variant-danger esa-button--appearance-soft esa-button--xs"
-                ><button
-                  class="esa-button__native typography-microcopy-2xs"
-                  type="button"
-                >
-                  <span class="esa-button__label">Discard</span>
-                </button></span
-              ></span
-            >
-          </li>
-          <li class="bcn-aldo-needs__item">
-            <p class="bcn-aldo-needs__text">
-              “Inspect overnight equipment and materials for wildlife before use” fits no
-              subcategory. No subcategory covers equipment inspection
-            </p>
-            <span class="bcn-aldo-actions"
-              ><span
-                class="esa-button esa-button--variant-info esa-button--appearance-soft esa-button--xs"
-                ><button
-                  class="esa-button__native typography-microcopy-2xs"
-                  type="button"
-                >
-                  <span class="esa-button__label">File in Nighttime lighting</span>
-                </button></span
-              ><span
-                class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-                ><button
-                  class="esa-button__native typography-microcopy-2xs"
-                  type="button"
-                >
-                  <span class="esa-button__label">Not an obligation</span>
-                </button></span
-              ></span
-            >
-          </li>
-        </ul>
+        <ul class="bcn-aldo-needs__list" data-needs-list=""></ul>
       </section>
       <div class="bcn-aldo-instructions" data-aldo-instructions="" hidden="">
         <details class="esa-collapsible esa-collapsible--flush">
@@ -436,7 +316,7 @@ One conversation per subcategory. The person says what to change in their own wo
           stroke="none"
         ></circle></svg></span
     ><span class="bcn-aldo-panel__railname">Aldo</span
-    ><span class="bcn-aldo-panel__dot" data-aldo-dot=""
+    ><span class="bcn-aldo-panel__dot" data-aldo-dot="" hidden=""
       ><span
         class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong esa-badge--dot"
         ><span class="visually-hidden">An open item waits</span></span
@@ -972,14 +852,6 @@ One conversation per subcategory. The person says what to change in their own wo
 .side-nav.collapsed .nav-section__title,
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
-}
-.bcn-sw3it__body .esa-collapsible__summary {
-  font-size: 0.8125rem;
-  font-weight: 600;
-}
-.bcn-sw3it__body .esa-collapsible__body {
-  padding-top: 0;
-  font-size: 0.8125rem;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -2101,99 +1973,6 @@ button.bcn-aldo-needs__text:focus-visible {
   flex-direction: column;
   display: flex;
 }
-.esa-pill {
-  --_pill-bg: var(--color-background-elevation-sunken, #f0f0f0);
-  --_pill-text: var(--color-content-default, #202020);
-  --_pill-border: var(--color-border-default-subtle, #d9d9d9);
-  --_pill-padding-y: var(--spacing-150, 0.375rem);
-  --_pill-padding-x: var(--spacing-200, 0.5rem);
-  --_pill-gap: var(--spacing-100, 0.25rem);
-  align-items: center;
-  gap: var(--_pill-gap);
-  padding-block: var(--_pill-padding-y);
-  padding-inline: var(--_pill-padding-x);
-  border: var(--border-width-default, 1px) solid var(--_pill-border);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_pill-bg);
-  color: var(--_pill-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-  display: inline-flex;
-}
-.esa-pill--xs {
-  --_pill-padding-y: var(--spacing-100, 0.25rem);
-  --_pill-padding-x: var(--spacing-100, 0.25rem);
-}
-.esa-pill--sm {
-  --_pill-padding-y: var(--spacing-100, 0.25rem);
-  --_pill-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-pill--lg {
-  --_pill-padding-y: var(--spacing-200, 0.5rem);
-  --_pill-padding-x: var(--spacing-300, 0.75rem);
-}
-.esa-pill--round {
-  border-radius: var(--radius-pill, 9999px);
-}
-.esa-pill--primary {
-  --_pill-bg: var(--color-background-brand-subtle, var(--color-grass-2));
-  --_pill-text: var(--color-content-brand, var(--color-grass-11));
-  --_pill-border: var(--color-border-brand, var(--color-grass-6));
-}
-.esa-pill--info {
-  --_pill-bg: var(--color-background-utility-info-subtle, var(--color-blue-2));
-  --_pill-text: var(--color-content-utility-info, #0d74ce);
-  --_pill-border: var(--color-border-utility-info, var(--color-blue-6));
-}
-.esa-pill--success {
-  --_pill-bg: var(--color-background-utility-success-subtle, var(--color-green-2));
-  --_pill-text: var(--color-content-utility-success, #218358);
-  --_pill-border: var(--color-border-utility-success, var(--color-green-6));
-}
-.esa-pill--warning {
-  --_pill-bg: var(--color-background-utility-warning-subtle, var(--color-yellow-2));
-  --_pill-text: var(--color-content-utility-warning, #ab6400);
-  --_pill-border: var(--color-border-utility-warning, var(--color-yellow-6));
-}
-.esa-pill--danger {
-  --_pill-bg: var(--color-background-utility-danger-subtle, var(--color-red-2));
-  --_pill-text: var(--color-content-utility-danger, #ce2c31);
-  --_pill-border: var(--color-border-utility-danger, var(--color-red-6));
-}
-.esa-pill[data-category] {
-  --_pill-bg: var(--category-2, var(--color-background-elevation-sunken, #f0f0f0));
-  --_pill-border: var(--category-6, var(--color-border-default-subtle, #d9d9d9));
-  --_pill-text: var(--category-11, var(--color-content-default, #202020));
-}
-.esa-pill__icon {
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.esa-pill__remove {
-  border-radius: var(--radius-pill, 9999px);
-  width: 16px;
-  height: 16px;
-  color: inherit;
-  cursor: pointer;
-  opacity: 0.6;
-  transition:
-    opacity var(--transition-fast, 0.15s ease),
-    background var(--transition-fast, 0.15s ease);
-  background: 0 0;
-  border: none;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  display: inline-flex;
-}
-.esa-pill__remove:hover {
-  opacity: 1;
-  background: var(--color-background-overlay-heavy-hover, #0000001a);
-}
-.esa-pill__remove:focus-visible {
-  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
-  outline-offset: var(--focus-ring-offset, 2px);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -2335,6 +2114,99 @@ button.bcn-aldo-needs__text:focus-visible {
   background: canvastext;
   border: 0;
   outline: 1px solid canvastext;
+}
+.esa-pill {
+  --_pill-bg: var(--color-background-elevation-sunken, #f0f0f0);
+  --_pill-text: var(--color-content-default, #202020);
+  --_pill-border: var(--color-border-default-subtle, #d9d9d9);
+  --_pill-padding-y: var(--spacing-150, 0.375rem);
+  --_pill-padding-x: var(--spacing-200, 0.5rem);
+  --_pill-gap: var(--spacing-100, 0.25rem);
+  align-items: center;
+  gap: var(--_pill-gap);
+  padding-block: var(--_pill-padding-y);
+  padding-inline: var(--_pill-padding-x);
+  border: var(--border-width-default, 1px) solid var(--_pill-border);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_pill-bg);
+  color: var(--_pill-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+  display: inline-flex;
+}
+.esa-pill--xs {
+  --_pill-padding-y: var(--spacing-100, 0.25rem);
+  --_pill-padding-x: var(--spacing-100, 0.25rem);
+}
+.esa-pill--sm {
+  --_pill-padding-y: var(--spacing-100, 0.25rem);
+  --_pill-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-pill--lg {
+  --_pill-padding-y: var(--spacing-200, 0.5rem);
+  --_pill-padding-x: var(--spacing-300, 0.75rem);
+}
+.esa-pill--round {
+  border-radius: var(--radius-pill, 9999px);
+}
+.esa-pill--primary {
+  --_pill-bg: var(--color-background-brand-subtle, var(--color-grass-2));
+  --_pill-text: var(--color-content-brand, var(--color-grass-11));
+  --_pill-border: var(--color-border-brand, var(--color-grass-6));
+}
+.esa-pill--info {
+  --_pill-bg: var(--color-background-utility-info-subtle, var(--color-blue-2));
+  --_pill-text: var(--color-content-utility-info, #0d74ce);
+  --_pill-border: var(--color-border-utility-info, var(--color-blue-6));
+}
+.esa-pill--success {
+  --_pill-bg: var(--color-background-utility-success-subtle, var(--color-green-2));
+  --_pill-text: var(--color-content-utility-success, #218358);
+  --_pill-border: var(--color-border-utility-success, var(--color-green-6));
+}
+.esa-pill--warning {
+  --_pill-bg: var(--color-background-utility-warning-subtle, var(--color-yellow-2));
+  --_pill-text: var(--color-content-utility-warning, #ab6400);
+  --_pill-border: var(--color-border-utility-warning, var(--color-yellow-6));
+}
+.esa-pill--danger {
+  --_pill-bg: var(--color-background-utility-danger-subtle, var(--color-red-2));
+  --_pill-text: var(--color-content-utility-danger, #ce2c31);
+  --_pill-border: var(--color-border-utility-danger, var(--color-red-6));
+}
+.esa-pill[data-category] {
+  --_pill-bg: var(--category-2, var(--color-background-elevation-sunken, #f0f0f0));
+  --_pill-border: var(--category-6, var(--color-border-default-subtle, #d9d9d9));
+  --_pill-text: var(--category-11, var(--color-content-default, #202020));
+}
+.esa-pill__icon {
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.esa-pill__remove {
+  border-radius: var(--radius-pill, 9999px);
+  width: 16px;
+  height: 16px;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.6;
+  transition:
+    opacity var(--transition-fast, 0.15s ease),
+    background var(--transition-fast, 0.15s ease);
+  background: 0 0;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  display: inline-flex;
+}
+.esa-pill__remove:hover {
+  opacity: 1;
+  background: var(--color-background-overlay-heavy-hover, #0000001a);
+}
+.esa-pill__remove:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline-offset: var(--focus-ring-offset, 2px);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

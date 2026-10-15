@@ -1,12 +1,6 @@
 # Commitment panel
 
-Where a locator leads: the commitment as step 2 marked it up, read only, in a side panel headed by the requirement's ID and name. The locator's requirement is the stroke in focus and the others fade; the entry's excerpt is a heavier pass inside it. The page key opens the PDF over it; Open in Commitments lands step 2 on that commitment.
-
-## Key decisions
-- The excerpt is prod's ObligationRequirement.Excerpt; PR #1520's ObligationSourceDto carries the commitment, the source document and the start page that make the chain to the PDF.
-
-## Done when
-- From Nighttime lighting, 11.8:2 opens COA 11.8 with its second requirement (yellow or orange lighting within 500 feet) in focus.
+Where a locator or a cited requirement leads: the commitment as step 2 marked it up, read only, the requirement in focus and the draft's excerpt a heavier pass inside it. The page key opens the PDF; Open in Commitments lands step 2 on that commitment.
 
 ## Markup
 ```html

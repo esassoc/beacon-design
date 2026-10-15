@@ -1,24 +1,20 @@
 # Subcategory scrubber
 
-Every subcategory in index order, one cell each, step 2's scrubber: darker gray when drafted, amber with something to settle, green when reviewed. A rule and the category's name under the strip where each category starts. 40 at a time. Next to settle walks the amber cells. Above the strip: the subcategory, where it is in the index, and what is left ("Capture and relocation: 3 of 7. 1 reviewed, 3 to settle.").
+Every subcategory in index order, step 2's scrubber, a rule and the category's name where each category starts. Drafted: amber for drafts never opened, gray for opened with drafts to review, green when every draft is decided. Next to review walks the unopened first.
 
 ## Key decisions
-- A subcategory is reviewed when every entry in it is approved or discarded.
-
-## Done when
-- Approve all on a subcategory turns its cell green and its index mark to a check.
+- Opened is not reviewed. Prod sets FirstOpenedDate the first time a bin with drafts is opened.
 
 ## Markup
 ```html
 <div class="bcn-sw3ix__nav">
   <div class="bcn-sw3ix__where">
-    <span class="bcn-sw3ix__pos" data-ix-pos=""
-      >Nighttime lighting: 1 of 7. 0 reviewed, 3 to settle.</span
+    <span class="bcn-sw3ix__pos" data-ix-pos=""></span
     ><span data-ix-next-open=""
       ><span
         class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
         ><button class="esa-button__native typography-microcopy-2xs" type="button">
-          <span class="esa-button__label">Next to settle</span
+          <span class="esa-button__label">Next to review</span
           ><span class="esa-icon esa-icon--xs" aria-hidden="true"
             ><svg
               width="14"
@@ -36,13 +32,8 @@ Every subcategory in index order, one cell each, step 2's scrubber: darker gray 
           ></span></button></span
     ></span>
   </div>
-  <div
-    class="bcn-cscrub"
-    data-commitment-scrubber=""
-    data-size="40"
-    style="--_n: 40; --_at: 0"
-  >
-    <span data-cs-prev="" style="visibility: hidden"
+  <div class="bcn-cscrub" data-commitment-scrubber="" data-size="40" style="--_n: 40">
+    <span data-cs-prev=""
       ><span
         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
         ><button
@@ -73,56 +64,33 @@ Every subcategory in index order, one cell each, step 2's scrubber: darker gray 
       tabindex="0"
       aria-label="Subcategory"
       aria-valuemin="1"
-      aria-valuemax="7"
+      aria-valuemax="1"
       aria-valuenow="1"
       data-cs-track=""
-      aria-valuetext="Light and noise Nighttime lighting Light and noise, 1 to settle"
     >
-      <span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__cell" data-state="none"></span
-      ><span class="bcn-cscrub__sep" style="--_i: 2"></span
-      ><span class="bcn-cscrub__sep" style="--_i: 5"></span
+      <span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
+      ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
       ><span class="bcn-cscrub__thumb" data-cs-thumb="" aria-hidden="true"></span>
     </div>
-    <span data-cs-next="" style="visibility: hidden"
+    <span data-cs-next=""
       ><span
         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
         ><button
@@ -147,9 +115,7 @@ Every subcategory in index order, one cell each, step 2's scrubber: darker gray 
               <path d="m13 17 5-5-5-5"></path></svg
           ></span></button></span
     ></span>
-    <div class="bcn-cscrub__ticks" aria-hidden="true" data-cs-ticks="">
-      <span class="bcn-cscrub__file" style="--_i: 0">Light and noise</span>
-    </div>
+    <div class="bcn-cscrub__ticks" aria-hidden="true" data-cs-ticks=""></div>
     <span class="bcn-cscrub__tip" data-cs-tip="" hidden="" aria-hidden="true"
       ><span class="bcn-cscrub__tipcode" data-cs-tip-code=""></span
       ><span data-cs-tip-title=""></span
@@ -436,6 +402,9 @@ Every subcategory in index order, one cell each, step 2's scrubber: darker gray 
   gap: var(--spacing-300);
   min-height: 28px;
   display: flex;
+}
+.bcn-sw3ix__where [hidden] {
+  display: none;
 }
 .bcn-sw3ix__pos {
   color: var(--color-content-default-secondary);

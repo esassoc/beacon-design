@@ -1,41 +1,74 @@
 ---
-// <BcnSw3IndexPage> — one subcategory of the Compliance Index as a page: the unit of review
-// in step 3, set in Beacon's document voice as step 2's commitment is. Its category, its
-// name, then its entries as an index lists them: actions first, then obligations by who
-// reads them (Crews, Monitors, Compliance staff), the grouping prod keeps because a merge
-// stays within one audience. Each entry is one line: class, title, locators. A draft is
-// dashed, approved is solid with a check, discarded is struck. Pressing an entry opens its
-// record in place: Applies when, monitor signs, and each passage it rests on quoted under
-// its locator. A locator opens the commitment (bcn-sw3-commitment-panel). See also closes
-// the page: the subcategories that share entries with this one.
+// <BcnSw3IndexPage> — one subcategory in the center pane, as develop's main pane shows it.
+//
+// Before drafting: its category, its name, and Cited requirements, the few requirements the
+// proposal cited as the reason the bin exists (commitment ID, name, the requirement's
+// text), or "Nothing cited for this subcategory." A requirement opens its commitment.
+//
+// Drafted: the review, in Beacon's document voice. Actions first, then obligations by who
+// reads them (Crews, Monitors, Compliance staff), then Discarded (N), folded. Each draft is
+// one line (a box to tick for Merge, class, title, locators); pressing the title opens its
+// record in place: an obligation's audience, Applies when, monitor signs, Also filed in;
+// an action's type, scope, responsible party (Needs input when none), frequency, deadline,
+// expected evidence and text; and each passage it rests on, quoted under its locator. Keys:
+// Approve, Discard, Restore, Edit. Over the list: Approve all (N), Discard all, and with two
+// or more ticked, Merge.
 //
 // The controller is the host's (sw3-index.ts): this component is markup, templates and look.
 //
-// bcn-lego-checked: the class chip IS esa-badge; every key IS esa-button; the check IS
-// esa-icon. Checked Beacon: subcategory-review lists actions then obligations by audience
-// with the selected draft's fields in a side pane and checkboxes on the rows; this keeps its
-// order and grouping and opens the record in place, as an index line would. The earlier
-// /prototypes/setup-wizard-ci bin review (bcn-ci-bin-review) is a dialog with tabs.
-// bcn-sw3-index-page is the home for "one subcategory, as an index page".
+// bcn-lego-checked: the class chip IS esa-badge; every key IS esa-button; the tick IS
+// esa-checkbox; the check IS esa-icon; Discarded IS esa-collapsible. Checked Beacon:
+// subcategory-review lists actions then obligations by audience with checkboxes on the
+// rows and the selected draft's fields in a side pane; this keeps its order, grouping and
+// verbs and opens the record in place. bcn-sw3-index-page is its home.
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { glyphPaths } from './comment-glyphs';
 ---
 
 <article class="bcn-sw3ip" data-sw3-index-page aria-labelledby="sw3ip-title">
   <header class="bcn-sw3ip__head">
     <p class="bcn-sw3ip__cat" data-ip-cat></p>
-    <div class="bcn-sw3ip__acts">
-      <EsaButton variant="ghost" size="sm" icon="rotate-ccw" data-ip-restore-all>Restore all</EsaButton>
+    <div class="bcn-sw3ip__acts" data-ip-acts>
+      <EsaButton variant="ghost" size="sm" icon="x" data-ip-discard-all>Discard all</EsaButton>
       <EsaButton variant="secondary" size="sm" icon="circle-check" data-ip-approve-all>Approve all</EsaButton>
     </div>
     <h2 class="bcn-sw3ip__title" id="sw3ip-title" data-ip-title></h2>
   </header>
 
-  <div class="bcn-sw3ip__groups" data-ip-groups></div>
-  <p class="bcn-sw3ip__empty" data-ip-empty hidden>Nothing filed here.</p>
+  <section class="bcn-sw3ip__cited" data-ip-cited aria-labelledby="sw3ip-cited">
+    <h3 class="bcn-sw3ip__gh" id="sw3ip-cited">Cited requirements</h3>
+    <ol class="bcn-sw3ip__reqs" data-ip-reqs></ol>
+    <p class="bcn-sw3ip__empty" data-ip-cited-none>Nothing cited for this subcategory.</p>
+  </section>
 
-  <p class="bcn-sw3ip__see" data-ip-see><span class="bcn-sw3ip__see-label">See also</span> <span data-ip-see-list></span></p>
+  <div class="bcn-sw3ip__review" data-ip-review>
+    <div class="bcn-sw3ip__selected" data-ip-selected hidden>
+      <span data-ip-selected-n></span>
+      <EsaButton variant="secondary" size="xs" icon="merge" data-ip-merge>Merge</EsaButton>
+      <EsaButton variant="ghost" size="xs" data-ip-clear>Clear</EsaButton>
+    </div>
+    <div class="bcn-sw3ip__groups" data-ip-groups></div>
+    <p class="bcn-sw3ip__empty" data-ip-empty hidden></p>
+    <details class="bcn-sw3ip__discarded" data-ip-discarded>
+      <summary class="bcn-sw3ip__gh"><span data-ip-discarded-label>Discarded</span></summary>
+      <div class="bcn-sw3ip__discarded-acts" data-ip-restore-all-wrap>
+        <EsaButton variant="ghost" size="xs" icon="rotate-ccw" data-ip-restore-all>Restore all</EsaButton>
+      </div>
+      <ol class="bcn-sw3ip__entries" data-ip-discarded-list></ol>
+    </details>
+  </div>
+
+  <template data-ip-tpl="req">
+    <li class="bcn-sw3ip__req">
+      <a href="#" class="bcn-sw3ip__req-head" data-r-open>
+        <span data-r-badge><EsaBadge variant="secondary" size="sm" value="11.38:1" /></span>
+        <span class="bcn-sw3ip__req-name" data-r-name></span>
+      </a>
+      <p class="bcn-sw3ip__req-text" data-r-text></p>
+    </li>
+  </template>
 
   <template data-ip-tpl="group">
     <section class="bcn-sw3ip__group">
@@ -47,12 +80,14 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
   <template data-ip-tpl="entry">
     <li class="bcn-sw3ip__entry" data-status="draft">
       <div class="bcn-sw3ip__line">
+        <span class="bcn-sw3ip__tick" data-e-tick><esa-checkbox size="sm" aria-label="Select for merge"></esa-checkbox></span>
         <span class="bcn-sw3ip__chip" data-e-chip><EsaBadge variant="secondary" size="sm" value="Adhere" /></span>
         <a class="bcn-sw3ip__name" href="#" data-e-toggle></a>
         <span class="bcn-sw3ip__locs" data-e-locs></span>
         <span class="bcn-sw3ip__ok" data-e-ok><EsaIcon name="circle-check" size="sm" label="Approved" /></span>
       </div>
       <div class="bcn-sw3ip__rec" data-e-rec hidden>
+        <p class="bcn-sw3ip__block" data-e-block hidden></p>
         <dl class="bcn-sw3ip__fields" data-e-fields></dl>
         <div class="bcn-sw3ip__passages" data-e-passages></div>
         <div class="bcn-sw3ip__keys">
@@ -64,6 +99,7 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
       </div>
     </li>
   </template>
+  <span hidden data-ip-merge-glyph set:html={glyphPaths('merge')} />
 </article>
 
 <style>
@@ -75,9 +111,9 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
     box-sizing: border-box;
     padding: var(--spacing-500) var(--spacing-600);
   }
+  .bcn-sw3ip [hidden] { display: none !important; }
   .bcn-sw3ip__head { display: flex; align-items: center; gap: var(--spacing-200) var(--spacing-300); flex-wrap: wrap; }
   .bcn-sw3ip__cat { margin: 0; font-size: 0.875rem; font-weight: 500; color: var(--color-content-default-secondary); }
-  .bcn-sw3ip__acts [hidden] { display: none; }
   .bcn-sw3ip__acts { display: flex; align-items: center; gap: var(--spacing-150); margin-left: auto; }
   .bcn-sw3ip__title {
     flex: 1 1 100%;
@@ -88,10 +124,6 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
     line-height: 1.25;
     text-wrap: balance;
   }
-
-  .bcn-sw3ip__groups { display: flex; flex-direction: column; gap: var(--spacing-500); }
-  .bcn-sw3ip__empty { margin: 0; color: var(--color-content-default-secondary); }
-  .bcn-sw3ip :global(.bcn-sw3ip__group) { display: flex; flex-direction: column; gap: var(--spacing-200); }
   .bcn-sw3ip :global(.bcn-sw3ip__gh) {
     margin: 0;
     font-size: 0.9375rem;
@@ -100,9 +132,42 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
     padding-bottom: var(--spacing-100);
     border-bottom: 1px solid var(--color-border-default);
   }
+  .bcn-sw3ip__empty { margin: 0; color: var(--color-content-default-secondary); font-size: 0.875rem; }
+
+  /* Cited requirements: the reason the bin exists. */
+  .bcn-sw3ip__cited { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-sw3ip__reqs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-sw3ip :global(.bcn-sw3ip__req) { display: flex; flex-direction: column; gap: var(--spacing-150); }
+  .bcn-sw3ip :global(.bcn-sw3ip__req-head) { display: inline-flex; align-items: center; gap: var(--spacing-200); color: var(--color-content-default); text-decoration: none; font-weight: 600; font-size: 0.875rem; }
+  .bcn-sw3ip :global(.bcn-sw3ip__req-head:hover .bcn-sw3ip__req-name) { text-decoration: underline; }
+  .bcn-sw3ip :global(.bcn-sw3ip__req-text) {
+    margin: 0;
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-content-default);
+  }
+
+  .bcn-sw3ip__review { display: flex; flex-direction: column; gap: var(--spacing-500); }
+  .bcn-sw3ip__selected {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-150) var(--spacing-300);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-sunken);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  .bcn-sw3ip__groups { display: flex; flex-direction: column; gap: var(--spacing-500); }
+  .bcn-sw3ip :global(.bcn-sw3ip__group) { display: flex; flex-direction: column; gap: var(--spacing-200); }
   .bcn-sw3ip :global(.bcn-sw3ip__entries) { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-100); }
 
-  /* An entry: one index line. Draft dashed, approved solid, discarded struck. */
+  .bcn-sw3ip__discarded { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-sw3ip__discarded > summary { cursor: pointer; list-style-position: inside; }
+  .bcn-sw3ip__discarded-acts { display: flex; justify-content: flex-end; padding: var(--spacing-150) 0; }
+
+  /* A draft: one index line. Draft dashed, approved solid, discarded struck. */
   .bcn-sw3ip :global(.bcn-sw3ip__entry) {
     border: 1px dashed var(--color-border-default-strong, var(--color-border-default));
     border-radius: var(--radius-100);
@@ -115,31 +180,25 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
 
   .bcn-sw3ip :global(.bcn-sw3ip__line) {
     display: grid;
-    grid-template-columns: 5.25rem minmax(0, 1fr) auto 1.25rem;
+    grid-template-columns: 1.25rem 5.25rem minmax(0, 1fr) auto 1.25rem;
     align-items: baseline;
     gap: var(--spacing-200);
     padding: var(--spacing-150) var(--spacing-300);
     font-size: 0.875rem;
   }
+  .bcn-sw3ip :global(.bcn-sw3ip__tick) { align-self: center; line-height: 0; }
+  .bcn-sw3ip :global(.bcn-sw3ip__entry:not([data-status='draft']) .bcn-sw3ip__tick) { visibility: hidden; }
   .bcn-sw3ip :global(.bcn-sw3ip__chip) { align-self: center; line-height: 0; }
-  .bcn-sw3ip :global(.bcn-sw3ip__name) {
-    color: var(--color-content-default);
-    font-weight: 500;
-    text-decoration: none;
-  }
+  .bcn-sw3ip :global(.bcn-sw3ip__name) { color: var(--color-content-default); font-weight: 500; text-decoration: none; }
   .bcn-sw3ip :global(.bcn-sw3ip__name:hover) { text-decoration: underline; }
   .bcn-sw3ip :global(.bcn-sw3ip__entry[data-status='discarded'] .bcn-sw3ip__name) { text-decoration: line-through; color: var(--color-content-default-tertiary); }
-  .bcn-sw3ip :global(.bcn-sw3ip__locs) {
-    font-variant-numeric: tabular-nums;
-    color: var(--color-content-default-secondary);
-    white-space: nowrap;
-  }
+  .bcn-sw3ip :global(.bcn-sw3ip__locs) { font-variant-numeric: tabular-nums; color: var(--color-content-default-secondary); white-space: nowrap; }
   .bcn-sw3ip :global(.bcn-sw3ip__locs a),
   .bcn-sw3ip :global(.bcn-sw3ip__passage a),
-  .bcn-sw3ip :global(.bcn-sw3ip__see a) { color: var(--color-content-link, var(--color-content-brand)); text-decoration: none; }
+  .bcn-sw3ip :global(.bcn-sw3ip__fields a) { color: var(--color-content-link, var(--color-content-brand)); text-decoration: none; }
   .bcn-sw3ip :global(.bcn-sw3ip__locs a:hover),
   .bcn-sw3ip :global(.bcn-sw3ip__passage a:hover),
-  .bcn-sw3ip :global(.bcn-sw3ip__see a:hover) { text-decoration: underline; }
+  .bcn-sw3ip :global(.bcn-sw3ip__fields a:hover) { text-decoration: underline; }
   .bcn-sw3ip :global(.bcn-sw3ip__ok) { visibility: hidden; align-self: center; line-height: 0; color: var(--color-content-success); }
   .bcn-sw3ip :global(.bcn-sw3ip__entry[data-status='approved'] .bcn-sw3ip__ok) { visibility: visible; }
 
@@ -148,23 +207,17 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
     display: flex;
     flex-direction: column;
     gap: var(--spacing-300);
-    padding: 0 var(--spacing-300) var(--spacing-300) calc(5.25rem + var(--spacing-200) + var(--spacing-300));
+    padding: 0 var(--spacing-300) var(--spacing-300) calc(1.25rem + 5.25rem + 2 * var(--spacing-200) + var(--spacing-300));
     font-size: 0.875rem;
   }
-  .bcn-sw3ip :global(.bcn-sw3ip__rec[hidden]) { display: none; }
+  .bcn-sw3ip :global(.bcn-sw3ip__block) { margin: 0; color: var(--color-content-warning); font-weight: 500; }
   .bcn-sw3ip :global(.bcn-sw3ip__fields) { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: var(--spacing-100) var(--spacing-300); margin: 0; }
   .bcn-sw3ip :global(.bcn-sw3ip__fields dt) { color: var(--color-content-default-secondary); font-weight: 500; }
   .bcn-sw3ip :global(.bcn-sw3ip__fields dd) { margin: 0; color: var(--color-content-default); }
   .bcn-sw3ip :global(.bcn-sw3ip__fields ul) { margin: 0; padding-left: 1.1em; }
-  .bcn-sw3ip :global(.bcn-sw3ip__fields dd[data-needs]) { color: var(--color-content-warning); }
+  .bcn-sw3ip :global(.bcn-sw3ip__fields dd[data-needs]) { color: var(--color-content-warning); font-weight: 500; }
   .bcn-sw3ip :global(.bcn-sw3ip__passages) { display: flex; flex-direction: column; gap: var(--spacing-200); }
-  .bcn-sw3ip :global(.bcn-sw3ip__passage) {
-    margin: 0;
-    display: grid;
-    grid-template-columns: 4.5rem minmax(0, 1fr);
-    gap: var(--spacing-300);
-    font-variant-numeric: tabular-nums;
-  }
+  .bcn-sw3ip :global(.bcn-sw3ip__passage) { margin: 0; display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: var(--spacing-300); font-variant-numeric: tabular-nums; }
   .bcn-sw3ip :global(.bcn-sw3ip__passage q) {
     font-family: var(--font-decorative, var(--typography-font-family-sans));
     font-size: 0.9375rem;
@@ -176,9 +229,6 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
   .bcn-sw3ip :global(.bcn-sw3ip__entry:not([data-status='discarded']) [data-e-restore]),
   .bcn-sw3ip :global(.bcn-sw3ip__entry[data-status='discarded'] [data-e-discard]),
   .bcn-sw3ip :global(.bcn-sw3ip__entry[data-status='discarded'] [data-e-approve]),
+  .bcn-sw3ip :global(.bcn-sw3ip__entry[data-status='discarded'] [data-e-edit]),
   .bcn-sw3ip :global(.bcn-sw3ip__entry[data-status='approved'] [data-e-approve]) { display: none; }
-
-  .bcn-sw3ip__see { margin: auto 0 0; padding-top: var(--spacing-300); border-top: 1px solid var(--color-border-default); font-size: 0.875rem; }
-  .bcn-sw3ip__see[hidden] { display: none; }
-  .bcn-sw3ip__see-label { font-weight: 600; font-style: italic; margin-right: var(--spacing-100); }
 </style>

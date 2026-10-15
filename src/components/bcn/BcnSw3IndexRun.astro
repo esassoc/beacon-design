@@ -1,0 +1,261 @@
+---
+// <BcnSw3IndexRun> — step 3's status line, under the step panel's header (PR #1520's draft
+// strip). Built: the index in numbers, and after a Re-run, what it changed (Added, Removed,
+// Kept because locked) or that it changed nothing. Drafting: the run's stage and counts
+// with a bar, and View progress. Drafted: how many drafts are left to review (or
+// "Compliance Index approved"), what is still outstanding for Draft again, what fit no
+// subcategory with Suggest subcategories, and View log.
+//
+// The Draft run's dialog is develop's "Drafting obligations": the four project-wide stages
+// with their counts, then the log.
+//
+// Contract, on `document`:
+//   in   sw3i:change, sw3i:tick   repaint
+//   out  sw3i:suggest             open Suggest subcategories
+//
+// bcn-lego-checked: the bar IS esa-progress-bar (its fill re-sized as the run moves); the
+// spinner IS esa-loading-spinner; keys ARE esa-button; the dialog IS esa-dialog; Kept
+// because locked IS esa-collapsible. Checked Beacon: draft-obligations' strip and
+// processing-run-log are this; bcn-ci-run-panel is the setup-wizard-ci variant's full-page
+// run with stats, too big for a line under a header. bcn-sw3-index-run is its home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
+import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+---
+
+<div class="bcn-sw3ir" data-sw3-index-run>
+  <div class="bcn-sw3ir__line" data-ir-built>
+    <span data-ir-built-text></span>
+  </div>
+  <div class="bcn-sw3ir__rerun" data-ir-rerun>
+    <p class="bcn-sw3ir__said" data-ir-rerun-said></p>
+    <p data-ir-rerun-none>The re-run changed nothing.</p>
+    <div class="bcn-sw3ir__lists">
+      <div data-ir-added><span class="bcn-sw3ir__lh" data-ir-added-h></span><ul data-ir-added-list></ul></div>
+      <div data-ir-removed><span class="bcn-sw3ir__lh" data-ir-removed-h></span><ul data-ir-removed-list></ul></div>
+    </div>
+    <div data-ir-kept>
+      <EsaCollapsible title="Kept because locked" flush><ul data-ir-kept-list></ul></EsaCollapsible>
+    </div>
+  </div>
+
+  <div class="bcn-sw3ir__line" data-ir-running>
+    <EsaLoadingSpinner size="xs" label="Drafting" />
+    <span class="bcn-sw3ir__step" data-ir-step></span>
+    <span data-ir-detail></span>
+    <span class="bcn-sw3ir__bar" data-ir-bar><EsaProgressBar value={0} size="xs" label="Drafting" showValue={false} /></span>
+    <span data-ir-view-progress><EsaButton variant="ghost" size="xs">View progress</EsaButton></span>
+  </div>
+
+  <div class="bcn-sw3ir__line" data-ir-drafted>
+    <span class="bcn-sw3ir__ok" data-ir-approved-mark><EsaIcon name="circle-check" size="sm" /></span>
+    <span class="bcn-sw3ir__step" data-ir-review></span>
+    <span data-ir-pending></span>
+    <span data-ir-nobin></span>
+    <span data-ir-suggest><EsaButton variant="secondary" size="xs">Suggest subcategories</EsaButton></span>
+    <span data-ir-view-log><EsaButton variant="ghost" size="xs">View log</EsaButton></span>
+  </div>
+
+  <esa-dialog heading="Drafting obligations" size="md" data-ir-log>
+    <ol class="bcn-sw3ir__stages" data-ir-stages></ol>
+    <div class="bcn-sw3ir__log" role="log" aria-label="Run log" tabindex="0" data-ir-lines></div>
+  </esa-dialog>
+</div>
+
+<style>
+  .bcn-sw3ir {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: 0 var(--spacing-500) var(--spacing-400);
+    font-size: 0.875rem;
+    color: var(--color-content-default);
+  }
+  .bcn-sw3ir [hidden] { display: none !important; }
+  .bcn-sw3ir:not(:has(> :not([hidden], esa-dialog))) { display: none; }
+  .bcn-sw3ir__line { display: flex; align-items: center; gap: var(--spacing-200) var(--spacing-300); flex-wrap: wrap; min-height: 28px; }
+  .bcn-sw3ir__step { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .bcn-sw3ir__line > span { font-variant-numeric: tabular-nums; }
+  .bcn-sw3ir__bar { flex: 1 1 10rem; min-width: 8rem; max-width: 20rem; }
+  .bcn-sw3ir__ok { line-height: 0; color: var(--color-content-success); }
+  .bcn-sw3ir [data-ir-pending],
+  .bcn-sw3ir [data-ir-nobin] { color: var(--color-content-default-secondary); }
+
+  .bcn-sw3ir__rerun {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: var(--spacing-300) var(--spacing-400);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-sw3ir__rerun p { margin: 0; }
+  .bcn-sw3ir__said { font-weight: 600; }
+  .bcn-sw3ir__lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--spacing-200) var(--spacing-500); }
+  .bcn-sw3ir__lh { font-weight: 600; }
+  .bcn-sw3ir ul { margin: var(--spacing-100) 0 0; padding-left: 1.1em; max-height: 9rem; overflow-y: auto; }
+
+  .bcn-sw3ir__stages { list-style: none; margin: 0 0 var(--spacing-400); padding: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-sw3ir :global(.bcn-sw3ir__stage) { display: grid; grid-template-columns: 1.25rem 10rem minmax(0, 1fr); gap: var(--spacing-200); align-items: baseline; font-variant-numeric: tabular-nums; color: var(--color-content-default-secondary); }
+  .bcn-sw3ir :global(.bcn-sw3ir__stage[data-state='running']),
+  .bcn-sw3ir :global(.bcn-sw3ir__stage[data-state='done']) { color: var(--color-content-default); }
+  .bcn-sw3ir :global(.bcn-sw3ir__stage b) { font-weight: 600; }
+  .bcn-sw3ir__log {
+    max-height: 18rem;
+    overflow-y: auto;
+    padding: var(--spacing-300);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-sunken);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-sw3ir :global(.bcn-sw3ir__log p) { margin: 0; }
+  .bcn-sw3ir :global(.bcn-sw3ir__log p[data-h]) { font-weight: 600; margin-top: var(--spacing-200); }
+  .bcn-sw3ir :global(.bcn-sw3ir__log p[data-h]:first-child) { margin-top: 0; }
+</style>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import { initIndex, phase, cats, subs, lockedCount, rerunSummary, runProgress, STAGES, totals, pendingWork, unfiled, filedBySuggest, lastRun, type RunCounts } from './sw3-index-store';
+
+  const root = document.querySelector<HTMLElement>('[data-sw3-index-run]');
+  if (root) {
+    initIndex();
+    const $ = <T extends HTMLElement = HTMLElement>(s: string) => root.querySelector<T>(s)!;
+    const log = $<HTMLElement & { open: boolean; heading: string }>('[data-ir-log]');
+    const n = (x: number) => x.toLocaleString('en-US');
+    const plural = (x: number, one: string, many = `${one}s`) => `${n(x)} ${x === 1 ? one : many}`;
+    const list = (el: HTMLElement, items: string[]) =>
+      el.replaceChildren(
+        ...items.map((t) => {
+          const li = document.createElement('li');
+          li.textContent = t;
+          return li;
+        }),
+      );
+
+    /** Each stage's line, as draft-stages.ts words it (sentences, not separators). */
+    const detail = (i: number, c: RunCounts) =>
+      [
+        `${n(c.read)} of ${n(c.requirements)} read, ${plural(c.items, 'item')} found`,
+        `${n(c.filed)} of ${n(c.items)} filed, ${n(c.noBin)} fit no bin`,
+        `${n(c.merged)} of ${n(c.toMerge)} items merged, ${plural(c.drafts, 'draft')}`,
+        `${n(c.completed)} of ${n(c.toComplete)} draft actions completed`,
+      ][i];
+
+    const logLines = (c: RunCounts, stage: number, finished: boolean): { h?: boolean; t: string }[] => {
+      const out: { h?: boolean; t: string }[] = [];
+      for (let i = 0; i <= stage; i++) {
+        out.push({ h: true, t: STAGES[i] });
+        out.push({ t: `${detail(i, c)}.` });
+        if (i === 0 && c.neither && (stage > 0 || finished)) out.push({ t: `${plural(c.neither, 'requirement')} bind no action or obligation.` });
+        if (i === 3 && c.needParty && finished) out.push({ t: `${plural(c.needParty, 'draft action')} name no responsible party.` });
+      }
+      if (finished) out.push({ h: true, t: 'Done' });
+      return out;
+    };
+
+    const paintLog = (c: RunCounts, stage: number, finished: boolean, running: boolean) => {
+      $('[data-ir-stages]').replaceChildren(
+        ...STAGES.map((name, i) => {
+          const li = document.createElement('li');
+          li.className = 'bcn-sw3ir__stage';
+          li.dataset.state = i < stage || finished ? 'done' : i === stage && running ? 'running' : 'pending';
+          const k = document.createElement('span');
+          k.textContent = li.dataset.state === 'done' ? '✓' : `${i + 1}`;
+          const b = document.createElement('b');
+          b.textContent = name;
+          const d = document.createElement('span');
+          d.textContent = i <= stage || finished ? detail(i, c) : '';
+          li.append(k, b, d);
+          return li;
+        }),
+      );
+      const lines = $('[data-ir-lines]');
+      const stick = lines.scrollTop + lines.clientHeight >= lines.scrollHeight - 8;
+      lines.replaceChildren(
+        ...logLines(c, stage, finished).map((l) => {
+          const p = document.createElement('p');
+          p.textContent = l.t;
+          p.toggleAttribute('data-h', !!l.h);
+          return p;
+        }),
+      );
+      if (stick) lines.scrollTop = lines.scrollHeight;
+    };
+
+    const render = () => {
+      const ph = phase();
+      $('[data-ir-built]').hidden = ph !== 'built';
+      $('[data-ir-running]').hidden = ph !== 'drafting';
+      $('[data-ir-drafted]').hidden = ph !== 'drafted';
+      const rr = rerunSummary();
+      $('[data-ir-rerun]').hidden = ph !== 'built' || !rr;
+
+      if (ph === 'built') {
+        const c = cats().length;
+        const s = subs().length;
+        const locked = lockedCount();
+        $('[data-ir-built-text]').textContent = `${plural(c, 'category', 'categories')}, ${plural(s, 'subcategory', 'subcategories')}${locked ? `, ${n(locked)} locked` : ''}.`;
+        if (rr) {
+          $('[data-ir-rerun-said]').textContent = rr.guidance ? `Re-run with “${rr.guidance}”` : 'Re-run';
+          const none = !rr.added.length && !rr.removed.length;
+          $('[data-ir-rerun-none]').hidden = !none;
+          $('[data-ir-added]').hidden = !rr.added.length;
+          $('[data-ir-removed]').hidden = !rr.removed.length;
+          $('[data-ir-added-h]').textContent = `Added (${rr.added.length})`;
+          $('[data-ir-removed-h]').textContent = `Removed (${rr.removed.length})`;
+          list($('[data-ir-added-list]'), rr.added);
+          list($('[data-ir-removed-list]'), rr.removed);
+          $('[data-ir-kept]').hidden = !rr.keptLocked.length;
+          const title = root.querySelector('[data-ir-kept] .esa-collapsible__title');
+          if (title) title.textContent = `Kept because locked (${rr.keptLocked.length})`;
+          list($('[data-ir-kept-list]'), rr.keptLocked);
+        }
+      }
+
+      if (ph === 'drafting') {
+        const p = runProgress()!;
+        $('[data-ir-step]').textContent = `Step ${p.stage + 1} of 4: ${STAGES[p.stage]}.`;
+        $('[data-ir-detail]').textContent = `${detail(p.stage, p.counts)}.`;
+        const pct = Math.round(p.done * 100);
+        const bar = root.querySelector<HTMLElement>('[data-ir-bar] .esa-progress-bar');
+        bar?.setAttribute('aria-valuenow', String(pct));
+        const fill = root.querySelector<HTMLElement>('[data-ir-bar] .esa-progress-bar__fill');
+        if (fill) fill.style.width = `${pct}%`;
+        log.heading = 'Drafting obligations';
+        paintLog(p.counts, p.stage, false, true);
+      }
+
+      if (ph === 'drafted') {
+        const t = totals();
+        const approvedAll = t.pending === 0 && t.drafts > 0;
+        $('[data-ir-approved-mark]').hidden = !approvedAll;
+        $('[data-ir-review]').textContent = approvedAll ? 'Compliance Index approved.' : `${n(t.pending)} of ${plural(t.drafts, 'draft')} to review.`;
+        const w = pendingWork();
+        const parts = [w.filed && `${plural(w.filed, 'filed item')} not yet drafted`, w.refile && `${plural(w.refile, 'item')} not yet categorized`].filter(Boolean);
+        $('[data-ir-pending]').textContent = parts.length ? `${parts.join(', ')}. Draft again to include them.` : approvedAll ? 'Approved actions and obligations stay editable.' : '';
+        const open = unfiled().filter((u) => !filedBySuggest()[u.id]).length;
+        $('[data-ir-nobin]').textContent = open ? `${plural(open, 'item')} fit no subcategory.` : '';
+        $('[data-ir-suggest]').hidden = !open;
+        log.heading = 'Draft log';
+        const last = lastRun();
+        if (last) paintLog(last, 3, true, false);
+      }
+    };
+
+    $('[data-ir-view-progress]').addEventListener('click', () => (log.open = true));
+    $('[data-ir-view-log]').addEventListener('click', () => {
+      render();
+      log.open = true;
+    });
+    $('[data-ir-suggest]').addEventListener('click', () => document.dispatchEvent(new CustomEvent('sw3i:suggest')));
+    document.addEventListener('sw3i:change', render);
+    document.addEventListener('sw3i:tick', render);
+    render();
+  }
+</script>

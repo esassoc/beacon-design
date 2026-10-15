@@ -1,15 +1,27 @@
-// The Compliance Index as step 3 reads it: the book's back index compiled from every
-// commitment's requirements (docs/setup-wizard-3-step-ci-brief.md). Prod's tables, flattened
-// for the prototype: ComplianceIndexCategory › ComplianceIndexSubcategory › Action and
-// Obligation, each Obligation's requirements (ObligationRequirement, with its Excerpt) as
-// locators. sw3-index.json is written by scripts/build-index.mjs from Beacon's own index
-// prompts (ProposeComplianceIndex v1, ExtractActionsAndObligations v3, FileItems v1,
-// MergeObligations v1) over sw3-requirements.json.
+// The Compliance Index as step 3 builds it, in develop's two phases
+// (docs/setup-wizard-3-step-ci-brief.md):
+//
+//   1. The index: categories and subcategories (ProposeComplianceIndex), edited by hand,
+//      locked, and re-run with guidance until it reads right.
+//   2. The drafts: one Draft run reads every requirement for actions and obligations
+//      (ExtractActionsAndObligations), files them into the subcategories (FileItems), merges
+//      the duplicates (MergeObligations, MergeActions) and completes the actions
+//      (CompleteActions). Then a person reviews them a subcategory at a time.
+//
+// Prod's tables, flattened: ComplianceIndexCategory › ComplianceIndexSubcategory (its
+// ComplianceIndexSubcategoryRequirement rows are `evidence`) › Action and Obligation, each
+// with its requirements (ObligationRequirement, with its Excerpt) as locators.
+//
+// sw3-index.json holds the two proposals (the first build, and one Re-run with guidance);
+// public/data/sw3-index/<basis>.json holds what the Draft run makes of each. All of it is
+// written by scripts/build-index.mjs from Beacon's own prompts over sw3-requirements.json.
 
 /** Prod's ObligationClass. */
 export type IndexClass = 'Adhere' | 'Monitor' | 'Notify' | 'Roster';
 /** Prod's ObligationAudience: who reads the obligation in the field. */
 export type IndexAudience = 'Crews' | 'Monitors' | 'Compliance staff';
+/** Prod's ActionScope: done once for the project, or once per component. */
+export type ActionScope = 'Project' | 'Component';
 
 /** A locator: the requirement an entry rests on, and the words the link rests on. */
 export interface IndexLocator {
@@ -19,8 +31,16 @@ export interface IndexLocator {
   code: string;
   /** 1-based place of the requirement in its commitment (step 2's DisplayIndex): 11.29:3. */
   n: number;
-  /** ObligationRequirement.Excerpt: verbatim words inside the requirement's passage. */
+  /** ObligationRequirement.Excerpt: verbatim words inside the requirement's passage. Empty
+   *  on a subcategory's evidence, which cites the whole requirement. */
   excerpt: string;
+}
+
+export interface IndexDeadline {
+  milestone: string;
+  offset: number;
+  unit: string;
+  direction: string;
 }
 
 export interface IndexAction {
@@ -28,8 +48,19 @@ export interface IndexAction {
   kind: 'action';
   /** Action.Name. */
   name: string;
-  /** Who does it, when prod's extraction named one; empty means "Needs input". */
+  /** Action.Description: what is done. */
+  text: string;
+  /** Action.ActionType: Plan, Report, Survey, Notification… */
+  type: string;
+  /** Empty blocks approval: "This draft has no scope." */
+  scope: ActionScope | '';
+  /** Empty means "Needs input". */
   responsibleParty: string;
+  expectedEvidence: string;
+  /** Onetime, Recurring… */
+  frequency: string;
+  deadline: IndexDeadline | null;
+  recurrence: string | null;
   locators: IndexLocator[];
 }
 
@@ -49,49 +80,77 @@ export interface IndexObligation {
 
 export type IndexEntry = IndexAction | IndexObligation;
 
-export interface IndexSubcategory {
+// ── Phase 1: the index ──────────────────────────────────────────────────────
+
+export interface ProposedSubcategory {
   id: string;
   name: string;
-  /** Entries filed here as their home bin. */
-  entryIds: string[];
-  /** Entries whose home is elsewhere, also filed here (prod's "Also filed in"). */
-  alsoIds: string[];
-  /** The few requirements cited as the reason the bin exists (ComplianceIndexSubcategoryRequirement). */
+  /** The requirements cited as the reason the bin exists, up to three shown. */
   evidence: IndexLocator[];
 }
 
-export interface IndexCategory {
+export interface ProposedCategory {
   id: string;
   name: string;
-  subcategories: IndexSubcategory[];
+  subcategories: ProposedSubcategory[];
 }
 
-/** Something File could not place (ExtractedItem.NoBinReason): the index is missing a bin. */
+/** Which proposal a bin came from: the first build, or the Re-run with guidance. */
+export type IndexBasis = 'base' | 'rerun';
+
+/** What the Draft run counted, project-wide (the four stages' numbers). */
+export interface DraftCounts {
+  requirements: number;
+  read: number;
+  items: number;
+  /** Requirements that bind neither an action nor an obligation. */
+  neither: number;
+  filed: number;
+  noBin: number;
+  merged: number;
+  obligations: number;
+  actions: number;
+  completed: number;
+  needParty: number;
+}
+
+/** Inline on the page: the two proposals and what drafting each would count. */
+export interface Sw3IndexPlan {
+  prompts: string;
+  requirements: number;
+  base: ProposedCategory[];
+  rerun: { guidance: string; categories: ProposedCategory[] };
+  counts: Record<IndexBasis, DraftCounts>;
+}
+
+// ── Phase 2: the drafts ─────────────────────────────────────────────────────
+
+/** Something File could not place (ExtractedItem.NoBinReason). */
 export interface IndexUnfiled {
   id: string;
   statement: string;
   reason: string;
+  kind: 'action' | 'obligation';
+  class?: IndexClass;
+  audience?: IndexAudience;
   locators: IndexLocator[];
 }
 
-/** A merge Merge proposed but a person decides: entries that read as one duty. */
-export interface IndexMergeProposal {
-  id: string;
-  subcategoryId: string;
-  entryIds: string[];
-  /** The merged entry's title as proposed. */
-  title: string;
-  reason: string;
+/** SuggestSubcategories: where the unfiled items could go. */
+export interface IndexSuggestions {
+  existing: { sub: string; unfiledIds: string[] }[];
+  newBins: { category: string; name: string; reason: string; unfiledIds: string[] }[];
+  left: { unfiledId: string; reason: string }[];
 }
 
-export interface Sw3Index {
-  /** Which prompts and when. */
-  prompts: string;
-  run: string;
-  categories: IndexCategory[];
+/** public/data/sw3-index/<basis>.json: the Draft run over one proposal. */
+export interface Sw3IndexDrafts {
+  basis: IndexBasis;
   entries: Record<string, IndexEntry>;
+  /** Subcategory id → its home drafts and those also filed there. */
+  placement: Record<string, { home: string[]; also: string[] }>;
   unfiled: IndexUnfiled[];
-  merges: IndexMergeProposal[];
+  suggestions: IndexSuggestions;
 }
 
 export const CLASS_OPTIONS: { value: IndexClass; label: string }[] = [
@@ -104,4 +163,8 @@ export const AUDIENCE_OPTIONS: { value: IndexAudience; label: string }[] = [
   { value: 'Crews', label: 'Crews' },
   { value: 'Monitors', label: 'Monitors' },
   { value: 'Compliance staff', label: 'Compliance staff' },
+];
+export const SCOPE_OPTIONS: { value: ActionScope; label: string }[] = [
+  { value: 'Project', label: 'Project' },
+  { value: 'Component', label: 'Component' },
 ];

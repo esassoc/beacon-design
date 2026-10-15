@@ -1,59 +1,83 @@
 // Handoff spec for step 3 of the three-step Setup Wizard
-// (/prototypes/setup-wizard-3-step/compliance-index): the Compliance Index as a book's back
-// index, reviewed one subcategory at a time. Consumed only by scripts/gen-handoff.mjs.
+// (/prototypes/setup-wizard-3-step/compliance-index): the Compliance Index in develop's two
+// phases. Build the index (categories and subcategories, edited by hand, locked, re-run with
+// guidance), then one Draft run makes the actions and obligations, files them, and a person
+// reviews them a subcategory at a time. Consumed only by scripts/gen-handoff.mjs.
 // Brief: docs/setup-wizard-3-step-ci-brief.md.
 
 /** @type {{ sections: import('./obligation-feed.mjs').HandoffSection[] }} */
 export default {
   sections: [
     {
+      label: 'No index yet',
+      selector: '[data-ix-empty]',
+      intent: 'Where step 3 starts: "No index yet", with Build index and + Category. Build index runs ProposeComplianceIndex over every approved requirement; + Category starts the index by hand.',
+      decisions: ['A hand-made category or subcategory is locked from the start, as prod makes it, so a later Re-run leaves it alone.'],
+      acceptance: ['Build index shows the proposal: 17 categories and 75 subcategories.'],
+    },
+    {
       label: 'Page actions',
       selector: '[data-sw3-index-actions]',
-      intent: 'Start over and Approve Compliance Index. Start over is PR #1520\'s: once drafting has begun it replaces Re-run and clears every decision on the index. Approve Compliance Index is the wizard\'s end. Both ask first.',
+      intent: 'By phase. Before drafting: Re-run and Draft actions & obligations. During a run: the run\'s key, disabled. After it: Start over, Draft again (primary while something is outstanding) and Approve Compliance Index.',
       decisions: [
-        'Approve says how many subcategories are not reviewed; their drafts stay drafts and stay out of the project\'s obligations.',
-        'Start over in prod is a hard delete, refused while evidence is attached or a run is live (ComplianceIndexStartOver.cs). The prototype resets decisions only.',
+        'Start over is PR #1520\'s: once a Draft run exists it replaces Re-run, and it deletes the index and every draft back to "No index yet". Prod refuses it while a run is live or an approved record has evidence.',
+        'Approve Compliance Index approves every pending draft after a confirm that counts the subcategories never opened. Draft actions with no scope stay drafts.',
+      ],
+    },
+    {
+      label: 'Status line',
+      selector: '[data-sw3-index-run]',
+      intent: 'Under the step header. Built: the index in numbers, and after a Re-run, Added, Removed and Kept because locked (or "The re-run changed nothing."). Drafting: the stage ("Step 2 of 4: File into bins."), its counts, a bar, View progress. Drafted: drafts to review, what is outstanding for Draft again, what fit no subcategory with Suggest subcategories, View log.',
+      decisions: ['The four stages are project-wide, as draft-stages.ts runs them: Read requirements, File into bins, Merge duties, Complete drafts. Draft again takes only what is outstanding.'],
+      acceptance: ['A Draft run over the Re-run index ends at 2,222 drafts to review, with 3 items that fit no subcategory.'],
+    },
+    {
+      label: 'Index',
+      selector: '[data-sw3-index-tree]',
+      intent: 'The sidebar, as develop keeps it. Category and subcategory rows with tools on hover: rename in place, lock or unlock, delete, drag within the parent; + Subcategory on a category; Expand all, Lock all and + Category over the tree. Once drafted, each subcategory lists its drafts under it and carries develop\'s marks: a dot when it has drafts and was never opened, the count to review, a check when every draft is decided (muted when all were discarded). A category gets Approve category.',
+      decisions: [
+        'Renaming locks the row. Names are unique among siblings.',
+        'Locking a category locks its subcategories; unlocking it does not unlock them.',
+        'A bin that holds drafts is kept on Re-run; its lock is shown disabled with the reason.',
+        'Delete names what goes: items from N requirements go back to be filed on the next Draft run, and the drafts filed there are deleted. A bin holding approved actions cannot be deleted.',
       ],
     },
     {
       label: 'Subcategory scrubber',
       selector: '.bcn-sw3ix__nav',
-      intent: 'Every subcategory in index order, one cell each, step 2\'s scrubber: darker gray when drafted, amber with something to settle, green when reviewed. A rule and the category\'s name under the strip where each category starts. 40 at a time. Next to settle walks the amber cells. Above the strip: the subcategory, where it is in the index, and what is left ("Capture and relocation: 3 of 7. 1 reviewed, 3 to settle.").',
-      decisions: ['A subcategory is reviewed when every entry in it is approved or discarded.'],
-      acceptance: ['Approve all on a subcategory turns its cell green and its index mark to a check.'],
-    },
-    {
-      label: 'Index',
-      selector: '[data-sw3-index-tree]',
-      intent: 'The Compliance Index as a book\'s back index reads, all three levels open: category the heading, subcategory the subheading, each action and obligation a line under it. Pressing a subcategory brings its page into view; pressing an entry brings its page into view with the entry open. A check marks a reviewed subcategory (muted when everything in it was discarded); an alert mark, one with something to settle. Folds to a rail, as step 1\'s Library does.',
-      decisions: ['Prod\'s sidebar is a flat list of bins with draft and approved counts. Entries are listed under their subcategory because an index is read for its entries, and the count is the list.'],
+      intent: 'Every subcategory in index order, step 2\'s scrubber, a rule and the category\'s name where each category starts. Drafted: amber for drafts never opened, gray for opened with drafts to review, green when every draft is decided. Next to review walks the unopened first.',
+      decisions: ['Opened is not reviewed. Prod sets FirstOpenedDate the first time a bin with drafts is opened.'],
     },
     {
       label: 'Subcategory page',
       selector: '[data-sw3-index-page]',
-      intent: 'One subcategory as an index page, in Beacon\'s document voice: its category, its name, then actions, then obligations grouped by who reads them (Crews, Monitors, Compliance staff). Each entry is one line: class (Action, Adhere, Monitor, Notify, Roster), title, locators. Draft is dashed, approved solid with a check, discarded struck. Pressing the title opens the record in place: audience, Applies when (or Always), monitor signs, responsible party for an action (Needs input when none), Also filed in, and each passage the entry rests on quoted under its locator, with Approve, Discard or Restore, and Edit. See also closes the page: the subcategories that share entries with this one. Approve all and Restore all act on the subcategory.',
+      intent: 'Before drafting: Cited requirements, up to three, each its requirement ID, name and the requirement\'s text; pressing one opens the commitment. Drafted: actions first, then obligations by who reads them, then Discarded (N), folded, with Restore and Restore all. Each draft is one line with a box to tick for Merge; its title opens the record in place. Approve all (N) asks first; Discard all does not.',
       decisions: [
-        'A locator is the step 2 requirement ID (11.3:1, CMP-14:2), alone: the page is one hop away in the commitment panel.',
-        'Grouped by audience, as prod does, because a merge stays within one audience. Class stays on each line.',
-        'Decisions are on the entry, never the placement: an entry filed in two subcategories is approved in both.',
-        'Save in the edit panel approves the entry, as an edit confirms a requirement in step 2.',
+        'Review is by home subcategory only. Also filed in shows on the obligation, read only.',
+        'A draft action with no scope cannot be approved: "This draft has no scope. Set one in Edit before approving it."',
+        'Merge takes two or more drafts of one kind and, for obligations, one audience. The merged draft keeps every source.',
+        'Rationale is never stored or shown, as in prod.',
       ],
+      acceptance: ['Ticking two Compliance staff drafts in Take and injury reporting and merging them leaves 20 drafts where there were 21.'],
     },
     {
       label: 'Commitment panel',
       selector: '[data-sw3-commitment-panel]',
-      intent: 'Where a locator leads: the commitment as step 2 marked it up, read only, in a side panel headed by the requirement\'s ID and name. The locator\'s requirement is the stroke in focus and the others fade; the entry\'s excerpt is a heavier pass inside it. The page key opens the PDF over it; Open in Commitments lands step 2 on that commitment.',
-      decisions: ['The excerpt is prod\'s ObligationRequirement.Excerpt; PR #1520\'s ObligationSourceDto carries the commitment, the source document and the start page that make the chain to the PDF.'],
-      acceptance: ['From Nighttime lighting, 11.8:2 opens COA 11.8 with its second requirement (yellow or orange lighting within 500 feet) in focus.'],
+      intent: 'Where a locator or a cited requirement leads: the commitment as step 2 marked it up, read only, the requirement in focus and the draft\'s excerpt a heavier pass inside it. The page key opens the PDF; Open in Commitments lands step 2 on that commitment.',
     },
     {
       label: 'Aldo',
       selector: '[data-sw3-index-aldo]',
-      intent: 'One conversation per subcategory. The person says what to change in their own words: approve all, merge two entries (@ each), move this to another subcategory, also file it under another, this is a monitor\'s duty, discard this, why is this here (answered from its locators, not obeyed). Nothing applies until a proposal is pressed. Open items: an action with nobody named to do it (Edit, Discard), a proposed merge (Merge, Keep separate), and what File put in no subcategory (File here, Not an obligation), which shows on every page because it is the whole index\'s.',
+      intent: 'One conversation per subcategory. Before drafting it takes Re-run guidance in plain words and answers with the Re-run key and what a re-run keeps; Re-run in the step\'s actions opens the same exchange. Drafted, it approves all, discards, merges two drafts (@ each), makes an obligation a monitor\'s duty, and says why a draft is here from its sources. Open items: a draft action with nobody named to do it, or no scope.',
       decisions: [
-        'A merge across audiences is refused with the reason, as prod\'s Merge never groups different audiences; an action and an obligation never merge.',
-        'Subcategory names in Aldo\'s replies open them.',
+        'Guidance holds for one run and is not kept, as prod\'s.',
+        'One Re-run with guidance was run ahead through Beacon\'s prompt ("give each listed species its own subcategory under an Endangered Species category"). Other guidance gets a plain answer that offers it.',
       ],
+    },
+    {
+      label: 'Suggest subcategories',
+      selector: '[data-sw3-index-suggest]',
+      intent: 'Homes for what fit no subcategory, in develop\'s three parts: fits a bin you already have, new bins (named and placed), and better left without a bin of their own (Unfiled › Needs a home). Apply files them; Draft again makes drafts of them.',
     },
   ],
 };

@@ -1,63 +1,157 @@
 # Page actions
 
-Start over and Approve Compliance Index. Start over is PR #1520's: once drafting has begun it replaces Re-run and clears every decision on the index. Approve Compliance Index is the wizard's end. Both ask first.
+By phase. Before drafting: Re-run and Draft actions & obligations. During a run: the run's key, disabled. After it: Start over, Draft again (primary while something is outstanding) and Approve Compliance Index.
 
 ## Key decisions
-- Approve says how many subcategories are not reviewed; their drafts stay drafts and stay out of the project's obligations.
-- Start over in prod is a hard delete, refused while evidence is attached or a run is live (ComplianceIndexStartOver.cs). The prototype resets decisions only.
+- Start over is PR #1520's: once a Draft run exists it replaces Re-run, and it deletes the index and every draft back to "No index yet". Prod refuses it while a run is live or an approved record has evidence.
+- Approve Compliance Index approves every pending draft after a confirm that counts the subcategories never opened. Draft actions with no scope stay drafts.
 
 ## Markup
 ```html
-<div class="bcn-sw3ia" data-sw3-index-actions="">
-  <span
-    class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-    ><button
-      class="esa-button__native typography-microcopy-xs"
-      type="button"
-      data-ia-start-over="true"
-    >
-      <span class="esa-icon esa-icon--sm" aria-hidden="true"
-        ><svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          focusable="false"
-        >
-          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-          <path d="M3 3v5h5"></path></svg></span
-      ><span class="esa-button__label">Start over</span>
-    </button></span
-  ><span
-    class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
-    ><button
-      class="esa-button__native typography-microcopy-xs"
-      type="button"
-      data-ia-approve="true"
-    >
-      <span class="esa-icon esa-icon--sm" aria-hidden="true"
-        ><svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          focusable="false"
-        >
-          <circle cx="12" cy="12" r="10"></circle>
-          <path d="m9 12 2 2 4-4"></path></svg></span
-      ><span class="esa-button__label">Approve Compliance Index</span>
-    </button></span
+<div class="bcn-sw3ia" data-sw3-index-actions="" hidden="">
+  <span data-ia-built="" hidden=""
+    ><span
+      class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+      ><button
+        class="esa-button__native typography-microcopy-xs"
+        type="button"
+        data-ia-rerun="true"
+      >
+        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+            <path d="M3 3v5h5"></path></svg></span
+        ><span class="esa-button__label">Re-run</span>
+      </button></span
+    ></span
+  ><span data-ia-drafted="" hidden=""
+    ><span
+      class="esa-button esa-button--variant-danger esa-button--appearance-outline esa-button--sm"
+      ><button
+        class="esa-button__native typography-microcopy-xs"
+        type="button"
+        data-ia-start-over="true"
+        title=""
+      >
+        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <path d="M3 6h18"></path>
+            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+            <line x1="10" x2="10" y1="11" y2="17"></line>
+            <line x1="14" x2="14" y1="11" y2="17"></line></svg></span
+        ><span class="esa-button__label">Start over</span>
+      </button></span
+    ></span
+  ><span data-ia-again-wrap="" hidden=""
+    ><span
+      class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+      ><button
+        class="esa-button__native typography-microcopy-xs esa-button--variant-secondary"
+        type="button"
+        data-ia-again="true"
+      >
+        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <path
+              d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"
+            ></path>
+            <path d="M20 3v4"></path>
+            <path d="M22 5h-4"></path>
+            <path d="M4 17v2"></path>
+            <path d="M5 18H3"></path></svg></span
+        ><span class="esa-button__label">Draft again</span>
+      </button></span
+    ></span
+  ><span data-ia-draft-wrap="" hidden=""
+    ><span
+      class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+      ><button
+        class="esa-button__native typography-microcopy-xs"
+        type="button"
+        data-ia-draft="true"
+      >
+        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <path
+              d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"
+            ></path>
+            <path d="M20 3v4"></path>
+            <path d="M22 5h-4"></path>
+            <path d="M4 17v2"></path>
+            <path d="M5 18H3"></path></svg></span
+        ><span class="esa-button__label">Draft actions &amp; obligations</span>
+      </button></span
+    ></span
+  ><span data-ia-approve-wrap="" hidden=""
+    ><span
+      class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+      ><button
+        class="esa-button__native typography-microcopy-xs"
+        type="button"
+        data-ia-approve="true"
+        disabled=""
+        title=""
+      >
+        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="m9 12 2 2 4-4"></path></svg></span
+        ><span class="esa-button__label">Approve Compliance Index</span>
+      </button></span
+    ></span
   ><esa-confirm-dialog
     heading="Start over?"
-    message="Every approval, discard, edit, merge and filing on the index is cleared, and Aldo's conversations with them. The drafted index comes back as it was."
     variant="danger"
     confirm-label="Start over"
     cancel-label="Cancel"
@@ -172,6 +266,9 @@ Start over and Approve Compliance Index. Start over is PR #1520's: once drafting
   gap: var(--spacing-200);
   flex-wrap: wrap;
   display: flex;
+}
+.bcn-sw3ia [hidden] {
+  display: none !important;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);

@@ -1,0 +1,159 @@
+---
+// <BcnSw3IndexSuggest> — develop's Suggest subcategories dialog, for what the Draft run
+// filed in no subcategory. SuggestSubcategories answered in three parts: items that fit a
+// bin the index already has; new bins (each named, placed in a category, with the reason and
+// the items it would hold); and items better left without a bin of their own, which go to
+// Unfiled › Needs a home. Apply files them; the next Draft again makes drafts of them.
+//
+// Contract, on `document`:
+//   in   sw3i:suggest   open
+//
+// bcn-lego-checked: the dialog IS esa-dialog; ticks ARE esa-checkbox; the name IS
+// esa-text-field; the category IS esa-select; keys ARE esa-button. Checked Beacon:
+// suggest-subcategories-dialog has these three sections. bcn-sw3-index-suggest is its home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+---
+
+<esa-dialog heading="Suggest subcategories" size="lg" data-sw3-index-suggest>
+  <div class="bcn-sw3is">
+    <section class="bcn-sw3is__sec" data-is-existing>
+      <h3 class="bcn-sw3is__h">Fits a bin you already have</h3>
+      <ol class="bcn-sw3is__list" data-is-existing-list></ol>
+    </section>
+    <section class="bcn-sw3is__sec" data-is-new>
+      <h3 class="bcn-sw3is__h">New bins</h3>
+      <ol class="bcn-sw3is__list" data-is-new-list></ol>
+    </section>
+    <section class="bcn-sw3is__sec" data-is-left>
+      <h3 class="bcn-sw3is__h">Better left without a bin of their own</h3>
+      <p class="bcn-sw3is__where">Filed under Unfiled › Needs a home.</p>
+      <ol class="bcn-sw3is__list" data-is-left-list></ol>
+    </section>
+  </div>
+  <div slot="footer" class="bcn-sw3is__foot">
+    <EsaButton variant="primary" size="sm" data-is-apply>Apply</EsaButton>
+    <EsaButton variant="secondary" size="sm" data-is-cancel>Cancel</EsaButton>
+  </div>
+</esa-dialog>
+
+<style>
+  .bcn-sw3is { display: flex; flex-direction: column; gap: var(--spacing-500); font-size: 0.875rem; }
+  .bcn-sw3is [hidden] { display: none !important; }
+  .bcn-sw3is__sec { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-sw3is__h { margin: 0; font-size: 0.9375rem; font-weight: 600; padding-bottom: var(--spacing-100); border-bottom: 1px solid var(--color-border-default); }
+  .bcn-sw3is__where { margin: 0; color: var(--color-content-default-secondary); }
+  .bcn-sw3is__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-sw3is :global(.bcn-sw3is__bin) { display: grid; grid-template-columns: 1.5rem minmax(0, 1fr); gap: var(--spacing-200) var(--spacing-200); align-items: start; }
+  .bcn-sw3is :global(.bcn-sw3is__bin > :not(esa-checkbox)) { grid-column: 2; }
+  .bcn-sw3is :global(.bcn-sw3is__name) { font-weight: 600; }
+  .bcn-sw3is :global(.bcn-sw3is__fields) { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--spacing-300); }
+  .bcn-sw3is :global(.bcn-sw3is__reason) { margin: 0; color: var(--color-content-default-secondary); }
+  .bcn-sw3is :global(.bcn-sw3is__items) { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: var(--spacing-100); }
+  .bcn-sw3is__foot { display: flex; gap: var(--spacing-200); justify-content: flex-end; width: 100%; }
+</style>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-select';
+  import { initIndex, suggestions, unfiled, subOf, cats, applySuggestions, type SuggestPlan } from './sw3-index-store';
+  import { toast } from '../../lib/snackbar';
+
+  type Box = HTMLElement & { checked: boolean };
+  type Field = HTMLElement & { value: string; options?: unknown };
+  const dialog = document.querySelector<HTMLElement & { open: boolean }>('[data-sw3-index-suggest]');
+  if (dialog) {
+    initIndex();
+    const $ = (s: string) => dialog.querySelector<HTMLElement>(s)!;
+    const el = <K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string) => {
+      const x = document.createElement(tag);
+      if (cls) x.className = cls;
+      if (text) x.textContent = text;
+      return x;
+    };
+    const items = (ids: string[]) => {
+      const ul = el('ul', 'bcn-sw3is__items');
+      for (const id of ids) ul.append(el('li', undefined, unfiled().find((u) => u.id === id)?.statement ?? id));
+      return ul;
+    };
+    const box = (label: string) => {
+      const b = document.createElement('esa-checkbox') as Box;
+      b.setAttribute('aria-label', label);
+      b.checked = true;
+      return b;
+    };
+    let plan: ReturnType<typeof suggestions> = null;
+
+    document.addEventListener('sw3i:suggest', () => {
+      plan = suggestions();
+      if (!plan) return;
+      const s = plan;
+      $('[data-is-existing]').hidden = !s.existing.length;
+      $('[data-is-existing-list]').replaceChildren(
+        ...s.existing.map((e) => {
+          const li = el('li', 'bcn-sw3is__bin');
+          const ref = subOf(e.sub);
+          li.append(box(`File in ${ref?.sub.name}`), el('span', 'bcn-sw3is__name', ref ? `${ref.cat.name} › ${ref.sub.name}` : e.sub), items(e.unfiledIds));
+          return li;
+        }),
+      );
+      const catOptions = cats().map((c) => ({ value: c.id, label: c.name }));
+      $('[data-is-new]').hidden = !s.newBins.length;
+      $('[data-is-new-list]').replaceChildren(
+        ...s.newBins.map((b) => {
+          const li = el('li', 'bcn-sw3is__bin');
+          const fields = el('div', 'bcn-sw3is__fields');
+          const name = document.createElement('esa-text-field') as Field;
+          name.setAttribute('label', 'Name');
+          name.setAttribute('size', 'sm');
+          name.setAttribute('maxlength', '60');
+          name.value = b.name;
+          const cat = document.createElement('esa-select') as Field;
+          cat.setAttribute('label', 'Category');
+          cat.setAttribute('size', 'sm');
+          cat.options = catOptions;
+          cat.value = cats().find((c) => c.name.toLowerCase() === b.category.toLowerCase())?.id ?? catOptions[0]?.value ?? '';
+          fields.append(name, cat);
+          li.append(box(`Make ${b.name}`), fields, el('p', 'bcn-sw3is__reason', b.reason), items(b.unfiledIds));
+          return li;
+        }),
+      );
+      $('[data-is-left]').hidden = !s.left.length;
+      $('[data-is-left-list]').replaceChildren(
+        ...s.left.map((l) => {
+          const li = el('li', 'bcn-sw3is__bin');
+          const u = unfiled().find((x) => x.id === l.unfiledId);
+          li.append(box('File under Needs a home'), el('span', undefined, u?.statement ?? l.unfiledId), el('p', 'bcn-sw3is__reason', l.reason));
+          return li;
+        }),
+      );
+      dialog.open = true;
+    });
+
+    $('[data-is-apply]').addEventListener('click', () => {
+      if (!plan) return;
+      const on = (li: Element) => (li.querySelector('esa-checkbox') as Box | null)?.checked ?? false;
+      const ex = [...$('[data-is-existing-list]').children];
+      const nb = [...$('[data-is-new-list]').children];
+      const lf = [...$('[data-is-left-list]').children];
+      const p: SuggestPlan = {
+        existing: plan.existing.filter((_, i) => on(ex[i])),
+        newBins: plan.newBins.flatMap((b, i) => {
+          if (!on(nb[i])) return [];
+          const [name, cat] = [...nb[i].querySelectorAll<Field>('esa-text-field, esa-select')];
+          return [{ catId: cat.value, name: (name.value.trim() || b.name).slice(0, 60), unfiledIds: b.unfiledIds }];
+        }),
+        left: plan.left.filter((_, i) => on(lf[i])).map((l) => l.unfiledId),
+      };
+      if (!p.existing.length && !p.newBins.length && !p.left.length) {
+        dialog.open = false;
+        return;
+      }
+      applySuggestions(p);
+      dialog.open = false;
+      toast('Bins applied. Draft again to merge what was filed.', 'success');
+    });
+    $('[data-is-cancel]').addEventListener('click', () => (dialog.open = false));
+  }
+</script>

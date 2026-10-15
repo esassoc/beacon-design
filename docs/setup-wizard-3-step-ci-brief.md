@@ -1,6 +1,6 @@
 # Step 3: the Compliance Index
 
-Step 1 is the source document. Step 2 is the commitment. Step 3 is the index built from them, reviewed one subcategory at a time.
+Step 1 is the source document. Step 2 is the commitment. Step 3 is the index built from them, in develop's two phases: figure out the categories and subcategories, then make the actions and obligations, file them, and review them a subcategory at a time.
 
 ## 1. What prod has
 
@@ -18,9 +18,9 @@ The index is two tables and two filed record types.
 | `Action` | Nullable ComplianceIndexSubcategoryID. One bin only. |
 | `ActionObligationExtraction`, `ExtractedItem`, `ExtractedItemFiling` | Suggestions, not the record. Items carry Statement, Excerpt, NoBinReason; filings carry IsHomeBin and the suggested record. |
 
-Pipeline (`docs/backlog/compliance-index.md`, Threads 2, 3, 10, 11): Build index (prompt `ProposeComplianceIndex_v1.md`) proposes categories and subcategories; a person edits and locks; Re-run takes free-text guidance and keeps locked rows. Then one Draft run: Extract per requirement (`ExtractActionsAndObligations_v3.md`), File each item into its home bin and every bin a reader would look in, Merge per bin within one audience (`MergeObligations_v1.md`). Only accepting a suggestion writes `ObligationRequirement` or `ActionRequirement`. Coverage is requirement-level: linked, or "binds nothing" confirmed.
+Pipeline (`docs/backlog/compliance-index.md`, Threads 2, 3, 9, 10, 11): Build index (prompt `ProposeComplianceIndex_v1.md`) proposes categories and subcategories; a person renames, reorders, deletes, adds and locks; Re-run takes free-text guidance for that run only (never stored) and keeps locked bins and bins that hold drafts. Then one Draft run in four project-wide stages: Read requirements (`ExtractActionsAndObligations_v3.md`), File into bins (`FileItems_v1.md`), Merge duties (`MergeObligations_v1.md`, `MergeActions_v1.md`), Complete drafts (`CompleteActions_v1.md`). Draft again is incremental. There is no gate before Draft beyond an index existing, and no merge is proposed to a person: Merge applies its merges as drafts.
 
-UI: `Beacon.Web/src/app/pages/project-setup/compliance-index-step/`. A sidebar of bins with draft and approved counts; a main pane that is empty (Build index), built (Re-run, Draft), or drafted (`subcategory-review`: actions, then obligations by audience, the selected draft's fields, and its commitment text with the passage highlighted). Verbs: Approve, Discard, Edit, Merge (same audience only), Approve all, Discard all, Restore, Approve Compliance Index.
+UI: `Beacon.Web/src/app/pages/project-setup/compliance-index-step/`. A sidebar of bins with draft and approved counts; a main pane that is empty (Build index), built (Re-run, Draft), or drafted (`subcategory-review`: actions, then obligations by audience, the selected draft's fields, and its commitment text with the passage highlighted). Verbs: Approve, Discard, Restore, Edit, Merge (ticked drafts, one kind, one audience), Approve all (confirmed), Discard all (no confirm), Approve category (no confirm), Approve Compliance Index (confirmed). A draft action with no scope cannot be approved. Cited requirements show each requirement's whole text; rationale is never stored or shown. Marks: a dot for a bin with drafts never opened, the count to review, a green check when every draft is decided, muted when all were discarded. Suggest subcategories answers what fit no bin in three parts.
 
 `docs/backlog/obligation-registry-as-an-index.md` already names the artifact: "The registry is the index of a book, not its table of contents ... Categories are the major entries, subcategories the sub-entries, obligations the locators." Nobody reads it cover to cover. A thick index is a good index.
 
@@ -35,69 +35,25 @@ MCSpelman's stack (#1474 to #1517) OCRs scanned PDFs and places commitments in t
 
 ## 2. The artifact: a book's index
 
-Step 1 is a document a person can hold. Step 2 is a commitment as a marked-up page. Step 3 is the back-of-book index: the reference apparatus compiled from every commitment, so a reader enters at a topic and is sent to the passage.
+Step 3 is the back-of-book index: the reference apparatus compiled from every commitment, so a reader enters at a topic and is sent to the passage. Category is the heading, subcategory the subheading, each action and obligation an entry, each `ObligationRequirement` a locator, shown as the step 2 requirement ID (11.29:3). An entry opens to its full record in place. Overlap is native: an obligation filed in two bins reads as "Also filed in" on the obligation. There is no See also line; it was a derived relation with no field behind it.
 
-| Metaphor | Fits | Breaks |
-|---|---|---|
-| Book index | Three-level heading structure (category, subcategory, entry). Locators point into text. "See also" is native. Overlap is normal ("speed limits, 88" and "dust control, 88"). Prod's own doctrine uses it. | Nothing structural. |
-| Atlas gazetteer | Locators into a source. | Implies a map and a grid; the index has no spatial key. |
-| Card catalog | A card is a full record with several access points. | A drawer of cards is a browse device, not a page to review. |
-| Compliance matrix or MMRP | Familiar to consultants. | One row per commitment: step 2's shape, and it hides the many-to-many. |
+## 3. Step 3, as built
 
-The pick is the book index, borrowing one thing from the card catalog: an entry opens to its full record. Each concept maps to a stored field:
+**Phase 1: the index.**
+- No index yet: an empty state with Build index and + Category. A hand-made category or subcategory is locked from the start.
+- Built: the Index pane is develop's sidebar. Rename in place (the row locks; names unique among siblings), lock and unlock (a category's lock cascades down; its unlock does not), delete (the confirm names what goes with it), drag within the parent, + Subcategory, + Category, Lock all, Expand all. A bin holding drafts is kept on Re-run and its lock shows that.
+- The center shows the subcategory's Cited requirements (up to three: requirement ID, name, the requirement's text), each opening its commitment.
+- Re-run: guidance is typed to Aldo, who answers with develop's note ("N locked subcategories stay as is; unlocked ones it doesn't propose again are removed.") and the Re-run key. The status line then lists Added, Removed and Kept because locked, or "The re-run changed nothing." One guided Re-run was run ahead through Beacon's prompt ("give each listed species its own subcategory under an Endangered Species category": 18 categories, 98 subcategories); other guidance gets a plain answer that offers it.
 
-| Index part | Prod field |
-|---|---|
-| Heading | `ComplianceIndexCategory.Name` |
-| Subheading | `ComplianceIndexSubcategory.Name` |
-| Entry | `Obligation.Title` or `Action.Name`, with class chip |
-| Locator | Each `ObligationRequirement` row, shown as the step 2 requirement ID (11.29:3) |
-| Locator target | `Excerpt` inside the commitment text; the PDF page from `ObligationSourceDto` start page |
-| See also | Subcategories that share entries with this one (home bin plus "Also filed in") |
+**Phase 2: the drafts.**
+- Draft actions & obligations runs the four stages with their counts and a bar; View progress opens "Drafting obligations" with the stages and the log. Each proposal has its own pre-run drafts (first build: 2,231; Re-run: 2,222), filed by the bin each row came from, so hand edits and renames carry through.
+- The status line: drafts to review (or "Compliance Index approved"), what is outstanding for Draft again, what fit no subcategory with Suggest subcategories, View log.
+- Review by home bin: actions first, then obligations by audience, then Discarded (N). Tick boxes for Merge; Approve all, Discard all, Restore all; Approve category in the tree; Approve Compliance Index in the step's actions. The no-scope block holds. Approve, discard and restore pause while a run is live.
+- Scrubber: amber for a bin with drafts never opened, gray for opened with drafts to review, green when decided. Opened is not reviewed.
+- Aldo, drafted: approve all, discard, merge two (@ each), a monitor's duty, why (from the draft's sources). Open items: a draft action with nobody named to do it, or no scope.
+- Start over (PR #1520) replaces Re-run once a run exists: back to No index yet.
 
-## 3. Proposed step 3
-
-**Parti.** Job: settle the index a subcategory at a time, with every entry one click from the words it rests on. Winner: completeness. An index is judged by the entry that is missing, so every entry is on the page. Sacrifice: per-entry first glance. Entries are dense index lines, not cards, and their fields appear only on selection.
-
-**Layout.** The step 1 and 2 shell: step panel with title and console, the scrubber, then three panes.
-
-- **Index** (left, folds to a rail like the Library): `BcnRegistryTree` showing Category › Subcategory › entries, all three levels open on load. A circle-check marks a reviewed subcategory (green when something was approved, muted when all were discarded, as BCN-1742 plans).
-- **The subcategory page** (center): the unit of review, set in Beacon's document voice like step 2's commitment. Subheading with its category; actions first, then obligations grouped by audience (prod's grouping, because merges stay within an audience). Each entry is one line: class chip, title, locators. Draft entries take the suggested treatment from step 2 (dashed); approved are solid with a circle-check. A "See also" line closes the page. Selecting an entry opens it in place: Applies when, Monitor signs, and each passage quoted under its locator.
-- **Aldo** (right): one conversation per subcategory, as step 2 has one per commitment.
-
-**Scrubber.** `BcnCommitmentScrubber`'s grammar over subcategories: every bin in index order, category boundaries ruled with the category's name under the strip (as files are in step 2). Gray before drafting, darker gray ready, amber with something to settle, green reviewed. Window of 40. Next to settle walks amber bins. Above the strip: "Fugitive dust: 12 of 50. 9 reviewed, 6 to settle."
-
-**Console.** Build index, then Draft, then Start over (PR #1520), as neutral keys with icons and names. The Draft run is watched lightly: cells fill as each bin's merge lands, with the remaining counts prod already computes (requirements to extract, items to file, bins to merge). The run renders from events, so a person can review a finished bin while others draft.
-
-**Building the index is a conversation.** Aldo proposes the structure; the person answers in words ("give each listed species its own subcategory"). That is prod's Re-run guidance, kept in Instructions in effect.
-
-**Aldo in review.** Plain words with proposals that apply on press: merge two entries, also file this under Speed limits, this is a monitor's duty, move to Nesting birds, why is this here (answered, not obeyed). Open items, each grounded in prod data:
-- an item File put in no bin (`NoBinReason`: the index is missing a subcategory);
-- an action with no responsible party ("Needs input");
-- a merge proposed across permits;
-- an obligation left with nothing behind it after a requirement edit;
-- an excerpt that no longer matches the requirement text;
-- requirements read as binding nothing, to confirm (the coverage gate).
-
-**Moving between steps.** A locator opens the commitment in a side panel: step 2's marked-up text, read only, with the requirement's stroke in its own ink and the excerpt as the heavier pass. Its page key opens the PDF panel (`BcnSw3SourcePeek`). "Open in Commitments" lands step 2 on that commitment. In step 2, the requirement panel gains a read-only "In the index" list of the entries that cite it.
-
-**Read only and edited.**
-
-| Read only | Edited, and where |
-|---|---|
-| Locators, excerpts, commitment text, PDF | Obligation fields: side panel (prod's obligation edit dialog) |
-| Derived scope (phases, species, activities) | Action fields: side panel (prod's action editor, Details and Timing) |
-| See also (derived) | Filing, merge, class, audience: Aldo or the side panel |
-| | Approve, Discard, Restore all: on the entry and the subcategory |
-| | Subcategory name, order, lock: the Index pane |
-
-**Reuse.** `BcnRegistryTree`, `BcnCommitmentScrubber`, the `bcn-aldo-*` kit (Panel, Thread, Composer, Needs, Instructions, Status), `BcnSw3Commitment` (read-only mode), `BcnSw3SourcePeek`, `BcnCommitmentBadge`, `esa-side-dialog`, `esa-collapsible`, `esa-button`, `esa-icon-button`, `esa-badge`, `esa-confirm-dialog` (Start over, Approve Compliance Index), `esa-empty-state`.
-
-**Where this diverges from `/prototypes/setup-wizard-ci`.**
-- The large dialog becomes the in-page workspace. Steps 1 and 2 never put the unit of review in a modal.
-- The tabs (Details, Review Commitment, Review Source Document) become an in-place record and two side panels. That is step 2's panel grammar.
-- Grouping moves from class to audience, matching prod and the merge rule.
-- Kept as precedent: three levels on load, neutral buttons, Reviewed with circle-check, no count pills, codes as `BcnCommitmentBadge`, no row says where it came from.
+**Moving between steps.** A locator or cited requirement opens the commitment in a side panel, as step 2 marked it up, read only; its page key opens the PDF; Open in Commitments lands step 2 on it.
 
 ## 4. Cohesion
 
@@ -105,20 +61,13 @@ The pick is the book index, borrowing one thing from the card catalog: an entry 
 |---|---|---|---|
 | Artifact | The PDF | The marked-up commitment | The index |
 | Unit in view | A page of a file | One commitment | One subcategory |
-| Left pane | Library | (none) | Index, three levels |
+| Left pane | Library | (none) | Index, edited by hand |
 | Scrubber | Pages, 50 per window | Commitments, 40, file boundaries | Subcategories, 40, category boundaries |
-| Aldo | Per file | Per commitment | Per subcategory |
-| Open items | Check, cross-references, gaps | Unanchored, uncovered, duplicates | No bin, needs input, orphaned, broken excerpt, binds nothing |
-| Side panels | Edit ID and name | Edit requirement, PDF | Edit entry, commitment, PDF |
-| Marks | Boxes: dashed Aldo, solid person | Highlighter inks per requirement | Dashed draft, solid approved; inks return in the commitment panel |
+| Aldo | Per file | Per commitment | Per subcategory: Re-run guidance, then review |
+| Open items | Check, cross-references, gaps | Unanchored, uncovered, duplicates | Needs input, no scope |
 | IDs | Commitment code | Requirement ID 11.3:2 | Same requirement IDs, as locators |
-
-Step 3 adds the locator, See also, and Approve Compliance Index as the wizard's end.
 
 ## 5. Open questions
 
-1. **Does "See also" break the no-provenance precedent?** Rows stay silent about where they came from. See also is a relation between subcategories, derived from shared filings. Recommendation: keep it, one line at the foot of the page.
-2. **Locator form.** Requirement ID alone (11.29:3) or with page (11.29:3, p. 141)? Recommendation: ID alone. The page is one hop away in the panel, and the index stays dense.
-3. **Group by audience or class?** The earlier prototype grouped by class. Recommendation: audience, as prod does, because merges stay within an audience; class stays on each entry as a chip.
-4. **Fixture.** The CI fixture is ITP only, with 267 actions from the old one-action-per-requirement rule. Prod's Thread 9 expects few actions (three against about fifty obligations on five DCP commitments). Recommendation: rebuild the fixture over ITP and MMRP with Thread 9's action definition, so locators cross files the way step 2's scrubber does.
-5. **Is the Draft run watched?** Recommendation: lightly, through scrubber cells and remaining counts only. Step 1 is watched because the person sees their document read; here nothing on the page is being read.
+1. **Re-run guidance beyond the one pre-run.** The prototype has one guided proposal. A live demo of other guidance needs the prompt called at view time.
+2. **Is the Draft run watched?** It runs about fifteen seconds here, stage by stage, with the log one key away. Prod runs it server-side for minutes.

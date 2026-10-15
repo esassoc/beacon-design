@@ -47,6 +47,7 @@ const STAGES = [
   "merge",
   "merge-actions",
   "complete",
+  "suggest",
 ];
 if (
   !STAGES.includes(stage) ||
@@ -71,6 +72,7 @@ const PROMPTS = {
   merge: ["MergeObligations_v1.md", "MergeObligations v1"],
   "merge-actions": ["MergeActions_v1.md", "MergeActions v1"],
   complete: ["CompleteActions_v1.md", "CompleteActions v1"],
+  suggest: ["SuggestBins_v1.md", "SuggestBins v1"],
 };
 const OUT = process.env.SW3_INDEX_OUT ?? root("src/data/sw3-index.json");
 
@@ -330,7 +332,8 @@ const propose = {
   prepare() {
     const filled = prompt(PROMPTS.propose[0])
       .replace("{{LockedIndexJson}}", "[]")
-      .replace("{{Guidance}}", "");
+      // A Re-run's guidance (one run only, never stored, as prod): GUIDANCE="…" with its own run dir.
+      .replace("{{Guidance}}", process.env.GUIDANCE ?? "");
     writeFileSync(join(SD, "template.md"), filled);
     const reqs = requirements();
     const slim = reqs.map((r, i) => ({
@@ -476,6 +479,26 @@ const propose = {
       prompt: PROMPTS.propose[1],
       categories,
     });
+    // A Re-run, run ahead for the prototype (GUIDANCE set): added to the fixture already written,
+    // its cited requirements as locators.
+    if (process.env.GUIDANCE) {
+      const byRid = new Map(reqs.map((r) => [r.rid, r]));
+      const fixture = readJson(OUT);
+      fixture.rerun = {
+        guidance: process.env.GUIDANCE,
+        categories: categories.map((c) => ({
+          id: c.id,
+          name: c.name,
+          subcategories: c.subcategories.map((sc) => ({
+            id: sc.id,
+            name: sc.name,
+            evidence: sc.evidence.map((rid) => byRid.get(rid)).filter(Boolean).map((r) => ({ doc: r.doc, code: r.code, n: r.n, excerpt: "" })),
+          })),
+        })),
+      };
+      writeFileSync(OUT, JSON.stringify(fixture, null, 1) + "\n");
+      console.log(`  rerun → ${OUT}`);
+    }
     console.log(
       `propose collect: ${categories.length} categories, ${subs} subcategories → ${join(SD, "result.json")}`,
     );
@@ -1432,10 +1455,14 @@ const complete = {
       }
     }
   },
-  // Action.PersistCompletionAsync fills only the responsible party the fixture carries (blank stays
-  // "Needs input"); then the index is assembled.
+  // Action.PersistCompletionAsync: expected evidence, responsible party (blank stays "Needs input"),
+  // frequency, and a deadline or a recurrence against the project's milestones; then the index is
+  // assembled.
   collect(answers, batches) {
     const party = {};
+    const done = {};
+    const ms = projectMilestones();
+    const milestone = (m, name) => (m >= 1 && m <= ms.length ? ms[m - 1] : (blank(name) ?? ""));
     let leftOut = 0;
     for (const call of batches.flat()) {
       const byNumber = new Map();
@@ -1451,22 +1478,39 @@ const complete = {
         const c = byNumber.get(i + 1);
         if (!c) leftOut++;
         party[id] = blank(c?.R) ?? "";
+        if (!c) return;
+        const deadlineAt = milestone(c.DM, c.DN);
+        const startAt = milestone(c.SM, c.SN);
+        const endAt = milestone(c.EM, c.EN);
+        done[id] = {
+          expectedEvidence: blank(c.E) ?? "",
+          frequency: FREQUENCIES.includes(c.F) ? c.F : "",
+          deadline:
+            c.F === "Onetime" && deadlineAt
+              ? { milestone: deadlineAt, offset: c.DO || 0, unit: c.DU || "", direction: c.DD || "" }
+              : null,
+          recurrence:
+            c.F === "Recurring" && c.RI
+              ? { every: c.RI, unit: c.RU || "", from: startAt, until: endAt }
+              : null,
+        };
       });
     }
     writeJson(join(SD, "result.json"), {
       prompt: PROMPTS.complete[1],
       responsibleParty: party,
+      completed: done,
     });
     console.log(
       `complete collect: ${Object.keys(party).length} draft actions, ${Object.values(party).filter((p) => !p).length} need a responsible party, ${leftOut} left out → ${join(SD, "result.json")}`,
     );
-    assemble(party);
+    assemble(party, done);
   },
 };
 
 // ── The fixture (Sw3Index, src/data/sw3-index-types.ts) ──────────────────────
 
-function assemble(party) {
+function assemble(party, done = {}) {
   const index = need(join(DIR, "propose/result.json"), "propose result");
   const ext = need(join(DIR, "extract/result.json"), "extract result");
   const { filings, noBin } = need(join(DIR, "file/result.json"), "file result");
@@ -1529,7 +1573,11 @@ function assemble(party) {
       id,
       kind: "action",
       name: a.name,
+      text: a.text ?? "",
+      type: a.type ?? "",
+      scope: a.scope ?? "",
       responsibleParty: party[a.id] ?? "",
+      ...(done[a.id] ?? { expectedEvidence: "", frequency: "", deadline: null, recurrence: null }),
       locators: locators(a.filingIds.map(itemOf)),
     };
     push(home, a.bin, id);
@@ -1592,7 +1640,24 @@ function assemble(party) {
     }),
     // Merge applies its merges as draft obligations; prod keeps no merge proposal for a person.
     merges: [],
+    // The Draft run's four stages as draft-stages.ts counts them, for the prototype's run strip.
+    run: undefined,
+    draft: {
+      requirements: reqs.size,
+      read: reqs.size - (ext.unread?.length ?? 0),
+      items: ext.items.length,
+      neither: ext.neither?.length ?? 0,
+      filed: ext.items.length - noBin.length,
+      noBin: noBin.length,
+      merged: mr.drafts.reduce((n, d) => n + d.filingIds.length, 0) + actions.reduce((n, a) => n + a.filingIds.length, 0),
+      obligations: orderedDrafts.length,
+      actions: orderedActions.length,
+      completed: Object.keys(done).length,
+      needParty: Object.values(party).filter((x) => !x).length,
+    },
   };
+  delete out.run;
+  out.run = new Date().toISOString().slice(0, 10);
   writeFileSync(OUT, JSON.stringify(out, null, 1) + "\n");
   const subs = out.categories.reduce((n, c) => n + c.subcategories.length, 0);
   console.log(
@@ -1609,6 +1674,81 @@ function assemble(party) {
     );
 }
 
+// ── suggest ──────────────────────────────────────────────────────────────────
+// Suggest subcategories (BinSuggestionService), run after a Draft for the items File put in no bin:
+// the numbered bins and the items, slim. Its collect adds the suggestions to the fixture already
+// written (suggestions: fits a bin you have, new bins, better left in Unfiled).
+
+const MAX_ITEMS_PER_SUGGEST = 150; // MaxItemsPerBinSuggestionCall
+const KIND_CODE = { Crews: "C", Monitors: "M", ComplianceStaff: "S" };
+const suggest = {
+  prepare() {
+    const index = need(join(DIR, "propose/result.json"), "propose result");
+    const ext = need(join(DIR, "extract/result.json"), "extract result");
+    const { noBin } = need(join(DIR, "file/result.json"), "file result");
+    const items = new Map(ext.items.map((x) => [x.id, x]));
+    const reqs = reqByRid();
+    const bins = binsOf(index);
+    writeFileSync(
+      join(SD, "template.md"),
+      prompt(PROMPTS.suggest[0]).replace("{{IndexList}}", bins.map((b, n) => `${n + 1} · ${b.name}`).join("\n")),
+    );
+    const slim = noBin.slice(0, MAX_ITEMS_PER_SUGGEST).map((n, i) => {
+      const x = items.get(n.itemId);
+      return { I: i, K: x.kind === "action" ? "A" : (KIND_CODE[x.audience] ?? "?"), S: x.statement, N: n.reason, C: reqs.get(x.rid)?.code ?? "" };
+    });
+    writeBatches([{ id: "suggest", count: slim.length, bins: bins.length, slots: { ItemsJson: slim } }]);
+    console.log(`suggest prepare: ${slim.length} items with no bin against ${bins.length} bins → ${SD}`);
+  },
+  check(batch, out, problems) {
+    for (const call of batch) {
+      const a = out[call.id];
+      if (!keysExactly(a, ["E", "B", "L"], call.id, problems)) continue;
+      const seen = [];
+      for (const x of a.E ?? []) {
+        if (!isInt(x.I) || x.I < 0 || x.I >= call.count) problems.push(`${call.id} E: bad item ${x.I}`);
+        if (!isInt(x.B) || x.B < 1 || x.B > call.bins) problems.push(`${call.id} E: bad bin ${x.B}`);
+        seen.push(x.I);
+      }
+      for (const b of a.B ?? []) {
+        if (!blank(b.C) || !blank(b.N)) problems.push(`${call.id} B: a new bin needs C and N`);
+        for (const i of b.I ?? []) seen.push(i);
+      }
+      for (const x of a.L ?? []) seen.push(x.I);
+      for (let i = 0; i < call.count; i++) if (!seen.includes(i)) problems.push(`${call.id}: item ${i} is placed nowhere`);
+    }
+  },
+  collect(answers) {
+    const a = answers.suggest;
+    if (!a) throw new Error("suggest: no answer");
+    const index = need(join(DIR, "propose/result.json"), "propose result");
+    const bins = binsOf(index);
+    const fixture = readJson(OUT);
+    const uid = (i) => fixture.unfiled[i]?.id;
+    const placed = new Set();
+    const take = (is) => is.filter((i) => uid(i) && !placed.has(i) && placed.add(i)).map(uid);
+    const existing = new Map();
+    for (const x of a.E ?? []) {
+      const bin = bins[x.B - 1];
+      const ids = bin ? take([x.I]) : [];
+      if (ids.length) existing.set(bin.id, [...(existing.get(bin.id) ?? []), ...ids]);
+    }
+    const newBins = [];
+    for (const b of a.B ?? []) {
+      const ids = take(b.I ?? []);
+      const cat = fixture.categories.find((c) => c.name.toUpperCase() === b.C.trim().toUpperCase());
+      const twin = cat?.subcategories.find((x) => x.name.toUpperCase() === b.N.trim().toUpperCase());
+      if (!ids.length) continue;
+      if (twin) existing.set(twin.id, [...(existing.get(twin.id) ?? []), ...ids]);
+      else newBins.push({ category: cat?.name ?? b.C.trim(), name: b.N.trim().slice(0, 60), reason: (b.R ?? "").trim(), unfiledIds: ids });
+    }
+    const left = (a.L ?? []).flatMap((x) => take([x.I]).map((id) => ({ unfiledId: id, reason: (x.R ?? "").trim() })));
+    fixture.suggestions = { existing: [...existing.entries()].map(([sub, unfiledIds]) => ({ sub, unfiledIds })), newBins, left };
+    writeFileSync(OUT, JSON.stringify(fixture, null, 1) + "\n");
+    console.log(`suggest collect: ${existing.size} existing bins, ${newBins.length} new bins, ${left.length} left in Unfiled → ${OUT}`);
+  },
+};
+
 // ── Dispatch ─────────────────────────────────────────────────────────────────
 
 const STAGE = {
@@ -1618,6 +1758,7 @@ const STAGE = {
   merge,
   "merge-actions": mergeActions,
   complete,
+  suggest,
 }[stage];
 const batchFiles = () =>
   readdirSync(SD)

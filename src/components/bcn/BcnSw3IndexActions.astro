@@ -1,64 +1,136 @@
 ---
-// <BcnSw3IndexActions> — step 3's page actions, in the step panel: Start over (PR #1520:
-// once drafting has begun it replaces Re-run, and clears every decision on the index) and
-// Approve Compliance Index, the wizard's end. Both ask first.
+// <BcnSw3IndexActions> — step 3's page actions, in the step panel's header, by phase:
+//
+//   built     Re-run (Aldo takes the guidance and answers with the Re-run key), and
+//             Draft actions & obligations, the one Draft run
+//   drafting  the run's key, disabled
+//   drafted   Start over (PR #1520: once a run exists it replaces Re-run; a confirmed delete
+//             back to no index), Draft again (primary while something is outstanding), and
+//             Approve Compliance Index (confirmed; "Compliance Index approved" when nothing
+//             is left)
+//
+// Contract, on `document`:
+//   out  sw3i:rerun-ask   Re-run pressed: Aldo asks for guidance
 //
 // bcn-lego-checked: the keys ARE esa-button; the guards ARE esa-confirm-dialog. Checked
-// Beacon: compliance-index-step has these two verbs with confirm dialogs.
+// Beacon: compliance-index-step and draft-obligations carry these verbs and confirms.
 // bcn-sw3-index-actions is their home, as bcn-sw3-review-actions is step 2's.
 import EsaButton from '@esa/ecology/esa-button.astro';
 ---
 
 <div class="bcn-sw3ia" data-sw3-index-actions>
-  <EsaButton variant="secondary" size="sm" icon="rotate-ccw" data-ia-start-over>Start over</EsaButton>
-  <EsaButton variant="primary" size="sm" icon="circle-check" data-ia-approve>Approve Compliance Index</EsaButton>
-  <esa-confirm-dialog
-    heading="Start over?"
-    message="Every approval, discard, edit, merge and filing on the index is cleared, and Aldo's conversations with them. The drafted index comes back as it was."
-    variant="danger"
-    confirm-label="Start over"
-    cancel-label="Cancel"
-    data-ia-confirm-start></esa-confirm-dialog>
+  <span data-ia-built>
+    <EsaButton variant="secondary" size="sm" icon="rotate-ccw" data-ia-rerun>Re-run</EsaButton>
+  </span>
+  <span data-ia-drafted>
+    <EsaButton variant="danger" appearance="outline" size="sm" icon="trash-2" data-ia-start-over>Start over</EsaButton>
+  </span>
+  <span data-ia-again-wrap>
+    <EsaButton variant="secondary" size="sm" icon="sparkles" data-ia-again>Draft again</EsaButton>
+  </span>
+  <span data-ia-draft-wrap>
+    <EsaButton variant="primary" size="sm" icon="sparkles" data-ia-draft>Draft actions &amp; obligations</EsaButton>
+  </span>
+  <span data-ia-approve-wrap>
+    <EsaButton variant="primary" size="sm" icon="circle-check" data-ia-approve>Approve Compliance Index</EsaButton>
+  </span>
+  <esa-confirm-dialog heading="Start over?" variant="danger" confirm-label="Start over" cancel-label="Cancel" data-ia-confirm-start></esa-confirm-dialog>
   <esa-confirm-dialog heading="Approve the Compliance Index?" confirm-label="Approve" cancel-label="Cancel" data-ia-confirm-approve></esa-confirm-dialog>
 </div>
 
 <style>
   .bcn-sw3ia { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
+  .bcn-sw3ia [hidden] { display: none !important; }
 </style>
 
 <script>
   import '@esa/ecology/esa-confirm-dialog';
-  import { initIndex, subs, subState, entriesIn, statusOf, startOver, approveIndex, indexApproved } from './sw3-index-store';
+  import { initIndex, phase, startOver, approveIndex, totals, pendingAll, subs, pendingIn, isOpened, startDraft, pendingWork } from './sw3-index-store';
+  import { fillGlyph } from './comment-glyphs';
   import { toast } from '../../lib/snackbar';
 
   const root = document.querySelector<HTMLElement>('[data-sw3-index-actions]');
   if (root) {
     initIndex();
     type Confirm = HTMLElement & { show(): void; message: string };
-    const startDlg = root.querySelector<Confirm>('[data-ia-confirm-start]')!;
-    const approveDlg = root.querySelector<Confirm>('[data-ia-confirm-approve]')!;
-    root.querySelector('[data-ia-start-over]')!.addEventListener('click', () => startDlg.show());
+    const $ = (s: string) => root.querySelector<HTMLElement>(s)!;
+    const startDlg = $('[data-ia-confirm-start]') as Confirm;
+    const approveDlg = $('[data-ia-confirm-approve]') as Confirm;
+    const n = (x: number) => x.toLocaleString('en-US');
+    const plural = (x: number, one: string, many = `${one}s`) => `${n(x)} ${x === 1 ? one : many}`;
+    for (const s of ['[data-ia-again]', '[data-ia-draft]']) fillGlyph($(s), 'sparkles');
+    const btn = (host: HTMLElement) => (host.matches('button') ? (host as HTMLButtonElement) : host.querySelector('button'))!;
+    const label = (host: HTMLElement, text: string) => {
+      const l = host.querySelector('.esa-button__label');
+      if (l) l.textContent = text;
+    };
+    /** Draft again is primary while something is outstanding, outlined once drafts wait. */
+    const tone = (host: HTMLElement, primary: boolean) => {
+      const b = btn(host);
+      b.classList.toggle('esa-button--variant-primary', primary);
+      b.classList.toggle('esa-button--variant-secondary', !primary);
+    };
+
+    $('[data-ia-rerun]').addEventListener('click', () => document.dispatchEvent(new CustomEvent('sw3i:rerun-ask')));
+    $('[data-ia-draft]').addEventListener('click', () => void startDraft());
+    $('[data-ia-again]').addEventListener('click', () => void startDraft());
+
+    $('[data-ia-start-over]').addEventListener('click', () => {
+      const t = totals();
+      startDlg.message = `It deletes the index and its ${plural(t.drafts, 'draft')}, approved included, with their tracking. Drafting again re-reads every requirement. It can't be undone.`;
+      startDlg.show();
+    });
     startDlg.addEventListener('confirm', () => {
       startOver();
-      toast('The index is back as drafted.', 'success');
+      toast('Started over. Build the index to begin again.', 'success');
     });
-    root.querySelector('[data-ia-approve]')!.addEventListener('click', () => {
-      const all = subs();
-      const left = all.filter(({ sub }) => subState(sub.id) !== 'reviewed').length;
-      const approved = new Set(all.flatMap(({ sub }) => entriesIn(sub.id).filter(({ id }) => statusOf(id) === 'approved').map((x) => x.id))).size;
-      approveDlg.message = left
-        ? `${left} of ${all.length} subcategories are not reviewed. Their drafts stay drafts and stay out of the project's obligations until someone approves them.`
-        : `${approved} approved entries become the project's actions and obligations.`;
+
+    $('[data-ia-approve]').addEventListener('click', () => {
+      const t = totals();
+      const withPending = subs().filter(({ sub }) => pendingIn(sub.id) > 0);
+      const unopened = withPending.filter(({ sub }) => !isOpened(sub.id)).length;
+      const ok = t.pending - t.blocked;
+      approveDlg.message = [
+        `Approve ${plural(ok, 'draft')} across ${plural(withPending.length, 'subcategory', 'subcategories')}?`,
+        unopened && `${n(unopened)} of those subcategories ${unopened === 1 ? "hasn't" : "haven't"} been opened yet.`,
+        t.blocked && `${plural(t.blocked, 'draft action')} with no scope ${t.blocked === 1 ? 'stays a draft' : 'stay drafts'}.`,
+        'Approved drafts stay editable, but can’t be returned to drafts.',
+      ]
+        .filter(Boolean)
+        .join(' ');
       approveDlg.show();
     });
     approveDlg.addEventListener('confirm', () => {
+      const before = pendingAll().length;
       approveIndex();
-      toast('Compliance Index approved.', 'success');
+      const left = pendingAll().length;
+      toast(left ? `Approved ${n(before - left)}. ${plural(left, 'draft')} with no scope stay drafts.` : 'Compliance Index approved.', 'success');
     });
+
     const render = () => {
-      const b = root.querySelector('[data-ia-approve]');
-      const l = b?.querySelector('.esa-button__label');
-      if (l) l.textContent = indexApproved() ? 'Compliance Index approved' : 'Approve Compliance Index';
+      const ph = phase();
+      root.hidden = ph === 'empty' || ph === 'building';
+      $('[data-ia-built]').hidden = ph !== 'built';
+      $('[data-ia-draft-wrap]').hidden = !(ph === 'built' || (ph === 'drafting' && !totals().drafts));
+      $('[data-ia-drafted]').hidden = !(ph === 'drafted' || (ph === 'drafting' && totals().drafts > 0));
+      $('[data-ia-again-wrap]').hidden = $('[data-ia-drafted]').hidden;
+      $('[data-ia-approve-wrap]').hidden = $('[data-ia-drafted]').hidden;
+      const running = ph === 'drafting';
+      btn($('[data-ia-draft]')).disabled = running;
+      label($('[data-ia-draft]'), running ? 'Drafting' : 'Draft actions & obligations');
+      const w = pendingWork();
+      const outstanding = w.filed + w.refile > 0;
+      tone($('[data-ia-again]'), outstanding);
+      btn($('[data-ia-again]')).disabled = running;
+      btn($('[data-ia-start-over]')).disabled = running;
+      const startB = btn($('[data-ia-start-over]'));
+      startB.title = running ? 'A Draft run is still adding drafts.' : '';
+      const t = totals();
+      const done = t.drafts > 0 && t.pending === 0;
+      const approveB = btn($('[data-ia-approve]'));
+      approveB.disabled = running || done || t.pending === t.blocked;
+      approveB.title = running ? 'A Draft run is still adding drafts. Approve, discard and restore are paused until it finishes.' : '';
+      label($('[data-ia-approve]'), done ? 'Compliance Index approved' : 'Approve Compliance Index');
     };
     document.addEventListener('sw3i:change', render);
     render();

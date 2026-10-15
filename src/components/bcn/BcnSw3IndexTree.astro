@@ -1,60 +1,91 @@
 ---
-// <BcnSw3IndexTree> — step 3's left pane: the Compliance Index as a book's index reads, all
-// three levels open. Category is the heading, subcategory the subheading, each entry a line
-// under it. A subcategory is the unit of review: pressing one brings its page into view; an
-// entry brings its page into view with the entry open. A circle-check marks a reviewed
-// subcategory (muted when everything in it was discarded); a dot, one with something to
-// settle. The pane folds to a rail, as step 1's Library does.
+// <BcnSw3IndexTree> — step 3's left pane: the Compliance Index, as develop's sidebar keeps
+// it. Category › subcategory, edited by hand: rename in place (the row locks), lock and
+// unlock (locking a category locks its subcategories; unlocking it does not), delete (the
+// confirm names what goes with it), drag within the parent, + Subcategory, + Category, Lock
+// all, Expand all. A bin that holds drafts is kept on Re-run, so its lock is shown, not
+// offered.
 //
-// The headings and subheadings are the index's structure and render here; the entries under
-// them move (a merge, a move, also filed) and are drawn by the host's controller (sw3-index.ts).
+// Once drafted, each subcategory carries develop's marks (a dot when it has drafts and was
+// never opened, the count still to review, a check when everything is decided, muted when
+// all of it was discarded) and lists its drafts under it, so the index reads Category ›
+// Subcategory › Action or Obligation. A category gets Approve category.
 //
-// bcn-lego-checked: each category IS esa-collapsible (flush); the fold keys ARE
-// esa-button (chrome, as the Library's); the state marks ARE esa-icon. Checked Beacon: the compliance-index-step
-// sidebar is a flat list of bins with draft and approved counts, no entries under them.
-// bcn-registry-tree is the setup-step-5 registry with checkboxes and verbs on the rows;
-// here the rows only navigate, so bcn-sw3-index-tree is its own home.
-import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+// Rows are drawn at run time from the templates below (sw3-index-tree.ts), because the
+// index changes under the person's hands.
+//
+// Contract, on `document`:
+//   out  sw3i:go       detail: { sub, entryId? }   a subcategory or draft pressed
+//   in   sw3i:current  detail: { sub, entryId }    the one in view
+//   in   sw3i:change                                 repaint
+//   in   sw3i:rename       detail: { id }            rename a row just made elsewhere
+//
+// bcn-lego-checked: every tool IS esa-button (chrome, icon only); marks ARE esa-icon and
+// esa-badge; the rename IS esa-text-field; the delete guard IS esa-confirm-dialog. No esa-
+// lego is an editable tree (esa-collapsible's summary takes a title only, no tools or
+// inline rename; esa-sidebar-nav is navigation). Checked Beacon: compliance-index-step's
+// sidebar is a cdk tree with these verbs; this ports it under a bcn- name.
+// bcn-sw3-index-tree is its home.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
-import type { Sw3Index } from '../../data/sw3-index-types';
-
-interface Props {
-  index: Sw3Index;
-}
-const { index } = Astro.props;
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import { glyphPaths } from './comment-glyphs';
 ---
 
 <nav class="bcn-sw3it" aria-label="Compliance Index" data-sw3-index-tree>
   <div class="bcn-sw3it__head">
     <h2 class="bcn-sw3it__title">Index</h2>
+    <span class="bcn-sw3it__tools" data-it-head-tools>
+      <EsaButton variant="chrome" iconOnly icon="chevrons-up-down" label="Expand all" size="xs" data-it-expand />
+      <EsaButton variant="chrome" iconOnly icon="lock" label="Lock all" size="xs" data-it-lock-all />
+      <EsaButton variant="chrome" iconOnly icon="plus" label="Category" size="xs" data-it-add-cat />
+    </span>
     <EsaButton variant="chrome" iconOnly icon="chevrons-left" label="Fold the index" size="xs" data-it-fold />
   </div>
   <span class="bcn-sw3it__unfold"><EsaButton variant="chrome" iconOnly icon="chevrons-right" label="Open the index" size="xs" data-it-unfold /></span>
-  <div class="bcn-sw3it__body">
-    {
-      index.categories.map((cat) => (
-        <EsaCollapsible title={cat.name} open flush>
-          <ul class="bcn-sw3it__subs">
-            {cat.subcategories.map((s) => (
-              <li class="bcn-sw3it__sub" data-it-sub={s.id}>
-                <a class="bcn-sw3it__subname" href={`#${s.id}`} data-it-go={s.id}>
-                  <span>{s.name}</span>
-                  <span class="bcn-sw3it__mark" data-it-mark="reviewed">
-                    <EsaIcon name="circle-check" size="xs" label="Reviewed" />
-                  </span>
-                  <span class="bcn-sw3it__mark" data-it-mark="flagged">
-                    <EsaIcon name="circle-alert" size="xs" label="Something to settle" />
-                  </span>
-                </a>
-                <ol class="bcn-sw3it__entries" data-it-entries />
-              </li>
-            ))}
-          </ul>
-        </EsaCollapsible>
-      ))
-    }
-  </div>
+  <ol class="bcn-sw3it__body" data-it-body></ol>
+
+  <esa-confirm-dialog heading="Delete" variant="danger" confirm-label="Delete" cancel-label="Cancel" data-it-confirm-delete></esa-confirm-dialog>
+
+  <template data-it-tpl="cat">
+    <li class="bcn-sw3it__cat" data-it-cat>
+      <div class="bcn-sw3it__row bcn-sw3it__row--cat" data-it-row>
+        <span data-it-toggle><EsaButton variant="chrome" iconOnly icon="chevron-down" label="Collapse" size="xs" /></span>
+        <a class="bcn-sw3it__name" href="#" data-it-name></a>
+        <span class="bcn-sw3it__lockmark" data-it-lockmark><EsaIcon name="lock" paths={glyphPaths('lock')} size="xs" label="Locked" /></span>
+        <span class="bcn-sw3it__rowtools">
+          <span data-it-approve-cat><EsaButton variant="chrome" iconOnly icon="circle-check" label="Approve category" size="xs" /></span>
+          <span data-it-add-sub><EsaButton variant="chrome" iconOnly icon="plus" label="Subcategory" size="xs" /></span>
+          <span data-it-rename><EsaButton variant="chrome" iconOnly icon="pencil" label="Rename" size="xs" /></span>
+          <span data-it-lock><EsaButton variant="chrome" iconOnly icon="lock" label="Lock" size="xs" /></span>
+          <span data-it-delete><EsaButton variant="chrome" iconOnly icon="trash-2" label="Delete" size="xs" /></span>
+          <span data-it-grip><EsaButton variant="chrome" iconOnly icon="grip-vertical" label="Drag to reorder" size="xs" /></span>
+        </span>
+      </div>
+      <ol class="bcn-sw3it__subs" data-it-subs></ol>
+    </li>
+  </template>
+
+  <template data-it-tpl="sub">
+    <li class="bcn-sw3it__sub" data-it-sub>
+      <div class="bcn-sw3it__row" data-it-row>
+        <a class="bcn-sw3it__name" href="#" data-it-name></a>
+        <span class="bcn-sw3it__lockmark" data-it-lockmark><EsaIcon name="lock" paths={glyphPaths('lock')} size="xs" label="Locked" /></span>
+        <span class="bcn-sw3it__marks">
+          <span class="bcn-sw3it__dot" data-it-mark="unopened" title="Not yet opened"></span>
+          <span data-it-mark="pending"><EsaBadge variant="secondary" size="sm" value="0" /></span>
+          <span data-it-mark="done"><EsaIcon name="circle-check" size="xs" label="Every draft approved or discarded" /></span>
+        </span>
+        <span class="bcn-sw3it__rowtools">
+          <span data-it-rename><EsaButton variant="chrome" iconOnly icon="pencil" label="Rename" size="xs" /></span>
+          <span data-it-lock><EsaButton variant="chrome" iconOnly icon="lock" label="Lock" size="xs" /></span>
+          <span data-it-delete><EsaButton variant="chrome" iconOnly icon="trash-2" label="Delete" size="xs" /></span>
+          <span data-it-grip><EsaButton variant="chrome" iconOnly icon="grip-vertical" label="Drag to reorder" size="xs" /></span>
+        </span>
+      </div>
+      <ol class="bcn-sw3it__entries" data-it-entries></ol>
+    </li>
+  </template>
 </nav>
 
 <style>
@@ -65,51 +96,87 @@ const { index } = Astro.props;
     height: 100%;
     font-size: 0.8125rem;
   }
+  .bcn-sw3it [hidden] { display: none !important; }
   .bcn-sw3it__head {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: var(--spacing-100);
     padding: var(--spacing-200) var(--spacing-200) var(--spacing-100) var(--spacing-400);
   }
-  .bcn-sw3it__title { margin: 0; font-size: 0.9375rem; font-weight: 600; }
+  .bcn-sw3it__title { margin: 0 auto 0 0; font-size: 0.9375rem; font-weight: 600; }
+  .bcn-sw3it__tools { display: inline-flex; align-items: center; gap: 2px; }
   .bcn-sw3it__unfold { display: none; padding: var(--spacing-200); }
   .bcn-sw3it__body {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-    padding: 0 var(--spacing-400) var(--spacing-400);
+    list-style: none;
+    margin: 0;
+    padding: 0 var(--spacing-300) var(--spacing-400);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
   }
-  .bcn-sw3it__body :global(.esa-collapsible__summary) { font-size: 0.8125rem; font-weight: 600; }
-  .bcn-sw3it__body :global(.esa-collapsible__body) { font-size: 0.8125rem; padding-top: 0; }
+  .bcn-sw3it :global(.bcn-sw3it__subs),
+  .bcn-sw3it :global(.bcn-sw3it__entries) { list-style: none; margin: 0; padding: 0; }
+  .bcn-sw3it :global(.bcn-sw3it__subs) { display: flex; flex-direction: column; gap: 1px; padding-left: var(--spacing-500); }
+  .bcn-sw3it :global(.bcn-sw3it__cat[data-closed] .bcn-sw3it__subs) { display: none; }
 
-  .bcn-sw3it__subs,
-  .bcn-sw3it__entries { list-style: none; margin: 0; padding: 0; }
-  .bcn-sw3it__subs { display: flex; flex-direction: column; gap: var(--spacing-100); }
-
-  .bcn-sw3it__subname {
+  /* A row: name, marks, and its tools on hover or focus. */
+  .bcn-sw3it :global(.bcn-sw3it__row) {
+    position: relative;
     display: flex;
     align-items: center;
     gap: var(--spacing-100);
-    padding: 3px var(--spacing-150);
-    margin-inline: calc(-1 * var(--spacing-150));
+    min-height: 26px;
+    padding: 0 var(--spacing-100) 0 var(--spacing-150);
     border-radius: var(--radius-100);
+  }
+  .bcn-sw3it :global(.bcn-sw3it__row--cat) { padding-left: 0; }
+  .bcn-sw3it :global(.bcn-sw3it__row:hover),
+  .bcn-sw3it :global(.bcn-sw3it__row:focus-within) { background: var(--color-background-elevation-sunken); }
+  .bcn-sw3it :global(.bcn-sw3it__sub[data-current] > .bcn-sw3it__row) { background: var(--color-background-elevation-sunken); }
+  .bcn-sw3it :global(.bcn-sw3it__sub[data-current] > .bcn-sw3it__row .bcn-sw3it__name) { font-weight: 600; }
+  .bcn-sw3it :global(.bcn-sw3it__name) {
+    flex: 1;
+    min-width: 0;
+    padding: 3px 0;
     color: var(--color-content-default);
     font-weight: 500;
     text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-  .bcn-sw3it__subname:hover { background: var(--color-background-elevation-sunken); }
-  .bcn-sw3it__sub[data-current] > .bcn-sw3it__subname {
-    background: var(--color-background-elevation-sunken);
-    font-weight: 600;
+  .bcn-sw3it :global(.bcn-sw3it__row--cat .bcn-sw3it__name) { font-weight: 600; }
+  .bcn-sw3it :global(.bcn-sw3it__row esa-text-field) { flex: 1; min-width: 0; }
+  .bcn-sw3it :global(.bcn-sw3it__lockmark) { display: none; line-height: 0; color: var(--color-content-default-tertiary); }
+  .bcn-sw3it :global([data-locked] > .bcn-sw3it__row .bcn-sw3it__lockmark) { display: inline-flex; }
+  .bcn-sw3it :global(.bcn-sw3it__rowtools) {
+    display: none;
+    align-items: center;
+    gap: 0;
+    margin-left: auto;
   }
-  .bcn-sw3it__mark { display: none; margin-left: auto; line-height: 0; }
-  .bcn-sw3it__sub[data-state='reviewed'] [data-it-mark='reviewed'] { display: inline-flex; color: var(--color-content-success); }
-  .bcn-sw3it__sub[data-state='reviewed'][data-none] [data-it-mark='reviewed'] { color: var(--color-content-default-tertiary); }
-  .bcn-sw3it__sub[data-state='flagged'] [data-it-mark='flagged'] { display: inline-flex; color: var(--color-content-warning); }
+  .bcn-sw3it :global(.bcn-sw3it__row:hover .bcn-sw3it__rowtools),
+  .bcn-sw3it :global(.bcn-sw3it__row:focus-within .bcn-sw3it__rowtools) { display: inline-flex; }
+  .bcn-sw3it :global(.bcn-sw3it__row:hover .bcn-sw3it__lockmark),
+  .bcn-sw3it :global(.bcn-sw3it__row:hover .bcn-sw3it__marks),
+  .bcn-sw3it :global(.bcn-sw3it__row:focus-within .bcn-sw3it__marks) { display: none; }
+  .bcn-sw3it :global([data-it-grip]) { cursor: grab; }
 
-  /* Entries: the third level, the index's lines. */
-  .bcn-sw3it__entries { padding-left: var(--spacing-300); }
-  .bcn-sw3it__entries :global(a) {
+  /* Develop's marks, once drafted. */
+  .bcn-sw3it :global(.bcn-sw3it__marks) { display: inline-flex; align-items: center; gap: var(--spacing-100); line-height: 0; }
+  .bcn-sw3it :global(.bcn-sw3it__marks > *) { display: none; }
+  .bcn-sw3it :global(.bcn-sw3it__dot) { width: 7px; height: 7px; border-radius: 50%; background: var(--color-content-brand); }
+  .bcn-sw3it :global([data-mark-unopened] [data-it-mark='unopened']),
+  .bcn-sw3it :global([data-mark-pending] [data-it-mark='pending']) { display: inline-flex; }
+  .bcn-sw3it :global([data-mark-done] [data-it-mark='done']) { display: inline-flex; color: var(--color-content-success); }
+  .bcn-sw3it :global([data-mark-done][data-none] [data-it-mark='done']) { color: var(--color-content-default-tertiary); }
+
+  /* Drafts under their subcategory: the index's third level. */
+  .bcn-sw3it :global(.bcn-sw3it__entries) { padding: 0 0 var(--spacing-100) var(--spacing-300); }
+  .bcn-sw3it :global(.bcn-sw3it__entries a) {
     display: block;
     padding: 1px 0;
     color: var(--color-content-default-secondary);
@@ -118,12 +185,23 @@ const { index } = Astro.props;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .bcn-sw3it__entries :global(a:hover) { color: var(--color-content-default); text-decoration: underline; }
-  .bcn-sw3it__entries :global(a[data-status='discarded']) { text-decoration: line-through; color: var(--color-content-default-tertiary); }
-  .bcn-sw3it__entries :global(a[data-current]) { color: var(--color-content-default); font-weight: 600; }
+  .bcn-sw3it :global(.bcn-sw3it__entries a:hover) { color: var(--color-content-default); text-decoration: underline; }
+  .bcn-sw3it :global(.bcn-sw3it__entries a[data-status='discarded']) { text-decoration: line-through; color: var(--color-content-default-tertiary); }
+  .bcn-sw3it :global(.bcn-sw3it__entries a[data-current]) { color: var(--color-content-default); font-weight: 600; }
+
+  /* Dragging: where it would land. */
+  .bcn-sw3it :global([data-drop-before] > .bcn-sw3it__row) { box-shadow: inset 0 2px 0 var(--color-border-default-focus); }
+  .bcn-sw3it :global([data-dragging]) { opacity: 0.5; }
 
   /* Folded: a rail with the open key. */
   :global([data-index='closed']) .bcn-sw3it__head,
   :global([data-index='closed']) .bcn-sw3it__body { display: none; }
   :global([data-index='closed']) .bcn-sw3it__unfold { display: block; }
 </style>
+
+<script>
+  import '@esa/ecology/esa-confirm-dialog';
+  import '@esa/ecology/esa-text-field';
+  import { setupSw3IndexTree } from './sw3-index-tree';
+  document.querySelectorAll<HTMLElement>('[data-sw3-index-tree]').forEach(setupSw3IndexTree);
+</script>

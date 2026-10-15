@@ -1,9 +1,9 @@
 ---
-// <BcnSw3EntryEdit> — one index entry's record, edited in a side panel: an obligation's
-// title, class, audience, Applies when and monitor signs (prod's obligation edit dialog), or
-// an action's name and who does it. Its locators are not here: they are the requirements it
-// rests on, and change by telling Aldo (merge, move) or in step 2. Save approves the entry,
-// as any edit confirms a requirement in step 2.
+// <BcnSw3EntryEdit> — one draft's record, edited in a side panel: an obligation's title
+// (510 at most), class, audience, Applies when and monitor signs (prod's obligation edit
+// dialog), or an action's name, scope, responsible party, expected evidence and text (the
+// action editor's Details). Its sources are not here: they are the requirements it rests
+// on, and change only by Merge. Save keeps it a draft; approving is the review's.
 //
 // Contract, on `document`:
 //   in   sw3i:edit  detail: { id }   open on that entry
@@ -13,17 +13,20 @@
 // ObligationClass, ObligationAudience, TriggerText, MonitorSigns) and the action editor's
 // Details tab. bcn-sw3-entry-edit is the home.
 import EsaButton from '@esa/ecology/esa-button.astro';
-import { AUDIENCE_OPTIONS, CLASS_OPTIONS } from '../../data/sw3-index-types';
+import { AUDIENCE_OPTIONS, CLASS_OPTIONS, SCOPE_OPTIONS } from '../../data/sw3-index-types';
 ---
 
 <esa-side-dialog heading="Edit entry" size="md" data-sw3-entry-edit>
   <form class="bcn-sw3ee" data-ee-form id="sw3-ee-form">
-    <esa-text-field label="Title" size="sm" required data-ee-title></esa-text-field>
+    <esa-text-field label="Title" size="sm" required maxlength="510" data-ee-title></esa-text-field>
     <esa-select label="Class" size="sm" data-ee-class data-options={JSON.stringify(CLASS_OPTIONS)} data-ob></esa-select>
     <esa-select label="Audience" size="sm" data-ee-audience data-options={JSON.stringify(AUDIENCE_OPTIONS)} data-ob></esa-select>
     <esa-textarea label="Applies when" size="sm" rows="2" auto-resize data-ee-trigger data-ob></esa-textarea>
     <esa-textarea label="Monitor signs" size="sm" rows="3" auto-resize help-text="One per line" data-ee-signs data-ob></esa-textarea>
+    <esa-select label="Scope" size="sm" data-ee-scope data-options={JSON.stringify(SCOPE_OPTIONS)} data-ac></esa-select>
     <esa-text-field label="Responsible party" size="sm" data-ee-party data-ac></esa-text-field>
+    <esa-textarea label="Expected evidence" size="sm" rows="2" auto-resize data-ee-evidence data-ac></esa-textarea>
+    <esa-textarea label="Text" size="sm" rows="3" auto-resize data-ee-text data-ac></esa-textarea>
   </form>
   <div slot="footer" class="bcn-sw3ee__foot">
     <EsaButton variant="ghost" size="sm" icon="x" data-ee-discard>Discard</EsaButton>
@@ -46,9 +49,9 @@ import { AUDIENCE_OPTIONS, CLASS_OPTIONS } from '../../data/sw3-index-types';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-textarea';
-  import { initIndex, entryAny, editEntry, setStatus, statusOf } from './sw3-index-store';
+  import { initIndex, entry, editEntry, discard } from './sw3-index-store';
   import { toast } from '../../lib/snackbar';
-  import type { IndexAudience, IndexClass } from '../../data/sw3-index-types';
+  import type { ActionScope, IndexAudience, IndexClass } from '../../data/sw3-index-types';
 
   type Field = HTMLElement & { value: string; label?: string; options?: unknown; updateComplete?: Promise<unknown> };
   const dialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>('[data-sw3-entry-edit]');
@@ -61,15 +64,18 @@ import { AUDIENCE_OPTIONS, CLASS_OPTIONS } from '../../data/sw3-index-types';
     const trigger = $('[data-ee-trigger]');
     const signs = $('[data-ee-signs]');
     const party = $('[data-ee-party]');
+    const scope = $('[data-ee-scope]');
+    const evidence = $('[data-ee-evidence]');
+    const text = $('[data-ee-text]');
     let id: string | null = null;
 
     customElements.whenDefined('esa-select').then(() => {
-      for (const el of [cls, audience]) el.options = JSON.parse(el.dataset.options!);
+      for (const el of [cls, audience, scope]) el.options = JSON.parse(el.dataset.options!);
     });
     const close = () => ((dialog.open = false), (id = null));
 
     document.addEventListener('sw3i:edit', async (e) => {
-      const en = entryAny((e as CustomEvent<{ id: string }>).detail.id);
+      const en = entry((e as CustomEvent<{ id: string }>).detail.id);
       if (!en) return;
       id = en.id;
       await customElements.whenDefined('esa-select');
@@ -87,6 +93,9 @@ import { AUDIENCE_OPTIONS, CLASS_OPTIONS } from '../../data/sw3-index-types';
       } else {
         title.value = en.name;
         party.value = en.responsibleParty;
+        scope.value = en.scope;
+        evidence.value = en.expectedEvidence;
+        text.value = en.text;
       }
       dialog.open = true;
       await title.updateComplete;
@@ -96,7 +105,7 @@ import { AUDIENCE_OPTIONS, CLASS_OPTIONS } from '../../data/sw3-index-types';
     $('[data-ee-form]').addEventListener('submit', (e) => {
       e.preventDefault();
       if (!id) return;
-      const en = entryAny(id)!;
+      const en = entry(id)!;
       const t = title.value.trim();
       if (en.kind === 'obligation')
         editEntry(id, {
@@ -106,16 +115,22 @@ import { AUDIENCE_OPTIONS, CLASS_OPTIONS } from '../../data/sw3-index-types';
           trigger: trigger.value.trim(),
           monitorSigns: signs.value.split('\n').map((s) => s.trim()).filter(Boolean),
         });
-      else editEntry(id, { name: t || en.name, responsibleParty: party.value.trim() });
-      if (statusOf(id) === 'draft') setStatus([id], 'approved');
+      else
+        editEntry(id, {
+          name: t || en.name,
+          scope: scope.value as ActionScope,
+          responsibleParty: party.value.trim(),
+          expectedEvidence: evidence.value.trim(),
+          text: text.value.trim(),
+        });
       close();
     });
     $('[data-ee-cancel]').addEventListener('click', close);
     $('[data-ee-discard]').addEventListener('click', () => {
       if (!id) return;
-      setStatus([id], 'discarded');
+      discard([id]);
       close();
-      toast('Discarded. Restore it from the subcategory.', 'success');
+      toast('Discarded. Restore it from Discarded on the subcategory.', 'success');
     });
   }
 </script>

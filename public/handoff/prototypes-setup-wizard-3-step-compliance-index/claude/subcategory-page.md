@@ -1,26 +1,28 @@
 # Subcategory page
 
-One subcategory as an index page, in Beacon's document voice: its category, its name, then actions, then obligations grouped by who reads them (Crews, Monitors, Compliance staff). Each entry is one line: class (Action, Adhere, Monitor, Notify, Roster), title, locators. Draft is dashed, approved solid with a check, discarded struck. Pressing the title opens the record in place: audience, Applies when (or Always), monitor signs, responsible party for an action (Needs input when none), Also filed in, and each passage the entry rests on quoted under its locator, with Approve, Discard or Restore, and Edit. See also closes the page: the subcategories that share entries with this one. Approve all and Restore all act on the subcategory.
+Before drafting: Cited requirements, up to three, each its requirement ID, name and the requirement's text; pressing one opens the commitment. Drafted: actions first, then obligations by who reads them, then Discarded (N), folded, with Restore and Restore all. Each draft is one line with a box to tick for Merge; its title opens the record in place. Approve all (N) asks first; Discard all does not.
 
 ## Key decisions
-- A locator is the step 2 requirement ID (11.3:1, CMP-14:2), alone: the page is one hop away in the commitment panel.
-- Grouped by audience, as prod does, because a merge stays within one audience. Class stays on each line.
-- Decisions are on the entry, never the placement: an entry filed in two subcategories is approved in both.
-- Save in the edit panel approves the entry, as an edit confirms a requirement in step 2.
+- Review is by home subcategory only. Also filed in shows on the obligation, read only.
+- A draft action with no scope cannot be approved: "This draft has no scope. Set one in Edit before approving it."
+- Merge takes two or more drafts of one kind and, for obligations, one audience. The merged draft keeps every source.
+- Rationale is never stored or shown, as in prod.
+
+## Done when
+- Ticking two Compliance staff drafts in Take and injury reporting and merging them leaves 20 drafts where there were 21.
 
 ## Markup
 ```html
 <article class="bcn-sw3ip" data-sw3-index-page="" aria-labelledby="sw3ip-title">
   <header class="bcn-sw3ip__head">
-    <p class="bcn-sw3ip__cat" data-ip-cat="">Light and noise</p>
-    <div class="bcn-sw3ip__acts">
+    <p class="bcn-sw3ip__cat" data-ip-cat=""></p>
+    <div class="bcn-sw3ip__acts" data-ip-acts="">
       <span
         class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
         ><button
           class="esa-button__native typography-microcopy-xs"
           type="button"
-          data-ip-restore-all="true"
-          hidden=""
+          data-ip-discard-all="true"
         >
           <span class="esa-icon esa-icon--sm" aria-hidden="true"
             ><svg
@@ -34,9 +36,9 @@ One subcategory as an index page, in Beacon's document voice: its category, its 
               stroke-linejoin="round"
               focusable="false"
             >
-              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-              <path d="M3 3v5h5"></path></svg></span
-          ><span class="esa-button__label">Restore all</span>
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path></svg></span
+          ><span class="esa-button__label">Discard all</span>
         </button></span
       ><span
         class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
@@ -59,571 +61,113 @@ One subcategory as an index page, in Beacon's document voice: its category, its 
             >
               <circle cx="12" cy="12" r="10"></circle>
               <path d="m9 12 2 2 4-4"></path></svg></span
-          ><span class="esa-button__label">Approve all (4)</span>
+          ><span class="esa-button__label">Approve all</span>
         </button></span
       >
     </div>
-    <h2 class="bcn-sw3ip__title" id="sw3ip-title" data-ip-title="">Nighttime lighting</h2>
+    <h2 class="bcn-sw3ip__title" id="sw3ip-title" data-ip-title=""></h2>
   </header>
-  <div class="bcn-sw3ip__groups" data-ip-groups="">
-    <section class="bcn-sw3ip__group">
-      <h3 class="bcn-sw3ip__gh" data-g-name="">Actions</h3>
-      <ol class="bcn-sw3ip__entries" data-g-entries="">
-        <li class="bcn-sw3ip__entry" data-status="draft" data-entry="a1">
-          <div class="bcn-sw3ip__line">
-            <span class="bcn-sw3ip__chip" data-e-chip=""
-              ><span
-                class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
-                ><span class="esa-badge__text">Action</span></span
-              ></span
-            ><a class="bcn-sw3ip__name" href="#a1" data-e-toggle="" aria-expanded="false"
-              >Justify nighttime work in the Construction Phase Authorization Package</a
-            ><span class="bcn-sw3ip__locs" data-e-locs=""
-              ><a href="#" data-loc="0" data-entry="a1">11.7:2</a></span
-            ><span class="bcn-sw3ip__ok" data-e-ok=""
-              ><span class="esa-icon esa-icon--sm" role="img" aria-label="Approved"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="m9 12 2 2 4-4"></path></svg></span
-            ></span>
-          </div>
-          <div class="bcn-sw3ip__rec" data-e-rec="" hidden="">
-            <dl class="bcn-sw3ip__fields" data-e-fields=""></dl>
-            <div class="bcn-sw3ip__passages" data-e-passages=""></div>
-            <div class="bcn-sw3ip__keys">
-              <span data-e-approve=""
-                ><span
-                  class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-                  ><button
-                    class="esa-button__native typography-microcopy-2xs"
-                    type="button"
-                  >
-                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="M20 6 9 17l-5-5"></path></svg></span
-                    ><span class="esa-button__label">Approve</span>
-                  </button></span
-                ></span
-              ><span data-e-discard=""
-                ><span
-                  class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                  ><button
-                    class="esa-button__native typography-microcopy-2xs"
-                    type="button"
-                  >
-                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="M18 6 6 18"></path>
-                        <path d="m6 6 12 12"></path></svg></span
-                    ><span class="esa-button__label">Discard</span>
-                  </button></span
-                ></span
-              ><span data-e-restore=""
-                ><span
-                  class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                  ><button
-                    class="esa-button__native typography-microcopy-2xs"
-                    type="button"
-                  >
-                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path
-                          d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                        ></path>
-                        <path d="M3 3v5h5"></path></svg></span
-                    ><span class="esa-button__label">Restore</span>
-                  </button></span
-                ></span
-              ><span data-e-edit=""
-                ><span
-                  class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                  ><button
-                    class="esa-button__native typography-microcopy-2xs"
-                    type="button"
-                  >
-                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path
-                          d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
-                        ></path>
-                        <path d="m15 5 4 4"></path></svg></span
-                    ><span class="esa-button__label">Edit</span>
-                  </button></span
-                ></span
+  <section class="bcn-sw3ip__cited" data-ip-cited="" aria-labelledby="sw3ip-cited">
+    <h3 class="bcn-sw3ip__gh" id="sw3ip-cited">Cited requirements</h3>
+    <ol class="bcn-sw3ip__reqs" data-ip-reqs=""></ol>
+    <p class="bcn-sw3ip__empty" data-ip-cited-none="">
+      Nothing cited for this subcategory.
+    </p>
+  </section>
+  <div class="bcn-sw3ip__review" data-ip-review="">
+    <div class="bcn-sw3ip__selected" data-ip-selected="" hidden="">
+      <span data-ip-selected-n=""></span
+      ><span
+        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
+        ><button
+          class="esa-button__native typography-microcopy-2xs"
+          type="button"
+          data-ip-merge="true"
+        >
+          <span class="esa-icon esa-icon--xs" aria-hidden="true"
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m8 6 4-4 4 4"></path>
+              <path d="M12 2v10.3a4 4 0 0 1-1.172 2.872L4 22"></path>
+              <path d="m20 22-5-5"></path></svg></span
+          ><span class="esa-button__label">Merge</span>
+        </button></span
+      ><span
+        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+        ><button
+          class="esa-button__native typography-microcopy-2xs"
+          type="button"
+          data-ip-clear="true"
+        >
+          <span class="esa-button__label">Clear</span>
+        </button></span
+      >
+    </div>
+    <div class="bcn-sw3ip__groups" data-ip-groups=""></div>
+    <p class="bcn-sw3ip__empty" data-ip-empty="" hidden=""></p>
+    <details class="bcn-sw3ip__discarded" data-ip-discarded="">
+      <summary class="bcn-sw3ip__gh">
+        <span data-ip-discarded-label="">Discarded</span>
+      </summary>
+      <div class="bcn-sw3ip__discarded-acts" data-ip-restore-all-wrap="">
+        <span
+          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+          ><button
+            class="esa-button__native typography-microcopy-2xs"
+            type="button"
+            data-ip-restore-all="true"
+          >
+            <span class="esa-icon esa-icon--xs" aria-hidden="true"
+              ><svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
               >
-            </div>
-          </div>
-        </li>
-      </ol>
-    </section>
-    <section class="bcn-sw3ip__group">
-      <h3 class="bcn-sw3ip__gh" data-g-name="">Crews</h3>
-      <ol class="bcn-sw3ip__entries" data-g-entries="">
-        <li class="bcn-sw3ip__entry" data-status="draft" data-entry="o1">
-          <div class="bcn-sw3ip__line">
-            <span class="bcn-sw3ip__chip" data-e-chip=""
-              ><span
-                class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
-                ><span class="esa-badge__text">Adhere</span></span
-              ></span
-            ><a class="bcn-sw3ip__name" href="#o1" data-e-toggle="" aria-expanded="false"
-              >Shield and aim construction lighting down and away from habitat</a
-            ><span class="bcn-sw3ip__locs" data-e-locs=""
-              ><a href="#" data-loc="0" data-entry="o1">11.8:1</a></span
-            ><span class="bcn-sw3ip__ok" data-e-ok=""
-              ><span class="esa-icon esa-icon--sm" role="img" aria-label="Approved"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="m9 12 2 2 4-4"></path></svg></span
-            ></span>
-          </div>
-          <div class="bcn-sw3ip__rec" data-e-rec="" hidden="">
-            <dl class="bcn-sw3ip__fields" data-e-fields=""></dl>
-            <div class="bcn-sw3ip__passages" data-e-passages=""></div>
-            <div class="bcn-sw3ip__keys">
-              <span data-e-approve=""
-                ><span
-                  class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-                  ><button
-                    class="esa-button__native typography-microcopy-2xs"
-                    type="button"
-                  >
-                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="M20 6 9 17l-5-5"></path></svg></span
-                    ><span class="esa-button__label">Approve</span>
-                  </button></span
-                ></span
-              ><span data-e-discard=""
-                ><span
-                  class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                  ><button
-                    class="esa-button__native typography-microcopy-2xs"
-                    type="button"
-                  >
-                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="M18 6 6 18"></path>
-                        <path d="m6 6 12 12"></path></svg></span
-                    ><span class="esa-button__label">Discard</span>
-                  </button></span
-                ></span
-              ><span data-e-restore=""
-                ><span
-                  class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                  ><button
-                    class="esa-button__native typography-microcopy-2xs"
-                    type="button"
-                  >
-                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path
-                          d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                        ></path>
-                        <path d="M3 3v5h5"></path></svg></span
-                    ><span class="esa-button__label">Restore</span>
-                  </button></span
-                ></span
-              ><span data-e-edit=""
-                ><span
-                  class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                  ><button
-                    class="esa-button__native typography-microcopy-2xs"
-                    type="button"
-                  >
-                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path
-                          d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
-                        ></path>
-                        <path d="m15 5 4 4"></path></svg></span
-                    ><span class="esa-button__label">Edit</span>
-                  </button></span
-                ></span
-              >
-            </div>
-          </div>
-        </li>
-        <li class="bcn-sw3ip__entry" data-status="draft" data-entry="o2">
-          <div class="bcn-sw3ip__line">
-            <span class="bcn-sw3ip__chip" data-e-chip=""
-              ><span
-                class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
-                ><span class="esa-badge__text">Adhere</span></span
-              ></span
-            ><a class="bcn-sw3ip__name" href="#o2" data-e-toggle="" aria-expanded="false"
-              >Use yellow or orange lights within 500 feet of habitat</a
-            ><span class="bcn-sw3ip__locs" data-e-locs=""
-              ><a href="#" data-loc="0" data-entry="o2">11.8:2</a></span
-            ><span class="bcn-sw3ip__ok" data-e-ok=""
-              ><span class="esa-icon esa-icon--sm" role="img" aria-label="Approved"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="m9 12 2 2 4-4"></path></svg></span
-            ></span>
-          </div>
-          <div class="bcn-sw3ip__rec" data-e-rec="" hidden="">
-            <dl class="bcn-sw3ip__fields" data-e-fields=""></dl>
-            <div class="bcn-sw3ip__passages" data-e-passages=""></div>
-            <div class="bcn-sw3ip__keys">
-              <span data-e-approve=""
-                ><span
-                  class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-                  ><button
-                    class="esa-button__native typography-microcopy-2xs"
-                    type="button"
-                  >
-                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="M20 6 9 17l-5-5"></path></svg></span
-                    ><span class="esa-button__label">Approve</span>
-                  </button></span
-                ></span
-              ><span data-e-discard=""
-                ><span
-                  class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                  ><button
-                    class="esa-button__native typography-microcopy-2xs"
-                    type="button"
-                  >
-                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="M18 6 6 18"></path>
-                        <path d="m6 6 12 12"></path></svg></span
-                    ><span class="esa-button__label">Discard</span>
-                  </button></span
-                ></span
-              ><span data-e-restore=""
-                ><span
-                  class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                  ><button
-                    class="esa-button__native typography-microcopy-2xs"
-                    type="button"
-                  >
-                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path
-                          d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                        ></path>
-                        <path d="M3 3v5h5"></path></svg></span
-                    ><span class="esa-button__label">Restore</span>
-                  </button></span
-                ></span
-              ><span data-e-edit=""
-                ><span
-                  class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                  ><button
-                    class="esa-button__native typography-microcopy-2xs"
-                    type="button"
-                  >
-                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path
-                          d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
-                        ></path>
-                        <path d="m15 5 4 4"></path></svg></span
-                    ><span class="esa-button__label">Edit</span>
-                  </button></span
-                ></span
-              >
-            </div>
-          </div>
-        </li>
-        <li class="bcn-sw3ip__entry" data-status="draft" data-entry="o3">
-          <div class="bcn-sw3ip__line">
-            <span class="bcn-sw3ip__chip" data-e-chip=""
-              ><span
-                class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
-                ><span class="esa-badge__text">Adhere</span></span
-              ></span
-            ><a class="bcn-sw3ip__name" href="#o3" data-e-toggle="" aria-expanded="false"
-              >Point intake lighting away from the river</a
-            ><span class="bcn-sw3ip__locs" data-e-locs=""
-              ><a href="#" data-loc="0" data-entry="o3">11.9:1</a>,
-              <a href="#" data-loc="1" data-entry="o3">11.9:2</a></span
-            ><span class="bcn-sw3ip__ok" data-e-ok=""
-              ><span class="esa-icon esa-icon--sm" role="img" aria-label="Approved"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="m9 12 2 2 4-4"></path></svg></span
-            ></span>
-          </div>
-          <div class="bcn-sw3ip__rec" data-e-rec="" hidden="">
-            <dl class="bcn-sw3ip__fields" data-e-fields=""></dl>
-            <div class="bcn-sw3ip__passages" data-e-passages=""></div>
-            <div class="bcn-sw3ip__keys">
-              <span data-e-approve=""
-                ><span
-                  class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-                  ><button
-                    class="esa-button__native typography-microcopy-2xs"
-                    type="button"
-                  >
-                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="M20 6 9 17l-5-5"></path></svg></span
-                    ><span class="esa-button__label">Approve</span>
-                  </button></span
-                ></span
-              ><span data-e-discard=""
-                ><span
-                  class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                  ><button
-                    class="esa-button__native typography-microcopy-2xs"
-                    type="button"
-                  >
-                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="M18 6 6 18"></path>
-                        <path d="m6 6 12 12"></path></svg></span
-                    ><span class="esa-button__label">Discard</span>
-                  </button></span
-                ></span
-              ><span data-e-restore=""
-                ><span
-                  class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                  ><button
-                    class="esa-button__native typography-microcopy-2xs"
-                    type="button"
-                  >
-                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path
-                          d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                        ></path>
-                        <path d="M3 3v5h5"></path></svg></span
-                    ><span class="esa-button__label">Restore</span>
-                  </button></span
-                ></span
-              ><span data-e-edit=""
-                ><span
-                  class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                  ><button
-                    class="esa-button__native typography-microcopy-2xs"
-                    type="button"
-                  >
-                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
-                      ><svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path
-                          d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
-                        ></path>
-                        <path d="m15 5 4 4"></path></svg></span
-                    ><span class="esa-button__label">Edit</span>
-                  </button></span
-                ></span
-              >
-            </div>
-          </div>
-        </li>
-      </ol>
-    </section>
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                <path d="M3 3v5h5"></path></svg></span
+            ><span class="esa-button__label">Restore all</span>
+          </button></span
+        >
+      </div>
+      <ol class="bcn-sw3ip__entries" data-ip-discarded-list=""></ol>
+    </details>
   </div>
-  <p class="bcn-sw3ip__empty" data-ip-empty="" hidden="">Nothing filed here.</p>
-  <p class="bcn-sw3ip__see" data-ip-see="">
-    <span class="bcn-sw3ip__see-label">See also</span>
-    <span data-ip-see-list=""><a href="#" data-go-sub="s-night-work">Night work</a></span>
-  </p>
-  <template data-ip-tpl="group"
+  <template data-ip-tpl="req"
+    ><li class="bcn-sw3ip__req" data-astro-cid-volza5tu="">
+      <a href="#" class="bcn-sw3ip__req-head" data-r-open="" data-astro-cid-volza5tu=""
+        ><span data-r-badge="" data-astro-cid-volza5tu=""
+          ><span
+            class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
+            data-astro-cid-sh7ulwla=""
+            ><span class="esa-badge__text" data-astro-cid-sh7ulwla="">11.38:1</span></span
+          ></span
+        ><span
+          class="bcn-sw3ip__req-name"
+          data-r-name=""
+          data-astro-cid-volza5tu=""
+        ></span
+      ></a>
+      <p
+        class="bcn-sw3ip__req-text"
+        data-r-text=""
+        data-astro-cid-volza5tu=""
+      ></p></li></template
+  ><template data-ip-tpl="group"
     ><section class="bcn-sw3ip__group" data-astro-cid-volza5tu="">
       <h3 class="bcn-sw3ip__gh" data-g-name="" data-astro-cid-volza5tu=""></h3>
       <ol
@@ -634,7 +178,13 @@ One subcategory as an index page, in Beacon's document voice: its category, its 
   ><template data-ip-tpl="entry"
     ><li class="bcn-sw3ip__entry" data-status="draft" data-astro-cid-volza5tu="">
       <div class="bcn-sw3ip__line" data-astro-cid-volza5tu="">
-        <span class="bcn-sw3ip__chip" data-e-chip="" data-astro-cid-volza5tu=""
+        <span class="bcn-sw3ip__tick" data-e-tick="" data-astro-cid-volza5tu=""
+          ><esa-checkbox
+            size="sm"
+            aria-label="Select for merge"
+            data-astro-cid-volza5tu="true"
+          ></esa-checkbox></span
+        ><span class="bcn-sw3ip__chip" data-e-chip="" data-astro-cid-volza5tu=""
           ><span
             class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
             data-astro-cid-sh7ulwla=""
@@ -670,6 +220,12 @@ One subcategory as an index page, in Beacon's document voice: its category, its 
         ></span>
       </div>
       <div class="bcn-sw3ip__rec" data-e-rec="" hidden="" data-astro-cid-volza5tu="">
+        <p
+          class="bcn-sw3ip__block"
+          data-e-block=""
+          hidden=""
+          data-astro-cid-volza5tu=""
+        ></p>
         <dl class="bcn-sw3ip__fields" data-e-fields="" data-astro-cid-volza5tu=""></dl>
         <div
           class="bcn-sw3ip__passages"
@@ -806,7 +362,11 @@ One subcategory as an index page, in Beacon's document voice: its category, its 
         </div>
       </div>
     </li></template
-  >
+  ><span hidden="" data-ip-merge-glyph=""
+    ><path d="m8 6 4-4 4 4"
+      ><path d="M12 2v10.3a4 4 0 0 1-1.172 2.872L4 22"
+        ><path d="m20 22-5-5"></path></path></path
+  ></span>
 </article>
 ```
 
@@ -968,6 +528,9 @@ One subcategory as an index page, in Beacon's document voice: its category, its 
   flex-direction: column;
   display: flex;
 }
+.bcn-sw3ip [hidden] {
+  display: none !important;
+}
 .bcn-sw3ip__head {
   align-items: center;
   gap: var(--spacing-200) var(--spacing-300);
@@ -979,9 +542,6 @@ One subcategory as an index page, in Beacon's document voice: its category, its 
   margin: 0;
   font-size: 0.875rem;
   font-weight: 500;
-}
-.bcn-sw3ip__acts [hidden] {
-  display: none;
 }
 .bcn-sw3ip__acts {
   align-items: center;
@@ -998,20 +558,6 @@ One subcategory as an index page, in Beacon's document voice: its category, its 
   font-weight: 600;
   line-height: 1.25;
 }
-.bcn-sw3ip__groups {
-  gap: var(--spacing-500);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-sw3ip__empty {
-  color: var(--color-content-default-secondary);
-  margin: 0;
-}
-.bcn-sw3ip .bcn-sw3ip__group {
-  gap: var(--spacing-200);
-  flex-direction: column;
-  display: flex;
-}
 .bcn-sw3ip .bcn-sw3ip__gh {
   color: var(--color-content-default);
   padding-bottom: var(--spacing-100);
@@ -1020,12 +566,93 @@ One subcategory as an index page, in Beacon's document voice: its category, its 
   font-size: 0.9375rem;
   font-weight: 600;
 }
+.bcn-sw3ip__empty {
+  color: var(--color-content-default-secondary);
+  margin: 0;
+  font-size: 0.875rem;
+}
+.bcn-sw3ip__cited {
+  gap: var(--spacing-300);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-sw3ip__reqs {
+  gap: var(--spacing-400);
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+.bcn-sw3ip .bcn-sw3ip__req {
+  gap: var(--spacing-150);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-sw3ip .bcn-sw3ip__req-head {
+  align-items: center;
+  gap: var(--spacing-200);
+  color: var(--color-content-default);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+}
+.bcn-sw3ip .bcn-sw3ip__req-head:hover .bcn-sw3ip__req-name {
+  text-decoration: underline;
+}
+.bcn-sw3ip .bcn-sw3ip__req-text {
+  font-family: var(--font-decorative, var(--typography-font-family-sans));
+  color: var(--color-content-default);
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+.bcn-sw3ip__review {
+  gap: var(--spacing-500);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-sw3ip__selected {
+  align-items: center;
+  gap: var(--spacing-200);
+  padding: var(--spacing-150) var(--spacing-300);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-sunken);
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+}
+.bcn-sw3ip__groups {
+  gap: var(--spacing-500);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-sw3ip .bcn-sw3ip__group {
+  gap: var(--spacing-200);
+  flex-direction: column;
+  display: flex;
+}
 .bcn-sw3ip .bcn-sw3ip__entries {
   gap: var(--spacing-100);
   flex-direction: column;
   margin: 0;
   padding: 0;
   list-style: none;
+  display: flex;
+}
+.bcn-sw3ip__discarded {
+  gap: var(--spacing-200);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-sw3ip__discarded > summary {
+  cursor: pointer;
+  list-style-position: inside;
+}
+.bcn-sw3ip__discarded-acts {
+  padding: var(--spacing-150) 0;
+  justify-content: flex-end;
   display: flex;
 }
 .bcn-sw3ip .bcn-sw3ip__entry {
@@ -1052,9 +679,16 @@ One subcategory as an index page, in Beacon's document voice: its category, its 
   align-items: baseline;
   gap: var(--spacing-200);
   padding: var(--spacing-150) var(--spacing-300);
-  grid-template-columns: 5.25rem minmax(0, 1fr) auto 1.25rem;
+  grid-template-columns: 1.25rem 5.25rem minmax(0, 1fr) auto 1.25rem;
   font-size: 0.875rem;
   display: grid;
+}
+.bcn-sw3ip .bcn-sw3ip__tick {
+  align-self: center;
+  line-height: 0;
+}
+.bcn-sw3ip .bcn-sw3ip__entry:not([data-status="draft"]) .bcn-sw3ip__tick {
+  visibility: hidden;
 }
 .bcn-sw3ip .bcn-sw3ip__chip {
   align-self: center;
@@ -1079,13 +713,13 @@ One subcategory as an index page, in Beacon's document voice: its category, its 
 }
 .bcn-sw3ip .bcn-sw3ip__locs a,
 .bcn-sw3ip .bcn-sw3ip__passage a,
-.bcn-sw3ip .bcn-sw3ip__see a {
+.bcn-sw3ip .bcn-sw3ip__fields a {
   color: var(--color-content-link, var(--color-content-brand));
   text-decoration: none;
 }
 .bcn-sw3ip .bcn-sw3ip__locs a:hover,
 .bcn-sw3ip .bcn-sw3ip__passage a:hover,
-.bcn-sw3ip .bcn-sw3ip__see a:hover {
+.bcn-sw3ip .bcn-sw3ip__fields a:hover {
   text-decoration: underline;
 }
 .bcn-sw3ip .bcn-sw3ip__ok {
@@ -1100,13 +734,15 @@ One subcategory as an index page, in Beacon's document voice: its category, its 
 .bcn-sw3ip .bcn-sw3ip__rec {
   gap: var(--spacing-300);
   padding: 0 var(--spacing-300) var(--spacing-300)
-    calc(5.25rem + var(--spacing-200) + var(--spacing-300));
+    calc(1.25rem + 5.25rem + 2 * var(--spacing-200) + var(--spacing-300));
   flex-direction: column;
   font-size: 0.875rem;
   display: flex;
 }
-.bcn-sw3ip .bcn-sw3ip__rec[hidden] {
-  display: none;
+.bcn-sw3ip .bcn-sw3ip__block {
+  color: var(--color-content-warning);
+  margin: 0;
+  font-weight: 500;
 }
 .bcn-sw3ip .bcn-sw3ip__fields {
   gap: var(--spacing-100) var(--spacing-300);
@@ -1128,6 +764,7 @@ One subcategory as an index page, in Beacon's document voice: its category, its 
 }
 .bcn-sw3ip .bcn-sw3ip__fields dd[data-needs] {
   color: var(--color-content-warning);
+  font-weight: 500;
 }
 .bcn-sw3ip .bcn-sw3ip__passages {
   gap: var(--spacing-200);
@@ -1156,22 +793,9 @@ One subcategory as an index page, in Beacon's document voice: its category, its 
 .bcn-sw3ip .bcn-sw3ip__entry:not([data-status="discarded"]) [data-e-restore],
 .bcn-sw3ip .bcn-sw3ip__entry[data-status="discarded"] [data-e-discard],
 .bcn-sw3ip .bcn-sw3ip__entry[data-status="discarded"] [data-e-approve],
+.bcn-sw3ip .bcn-sw3ip__entry[data-status="discarded"] [data-e-edit],
 .bcn-sw3ip .bcn-sw3ip__entry[data-status="approved"] [data-e-approve] {
   display: none;
-}
-.bcn-sw3ip__see {
-  padding-top: var(--spacing-300);
-  border-top: 1px solid var(--color-border-default);
-  margin: auto 0 0;
-  font-size: 0.875rem;
-}
-.bcn-sw3ip__see[hidden] {
-  display: none;
-}
-.bcn-sw3ip__see-label {
-  margin-right: var(--spacing-100);
-  font-style: italic;
-  font-weight: 600;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);

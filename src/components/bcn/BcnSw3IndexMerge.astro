@@ -1,0 +1,91 @@
+---
+// <BcnSw3IndexMerge> — develop's Merge dialog: the drafts ticked on the subcategory page
+// become one draft that keeps every source behind them. Its title starts as the first
+// draft's; any draft's title can be taken instead.
+//
+// Contract, on `document`:
+//   in   sw3i:merge   detail: { ids }   open on these drafts
+//   out  sw3i:merged  detail: { id }    the merged draft
+//
+// bcn-lego-checked: the dialog IS esa-dialog; the title IS esa-text-field; the keys ARE
+// esa-button. Checked Beacon: subcategory-review's merge dialog ("Merge N drafts", "Use a
+// draft's title"). bcn-sw3-index-merge is its home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+---
+
+<esa-dialog heading="Merge drafts" size="md" data-sw3-index-merge>
+  <form class="bcn-sw3im" id="sw3-im-form" data-im-form>
+    <p class="bcn-sw3im__lede">The merged draft keeps every source behind these drafts.</p>
+    <esa-text-field label="Title" size="sm" required maxlength="510" data-im-title></esa-text-field>
+    <section class="bcn-sw3im__use" aria-labelledby="sw3-im-use">
+      <h3 class="bcn-sw3im__h" id="sw3-im-use">Use a draft's title</h3>
+      <ol class="bcn-sw3im__list" data-im-list></ol>
+    </section>
+  </form>
+  <div slot="footer" class="bcn-sw3im__foot">
+    <EsaButton variant="primary" size="sm" type="submit" form="sw3-im-form">Merge</EsaButton>
+    <EsaButton variant="secondary" size="sm" data-im-cancel>Cancel</EsaButton>
+  </div>
+  <template data-im-tpl>
+    <li class="bcn-sw3im__item">
+      <span class="bcn-sw3im__t" data-im-t></span>
+      <EsaButton variant="ghost" size="xs" data-im-use>Use</EsaButton>
+    </li>
+  </template>
+</esa-dialog>
+
+<style>
+  .bcn-sw3im { display: flex; flex-direction: column; gap: var(--spacing-400); font-size: 0.875rem; }
+  .bcn-sw3im__lede { margin: 0; color: var(--color-content-default-secondary); }
+  .bcn-sw3im__use { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-sw3im__h { margin: 0; font-size: 0.875rem; font-weight: 600; }
+  .bcn-sw3im__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-150); }
+  .bcn-sw3im :global(.bcn-sw3im__item) { display: flex; align-items: baseline; gap: var(--spacing-300); }
+  .bcn-sw3im :global(.bcn-sw3im__t) { flex: 1; min-width: 0; }
+  .bcn-sw3im__foot { display: flex; gap: var(--spacing-200); justify-content: flex-end; width: 100%; }
+</style>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-text-field';
+  import { initIndex, entry, titleOf, merge, mergeRefusal } from './sw3-index-store';
+  import { toast } from '../../lib/snackbar';
+
+  const dialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>('[data-sw3-index-merge]');
+  if (dialog) {
+    initIndex();
+    const title = dialog.querySelector<HTMLElement & { value: string; updateComplete?: Promise<unknown> }>('[data-im-title]')!;
+    const list = dialog.querySelector<HTMLElement>('[data-im-list]')!;
+    const tpl = dialog.querySelector<HTMLTemplateElement>('[data-im-tpl]')!;
+    let ids: string[] = [];
+
+    document.addEventListener('sw3i:merge', (e) => {
+      ids = (e as CustomEvent<{ ids: string[] }>).detail.ids;
+      if (mergeRefusal(ids)) return;
+      const es = ids.map((id) => entry(id)!);
+      dialog.heading = `Merge ${ids.length} drafts`;
+      title.value = titleOf(es[0]);
+      list.replaceChildren(
+        ...es.map((en) => {
+          const li = (tpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+          li.querySelector<HTMLElement>('[data-im-t]')!.textContent = titleOf(en);
+          li.querySelector('[data-im-use]')!.addEventListener('click', () => (title.value = titleOf(en)));
+          return li;
+        }),
+      );
+      dialog.open = true;
+    });
+    dialog.querySelector('[data-im-form]')!.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const t = title.value.trim();
+      if (!t) return;
+      const id = merge(ids, t.slice(0, 510));
+      dialog.open = false;
+      if (id) {
+        document.dispatchEvent(new CustomEvent('sw3i:merged', { detail: { id } }));
+        toast(`Merged ${ids.length} drafts.`, 'success');
+      }
+    });
+    dialog.querySelector('[data-im-cancel]')!.addEventListener('click', () => (dialog.open = false));
+  }
+</script>

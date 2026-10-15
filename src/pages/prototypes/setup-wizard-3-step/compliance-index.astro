@@ -1,17 +1,20 @@
 ---
-// Setup Wizard in three steps — step 3, Compliance Index: the book's back index compiled
-// from every commitment's requirements, reviewed one subcategory at a time
-// (docs/setup-wizard-3-step-ci-brief.md).
+// Setup Wizard in three steps — step 3, Compliance Index, in develop's two phases
+// (docs/setup-wizard-3-step-ci-brief.md): build the index (categories and subcategories,
+// edited by hand, locked, re-run with guidance), then one Draft run makes the actions and
+// obligations and files them, and a person reviews them a subcategory at a time.
 //
-// Category is the heading, subcategory the subheading, each action and obligation an entry
-// with its locators: the step 2 requirement IDs it rests on. A locator opens the commitment
-// as step 2 marked it up; its page key opens the PDF. Aldo takes corrections in plain words;
-// Edit opens an entry's record in a side panel.
+// Each draft rests on step 2 requirement IDs; a locator opens the commitment as step 2
+// marked it up, and its page key opens the PDF. Aldo takes Re-run guidance and corrections
+// in plain words; Edit opens a draft's record in a side panel.
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
 import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
 import BcnSw3IndexActions from '../../../components/bcn/BcnSw3IndexActions.astro';
+import BcnSw3IndexRun from '../../../components/bcn/BcnSw3IndexRun.astro';
+import BcnSw3IndexMerge from '../../../components/bcn/BcnSw3IndexMerge.astro';
+import BcnSw3IndexSuggest from '../../../components/bcn/BcnSw3IndexSuggest.astro';
 import BcnSw3Index from '../../../components/bcn/BcnSw3Index.astro';
 import BcnSw3EntryEdit from '../../../components/bcn/BcnSw3EntryEdit.astro';
 import BcnSw3CommitmentPanel from '../../../components/bcn/BcnSw3CommitmentPanel.astro';
@@ -27,9 +30,12 @@ const STEP = SW3_STEPS[2];
   sections:
     - wizard chrome     -> bcn-setup-wizard-frame   # three steps, straight run, step 3 active
     - step panel        -> bcn-sw-step-panel        # numeral, title; its actions slot holds page actions
-    - page actions      -> bcn-sw3-index-actions    # Start over, Approve Compliance Index
-    - index review      -> bcn-sw3-index            # scrubber, index, subcategory page, Aldo
-    - entry edit        -> bcn-sw3-entry-edit       # side panel: the entry's record
+    - page actions      -> bcn-sw3-index-actions    # Re-run, Draft; then Start over, Draft again, Approve
+    - status line       -> bcn-sw3-index-run        # the index in numbers, the run, what is left
+    - index review      -> bcn-sw3-index            # empty state; scrubber, index, subcategory, Aldo
+    - entry edit        -> bcn-sw3-entry-edit       # side panel: a draft's record
+    - merge             -> bcn-sw3-index-merge      # dialog: ticked drafts into one
+    - suggest           -> bcn-sw3-index-suggest    # dialog: homes for what fit no subcategory
     - commitment        -> bcn-sw3-commitment-panel # side panel: where a locator leads
     - source peek       -> bcn-sw3-source-peek      # side panel: the commitment on the PDF
 -->
@@ -38,13 +44,16 @@ const STEP = SW3_STEPS[2];
   <PageLayout title="Setup Wizard" hideTitleRow>
     <BcnSetupWizardFrame steps={SW3_STEPS} active="compliance-index" complete={['source-documents', 'commitments']} homeHref={SW3_BASE} title={SW3_NAME} glyph={SW3_GLYPH}>
       <div class="stack" data-gap="md">
-        <BcnSwStepPanel n={STEP.n} token={STEP.token} intro="Settle every action and obligation, a subcategory at a time, before they become the project's.">
+        <BcnSwStepPanel n={STEP.n} token={STEP.token} intro="Build the index, then draft its actions and obligations and review them.">
           <Fragment slot="title"><span>Compliance Index</span></Fragment>
           <Fragment slot="actions"><BcnSw3IndexActions /></Fragment>
+          <BcnSw3IndexRun />
         </BcnSwStepPanel>
         <BcnSw3Index />
       </div>
       <BcnSw3EntryEdit />
+      <BcnSw3IndexMerge />
+      <BcnSw3IndexSuggest />
       <BcnSw3CommitmentPanel />
       <BcnSw3SourcePeek />
     </BcnSetupWizardFrame>
