@@ -121,6 +121,8 @@ const { label = 'Commitment', size = 50 } = Astro.props;
     background: var(--_mark);
   }
   .bcn-cscrub__track :global(.bcn-cscrub__mark[data-dim]) { opacity: 0.45; }
+  /* At the cell's foot, clear of a hue band. */
+  .bcn-cscrub__track :global(.bcn-cscrub__mark[data-at='bottom']) { margin: auto 0 6px; }
 
   /* A file boundary: a rule through the strip, in the gap between two cells. */
   .bcn-cscrub__track :global(.bcn-cscrub__sep) {

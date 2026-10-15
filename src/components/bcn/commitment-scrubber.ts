@@ -12,8 +12,9 @@ export interface ScrubCell {
   /** The tip's second line: "2 to settle", "Confirmed". */
   note: string;
   /** Dots along the cell's top, as step 1's pages carry their finds: at most three drawn.
-   *  A dim one is not done yet. */
-  marks?: { dim?: boolean }[];
+   *  A dim one is not done yet; one `at` the bottom sits at the cell's foot (step 3: obligations
+   *  under actions). */
+  marks?: { dim?: boolean; at?: 'bottom' }[];
 }
 
 /** A source file's run of cells: commitments come from several files, end to end. */
@@ -121,7 +122,7 @@ export function setupCommitmentScrubber(root: HTMLElement, { onPick }: { onPick:
       const state = cell?.state ?? 'none';
       if (el.dataset.state !== state) el.dataset.state = state;
       const marks = (cell?.marks ?? []).slice(0, 3);
-      const sig = marks.map((m) => (m.dim ? 'o' : '*')).join('');
+      const sig = marks.map((m) => (m.dim ? 'o' : '*') + (m.at ?? '')).join('');
       if (el.dataset.marks !== sig) {
         el.dataset.marks = sig;
         el.replaceChildren(
@@ -129,6 +130,7 @@ export function setupCommitmentScrubber(root: HTMLElement, { onPick }: { onPick:
             const dot = document.createElement('span');
             dot.className = 'bcn-cscrub__mark';
             dot.toggleAttribute('data-dim', !!m.dim);
+            if (m.at) dot.dataset.at = m.at;
             return dot;
           }),
         );

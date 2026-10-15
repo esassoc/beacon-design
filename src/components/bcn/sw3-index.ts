@@ -144,12 +144,16 @@ export function setupSw3Index(root: HTMLElement): void {
 
   // ── The scrubber ─────────────────────────────────────────────────────────────
   const scrub = setupCommitmentScrubber(nav.querySelector('[data-commitment-scrubber]')!, { onPick: (id) => go(id) });
-  /** A dot a draft, at most three: the ones left to review dim, so the dots fill in as drafts are decided. */
+  /** A dot at the top when the subcategory holds actions, one at the foot when it holds
+   *  obligations; each dim while any of its drafts is left to review. */
   const marksOf = (id: string, ph: string): ScrubCell['marks'] => {
     if (ph !== 'drafted') return [];
-    const all = Math.min(3, homeIn(id).length);
-    const pending = Math.min(all, pendingIn(id));
-    return Array.from({ length: all }, (_, i) => ({ dim: i < pending }));
+    const live = entriesIn(id).filter((en) => statusOf(en.id) !== 'discarded');
+    const mark = (kind: IndexEntry['kind'], at?: 'bottom') => {
+      const of = live.filter((en) => en.kind === kind);
+      return of.length ? [{ dim: of.some((en) => statusOf(en.id) === 'draft'), at }] : [];
+    };
+    return [...mark('action'), ...mark('obligation', 'bottom')];
   };
   const cellOf = (id: string, ph: string): { state: ScrubCell['state']; note: string } => {
     if (ph === 'drafting') return { state: 'parsing', note: 'Drafting' };
