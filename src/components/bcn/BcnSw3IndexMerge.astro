@@ -15,7 +15,6 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 
 <esa-dialog heading="Merge drafts" size="md" data-sw3-index-merge>
   <form class="bcn-sw3im" id="sw3-im-form" data-im-form>
-    <p class="bcn-sw3im__lede">The merged draft keeps every source behind these drafts.</p>
     <esa-text-field label="Title" size="sm" required maxlength="510" data-im-title></esa-text-field>
     <section class="bcn-sw3im__use" aria-labelledby="sw3-im-use">
       <h3 class="bcn-sw3im__h" id="sw3-im-use">Use a draft's title</h3>
@@ -36,7 +35,6 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 
 <style>
   .bcn-sw3im { display: flex; flex-direction: column; gap: var(--spacing-400); font-size: 0.875rem; }
-  .bcn-sw3im__lede { margin: 0; color: var(--color-content-default-secondary); }
   .bcn-sw3im__use { display: flex; flex-direction: column; gap: var(--spacing-200); }
   .bcn-sw3im__h { margin: 0; font-size: 0.875rem; font-weight: 600; }
   .bcn-sw3im__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-150); }
