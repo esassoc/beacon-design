@@ -311,7 +311,7 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
       </div>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnSw3IndexActions.astro_astro_type_script_index_0_lang.DBlevTiJ.js"
+        src="/beacon-design/_astro/BcnSw3IndexActions.astro_astro_type_script_index_0_lang.CkAyEBep.js"
       ></script></span
     ><span class="bcn-swsn__end bcn-swsn__end--next" data-ix-step="" hidden=""
       ><span
@@ -586,7 +586,7 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  padding-top: 4px;
+  padding-top: 7px;
   transition: background-color 0.16s;
   display: flex;
 }
@@ -610,15 +610,15 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
   background: var(--_mark);
   border-radius: 50%;
   flex: none;
-  width: 7px;
-  height: 7px;
+  width: 5px;
+  height: 5px;
   display: block;
 }
 .bcn-cscrub__track .bcn-cscrub__mark[data-dim] {
   opacity: 0.45;
 }
 .bcn-cscrub__track .bcn-cscrub__mark[data-at="bottom"] {
-  margin: auto 0 6px;
+  margin: auto 0 9px;
 }
 .bcn-cscrub__track .bcn-cscrub__sep {
   top: -4px;

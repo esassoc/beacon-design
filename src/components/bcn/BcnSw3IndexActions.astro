@@ -4,8 +4,9 @@
 //
 //   empty     Build index, and + Category to start one by hand
 //   building  Build index, disabled, reading Building
-//   built     Re-run (Aldo takes the guidance and answers with the Re-run key), and
-//             Draft actions & obligations, the one Draft run
+//   built     Re-run (Aldo takes the guidance and answers with the Re-run key),
+//             Draft actions & obligations, the one Draft run, and View Log (Build index's
+//             record, or the Re-run's)
 //   drafting  the run's key, disabled
 //   drafted   Start over (PR #1520: once a run exists it replaces Re-run; a confirmed delete
 //             back to no index), Draft again, Suggest Subcategories (while something fits
@@ -63,7 +64,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 
 <script>
   import '@esa/ecology/esa-confirm-dialog';
-  import { initIndex, phase, buildIndex, addCategory, startOver, approveIndex, totals, pendingAll, subs, pendingIn, isOpened, startDraft, pendingWork, unfiled, filedBySuggest, lastRun } from './sw3-index-store';
+  import { initIndex, phase, buildIndex, addCategory, startOver, approveIndex, totals, pendingAll, subs, pendingIn, isOpened, startDraft, pendingWork, unfiled, filedBySuggest, lastRun, proposed, rerunSummary } from './sw3-index-store';
   import { setIcon, type ExtraIcon } from '../../lib/lucide-extra';
   import { toast } from '../../lib/snackbar';
 
@@ -135,7 +136,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
       $('[data-ia-again-wrap]').hidden = $('[data-ia-drafted]').hidden;
       $('[data-ia-approve-wrap]').hidden = $('[data-ia-drafted]').hidden;
       $('[data-ia-suggest-wrap]').hidden = ph !== 'drafted' || !unfiled().some((u) => !filedBySuggest()[u.id]);
-      $('[data-ia-log-wrap]').hidden = ph !== 'drafted' || !lastRun();
+      $('[data-ia-log-wrap]').hidden = !((ph === 'built' && (proposed() || rerunSummary())) || (ph === 'drafted' && lastRun()));
       const running = ph === 'drafting';
       btn($('[data-ia-draft]')).disabled = running;
       label($('[data-ia-draft]'), running ? 'Drafting' : 'Draft actions & obligations');

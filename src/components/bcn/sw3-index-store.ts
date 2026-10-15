@@ -189,7 +189,22 @@ export const draftsReady = () => !!drafts[S.basis];
 
 // ── Phase ───────────────────────────────────────────────────────────────────
 
-export const BUILD_MS = 2600;
+/** Build index's two stages, as the console shows them; slow enough to watch in a demo. */
+export const BUILD_STAGES = ['Read requirements', 'Propose index'] as const;
+const BUILD_STAGE_MS = [4400, 7600];
+export const BUILD_MS = BUILD_STAGE_MS.reduce((a, b) => a + b, 0);
+/** Where Build index is: its stage (0 or 1), how far through each, and the ms since it began. */
+export const buildProgress = (now = Date.now()) => {
+  if (!S.building) return null;
+  const elapsed = Math.max(0, now - S.building);
+  let t = elapsed;
+  const frac = BUILD_STAGE_MS.map((ms) => {
+    const f = Math.max(0, Math.min(1, t / ms));
+    t -= ms;
+    return f;
+  });
+  return { stage: frac[0] < 1 ? 0 : 1, frac, elapsed, left: Math.max(0, BUILD_MS - elapsed) };
+};
 export const phase = (): Phase => {
   if (S.building) return 'building';
   if (!S.built) return 'empty';
@@ -248,6 +263,8 @@ const fresher = (base: string, taken: string[]) => {
 };
 
 /** + Category. A hand-made bin is locked: a Re-run leaves it alone. */
+/** The index came from Build index (not only made by hand), so Build index has a record. */
+export const proposed = () => S.cats.some((c) => c.subs.some((sub) => !!sub.origin));
 export const addCategory = (): string => {
   const id = nextId('c');
   commit(() => {

@@ -12,7 +12,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
 
 ## Markup
 ```html
-<nav class="bcn-sw3it" aria-label="Compliance Index" data-sw3-index-tree="" hidden="">
+<nav class="bcn-sw3it" aria-label="Compliance Index" data-sw3-index-tree="">
   <div class="bcn-sw3it__head">
     <h2 class="bcn-sw3it__title">Index</h2>
     <span class="bcn-sw3it__tools" data-it-head-tools=""
@@ -24,6 +24,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
           aria-label="Collapse all"
           title="Collapse all"
           data-it-expand="true"
+          hidden=""
         >
           <span class="esa-icon esa-icon--xs" aria-hidden="true"
             ><svg
@@ -48,6 +49,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
           aria-label="Unlock all"
           title="Unlock all"
           data-it-lock-all="true"
+          hidden=""
         >
           <span class="esa-icon esa-icon--xs" aria-hidden="true"
             ><svg
@@ -1213,6 +1215,10 @@ summary.esa-button--variant-chrome:focus-visible {
   height: var(--_icon-size);
   display: block;
 }
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
+}
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
   --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
@@ -1301,10 +1307,6 @@ summary.esa-button--variant-chrome:focus-visible {
   background: canvastext;
   border: 0;
   outline: 1px solid canvastext;
-}
-.esa-collapsible__summary .esa-icon {
-  color: var(--color-content-default-secondary, #646464);
-  flex-shrink: 0;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

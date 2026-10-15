@@ -24,6 +24,7 @@ import {
   subOf,
   finishBuild,
   BUILD_MS,
+  buildProgress,
   loadDrafts,
   draftsReady,
   runProgress,
@@ -484,7 +485,16 @@ export function setupSw3Index(root: HTMLElement): void {
   let ticking: number | null = null;
   const clock = () => {
     const ph = phase();
-    if (ph === 'building' && building === null) building = window.setTimeout(() => ((building = null), finishBuild(), toast('Index built.', 'success')), BUILD_MS);
+    if (ph === 'building' && building === null) {
+      // The console streams the build: tick it until the index lands.
+      const tick = window.setInterval(() => fire('sw3i:tick'), 200);
+      building = window.setTimeout(() => {
+        window.clearInterval(tick);
+        building = null;
+        finishBuild();
+        toast('Index built.', 'success');
+      }, buildProgress()?.left ?? BUILD_MS);
+    }
     if (ph === 'drafting' && ticking === null) {
       void loadDrafts();
       ticking = window.setInterval(() => {

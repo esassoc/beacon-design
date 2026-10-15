@@ -116,7 +116,6 @@ export function setupSw3IndexTree(root: HTMLElement): void {
 
   const render = () => {
     const ph = phase();
-    root.hidden = ph === 'empty' || ph === 'building';
     const all = cats();
     assignHues(all.map((c) => c.id));
     body.replaceChildren(...all.map((c) => catRow(c, ph)));
@@ -125,6 +124,8 @@ export function setupSw3IndexTree(root: HTMLElement): void {
     setTool(lockAllBtn, anyUnlocked ? 'Lock all' : 'Unlock all', anyUnlocked ? 'lock' : 'lock-open');
     const allOpen = all.every((c) => !closed.has(c.id));
     setTool(root.querySelector('[data-it-expand]')!, allOpen ? 'Collapse all' : 'Expand all', allOpen ? 'chevrons-down-up' : 'chevrons-up-down');
+    // No index yet: only + Category has anything to act on.
+    for (const k of ['[data-it-expand]', '[data-it-lock-all]']) root.querySelector<HTMLElement>(k)!.hidden = !all.length;
     if (renaming) startRename(renaming);
   };
 

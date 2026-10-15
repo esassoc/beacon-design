@@ -352,6 +352,15 @@ export function setupSw3IndexAldo(root: HTMLElement): void {
   };
 
   const render = () => {
+    // No index yet, or one on its way: an empty conversation.
+    if (phase() === 'empty' || phase() === 'building') {
+      sub = '';
+      thread.render('', []);
+      needsList.setItems([]);
+      composer.setCommands([]);
+      composer.setMentions([]);
+      return;
+    }
     if (!sub || !subOf(sub)) return;
     thread.render(sub, [opening(), ...talkOf(sub).map(turnOf)]);
     needsList.setItems(items());

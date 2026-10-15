@@ -2,7 +2,11 @@
 // <BcnSw3IndexRun> — step 3's run console, inside the step panel under its header (PR
 // #1520's draft strip, made watchable).
 //
-//   built     nothing, until a Re-run: then the console shows it as a diff: the
+//   building  the console's peek: Build index as a session, two tool calls whose output
+//             streams the commitments it reads and the categories and subcategories it
+//             proposes, a spinner and the two stages ticking below it
+//   built     nothing on the page (View Log opens Build index's record), until a Re-run:
+//             then the console shows it as a diff: the
 //             guidance as the prompt, Propose index as the tool, + added, − removed, and
 //             the bins kept because they are locked
 //   drafting  the console's peek: its newest lines in a strip no taller than 100px; pressing
@@ -98,9 +102,13 @@ import BcnConsole from './BcnConsole.astro';
     unfiled,
     filedBySuggest,
     lastRun,
+    buildProgress,
+    proposed,
+    BUILD_STAGES,
+    BUILD_MS,
     type RunCounts,
   } from './sw3-index-store';
-  import { peek, requirementsOf } from './sw3-store';
+  import { peek, requirementsOf, docIds, foundCodes } from './sw3-store';
   import { locatorRef } from './sw3-index';
   import type { IndexEntry, Sw3IndexDrafts } from '../../data/sw3-index-types';
 
@@ -265,6 +273,62 @@ import BcnConsole from './BcnConsole.astro';
       return nodes;
     };
 
+    // ── Build index: what it reads, and the index it proposes ─────────────────────────
+    let buildRows: { read: ConsoleRow[]; propose: ConsoleRow[]; requirements: number; cats: number; subs: number } | null = null;
+    const buildStreams = () => {
+      if (buildRows) return buildRows;
+      const read: ConsoleRow[] = docIds().flatMap((doc) =>
+        peek(doc, () =>
+          foundCodes().map((code) => {
+            const reqs = requirementsOf(code).length;
+            return { text: code, meta: plural(reqs, 'requirement') };
+          }),
+        ),
+      );
+      const base = plan().base;
+      const propose: ConsoleRow[] = base.flatMap((c) => [
+        { sign: '+' as const, text: c.name, tone: 'add' as const },
+        ...c.subcategories.map((sc) => ({ sign: '+' as const, text: `${c.name} › ${sc.name}`, meta: plural(sc.evidence.length, 'citation'), tone: 'add' as const })),
+      ]);
+      const subs = base.reduce((a, c) => a + c.subcategories.length, 0);
+      buildRows = { read, propose, requirements: plan().requirements, cats: base.length, subs };
+      return buildRows;
+    };
+    const BUILD_VERBS = ['Reading requirements', 'Proposing the index'];
+    /** Build index as a session: live while it runs, the record after. */
+    const buildNodes = (at: { stage: number; frac: number[]; elapsed: number } | null): Node[] => {
+      const b = buildStreams();
+      const rows = [b.read, b.propose];
+      const sizes = `${plural(b.cats, 'category', 'categories')} and ${plural(b.subs, 'subcategory', 'subcategories')}`;
+      const words = [`${n(b.requirements)} approved requirements read from ${plural(b.read.length, 'commitment')}`, `${sizes} proposed`];
+      const args = [`${n(b.requirements)} requirements`, `${n(b.requirements)} requirements`];
+      const nouns = ['commitments', 'lines'];
+      const nodes: Node[] = [kit.prompt('Build index')];
+      const last = at ? at.stage : 1;
+      for (let i = 0; i <= last; i++) {
+        const k = `b${i}`;
+        if (!at || i < at.stage)
+          nodes.push(
+            kit.tool({
+              name: BUILD_STAGES[i],
+              arg: args[i],
+              state: 'done',
+              rows: [{ text: words[i] }],
+              more: rows[i].length ? { count: rows[i].length, noun: nouns[i], label: i ? `Show the ${sizes}` : undefined, open: open.has(k), toggle: toggle(k) } : undefined,
+              tail: open.has(k) ? rows[i] : [],
+            }),
+          );
+        else nodes.push(kit.tool({ name: BUILD_STAGES[i], arg: args[i], state: 'running', rows: rows[i].slice(0, Math.round(rows[i].length * at.frac[i])).slice(-TAIL) }));
+      }
+      if (at) {
+        const shown = Math.round([b.read.length, b.cats][at.stage] * at.frac[at.stage]);
+        const of = at.stage ? `${n(shown)} of ${plural(b.cats, 'category', 'categories')}` : `${n(shown)} of ${plural(b.read.length, 'commitment')}`;
+        nodes.push(kit.spinner({ frame, verb: BUILD_VERBS[at.stage], meta: [secs(at.elapsed), of] }));
+        nodes.push(kit.todo(BUILD_STAGES.map((t, i) => ({ text: t, state: i < at.stage ? 'done' : i === at.stage ? 'active' : 'pending' }))));
+      } else nodes.push(kit.message(`Done in ${secs(BUILD_MS)}. ${sizes[0].toUpperCase()}${sizes.slice(1)} to review.`));
+      return nodes;
+    };
+
     /** A Re-run, as a diff of the index. */
     const rerunNodes = (): Node[] => {
       const rr = rerunSummary()!;
@@ -291,7 +355,11 @@ import BcnConsole from './BcnConsole.astro';
     /** What the console shows now: a Re-run's diff, the live run, or the last run's record. */
     const session = (): { heading: string; nodes: () => Node[] } | null => {
       const ph = phase();
-      if (ph === 'built') return rerunSummary() ? { heading: 'Re-run', nodes: rerunNodes } : null;
+      if (ph === 'building') {
+        const p = buildProgress()!;
+        return { heading: 'Build index', nodes: () => buildNodes(p) };
+      }
+      if (ph === 'built') return rerunSummary() ? { heading: 'Re-run', nodes: rerunNodes } : proposed() ? { heading: 'Build index', nodes: () => buildNodes(null) } : null;
       if (ph === 'drafting') {
         const p = runProgress()!;
         const r = currentRun()!;
@@ -304,7 +372,8 @@ import BcnConsole from './BcnConsole.astro';
     const paintConsoles = () => {
       const s = session();
       const ph = phase();
-      peekEl.hidden = !s || ph === 'drafted';
+      // The peek shows what is running, or a Re-run's diff; a finished run's record is View Log's.
+      peekEl.hidden = !s || ph === 'drafted' || (ph === 'built' && !rerunSummary());
       if (s && !peekEl.hidden) {
         kit.paint(s.nodes());
         peekBody.scrollTop = peekBody.scrollHeight;
@@ -325,7 +394,7 @@ import BcnConsole from './BcnConsole.astro';
 
     const render = () => {
       const ph = phase();
-      if (ph === 'drafting') frame++;
+      if (ph === 'drafting' || ph === 'building') frame++;
       paintConsoles();
     };
 

@@ -1,9 +1,10 @@
 ---
 // <BcnSw3Index> — step 3's workspace: the Compliance Index, in develop's two phases.
 //
-// No index yet: an empty state (Build index and + Category are keys in the step's console,
-// bcn-sw3-index-actions). Building: the proposal is
-// on its way. Then step 2's shell, under the step's panel (whose foot carries the
+// The three panes from the start. No index yet: the index pane and Aldo are empty and the
+// center holds an empty state (Build index and + Category are keys in the step's console,
+// bcn-sw3-index-actions). Building: the run streams in the console's log
+// (bcn-sw3-index-run) and the center is blank. Then step 2's shell, under the step's panel (whose foot carries the
 // subcategory scrubber, bcn-sw-step-nav hook "ix"): the index (left, edited by hand,
 // folds to a rail), the subcategory in view (center), and Aldo, one conversation per
 // subcategory (right). Before drafting, the center shows what the proposal cited for the
@@ -12,15 +13,13 @@
 // A locator opens the commitment it rests on (bcn-sw3-commitment-panel), so the page carries
 // step 2's payload as well as the plan.
 //
-// Composes: esa-empty-state, esa-loading-spinner, esa-button,
+// Composes: esa-empty-state, esa-button,
 // bcn-sw3-index-tree, bcn-sw3-index-page, bcn-sw3-index-aldo.
 //
-// bcn-lego-checked: the empty and building states ARE
-// esa-empty-state and esa-loading-spinner; the panes are the review's own grid, as step 2's
+// bcn-lego-checked: the empty state IS esa-empty-state; the panes are the review's own grid, as step 2's
 // bcn-sw3-review is. Checked Beacon: compliance-index-step is a bin sidebar and a main pane
 // with no strip of bins. bcn-sw3-index is this step's home.
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
-import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
 import BcnSw3IndexTree from './BcnSw3IndexTree.astro';
 import BcnSw3IndexPage from './BcnSw3IndexPage.astro';
 import BcnSw3IndexAldo from './BcnSw3IndexAldo.astro';
@@ -32,12 +31,10 @@ const plan = PLAN as unknown as Sw3IndexPlan;
 ---
 
 <section class="bcn-sw3ix" data-sw3-ix data-aldo="open" data-index="open" data-phase="empty">
-  <div class="bcn-sw3ix__start" data-ix-empty>
-    <EsaEmptyState title="No index yet" description={`Build it from ${plan.requirements.toLocaleString('en-US')} approved requirements.`} />
-  </div>
-  <div class="bcn-sw3ix__start" data-ix-building>
-    <EsaLoadingSpinner size="md" label="Building the index" />
-    <p class="bcn-sw3ix__building">Building the index</p>
+  <div class="bcn-sw3ix__start">
+    <div data-ix-empty>
+      <EsaEmptyState title="No index yet" description={`Build it from ${plan.requirements.toLocaleString('en-US')} approved requirements.`} />
+    </div>
   </div>
 
   <div class="bcn-sw3ix__tree">
@@ -74,24 +71,24 @@ const plan = PLAN as unknown as Sw3IndexPlan;
   .bcn-sw3ix[data-aldo='closed'] { grid-template-columns: 17rem minmax(0, 1fr) 2.75rem; }
   .bcn-sw3ix[data-index='closed'][data-aldo='closed'] { grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem; }
 
-  /* No index yet, or one on its way: the whole workspace is the start. */
+  /* No index yet, or one on its way: the center pane is the start; the index and Aldo
+     stand empty beside it. */
   .bcn-sw3ix__start {
-    grid-column: 1 / -1;
-    grid-row: 1 / -1;
+    grid-column: 2;
+    grid-row: 1;
     display: none;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--spacing-300);
+    min-height: 0;
     background: var(--color-background-elevation-raised);
     border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
   }
-  .bcn-sw3ix[data-phase='empty'] [data-ix-empty],
-  .bcn-sw3ix[data-phase='building'] [data-ix-building] { display: flex; }
-  .bcn-sw3ix[data-phase='empty'] > :not(.bcn-sw3ix__start, script),
-  .bcn-sw3ix[data-phase='building'] > :not(.bcn-sw3ix__start, script) { display: none; }
-  .bcn-sw3ix__building { margin: 0; font-size: 0.9375rem; font-weight: 500; color: var(--color-content-default-secondary); }
+  .bcn-sw3ix[data-phase='empty'] .bcn-sw3ix__start,
+  .bcn-sw3ix[data-phase='building'] .bcn-sw3ix__start { display: flex; }
+  .bcn-sw3ix[data-phase='building'] [data-ix-empty] { display: none; }
+  .bcn-sw3ix[data-phase='empty'] .bcn-sw3ix__page,
+  .bcn-sw3ix[data-phase='building'] .bcn-sw3ix__page { display: none; }
 
   .bcn-sw3ix__tree,
   .bcn-sw3ix__page {

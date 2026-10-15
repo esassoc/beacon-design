@@ -1,16 +1,17 @@
 # No index yet
 
-Where step 3 starts: "No index yet", and how many approved requirements it builds from. Its keys are in the console: Build index and + Category. Build index runs ProposeComplianceIndex over every approved requirement (the key reads Building until it lands); + Category starts the index by hand.
+Where step 3 starts: the three panes stand from the start, without data. The Index pane is empty but for its + Category and fold keys, Aldo's conversation is empty, and the center reads "No index yet" and how many approved requirements it builds from. Its keys are in the console: Build index and + Category. Build index runs ProposeComplianceIndex over every approved requirement and streams in the run console as it goes (the key reads Building until it lands; the center is blank meanwhile); + Category starts the index by hand.
 
 ## Key decisions
 - A hand-made category or subcategory is locked from the start, as prod makes it, so a later Re-run leaves it alone.
 
 ## Done when
-- Build index shows the proposal: 17 categories and 75 subcategories.
+- On a fresh step 3 the Index, center and Aldo panes all show, empty.
+- Build index streams in the run console for about 12 seconds, then shows the proposal: 17 categories and 75 subcategories.
 
 ## Markup
 ```html
-<div class="bcn-sw3ix__start" data-ix-empty="">
+<div data-ix-empty="">
   <div class="esa-empty-state esa-empty-state--md">
     <h3 class="esa-empty-state__title typography-label-md-strong">No index yet</h3>
     <p class="esa-empty-state__description typography-body-sm">
@@ -68,21 +69,6 @@ Where step 3 starts: "No index yet", and how many approved requirements it build
   font-weight: var(--typography-label-md-strong-font-weight);
   line-height: var(--typography-label-md-strong-line-height);
   letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
-.bcn-sw3ix__start {
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-300);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  flex-direction: column;
-  grid-area: 1/1/-1/-1;
-  display: none;
-}
-.bcn-sw3ix[data-phase="empty"] > :not(.bcn-sw3ix__start, script),
-.bcn-sw3ix[data-phase="building"] > :not(.bcn-sw3ix__start, script) {
-  display: none;
 }
 .typography-body-sm {
   font-family: var(--typography-body-sm-font-family);
@@ -155,15 +141,12 @@ Where step 3 starts: "No index yet", and how many approved requirements it build
 ```
 
 ## Tokens
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--empty-state-icon-size-lg`: 64px _(component)_
 - `--empty-state-icon-size-md`: 48px _(component)_
 - `--empty-state-icon-size-sm`: 32px _(component)_
 - `--empty-state-icon-size-xs`: 24px _(component)_
-- `--radius-200`: .5rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
