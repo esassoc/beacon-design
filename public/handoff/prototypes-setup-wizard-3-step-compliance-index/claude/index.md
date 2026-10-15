@@ -788,11 +788,10 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
   overflow-y: auto;
 }
 .bcn-sw3it .bcn-sw3it__subs {
-  padding: 0;
-  padding-left: var(--spacing-500);
   flex-direction: column;
   gap: 1px;
   margin: 0;
+  padding: 0 0 0 2.5rem;
   list-style: none;
   display: flex;
 }
@@ -1399,7 +1398,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
 - `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_

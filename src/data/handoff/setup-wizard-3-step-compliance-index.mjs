@@ -70,7 +70,7 @@ export default {
     {
       label: 'Subcategory page',
       selector: '[data-sw3-index-page]',
-      intent: 'Before drafting: Cited requirements, up to three, each its requirement ID, name and the requirement\'s text; pressing one opens the commitment. Drafted: actions first, then obligations by who reads them, then Discarded (N), folded, with Restore and Restore all. Each draft is one line with a box to tick for Merge; its title opens the record in place. Approve all (N) asks first; Discard all does not.',
+      intent: 'Before drafting: the lists as develop renders them before a run fills them, Actions (0) and Obligations (0) each reading None, Approve all and Discard all disabled. Drafted: actions first, then obligations by who reads them, then Discarded (N), folded, with Restore and Restore all. Each draft is one line, its title cut to the row (the category and subcategory names over the page are cut the same way), with a box to tick for Merge; its title opens the record in place. Approve all (N) asks first; Discard all does not.',
       decisions: [
         'Review is by home subcategory only. Also filed in shows on the obligation, read only.',
         'A draft action with no scope cannot be approved: "This draft has no scope. Set one in Edit before approving it."',
@@ -83,7 +83,7 @@ export default {
     {
       label: 'Commitment panel',
       selector: '[data-sw3-commitment-panel]',
-      intent: 'Where a locator or a cited requirement leads: the commitment as step 2 marked it up, read only, the requirement in focus and the draft\'s excerpt a heavier pass inside it. The page key opens the PDF; Open in Commitments lands step 2 on that commitment.',
+      intent: 'Where a locator leads: the commitment as step 2 marked it up, read only, the requirement in focus and the draft\'s excerpt a heavier pass inside it. The page key opens the PDF; Open in Commitments lands step 2 on that commitment.',
     },
     {
       label: 'Aldo',

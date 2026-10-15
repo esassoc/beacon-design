@@ -1,13 +1,12 @@
 ---
 // <BcnSw3IndexPage> — one subcategory in the center pane, as develop's main pane shows it.
 //
-// Before drafting: its category, its name, and Cited requirements, the few requirements the
-// proposal cited as the reason the bin exists (commitment ID, name, the requirement's
-// text), or "Nothing cited for this subcategory." A requirement opens its commitment.
+// Before drafting: its category, its name, and its lists as develop renders them before a
+// run fills them: Actions (0) and Obligations (0), each reading None, the keys disabled.
 //
 // Drafted: the review, in Beacon's document voice. Actions first, then obligations by who
 // reads them (Crews, Monitors, Compliance staff), then Discarded (N), folded. Each draft is
-// one line (a box to tick for Merge, class, title, locators); pressing the title opens its
+// one line, its title cut to the line (a box to tick for Merge, kind, title, locators); pressing the title opens its
 // record in place: an obligation's audience, Applies when, monitor signs, Also filed in;
 // an action's type, scope, responsible party (Needs input when none), frequency, deadline,
 // expected evidence and text; and each passage it rests on, quoted under its locator. Keys:
@@ -21,7 +20,6 @@
 // subcategory-review lists actions then obligations by audience with checkboxes on the
 // rows and the selected draft's fields in a side pane; this keeps its order, grouping and
 // verbs and opens the record in place. bcn-sw3-index-page is its home.
-import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnDraftKind from './BcnDraftKind.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
@@ -39,12 +37,6 @@ import { glyphPaths } from './comment-glyphs';
     <h2 class="bcn-sw3ip__title" id="sw3ip-title" data-ip-title></h2>
   </header>
 
-  <section class="bcn-sw3ip__cited" data-ip-cited aria-labelledby="sw3ip-cited">
-    <h3 class="bcn-sw3ip__gh" id="sw3ip-cited">Cited requirements</h3>
-    <ol class="bcn-sw3ip__reqs" data-ip-reqs></ol>
-    <p class="bcn-sw3ip__empty" data-ip-cited-none>Nothing cited for this subcategory.</p>
-  </section>
-
   <div class="bcn-sw3ip__review" data-ip-review>
     <div class="bcn-sw3ip__selected" data-ip-selected hidden>
       <span data-ip-selected-n></span>
@@ -61,16 +53,6 @@ import { glyphPaths } from './comment-glyphs';
       <ol class="bcn-sw3ip__entries" data-ip-discarded-list></ol>
     </details>
   </div>
-
-  <template data-ip-tpl="req">
-    <li class="bcn-sw3ip__req">
-      <a href="#" class="bcn-sw3ip__req-head" data-r-open>
-        <span data-r-badge><EsaBadge variant="secondary" size="sm" value="11.38:1" /></span>
-        <span class="bcn-sw3ip__req-name" data-r-name></span>
-      </a>
-      <p class="bcn-sw3ip__req-text" data-r-text></p>
-    </li>
-  </template>
 
   <template data-ip-tpl="group">
     <section class="bcn-sw3ip__group">
@@ -115,7 +97,7 @@ import { glyphPaths } from './comment-glyphs';
   }
   .bcn-sw3ip [hidden] { display: none !important; }
   .bcn-sw3ip__head { display: flex; align-items: center; gap: var(--spacing-200) var(--spacing-300); flex-wrap: wrap; }
-  .bcn-sw3ip__cat { margin: 0; font-size: 0.875rem; font-weight: 500; color: var(--color-content-default-secondary); }
+  .bcn-sw3ip__cat { margin: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.875rem; font-weight: 500; color: var(--color-content-default-secondary); }
   .bcn-sw3ip__acts { display: flex; align-items: center; gap: var(--spacing-150); margin-left: auto; }
   .bcn-sw3ip__title {
     flex: 1 1 100%;
@@ -124,7 +106,10 @@ import { glyphPaths } from './comment-glyphs';
     font-size: 1.375rem;
     font-weight: 600;
     line-height: 1.25;
-    text-wrap: balance;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .bcn-sw3ip :global(.bcn-sw3ip__gh) {
     margin: 0;
@@ -135,20 +120,6 @@ import { glyphPaths } from './comment-glyphs';
     border-bottom: 1px solid var(--color-border-default);
   }
   .bcn-sw3ip__empty { margin: 0; color: var(--color-content-default-secondary); font-size: 0.875rem; }
-
-  /* Cited requirements: the reason the bin exists. */
-  .bcn-sw3ip__cited { display: flex; flex-direction: column; gap: var(--spacing-300); }
-  .bcn-sw3ip__reqs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-400); }
-  .bcn-sw3ip :global(.bcn-sw3ip__req) { display: flex; flex-direction: column; gap: var(--spacing-150); }
-  .bcn-sw3ip :global(.bcn-sw3ip__req-head) { display: inline-flex; align-items: center; gap: var(--spacing-200); color: var(--color-content-default); text-decoration: none; font-weight: 600; font-size: 0.875rem; }
-  .bcn-sw3ip :global(.bcn-sw3ip__req-head:hover .bcn-sw3ip__req-name) { text-decoration: underline; }
-  .bcn-sw3ip :global(.bcn-sw3ip__req-text) {
-    margin: 0;
-    font-family: var(--font-decorative, var(--typography-font-family-sans));
-    font-size: 0.9375rem;
-    line-height: 1.6;
-    color: var(--color-content-default);
-  }
 
   .bcn-sw3ip__review { display: flex; flex-direction: column; gap: var(--spacing-500); }
   .bcn-sw3ip__selected {
@@ -191,7 +162,9 @@ import { glyphPaths } from './comment-glyphs';
   .bcn-sw3ip :global(.bcn-sw3ip__tick) { align-self: center; line-height: 0; }
   .bcn-sw3ip :global(.bcn-sw3ip__entry:not([data-status='draft']) .bcn-sw3ip__tick) { visibility: hidden; }
   .bcn-sw3ip :global(.bcn-sw3ip__chip) { align-self: center; line-height: 0; }
-  .bcn-sw3ip :global(.bcn-sw3ip__name) { color: var(--color-content-default); font-weight: 500; text-decoration: none; }
+  /* One line each: the title is cut to the row; the record opens it in full. */
+  .bcn-sw3ip :global(.bcn-sw3ip__name) { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--color-content-default); font-weight: 500; text-decoration: none; }
+  .bcn-sw3ip :global(.bcn-sw3ip__none) { padding: var(--spacing-150) var(--spacing-300); font-size: 0.875rem; color: var(--color-content-default-secondary); }
   .bcn-sw3ip :global(.bcn-sw3ip__name:hover) { text-decoration: underline; }
   .bcn-sw3ip :global(.bcn-sw3ip__entry[data-status='discarded'] .bcn-sw3ip__name) { text-decoration: line-through; color: var(--color-content-default-tertiary); }
   .bcn-sw3ip :global(.bcn-sw3ip__locs) { font-variant-numeric: tabular-nums; color: var(--color-content-default-secondary); white-space: nowrap; }

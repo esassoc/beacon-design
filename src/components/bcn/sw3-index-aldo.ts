@@ -256,9 +256,7 @@ export function setupSw3IndexAldo(root: HTMLElement): void {
       text = what ? `${what} drafted into ${ref.sub.name}. ${pending ? `${pending} to review.` : 'Every one decided.'}` : `Nothing was drafted into ${ref.sub.name}.`;
     } else if (ph === 'drafting') text = `The Draft run is filing into ${ref.sub.name}.`;
     else {
-      const ev = ref.sub.evidence.slice(0, 3);
-      text = ev.length ? `${ref.sub.name} cites ${ev.map(locatorRef).join(', ')}.` : `${ref.sub.name} cites nothing yet.`;
-      text += ' Tell me how the index should change and I’ll re-run it.';
+      text = 'Tell me how the index should change and I’ll re-run it.';
     }
     return { id: `${sub}:opening:${ph}`, at: iso(0), by: ALDO, via: 'event', actions: [], kind: 'opening', text };
   };

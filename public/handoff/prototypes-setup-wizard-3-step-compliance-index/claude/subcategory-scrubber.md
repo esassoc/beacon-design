@@ -306,9 +306,9 @@ The foot of the step's panel, as step 1 carries its scan toolbar: header and scr
 }
 .bcn-cscrub__track .bcn-cscrub__sep {
   top: -4px;
-  bottom: -4px;
+  bottom: -6px;
   left: calc(5px + (100% - 10px) / var(--_n, 1) * var(--_i, 0) - 1.5px);
-  background: var(--color-content-default);
+  background: var(--_hue, var(--color-content-default));
   pointer-events: none;
   border-radius: 1px;
   width: 2px;
@@ -352,8 +352,9 @@ The foot of the step's panel, as step 1 carries its scan toolbar: header and scr
 }
 .bcn-cscrub__ticks .bcn-cscrub__file {
   top: 0;
-  left: calc(100% / var(--_n, 1) * var(--_i, 0));
+  left: calc(100% / var(--_n, 1) * var(--_i, 0) - 1.5px);
   border-left: 2px solid var(--_hue, var(--color-content-default));
+  text-overflow: ellipsis;
   color: var(--color-content-default);
   white-space: nowrap;
   padding-left: 4px;
@@ -361,6 +362,7 @@ The foot of the step's panel, as step 1 carries its scan toolbar: header and scr
   font-weight: 600;
   line-height: 16px;
   position: absolute;
+  overflow: hidden;
 }
 .bcn-cscrub__tip {
   z-index: 50;

@@ -145,10 +145,7 @@ export function setupSw3Index(root: HTMLElement): void {
   const scrub = setupCommitmentScrubber(nav.querySelector('[data-commitment-scrubber]')!, { onPick: (id) => go(id) });
   const cellOf = (id: string, ph: string): { state: ScrubCell['state']; note: string } => {
     if (ph === 'drafting') return { state: 'parsing', note: 'Drafting' };
-    if (ph !== 'drafted') {
-      const n = subOf(id)!.sub.evidence.length;
-      return { state: 'ready', note: n ? `${plural(Math.min(3, n), 'requirement')} cited` : 'Nothing cited' };
-    }
+    if (ph !== 'drafted') return { state: 'ready', note: 'Nothing drafted yet' };
     const pending = pendingIn(id);
     const all = homeIn(id).length;
     if (pending && !isOpened(id)) return { state: 'flagged', note: `Not yet opened, ${pending} to review` };
@@ -200,24 +197,25 @@ export function setupSw3Index(root: HTMLElement): void {
     return host;
   };
 
-  // ── Before drafting: what the proposal cited ─────────────────────────────────
-  const paintCited = () => {
-    const ref = subOf(current)!;
-    const list = page.querySelector<HTMLElement>('[data-ip-reqs]')!;
-    const ev = ref.sub.evidence.slice(0, 3);
-    list.replaceChildren(
-      ...ev.map((l, i) => {
-        const li = tpl('req');
-        const r = requirementAt(l);
-        const badge = li.querySelector('[data-r-badge] .esa-badge__text');
-        if (badge) badge.textContent = locatorRef(l);
-        li.querySelector<HTMLElement>('[data-r-name]')!.textContent = r?.name ?? l.code;
-        li.querySelector<HTMLElement>('[data-r-text]')!.textContent = r?.text ?? '';
-        li.querySelector<HTMLElement>('[data-r-open]')!.dataset.cite = String(i);
-        return li;
+  // ── Before drafting: the lists, empty, as develop renders them before a run ──
+  const paintEmpty = () => {
+    setLabel(page.querySelector<HTMLElement>('[data-ip-approve-all]')!, 'Approve all', true);
+    setLabel(page.querySelector<HTMLElement>('[data-ip-discard-all]')!, 'Discard all', true);
+    groupsEl.replaceChildren(
+      ...['Actions', 'Obligations'].map((name) => {
+        const sec = tpl('group');
+        sec.querySelector<HTMLElement>('[data-g-name]')!.textContent = `${name} (0)`;
+        const none = document.createElement('li');
+        none.className = 'bcn-sw3ip__none';
+        none.textContent = 'None';
+        sec.querySelector<HTMLElement>('[data-g-entries]')!.append(none);
+        return sec;
       }),
     );
-    page.querySelector<HTMLElement>('[data-ip-cited-none]')!.hidden = ev.length > 0;
+    page.querySelector<HTMLElement>('[data-ip-empty]')!.hidden = true;
+    page.querySelector<HTMLElement>('[data-ip-discarded]')!.hidden = true;
+    ticked.clear();
+    paintTicked();
   };
 
   // ── Drafted: the review ──────────────────────────────────────────────────────
@@ -234,6 +232,7 @@ export function setupSw3Index(root: HTMLElement): void {
     li.querySelector<HTMLElement>('[data-e-chip]')!.replaceChildren(draftKind(en));
     const name = li.querySelector<HTMLAnchorElement>('[data-e-toggle]')!;
     name.textContent = titleOf(en);
+    name.title = titleOf(en);
     name.href = `#${en.id}`;
     name.setAttribute('aria-expanded', String(isOpen));
     const locs = li.querySelector<HTMLElement>('[data-e-locs]')!;
@@ -350,15 +349,16 @@ export function setupSw3Index(root: HTMLElement): void {
     const ref = subOf(current)!;
     page.querySelector<HTMLElement>('[data-ip-cat]')!.textContent = ref.cat.name;
     page.querySelector<HTMLElement>('[data-ip-title]')!.textContent = ref.sub.name;
+    page.querySelector<HTMLElement>('[data-ip-title]')!.title = ref.sub.name;
+    page.querySelector<HTMLElement>('[data-ip-cat]')!.title = ref.cat.name;
     // A Draft again run keeps the review on screen; its keys pause until the run ends.
     const drafted = (ph === 'drafted' || (ph === 'drafting' && totals().drafts > 0)) && draftsReady();
-    page.querySelector<HTMLElement>('[data-ip-acts]')!.hidden = !drafted;
-    page.querySelector<HTMLElement>('[data-ip-cited]')!.hidden = drafted;
-    page.querySelector<HTMLElement>('[data-ip-review]')!.hidden = !drafted;
+    page.querySelector<HTMLElement>('[data-ip-acts]')!.hidden = false;
+    page.querySelector<HTMLElement>('[data-ip-review]')!.hidden = false;
     if (drafted) {
       markOpened(current);
       paintReview();
-    } else paintCited();
+    } else paintEmpty();
   };
 
   // ── The page: pressing things ────────────────────────────────────────────────
@@ -376,13 +376,6 @@ export function setupSw3Index(root: HTMLElement): void {
 
   page.addEventListener('click', (e) => {
     const t = e.target as HTMLElement;
-    const cite = t.closest<HTMLElement>('[data-r-open]');
-    if (cite) {
-      e.preventDefault();
-      const l = subOf(current)!.sub.evidence[Number(cite.dataset.cite)];
-      if (l) fire('sw3i:locator', { ...l, excerpt: requirementAt(l)?.text ?? '' });
-      return;
-    }
     const loc = t.closest<HTMLElement>('a[data-loc]');
     if (loc) {
       e.preventDefault();
@@ -452,7 +445,6 @@ export function setupSw3Index(root: HTMLElement): void {
       page.querySelector<HTMLElement>('[data-ip-cat]')!.textContent = '';
       page.querySelector<HTMLElement>('[data-ip-title]')!.textContent = '';
       page.querySelector<HTMLElement>('[data-ip-acts]')!.hidden = true;
-      page.querySelector<HTMLElement>('[data-ip-cited]')!.hidden = true;
       page.querySelector<HTMLElement>('[data-ip-review]')!.hidden = true;
       return;
     }

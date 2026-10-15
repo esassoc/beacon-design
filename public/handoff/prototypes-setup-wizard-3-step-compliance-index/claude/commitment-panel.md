@@ -1,6 +1,6 @@
 # Commitment panel
 
-Where a locator or a cited requirement leads: the commitment as step 2 marked it up, read only, the requirement in focus and the draft's excerpt a heavier pass inside it. The page key opens the PDF; Open in Commitments lands step 2 on that commitment.
+Where a locator leads: the commitment as step 2 marked it up, read only, the requirement in focus and the draft's excerpt a heavier pass inside it. The page key opens the PDF; Open in Commitments lands step 2 on that commitment.
 
 ## Markup
 ```html

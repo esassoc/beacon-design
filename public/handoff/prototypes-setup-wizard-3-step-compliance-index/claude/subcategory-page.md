@@ -1,6 +1,6 @@
 # Subcategory page
 
-Before drafting: Cited requirements, up to three, each its requirement ID, name and the requirement's text; pressing one opens the commitment. Drafted: actions first, then obligations by who reads them, then Discarded (N), folded, with Restore and Restore all. Each draft is one line with a box to tick for Merge; its title opens the record in place. Approve all (N) asks first; Discard all does not.
+Before drafting: the lists as develop renders them before a run fills them, Actions (0) and Obligations (0) each reading None, Approve all and Discard all disabled. Drafted: actions first, then obligations by who reads them, then Discarded (N), folded, with Restore and Restore all. Each draft is one line, its title cut to the row (the category and subcategory names over the page are cut the same way), with a box to tick for Merge; its title opens the record in place. Approve all (N) asks first; Discard all does not.
 
 ## Key decisions
 - Review is by home subcategory only. Also filed in shows on the obligation, read only.
@@ -68,13 +68,6 @@ Before drafting: Cited requirements, up to three, each its requirement ID, name 
     </div>
     <h2 class="bcn-sw3ip__title" id="sw3ip-title" data-ip-title=""></h2>
   </header>
-  <section class="bcn-sw3ip__cited" data-ip-cited="" aria-labelledby="sw3ip-cited">
-    <h3 class="bcn-sw3ip__gh" id="sw3ip-cited">Cited requirements</h3>
-    <ol class="bcn-sw3ip__reqs" data-ip-reqs=""></ol>
-    <p class="bcn-sw3ip__empty" data-ip-cited-none="">
-      Nothing cited for this subcategory.
-    </p>
-  </section>
   <div class="bcn-sw3ip__review" data-ip-review="">
     <div class="bcn-sw3ip__selected" data-ip-selected="" hidden="">
       <span data-ip-selected-n=""></span
@@ -148,27 +141,7 @@ Before drafting: Cited requirements, up to three, each its requirement ID, name 
       <ol class="bcn-sw3ip__entries" data-ip-discarded-list=""></ol>
     </details>
   </div>
-  <template data-ip-tpl="req"
-    ><li class="bcn-sw3ip__req" data-astro-cid-volza5tu="">
-      <a href="#" class="bcn-sw3ip__req-head" data-r-open="" data-astro-cid-volza5tu=""
-        ><span data-r-badge="" data-astro-cid-volza5tu=""
-          ><span
-            class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
-            data-astro-cid-sh7ulwla=""
-            ><span class="esa-badge__text" data-astro-cid-sh7ulwla="">11.38:1</span></span
-          ></span
-        ><span
-          class="bcn-sw3ip__req-name"
-          data-r-name=""
-          data-astro-cid-volza5tu=""
-        ></span
-      ></a>
-      <p
-        class="bcn-sw3ip__req-text"
-        data-r-text=""
-        data-astro-cid-volza5tu=""
-      ></p></li></template
-  ><template data-ip-tpl="group"
+  <template data-ip-tpl="group"
     ><section class="bcn-sw3ip__group" data-astro-cid-volza5tu="">
       <h3 class="bcn-sw3ip__gh" data-g-name="" data-astro-cid-volza5tu=""></h3>
       <ol
@@ -436,22 +409,6 @@ Before drafting: Cited requirements, up to three, each its requirement ID, name 
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
-.bcn-countchip__num .esa-badge {
-  --badge-radius: var(--radius-full);
-  --badge-bg: var(--color-border-default);
-  --badge-text-color: var(--color-content-default-secondary);
-  box-sizing: border-box;
-  font-variant-numeric: tabular-nums;
-  min-width: 19px;
-  height: 19px;
-  box-shadow: 0 0 0 1.5px var(--color-background-elevation-raised);
-  justify-content: center;
-  align-items: center;
-  padding: 0 4px;
-  font-size: 0.8125rem;
-  line-height: 1;
-  display: inline-flex;
-}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -459,25 +416,6 @@ Before drafting: Cited requirements, up to three, each its requirement ID, name 
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-ev-attached__mark .esa-badge {
-  --badge-bg: var(--color-background-utility-info-subtle);
-  --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
-  font-weight: var(--typography-font-weight-medium);
-}
-.bcn-ev-row__mark .esa-badge {
-  --badge-bg: var(--color-background-utility-info-subtle);
-  --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
-  font-weight: var(--typography-font-weight-medium);
-}
-.bcn-ev-row__tags .esa-badge {
-  --badge-bg: var(--bcn-gray-100);
-  --badge-text-color: var(--bcn-gray-700);
-  font-weight: var(--typography-font-weight-medium);
 }
 .topbar__right .esa-icon-button {
   color: var(--color-content-default-secondary);
@@ -546,10 +484,14 @@ Before drafting: Cited requirements, up to three, each its requirement ID, name 
   display: flex;
 }
 .bcn-sw3ip__cat {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
   color: var(--color-content-default-secondary);
   margin: 0;
   font-size: 0.875rem;
   font-weight: 500;
+  overflow: hidden;
 }
 .bcn-sw3ip__acts {
   align-items: center;
@@ -559,12 +501,15 @@ Before drafting: Cited requirements, up to three, each its requirement ID, name 
 }
 .bcn-sw3ip__title {
   font-family: var(--font-decorative, var(--typography-font-family-sans));
-  text-wrap: balance;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   flex: 100%;
+  min-width: 0;
   margin: 0;
   font-size: 1.375rem;
   font-weight: 600;
   line-height: 1.25;
+  overflow: hidden;
 }
 .bcn-sw3ip .bcn-sw3ip__gh {
   color: var(--color-content-default);
@@ -578,43 +523,6 @@ Before drafting: Cited requirements, up to three, each its requirement ID, name 
   color: var(--color-content-default-secondary);
   margin: 0;
   font-size: 0.875rem;
-}
-.bcn-sw3ip__cited {
-  gap: var(--spacing-300);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-sw3ip__reqs {
-  gap: var(--spacing-400);
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-}
-.bcn-sw3ip .bcn-sw3ip__req {
-  gap: var(--spacing-150);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-sw3ip .bcn-sw3ip__req-head {
-  align-items: center;
-  gap: var(--spacing-200);
-  color: var(--color-content-default);
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-decoration: none;
-  display: inline-flex;
-}
-.bcn-sw3ip .bcn-sw3ip__req-head:hover .bcn-sw3ip__req-name {
-  text-decoration: underline;
-}
-.bcn-sw3ip .bcn-sw3ip__req-text {
-  font-family: var(--font-decorative, var(--typography-font-family-sans));
-  color: var(--color-content-default);
-  margin: 0;
-  font-size: 0.9375rem;
-  line-height: 1.6;
 }
 .bcn-sw3ip__review {
   gap: var(--spacing-500);
@@ -703,9 +611,18 @@ Before drafting: Cited requirements, up to three, each its requirement ID, name 
   line-height: 0;
 }
 .bcn-sw3ip .bcn-sw3ip__name {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
   color: var(--color-content-default);
   font-weight: 500;
   text-decoration: none;
+  overflow: hidden;
+}
+.bcn-sw3ip .bcn-sw3ip__none {
+  padding: var(--spacing-150) var(--spacing-300);
+  color: var(--color-content-default-secondary);
+  font-size: 0.875rem;
 }
 .bcn-sw3ip .bcn-sw3ip__name:hover {
   text-decoration: underline;
@@ -1008,9 +925,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
   color: var(--bcn-aldo-600);
 }
-.bcn-aldo-needs__head .esa-badge {
-  font-variant-numeric: tabular-nums;
-}
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
   font-size: var(--typography-microcopy-2xs-font-size);
@@ -1082,95 +996,6 @@ summary.esa-button--variant-chrome:focus-visible {
   height: var(--_icon-size);
   display: block;
 }
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
-}
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
-}
-.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
-}
-.esa-badge--success:not(.esa-badge--dot),
-.esa-badge--warning:not(.esa-badge--dot),
-.esa-badge--danger:not(.esa-badge--dot),
-.esa-badge--info:not(.esa-badge--dot) {
-  border: 1px solid var(--_badge-border, transparent);
-}
-.esa-badge--dot {
-  border-radius: var(--radius-pill, 9999px);
-  width: 8px;
-  min-width: 8px;
-  height: 8px;
-  padding: 0;
-}
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
-}
-.esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-}
-.esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
-}
-.esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
-}
-.esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
-}
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  background: canvastext;
-  border: 0;
-  outline: 1px solid canvastext;
-}
 .esa-collapsible__summary .esa-icon {
   color: var(--color-content-default-secondary, #646464);
   flex-shrink: 0;
@@ -1186,15 +1011,11 @@ summary.esa-button--variant-chrome:focus-visible {
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #005862 _(component)_
-- `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-console-fg`: #ffffffed _(component)_
-- `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-700`: #525252 _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
@@ -1216,24 +1037,15 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-danger-muted`: #feebec _(semantic)_
 - `--color-background-utility-info`: #228be6 _(semantic)_
 - `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
-- `--color-background-utility-info-subtle`: #fbfdff _(semantic)_
 - `--color-background-utility-success`: #2e7571 _(semantic)_
 - `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
 - `--color-background-utility-warning`: #f59e0b _(semantic)_
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-focus`: #3e9b4f _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-utility-danger`: #fdbdbe _(semantic)_
-- `--color-border-utility-info`: #acd8fc _(semantic)_
-- `--color-border-utility-success`: #adddc0 _(semantic)_
-- `--color-border-utility-warning`: #f3d673 _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
 - `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
@@ -1260,10 +1072,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
-- `--radius-chip`: .25rem _(semantic)_
-- `--radius-full`: 9999px _(primitive)_
-- `--radius-pill`: 9999px _(semantic)_
-- `--radius-sm`: .25rem _(semantic)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
@@ -1274,7 +1082,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-600`: 2rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
 - `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
 - `--typography-microcopy-2xs-font-weight`: 500 _(semantic)_
