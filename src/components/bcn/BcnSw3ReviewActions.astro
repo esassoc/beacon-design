@@ -1,6 +1,5 @@
 ---
-// <BcnSw3ReviewActions> — step 2's page actions: the project entity panel (with the
-// count of merges waiting), Confirm All for every commitment nothing is flagged on
+// <BcnSw3ReviewActions> — step 2's page actions: Confirm All for every commitment nothing is flagged on
 // (one-step undo in the toast), and a More menu whose one item exports the review for
 // offline reading. Continue goes to the Compliance Index.
 //
@@ -13,7 +12,6 @@ import { withBase } from '../../lib/base';
 ---
 
 <div class="bcn-sw3ra" data-sw3-review-actions>
-  <EsaButton variant="secondary" size="sm" data-ra-entities>Project entities</EsaButton>
   <EsaButton variant="secondary" size="sm" icon="circle-check" data-ra-confirm-all>Confirm all</EsaButton>
   <esa-dropdown-menu position="below-end" width="auto" data-ra-more>
     <EsaButton variant="secondary" size="sm" iconRight="chevron-down">More</EsaButton>
@@ -27,7 +25,7 @@ import { withBase } from '../../lib/base';
 
 <script>
   import '@esa/ecology/esa-dropdown-menu';
-  import { initSw3, cleanUnconfirmed, confirmAllClean, undoConfirmAll, mergeProposed, mergeState, payload } from './sw3-store';
+  import { initSw3, cleanUnconfirmed, confirmAllClean, undoConfirmAll } from './sw3-store';
   import { snackbarHost, toast } from '../../lib/snackbar';
 
   const root = document.querySelector<HTMLElement>('[data-sw3-review-actions]');
@@ -45,10 +43,6 @@ import { withBase } from '../../lib/base';
     menu.addEventListener('menu-action', (e) => {
       if ((e as CustomEvent<string>).detail === 'export') toast('Exported ITP commitments for review (.docx).', 'success');
     });
-
-    root.querySelector('[data-ra-entities]')!.addEventListener('click', () =>
-      document.dispatchEvent(new CustomEvent('sw3:entities', { detail: {} })),
-    );
 
     let undoToast: string | null = null;
     root.querySelector('[data-ra-confirm-all]')!.addEventListener('click', () => {
@@ -75,8 +69,6 @@ import { withBase } from '../../lib/base';
       const btn = label('[data-ra-confirm-all]', n ? `Confirm all (${n})` : 'Confirm all');
       const inner = btn.querySelector('button') ?? btn;
       (inner as HTMLButtonElement).disabled = !n;
-      const waiting = payload().merges.filter((m) => mergeProposed(m.id) && !mergeState(m.id)).length;
-      label('[data-ra-entities]', waiting ? `Project entities (${waiting} merges)` : 'Project entities');
     };
     document.addEventListener('sw3:change', render);
     render();

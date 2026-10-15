@@ -9,6 +9,10 @@
 // source words, on hover) is wrapped inside whatever it falls in. Paragraphs split on a
 // blank line; each is <p data-off="N">.
 
+/** How many highlighter inks a surface rotates through (--bcn-marker-1 to -6): each mark
+ *  also carries data-ink, its turn in text order. */
+export const INKS = 6;
+
 export interface PaintSpan {
   id: string;
   start: number;
@@ -25,21 +29,26 @@ export interface PaintInput {
   gaps: { start: number; end: number }[];
   activeId?: string | null;
   lit?: { start: number; end: number } | null;
+  /** Words a value was read from (a species, a milestone, a season): wrapped as
+   *  <span class="bcn-at-val" data-v="key"> inside whatever they fall in. */
+  values?: { start: number; end: number; key: string }[];
   family?: string;
 }
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-export const paintAnchored = ({ text, spans, gaps, activeId = null, lit = null, family = 'violet' }: PaintInput): string => {
+export const paintAnchored = ({ text, spans, gaps, activeId = null, lit = null, values = [], family = 'violet' }: PaintInput): string => {
   // Paint order: the first span over any char wins (a duplicate on the same words paints
   // once, as the earlier one, and carries data-dup).
   const sorted = [...spans].sort((a, b) => a.start - b.start);
   // Neighbours alternate the family's lightest and a mid shade, far enough apart to read.
   const shadeOf = new Map(sorted.map((s, i) => [s.id, i % 2 ? 3 : 1]));
+  // A surface with a set of inks (step 2's highlighter) takes them in turn, in text order.
+  const inkOf = new Map(sorted.map((s, i) => [s.id, (i % INKS) + 1]));
   const dupOn = new Set(sorted.filter((s) => s.dup).map((s) => `${s.start}`));
 
   const bounds = new Set<number>([0, text.length]);
-  for (const r of [...sorted, ...gaps, ...(lit ? [lit] : [])]) {
+  for (const r of [...sorted, ...gaps, ...values, ...(lit ? [lit] : [])]) {
     bounds.add(Math.max(0, r.start));
     bounds.add(Math.min(text.length, r.end));
   }
@@ -72,11 +81,13 @@ export const paintAnchored = ({ text, spans, gaps, activeId = null, lit = null, 
     const gap = gaps.find((g) => g.start <= a && g.end >= b);
     const isLit = lit && lit.start <= a && lit.end >= b;
     let inner = esc(seg);
+    const val = values.find((v) => v.start <= a && v.end >= b);
+    if (val) inner = `<span class="bcn-at-val" data-v="${esc(val.key)}">${inner}</span>`;
     if (isLit) inner = `<span class="bcn-at-lit">${inner}</span>`;
     if (span) {
       const dup = dupOn.has(`${span.start}`) || span.dup;
       html +=
-        `<mark class="bcn-hl" data-sid="${span.id}" data-family="${family}" data-shade="${shadeOf.get(span.id)}"` +
+        `<mark class="bcn-hl" data-sid="${span.id}" data-family="${family}" data-shade="${shadeOf.get(span.id)}" data-ink="${inkOf.get(span.id)}"` +
         `${span.suggested ? ' data-suggested' : ''}${span.id === activeId ? ' data-active' : ''}${dup ? ' data-dup' : ''}` +
         ` title="${esc(span.label)}">${inner}</mark>`;
     } else if (gap) {

@@ -1,17 +1,22 @@
 ---
-// Setup Wizard in three steps — step 2, Commitments: review each commitment with its
-// requirements and extracted data, against the source text.
+// Setup Wizard in three steps — step 2, Commitments: a QA/QC pass over each commitment,
+// carved into structured data, before the Compliance Index makes actions and obligations
+// of it.
 //
-// Requirements are not a step: they are the highlights inside each commitment. The
-// review opens on whatever the scan has found so far (it may still be running) and leads
-// with what needs a person. Entities are reviewed once per project, in the side panel.
+// One commitment at a time, picked from the scrubber. Its text is marked up: each
+// requirement a yellow highlight over the words that are its basis, the values it names
+// underlined, and plain what nothing will be tracked from. The rail lists everything
+// parsed out of it, read only. Aldo takes corrections in plain words; Edit opens a
+// requirement's record in a side panel; the source page opens beside it for a spot check.
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
 import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
 import BcnSw3ReviewActions from '../../../components/bcn/BcnSw3ReviewActions.astro';
 import BcnSw3Review from '../../../components/bcn/BcnSw3Review.astro';
-import BcnSw3Entities from '../../../components/bcn/BcnSw3Entities.astro';
+import BcnSw3ReqEdit from '../../../components/bcn/BcnSw3ReqEdit.astro';
+import BcnSw3SourcePeek from '../../../components/bcn/BcnSw3SourcePeek.astro';
+import BcnSw3EditFind from '../../../components/bcn/BcnSw3EditFind.astro';
 import { PROJECT } from '../../../data/project-dashboard';
 import { SW3_STEPS, SW3_BASE, SW3_NAME, SW3_GLYPH, SW3_NAV } from '../../../data/setup-wizard-3-step';
 
@@ -21,24 +26,28 @@ const STEP = SW3_STEPS[1];
 <!-- manifest:
   layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(md)   # SPINE
   sections:
-    - wizard chrome   -> bcn-setup-wizard-frame   # three steps, straight run, step 2 active
-    - step panel      -> bcn-sw-step-panel        # numeral, title; its actions slot holds page actions
-    - page actions    -> bcn-sw3-review-actions   # in the step panel's actions slot: Project entities, Confirm all (undo), More > Export, Compliance Index
-    - review          -> bcn-sw3-review           # filter + view, navigator, commitments with requirement highlights, requirement panel
-    - entity registry -> bcn-sw3-entities         # overlay outside the stack (esa-side-dialog): proposed merges, milestones / seasons / activities / species
+    - wizard chrome     -> bcn-setup-wizard-frame   # three steps, straight run, step 2 active
+    - step panel        -> bcn-sw-step-panel        # numeral, title; its actions slot holds page actions
+    - page actions      -> bcn-sw3-review-actions   # Confirm all (undo), More > Export, Compliance Index
+    - review            -> bcn-sw3-review           # scrubber, marked-up commitment, parsed-data rail, Aldo
+    - requirement edit  -> bcn-sw3-req-edit         # side panel: the requirement's record
+    - source peek       -> bcn-sw3-source-peek      # side panel: the commitment on the PDF
+    - commitment edit   -> bcn-sw3-edit-find        # side panel: ID, name, text
 -->
 
 <AppShell title={SW3_NAME} hiddenSections={['setup-wizard']} sectionItems={{ project: SW3_NAV }} tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="sw3-setup" expandedSections={['project']}>
   <PageLayout title="Setup Wizard" hideTitleRow>
     <BcnSetupWizardFrame steps={SW3_STEPS} active="commitments" complete={['source-documents']} homeHref={SW3_BASE} title={SW3_NAME} glyph={SW3_GLYPH}>
       <div class="stack" data-gap="md">
-        <BcnSwStepPanel n={STEP.n} token={STEP.token} intro="Fix what Beacon flagged, then confirm. Any edit confirms a requirement.">
+        <BcnSwStepPanel n={STEP.n} token={STEP.token} intro="Check what each commitment requires before the Compliance Index makes actions and obligations of it.">
           <Fragment slot="title"><span>Commitments</span></Fragment>
           <Fragment slot="actions"><BcnSw3ReviewActions /></Fragment>
         </BcnSwStepPanel>
         <BcnSw3Review />
       </div>
-      <BcnSw3Entities />
+      <BcnSw3ReqEdit />
+      <BcnSw3SourcePeek />
+      <BcnSw3EditFind />
     </BcnSetupWizardFrame>
   </PageLayout>
 </AppShell>

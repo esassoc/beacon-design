@@ -1,0 +1,115 @@
+---
+// <BcnSw3SourcePeek> — a commitment as it stands on the PDF, for a spot check: each page it
+// is on, whole, with every requirement's words boxed in the same ink as the text,
+// scrolled to where the commitment starts. Opened ad hoc from the commitment's header; the text view is
+// not replaced.
+//
+// Contract, on `document`:
+//   in   sw3:peek  detail: { code, reqId? }   open on that commitment (reqId: ring that one)
+//
+// bcn-lego-checked: the panel IS esa-side-dialog; the page is painted by page-view's
+// paintPage (pdf.js), the same as step 1's page pane. Checked Beacon: its PDF viewer is a
+// full page, not a crop with requirement boxes. bcn-sw3-source-peek is the home.
+---
+
+<esa-side-dialog class="bcn-sw3pk-dialog" heading="Source" size="lg" data-sw3-peek>
+  <div class="bcn-sw3pk" data-pk-body></div>
+</esa-side-dialog>
+
+<style>
+  /* A page wide enough to read: the lego's lg width, re-pointed. */
+  .bcn-sw3pk-dialog { --side-dialog-width-lg: min(820px, 60vw); }
+  .bcn-sw3pk { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-sw3pk :global(figure) { margin: 0; display: flex; flex-direction: column; gap: var(--spacing-100); }
+  .bcn-sw3pk :global(.bcn-sw3pk__frame) {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-sw3pk :global(.bcn-sw3pk__frame canvas) { position: absolute; display: block; }
+  .bcn-sw3pk :global(.bcn-sw3pk__box) {
+    position: absolute;
+    background: var(--bcn-marker-1) center / 100% 100% no-repeat;
+    mix-blend-mode: multiply;
+  }
+  .bcn-sw3pk :global(.bcn-sw3pk__box[data-ink='2']) { background-image: var(--bcn-marker-2); }
+  .bcn-sw3pk :global(.bcn-sw3pk__box[data-ink='3']) { background-image: var(--bcn-marker-3); }
+  .bcn-sw3pk :global(.bcn-sw3pk__box[data-ink='4']) { background-image: var(--bcn-marker-4); }
+  .bcn-sw3pk :global(.bcn-sw3pk__box[data-ink='5']) { background-image: var(--bcn-marker-5); }
+  .bcn-sw3pk :global(.bcn-sw3pk__box[data-ink='6']) { background-image: var(--bcn-marker-6); }
+  .bcn-sw3pk :global(.bcn-sw3pk__box[data-active]) { filter: saturate(1.5) brightness(0.94); }
+  .bcn-sw3pk :global(figcaption) { font-size: 0.8125rem; color: var(--color-content-default-secondary); font-variant-numeric: tabular-nums; }
+</style>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import { initSw3, commitmentOf, requirementsOf, payload } from './sw3-store';
+  import { boxesFor } from '../../lib/anchored-text';
+  import { paintPage } from './page-view';
+  import { withBase } from '../../lib/base';
+
+  const dialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>('[data-sw3-peek]');
+  if (dialog) {
+    initSw3();
+    const body = dialog.querySelector<HTMLElement>('[data-pk-body]')!;
+
+    document.addEventListener('sw3:peek', (e) => {
+      const { code, reqId } = (e as CustomEvent<{ code: string; reqId?: string }>).detail;
+      const c = commitmentOf(code);
+      if (!c) return;
+      // The file the commitment is in: the store's active one.
+      const D = payload();
+      const pdf = withBase(D.pdf ?? '/source-docs/itp.pdf');
+      const aspect = D.aspect ?? D.pages?.[0]?.aspect ?? 1.2941;
+      const reqs = requirementsOf(code).filter((r) => r.anchor);
+      const pages = [...new Set(c.blocks.map((b) => b.page))];
+      dialog.heading = `${D.short ? `${D.short} ` : ''}${code} on ${pages.length > 1 ? `pp. ${pages[0]}–${pages.at(-1)}` : `p. ${pages[0]}`}`;
+      dialog.open = true;
+      // Each page the commitment is on, whole, with its requirements boxed.
+      body.replaceChildren(
+        ...pages.map((pg) => {
+          const fig = document.createElement('figure');
+          const frame = document.createElement('div');
+          frame.className = 'bcn-sw3pk__frame';
+          frame.style.aspectRatio = `1 / ${aspect}`;
+          const im = document.createElement('canvas');
+          im.setAttribute('role', 'img');
+          im.setAttribute('aria-label', `Page ${pg} of ${D.name ?? 'the source'}`);
+          Object.assign(im.style, { width: '100%', left: '0', top: '0' });
+          frame.append(im);
+          reqs.forEach((r, i) => {
+            for (const b of boxesFor(c.lines, r.anchor!.charStart, r.anchor!.charEnd).filter((x) => x.page === pg)) {
+              const el = document.createElement('div');
+              el.className = 'bcn-sw3pk__box';
+              el.dataset.ink = String((i % 6) + 1);
+              el.toggleAttribute('data-active', r.id === reqId);
+              el.title = r.name;
+              Object.assign(el.style, { left: `${b.x * 100}%`, top: `${b.y * 100}%`, width: `${b.w * 100}%`, height: `${b.h * 100}%` });
+              frame.append(el);
+            }
+          });
+          const cap = document.createElement('figcaption');
+          cap.textContent = `p. ${pg}`;
+          fig.append(frame, cap);
+          // The panel lays out on open; paint once it has a width, then bring the commitment into view.
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() => {
+              paintPage(im, pdf, pg, frame.clientWidth);
+              if (pg === pages[0]) {
+                const blk = c.blocks.find((b) => b.page === pg)!;
+                const scroller = dialog.shadowRoot?.querySelector<HTMLElement>('.body');
+                if (scroller) {
+                  const y = frame.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop + blk.y * frame.clientHeight - 24;
+                  scroller.scrollTo({ top: y });
+                }
+              }
+            }),
+          );
+          return fig;
+        }),
+      );
+    });
+  }
+</script>

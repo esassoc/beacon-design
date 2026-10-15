@@ -1,15 +1,21 @@
 ---
-// <BcnSw3Commitment> — one commitment in the step 2 review: code, title and pages, the
-// Text / Page toggle and Confirm, its flags, then the text with each requirement as a
-// highlight over its words (painted at build time; sw3-review.ts repaints it), the
-// quotes that did not anchor, and the page crop the toggle swaps in.
+// <BcnSw3Commitment> — one commitment in step 2, as a marked-up page: its code, name and
+// pages, then its text with each requirement highlighted over the words that are its basis,
+// in six marker inks taken in turn. What the parse pulled out of those
+// words (a species, a milestone, a season) is underlined inside the highlight. Text left
+// plain is what nothing will be tracked from: the gap a spot check reads. Plain text the
+// review thinks binds is underlined in the warning ink.
+//
+// The header keys: the source page (a side panel with the PDF), Edit (the commitment's ID,
+// name and text, in a side panel), and Confirm.
 //
 // The controller is the review's (sw3-review.ts): this component is markup and look.
 //
-// bcn-lego-checked: the code is bcn-commitment-badge, the controls are esa-button and
-// esa-button-toggle; esa-card's own header type and padding do not take the inline
-// controls row. Checked Beacon: no commitment-with-requirement-spans surface.
-// bcn-sw3-commitment is the reusable home for "one source passage reviewed in place".
+// bcn-lego-checked: the code is bcn-commitment-badge, the keys are esa-button; the text
+// follows bcn-submission-text with the highlight grammar of bcn-comment-topics.css
+// (mark.bcn-hl, data-suggested dashed). Checked Beacon: its commitment page shows the full
+// text plain in a box, with no requirement spans. bcn-sw3-commitment is the home for "one
+// source passage, carved into requirements".
 import '../../styles/bcn-comment-topics.css';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
@@ -26,150 +32,123 @@ const short = (c: string) => c.replace(/^COA\s+/, '');
 const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` : `p. ${p[0]}`);
 ---
 
-<article class="bcn-sw3c" data-c={code} id={`c-${short(code).replace(/\./g, '-')}`} hidden>
+<article class="bcn-sw3c" data-c={code} aria-labelledby="sw3c-title">
   <header class="bcn-sw3c__head">
-    <BcnCommitmentBadge code={short(code)} />
-    <h3 class="bcn-sw3c__title typography-title-strong">{title}</h3>
-    <span class="bcn-sw3c__pages typography-microcopy-md">{pagesLabel(pages)}</span>
+    <span data-c-badge><BcnCommitmentBadge code={short(code)} /></span>
     <div class="bcn-sw3c__acts">
-      <esa-button-toggle size="sm" value="text" data-c-source aria-label="Show" data-options={JSON.stringify([{ value: 'text', label: 'Text' }, { value: 'page', label: 'Page' }])} />
-      <span data-c-confirm><EsaButton variant="secondary" size="sm">Confirm commitment</EsaButton></span>
+      <span data-c-peek><EsaButton variant="secondary" size="sm" icon="file-text" data-c-pages>{pagesLabel(pages)}</EsaButton></span>
+      <span data-c-edit><EsaButton variant="chrome" iconOnly icon="pencil" label="Edit commitment" size="sm" /></span>
+      <span data-c-confirm><EsaButton variant="secondary" size="sm" icon="check">Confirm</EsaButton></span>
       <span data-c-reopen><EsaButton variant="ghost" size="sm" icon="circle-check">Confirmed</EsaButton></span>
     </div>
+    <h2 class="bcn-sw3c__title" id="sw3c-title" data-c-title>{title}</h2>
   </header>
-  <ul class="bcn-sw3c__flags" data-c-flags />
-  <p class="bcn-sw3c__parsing typography-body-md" data-c-parsing hidden>Parsing</p>
-  <div class="bcn-sw3c__text typography-body-md" data-c-text set:html={html} />
+  <p class="bcn-sw3c__parsing" data-c-parsing hidden>Parsing</p>
+  <div class="bcn-sw3c__text" data-c-text set:html={html} />
   <div class="bcn-sw3c__unanchored" data-c-unanchored />
-  <div class="bcn-sw3c__crop" data-c-crop hidden />
 </article>
 
 <style>
-  /* One commitment */
   .bcn-sw3c {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-300);
-    padding: var(--spacing-500);
-    background: var(--color-background-elevation-raised);
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-200);
-    scroll-margin-top: var(--spacing-400);
+    gap: var(--spacing-400);
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: var(--spacing-500) var(--spacing-600);
   }
-  .bcn-sw3c[hidden] { display: none; }
-  .bcn-sw3c[data-current] { border-color: var(--color-content-default-tertiary); }
   .bcn-sw3c__head { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; }
-  .bcn-sw3c__title { margin: 0; }
-  .bcn-sw3c__pages { color: var(--color-content-default-secondary); font-variant-numeric: tabular-nums; }
-  .bcn-sw3c__acts { display: flex; align-items: center; gap: var(--spacing-200); margin-left: auto; }
+  /* The code and the keys on one line, the title under them on its own. */
+  .bcn-sw3c__title {
+    flex: 1 1 100%;
+    margin: 0;
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+  .bcn-sw3c__acts { display: flex; align-items: center; gap: var(--spacing-150); margin-left: auto; }
   .bcn-sw3c:not([data-confirmed]) [data-c-reopen],
   .bcn-sw3c[data-confirmed] [data-c-confirm] { display: none; }
-  
-  .bcn-sw3c__flags { display: flex; flex-direction: column; gap: var(--spacing-100); margin: 0; padding: 0; list-style: none; }
-  .bcn-sw3c__flags:empty { display: none; }
-  .bcn-sw3c__flags :global(.bcn-sw3c__flagbtn) {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-200);
-    width: 100%;
-    padding: var(--spacing-150) var(--spacing-300);
-    border: 1px solid var(--color-border-warning);
-    border-radius: var(--radius-100);
-    background: var(--color-background-warning-subtle);
-    color: var(--color-content-default);
-    font: inherit;
-    text-align: left;
-    cursor: pointer;
-  }
-  .bcn-sw3c__flags :global(.bcn-sw3c__flagbtn .esa-icon) { color: var(--color-content-warning); flex: none; }
-  .bcn-sw3c__flags :global(.bcn-sw3c__flagbtn:focus-visible) {
-    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
-    outline-offset: 2px;
-  }
-  .bcn-sw3c__flags :global([data-kind='missed'] .bcn-sw3c__flagbtn) {
-    border-color: var(--color-border-default);
-    background: var(--color-background-elevation-sunken);
-  }
-  .bcn-sw3c__flags :global([data-kind='missed'] .esa-icon) { color: var(--color-content-default-secondary); }
-  .bcn-sw3c__flags :global(.bcn-sw3c__flagkind) { flex: none; white-space: nowrap; }
-  .bcn-sw3c__flags :global(.bcn-sw3c__flagtext) {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: var(--color-content-default-secondary);
-  }
-  
   .bcn-sw3c__parsing { margin: 0; color: var(--color-content-default-tertiary); }
-  
-  /* The text: Beacon's document voice, as bcn-submission-text sets it. */
+
+  /* The text: Beacon's document voice. */
   .bcn-sw3c__text {
     font-family: var(--font-decorative, var(--typography-font-family-sans));
+    font-size: 1rem;
+    line-height: 1.75;
     color: var(--color-content-default);
   }
-  .bcn-sw3c__text :global(p) { margin: 0 0 var(--spacing-300) 0; max-width: 72ch; }
+  .bcn-sw3c__text[hidden] { display: none; }
+  .bcn-sw3c__text :global(p) { margin: 0 0 var(--spacing-400) 0; max-width: 70ch; white-space: pre-line; }
   .bcn-sw3c__text :global(p:last-child) { margin-bottom: 0; }
-  .bcn-sw3c__text :global(mark.bcn-hl) { cursor: pointer; }
-  /* Partitioned text is nearly all highlight, so a suggested span reads by a dashed rule
-     under it rather than a dashed outline around every line; confirmed is the plain fill. */
-  .bcn-sw3c__text :global(mark.bcn-hl[data-suggested]) {
+
+  /* A requirement: a highlighter stroke over its words, drawn by hand (the marker
+     strokes are theme tokens: an SVG stretched to each line, so every line of a requirement is
+     its own pen stroke, ragged at the ends, uneven along its edges). No borders. Requirements
+     take the six inks in turn, in text order; selected is a heavier pass. */
+  .bcn-sw3c__text :global(mark.bcn-hl) {
+    cursor: pointer;
+    color: inherit;
     outline: none;
-    text-decoration: underline dashed var(--_ink);
-    text-decoration-thickness: 1.5px;
+    text-decoration: none;
+    box-shadow: none;
+    background: var(--bcn-marker-1) 0 60% / 100% 96% no-repeat;
+    padding: 0 0.3em;
+    margin: 0 -0.22em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    transition: opacity 120ms ease;
+  }
+  .bcn-sw3c__text :global(mark.bcn-hl[data-ink='2']) { background-image: var(--bcn-marker-2); background-position: 0 50%; }
+  .bcn-sw3c__text :global(mark.bcn-hl[data-ink='3']) { background-image: var(--bcn-marker-3); }
+  .bcn-sw3c__text :global(mark.bcn-hl[data-ink='4']) { background-image: var(--bcn-marker-4); background-position: 0 50%; }
+  .bcn-sw3c__text :global(mark.bcn-hl[data-ink='5']) { background-image: var(--bcn-marker-5); }
+  .bcn-sw3c__text :global(mark.bcn-hl[data-ink='6']) { background-image: var(--bcn-marker-6); background-position: 0 50%; }
+  .bcn-sw3c__text :global(mark.bcn-hl[data-suggested]) { outline: none; text-decoration: none; }
+  /* Selected: a heavier pass of the same ink. */
+  .bcn-sw3c__text :global(mark.bcn-hl[data-active]) { filter: saturate(1.5) brightness(0.94); box-shadow: none; }
+  /* With one in focus, the others' ink fades; their words stay black. */
+  .bcn-sw3c__text[data-focus] :global(mark.bcn-hl[data-ink='1']:not([data-active]):not([data-hover])) { background-image: var(--bcn-marker-faint-1); }
+  .bcn-sw3c__text[data-focus] :global(mark.bcn-hl[data-ink='2']:not([data-active]):not([data-hover])) { background-image: var(--bcn-marker-faint-2); }
+  .bcn-sw3c__text[data-focus] :global(mark.bcn-hl[data-ink='3']:not([data-active]):not([data-hover])) { background-image: var(--bcn-marker-faint-3); }
+  .bcn-sw3c__text[data-focus] :global(mark.bcn-hl[data-ink='4']:not([data-active]):not([data-hover])) { background-image: var(--bcn-marker-faint-4); }
+  .bcn-sw3c__text[data-focus] :global(mark.bcn-hl[data-ink='5']:not([data-active]):not([data-hover])) { background-image: var(--bcn-marker-faint-5); }
+  .bcn-sw3c__text[data-focus] :global(mark.bcn-hl[data-ink='6']:not([data-active]):not([data-hover])) { background-image: var(--bcn-marker-faint-6); }
+  .bcn-sw3c__text :global(mark.bcn-hl[data-dup]) { box-shadow: none; text-decoration: underline wavy var(--color-content-warning); text-underline-offset: 5px; }
+
+  /* What the parse pulled out: underlined where it was read. */
+  .bcn-sw3c__text :global(.bcn-at-val) {
+    text-decoration: underline solid var(--bcn-topic-amber-ink);
+    text-decoration-thickness: 2px;
     text-underline-offset: 4px;
   }
-  .bcn-sw3c__text :global(mark.bcn-hl:hover) { box-shadow: inset 0 -2px 0 var(--_ink); }
-  .bcn-sw3c__text :global(mark.bcn-hl[data-active]) { outline: 2px solid var(--_ink); outline-offset: 1px; }
-  /* Two requirements on the same words: a second rule in the warning ink. */
-  .bcn-sw3c__text :global(mark.bcn-hl[data-dup]) { box-shadow: inset 0 -3px 0 var(--color-content-warning); }
-  /* Binding text no requirement covers. */
+  .bcn-sw3c__text :global(.bcn-at-val[data-lit]) {
+    background: var(--bcn-topic-amber-3);
+    border-radius: 2px;
+  }
+
+  /* Plain text the review thinks binds: no requirement covers it. */
   .bcn-sw3c__text :global(mark.bcn-at-gap) {
     background: none;
     color: inherit;
     text-decoration: underline wavy var(--color-content-warning);
     text-decoration-thickness: 1.5px;
-    text-underline-offset: 4px;
-    cursor: pointer;
+    text-underline-offset: 5px;
   }
-  .bcn-sw3c__text :global(mark.bcn-at-gap[data-active]) { background: var(--color-background-warning-subtle); }
-  /* A value's source words, lit while its field is hovered. */
-  .bcn-sw3c__text :global(.bcn-at-lit) {
-    background: var(--color-background-ai-subtle, var(--color-background-info-subtle));
-    box-shadow: 0 0 0 2px var(--color-content-default);
-    border-radius: 2px;
-  }
-  
+
+  .bcn-sw3c__text ::selection,
+  .bcn-sw3c__text :global(*::selection) { background: color-mix(in srgb, var(--bcn-aldo, var(--color-background-info)) 28%, transparent); }
+
+  .bcn-sw3c__unanchored { display: flex; flex-direction: column; gap: var(--spacing-200); }
   .bcn-sw3c__unanchored:empty { display: none; }
   .bcn-sw3c__unanchored :global(.bcn-sw3c__ghost) {
-    display: block;
-    width: 100%;
     margin: 0;
     padding: var(--spacing-300);
     border: 1.5px dashed var(--color-border-warning);
     border-radius: var(--radius-100);
-    background: none;
     color: var(--color-content-default-secondary);
-    font: inherit;
-    text-align: left;
-    cursor: pointer;
+    font-size: 0.875rem;
   }
-  .bcn-sw3c__unanchored :global(.bcn-sw3c__ghost[data-active]) { border-style: solid; }
-  
-  /* The source: page crops with the commitment's box and the requirement spans. */
-  .bcn-sw3c__crop { display: flex; flex-direction: column; gap: var(--spacing-300); }
-  .bcn-sw3c__crop[hidden] { display: none; }
-  .bcn-sw3c__crop :global(.bcn-sw3c__frame) {
-    position: relative;
-    overflow: hidden;
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-100);
-  }
-  .bcn-sw3c__crop :global(.bcn-sw3c__frame canvas) { position: absolute; max-width: none; }
-  .bcn-sw3c__crop :global(.bcn-sw3c__cbox) {
-    position: absolute;
-    background: color-mix(in srgb, var(--color-requirement) 18%, transparent);
-    border-radius: 2px;
-  }
-  .bcn-sw3c__crop :global(.bcn-sw3c__cbox[data-shade='2']) { background: color-mix(in srgb, var(--color-requirement) 30%, transparent); }
-  .bcn-sw3c__crop :global(.bcn-sw3c__cbox[data-active]) { outline: 2px solid var(--color-requirement); }
-  .bcn-sw3c__crop :global(.bcn-sw3c__cpage) { color: var(--color-content-default-secondary); }
 </style>

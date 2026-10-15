@@ -27,11 +27,17 @@ import {
   MISSED_FIND,
   MERGES,
   SCOPE_PROPOSAL,
+  SW3_REVIEW_CLIENT,
+  ENTITIES,
+  PHASES,
   type Box,
+  type ReviewCommitment,
+  type ReviewRequirement,
   type Find,
   type ScanEvent,
 } from './setup-wizard-3-step';
-import { boxesFor } from '../lib/anchored-text';
+import { boxesFor, type TextLineBox } from '../lib/anchored-text';
+import { guessType, nameFrom } from '../lib/requirement-heuristics';
 
 /** A named part of a document a person can scope to in their own words. */
 export interface DocSection {
@@ -275,3 +281,96 @@ export const SCAN_SOURCES: ScanSource[] = [
   { id: 'src-eir', name: 'Final Environmental Impact Report', ref: 'SCH-2020010227', files: ['mmrp', 'nod'] },
 ];
 export const SCAN_DOC_BY_ID = new Map(SCAN_DOCS.map((d) => [d.id, d]));
+
+// ── Step 2: every file with commitments, as the review reads them ────────────
+// One payload per file, in the order the project lists them. The review runs them end to
+// end in one scrubber.
+
+/** An MMRP row as step 2 reads it: its requirements tile the row's text, one after another,
+ *  and each line box on the page holds its share of a requirement's characters. */
+const mmrpReview = (() => {
+  const norm = (t: string) => t.toLowerCase().replace(/\(.*?\)/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  const named = (t: string, kind: string) =>
+    ENTITIES.filter((e) => e.kind === kind && norm(e.name).length > 3 && norm(t).includes(norm(e.name))).map((e) => e.id);
+  const phaseOf: Record<string, string> = { preconstruction: 'Pre-Construction', construction: 'Construction', operations: 'Operations', postconstruction: 'Post-Construction' };
+  const commitments: ReviewCommitment[] = [];
+  const requirements: ReviewRequirement[] = [];
+  for (const row of M.rows) {
+    const lines: TextLineBox[] = [];
+    const ids: string[] = [];
+    let at = 0;
+    const phases = row.cols.timing
+      .split(';')
+      .map((p) => phaseOf[p.trim().split(' ')[0].toLowerCase()])
+      .filter((p): p is string => !!p && PHASES.includes(p as (typeof PHASES)[number]));
+    row.requirements.forEach((q, i) => {
+      const start = at;
+      const end = start + q.text.length;
+      const total = q.boxes.reduce((n, b) => n + b.w, 0) || 1;
+      let s0 = start;
+      q.boxes.forEach((b, k) => {
+        const e0 = k === q.boxes.length - 1 ? end : Math.round(s0 + (q.text.length * b.w) / total);
+        lines.push({ ...b, s: s0, e: e0 });
+        s0 = e0;
+      });
+      const id = `${row.code}#${i + 1}`;
+      ids.push(id);
+      const type = guessType(q.text);
+      requirements.push({
+        id,
+        code: row.code,
+        name: nameFrom(q.text),
+        type,
+        typeConfidence: 0.85,
+        phases: [...new Set(phases)],
+        timing: { frequency: 'Ongoing' },
+        speciesIds: named(q.text, 'species'),
+        activityIds: named(q.text, 'activity'),
+        seasonIds: named(q.text, 'season'),
+        milestoneIds: named(q.text, 'milestone'),
+        responsibleParty: row.cols.party ?? '',
+        deliverable: '',
+        quote: '',
+        anchor: { page: row.page, charStart: start, charEnd: end, boxes: [] },
+        values: [],
+        filing: 'suggested',
+      } as ReviewRequirement);
+      at = end + 1;
+    });
+    const pages = [...new Set(row.blocks.map((b) => b.page))];
+    commitments.push({
+      code: row.code,
+      title: row.title,
+      page: row.page,
+      pages,
+      text: row.requirements.map((q) => q.text).join('\n'),
+      heading: [],
+      blocks: row.blocks,
+      lines,
+      requirementIds: ids,
+    });
+  }
+  return { commitments, requirements };
+})();
+
+export const REVIEW_DOCS = [
+  { ...SW3_REVIEW_CLIENT, id: itp.id, short: itp.short, name: itp.name, pdf: itp.pdf, aspect: 1.2941 },
+  {
+    id: mmrp.id,
+    short: mmrp.short,
+    name: mmrp.name,
+    pdf: mmrp.pdf,
+    aspect: 792 / 1224,
+    finds: mmrp.finds,
+    missed: null,
+    events: mmrp.events,
+    seconds: mmrp.seconds,
+    scope: mmrp.scope,
+    pageSeconds: mmrp.pageSeconds,
+    merges: [],
+    commitments: mmrpReview.commitments,
+    requirements: mmrpReview.requirements,
+    entities: ENTITIES,
+    labels: SW3_REVIEW_CLIENT.labels,
+  },
+];

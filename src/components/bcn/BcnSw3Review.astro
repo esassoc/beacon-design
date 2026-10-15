@@ -1,195 +1,122 @@
 ---
-// <BcnSw3Review> — step 2: every commitment, with its requirements as highlights over
-// the exact words they came from, reviewed against the source.
+// <BcnSw3Review> — step 2: one commitment at a time, carved into structured data, for a
+// QA/QC pass before the Compliance Index turns it into actions and obligations.
 //
-// Layout: the queue from step 1 as the navigator (left), the commitments (centre), the
-// selected requirement's extracted data (right). Two ways through: one continuous scroll
-// of every commitment, or one at a time with a pager. Either can be filtered to what
-// needs a person: quotes that did not anchor, uncovered binding text, duplicate
-// requirements, entity merges Beacon proposes, types it is unsure of.
+// Layout: the commitment scrubber across the top (every commitment, colored by what is left
+// to do); under it the commitment as a marked-up page (left), everything parsed out of it,
+// read only (the rail), and Aldo, who takes corrections in plain words (right). Nothing on
+// the page is a form: a requirement's record changes in its side panel (Edit) or by telling
+// Aldo; its words change by telling Aldo.
 //
-// Requirement spans partition the commitment's binding text: neighbours alternate two
-// shades, a suggested span is dashed and a confirmed one solid (the comments grammar),
-// and binding text no span covers is marked. There is no per-requirement approve: any
-// edit confirms, "Confirm commitment" confirms the whole, Confirm All confirms every
-// clean one.
+// The scan may still be running: commitments appear as they are found, and fill in as they
+// parse. Rendering is from sw3-store.
 //
-// The scan may still be running: commitments appear as they are found, and fill in as
-// they parse. Rendering is from sw3-store; the text is painted at build time and
-// repainted in the browser with the same painter (anchored-text-paint.ts).
+// Composes: bcn-commitment-scrubber, bcn-sw3-commitment, bcn-sw3-attributes,
+// bcn-sw3-review-aldo, esa-button.
 //
-// Composes: bcn-sw3-commitment, bcn-commitment-badge, bcn-sw3-req-panel, esa-button,
-// esa-button-toggle, esa-icon.
-//
-// bcn-lego-checked: the text surface follows bcn-submission-text (highlight grammar from
-// bcn-comment-topics.css: mark.bcn-hl, data-suggested); the controls are esa-button /
-// esa-button-toggle; esa-tab-layout would hide the other commitments, which is the
-// point of the continuous scroll. Checked Beacon: no commitment-with-requirement-spans
-// surface (its requirements are a separate list). bcn-sw3-review is this step's home.
+// bcn-lego-checked: every key is esa-button; the panes are the review's own grid, as
+// step 1's workspace is. Checked Beacon: its commitment page is tabs (Overview,
+// Requirements, Revision History) on a page per commitment, with no review queue.
+// bcn-sw3-review is this step's home.
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIcon from '@esa/ecology/esa-icon.astro';
-import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
-import BcnSw3ReqPanel from './BcnSw3ReqPanel.astro';
+import BcnCommitmentScrubber from './BcnCommitmentScrubber.astro';
 import BcnSw3Commitment from './BcnSw3Commitment.astro';
+import BcnSw3Attributes from './BcnSw3Attributes.astro';
+import BcnSw3ReviewAldo from './BcnSw3ReviewAldo.astro';
 import { paintAnchored } from './anchored-text-paint';
-import { uncoveredRanges } from '../../lib/anchored-text';
-import { COMMITMENTS, REQUIREMENT_BY_ID, SW3_REVIEW_CLIENT } from '../../data/setup-wizard-3-step';
+import { COMMITMENTS, REQUIREMENT_BY_ID } from '../../data/setup-wizard-3-step';
+import { REVIEW_DOCS } from '../../data/sw3-docs';
 import { withBase } from '../../lib/base';
 
-const short = (code: string) => code.replace(/^COA\s+/, '');
-
-const sections = COMMITMENTS.map((c) => {
-  const reqs = c.requirementIds.map((id) => REQUIREMENT_BY_ID.get(id)!).filter((r) => r.anchor);
-  const spans = reqs.map((r) => ({ id: r.id, start: r.anchor!.charStart, end: r.anchor!.charEnd, suggested: true, label: r.name }));
-  const html = paintAnchored({ text: c.text, spans, gaps: uncoveredRanges(c.text, spans) });
-  return { c, html };
+const first = COMMITMENTS[0];
+const firstHtml = paintAnchored({
+  text: first.text,
+  spans: first.requirementIds
+    .map((id) => REQUIREMENT_BY_ID.get(id)!)
+    .filter((r) => r.anchor)
+    .map((r) => ({ id: r.id, start: r.anchor!.charStart, end: r.anchor!.charEnd, suggested: true, label: r.name })),
+  gaps: [],
+  family: 'amber',
 });
-const VIEW_OPTIONS = [
-  { value: 'scroll', label: 'Continuous' },
-  { value: 'pager', label: 'One at a time' },
-];
-const FILTER_OPTIONS = [
-  { value: 'all', label: 'All' },
-  { value: 'flagged', label: 'Needs a person' },
-];
 ---
 
-<section class="bcn-sw3rev" data-sw3-review data-view="scroll" data-filter="all" data-base={withBase('/')}>
-  <div class="bcn-sw3rev__bar">
-    <esa-button-toggle data-rev-filter size="sm" value="all" aria-label="Show" data-options={JSON.stringify(FILTER_OPTIONS)}></esa-button-toggle>
-    <esa-button-toggle data-rev-view size="sm" value="scroll" aria-label="View" data-options={JSON.stringify(VIEW_OPTIONS)}></esa-button-toggle>
-    <p class="bcn-sw3rev__status typography-label-md" data-rev-status role="status"></p>
-  </div>
-
-  <div class="bcn-sw3rev__grid">
-    <nav class="bcn-sw3rev__nav" aria-label="Commitments">
-      <ol class="bcn-sw3rev__navlist" data-rev-nav>
-        {
-          COMMITMENTS.map((c) => (
-            <li class="bcn-sw3rev__navrow" data-nav={c.code} hidden>
-              <button type="button" class="bcn-sw3rev__navbtn">
-                <BcnCommitmentBadge code={short(c.code)} size="sm" />
-                <span class="bcn-sw3rev__navtext">
-                  <span class="bcn-sw3rev__navtitle typography-label-md">{c.title}</span>
-                  <span class="bcn-sw3rev__navmeta typography-microcopy-sm" data-nav-meta />
-                </span>
-              </button>
-            </li>
-          ))
-        }
-      </ol>
-      <div class="bcn-sw3rev__pager" data-rev-pager>
-        <EsaButton variant="secondary" size="sm" icon="chevron-left" data-rev-prev>Previous</EsaButton>
-        <span class="typography-label-md" data-rev-pos></span>
-        <EsaButton variant="secondary" size="sm" iconRight="chevron-right" data-rev-next>Next</EsaButton>
-      </div>
-    </nav>
-
-    <div class="bcn-sw3rev__doc" data-rev-doc>
-      {
-        sections.map(({ c, html }) => <BcnSw3Commitment code={c.code} title={c.title} pages={c.pages} html={html} />)
-      }
+<section class="bcn-sw3rev" data-sw3-review data-aldo="open" data-base={withBase('/')}>
+  <div class="bcn-sw3rev__nav">
+    <div class="bcn-sw3rev__where">
+      <span class="bcn-sw3rev__pos" data-rev-pos></span>
+      <span data-rev-next-open><EsaButton variant="secondary" size="xs" iconRight="arrow-right">Next to settle</EsaButton></span>
     </div>
-
-    <aside class="bcn-sw3rev__side" aria-label="Selected requirement">
-      <BcnSw3ReqPanel />
-    </aside>
+    <BcnCommitmentScrubber label="Commitment" />
   </div>
 
-  <template data-rev-flag>
-    <li class="bcn-sw3c__flag">
-      <button type="button" class="bcn-sw3c__flagbtn">
-        <EsaIcon name="triangle-alert" size="xs" />
-        <span class="bcn-sw3c__flagkind typography-label-md-strong" data-flag-kind></span>
-        <span class="bcn-sw3c__flagtext typography-label-md" data-flag-text></span>
-      </button>
-    </li>
-  </template>
+  <div class="bcn-sw3rev__doc" data-rev-doc>
+    <BcnSw3Commitment code={first.code} title={first.title} pages={first.pages} html={firstHtml} />
+  </div>
 
-  <script type="application/json" data-sw3-payload set:html={JSON.stringify(SW3_REVIEW_CLIENT)} />
+  <aside class="bcn-sw3rev__attrs" aria-label="Parsed from the commitment">
+    <BcnSw3Attributes />
+  </aside>
+
+  <div class="bcn-sw3rev__aldo">
+    <BcnSw3ReviewAldo />
+  </div>
+
+  <script type="application/json" data-sw3-payload set:html={JSON.stringify({ docs: REVIEW_DOCS })} />
 </section>
 
 <style>
-  .bcn-sw3rev { display: flex; flex-direction: column; gap: var(--spacing-400); }
-
-  .bcn-sw3rev__bar { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; }
-  .bcn-sw3rev__status {
-    margin: 0 0 0 auto;
-    color: var(--color-content-default-secondary);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .bcn-sw3rev__grid {
+  /* The workspace fills the window below the step's panel (sw3-review.ts sets --_fit);
+     only the panes scroll. */
+  .bcn-sw3rev {
     display: grid;
-    grid-template-columns: 13rem minmax(0, 1fr) 21rem;
-    gap: var(--spacing-500);
-    align-items: start;
+    grid-template-columns: minmax(0, 1fr) 19rem 22rem;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: var(--spacing-300);
+    height: var(--_fit, calc(100vh - 14rem));
+    min-height: 520px;
+    --color-background-brand-muted: var(--color-background-elevation-raised);
+    --color-background-brand-muted-hover: var(--color-background-elevation-sunken);
+    --color-content-on-brand-muted: var(--color-content-default);
   }
+  .bcn-sw3rev[data-aldo='closed'] { grid-template-columns: minmax(0, 1fr) 21rem 2.75rem; }
 
-  /* Navigator and side panel stay in view while the document scrolls. */
-  .bcn-sw3rev__nav,
-  .bcn-sw3rev__side {
-    position: sticky;
-    top: var(--spacing-400);
-    max-height: calc(100vh - 2 * var(--spacing-400));
+  .bcn-sw3rev__nav {
+    grid-column: 1 / 3;
     display: flex;
     flex-direction: column;
+    gap: var(--spacing-150);
+    padding: var(--spacing-200) var(--spacing-400) var(--spacing-150);
     background: var(--color-background-elevation-raised);
     border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
-    overflow: hidden;
   }
-  .bcn-sw3rev__side { overflow-y: auto; }
-
-  .bcn-sw3rev__navlist { flex: 1; margin: 0; padding: 0; list-style: none; overflow-y: auto; }
-  .bcn-sw3rev__navrow { border-bottom: 1px solid var(--color-border-default-subtle); }
-  .bcn-sw3rev__navrow[hidden] { display: none; }
-  .bcn-sw3rev__navrow[data-current] { background: var(--color-background-default-hover); }
-  .bcn-sw3rev__navbtn {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--spacing-200);
-    width: 100%;
-    padding: var(--spacing-200) var(--spacing-300);
-    border: 0;
-    background: none;
-    color: inherit;
-    font: inherit;
-    text-align: left;
-    cursor: pointer;
-  }
-  .bcn-sw3rev__navbtn:focus-visible {
-    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
-    outline-offset: -2px;
-  }
-  .bcn-sw3rev__navtext { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-  .bcn-sw3rev__navtitle { color: var(--color-content-default); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .bcn-sw3rev__navmeta { color: var(--color-content-default-secondary); }
-  .bcn-sw3rev__navrow[data-state='flagged'] .bcn-sw3rev__navmeta { color: var(--color-content-warning); }
-  .bcn-sw3rev__navrow[data-state='confirmed'] .bcn-sw3rev__navmeta { color: var(--color-content-success); }
-  .bcn-sw3rev__navrow[data-state='parsing'] .bcn-sw3rev__navmeta { color: var(--color-content-default-tertiary); }
-
-  .bcn-sw3rev__pager {
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-200);
-    padding: var(--spacing-300);
-    border-top: 1px solid var(--color-border-default-subtle);
+  .bcn-sw3rev__where { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); min-height: 28px; }
+  .bcn-sw3rev__pos {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-content-default-secondary);
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
-  .bcn-sw3rev[data-view='pager'] .bcn-sw3rev__pager { display: flex; }
 
-  .bcn-sw3rev__doc { display: flex; flex-direction: column; gap: var(--spacing-400); min-width: 0; }
+  .bcn-sw3rev__doc,
+  .bcn-sw3rev__attrs {
+    min-height: 0;
+    overflow-y: auto;
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+  }
+  .bcn-sw3rev__aldo { grid-column: 3; grid-row: 1 / 3; min-height: 0; display: flex; flex-direction: column; }
+  .bcn-sw3rev__aldo > :global(*) { flex: 1; min-height: 0; }
 
-  @media (max-width: 1180px) {
-    .bcn-sw3rev__grid { grid-template-columns: minmax(0, 1fr) 20rem; }
-    .bcn-sw3rev__nav { display: none; }
+  @media (max-width: 1280px) {
+    .bcn-sw3rev { grid-template-columns: minmax(0, 1fr) 16rem 20rem; }
+    .bcn-sw3rev[data-aldo='closed'] { grid-template-columns: minmax(0, 1fr) 18rem 2.75rem; }
   }
 </style>
 
 <script>
-  import '@esa/ecology/esa-button-toggle';
   import { setupSw3Review } from './sw3-review';
   document.querySelectorAll<HTMLElement>('[data-sw3-review]').forEach(setupSw3Review);
 </script>

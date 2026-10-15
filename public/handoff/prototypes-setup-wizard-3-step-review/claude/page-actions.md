@@ -1,27 +1,15 @@
 # Page actions
 
-Project entities (with the count of merges waiting), Confirm all for every commitment nothing is flagged on, More with one item (Export for offline review), and Compliance Index to continue.
+Confirm all for every commitment nothing is flagged on, More with one item (Export for offline review), and Compliance Index to continue. Project entities is not a panel any more: entity merges are decided in the rail, where the entities are used.
 
 ## Key decisions
 - Confirm all confirms only clean, parsed commitments, and says how many; the toast carries a one-step Undo.
-- Export is one menu item and produces no real file in the prototype (Jacky asked to review offline).
-
-## Done when
-- After the demo fixes, Confirm all (80) confirms 80 and Undo returns them to unconfirmed.
+- Export is one menu item and produces no real file in the prototype.
 
 ## Markup
 ```html
 <div class="bcn-sw3ra" data-sw3-review-actions="">
   <span
-    class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-    ><button
-      class="esa-button__native typography-microcopy-xs"
-      type="button"
-      data-ra-entities="true"
-    >
-      <span class="esa-button__label">Project entities (4 merges)</span>
-    </button></span
-  ><span
     class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
     ><button
       class="esa-button__native typography-microcopy-xs"
@@ -394,12 +382,8 @@ summary.esa-button--variant-chrome:focus-visible {
   flex-wrap: wrap;
   display: flex;
 }
-.bcn-sw3c__flags .bcn-sw3c__flagbtn .esa-icon {
-  color: var(--color-content-warning);
-  flex: none;
-}
-.bcn-sw3c__flags [data-kind="missed"] .esa-icon {
-  color: var(--color-content-default-secondary);
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -421,6 +405,10 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-microcopy-xs-strong-font-weight);
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -462,6 +450,7 @@ summary.esa-button--variant-chrome:focus-visible {
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
+- `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
@@ -507,7 +496,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--color-content-warning`: #ab6400 _(component)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
@@ -533,6 +521,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

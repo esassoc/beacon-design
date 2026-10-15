@@ -1,45 +1,104 @@
 # Commitment
 
-One commitment in Beacon's document voice with each requirement as a highlight over its exact span. Spans partition the binding text; neighbours alternate two shades of the requirement family; a suggested span has a dashed rule under it, a confirmed one is a plain fill. Binding text no requirement covers has a wavy warning underline. Flags head the commitment as buttons that take you to the fix. Text / Page swaps in the PDF crop with the spans boxed.
+The commitment as a marked-up page in Beacon's document voice. Each requirement is a highlighter stroke over the words that are its basis, drawn by hand: every line of it its own stroke, ragged at the ends. Requirements take six bright inks in turn, in text order (yellow, pink, green, orange, blue, aqua). What the parse pulled out of those words (a species, a milestone, a season) is underlined inside the stroke. Plain text is what nothing will be tracked from: the gap a spot check reads. Plain text the review thinks binds has a wavy warning underline. The header: the code, the page (opens the PDF beside it), Edit (the ID, name and text), Confirm.
 
 ## Key decisions
-- Flags are code, not model judgment: a quote that will not anchor (Not in the source), two spans on the same words (Likely duplicate), binding sentences under half covered (Uncovered text), types under 0.6 confidence (Type unclear), entity phrasings a merge would change (Merge proposed), a split find (Found as two), and a person's mark (Marked by a person).
-- There is no approve per requirement. Any edit confirms; Confirm commitment confirms the rest and is disabled while a blocking flag remains (type and marked are not blocking).
-- A quote that did not anchor is listed under the text in a dashed box, since it has no span to highlight.
+- No borders on the highlighter, and no list numbers ("R1"). Selected is a heavier pass of the same ink; with one selected or hovered from the rail, the others' ink fades and their words stay black.
+- The text is read only. Its words change by telling Aldo (split, merge, you missed this); a requirement's record changes in its side panel.
+- Confirm is disabled while a blocking item is open (a type to check and a hand-marked commitment do not block).
 
 ## Gotchas
-- The text is painted at build time and repainted in the browser by the same function (anchored-text-paint.ts), so the two never disagree.
-- Coverage counts the union of spans: a sentence split between two neighbours is covered.
+- The painter cuts a mark wherever a value's words start or end; the controller joins touching pieces of one requirement back into one mark so the stroke is not broken.
+- The stroke is an SVG in a theme token (--bcn-marker-1 to -6, and -faint-1 to -6), stretched to each line with box-decoration-break: clone. The painter numbers each mark's turn in data-ink.
 
 ## Done when
-- COA 11.14: Remove the "Submit Weekly Trench Inspection Photos" requirement; the flag goes.
-- COA 11.25: Merge the duplicate into "Submit SWPPP to CDFW…"; the flag goes.
-- COA 11.18: click the uncovered mowing sentence, New requirement; it becomes a confirmed highlight and the flag goes.
+- MMRP rows read the same way: each row's requirements tile its text, so a spot check reads the row against the PDF beside it.
+- COA 11.7: the sentence about the U.S. Naval Observatory times is plain, between two strokes: the spot check sees what is not tracked.
 
 ## Markup
 ```html
-<article class="bcn-sw3c" data-c="COA 11.18" id="c-11-18">
+<article class="bcn-sw3c" data-c="COA 11.1" aria-labelledby="sw3c-title">
   <header class="bcn-sw3c__head">
-    <span class="bcn-cbadge bcn-cbadge--md">11.18</span>
-    <h3 class="bcn-sw3c__title typography-title-strong">Vegetation Management</h3>
-    <span class="bcn-sw3c__pages typography-microcopy-md">pp. 138–139</span>
+    <span data-c-badge=""><span class="bcn-cbadge bcn-cbadge--md">11.1</span></span>
     <div class="bcn-sw3c__acts">
-      <esa-button-toggle
-        size="sm"
-        value="text"
-        data-c-source="true"
-        aria-label="Show"
-        data-options='[{"value":"text","label":"Text"},{"value":"page","label":"Page"}]'
-      ></esa-button-toggle
+      <span data-c-peek=""
+        ><span
+          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            data-c-pages="true"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path
+                  d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                ></path>
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                <path d="M10 9H8"></path>
+                <path d="M16 13H8"></path>
+                <path d="M16 17H8"></path></svg></span
+            ><span class="esa-button__label">p. 131</span>
+          </button></span
+        ></span
+      ><span data-c-edit=""
+        ><span
+          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            aria-label="Edit commitment"
+            title="Edit commitment"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+                <path d="m15 5 4 4"></path></svg
+            ></span></button></span></span
       ><span data-c-confirm=""
         ><span
           class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
           ><button
             class="esa-button__native typography-microcopy-xs"
             type="button"
-            disabled=""
+            title=""
           >
-            <span class="esa-button__label">Confirm commitment</span>
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M20 6 9 17l-5-5"></path></svg></span
+            ><span class="esa-button__label">Confirm</span>
           </button></span
         ></span
       ><span data-c-reopen=""
@@ -65,150 +124,70 @@ One commitment in Beacon's document voice with each requirement as a highlight o
         ></span
       >
     </div>
+    <h2 class="bcn-sw3c__title" id="sw3c-title" data-c-title="">
+      Covered Species Observations
+    </h2>
   </header>
-  <ul
-    class="bcn-sw3c__flags"
-    data-c-flags=""
-    data-sig='[{"kind":"uncovered","range":{"start":1034,"end":1229}}]'
-  >
-    <li class="bcn-sw3c__flag" data-kind="uncovered">
-      <button type="button" class="bcn-sw3c__flagbtn" data-flag="0">
-        <span class="esa-icon esa-icon--xs" aria-hidden="true"
-          ><svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path
-              d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
-            ></path>
-            <path d="M12 9v4"></path>
-            <path d="M12 17h.01"></path></svg></span
-        ><span class="bcn-sw3c__flagkind typography-label-md-strong" data-flag-kind=""
-          >Uncovered text</span
-        ><span class="bcn-sw3c__flagtext typography-label-md" data-flag-text=""
-          >“Permittee shall ensure, to the extent feasible that mowing…”</span
-        >
-      </button>
-    </li>
-  </ul>
-  <p class="bcn-sw3c__parsing typography-body-md" data-c-parsing="" hidden="">Parsing</p>
-  <div
-    class="bcn-sw3c__text typography-body-md"
-    data-c-text=""
-    data-sig='&lt;p data-off="0"&gt;&lt;mark class="bcn-hl" data-sid="req_01M2ESMJS8SQ5SW593M924G2B3" data-family="violet" data-shade="1" data-suggested title="Minimize Vegetation Disturbance and Protect No-Disturbance Buffers"&gt;Disturbance or removal of vegetation shall be kept to the minimum necessary to complete Covered Activities. Permittee shall not remove vegetation within established Covered Species no-disturbance buffers.&lt;/mark&gt; &lt;mark class="bcn-hl" data-sid="req_01M2ESMJS8SQ5SW593M924G2B4" data-family="violet" data-shade="3" data-suggested title="Hand-Trim Protected Vegetation for Access Only"&gt;Vegetation marked for protection may only be trimmed with hand tools limited to string trimmers (e.g., weed whackers) to the extent necessary to gain access to work sites or for facility maintenance, to minimize potential of crushing burrows or impacting the ground.&lt;/mark&gt; &lt;mark class="bcn-hl" data-sid="req_01M2ESMJS999Z18GR8YFDYGW1G" data-family="violet" data-shade="1" data-suggested title="Obtain CDFW Approval for Non-String-Trimmer Mowing Equipment"&gt;Other mowing equipment requested for use by the Permittee in locations away from Covered Species refugia and burrow complexes shall be subject to CDFW written approval once site-specific Covered Species surveys have been conducted.&lt;/mark&gt; &lt;mark class="bcn-hl" data-sid="req_01M2ESMJS999Z18GR8YFDYGW1H" data-family="violet" data-shade="3" data-suggested title="Set Minimum Mower Blade Heights"&gt;Where permitted, Permittee shall set mower blade heights no lower than four inches, and no lower than six inches in suitable GGS habitat, unless otherwise approved by CDFW.&lt;/mark&gt; &lt;mark class="bcn-hl" data-sid="req_01M2ESMJS999Z18GR8YFDYGW1J" data-family="violet" data-shade="1" data-suggested title="Monitor for Fossorial Species During Vegetation Management"&gt;The Designated Biologist(s) and/or Biological Monitor shall be on site during vegetation management activities to monitor for any fossorial Covered Species.&lt;/mark&gt; &lt;mark class="bcn-at-gap" data-gap="1034" title="No requirement covers this"&gt;Permittee shall ensure, to the extent feasible that mowing only occurs when Covered Species are dormant or less active on the surface and during dry conditions (no rain within the past 24 hours).&lt;/mark&gt;&lt;/p&gt;'
-  >
+  <p class="bcn-sw3c__parsing" data-c-parsing="" hidden="">Parsing</p>
+  <div class="bcn-sw3c__text" data-c-text="">
     <p data-off="0">
+      During all phases of Project construction, operations, and maintenance,
       <mark
         class="bcn-hl"
-        data-sid="req_01M2ESMJS8SQ5SW593M924G2B3"
-        data-family="violet"
+        data-sid="req_01M2ESMHSDAW774SZWKJC8RQZB"
+        data-family="amber"
         data-shade="1"
+        data-ink="1"
         data-suggested=""
-        title="Minimize Vegetation Disturbance and Protect No-Disturbance Buffers"
-        >Disturbance or removal of vegetation shall be kept to the minimum necessary to
-        complete Covered Activities. Permittee shall not remove vegetation within
-        established Covered Species no-disturbance buffers.</mark
+        title="11.1:1 Report Covered Species Encounters and Halt Work"
+        >Permittee shall direct all workers to inform the Designated Biologist(s),
+        Fisheries Biologist(s), or Biological Monitor(s) if they encounter any Covered
+        Species within or near the Project site. All Covered Activities with potential to
+        take Covered Species shall cease until the animal moves from the Project site on
+        its own accord.</mark
       >
       <mark
         class="bcn-hl"
-        data-sid="req_01M2ESMJS8SQ5SW593M924G2B4"
-        data-family="violet"
+        data-sid="req_01M2ESMHSDAW774SZWKJC8RQZC"
+        data-family="amber"
         data-shade="3"
+        data-ink="2"
         data-suggested=""
-        title="Hand-Trim Protected Vegetation for Access Only"
-        >Vegetation marked for protection may only be trimmed with hand tools limited to
-        string trimmers (e.g., weed whackers) to the extent necessary to gain access to
-        work sites or for facility maintenance, to minimize potential of crushing burrows
-        or impacting the ground.</mark
+        title="11.1:2 Relocate Trapped or Injured Covered Species from Construction Site"
+        >If the animal is found within a fenced Project construction site and cannot move
+        of its own volition, the Designated Biologist(s) shall move the animal outside of
+        the area of construction according to their species-specific relocation or
+        transplantation plans described in this ITP for each Covered Species. Capture and
+        relocation of trapped or injured special-status wildlife may only be performed by
+        the Designated Biologist(s) and Fisheries Biologist(s).</mark
       >
       <mark
         class="bcn-hl"
-        data-sid="req_01M2ESMJS999Z18GR8YFDYGW1G"
-        data-family="violet"
+        data-sid="req_01M2ESMHSDAW774SZWKJC8RQZD"
+        data-family="amber"
         data-shade="1"
+        data-ink="3"
         data-suggested=""
-        title="Obtain CDFW Approval for Non-String-Trimmer Mowing Equipment"
-        >Other mowing equipment requested for use by the Permittee in locations away from
-        Covered Species refugia and burrow complexes shall be subject to CDFW written
-        approval once site-specific Covered Species surveys have been conducted.</mark
-      >
-      <mark
-        class="bcn-hl"
-        data-sid="req_01M2ESMJS999Z18GR8YFDYGW1H"
-        data-family="violet"
-        data-shade="3"
-        data-suggested=""
-        title="Set Minimum Mower Blade Heights"
-        >Where permitted, Permittee shall set mower blade heights no lower than four
-        inches, and no lower than six inches in suitable GGS habitat, unless otherwise
-        approved by CDFW.</mark
-      >
-      <mark
-        class="bcn-hl"
-        data-sid="req_01M2ESMJS999Z18GR8YFDYGW1J"
-        data-family="violet"
-        data-shade="1"
-        data-suggested=""
-        title="Monitor for Fossorial Species During Vegetation Management"
-        >The Designated Biologist(s) and/or Biological Monitor shall be on site during
-        vegetation management activities to monitor for any fossorial Covered
-        Species.</mark
-      >
-      <mark class="bcn-at-gap" data-gap="1034" title="No requirement covers this"
-        >Permittee shall ensure, to the extent feasible that mowing only occurs when
-        Covered Species are dormant or less active on the surface and during dry
-        conditions (no rain within the past 24 hours).</mark
+        title="11.1:3 Record and Report Covered Species Sighting Locations to CDFW"
+        >Covered Species sightings shall be recorded with a GPS (including datum and
+        horizontal accuracy in feet) and the Designated Biologist(s), Fisheries
+        Biologist(S), or Biological Monitor(s) shall report Covered Species observed
+        locations to CDFW within one business day of the observation.</mark
       >
     </p>
   </div>
-  <div class="bcn-sw3c__unanchored" data-c-unanchored="" data-sig=""></div>
-  <div class="bcn-sw3c__crop" data-c-crop="" hidden=""></div>
+  <div class="bcn-sw3c__unanchored" data-c-unanchored=""></div>
 </article>
 ```
 
 ## Styles
 ```css
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
   font-weight: var(--typography-microcopy-xs-font-weight);
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
 }
 .typography-microcopy-xs-subtle {
   font-family: var(--typography-microcopy-xs-subtle-font-family);
@@ -217,33 +196,12 @@ One commitment in Beacon's document voice with each requirement as a highlight o
   line-height: var(--typography-microcopy-xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
   font-size: var(--typography-microcopy-xs-strong-font-size);
   font-weight: var(--typography-microcopy-xs-strong-font-weight);
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
-}
-.typography-title-strong {
-  font-family: var(--typography-title-strong-font-family);
-  font-size: var(--typography-title-strong-font-size);
-  font-weight: var(--typography-title-strong-font-weight);
-  line-height: var(--typography-title-strong-line-height);
-  letter-spacing: var(--typography-title-strong-letter-spacing);
 }
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -666,20 +624,12 @@ summary.esa-button--variant-chrome:focus-visible {
   display: inline-block;
 }
 .bcn-sw3c {
-  gap: var(--spacing-300);
-  padding: var(--spacing-500);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  scroll-margin-top: var(--spacing-400);
+  gap: var(--spacing-400);
+  box-sizing: border-box;
+  min-height: 100%;
+  padding: var(--spacing-500) var(--spacing-600);
   flex-direction: column;
   display: flex;
-}
-.bcn-sw3c[hidden] {
-  display: none;
-}
-.bcn-sw3c[data-current] {
-  border-color: var(--color-content-default-tertiary);
 }
 .bcn-sw3c__head {
   align-items: center;
@@ -688,71 +638,23 @@ summary.esa-button--variant-chrome:focus-visible {
   display: flex;
 }
 .bcn-sw3c__title {
+  font-family: var(--font-decorative, var(--typography-font-family-sans));
+  text-wrap: balance;
+  flex: 100%;
   margin: 0;
-}
-.bcn-sw3c__pages {
-  color: var(--color-content-default-secondary);
-  font-variant-numeric: tabular-nums;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.25;
 }
 .bcn-sw3c__acts {
   align-items: center;
-  gap: var(--spacing-200);
+  gap: var(--spacing-150);
   margin-left: auto;
   display: flex;
 }
 .bcn-sw3c:not([data-confirmed]) [data-c-reopen],
 .bcn-sw3c[data-confirmed] [data-c-confirm] {
   display: none;
-}
-.bcn-sw3c__flags {
-  gap: var(--spacing-100);
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-}
-.bcn-sw3c__flags:empty {
-  display: none;
-}
-.bcn-sw3c__flags .bcn-sw3c__flagbtn {
-  align-items: center;
-  gap: var(--spacing-200);
-  width: 100%;
-  padding: var(--spacing-150) var(--spacing-300);
-  border: 1px solid var(--color-border-warning);
-  border-radius: var(--radius-100);
-  background: var(--color-background-warning-subtle);
-  color: var(--color-content-default);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-  display: flex;
-}
-.bcn-sw3c__flags .bcn-sw3c__flagbtn .esa-icon {
-  color: var(--color-content-warning);
-  flex: none;
-}
-.bcn-sw3c__flags .bcn-sw3c__flagbtn:focus-visible {
-  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
-  outline-offset: 2px;
-}
-.bcn-sw3c__flags [data-kind="missed"] .bcn-sw3c__flagbtn {
-  border-color: var(--color-border-default);
-  background: var(--color-background-elevation-sunken);
-}
-.bcn-sw3c__flags [data-kind="missed"] .esa-icon {
-  color: var(--color-content-default-secondary);
-}
-.bcn-sw3c__flags .bcn-sw3c__flagkind {
-  white-space: nowrap;
-  flex: none;
-}
-.bcn-sw3c__flags .bcn-sw3c__flagtext {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: var(--color-content-default-secondary);
-  overflow: hidden;
 }
 .bcn-sw3c__parsing {
   color: var(--color-content-default-tertiary);
@@ -761,120 +663,130 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3c__text {
   font-family: var(--font-decorative, var(--typography-font-family-sans));
   color: var(--color-content-default);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.bcn-sw3c__text[hidden] {
+  display: none;
 }
 .bcn-sw3c__text p {
-  margin: 0 0 var(--spacing-300) 0;
-  max-width: 72ch;
+  margin: 0 0 var(--spacing-400) 0;
+  white-space: pre-line;
+  max-width: 70ch;
 }
 .bcn-sw3c__text p:last-child {
   margin-bottom: 0;
 }
 .bcn-sw3c__text mark.bcn-hl {
   cursor: pointer;
+  color: inherit;
+  box-shadow: none;
+  background: var(--bcn-marker-1) 0 60% / 100% 96% no-repeat;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  outline: none;
+  margin: 0 -0.22em;
+  padding: 0 0.3em;
+  text-decoration: none;
+  transition: opacity 0.12s;
+}
+.bcn-sw3c__text mark.bcn-hl[data-ink="2"] {
+  background-image: var(--bcn-marker-2);
+  background-position: 0;
+}
+.bcn-sw3c__text mark.bcn-hl[data-ink="3"] {
+  background-image: var(--bcn-marker-3);
+}
+.bcn-sw3c__text mark.bcn-hl[data-ink="4"] {
+  background-image: var(--bcn-marker-4);
+  background-position: 0;
+}
+.bcn-sw3c__text mark.bcn-hl[data-ink="5"] {
+  background-image: var(--bcn-marker-5);
+}
+.bcn-sw3c__text mark.bcn-hl[data-ink="6"] {
+  background-image: var(--bcn-marker-6);
+  background-position: 0;
 }
 .bcn-sw3c__text mark.bcn-hl[data-suggested] {
-  text-decoration: underline dashed var(--_ink);
-  text-underline-offset: 4px;
   outline: none;
-  text-decoration-thickness: 1.5px;
-}
-.bcn-sw3c__text mark.bcn-hl:hover {
-  box-shadow: inset 0 -2px 0 var(--_ink);
+  text-decoration: none;
 }
 .bcn-sw3c__text mark.bcn-hl[data-active] {
-  outline: 2px solid var(--_ink);
-  outline-offset: 1px;
+  filter: saturate(1.5) brightness(0.94);
+  box-shadow: none;
+}
+.bcn-sw3c__text[data-focus]
+  mark.bcn-hl[data-ink="1"]:not([data-active]):not([data-hover]) {
+  background-image: var(--bcn-marker-faint-1);
+}
+.bcn-sw3c__text[data-focus]
+  mark.bcn-hl[data-ink="2"]:not([data-active]):not([data-hover]) {
+  background-image: var(--bcn-marker-faint-2);
+}
+.bcn-sw3c__text[data-focus]
+  mark.bcn-hl[data-ink="3"]:not([data-active]):not([data-hover]) {
+  background-image: var(--bcn-marker-faint-3);
+}
+.bcn-sw3c__text[data-focus]
+  mark.bcn-hl[data-ink="4"]:not([data-active]):not([data-hover]) {
+  background-image: var(--bcn-marker-faint-4);
+}
+.bcn-sw3c__text[data-focus]
+  mark.bcn-hl[data-ink="5"]:not([data-active]):not([data-hover]) {
+  background-image: var(--bcn-marker-faint-5);
+}
+.bcn-sw3c__text[data-focus]
+  mark.bcn-hl[data-ink="6"]:not([data-active]):not([data-hover]) {
+  background-image: var(--bcn-marker-faint-6);
 }
 .bcn-sw3c__text mark.bcn-hl[data-dup] {
-  box-shadow: inset 0 -3px 0 var(--color-content-warning);
+  box-shadow: none;
+  text-decoration: underline wavy var(--color-content-warning);
+  text-underline-offset: 5px;
+}
+.bcn-sw3c__text .bcn-at-val {
+  text-decoration: underline solid var(--bcn-topic-amber-ink);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+}
+.bcn-sw3c__text .bcn-at-val[data-lit] {
+  background: var(--bcn-topic-amber-3);
+  border-radius: 2px;
 }
 .bcn-sw3c__text mark.bcn-at-gap {
   color: inherit;
   text-decoration: underline wavy var(--color-content-warning);
-  text-underline-offset: 4px;
-  cursor: pointer;
+  text-underline-offset: 5px;
   background: 0 0;
   text-decoration-thickness: 1.5px;
 }
-.bcn-sw3c__text mark.bcn-at-gap[data-active] {
-  background: var(--color-background-warning-subtle);
+.bcn-sw3c__text ::selection,
+.bcn-sw3c__text ::selection {
+  background: color-mix(
+    in srgb,
+    var(--bcn-aldo, var(--color-background-info)) 28%,
+    transparent
+  );
 }
-.bcn-sw3c__text .bcn-at-lit {
-  background: var(--color-background-ai-subtle, var(--color-background-info-subtle));
-  box-shadow: 0 0 0 2px var(--color-content-default);
-  border-radius: 2px;
+.bcn-sw3c__unanchored {
+  gap: var(--spacing-200);
+  flex-direction: column;
+  display: flex;
 }
 .bcn-sw3c__unanchored:empty {
   display: none;
 }
 .bcn-sw3c__unanchored .bcn-sw3c__ghost {
-  width: 100%;
   padding: var(--spacing-300);
   border: 1.5px dashed var(--color-border-warning);
   border-radius: var(--radius-100);
   color: var(--color-content-default-secondary);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-  background: 0 0;
   margin: 0;
-  display: block;
+  font-size: 0.875rem;
 }
-.bcn-sw3c__unanchored .bcn-sw3c__ghost[data-active] {
-  border-style: solid;
-}
-.bcn-sw3c__crop {
-  gap: var(--spacing-300);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-sw3c__crop[hidden] {
-  display: none;
-}
-.bcn-sw3c__crop .bcn-sw3c__frame {
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-100);
-  position: relative;
-  overflow: hidden;
-}
-.bcn-sw3c__crop .bcn-sw3c__frame canvas {
-  max-width: none;
-  position: absolute;
-}
-.bcn-sw3c__crop .bcn-sw3c__cbox {
-  background: color-mix(in srgb, var(--color-requirement) 18%, transparent);
-  border-radius: 2px;
-  position: absolute;
-}
-.bcn-sw3c__crop .bcn-sw3c__cbox[data-shade="2"] {
-  background: color-mix(in srgb, var(--color-requirement) 30%, transparent);
-}
-.bcn-sw3c__crop .bcn-sw3c__cbox[data-active] {
-  outline: 2px solid var(--color-requirement);
-}
-.bcn-sw3c__crop .bcn-sw3c__cpage {
-  color: var(--color-content-default-secondary);
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -883,26 +795,12 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
 .typography-microcopy-xs-subtle {
   font-family: var(--typography-microcopy-xs-subtle-font-family);
   font-size: var(--typography-microcopy-xs-subtle-font-size);
   font-weight: var(--typography-microcopy-xs-subtle-font-weight);
   line-height: var(--typography-microcopy-xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
 }
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
@@ -911,19 +809,9 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
-}
-.typography-title-strong {
-  font-family: var(--typography-title-strong-font-family);
-  font-size: var(--typography-title-strong-font-size);
-  font-weight: var(--typography-title-strong-font-weight);
-  line-height: var(--typography-title-strong-line-height);
-  letter-spacing: var(--typography-title-strong-letter-spacing);
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -965,6 +853,8 @@ summary.esa-button--variant-chrome:focus-visible {
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
+- `--bcn-aldo`: #08908b _(component)_
+- `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
@@ -974,6 +864,18 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
 - `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
+- `--bcn-marker-1`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%23ffeb5c' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3Cpath fill='%23f5d52e' fill-opacity='0.35' d='M3.5 8.6C28 7.7 57 9 96.8 8.2L97 11.3C61 12.1 30 10.8 3.6 11.6Z'/%3E%3Cpath fill='%23f5d52e' fill-opacity='0.21' d='M6 13.4C35 12.9 64 13.8 95 13.1L95.2 14.6C64 15.2 35 14.4 6.1 15Z'/%3E%3C/svg%3E") _(component)_
+- `--bcn-marker-2`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%23ffa8d2' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3Cpath fill='%23f783bd' fill-opacity='0.35' d='M3.5 8.6C28 7.7 57 9 96.8 8.2L97 11.3C61 12.1 30 10.8 3.6 11.6Z'/%3E%3Cpath fill='%23f783bd' fill-opacity='0.21' d='M6 13.4C35 12.9 64 13.8 95 13.1L95.2 14.6C64 15.2 35 14.4 6.1 15Z'/%3E%3C/svg%3E") _(component)_
+- `--bcn-marker-3`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%23b6f28c' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3Cpath fill='%2393e063' fill-opacity='0.35' d='M3.5 8.6C28 7.7 57 9 96.8 8.2L97 11.3C61 12.1 30 10.8 3.6 11.6Z'/%3E%3Cpath fill='%2393e063' fill-opacity='0.21' d='M6 13.4C35 12.9 64 13.8 95 13.1L95.2 14.6C64 15.2 35 14.4 6.1 15Z'/%3E%3C/svg%3E") _(component)_
+- `--bcn-marker-4`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%23ffc56e' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3Cpath fill='%23fbaa45' fill-opacity='0.35' d='M3.5 8.6C28 7.7 57 9 96.8 8.2L97 11.3C61 12.1 30 10.8 3.6 11.6Z'/%3E%3Cpath fill='%23fbaa45' fill-opacity='0.21' d='M6 13.4C35 12.9 64 13.8 95 13.1L95.2 14.6C64 15.2 35 14.4 6.1 15Z'/%3E%3C/svg%3E") _(component)_
+- `--bcn-marker-5`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%239fd9ff' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3Cpath fill='%2372c3f7' fill-opacity='0.35' d='M3.5 8.6C28 7.7 57 9 96.8 8.2L97 11.3C61 12.1 30 10.8 3.6 11.6Z'/%3E%3Cpath fill='%2372c3f7' fill-opacity='0.21' d='M6 13.4C35 12.9 64 13.8 95 13.1L95.2 14.6C64 15.2 35 14.4 6.1 15Z'/%3E%3C/svg%3E") _(component)_
+- `--bcn-marker-6`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%238ff0de' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3Cpath fill='%235fe0c8' fill-opacity='0.35' d='M3.5 8.6C28 7.7 57 9 96.8 8.2L97 11.3C61 12.1 30 10.8 3.6 11.6Z'/%3E%3Cpath fill='%235fe0c8' fill-opacity='0.21' d='M6 13.4C35 12.9 64 13.8 95 13.1L95.2 14.6C64 15.2 35 14.4 6.1 15Z'/%3E%3C/svg%3E") _(component)_
+- `--bcn-marker-faint-1`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%23fff8c9' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3C/svg%3E") _(component)_
+- `--bcn-marker-faint-2`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%23ffe3f0' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3C/svg%3E") _(component)_
+- `--bcn-marker-faint-3`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%23e9fbdc' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3C/svg%3E") _(component)_
+- `--bcn-marker-faint-4`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%23ffeccf' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3C/svg%3E") _(component)_
+- `--bcn-marker-faint-5`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%23e2f3ff' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3C/svg%3E") _(component)_
+- `--bcn-marker-faint-6`: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath fill='%23dbfbf5' d='M2.2 4.6C18 3.2 41 4.4 63 3.6S93 3.9 98.6 5C99.7 8.2 99.3 12.6 98.1 16.1C81 17.5 57 16.3 33 17.3S7 16.7 1.4 15.8C.5 12.3.7 8.1 2.2 4.6Z'/%3E%3C/svg%3E") _(component)_
 - `--bcn-topic-amber-1`: #ffee9c _(component)_
 - `--bcn-topic-amber-2`: #f3d673 _(component)_
 - `--bcn-topic-amber-3`: #e9c162 _(component)_
@@ -1018,14 +920,13 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--button-radius-xs`: .25rem _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-ai-subtle`: #fdfcfc _(semantic)_
 - `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-info-subtle`: #fbfdff _(component)_
+- `--color-background-info`: #228be6 _(component)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-background-utility-danger-hover`: #641723 _(semantic)_
 - `--color-background-utility-info`: #228be6 _(semantic)_
@@ -1034,7 +935,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-utility-success-hover`: #193b2d _(semantic)_
 - `--color-background-utility-warning`: #f59e0b _(semantic)_
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-background-warning-subtle`: #fefdfb _(component)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-warning`: #f3d673 _(component)_
@@ -1053,7 +953,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-utility-success`: #218358 _(semantic)_
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
 - `--color-content-warning`: #ab6400 _(component)_
-- `--color-requirement`: #a05195 _(component)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
@@ -1065,49 +964,18 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
 - `--radius-xs`: .125rem _(semantic)_
-- `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
+- `--spacing-600`: 2rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
-- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
-- `--typography-body-md-letter-spacing`: .01em _(semantic)_
-- `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-font-weight`: 500 _(semantic)_
-- `--typography-label-md-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-line-height`: 1.6 _(semantic)_
-- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
-- `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-md-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-line-height`: 1 _(semantic)_
-- `--typography-microcopy-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
-- `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
@@ -1120,11 +988,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
-- `--typography-title-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-strong-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
-- `--typography-title-strong-font-weight`: 550 _(semantic)_
-- `--typography-title-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-title-strong-line-height`: 1.6 _(semantic)_

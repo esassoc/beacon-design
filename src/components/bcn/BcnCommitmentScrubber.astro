@@ -1,0 +1,177 @@
+---
+// <BcnCommitmentScrubber> — every commitment of the project's source files in one strip, one
+// cell each, file after file, in document order. A rule marks where one file ends and the next
+// begins, and the file's short name sits under the strip where its run starts. The cells say
+// which are still parsing, which have something to settle, which are confirmed, and which one
+// is in view (the thumb). Click or drag to land on one; the chevrons step one at a time; the
+// flag key jumps to the next one with something to settle. Ticks under the strip name a
+// commitment every so often, so a person knows where they are.
+//
+// A few hundred will not fit one strip at a size worth reading, so it shows a window (40 by
+// default, as the source step shows 50 pages) with previous / next beside it; the window
+// follows the commitment in view unless the person pages it themselves. 40, not 50: a
+// commitment's tick label ("MM AES-1a") is wider than a page number, and 40 leaves a label
+// every tenth cell room at the 1280 layout.
+//
+// A slider for the keyboard: arrows step one, Page Up/Down step ten, Home/End go to the
+// ends of the run.
+//
+// Contract: commitment-scrubber.ts `setupCommitmentScrubber(root, { onPick })` returns
+// `update(model)`. The model is the cells, in order, the index in view, and the files'
+// groups (each file's short name and first cell).
+//
+// bcn-lego-checked: esa-range-slider is one native range input (no per-step state),
+// esa-pagination is numbered buttons, esa-progress-bar is one ratio; the window's
+// previous / next ARE esa-icon-button. Checked Beacon (no strip of records). bcn-page-scrubber is the same idea for
+// pages, built around a page window and scan head; this one holds every commitment at
+// once and colors by review state, so it is its own home: bcn-commitment-scrubber.
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+
+interface Props {
+  label?: string;
+  /** Commitments per window. */
+  size?: number;
+}
+const { label = 'Commitment', size = 40 } = Astro.props;
+---
+
+<div class="bcn-cscrub" data-commitment-scrubber data-size={size}>
+  <span data-cs-prev><EsaIconButton icon="chevrons-left" label="Earlier commitments" size="sm" /></span>
+  <div class="bcn-cscrub__track" role="slider" tabindex="0" aria-label={label} aria-valuemin="1" aria-valuemax="1" aria-valuenow="1" data-cs-track>
+    <span class="bcn-cscrub__thumb" data-cs-thumb aria-hidden="true"></span>
+  </div>
+  <span data-cs-next><EsaIconButton icon="chevrons-right" label="Later commitments" size="sm" /></span>
+  <div class="bcn-cscrub__ticks" aria-hidden="true" data-cs-ticks></div>
+  <span class="bcn-cscrub__tip" data-cs-tip hidden aria-hidden="true">
+    <span class="bcn-cscrub__tipcode" data-cs-tip-code></span>
+    <span data-cs-tip-title></span>
+    <span class="bcn-cscrub__tipstate" data-cs-tip-state></span>
+  </span>
+</div>
+
+<style>
+  .bcn-cscrub {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    align-items: center;
+    column-gap: var(--spacing-100);
+    row-gap: 2px;
+    user-select: none;
+  }
+  .bcn-cscrub > [data-cs-prev] { grid-column: 1; grid-row: 1; }
+  .bcn-cscrub > [data-cs-next] { grid-column: 3; grid-row: 1; }
+  .bcn-cscrub__track { grid-column: 2; grid-row: 1; }
+  .bcn-cscrub__ticks { grid-column: 2; grid-row: 2; }
+
+  .bcn-cscrub__track {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(var(--_n, 1), minmax(0, 1fr));
+    gap: 1px;
+    height: 32px;
+    padding: 5px;
+    cursor: pointer;
+    touch-action: none;
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-cscrub__track:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+
+  /* A commitment. Built by the controller, so reached through :global(). */
+  .bcn-cscrub__track :global(.bcn-cscrub__cell) {
+    border-radius: 1px;
+    background: color-mix(in srgb, var(--color-content-default) 14%, var(--color-background-elevation-raised));
+  }
+  /* Past the run's end, in the last window. */
+  .bcn-cscrub__track :global(.bcn-cscrub__cell[data-state='none']) { background: none; }
+  /* Parsed, nothing to settle: ready to confirm. */
+  .bcn-cscrub__track :global(.bcn-cscrub__cell[data-state='ready']) {
+    background: color-mix(in srgb, var(--color-content-default) 38%, var(--color-background-elevation-raised));
+  }
+  .bcn-cscrub__track :global(.bcn-cscrub__cell[data-state='flagged']) { background: var(--color-background-warning, var(--bcn-topic-amber-3)); }
+  .bcn-cscrub__track :global(.bcn-cscrub__cell[data-state='confirmed']) { background: var(--color-background-success, var(--color-content-success)); }
+
+  /* A file boundary: a rule through the strip, in the gap between two cells. */
+  .bcn-cscrub__track :global(.bcn-cscrub__sep) {
+    position: absolute;
+    top: -4px;
+    bottom: -4px;
+    left: calc(5px + (100% - 10px) / var(--_n, 1) * var(--_i, 0) - 1.5px);
+    width: 2px;
+    border-radius: 1px;
+    background: var(--color-content-default);
+    pointer-events: none;
+  }
+
+  .bcn-cscrub__thumb {
+    position: absolute;
+    top: -3px;
+    bottom: -3px;
+    left: calc(5px + (100% - 10px) / var(--_n, 1) * var(--_at, 0) - 3px);
+    z-index: 1;
+    width: max(8px, calc((100% - 10px) / var(--_n, 1) + 6px));
+    border: 2px solid var(--color-content-default);
+    border-radius: 3px;
+    pointer-events: none;
+    transition: left 120ms ease;
+  }
+
+  .bcn-cscrub__ticks {
+    position: relative;
+    height: 16px;
+    margin: 0 5px;
+  }
+  .bcn-cscrub__thumb[hidden] { display: none; }
+  .bcn-cscrub__ticks :global(.bcn-cscrub__tick) {
+    position: absolute;
+    top: 0;
+    left: calc(100% / var(--_n, 1) * (var(--_i, 0) + 0.5));
+    transform: translateX(-50%);
+    font-size: 0.6875rem;
+    line-height: 16px;
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  /* The window's last: flush with the strip's end. */
+  .bcn-cscrub__ticks :global(.bcn-cscrub__tick[data-end]) { left: auto; right: 0; transform: none; }
+
+  /* The file's short name, from where its run starts. */
+  .bcn-cscrub__ticks :global(.bcn-cscrub__file) {
+    position: absolute;
+    top: 0;
+    left: calc(100% / var(--_n, 1) * var(--_i, 0));
+    padding-left: 4px;
+    border-left: 2px solid var(--color-content-default);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 16px;
+    color: var(--color-content-default);
+    white-space: nowrap;
+  }
+
+  .bcn-cscrub__tip {
+    position: fixed;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    max-width: 18rem;
+    padding: 5px 8px;
+    transform: translate(-50%, -100%);
+    border-radius: 6px;
+    background: var(--color-background-inverse, #1f2328);
+    color: var(--color-content-default-knockout);
+    font-size: 0.75rem;
+    line-height: 1.3;
+    box-shadow: var(--shadow-300, 0 4px 12px rgba(0, 0, 0, 0.2));
+    pointer-events: none;
+  }
+  .bcn-cscrub__tip[hidden] { display: none; }
+  .bcn-cscrub__tipcode { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .bcn-cscrub__tipstate { opacity: 0.8; }
+</style>

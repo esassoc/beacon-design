@@ -1,0 +1,26 @@
+---
+// <BcnSw3ReviewAldo> — step 2's conversation with Aldo about the commitment in view: a
+// manifest of the Aldo kit (src/components/bcn/aldo/, docs/aldo-kit-spec.md). The adapter,
+// sw3-review-aldo.ts, reads what the person says (sw3-review-talk.ts) and maps the
+// commitment's flags to Open items.
+//
+// Contract: sw3-review-aldo.ts `setupSw3ReviewAldo(root)`. The panel folds into a rail on
+// the host's `data-aldo` (BcnSw3Review's grid reads it).
+import BcnAldoPanel from './aldo/BcnAldoPanel.astro';
+import BcnAldoThread from './aldo/BcnAldoThread.astro';
+import BcnAldoInstructions from './aldo/BcnAldoInstructions.astro';
+import BcnAldoNeeds from './aldo/BcnAldoNeeds.astro';
+import BcnAldoComposer from './aldo/BcnAldoComposer.astro';
+---
+
+<BcnAldoPanel collapsible expandable rail="right" data-sw3-review-aldo>
+  <BcnAldoThread slot="thread" />
+  <BcnAldoInstructions slot="instructions" />
+  <BcnAldoNeeds slot="needs" />
+  <BcnAldoComposer slot="composer" mode="thread" placeholder="Say what to change" attach={false} />
+</BcnAldoPanel>
+
+<script>
+  import { setupSw3ReviewAldo } from './sw3-review-aldo';
+  document.querySelectorAll<HTMLElement>('[data-sw3-review-aldo]').forEach(setupSw3ReviewAldo);
+</script>

@@ -1,0 +1,135 @@
+---
+// <BcnSw3ReqEdit> — one requirement's record, edited in a side panel: Beacon's Requirement
+// (name, type, notes) and what it links to (phases, species, milestones, construction
+// activities, seasons). The words it covers are not here: they change in the text, by
+// telling Aldo (split, merge, you missed this). Timing is not here: it belongs to the
+// actions the Compliance Index makes from the requirement. Save confirms the requirement.
+//
+// Contract, on `document`:
+//   in   sw3:req-edit  detail: { id }   open on that requirement
+//
+// bcn-lego-checked: the panel IS esa-side-dialog; fields ARE esa-text-field, esa-select,
+// esa-checkbox-group, esa-combobox (multiple) and esa-textarea; actions ARE esa-button.
+// Checked Beacon: its requirement upsert is a dialog of these same fields
+// (RequirementUpsertDto: name, type, notes, phases, species, milestones, activities,
+// seasons). bcn-sw3-req-edit is the home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { PHASES, REQUIREMENT_TYPE_LABEL } from '../../data/setup-wizard';
+
+const TYPE_OPTIONS = Object.entries(REQUIREMENT_TYPE_LABEL).map(([value, label]) => ({ value, label }));
+const PHASE_OPTIONS = (PHASES as readonly string[]).map((p) => ({ value: p, label: p }));
+---
+
+<esa-side-dialog heading="Edit requirement" size="md" data-sw3-req-edit>
+  <form class="bcn-sw3re" data-re-form id="sw3-re-form">
+    <esa-text-field label="Name" size="sm" required data-re-name></esa-text-field>
+    <esa-select label="Type" size="sm" data-re-type data-options={JSON.stringify(TYPE_OPTIONS)}></esa-select>
+    <esa-checkbox-group label="Phases" size="sm" orientation="horizontal" data-re-phases data-options={JSON.stringify(PHASE_OPTIONS)}></esa-checkbox-group>
+    <esa-combobox label="Species" size="sm" multiple data-re-ents="species"></esa-combobox>
+    <esa-combobox label="Milestones" size="sm" multiple data-re-ents="milestone"></esa-combobox>
+    <esa-combobox label="Construction activities" size="sm" multiple data-re-ents="activity"></esa-combobox>
+    <esa-combobox label="Seasons" size="sm" multiple data-re-ents="season"></esa-combobox>
+    <esa-textarea label="Notes" size="sm" rows="3" auto-resize data-re-notes></esa-textarea>
+  </form>
+  <div slot="footer" class="bcn-sw3re__foot">
+    <EsaButton variant="ghost" size="sm" icon="trash-2" data-re-delete>Delete</EsaButton>
+    <span class="bcn-sw3re__main">
+      <EsaButton variant="primary" size="sm" type="submit" form="sw3-re-form">Save</EsaButton>
+      <EsaButton variant="secondary" size="sm" data-re-cancel>Cancel</EsaButton>
+    </span>
+  </div>
+</esa-side-dialog>
+
+<style>
+  .bcn-sw3re { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-sw3re__foot { display: flex; align-items: center; gap: var(--spacing-200); width: 100%; }
+  .bcn-sw3re__main { display: flex; gap: var(--spacing-200); margin-left: auto; }
+</style>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-checkbox-group';
+  import '@esa/ecology/esa-combobox';
+  import '@esa/ecology/esa-textarea';
+  import { initSw3, payload, requirementOf, requirementRef, editRequirement, removeRequirement, resolveEntity } from './sw3-store';
+  import { toast } from '../../lib/snackbar';
+
+  type Field<V = string> = HTMLElement & { value: V; options?: unknown; updateComplete?: Promise<unknown> };
+  const dialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>('[data-sw3-req-edit]');
+  if (dialog) {
+    initSw3();
+    const $ = <T extends HTMLElement = Field>(s: string) => dialog.querySelector<T>(s)!;
+    const name = $<Field>('[data-re-name]');
+    const type = $<Field>('[data-re-type]');
+    const phases = $<Field<string[]>>('[data-re-phases]');
+    const notes = $<Field>('[data-re-notes]');
+    const ents = [...dialog.querySelectorAll<Field<string[]>>('[data-re-ents]')];
+    let id: string | null = null;
+
+    // Options: the select and the group take theirs from the markup; the entity lists are
+    // the project's, with merged phrasings folded into what they merged into.
+    const optionsFor = (kind: string) => {
+      const list = (payload().entities ?? []).filter((e) => e.kind === kind && resolveEntity(e.id) === e.id);
+      return list.map((e) => ({ value: e.id, label: e.name })).sort((a, b) => a.label.localeCompare(b.label));
+    };
+    Promise.all(['esa-select', 'esa-checkbox-group', 'esa-combobox'].map((t) => customElements.whenDefined(t))).then(() => {
+      for (const el of [type, phases]) el.options = JSON.parse(el.dataset.options!);
+    });
+
+    const close = () => ((dialog.open = false), (id = null));
+    document.addEventListener('sw3:req-edit', async (e) => {
+      const r = requirementOf((e as CustomEvent<{ id: string }>).detail.id);
+      if (!r) return;
+      id = r.id;
+      await Promise.all(['esa-select', 'esa-checkbox-group', 'esa-combobox'].map((t) => customElements.whenDefined(t)));
+      dialog.heading = `Edit requirement ${requirementRef(r.code, r.id)}`;
+      name.value = r.name;
+      type.value = r.type;
+      phases.value = [...r.phases];
+      notes.value = r.notes ?? '';
+      const linked: Record<string, string[]> = {
+        species: r.speciesIds,
+        milestone: r.milestoneIds ?? [],
+        activity: r.activityIds,
+        season: r.seasonIds,
+      };
+      for (const el of ents) {
+        el.options = optionsFor(el.dataset.reEnts!);
+        el.value = [...linked[el.dataset.reEnts!]];
+      }
+      dialog.open = true;
+      await name.updateComplete;
+      requestAnimationFrame(() => name.focus());
+    });
+
+    $('[data-re-form]').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!id) return;
+      const v = (k: string) => {
+        const val = ents.find((x) => x.dataset.reEnts === k)!.value;
+        return Array.isArray(val) ? val : val ? [val] : [];
+      };
+      editRequirement(id, {
+        name: name.value.trim() || requirementOf(id)!.name,
+        type: type.value as never,
+        phases: Array.isArray(phases.value) ? phases.value : [],
+        speciesIds: v('species'),
+        milestoneIds: v('milestone'),
+        activityIds: v('activity'),
+        seasonIds: v('season'),
+        notes: notes.value,
+      });
+      close();
+    });
+    $('[data-re-cancel]').addEventListener('click', close);
+    $('[data-re-delete]').addEventListener('click', () => {
+      if (!id) return;
+      const r = requirementOf(id)!;
+      removeRequirement(id);
+      close();
+      toast(`Deleted ${r.name}. Its words are unhighlighted.`, 'success');
+    });
+  }
+</script>

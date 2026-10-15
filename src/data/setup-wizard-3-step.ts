@@ -97,6 +97,11 @@ export interface ReviewRequirement {
   speciesIds: string[];
   activityIds: string[];
   seasonIds: string[];
+  /** Set once a person or Aldo lists them; until then the timing's one milestone. Beacon's
+   *  RequirementMilestone allows several. */
+  milestoneIds?: string[];
+  /** Beacon's Requirement.Notes. */
+  notes?: string;
   responsibleParty: string;
   deliverable: string;
   /** The verbatim quote the extraction returned. */

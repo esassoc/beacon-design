@@ -37,6 +37,8 @@ export interface Sw3Payload {
   short?: string;
   name?: string;
   pdf?: string;
+  /** A page's height over its width. */
+  aspect?: number;
   /** Pages in the document. */
   total?: number;
   /** A scanned file: seconds per page to read its page images (OCR) before anything else. */
@@ -297,6 +299,34 @@ export interface Sw3State {
   manual?: boolean;
   /** A scanned file: when reading its page images began (epoch ms). */
   prepStart?: number;
+  /** Step 2's conversation with Aldo, every commitment's, in order. */
+  talk?: ReviewTalk[];
+  /** How the person told Aldo to parse requirements, in effect for every commitment. */
+  parseRules?: string[];
+}
+
+/** What Aldo proposes in step 2, settled by a press: Add, Split, Merge, Remove, Change. */
+export type ReviewProposal =
+  | { kind: 'add'; code: string; range: Range; name: string; type: ReviewRequirement['type']; speciesIds: string[]; seasonIds: string[]; milestoneIds: string[] }
+  | { kind: 'split'; reqId: string; cuts: number[] }
+  | { kind: 'merge'; keepId: string; otherIds: string[] }
+  | { kind: 'remove'; reqId: string }
+  | { kind: 'notBinding'; code: string; start: number }
+  | { kind: 'patch'; reqId: string; patch: Partial<ReviewRequirement>; what: string };
+
+/** One exchange in step 2: what the person said or pressed, and Aldo's answer. */
+export interface ReviewTalk {
+  id: string;
+  /** Epoch ms. */
+  wall: number;
+  code: string;
+  via: 'typed' | 'button';
+  text: string;
+  context?: { id: string; kind: 'page' | 'entity' | 'file'; label: string }[];
+  reply: string;
+  proposals?: { id: string; label: string; p: ReviewProposal; state?: 'accepted' | 'dismissed' }[];
+  /** A press recorded as one quiet line. */
+  event?: boolean;
 }
 
 export type Pace = 'step' | 'watch' | 'run';
@@ -1159,6 +1189,7 @@ export const requirementsOf = (code: string): ReviewRequirement[] =>
         const merged: ReviewRequirement = { ...r, ...e, timing: { ...r.timing, ...(e.timing ?? {}) } };
         merged.timing.milestoneId = merged.timing.milestoneId && resolveEntity(merged.timing.milestoneId);
         merged.seasonIds = [...new Set(merged.seasonIds.map(resolveEntity))];
+        merged.milestoneIds = [...new Set((merged.milestoneIds ?? (merged.timing.milestoneId ? [merged.timing.milestoneId] : [])).map(resolveEntity))];
         merged.speciesIds = [...new Set(merged.speciesIds.map(resolveEntity))];
         merged.activityIds = [...new Set(merged.activityIds.map(resolveEntity))];
         merged.filing = confirmedAll || S.confirmed.includes(r.id) || r.id in S.edits ? 'confirmed' : r.filing;
@@ -1169,6 +1200,15 @@ export const requirementsOf = (code: string): ReviewRequirement[] =>
       })
       .sort((a, b) => (a.anchor?.charStart ?? 1e9) - (b.anchor?.charStart ?? 1e9));
   });
+
+/** A requirement's ID: its commitment's, then its place in the text (Beacon's
+ *  DisplayIndex), after a colon: "11.3:2", "CMP-14:2". A colon because a dot is ITP
+ *  sub-numbering (11.42.1 is a commitment) and a dash is in MMRP codes. Text order, so a
+ *  split or an added requirement renumbers those after it. */
+export const requirementRef = (code: string, id: string): string => {
+  const i = requirementsOf(code).findIndex((r) => r.id === id);
+  return i < 0 ? '' : `${code.replace(/^COA\s+/, '')}:${i + 1}`;
+};
 
 export const requirementOf = (id: string): ReviewRequirement | undefined => {
   const r = [...reqBase(), ...S.created].find((x) => x.id === id);
@@ -1290,6 +1330,38 @@ export const reopenCommitment = (code: string) =>
   commit(() => {
     S.commitmentsConfirmed = S.commitmentsConfirmed.filter((c) => c !== code);
   });
+
+// ── Step 2's conversation ─────────────────────────────────────────────────────
+
+export const talk = (code?: string): ReviewTalk[] => (S.talk ?? []).filter((t) => !code || t.code === code);
+export const parseRules = (): string[] => S.parseRules ?? [];
+
+/** Record an exchange. The caller has already decided Aldo's answer (sw3-review-talk.ts). */
+export const pushTalk = (t: Omit<ReviewTalk, 'id' | 'wall'>, rule?: string) =>
+  commit(() => {
+    S.talk = [...(S.talk ?? []), { ...t, id: `t${(S.talk?.length ?? 0) + 1}`, wall: Date.now() }];
+    if (rule) S.parseRules = [...(S.parseRules ?? []), rule];
+  });
+
+/** A proposal accepted or dismissed: the record keeps it, with its state. */
+export const settleProposal = (talkId: string, propId: string, state: 'accepted' | 'dismissed') =>
+  commit(() => {
+    const t = (S.talk ?? []).find((x) => x.id === talkId);
+    const p = t?.proposals?.find((x) => x.id === propId);
+    if (p) p.state = state;
+  });
+
+/** Take back the last thing said about a commitment, for Edit. Nothing it proposed has been
+ *  settled, so nothing else changes. */
+export const takeBackTalk = (talkId: string): ReviewTalk | null => {
+  const list = S.talk ?? [];
+  const t = list.at(-1);
+  if (!t || t.id !== talkId || t.via !== 'typed' || t.proposals?.some((p) => p.state)) return null;
+  commit(() => {
+    S.talk = list.slice(0, -1);
+  });
+  return t;
+};
 
 /** Parsed commitments nothing is flagged on and no one has confirmed yet. */
 export const cleanUnconfirmed = () => parsedCodes().filter((c) => !isConfirmed(c) && flagsOf(c).length === 0);

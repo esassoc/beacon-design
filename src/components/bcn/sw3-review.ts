@@ -1,20 +1,23 @@
-// Controller for <BcnSw3Review>. setupX shape: owns the review's view state (filter,
-// continuous or pager, the current commitment, the selection) and repaints commitments,
-// flags and the navigator from sw3-store.
+// Controller for <BcnSw3Review>. setupX shape: owns which commitment is in view and which
+// requirement is selected, and repaints the scrubber, the text and the rail from sw3-store.
 //
 // Contract, on `document`:
-//   out  sw3:select    detail: { code, reqId?, gap? }   the selection changed (the panel listens)
-//   in   sw3:select    the panel moves the selection (after a new requirement, a merge)
-//   in   sw3:lit       detail: { code, range } | null   light a value's source words
-//   out  sw3:entities  detail: { mergeId? }            open the project entity panel
+//   out  sw3:rev-current    detail: { code }                        the commitment in view (Aldo)
+//   out  sw3:rev-selection  detail: { code, range, quote } | null   words selected in the text
+//   in   sw3:rev-go         detail: { code, reqId?, doc? }          a reference pressed in Aldo
+//
+// Commitments come from several files: the scrubber runs them end to end, and landing on one
+// in another file makes that file the store's active one (setActiveDoc), so the text, the
+// rail, Aldo and the side panels all read it.
+//   out  sw3:req-edit       detail: { id }                          Edit a requirement (side panel)
+//   out  sw3:edit           detail: { id }                          Edit the commitment (side panel)
+//   out  sw3:peek           detail: { code, reqId? }                the source page (side panel)
 
 import {
   initSw3,
   started,
-  finished,
   startRun,
   skipToEnd,
-  headPage,
   foundCodes,
   parsedCodes,
   commitmentOf,
@@ -24,400 +27,368 @@ import {
   isConfirmed,
   confirmCommitment,
   reopenCommitment,
-  mergeSplit,
-  payload,
-  state,
   identified,
-  type Flag,
+  finds,
+  payload,
+  resolveEntity,
+  requirementRef,
+  docIds,
+  activeDoc,
+  setActiveDoc,
+  peek,
 } from './sw3-store';
 import { paintAnchored } from './anchored-text-paint';
-import { boxesFor, type Range } from '../../lib/anchored-text';
-import { paintPage } from './page-view';
+import { setupCommitmentScrubber, type ScrubCell, type ScrubGroup } from './commitment-scrubber';
+import { setupSw3Attributes, type AttrHover } from './sw3-attributes';
+import type { Range } from '../../lib/anchored-text';
 
-export interface Selection {
-  code: string;
-  reqId?: string;
-  gap?: Range;
-}
-
-const FLAG_KIND: Record<Flag['kind'], string> = {
-  unanchored: 'Not in the source',
-  duplicate: 'Likely duplicate',
-  uncovered: 'Uncovered text',
-  type: 'Type unclear',
-  merge: 'Merge proposed',
-  split: 'Found as two',
-  missed: 'Marked by a person',
-  empty: 'No requirements found',
-};
-
-const words = (s: string, n: number) => {
-  const w = s.replace(/\s+/g, ' ').trim().split(' ');
-  return w.length > n ? `${w.slice(0, n).join(' ')}…` : w.join(' ');
+const short = (code: string) => code.replace(/^COA\s+/, '');
+const norm = (s: string) => s.toLowerCase().replace(/\(.*?\)/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` : `p. ${p[0]}`);
+const KEY = 'sw3:review-at';
+/** A commitment across files: "itp|COA 11.1". */
+const keyOf = (doc: string, code: string) => `${doc}|${code}`;
+const split = (key: string) => {
+  const i = key.indexOf('|');
+  return { doc: key.slice(0, i), code: key.slice(i + 1) };
 };
 
 export function setupSw3Review(root: HTMLElement): void {
-  const D = initSw3();
-  // Opened directly with no run on record: show the finished scan of the default scope.
-  if (!started()) {
-    startRun({ first: D.scope.first, last: D.scope.last, instruction: '' });
-    skipToEnd();
-  }
-  const base = root.dataset.base!.replace(/\/$/, '');
-  const pdf = `${base}/source-docs/itp.pdf`;
-  const entityName = new Map((D.entities ?? []).map((e) => [e.id, e.name]));
+  initSw3();
+  // Opened directly with no run on record: show the finished scan of each file's default scope.
+  for (const id of docIds())
+    peek(id, () => {
+      if (started()) return;
+      const D = payload();
+      startRun({ first: D.scope.first, last: D.scope.last, instruction: '' });
+      skipToEnd();
+    });
+  const fire = (name: string, detail: unknown) => document.dispatchEvent(new CustomEvent(name, { detail }));
+  const art = root.querySelector<HTMLElement>('[data-c]')!;
+  const body = art.querySelector<HTMLElement>('[data-c-text]')!;
+  const pos = root.querySelector<HTMLElement>('[data-rev-pos]')!;
 
-  const doc = root.querySelector<HTMLElement>('[data-rev-doc]')!;
-  const status = root.querySelector<HTMLElement>('[data-rev-status]')!;
-  const flagTpl = root.querySelector<HTMLTemplateElement>('[data-rev-flag]')!;
-  const sections = new Map<string, HTMLElement>();
-  doc.querySelectorAll<HTMLElement>('[data-c]').forEach((el) => sections.set(el.dataset.c!, el));
-  const navRows = new Map<string, HTMLElement>();
-  root.querySelectorAll<HTMLElement>('[data-nav]').forEach((el) => navRows.set(el.dataset.nav!, el));
-
-  let view: 'scroll' | 'pager' = 'scroll';
-  let filter: 'all' | 'flagged' = 'all';
+  // The commitment in view, in the active file.
   let current: string | null = null;
-  let sel: Selection | null = null;
-  let lit: { code: string; range: Range } | null = null;
-  const source = new Set<string>();
+  let selected: string | null = null;
+  let hover: AttrHover | null = null;
+  let want: string | null = null;
+  try {
+    want = localStorage.getItem(KEY);
+  } catch {
+    /* no storage */
+  }
 
-  // ── Toggles ─────────────────────────────────────────────────────────────────
-  type Toggle = HTMLElement & { options: unknown; value: string };
-  const toggles = root.querySelectorAll<Toggle>('esa-button-toggle[data-options]');
-  customElements.whenDefined('esa-button-toggle').then(() => {
-    toggles.forEach((t) => (t.options = JSON.parse(t.dataset.options!)));
-  });
-  root.querySelector('[data-rev-filter]')!.addEventListener('change', (e) => {
-    filter = (e as CustomEvent<{ value: string }>).detail?.value === 'flagged' ? 'flagged' : 'all';
-    render();
-  });
-  root.querySelector('[data-rev-view]')!.addEventListener('change', (e) => {
-    view = (e as CustomEvent<{ value: string }>).detail?.value === 'pager' ? 'pager' : 'scroll';
-    root.dataset.view = view;
-    render();
-    if (current) go(current);
-  });
-
-  // ── Selection ───────────────────────────────────────────────────────────────
-  const select = (s: Selection | null, from: 'here' | 'panel' = 'here') => {
-    sel = s;
-    lit = null;
-    if (s) current = s.code;
-    if (from === 'here') document.dispatchEvent(new CustomEvent('sw3:select', { detail: s }));
-    render();
+  /** Every file's commitments, file after file, as keys; and where each file's run starts. */
+  const files = () =>
+    docIds()
+      .map((doc) => peek(doc, () => ({ doc, short: payload().short ?? doc, codes: foundCodes() })))
+      .filter((f) => f.codes.length);
+  const keys = () => files().flatMap((f) => f.codes.map((c) => keyOf(f.doc, c)));
+  const here = () => (current ? keyOf(activeDoc(), current) : '');
+  const codes = () => foundCodes();
+  const stateOf = (code: string): ScrubCell['state'] =>
+    !parsedCodes().includes(code) ? 'parsing' : isConfirmed(code) ? 'confirmed' : flagsOf(code).length ? 'flagged' : 'ready';
+  const noteOf = (code: string) => {
+    const s = stateOf(code);
+    if (s === 'parsing') return 'Parsing';
+    if (s === 'confirmed') return 'Confirmed';
+    const n = flagsOf(code).length;
+    const r = requirementsOf(code).length;
+    return n ? `${n} to settle` : `${r} requirement${r === 1 ? '' : 's'}`;
   };
-  document.addEventListener('sw3:select', (e) => {
-    const d = (e as CustomEvent<Selection | null>).detail;
-    if (d === sel) return;
-    if (d && sel && d.code === sel.code && d.reqId === sel.reqId && d.gap?.start === sel.gap?.start) return;
-    select(d, 'panel');
-  });
-  document.addEventListener('sw3:lit', (e) => {
-    lit = (e as CustomEvent<{ code: string; range: Range } | null>).detail;
-    if (lit) paintText(lit.code);
-    else if (sel) paintText(sel.code);
-  });
 
-  const go = (code: string) => {
+  const go = (key: string, reqId: string | null = null) => {
+    const { doc, code } = split(key);
+    if (!peek(doc, () => foundCodes().includes(code))) return;
+    const moved = key !== here();
     current = code;
+    selected = reqId;
+    try {
+      localStorage.setItem(KEY, key);
+    } catch {
+      /* no storage */
+    }
+    // Another file: the store follows, and its change repaints everything that reads it.
+    if (doc !== activeDoc()) setActiveDoc(doc);
+    else render();
+    if (moved) {
+      root.querySelector('[data-rev-doc]')!.scrollTop = 0;
+      root.querySelector('.bcn-sw3rev__attrs')!.scrollTop = 0;
+      fire('sw3:rev-selection', null);
+    }
+    if (reqId) body.querySelector(`mark.bcn-hl[data-sid="${CSS.escape(reqId)}"]`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  };
+
+  // ── The scrubber ────────────────────────────────────────────────────────────
+  const scrub = setupCommitmentScrubber(root.querySelector('[data-commitment-scrubber]')!, { onPick: (id) => go(id) });
+  const stateAt = (key: string) => {
+    const { doc, code } = split(key);
+    return peek(doc, () => stateOf(code));
+  };
+  root.querySelector('[data-rev-next-open]')!.addEventListener('click', () => {
+    const list = keys();
+    const i = list.indexOf(here());
+    const order = [...list.slice(i + 1), ...list.slice(0, i + 1)];
+    const next = order.find((k) => stateAt(k) === 'flagged');
+    if (next) go(next);
+  });
+  // Arrow keys step commitments when nothing else has the keys.
+  document.addEventListener('keydown', (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const t = e.target as HTMLElement;
+    if (t.closest('input, textarea, select, [contenteditable], esa-textarea, esa-text-field, esa-combobox, esa-select, esa-side-dialog, [role="slider"], [data-aldo-panel]')) return;
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    const list = keys();
+    const next = list[list.indexOf(here()) + (e.key === 'ArrowRight' ? 1 : -1)];
+    if (next) (e.preventDefault(), go(next));
+  });
+
+  // ── The rail ────────────────────────────────────────────────────────────────
+  const attrs = setupSw3Attributes(root.querySelector('[data-sw3-attrs]')!, {
+    onSelect: (id) => {
+      selected = id;
+      render();
+      if (id) body.querySelector(`mark.bcn-hl[data-sid="${CSS.escape(id)}"]`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    },
+    onHover: (h) => {
+      hover = h;
+      paintFocus();
+    },
+    onEdit: (id) => fire('sw3:req-edit', { id }),
+  });
+
+  // ── The header keys ─────────────────────────────────────────────────────────
+  art.querySelector('[data-c-peek]')!.addEventListener('click', () => current && fire('sw3:peek', { code: current, reqId: selected ?? undefined }));
+  art.querySelector('[data-c-edit]')!.addEventListener('click', () => {
+    const f = finds().find((x) => x.code === current);
+    if (f) fire('sw3:edit', { id: f.id });
+  });
+  art.querySelector('[data-c-confirm]')!.addEventListener('click', () => current && !blocking(current).length && confirmCommitment(current));
+  art.querySelector('[data-c-reopen]')!.addEventListener('click', () => current && reopenCommitment(current));
+
+  // ── The text: click a highlight to select it; select words to talk about them ──
+  body.addEventListener('click', (e) => {
+    if (!current || !document.getSelection()?.isCollapsed) return;
+    const mark = (e.target as HTMLElement).closest<HTMLElement>('mark.bcn-hl[data-sid]');
+    selected = mark && mark.dataset.sid !== selected ? mark.dataset.sid! : null;
     render();
-    const el = sections.get(code);
-    if (el && view === 'scroll') el.scrollIntoView({ block: 'start', behavior: 'smooth' });
-  };
-
-  root.querySelector('[data-rev-nav]')!.addEventListener('click', (e) => {
-    const row = (e.target as HTMLElement).closest<HTMLElement>('[data-nav]');
-    if (row) {
-      select({ code: row.dataset.nav! });
-      go(row.dataset.nav!);
-    }
   });
-
-  const visibleCodes = () => {
-    const parsed = new Set(parsedCodes());
-    return foundCodes().filter((c) => filter === 'all' || (parsed.has(c) && flagsOf(c).length > 0));
+  /** A point in the text, as an offset into the commitment's text. */
+  const offsetOf = (node: Node, at: number): number | null => {
+    const p = (node.nodeType === 1 ? (node as Element) : node.parentElement)?.closest<HTMLElement>('p[data-off]');
+    if (!p) return null;
+    let n = Number(p.dataset.off);
+    const walk = document.createTreeWalker(p, NodeFilter.SHOW_TEXT);
+    for (let t = walk.nextNode(); t; t = walk.nextNode()) {
+      if (t === node) return n + at;
+      n += t.textContent!.length;
+    }
+    return node === p ? n : null;
   };
-  const step = (d: number) => {
-    const list = visibleCodes();
-    const i = Math.max(0, list.indexOf(current ?? ''));
-    const next = list[Math.min(list.length - 1, Math.max(0, i + d))];
-    if (next) select({ code: next });
+  const onSelection = () => {
+    const sel = document.getSelection();
+    if (!current || !sel || sel.isCollapsed || !sel.rangeCount) return fire('sw3:rev-selection', null);
+    const r = sel.getRangeAt(0);
+    if (!body.contains(r.commonAncestorContainer)) return;
+    const a = offsetOf(r.startContainer, r.startOffset);
+    const b = offsetOf(r.endContainer, r.endOffset);
+    if (a === null || b === null || b - a < 3) return fire('sw3:rev-selection', null);
+    const text = commitmentOf(current)!.text!;
+    // Out to whole words.
+    let start = a;
+    let end = b;
+    while (start > 0 && /\w/.test(text[start - 1])) start--;
+    while (end < text.length && /\w/.test(text[end])) end++;
+    const range: Range = { start, end };
+    fire('sw3:rev-selection', { code: current, range, quote: text.slice(start, end) });
   };
-  root.querySelector('[data-rev-prev]')?.addEventListener('click', () => step(-1));
-  root.querySelector('[data-rev-next]')?.addEventListener('click', () => step(1));
-
-  // ── Clicks in a commitment ──────────────────────────────────────────────────
-  doc.addEventListener('click', (e) => {
-    const t = e.target as HTMLElement;
-    const sec = t.closest<HTMLElement>('[data-c]');
-    if (!sec) return;
-    const code = sec.dataset.c!;
-    const mark = t.closest<HTMLElement>('mark.bcn-hl[data-sid]');
-    const gap = t.closest<HTMLElement>('mark.bcn-at-gap');
-    const ghost = t.closest<HTMLElement>('[data-ghost]');
-    const flag = t.closest<HTMLElement>('[data-flag]');
-    if (t.closest('[data-c-confirm]')) {
-      if (!blocking(code).length) confirmCommitment(code);
-      return;
-    }
-    if (t.closest('[data-c-reopen]')) return reopenCommitment(code);
-    if (mark) return select({ code, reqId: mark.dataset.sid! });
-    if (ghost) return select({ code, reqId: ghost.dataset.ghost! });
-    if (gap) {
-      const f = flagsOf(code).find((x) => x.kind === 'uncovered' && x.range!.start === Number(gap.dataset.gap));
-      if (f) select({ code, gap: f.range });
-      return;
-    }
-    if (flag) {
-      const f = flagsOf(code)[Number(flag.dataset.flag)];
-      if (!f) return;
-      if (f.kind === 'merge') return document.dispatchEvent(new CustomEvent('sw3:entities', { detail: { mergeId: f.mergeId } }));
-      if (f.kind === 'split') {
-        const split = payload().finds.find((x) => x.kind === 'split' && x.partOf === code);
-        if (split) mergeSplit(split.id);
-        return;
-      }
-      if (f.range) return select({ code, gap: f.range });
-      if (f.reqId) return select({ code, reqId: f.reqId });
-      return select({ code });
-    }
-    if (!t.closest('esa-button-toggle, button, a')) select({ code });
-  });
-  doc.addEventListener('change', (e) => {
-    const t = e.target as HTMLElement;
-    if (!t.matches('[data-c-source]')) return;
-    const code = t.closest<HTMLElement>('[data-c]')!.dataset.c!;
-    const v = (e as CustomEvent<{ value: string }>).detail?.value;
-    if (v === 'page') source.add(code);
-    else source.delete(code);
-    paintSection(code);
+  body.addEventListener('mouseup', () => requestAnimationFrame(onSelection));
+  body.addEventListener('keyup', (e) => e.shiftKey && onSelection());
+  document.addEventListener('selectionchange', () => {
+    if (document.getSelection()?.isCollapsed && document.activeElement?.closest('[data-aldo-panel]') == null) fire('sw3:rev-selection', null);
   });
 
   // ── Paint ───────────────────────────────────────────────────────────────────
+  /** The entity a value's words name: by name, within its kind. */
+  const valueKey = (field: string, value: string): string | null => {
+    const kind = field === 'species' ? 'species' : field === 'season' ? 'season' : field === 'milestone' ? 'milestone' : null;
+    if (!kind) return null;
+    const v = norm(value);
+    const e = (payload().entities ?? []).find((x) => x.kind === kind && (norm(x.name) === v || norm(x.name).includes(v) || v.includes(norm(x.name))));
+    return e ? resolveEntity(e.id) : null;
+  };
+
+  let textSig = '';
   const paintText = (code: string) => {
-    const sec = sections.get(code);
     const c = commitmentOf(code);
-    if (!sec || !c?.text) return;
+    if (!c?.text) return;
     const reqs = requirementsOf(code);
     const flags = flagsOf(code);
     const dups = new Set(flags.filter((f) => f.kind === 'duplicate').map((f) => f.reqId));
     const spans = reqs
       .filter((r) => r.anchor)
       .map((r) => ({ id: r.id, start: r.anchor!.charStart, end: r.anchor!.charEnd, suggested: r.filing === 'suggested', dup: dups.has(r.id), label: r.name }));
-    const gaps = flags.filter((f) => f.kind === 'uncovered').map((f) => f.range!);
+    const values = reqs.flatMap((r) =>
+      r.values.flatMap((v) => {
+        const k = valueKey(v.field, v.value);
+        return k ? [{ start: v.charStart, end: v.charEnd, key: k }] : [];
+      }),
+    );
     const html = paintAnchored({
       text: c.text,
       spans,
-      gaps,
-      activeId: sel?.code === code ? sel.reqId : null,
-      lit: lit?.code === code ? lit.range : null,
+      gaps: flags.filter((f) => f.kind === 'uncovered').map((f) => f.range!),
+      values,
+      family: 'amber',
     });
-    const body = sec.querySelector<HTMLElement>('[data-c-text]')!;
-    if (body.dataset.sig !== html) {
-      body.innerHTML = html;
-      body.dataset.sig = html;
-    }
-    if (sel?.code === code && sel.gap) body.querySelector(`mark.bcn-at-gap[data-gap="${sel.gap.start}"]`)?.setAttribute('data-active', '');
+    if (html === textSig) return;
+    // New words under the selection: what was selected no longer points anywhere.
+    if (textSig) fire('sw3:rev-selection', null);
+    textSig = html;
+    body.innerHTML = html;
+    // One stroke per requirement per paragraph: the painter cuts a mark wherever a value's
+    // words start or end; pieces of the same requirement that touch are joined again.
+    body.querySelectorAll<HTMLElement>('mark.bcn-hl[data-sid]').forEach((m) => {
+      const prev = m.previousSibling;
+      if (prev instanceof HTMLElement && prev.matches('mark.bcn-hl') && prev.dataset.sid === m.dataset.sid) {
+        prev.append(...m.childNodes);
+        m.remove();
+      }
+    });
+    for (const r of reqs) body.querySelectorAll(`mark.bcn-hl[data-sid="${CSS.escape(r.id)}"]`).forEach((m) => m.setAttribute('title', `${requirementRef(code, r.id)} ${r.name}`));
   };
 
-  const paintFlags = (code: string) => {
-    const sec = sections.get(code)!;
-    const list = sec.querySelector<HTMLElement>('[data-c-flags]')!;
-    const reqs = requirementsOf(code);
-    const nameOf = (id?: string) => reqs.find((r) => r.id === id)?.name ?? '';
-    const flags = flagsOf(code);
-    const sig = JSON.stringify(flags);
-    if (list.dataset.sig === sig) return;
-    list.dataset.sig = sig;
-    list.replaceChildren(
-      ...flags.map((f, i) => {
-        const li = (flagTpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
-        li.dataset.kind = f.kind;
-        li.querySelector('button')!.dataset.flag = String(i);
-        li.querySelector('[data-flag-kind]')!.textContent = FLAG_KIND[f.kind];
-        const c = commitmentOf(code)!;
-        let text = '';
-        if (f.kind === 'unanchored' || f.kind === 'type') text = nameOf(f.reqId);
-        else if (f.kind === 'duplicate') text = `${nameOf(f.reqId)} and ${nameOf(f.otherId)}`;
-        else if (f.kind === 'uncovered') text = `“${words(c.text!.slice(f.range!.start, f.range!.end), 9)}”`;
-        else if (f.kind === 'merge') {
-          const m = payload().merges.find((x) => x.id === f.mergeId)!;
-          text = `${m.fromIds.map((id) => entityName.get(id)).join(', ')} → ${entityName.get(m.intoId)}`;
-        } else if (f.kind === 'split') text = 'Merge the find on p. 156 into this commitment';
-        li.querySelector('[data-flag-text]')!.textContent = text;
-        return li;
-      }),
-    );
+  /** What is selected or hovered stands out; the rest of the highlights step back. */
+  const paintFocus = () => {
+    const on = new Set<string>([...(hover?.reqIds ?? [])]);
+    const keys = new Set(hover?.valueKeys ?? []);
+    body.querySelectorAll<HTMLElement>('mark.bcn-hl[data-sid]').forEach((m) => {
+      m.toggleAttribute('data-active', m.dataset.sid === selected);
+      m.toggleAttribute('data-hover', on.has(m.dataset.sid!));
+    });
+    body.querySelectorAll<HTMLElement>('.bcn-at-val').forEach((v) => v.toggleAttribute('data-lit', keys.has(v.dataset.v!)));
+    body.toggleAttribute('data-focus', !!selected || on.size > 0);
   };
 
   const paintUnanchored = (code: string) => {
-    const sec = sections.get(code)!;
-    const box = sec.querySelector<HTMLElement>('[data-c-unanchored]')!;
-    const reqs = requirementsOf(code).filter((r) => !r.anchor && flagsOf(code).some((f) => f.kind === 'unanchored' && f.reqId === r.id));
-    const sig = reqs.map((r) => `${r.id}${sel?.reqId === r.id ? '*' : ''}`).join('|');
-    if (box.dataset.sig === sig) return;
-    box.dataset.sig = sig;
+    const box = art.querySelector<HTMLElement>('[data-c-unanchored]')!;
+    const reqs = requirementsOf(code);
     box.replaceChildren(
-      ...reqs.map((r) => {
-        const b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'bcn-sw3c__ghost typography-body-md';
-        b.dataset.ghost = r.id;
-        b.toggleAttribute('data-active', sel?.reqId === r.id);
-        b.textContent = `“${r.quote}”`;
-        return b;
-      }),
+      ...reqs
+        .filter((r) => !r.anchor)
+        .map((r) => {
+          const p = document.createElement('p');
+          p.className = 'bcn-sw3c__ghost';
+          p.textContent = `${r.name} quotes words that are not in the text: “${r.quote}”`;
+          return p;
+        }),
     );
   };
 
-  const paintCrop = (code: string) => {
-    const sec = sections.get(code)!;
-    const crop = sec.querySelector<HTMLElement>('[data-c-crop]')!;
-    const on = source.has(code);
-    crop.hidden = !on;
-    sec.querySelector<HTMLElement>('[data-c-text]')!.hidden = on;
-    if (!on) return;
-    const c = commitmentOf(code)!;
-    const reqs = requirementsOf(code).filter((r) => r.anchor);
-    const sig = reqs.map((r) => `${r.id}:${r.anchor!.charStart}-${r.anchor!.charEnd}${sel?.reqId === r.id ? '*' : ''}`).join('|');
-    if (crop.dataset.sig === sig) return;
-    crop.dataset.sig = sig;
-    const aspect = (payload().pages?.[0]?.aspect ?? 1.2941);
-    const pad = 0.015;
-    crop.replaceChildren(
-      ...c.blocks.map((blk) => {
-        const bx = Math.max(0, blk.x - pad);
-        const by = Math.max(0, blk.y - pad);
-        const bw = Math.min(1 - bx, blk.w + pad * 2);
-        const bh = Math.min(1 - by, blk.h + pad * 2);
-        const wrap = document.createElement('figure');
-        wrap.style.margin = '0';
-        const frame = document.createElement('div');
-        frame.className = 'bcn-sw3c__frame';
-        frame.style.aspectRatio = `${bw} / ${bh * aspect}`;
-        // The page itself, from the PDF, scaled so the crop window shows the block.
-        const im = document.createElement('canvas');
-        im.setAttribute('role', 'img');
-        im.setAttribute('aria-label', `Page ${blk.page} of the ITP`);
-        Object.assign(im.style, { width: `${100 / bw}%`, left: `${(-bx / bw) * 100}%`, top: `${(-by / bh) * 100}%` });
-        frame.append(im);
-        requestAnimationFrame(() => paintPage(im, pdf, blk.page, frame.clientWidth / bw));
-        reqs.forEach((r, ri) => {
-          for (const b of boxesFor(c.lines, r.anchor!.charStart, r.anchor!.charEnd).filter((x) => x.page === blk.page)) {
-            const el = document.createElement('div');
-            el.className = 'bcn-sw3c__cbox';
-            el.dataset.shade = String((ri % 2) + 1);
-            el.toggleAttribute('data-active', sel?.reqId === r.id);
-            el.title = r.name;
-            Object.assign(el.style, {
-              left: `${((b.x - bx) / bw) * 100}%`,
-              top: `${((b.y - by) / bh) * 100}%`,
-              width: `${(b.w / bw) * 100}%`,
-              height: `${(b.h / bh) * 100}%`,
-            });
-            frame.append(el);
-          }
-        });
-        const cap = document.createElement('figcaption');
-        cap.className = 'bcn-sw3c__cpage typography-microcopy-sm';
-        cap.textContent = `p. ${blk.page}`;
-        wrap.append(frame, cap);
-        return wrap;
-      }),
-    );
-  };
-
-  const paintSection = (code: string) => {
-    const sec = sections.get(code)!;
-    const parsed = parsedCodes().includes(code);
-    sec.querySelector<HTMLElement>('[data-c-parsing]')!.hidden = parsed;
-    sec.querySelector<HTMLElement>('[data-c-text]')!.hidden = !parsed || source.has(code);
-    sec.toggleAttribute('data-confirmed', isConfirmed(code));
-    sec.toggleAttribute('data-current', code === current);
-    const btn = sec.querySelector<HTMLButtonElement>('[data-c-confirm] button');
-    if (btn) btn.disabled = !parsed || blocking(code).length > 0;
-    if (!parsed) {
-      sec.querySelector<HTMLElement>('[data-c-flags]')!.replaceChildren();
-      return;
-    }
-    paintText(code);
-    paintFlags(code);
-    paintUnanchored(code);
-    paintCrop(code);
-  };
-
-  const navMeta = (code: string, parsed: boolean) => {
-    if (!parsed) return { state: 'parsing', text: 'Parsing' };
-    if (isConfirmed(code)) return { state: 'confirmed', text: 'Confirmed' };
-    const n = flagsOf(code).length;
-    if (n) return { state: 'flagged', text: `${n} to review` };
-    const r = requirementsOf(code).length;
-    return { state: 'ready', text: `${r} requirement${r === 1 ? '' : 's'}` };
-  };
-
-  // ── Render ──────────────────────────────────────────────────────────────────
   const render = () => {
-    // A name fixed at step 1's check is the name here.
-    for (const code of Object.keys(state().fixes)) {
-      const { title } = identified(code);
-      const nav = root.querySelector(`[data-nav="${CSS.escape(code)}"] .bcn-sw3rev__navtitle`);
-      if (nav && nav.textContent !== title) nav.textContent = title;
-      const h = root.querySelector(`[data-c="${CSS.escape(code)}"] .bcn-sw3c__title`);
-      if (h && h.textContent !== title) h.textContent = title;
-    }
-    const found = foundCodes();
-    const parsed = new Set(parsedCodes());
-    const shown = new Set(visibleCodes());
-    if (!current || !shown.has(current)) current = [...shown][0] ?? null;
+    const fs = files();
+    if (!fs.length) return;
+    if (!fs.some((f) => f.doc === activeDoc())) return setActiveDoc(fs[0].doc);
+    const list = codes();
+    if (!current || !list.includes(current)) current = list[0];
+    const code = current;
+    const c = commitmentOf(code)!;
+    const parsed = parsedCodes().includes(code);
+    if (selected && !requirementsOf(code).some((r) => r.id === selected)) selected = null;
 
-    for (const [code, sec] of sections) {
-      const visible = shown.has(code) && (view === 'scroll' || code === current);
-      sec.hidden = !visible;
-      if (visible) paintSection(code);
-    }
-    for (const [code, row] of navRows) {
-      row.hidden = !shown.has(code);
-      if (row.hidden) continue;
-      const m = navMeta(code, parsed.has(code));
-      row.dataset.state = m.state;
-      row.querySelector('[data-nav-meta]')!.textContent = m.text;
-      row.toggleAttribute('data-current', code === current);
-    }
+    // Every file's cells, end to end.
+    const cells: ScrubCell[] = [];
+    const groups: ScrubGroup[] = [];
+    let left = 0;
+    let confirmed = 0;
+    for (const f of fs)
+      peek(f.doc, () => {
+        groups.push({ label: f.short, start: cells.length });
+        for (const x of f.codes) {
+          const state = stateOf(x);
+          left += state === 'flagged' ? 1 : 0;
+          confirmed += state === 'confirmed' ? 1 : 0;
+          cells.push({ id: keyOf(f.doc, x), label: short(x), title: identified(x).title, state, note: noteOf(x) });
+        }
+      });
+    const at = cells.findIndex((x) => x.id === here());
+    scrub.update({ cells, at, groups });
+    const file = fs.find((f) => f.doc === activeDoc())!;
+    pos.textContent = `${file.short}: ${list.indexOf(code) + 1} of ${list.length}. ${confirmed} confirmed, ${left} to settle.`;
+    const nextBtn = root.querySelector<HTMLElement>('[data-rev-next-open]')!;
+    nextBtn.hidden = !left;
 
-    const flagged = [...parsed].filter((c) => flagsOf(c).length).length;
-    const confirmed = [...parsed].filter(isConfirmed).length;
-    const scanning = started() && !finished() && headPage() !== null;
-    status.textContent =
-      `${found.length} commitments: ${flagged} need a person, ${confirmed} confirmed.` + (scanning ? ` Scan on page ${headPage()}.` : '');
-    const pos = root.querySelector<HTMLElement>('[data-rev-pos]');
-    if (pos) pos.textContent = `${Math.max(1, [...shown].indexOf(current ?? '') + 1)} of ${shown.size}`;
+    // The commitment.
+    art.dataset.c = code;
+    art.toggleAttribute('data-confirmed', isConfirmed(code));
+    const badge = art.querySelector<HTMLElement>('[data-c-badge] .bcn-cbadge');
+    if (badge && badge.textContent !== short(code)) badge.textContent = short(code);
+    const title = identified(code).title;
+    const h = art.querySelector<HTMLElement>('[data-c-title]')!;
+    if (h.textContent !== title) h.textContent = title;
+    const pages = art.querySelector<HTMLElement>('[data-c-pages]');
+    const pl = pages?.querySelector('.esa-button__label') ?? pages;
+    if (pl) pl.textContent = pagesLabel(c.pages);
+    const confirmBtn = art.querySelector<HTMLButtonElement>('[data-c-confirm] button');
+    if (confirmBtn) {
+      const why = blocking(code).length;
+      confirmBtn.disabled = !parsed || why > 0;
+      confirmBtn.title = !parsed ? 'Still parsing' : why ? `Settle ${why} open item${why === 1 ? '' : 's'} first` : '';
+    }
+    art.querySelector<HTMLElement>('[data-c-parsing]')!.hidden = parsed;
+    body.hidden = !parsed;
+    if (parsed) {
+      paintText(code);
+      paintUnanchored(code);
+    } else {
+      textSig = '';
+      body.replaceChildren();
+    }
+    paintFocus();
+    attrs.show(code, selected);
+    fire('sw3:rev-current', { code, reqId: selected });
   };
 
-  // The commitment at the top of the scroll is the current one.
-  const io = new IntersectionObserver(
-    (entries) => {
-      if (view !== 'scroll') return;
-      const top = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-      if (!top) return;
-      const code = (top.target as HTMLElement).dataset.c!;
-      if (code === current) return;
-      current = code;
-      for (const [c, row] of navRows) row.toggleAttribute('data-current', c === code);
-      for (const [c, sec] of sections) sec.toggleAttribute('data-current', c === code);
-      navRows.get(code)?.scrollIntoView({ block: 'nearest' });
-    },
-    { rootMargin: '0px 0px -70% 0px' },
-  );
-  sections.forEach((s) => io.observe(s));
-
+  document.addEventListener('sw3:rev-go', (e) => {
+    const d = (e as CustomEvent<{ code: string; reqId?: string; doc?: string }>).detail;
+    go(keyOf(d.doc ?? activeDoc(), d.code), d.reqId ?? null);
+  });
   document.addEventListener('sw3:change', render);
-  render();
+
+  // ── Aldo folds to a rail; on a laptop it starts folded, so the text has room ──
+  const PANEL_KEY = 'sw3:review-aldo';
+  try {
+    const saved = localStorage.getItem(PANEL_KEY);
+    if (saved === 'closed' || (!saved && window.innerWidth < 1440)) root.dataset.aldo = 'closed';
+  } catch {
+    if (window.innerWidth < 1440) root.dataset.aldo = 'closed';
+  }
+  new MutationObserver(() => {
+    try {
+      localStorage.setItem(PANEL_KEY, root.dataset.aldo ?? 'open');
+    } catch {
+      /* no storage */
+    }
+  }).observe(root, { attributes: true, attributeFilter: ['data-aldo'] });
+
+  // ── Fit the workspace to the window ─────────────────────────────────────────
+  const fit = () => {
+    const scroller = root.closest<HTMLElement>('.modern-layout__content, main') ?? document.scrollingElement;
+    const top = root.getBoundingClientRect().top + (scroller?.scrollTop ?? 0);
+    const pad = scroller instanceof HTMLElement ? parseFloat(getComputedStyle(scroller).paddingBottom) || 0 : 0;
+    root.style.setProperty('--_fit', `${Math.max(520, window.innerHeight - top - pad - 8)}px`);
+  };
+  window.addEventListener('resize', fit);
+  requestAnimationFrame(fit);
 
   // Arriving from a link to one commitment (#c-11-35) lands on it.
   const hash = location.hash.replace(/^#c-/, '');
-  if (hash) {
-    const code = `COA ${hash.replace(/-/g, '.')}`;
-    if (sections.has(code)) requestAnimationFrame(() => go(code));
+  if (hash) want = keyOf('itp', `COA ${hash.replace(/-/g, '.')}`);
+  if (want && keys().includes(want)) {
+    const { doc, code } = split(want);
+    current = code;
+    if (doc !== activeDoc()) setActiveDoc(doc);
   }
+  render();
 }

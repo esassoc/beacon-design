@@ -1,0 +1,152 @@
+---
+// <BcnSw3Attributes> — everything parsed out of one commitment, read only: its
+// requirements (numbered as they are in the text, each with its type and an Edit key), then
+// a roll-up of what they link to, by kind: species, milestones, phases, construction
+// activities, seasons. A phrasing Beacon
+// would merge into another sits on its row with Merge and Keep separate, so the project's
+// entities are reviewed where they are used.
+//
+// Hover a requirement or a linked thing and the text lights the words it came from; click a
+// requirement to select it (the rest of the rail dims what it does not use).
+//
+// Contract: sw3-attributes.ts `setupSw3Attributes(root, handlers)` returns { show(code, sel) }.
+//   out  onSelect(reqId | null)   onHover({ reqIds, valueKeys } | null)   onEdit(reqId)
+//
+// bcn-lego-checked: counts ARE esa-badge, keys ARE esa-button (chrome, ghost). The list
+// rows are buttons: a requirement row selects. Checked Beacon: the commitment page's
+// Species / Construction Activities / Seasons cards are this, one card per kind with an
+// empty-state box each; here every kind is a short list in one rail, with its requirement
+// numbers. bcn-sw3-attributes is the home.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+
+const KINDS = [
+  { key: 'species', label: 'Species' },
+  { key: 'milestone', label: 'Milestones' },
+  { key: 'phase', label: 'Phases' },
+  { key: 'activity', label: 'Construction activities' },
+  { key: 'season', label: 'Seasons' },
+] as const;
+---
+
+<div class="bcn-sw3at" data-sw3-attrs>
+  <section class="bcn-sw3at__sec" data-at-sec="req">
+    <h3 class="bcn-sw3at__h">Requirements <span data-at-count><EsaBadge variant="secondary" size="xs" value="0" /></span></h3>
+    <ol class="bcn-sw3at__reqs" data-at-reqs></ol>
+  </section>
+  {
+    KINDS.map((k) => (
+      <section class="bcn-sw3at__sec" data-at-sec={k.key}>
+        <h3 class="bcn-sw3at__h">
+          {k.label}
+          <span data-at-count>
+            <EsaBadge variant="secondary" size="xs" value="0" />
+          </span>
+        </h3>
+        <ul class="bcn-sw3at__list" data-at-list={k.key} />
+        <p class="bcn-sw3at__none" data-at-none>None</p>
+      </section>
+    ))
+  }
+  <!-- Keys the controller clones per row. -->
+  <template data-at-tpl="edit"><EsaButton variant="chrome" iconOnly icon="pencil" label="Edit requirement" size="xs" /></template>
+  <template data-at-tpl="merge"><EsaButton variant="secondary" size="xs">Merge</EsaButton></template>
+  <template data-at-tpl="keep"><EsaButton variant="ghost" size="xs">Keep separate</EsaButton></template>
+</div>
+
+<style>
+  .bcn-sw3at {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    color: var(--color-content-default);
+  }
+  .bcn-sw3at__sec {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    padding: var(--spacing-300) var(--spacing-400);
+    border-bottom: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-sw3at__sec:last-child { border-bottom: 0; }
+  .bcn-sw3at__h {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .bcn-sw3at__none { margin: 0; color: var(--color-content-default-tertiary); }
+  .bcn-sw3at__none[hidden] { display: none; }
+  .bcn-sw3at__reqs,
+  .bcn-sw3at__list { display: flex; flex-direction: column; gap: 1px; margin: 0; padding: 0; list-style: none; }
+  .bcn-sw3at__list:empty { display: none; }
+
+  /* A requirement: its number in its highlight, name, type; Edit at the end. */
+  .bcn-sw3at :global(.bcn-sw3at__req) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
+    gap: var(--spacing-200);
+    padding: var(--spacing-150) var(--spacing-200);
+    margin: 0 calc(-1 * var(--spacing-200));
+    border-radius: var(--radius-100);
+    cursor: pointer;
+  }
+  .bcn-sw3at :global(.bcn-sw3at__req:hover) { background: var(--color-background-default-hover); }
+  .bcn-sw3at :global(.bcn-sw3at__req[data-selected]) { background: var(--color-background-elevation-sunken); box-shadow: inset 0 0 0 1px var(--color-border-default); }
+  .bcn-sw3at :global(.bcn-sw3at__req:focus-visible) { outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color); outline-offset: -2px; }
+  /* Its swatch: the ink it is highlighted in. Not in the text: no ink. */
+  .bcn-sw3at :global(.bcn-sw3at__n) {
+    width: 1.125rem;
+    height: 0.75rem;
+    margin-top: 3px;
+    background: var(--bcn-marker-1) center / 100% 100% no-repeat;
+  }
+  .bcn-sw3at :global(.bcn-sw3at__n:not([data-ink])) { background: none; }
+  .bcn-sw3at :global(.bcn-sw3at__n[data-ink='2']) { background-image: var(--bcn-marker-2); }
+  .bcn-sw3at :global(.bcn-sw3at__n[data-ink='3']) { background-image: var(--bcn-marker-3); }
+  .bcn-sw3at :global(.bcn-sw3at__n[data-ink='4']) { background-image: var(--bcn-marker-4); }
+  .bcn-sw3at :global(.bcn-sw3at__n[data-ink='5']) { background-image: var(--bcn-marker-5); }
+  .bcn-sw3at :global(.bcn-sw3at__n[data-ink='6']) { background-image: var(--bcn-marker-6); }
+  .bcn-sw3at :global(.bcn-sw3at__reqtext) { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+  .bcn-sw3at :global(.bcn-sw3at__reqname) { font-weight: 500; }
+  /* The requirement's ID ahead of its name, as a numbered list reads. */
+  .bcn-sw3at :global(.bcn-sw3at__reqid) {
+    margin-right: 0.4em;
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-sw3at :global(.bcn-sw3at__reqtype) { color: var(--color-content-default-secondary); font-size: 0.75rem; }
+  .bcn-sw3at :global(.bcn-sw3at__reqtype[data-unsure])::after { content: ' (unsure)'; color: var(--color-content-warning); }
+
+  /* A linked thing: its name, then the requirements that name it. */
+  .bcn-sw3at :global(.bcn-sw3at__item) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--spacing-100) var(--spacing-200);
+    padding: 3px var(--spacing-200);
+    margin: 0 calc(-1 * var(--spacing-200));
+    border-radius: var(--radius-100);
+    transition: opacity 120ms ease;
+  }
+  .bcn-sw3at :global(.bcn-sw3at__item:hover) { background: var(--color-background-default-hover); }
+  .bcn-sw3at :global(.bcn-sw3at__item[data-dim]),
+  .bcn-sw3at :global(.bcn-sw3at__req[data-dim]) { opacity: 0.4; }
+  .bcn-sw3at :global(.bcn-sw3at__name) { flex: 1; min-width: 8rem; }
+  .bcn-sw3at :global(.bcn-sw3at__merge) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-150);
+    width: 100%;
+    padding: var(--spacing-150) var(--spacing-200);
+    border-radius: var(--radius-100);
+    background: var(--color-background-warning-subtle);
+    font-size: 0.75rem;
+  }
+  .bcn-sw3at :global(.bcn-sw3at__merge > span) { flex: 1 1 100%; }
+</style>
