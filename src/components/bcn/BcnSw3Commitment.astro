@@ -11,7 +11,9 @@
 // off until there is one):
 //   Select (V)            click a highlight to select it; its ends grow grips to drag
 //   Highlight (H)         one drag over free words makes them a new requirement; Esc cancels.
-//                         With a wavy-underlined sentence selected (click it), it makes that one
+//                         With a wavy-underlined sentence selected (click it), it makes that one.
+// A wavy-underlined sentence, clicked, also opens a small card under it: Make a requirement
+// (its record opens to edit) and Not binding. Esc or a click elsewhere closes it.
 //   Delete (Delete)       the selected requirement, highlight and record
 //   Undo, Redo (Cmd+Z, Shift+Cmd+Z)  any change to step 2's record, here, in the rail, in a
 //                         side panel or accepted from Aldo; it lands on the commitment it was on
@@ -28,7 +30,9 @@
 // bcn-lego-checked: the code is bcn-commitment-badge, the keys are esa-button (icons per
 // lucide-extra.ts where the registry lacks the glyph), as bcn-sw3-page-tools composes them; the text
 // follows bcn-submission-text with the highlight grammar of bcn-comment-topics.css
-// (mark.bcn-hl, data-suggested dashed) and its two end grips for resizing. Checked Beacon: its commitment page shows the full
+// (mark.bcn-hl, data-suggested dashed) and its two end grips for resizing. The card on a
+// wavy sentence is positioned in the page as the grips are: esa-popover anchors through an
+// inline-block wrapper, which would break a sentence that runs across lines. Checked Beacon: its commitment page shows the full
 // text plain in a box, with no requirement spans. bcn-sw3-commitment is the home for "one
 // source passage, carved into requirements".
 import '../../styles/bcn-comment-topics.css';
@@ -84,6 +88,12 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
     <p class="bcn-sw3c__parsing" data-c-parsing hidden>Parsing</p>
     <div class="bcn-sw3c__text" data-c-text set:html={html} />
     <div class="bcn-sw3c__unanchored" data-c-unanchored />
+    {!readonly && (
+      <div class="bcn-sw3c__pop" data-c-gap-pop role="group" aria-label="Not tracked" hidden>
+        <span data-c-gap-track><EsaButton variant="ghost" size="xs">Make a requirement</EsaButton></span>
+        <span data-c-gap-not><EsaButton variant="ghost" size="xs">Not binding</EsaButton></span>
+      </div>
+    )}
     <span class="bcn-sw3c__grip" data-c-grip="start" hidden aria-hidden="true"></span>
     <span class="bcn-sw3c__grip" data-c-grip="end" hidden aria-hidden="true"></span>
   </div>
@@ -132,6 +142,8 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
     gap: var(--spacing-400);
     padding: var(--spacing-500) var(--spacing-600);
   }
+  /* Room under the last line for the card on a sentence nothing tracks. */
+  .bcn-sw3c:not([data-readonly]) .bcn-sw3c__page { padding-bottom: calc(var(--spacing-500) + 2.5rem); }
   .bcn-sw3c__head { display: flex; align-items: center; gap: var(--spacing-300); }
   .bcn-sw3c__title {
     flex: 1;
@@ -228,6 +240,20 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
 
   /* Resize grips: a bar the height of the line with a knob, at each end of the selected
      requirement (bcn-submission-text's, the text-editor selection handle people know). */
+  /* The card on a sentence nothing tracks: under its last line, its two keys. */
+  .bcn-sw3c__pop {
+    position: absolute;
+    z-index: 3;
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--color-content-default) 14%, transparent);
+    font-family: var(--typography-font-family-sans);
+  }
+  .bcn-sw3c__pop[hidden] { display: none; }
   .bcn-sw3c__grip {
     position: absolute;
     width: 2px;

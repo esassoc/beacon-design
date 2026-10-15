@@ -33,6 +33,7 @@ import {
   confirmCommitment,
   reopenCommitment,
   createRequirement,
+  markNotBinding,
   removeRequirement,
   editRequirement,
   setReviewFocus,
@@ -212,6 +213,45 @@ export function setupSw3Review(root: HTMLElement): void {
     return true;
   };
   tool('mark').addEventListener('click', () => trackGap() || setMode(art.dataset.mode === 'mark' ? 'select' : 'mark'));
+
+  // ── The card on a sentence nothing tracks ───────────────────────────────────
+  const pop = art.querySelector<HTMLElement>('[data-c-gap-pop]')!;
+  const placePop = () => {
+    const marks = selectedGap === null ? [] : [...body.querySelectorAll<HTMLElement>(`mark.bcn-at-gap[data-gap="${selectedGap}"]`)];
+    if (!marks.length || body.hidden) {
+      pop.hidden = true;
+      return;
+    }
+    pop.hidden = false;
+    const box = art.querySelector<HTMLElement>('[data-c-page]')!.getBoundingClientRect();
+    const rects = marks.at(-1)!.getClientRects();
+    const last = rects[rects.length - 1];
+    const left = Math.max(8, Math.min(last.left - box.left, box.width - pop.offsetWidth - 8));
+    pop.style.left = `${left}px`;
+    pop.style.top = `${last.bottom - box.top + 6}px`;
+    if (revealPop) {
+      revealPop = false;
+      pop.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  };
+  let revealPop = false;
+  pop.querySelector('[data-c-gap-track]')!.addEventListener('click', () => trackGap());
+  pop.querySelector('[data-c-gap-not]')!.addEventListener('click', () => {
+    if (!current || selectedGap === null) return;
+    const at = selectedGap;
+    selectedGap = null;
+    markNotBinding(current, at);
+  });
+  const closePop = () => {
+    if (selectedGap === null) return;
+    selectedGap = null;
+    render();
+  };
+  document.addEventListener('pointerdown', (e) => {
+    const t = e.target as HTMLElement;
+    if (t.closest('[data-c-gap-pop], mark.bcn-at-gap, [data-c-tool="mark"], [data-at-gap]')) return;
+    closePop();
+  });
   const deleteSelected = () => {
     if (!current || !selected) return;
     const id = selected;
@@ -248,6 +288,7 @@ export function setupSw3Review(root: HTMLElement): void {
     const k = e.key.toLowerCase();
     if (k === 'v') setMode('select');
     else if (k === 'h') trackGap() || setMode('mark');
+    else if (k === 'escape' && selectedGap !== null) closePop();
     else if (k === 'escape' && art.dataset.mode === 'mark') setMode('select');
     else if ((e.key === 'Delete' || e.key === 'Backspace') && selected) (e.preventDefault(), deleteSelected());
   });
@@ -339,6 +380,7 @@ export function setupSw3Review(root: HTMLElement): void {
       const at = Number(gap.dataset.gap);
       selectedGap = selectedGap === at ? null : at;
       selected = null;
+      revealPop = selectedGap !== null;
       return render();
     }
     const mark = (e.target as HTMLElement).closest<HTMLElement>('mark.bcn-hl[data-sid]');
@@ -543,7 +585,7 @@ export function setupSw3Review(root: HTMLElement): void {
     btnOf(tool('undo')).disabled = !canUndoReview();
     btnOf(tool('redo')).disabled = !canRedoReview();
     setReviewFocus(code);
-    requestAnimationFrame(placeGrips);
+    requestAnimationFrame(() => (placeGrips(), placePop()));
     attrs.show(code, selected);
     fire('sw3:rev-current', { code, reqId: selected });
   };

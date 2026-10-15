@@ -808,7 +808,7 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-sw3at .bcn-sw3at__reqtype[data-unsure]:after {
   content: " (unsure)";
-  color: var(--color-content-warning);
+  color: var(--bcn-aldo);
 }
 .bcn-sw3at .bcn-sw3at__item {
   align-items: baseline;
@@ -1074,7 +1074,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--color-content-warning`: #ab6400 _(component)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_

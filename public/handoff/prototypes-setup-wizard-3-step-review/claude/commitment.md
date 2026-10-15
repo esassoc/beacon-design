@@ -6,7 +6,8 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
 - No borders on the highlighter, and no list numbers ("R1"). Selected is a heavier pass of the same ink; with one selected or hovered from the rail, the others' ink fades and their words stay black.
 - The highlights are edited by hand, as on the comments prototype. The selected requirement grows a grip at each end; dragging one moves that end to the word under the pointer, live, and release saves it. Ends snap to whole words and stop at a paragraph break or the next requirement.
 - Highlight mode: one drag over free words makes them a new requirement ("New requirement"), selected, its record opened in the side panel to name it; then the mode returns to Select. A drag over words another requirement holds is clipped to the free words. Esc cancels.
-- Clicking a wavy-underlined sentence selects it (lit in a green wash, its rail row marked); Highlight or H then makes it a requirement and opens its record.
+- Clicking a wavy-underlined sentence selects it (lit in a green wash, its rail row marked) and opens a small card under its last line: Make a requirement (its record opens to edit) and Not binding. Highlight or H also makes it one. Esc or a click elsewhere closes the card; the pane scrolls to show it.
+- Aldo's green marks what Aldo is asking about: the wavy rule, a duplicate's wavy rule, and "(unsure)" on a requirement's type in the rail.
 - Undo and Redo (Cmd+Z, Shift+Cmd+Z) step through every change to the step's record: highlights, records, not binding, merges, confirmations, Aldo's proposals accepted (a proposal and its edits are one step, and its keys come back). Each step lands on the commitment it was made on. The conversation itself is not undone. History lives for the page load, per file.
 - In a narrow pane the mode labels fold away, then the page key's; titles carry them.
 - Delete removes the selected requirement, highlight and record. Words can still change by telling Aldo (split, merge, you missed this).
@@ -347,6 +348,29 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
       </p>
     </div>
     <div class="bcn-sw3c__unanchored" data-c-unanchored=""></div>
+    <div
+      class="bcn-sw3c__pop"
+      data-c-gap-pop=""
+      role="group"
+      aria-label="Not tracked"
+      hidden=""
+    >
+      <span data-c-gap-track=""
+        ><span
+          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+          ><button class="esa-button__native typography-microcopy-2xs" type="button">
+            <span class="esa-button__label">Make a requirement</span>
+          </button></span
+        ></span
+      ><span data-c-gap-not=""
+        ><span
+          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+          ><button class="esa-button__native typography-microcopy-2xs" type="button">
+            <span class="esa-button__label">Not binding</span>
+          </button></span
+        ></span
+      >
+    </div>
     <span class="bcn-sw3c__grip" data-c-grip="start" hidden="" aria-hidden="true"></span
     ><span class="bcn-sw3c__grip" data-c-grip="end" hidden="" aria-hidden="true"></span>
   </div>
@@ -359,6 +383,13 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
 .esa-button-group__slot {
   display: contents;
 }
+.typography-microcopy-2xs {
+  font-family: var(--typography-microcopy-2xs-font-family);
+  font-size: var(--typography-microcopy-2xs-font-size);
+  font-weight: var(--typography-microcopy-2xs-font-weight);
+  line-height: var(--typography-microcopy-2xs-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
+}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
@@ -366,12 +397,26 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
+.typography-microcopy-2xs-subtle {
+  font-family: var(--typography-microcopy-2xs-subtle-font-family);
+  font-size: var(--typography-microcopy-2xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-2xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-2xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
+}
 .typography-microcopy-xs-subtle {
   font-family: var(--typography-microcopy-xs-subtle-font-family);
   font-size: var(--typography-microcopy-xs-subtle-font-size);
   font-weight: var(--typography-microcopy-xs-subtle-font-weight);
   line-height: var(--typography-microcopy-xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
+.typography-microcopy-2xs-strong {
+  font-family: var(--typography-microcopy-2xs-strong-font-family);
+  font-size: var(--typography-microcopy-2xs-strong-font-size);
+  font-weight: var(--typography-microcopy-2xs-strong-font-weight);
+  line-height: var(--typography-microcopy-2xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
 }
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
@@ -651,6 +696,9 @@ mark.bcn-hl[data-family="none"] {
   display: flex;
   position: relative;
 }
+.bcn-sw3c:not([data-readonly]) .bcn-sw3c__page {
+  padding-bottom: calc(var(--spacing-500) + 2.5rem);
+}
 .bcn-sw3c__head {
   align-items: center;
   gap: var(--spacing-300);
@@ -802,6 +850,21 @@ mark.bcn-hl[data-family="none"] {
     var(--bcn-aldo, var(--color-background-info)) 28%,
     transparent
   );
+}
+.bcn-sw3c__pop {
+  z-index: 3;
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-200);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-content-default) 14%, transparent);
+  font-family: var(--typography-font-family-sans);
+  gap: 2px;
+  padding: 2px;
+  display: flex;
+  position: absolute;
+}
+.bcn-sw3c__pop[hidden] {
+  display: none;
 }
 .bcn-sw3c__grip {
   background: var(--color-content-default);
@@ -1060,6 +1123,13 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
   color: var(--bcn-aldo-600);
 }
+.typography-microcopy-2xs {
+  font-family: var(--typography-microcopy-2xs-font-family);
+  font-size: var(--typography-microcopy-2xs-font-size);
+  font-weight: var(--typography-microcopy-2xs-font-weight);
+  line-height: var(--typography-microcopy-2xs-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
+}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
@@ -1067,12 +1137,26 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
+.typography-microcopy-2xs-subtle {
+  font-family: var(--typography-microcopy-2xs-subtle-font-family);
+  font-size: var(--typography-microcopy-2xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-2xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-2xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
+}
 .typography-microcopy-xs-subtle {
   font-family: var(--typography-microcopy-xs-subtle-font-family);
   font-size: var(--typography-microcopy-xs-subtle-font-size);
   font-weight: var(--typography-microcopy-xs-subtle-font-weight);
   line-height: var(--typography-microcopy-xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
+.typography-microcopy-2xs-strong {
+  font-family: var(--typography-microcopy-2xs-strong-font-family);
+  font-size: var(--typography-microcopy-2xs-strong-font-size);
+  font-weight: var(--typography-microcopy-2xs-strong-font-weight);
+  line-height: var(--typography-microcopy-2xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
 }
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
@@ -1236,6 +1320,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
+- `--radius-200`: .5rem _(primitive)_
 - `--radius-xs`: .125rem _(semantic)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
@@ -1249,6 +1334,21 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
+- `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-microcopy-2xs-font-weight`: 500 _(semantic)_
+- `--typography-microcopy-2xs-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-2xs-line-height`: 1 _(semantic)_
+- `--typography-microcopy-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-2xs-strong-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-microcopy-2xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-microcopy-2xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
