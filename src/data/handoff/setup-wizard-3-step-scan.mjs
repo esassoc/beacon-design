@@ -41,7 +41,7 @@ export default {
       decisions: [
         'SetupWizardSourceDto and SetupWizardSourceFileDto as they are: source fields plus files with PageCount and CommitmentCount. The per-file scan state is new.',
         'Every run keeps going while another file is in view.',
-        'Each row carries one badge for what waits on that file: "3 to check" at the check, otherwise "N to settle" (its Open items list). A scanned file reads "Reading page images, p. N of M" with a progress bar while OCR runs.',
+        'Each file\'s state is a badge under its name: Not scanned (gray), Scanning (blue, with a progress bar), Paused at p. N (gray), 157 commitments (green), No commitments (gray). Beside it, one badge for what waits on that file: "3 to check" at the check, otherwise "N to settle" (its Open items list). A scanned file reads "Reading page images, p. N of M" with a progress bar while OCR runs.',
         'Deletes ask first through a confirm dialog that states the impact (DeletionImpactGet): how many files and commitments go with it.',
       ],
       acceptance: [

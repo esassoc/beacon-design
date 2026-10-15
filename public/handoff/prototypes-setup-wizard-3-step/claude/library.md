@@ -5,7 +5,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
 ## Key decisions
 - SetupWizardSourceDto and SetupWizardSourceFileDto as they are: source fields plus files with PageCount and CommitmentCount. The per-file scan state is new.
 - Every run keeps going while another file is in view.
-- Each row carries one badge for what waits on that file: "3 to check" at the check, otherwise "N to settle" (its Open items list). A scanned file reads "Reading page images, p. N of M" with a progress bar while OCR runs.
+- Each file's state is a badge under its name: Not scanned (gray), Scanning (blue, with a progress bar), Paused at p. N (gray), 157 commitments (green), No commitments (gray). Beside it, one badge for what waits on that file: "3 to check" at the check, otherwise "N to settle" (its Open items list). A scanned file reads "Reading page images, p. N of M" with a progress bar while OCR runs.
 - Deletes ask first through a confirm dialog that states the impact (DeletionImpactGet): how many files and commitments go with it.
 
 ## Done when
@@ -144,7 +144,11 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
                   >ITP_2081-2024-018-00_Si</span
                 ><span class="bcn-sw3src__fend" data-file-end="">gned.pdf</span></span
               ><span class="bcn-sw3src__fstate"
-                ><span data-file-state="">Not scanned</span
+                ><span data-file-state-badge="" title="Not scanned"
+                  ><span
+                    class="esa-badge esa-badge--secondary esa-badge--xs typography-microcopy-2xs-strong"
+                    ><span class="esa-badge__text">Not scanned</span></span
+                  ></span
                 ><span data-file-badge="" hidden=""
                   ><span
                     class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong"
@@ -296,7 +300,11 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
                 ><span class="bcn-sw3src__fstart" data-file-start="">04_DCP_MMRP</span
                 ><span class="bcn-sw3src__fend" data-file-end="">_ADA.pdf</span></span
               ><span class="bcn-sw3src__fstate"
-                ><span data-file-state="">Not scanned</span
+                ><span data-file-state-badge="" title="Not scanned"
+                  ><span
+                    class="esa-badge esa-badge--secondary esa-badge--xs typography-microcopy-2xs-strong"
+                    ><span class="esa-badge__text">Not scanned</span></span
+                  ></span
                 ><span data-file-badge="" hidden=""
                   ><span
                     class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong"
@@ -384,7 +392,11 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
                   >02.0_Delta Conveyance Project Notice of Determination Signed 21D</span
                 ><span class="bcn-sw3src__fend" data-file-end="">EC23.pdf</span></span
               ><span class="bcn-sw3src__fstate"
-                ><span data-file-state="">Not scanned</span
+                ><span data-file-state-badge="" title="Not scanned"
+                  ><span
+                    class="esa-badge esa-badge--secondary esa-badge--xs typography-microcopy-2xs-strong"
+                    ><span class="esa-badge__text">Not scanned</span></span
+                  ></span
                 ><span data-file-badge="" hidden=""
                   ><span
                     class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong"
@@ -605,7 +617,14 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
               data-astro-cid-6isyew5u=""
             ></span></span
           ><span class="bcn-sw3src__fstate" data-astro-cid-6isyew5u=""
-            ><span data-file-state="" data-astro-cid-6isyew5u=""></span
+            ><span data-file-state-badge="" data-astro-cid-6isyew5u=""
+              ><span
+                class="esa-badge esa-badge--secondary esa-badge--xs typography-microcopy-2xs-strong"
+                data-astro-cid-sh7ulwla=""
+                ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
+                  >Not scanned</span
+                ></span
+              ></span
             ><span data-file-badge="" hidden="" data-astro-cid-6isyew5u=""
               ><span
                 class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong"
@@ -1160,8 +1179,21 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: 500;
   display: flex;
 }
-.bcn-sw3src__list .bcn-sw3src__fstate [data-file-state]:empty {
+.bcn-sw3src__list .bcn-sw3src__fstate [hidden] {
   display: none;
+}
+.bcn-sw3src__list .bcn-sw3src__fstate {
+  gap: var(--spacing-100);
+  flex-wrap: nowrap;
+  min-width: 0;
+  margin-top: 2px;
+}
+.bcn-sw3src__list .bcn-sw3src__fstate [data-file-state-badge] {
+  --color-background-brand-muted: var(--color-background-elevation-sunken);
+  --color-content-on-brand-muted: var(--color-content-default-secondary);
+}
+.bcn-sw3src__list .bcn-sw3src__fstate .esa-badge--secondary {
+  border: 1px solid var(--color-border-default);
 }
 .bcn-sw3src__list .bcn-sw3src__progress {
   margin-top: 2px;

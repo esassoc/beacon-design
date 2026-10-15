@@ -37,7 +37,7 @@ const SOURCE_MENU: EsaMenuItem[] = [
   { label: 'Edit details', action: 'edit' },
   { label: 'Add files', action: 'add' },
   { divider: true, label: '' },
-  { label: 'Delete source document', action: 'delete', variant: 'danger' },
+  { label: 'Delete', action: 'delete', variant: 'danger' },
 ];
 const FILE_MENU: EsaMenuItem[] = [
   { label: 'Download', action: 'download' },
@@ -48,6 +48,25 @@ const FILE_MENU: EsaMenuItem[] = [
 
 /** Keep a long file name's start and its end (where the version and date usually are). */
 export const middle = (s: string, max = 30) => (s.length <= max ? s : `${s.slice(0, Math.ceil(max * 0.6))}…${s.slice(-Math.floor(max * 0.4) + 1)}`);
+
+/** The file's state as a badge: its words and its tone. Empty words: no state badge (the
+ *  check's own "N to check" badge says it). Reading shows its page in the row's tooltip and
+ *  its progress in the bar under it. */
+type Tone = 'secondary' | 'info' | 'success' | 'warning';
+const stateBadge = (s: FileState): { text: string; tone: Tone } =>
+  s.kind === 'idle'
+    ? { text: 'Not scanned', tone: 'secondary' }
+    : s.kind === 'preparing'
+      ? { text: 'Reading images', tone: 'info' }
+      : s.kind === 'reading'
+        ? { text: 'Scanning', tone: 'info' }
+        : s.kind === 'check'
+          ? { text: s.count ? '' : 'Checked', tone: 'secondary' }
+          : s.kind === 'paused'
+            ? { text: `Paused at p. ${s.page}`, tone: 'secondary' }
+            : s.kind === 'done'
+              ? { text: `${s.commitments} commitment${s.commitments === 1 ? '' : 's'}`, tone: 'success' }
+              : { text: 'No commitments', tone: 'secondary' };
 
 const stateText = (s: FileState) =>
   s.kind === 'idle'
@@ -161,7 +180,16 @@ export function setupSw3SourcesUi(root: HTMLElement, h: Handlers) {
         fe.querySelector('[data-file-start]')!.textContent = f.name.slice(0, cut);
         fe.querySelector('[data-file-end]')!.textContent = f.name.slice(cut);
         fe.title = f.name;
-        fe.querySelector('[data-file-state]')!.textContent = stateText(f.state);
+        const sb = stateBadge(f.state);
+        const sHost = fe.querySelector<HTMLElement>('[data-file-state-badge]')!;
+        sHost.hidden = !sb.text;
+        const sEl = sHost.querySelector<HTMLElement>('.esa-badge') ?? (sHost.firstElementChild as HTMLElement);
+        if (sEl) {
+          const tEl = sEl.querySelector('.esa-badge__text') ?? sEl;
+          if (tEl.textContent !== sb.text) tEl.textContent = sb.text;
+          for (const t of ['secondary', 'info', 'success', 'warning', 'primary']) sEl.classList.toggle(`esa-badge--${t}`, t === sb.tone);
+        }
+        sHost.title = stateText(f.state);
         const badge = fe.querySelector<HTMLElement>('[data-file-badge]')!;
         // One badge: what waits on the person in this file, the check first.
         const badgeText = f.state.kind === 'check' && f.state.count ? `${f.state.count} to check` : f.state.settle ? `${f.state.settle} to settle` : '';

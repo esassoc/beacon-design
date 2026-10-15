@@ -7,12 +7,14 @@
 // shut by its chevron. A source is its name over its reference number, with ⋯ for Edit details, Add files and
 // Delete source; selecting it opens its details in the main pane (prod's source view:
 // fields, files, the upload dropzone). Its files sit under it, one row each: the file's
-// name (middle-truncated) and one state, never a string of counts:
-//   Not scanned
-//   Reading p. 16 of 170 (with a progress bar under the row)
-//   3 to check (a warning badge: the run has stopped for the person)
-//   Paused at p. 40
-//   157 commitments / No commitments
+// name (middle-truncated) and its state as a badge (esa-badge, tone by state), never a
+// string of counts:
+//   Not scanned            gray
+//   Scanning               blue, with a progress bar under the row (the page in the tooltip)
+//   3 to check             amber: the run has stopped for the person
+//   Paused at p. 40        gray
+//   157 commitments        green; No commitments gray
+// and, beside it, "N to settle" (amber) while open items wait in that file.
 // Selecting a file brings its scan into view; ⋯ on it downloads it, restarts its scan or
 // deletes it. New source document is pinned at the foot.
 //
@@ -65,7 +67,7 @@ import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
         <span class="bcn-sw3src__filetext">
           <span class="bcn-sw3src__fname" data-file-name><span class="bcn-sw3src__fstart" data-file-start></span><span class="bcn-sw3src__fend" data-file-end></span></span>
           <span class="bcn-sw3src__fstate">
-            <span data-file-state></span>
+            <span data-file-state-badge><EsaBadge value="Not scanned" variant="secondary" size="xs" /></span>
             <span data-file-badge hidden><EsaBadge value="3 to check" variant="warning" size="xs" /></span>
           </span>
           <span class="bcn-sw3src__progress" data-file-progress hidden><EsaProgressBar size="xs" value={0} showValue={false} /></span>
@@ -214,7 +216,16 @@ import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
     color: var(--color-content-default-secondary);
     font-variant-numeric: tabular-nums;
   }
-  .bcn-sw3src__list :global(.bcn-sw3src__fstate [data-file-state]:empty) { display: none; }
+  .bcn-sw3src__list :global(.bcn-sw3src__fstate [hidden]) { display: none; }
+  .bcn-sw3src__list :global(.bcn-sw3src__fstate) { flex-wrap: nowrap; gap: var(--spacing-100); margin-top: 2px; min-width: 0; }
+  /* A state with nothing to say (Not scanned, Paused, No commitments) is a quiet gray chip:
+     esa-badge has no neutral variant, so its secondary is re-pointed from the brand tint to
+     the sunken gray, with the hairline the toned badges carry. */
+  .bcn-sw3src__list :global(.bcn-sw3src__fstate [data-file-state-badge]) {
+    --color-background-brand-muted: var(--color-background-elevation-sunken);
+    --color-content-on-brand-muted: var(--color-content-default-secondary);
+  }
+  .bcn-sw3src__list :global(.bcn-sw3src__fstate .esa-badge--secondary) { border: 1px solid var(--color-border-default); }
   .bcn-sw3src__list :global(.bcn-sw3src__progress) { display: block; margin-top: 2px; }
   .bcn-sw3src__list :global(.bcn-sw3src__progress[hidden]) { display: none; }
   /* Row menus show on hover, on focus, and while open. */

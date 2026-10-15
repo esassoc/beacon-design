@@ -1210,6 +1210,9 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
+.bcn-sw3src__list .bcn-sw3src__fstate .esa-badge--secondary {
+  border: 1px solid var(--color-border-default);
+}
 .bcn-aldo-panel {
   --_aldo-text: 0.8125rem;
   --_aldo-meta: 0.75rem;
