@@ -91,7 +91,7 @@ const { label = 'Commitment', size = 50 } = Astro.props;
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    padding-top: 4px;
+    padding-top: 7px;
     border-radius: 2px;
     background: color-mix(in srgb, var(--color-content-default) 16%, var(--color-background-elevation-raised));
     /* A run with a hue (step 3's categories): a band along the foot of each of its cells. */
@@ -115,14 +115,14 @@ const { label = 'Commitment', size = 50 } = Astro.props;
   .bcn-cscrub__track :global(.bcn-cscrub__mark) {
     display: block;
     flex: none;
-    width: 7px;
-    height: 7px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
     background: var(--_mark);
   }
   .bcn-cscrub__track :global(.bcn-cscrub__mark[data-dim]) { opacity: 0.45; }
   /* At the cell's foot, clear of a hue band. */
-  .bcn-cscrub__track :global(.bcn-cscrub__mark[data-at='bottom']) { margin: auto 0 6px; }
+  .bcn-cscrub__track :global(.bcn-cscrub__mark[data-at='bottom']) { margin: auto 0 9px; }
 
   /* A file boundary: a rule through the strip, in the gap between two cells. */
   .bcn-cscrub__track :global(.bcn-cscrub__sep) {

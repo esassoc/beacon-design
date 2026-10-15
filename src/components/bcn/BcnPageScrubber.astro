@@ -106,7 +106,7 @@ const { label = 'Page', size = 50 } = Astro.props;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding-top: 4px;
+    padding-top: 6px;
     border-radius: 2px;
     /* Unread and in scope: a light gray page, plain to see. */
     background: color-mix(in srgb, var(--color-content-default) 16%, var(--color-background-elevation-raised));
@@ -133,10 +133,10 @@ const { label = 'Page', size = 50 } = Astro.props;
   }
   .bcn-scrub__track :global(.bcn-scrub__pip) {
     display: block;
-    width: 7px;
-    height: 7px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    border: 1.5px solid var(--color-background-elevation-raised);
+    border: 1.25px solid var(--color-background-elevation-raised);
     background: transparent;
     cursor: pointer;
     animation: bcn-scrub-pop 220ms ease-out;
