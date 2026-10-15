@@ -1,0 +1,50 @@
+---
+// <BcnDetailFact> — one fact inside <BcnDetailFacts> (port of prod detail-facts'
+// __fact / __label / __value). The value is the default slot, so it can be plain text
+// or rich content; an optional `note` slot renders prod's quieter second line
+// ("High 98°F · Low 61°F").
+//
+// bcn-lego-checked: child of bcn-detail-facts (see that file) — no esa-* equivalent.
+
+interface Props {
+  label: string;
+  /** Span both columns in a two-column BcnDetailFacts. */
+  full?: boolean;
+}
+const { label, full = false } = Astro.props;
+---
+
+<div class="bcn-detail-fact" data-full={full || undefined}>
+  <dt class="bcn-detail-fact__label">{label}</dt>
+  <dd class="bcn-detail-fact__value">
+    <slot />
+    {Astro.slots.has('note') && <span class="bcn-detail-fact__note"><slot name="note" /></span>}
+  </dd>
+</div>
+
+<style>
+  .bcn-detail-fact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100, 0.25rem);
+    padding-block: var(--spacing-300, 0.75rem);
+  }
+  .bcn-detail-fact__label {
+    font-size: var(--typography-label-md-font-size);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-detail-fact__value {
+    margin: 0;
+    font-size: var(--typography-body-md-font-size, 1rem);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+    overflow-wrap: anywhere;
+  }
+  .bcn-detail-fact__note {
+    display: block;
+    font-size: var(--typography-label-md-font-size);
+    font-weight: var(--typography-font-weight-regular, 400);
+    font-style: italic;
+    color: var(--color-content-default-secondary);
+  }
+</style>

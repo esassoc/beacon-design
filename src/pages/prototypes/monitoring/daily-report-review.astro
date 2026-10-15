@@ -1,0 +1,112 @@
+---
+// Monitoring Portal → Daily Reports → one Daily Monitoring Report, in QA/QC review.
+//
+// The internal QA/QC + reporting team reviews a field inspector's daily log here
+// instead of across several Fulcrum grids, corrects it, and generates the PDF
+// report that goes to the agency. Same layout as Beacon prod's Daily Monitoring
+// Report detail page (Details + map, then one section per work area), plus:
+//   - every field is editable, and every edit is tracked;
+//   - monitoring-data corrections are batched and pushed back to Fulcrum together
+//     ("Pending sync" → "Synced"); report-wording edits stay in Beacon ("Edited in
+//     Beacon") and never touch Fulcrum;
+//   - a change log rail records who changed what, and when;
+//   - "Generate report" previews the regulator report, then produces a PDF.
+//
+// All state lives in src/lib/dmr-review-store.ts; fixture (invented scenario —
+// Coyote Wash Substation) in src/data/dmr-review-fixture.ts.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnDmrStatus from '../../../components/bcn/BcnDmrStatus.astro';
+import BcnDmrSyncBar from '../../../components/bcn/BcnDmrSyncBar.astro';
+import BcnDmrDetails from '../../../components/bcn/BcnDmrDetails.astro';
+import BcnDmrWorkAreas from '../../../components/bcn/BcnDmrWorkAreas.astro';
+import BcnDmrChangeLog from '../../../components/bcn/BcnDmrChangeLog.astro';
+import BcnReportPreview from '../../../components/bcn/BcnReportPreview.astro';
+import { withBase } from '../../../lib/base';
+import { PROJECT_NAME, REPORT, TENANT_NAME } from '../../../data/dmr-review-fixture';
+
+// Same per-project nav as the other Monitoring Portal pages (see
+// compliance-dashboard.astro for why it is hand-written per page).
+const LAYOUT_DASHBOARD_PATHS =
+  '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>';
+const MAP_PINNED_PATHS =
+  '<path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/>';
+const SLIDERS_PATHS =
+  '<line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/>';
+
+// Prod's Daily Monitoring Report entity glyph (three rising bars).
+const CHART_PATHS = '<line x1="6" x2="6" y1="20" y2="16"/><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/>';
+
+const nav = [
+  { id: 'project', title: 'Project', icon: 'layout-dashboard', iconPaths: LAYOUT_DASHBOARD_PATHS, link: true },
+  {
+    id: 'monitoring',
+    title: 'Monitoring',
+    icon: 'map-pinned',
+    iconPaths: MAP_PINNED_PATHS,
+    expanded: true,
+    dividerAfter: true,
+    items: [
+      { id: 'mp-compliance-dashboard', label: 'Compliance Dashboard', href: withBase('/prototypes/monitoring/compliance-dashboard') },
+      { id: 'mp-compliance-observations', label: 'Observations', href: withBase('/prototypes/monitoring/compliance-observations') },
+      { id: 'mp-daily-reports', label: 'Daily Reports', href: withBase('/prototypes/monitoring/daily-reports') },
+    ],
+  },
+  {
+    id: 'admin',
+    title: 'Admin',
+    icon: 'sliders-horizontal',
+    iconPaths: SLIDERS_PATHS,
+    items: [{ id: 'dashboard-widgets', label: 'Dashboard Widgets' }],
+  },
+];
+---
+
+<!-- manifest:
+  layout: sidebar(end)                          # main column + change-log rail
+  sections:
+    - status chip     -> bcn-dmr-status          # In Review → Report Generated
+    - sync bar        -> bcn-dmr-sync-bar        # batched Fulcrum corrections: review + push
+    - details + map   -> bcn-dmr-details         # prod's Details card + observations map, fields editable
+    - work areas      -> bcn-dmr-work-areas      # one esa-collapsible per work area
+    - change log      -> bcn-dmr-change-log      # who changed what, when; filter by edit kind
+    - report preview  -> bcn-report-preview      # preview the regulator report, generate the PDF
+-->
+
+<AppShell
+  title={`${REPORT.title} — Daily Reports`}
+  tenantName={TENANT_NAME}
+  projectName={PROJECT_NAME}
+  activeNavId="mp-daily-reports"
+  expandedSections={['monitoring']}
+  navSections={nav}
+>
+  <PageLayout
+    title={REPORT.title}
+    icon="chart-no-axes-column-increasing"
+    iconPaths={CHART_PATHS}
+    breadcrumbs={[
+      { label: PROJECT_NAME, href: '#project' },
+      { label: 'Monitoring Portal', href: withBase('/prototypes/monitoring/compliance-dashboard') },
+      { label: 'Daily Reports', href: withBase('/prototypes/monitoring/daily-reports') },
+      { label: REPORT.title },
+    ]}
+  >
+    <BcnDmrStatus slot="title-badge" />
+    <Fragment slot="utilities">
+      <span data-dmr-open-report><EsaButton variant="primary" appearance="outline" icon="file-text">Generate Report</EsaButton></span>
+    </Fragment>
+
+    <div class="sidebar" data-side="end" data-gap="lg" style="--sidebar-width: 22rem; --sidebar-content-min: 62%;">
+      <BcnDmrChangeLog />
+      <div class="stack" data-gap="lg">
+        <BcnDmrSyncBar />
+        <BcnDmrDetails />
+        <BcnDmrWorkAreas />
+      </div>
+    </div>
+
+    <BcnReportPreview />
+  </PageLayout>
+</AppShell>

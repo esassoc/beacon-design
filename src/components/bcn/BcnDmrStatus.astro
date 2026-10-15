@@ -1,0 +1,42 @@
+---
+// <BcnDmrStatus> — the Daily Monitoring Report's status chip, live. Prod puts a
+// monitoring-status-badge beside the page title; here the status moves while the
+// page is open (In Review → Report Generated once the PDF is made), so every state
+// is pre-rendered as a BcnStatusChip and the script shows the one dmrStore holds.
+// Colors follow prod's detail page (Needs Review reads amber).
+//
+// Usage: <BcnDmrStatus slot="title-badge" />
+
+import BcnStatusChip from './BcnStatusChip.astro';
+import { REPORT, REPORT_STATUS_LABEL, type ReportStatus } from '../../data/dmr-review-fixture';
+
+const HEX: Record<ReportStatus, string> = {
+  'in-progress': 'var(--color-background-utility-danger)',
+  draft: 'var(--color-content-default-tertiary)',
+  'in-review': 'var(--color-background-utility-warning)',
+  'report-generated': 'var(--color-background-utility-success)',
+};
+const statuses = Object.keys(HEX) as ReportStatus[];
+---
+
+<span class="bcn-dmr-status" data-bcn-dmr-status>
+  {statuses.map((s) => (
+    <span data-status={s} hidden={s !== REPORT.status}>
+      <BcnStatusChip status={s} label={REPORT_STATUS_LABEL[s]} hex={HEX[s]} />
+    </span>
+  ))}
+</span>
+
+<script>
+  import { dmrStore } from '../../lib/dmr-review-store';
+
+  const host = document.querySelector<HTMLElement>('[data-bcn-dmr-status]');
+  if (host) {
+    const sync = () => {
+      for (const el of host.querySelectorAll<HTMLElement>('[data-status]')) {
+        el.hidden = el.dataset.status !== dmrStore.state.status;
+      }
+    };
+    dmrStore.addEventListener('change', sync);
+  }
+</script>

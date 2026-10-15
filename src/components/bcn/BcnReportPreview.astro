@@ -1,0 +1,428 @@
+---
+// <BcnReportPreview> — preview the Daily Monitoring Report as the regulator will read
+// it, then generate the PDF. One instance per page.
+//
+// Contract, on `document`:
+//   in   click on any `[data-dmr-open-report]` (closest()) — opens the preview; focus
+//        returns to that trigger on close.
+//   out  bcn-dmr-push-request — "Push to Fulcrum first" (a sibling performs the push;
+//        the preview re-renders on dmrStore 'change', so the alert drops away).
+//   store  dmrStore 'change' → re-render while open; Generate PDF →
+//          dmrStore.reportGenerated(fileName).
+//
+// The document re-renders from buildReportModel(), so it is built at RUNTIME as escaped
+// HTML; the chrome around it (dialog, switch, alert, buttons) is all legos.
+//
+// bcn-lego-checked: the frame IS esa-dialog (lg, widened to a work-surface footprint);
+// the toggle IS esa-switch-toggle; the unpushed-corrections notice IS esa-alert-box; the
+// actions ARE esa-button. No esa-* lego renders a printed-page / document preview (no
+// paper, letterhead or report tables in the catalog). Checked Beacon prod
+// (origin/develop): the DMR detail page only offers a "Download Report" ui-button for a
+// server-made file — no preview pattern to port. bcn-report-preview is the home of the
+// paper simulation; its tables are real <table>s with <th scope>.
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<esa-dialog
+  heading="Report preview"
+  size="lg"
+  class:list={['bcn-report-preview', className]}
+  data-bcn-report-preview
+>
+  <div class="bcn-report-preview__body stack" data-gap="md">
+    <div class="bcn-report-preview__toolbar cluster" data-gap="md">
+      <esa-switch-toggle label="Highlight Beacon edits" checked data-rp-highlight></esa-switch-toggle>
+      <span class="bcn-report-preview__legend typography-body-sm">
+        <span class="bcn-report-preview__swatch" aria-hidden="true" data-rp-swatch></span>
+        <span data-rp-count></span>
+      </span>
+    </div>
+
+    <div data-rp-pending hidden>
+      <EsaAlertBox variant="warning">
+        <div class="stack" data-gap="sm">
+          <span data-rp-pending-text></span>
+          <div class="cluster" data-gap="xs">
+            <EsaButton size="sm" variant="secondary" appearance="outline" icon="upload" data-rp-push>Push to Fulcrum first</EsaButton>
+          </div>
+        </div>
+      </EsaAlertBox>
+    </div>
+
+    <div class="bcn-report-preview__desk">
+      <article class="bcn-report-doc" tabindex="0" aria-label="Report document" data-rp-doc></article>
+    </div>
+  </div>
+
+  <div slot="footer" class="cluster" data-gap="xs">
+    <EsaButton variant="primary" icon="download" data-rp-generate>Generate PDF</EsaButton>
+    <EsaButton variant="ghost" data-rp-cancel>Cancel</EsaButton>
+  </div>
+</esa-dialog>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-switch-toggle';
+  import { announce } from '@esa/ecology/announcer';
+  import { buildReportModel, dmrStore, type ReportModel } from '../../lib/dmr-review-store';
+  import { AGENCY_SEAL_SVG, FIRM_MARK_SVG, photoDataUri, svgDataUri } from '../../lib/dmr-report-art';
+
+  type Dialog = HTMLElement & { open: boolean; close(): void };
+  type Switch = HTMLElement & { checked: boolean };
+
+  const esc = (s: string): string =>
+    String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+
+  /** The paper. Every passage fed by a Beacon-only edit is wrapped in <mark> when highlighting. */
+  function renderDoc(m: ReportModel, highlight: boolean): string {
+    const edited = (ids: string[]) => highlight && ids.some((id) => m.beaconEdited.has(id));
+    const passage = (text: string, ids: string[]) =>
+      edited(ids) ? `<mark class="bcn-report-doc__edit">${esc(text)}</mark>` : esc(text);
+    const row = (label: string, value: string) =>
+      `<tr><th scope="row">${esc(label)}</th><td>${value}</td></tr>`;
+
+    const general = m.general.map((r) => row(r.label, passage(r.value || '—', r.fieldIds))).join('');
+
+    const locations = m.locations
+      .map((loc) => {
+        const acts = loc.activities.length
+          ? loc.activities
+              .map((a) => `<p>${esc(`${a.time}: ${a.title}.`)} ${passage(a.text, [a.fieldId])}</p>`)
+              .join('')
+          : '—';
+        return `<table class="bcn-report-doc__table">
+          <tbody>
+            ${row('Monitoring Location', esc(loc.name))}
+            ${row('Time', esc(loc.time))}
+            ${row('Compliance Level', passage(loc.level, [loc.levelFieldId]))}
+            ${row('Site/Construction Activities Observed', acts)}
+            ${row('Notes', passage(loc.notes || '—', [loc.notesFieldId]))}
+            ${row('Wildlife Observed', esc(loc.species.length ? loc.species.join(', ') : 'None observed'))}
+          </tbody>
+        </table>`;
+      })
+      .join('');
+
+    const photos = m.photos.length
+      ? `<h4 class="bcn-report-doc__section">${esc(`Photos of ${m.project}`)}</h4>
+         <ul class="bcn-report-doc__photos" role="list">
+           ${m.photos
+             .map(
+               (p) => `<li><figure>
+                 <img src="${esc(photoDataUri(p.scene))}" alt="${esc(p.alt)}" width="400" height="300" />
+                 <figcaption>${esc(p.caption)}<br /><span class="bcn-report-doc__muted">${esc(p.location)}</span></figcaption>
+               </figure></li>`,
+             )
+             .join('')}
+         </ul>`
+      : '';
+
+    return `
+      <header class="bcn-report-doc__letterhead">
+        <div class="bcn-report-doc__org">
+          <img src="${esc(svgDataUri(AGENCY_SEAL_SVG))}" alt="" width="56" height="56" />
+          <span class="bcn-report-doc__agency">${esc(m.agency)}</span>
+        </div>
+        <div class="bcn-report-doc__org bcn-report-doc__org--end">
+          <span>${esc(m.firm)}</span>
+          <img src="${esc(svgDataUri(FIRM_MARK_SVG))}" alt="" width="56" height="56" />
+        </div>
+        <p class="bcn-report-doc__title">Daily Monitoring Report</p>
+        <p class="bcn-report-doc__project">${esc(m.project)}</p>
+      </header>
+      <h3 class="bcn-report-doc__heading">${esc(m.heading)}</h3>
+      <h4 class="bcn-report-doc__section">General Information</h4>
+      <table class="bcn-report-doc__table"><tbody>${general}</tbody></table>
+      <h4 class="bcn-report-doc__section">Compliance Monitoring Details</h4>
+      ${locations}
+      ${photos}
+      <h4 class="bcn-report-doc__section">End of Report</h4>
+      <table class="bcn-report-doc__table"><tbody>${row('End Time', esc(m.endTime))}</tbody></table>`;
+  }
+
+  const dlg = document.querySelector<Dialog>('[data-bcn-report-preview]');
+  if (dlg) {
+    const doc = dlg.querySelector<HTMLElement>('[data-rp-doc]')!;
+    const toggle = dlg.querySelector<Switch>('[data-rp-highlight]')!;
+    const count = dlg.querySelector<HTMLElement>('[data-rp-count]')!;
+    const swatch = dlg.querySelector<HTMLElement>('[data-rp-swatch]')!;
+    const pending = dlg.querySelector<HTMLElement>('[data-rp-pending]')!;
+    const pendingText = dlg.querySelector<HTMLElement>('[data-rp-pending-text]')!;
+    // EsaButton forwards data-* onto the native <button>.
+    const nativeBtn = (sel: string) => {
+      const el = dlg.querySelector<HTMLElement>(sel)!;
+      return (el.matches('button') ? el : el.querySelector('button')) as HTMLButtonElement;
+    };
+    const genBtn = nativeBtn('[data-rp-generate]');
+    const cancelBtn = nativeBtn('[data-rp-cancel]');
+    const pushBtn = nativeBtn('[data-rp-push]');
+
+    let trigger: HTMLElement | null = null;
+    let busy = false;
+
+    const render = () => {
+      const m = buildReportModel(dmrStore.state);
+      const n = m.beaconEdited.size;
+      doc.innerHTML = renderDoc(m, toggle.checked);
+      doc.toggleAttribute('data-highlight', toggle.checked);
+      count.textContent = n
+        ? `${n} ${n === 1 ? 'passage' : 'passages'} edited in Beacon`
+        : 'No passages edited in Beacon';
+      swatch.hidden = !toggle.checked || n === 0;
+
+      const p = m.pendingCount;
+      const hadFocus = pending.contains(document.activeElement);
+      pending.hidden = p === 0;
+      pendingText.textContent =
+        p === 1
+          ? "1 correction hasn't been pushed to Fulcrum. The report will include it, but Fulcrum won't match until you push."
+          : `${p} corrections haven't been pushed to Fulcrum. The report will include them, but Fulcrum won't match until you push.`;
+      // The push button just disappeared under the user's focus — land them on the next step.
+      if (hadFocus && pending.hidden) genBtn.focus();
+    };
+
+    // Open from any trigger on the page.
+    document.addEventListener('click', (e) => {
+      const t = (e.target as Element | null)?.closest<HTMLElement>('[data-dmr-open-report]');
+      if (!t) return;
+      trigger = t.matches('button, a, [tabindex]') ? t : t.querySelector<HTMLElement>('button, a, [tabindex]') ?? t;
+      render();
+      dlg.open = true;
+    });
+
+    // Every exit (Esc, scrim, close button, Cancel, Generate) ends here.
+    dlg.addEventListener('close', (e) => {
+      if (e.target !== dlg) return;
+      const back = trigger;
+      requestAnimationFrame(() => back?.focus());
+    });
+
+    toggle.addEventListener('change', () => {
+      if (dlg.open) render();
+    });
+    dmrStore.addEventListener('change', () => {
+      if (dlg.open) render();
+    });
+
+    pushBtn.addEventListener('click', () => {
+      document.dispatchEvent(new CustomEvent('bcn-dmr-push-request'));
+    });
+    cancelBtn.addEventListener('click', () => dlg.close());
+
+    // Busy state, reusing esa-button's own loading classes (the lego's scoped styles
+    // key off its data-astro-cid attribute, so the spinner borrows the label's).
+    const genWrap = genBtn.closest<HTMLElement>('.esa-button') ?? genBtn;
+    const genLabel = genBtn.querySelector<HTMLElement>('.esa-button__label');
+    const genIcon = genBtn.querySelector<HTMLElement>(':scope > :not(.esa-button__label)');
+    const setBusy = (on: boolean) => {
+      busy = on;
+      genWrap.classList.toggle('esa-button--loading', on);
+      genLabel?.classList.toggle('esa-button__label--hidden', on);
+      if (genIcon) genIcon.hidden = on;
+      if (on) {
+        genBtn.setAttribute('aria-busy', 'true');
+        genBtn.setAttribute('aria-disabled', 'true');
+        const spinner = document.createElement('span');
+        spinner.className = 'esa-button__spinner';
+        spinner.setAttribute('aria-hidden', 'true');
+        spinner.dataset.rpSpinner = '';
+        for (const a of Array.from(genLabel?.attributes ?? [])) {
+          if (a.name.startsWith('data-astro-cid')) spinner.setAttribute(a.name, a.value);
+        }
+        genBtn.prepend(spinner);
+      } else {
+        genBtn.removeAttribute('aria-busy');
+        genBtn.removeAttribute('aria-disabled');
+        genBtn.querySelector('[data-rp-spinner]')?.remove();
+      }
+    };
+
+    genBtn.addEventListener('click', async () => {
+      if (busy) return;
+      setBusy(true);
+      try {
+        const model = buildReportModel(dmrStore.state);
+        const { generateReportPdf, downloadBlob } = await import('../../lib/dmr-report-pdf');
+        const blob = await generateReportPdf(model);
+        dlg.close();
+        downloadBlob(blob, model.fileName);
+        dmrStore.reportGenerated(model.fileName);
+        announce(`Report generated: ${model.fileName}`);
+      } catch (err) {
+        console.error('[BcnReportPreview] PDF generation failed', err);
+        announce("The report couldn't be generated. Try again.", { assertive: true });
+      } finally {
+        setBusy(false);
+      }
+    });
+  }
+</script>
+
+<style>
+  /* Work surface: a big, stable frame (design-principles ~86vh). esa-dialog's lg width
+     reads --dialog-width-lg on its host; its max-height is fixed at 85vh internally. */
+  .bcn-report-preview {
+    --dialog-width-lg: min(1040px, 96vw);
+  }
+  .bcn-report-preview__body {
+    min-height: 70vh;
+  }
+  .bcn-report-preview__toolbar {
+    justify-content: space-between;
+  }
+  .bcn-report-preview__legend {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200, 0.5rem);
+    color: var(--color-content-default-secondary, #646464);
+  }
+  .bcn-report-preview__swatch {
+    inline-size: 1rem;
+    block-size: 1rem;
+    border-radius: var(--radius-sm, 4px);
+    background: var(--color-background-utility-info-muted, #e6f1fd);
+    border: var(--border-width-default, 1px) solid var(--color-border-utility-info, #8ec8f6);
+  }
+  .bcn-report-preview__swatch[hidden] {
+    display: none;
+  }
+
+  /* The desk the paper sits on. */
+  .bcn-report-preview__desk {
+    background: var(--color-background-elevation-sunken, #f0f0f0);
+    border-radius: var(--radius-md, 0.5rem);
+    padding: var(--spacing-500, 1.5rem);
+  }
+
+  /* ── The paper: a printed-page simulation (letter, 0.75in margins). Fixed print
+     proportions and the theme's document voice are deliberate here — this is the
+     regulator's document, not UI chrome. Font sizes are sanctioned print hard-codes
+     (11pt body ≈ 14.5px); no typography composite carries the serif document voice. */
+  .bcn-report-preview :global(.bcn-report-doc) {
+    max-inline-size: 816px;
+    margin-inline: auto;
+    padding: 48px 72px 72px;
+    background: var(--color-background-elevation-floating, #fcfcfc);
+    color: var(--color-content-default, #202020);
+    box-shadow: var(--shadow-200, 0 2px 8px rgba(0, 0, 0, 0.12));
+    font-family: var(--font-decorative, 'Besley', serif);
+    font-size: 14.5px;
+    line-height: 1.45;
+    border: 1px solid transparent; /* edge survives forced-colors, which drops box-shadow */
+  }
+  .bcn-report-preview :global(.bcn-report-doc:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+  .bcn-report-preview :global(.bcn-report-doc__letterhead) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    row-gap: var(--spacing-200, 0.5rem);
+    padding-block-end: var(--spacing-300, 0.75rem);
+    margin-block-end: var(--spacing-500, 1.5rem);
+    border-block-end: 1px solid var(--color-border-default, #bbb);
+  }
+  .bcn-report-preview :global(.bcn-report-doc__org) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300, 0.75rem);
+    font-size: 13px;
+  }
+  .bcn-report-preview :global(.bcn-report-doc__org--end) {
+    justify-content: flex-end;
+    text-align: end;
+  }
+  .bcn-report-preview :global(.bcn-report-doc__agency) {
+    font-weight: 700;
+  }
+  .bcn-report-preview :global(.bcn-report-doc__title),
+  .bcn-report-preview :global(.bcn-report-doc__project) {
+    grid-column: 1 / -1;
+    margin: 0;
+    text-align: center;
+  }
+  .bcn-report-preview :global(.bcn-report-doc__title) {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .bcn-report-preview :global(.bcn-report-doc__heading) {
+    margin: 0 0 var(--spacing-400, 1rem);
+    font-size: 19px;
+    font-weight: 700;
+  }
+  .bcn-report-preview :global(.bcn-report-doc__section) {
+    margin: var(--spacing-500, 1.5rem) 0 var(--spacing-200, 0.5rem);
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .bcn-report-preview :global(.bcn-report-doc__table) {
+    inline-size: 100%;
+    border-collapse: collapse;
+    margin-block-end: var(--spacing-400, 1rem);
+  }
+  .bcn-report-preview :global(.bcn-report-doc__table th),
+  .bcn-report-preview :global(.bcn-report-doc__table td) {
+    padding: 6px 8px;
+    border: 1px solid var(--color-border-default, #bbb);
+    text-align: start;
+    vertical-align: top;
+  }
+  .bcn-report-preview :global(.bcn-report-doc__table th) {
+    inline-size: 30%;
+    font-weight: 700;
+    background: var(--color-background-elevation-sunken, #f0f0f0);
+  }
+  .bcn-report-preview :global(.bcn-report-doc__table p) {
+    margin: 0 0 var(--spacing-200, 0.5rem);
+  }
+  .bcn-report-preview :global(.bcn-report-doc__table p:last-child) {
+    margin-block-end: 0;
+  }
+  .bcn-report-preview :global(.bcn-report-doc__photos) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-500, 1.5rem);
+    margin: 0 0 var(--spacing-400, 1rem);
+    padding: 0;
+    list-style: none;
+  }
+  .bcn-report-preview :global(.bcn-report-doc__photos figure) {
+    margin: 0;
+  }
+  .bcn-report-preview :global(.bcn-report-doc__photos img) {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--color-border-default, #bbb);
+  }
+  .bcn-report-preview :global(.bcn-report-doc__photos figcaption) {
+    margin-block-start: var(--spacing-150, 0.375rem);
+    font-size: 13.5px;
+  }
+  .bcn-report-preview :global(.bcn-report-doc__muted) {
+    color: var(--color-content-default-secondary, #646464);
+  }
+  /* Beacon-edit highlight: a background tint inline with the passage, never a border. */
+  .bcn-report-preview :global(.bcn-report-doc__edit) {
+    background: var(--color-background-utility-info-muted, #e6f1fd);
+    color: inherit;
+    padding-inline: 2px;
+    border-radius: var(--radius-xs, 2px);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  @media (forced-colors: active) {
+    .bcn-report-preview :global(.bcn-report-doc__edit) {
+      background: Mark;
+      color: MarkText;
+    }
+  }
+</style>

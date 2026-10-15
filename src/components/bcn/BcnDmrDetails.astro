@@ -1,0 +1,177 @@
+---
+// <BcnDmrDetails> — the Daily Monitoring Report's top band. A port of Beacon prod's
+// `dmr-detail__top` row (daily-monitoring-report-detail.component.html): an outlined
+// "Details" card holding prod's eight facts in two columns (detail-facts, ported as
+// BcnDetailFacts), beside the observations map, which matches the card's height.
+//
+// Prod's facts, in prod's order: Field Person | Date (date + start–end time),
+// Conditions | Air Temperature (with a High · Low note), Wind Speed | Precipitation,
+// Construction Package | Latitude/Longitude (with a copy button). Every value that
+// comes from Fulcrum is an inline BcnTrackedField — same reading as prod, plus the
+// edit pencil and provenance marker.
+//
+// Below that band, full width: a "Report
+// Information" card for the three General Information fields the regulator report
+// carries but prod's Details card doesn't (contractors, tailboards, variances).
+//
+// The map plots one pin per work area, colored by the work area's compliance level,
+// reusing the oversight fixture's SEVERITY_META token colors; pins recolor in place
+// when a level is edited.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnDetailFacts from './BcnDetailFacts.astro';
+import BcnDetailFact from './BcnDetailFact.astro';
+import BcnTrackedField from './BcnTrackedField.astro';
+import BcnObservationMap from './BcnObservationMap.astro';
+import { REPORT, WORK_AREAS, COMPLIANCE_LEVELS } from '../../data/dmr-review-fixture';
+import { SEVERITY_META } from '../../data/monitoring-oversight-fixture';
+import { initialState, fmtDateLong } from '../../lib/dmr-review-store';
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+
+const MAP_ID = 'dmr-details';
+
+const state = initialState();
+const severityFor = (level: string) =>
+  level === COMPLIANCE_LEVELS[2]
+    ? SEVERITY_META['non-compliance']
+    : level === COMPLIANCE_LEVELS[1]
+      ? SEVERITY_META['needs-attention']
+      : SEVERITY_META['in-compliance'];
+
+// Mirrors BcnObservationMap's ObservationPin prop shape.
+const pins: { id: string; lat: number; lng: number; label: string; hex: string }[] = WORK_AREAS.map((w) => {
+  const level = state.values[`wa:${w.id}:level`];
+  return { id: w.id, lat: w.lat, lng: w.lng, label: `${w.name} · ${level}`, hex: severityFor(level).hex };
+});
+
+const latLng = `${REPORT.lat.toFixed(6)}, ${REPORT.lng.toFixed(6)}`;
+---
+
+<div class:list={['bcn-dmr-details', 'stack', className]} data-gap="lg">
+  <div class="bcn-dmr-details__band switcher" data-gap="lg">
+    <EsaCard title="Details" icon="info" variant="outlined" padding="compact">
+      <BcnDetailFacts columns={2}>
+        <BcnDetailFact label="Field Person">{REPORT.fieldPerson}</BcnDetailFact>
+        <BcnDetailFact label="Date">
+          {fmtDateLong(REPORT.date)}{' '}
+          <BcnTrackedField fieldId="timeIn" layout="inline" /> –{' '}
+          <BcnTrackedField fieldId="timeOut" layout="inline" />
+        </BcnDetailFact>
+
+        <BcnDetailFact label="Conditions"><BcnTrackedField fieldId="conditions" layout="inline" /></BcnDetailFact>
+        <BcnDetailFact label="Air Temperature">
+          <BcnTrackedField fieldId="airTempCurrent" layout="inline" />
+          <Fragment slot="note">
+            High <BcnTrackedField fieldId="airTempHigh" layout="inline" /> · Low <BcnTrackedField fieldId="airTempLow" layout="inline" />
+          </Fragment>
+        </BcnDetailFact>
+
+        <BcnDetailFact label="Wind Speed">
+          <BcnTrackedField fieldId="windSpeed" layout="inline" />{' '}
+          <BcnTrackedField fieldId="windDirection" layout="inline" />
+        </BcnDetailFact>
+        <BcnDetailFact label="Precipitation"><BcnTrackedField fieldId="precipitation" layout="inline" /></BcnDetailFact>
+
+        <BcnDetailFact label="Construction Package">{REPORT.constructionPackage}</BcnDetailFact>
+        <BcnDetailFact label="Latitude/Longitude">
+          <span class="bcn-dmr-details__latlng cluster" data-gap="xs">
+            <span data-bcn-dmr-latlng>{latLng}</span>
+            <span data-bcn-dmr-copy-latlng>
+              <EsaButton variant="chrome" size="sm" icon="copy" iconOnly label="Copy latitude/longitude" />
+            </span>
+          </span>
+        </BcnDetailFact>
+      </BcnDetailFacts>
+    </EsaCard>
+
+    <div class="bcn-dmr-details__map" data-bcn-dmr-map={MAP_ID}>
+      <BcnObservationMap observations={pins} mapId={MAP_ID} height="100%" interactive />
+    </div>
+  </div>
+
+  <EsaCard title="Report Information" variant="outlined" padding="compact">
+    <BcnDetailFacts>
+      <BcnDetailFact label="Contractors"><BcnTrackedField fieldId="contractors" layout="block" /></BcnDetailFact>
+      <BcnDetailFact label="Tailboards Attended"><BcnTrackedField fieldId="tailboards" layout="block" /></BcnDetailFact>
+      <BcnDetailFact label="Variance Requests Reviewed"><BcnTrackedField fieldId="variances" layout="block" /></BcnDetailFact>
+    </BcnDetailFacts>
+  </EsaCard>
+</div>
+
+<script>
+  import { dmrStore } from '../../lib/dmr-review-store';
+  import { WORK_AREAS, COMPLIANCE_LEVELS } from '../../data/dmr-review-fixture';
+  import { SEVERITY_META } from '../../data/monitoring-oversight-fixture';
+  import { announce } from '@esa/ecology/announcer';
+
+  type Pin = { id: string; lat: number; lng: number; label: string; hex: string };
+  type ObsMapHost = HTMLElement & { _bcnSetObservations?: (obs: Pin[], opts?: { fit?: boolean }) => void };
+
+  const severityFor = (level: string) =>
+    level === COMPLIANCE_LEVELS[2]
+      ? SEVERITY_META['non-compliance']
+      : level === COMPLIANCE_LEVELS[1]
+        ? SEVERITY_META['needs-attention']
+        : SEVERITY_META['in-compliance'];
+
+  const currentPins = (): Pin[] =>
+    WORK_AREAS.map((w) => {
+      const level = dmrStore.state.values[`wa:${w.id}:level`];
+      return { id: w.id, lat: w.lat, lng: w.lng, label: `${w.name} · ${level}`, hex: severityFor(level).hex };
+    });
+
+  // Recolor the work-area pins when a compliance level is edited; keep the view put.
+  dmrStore.addEventListener('change', () => {
+    const pins = currentPins();
+    document
+      .querySelectorAll<ObsMapHost>('[data-bcn-dmr-map] [data-bcn-obsmap]')
+      .forEach((host) => host._bcnSetObservations?.(pins, { fit: false }));
+  });
+
+  // Copy latitude/longitude (prod's copy icon button beside the coordinates).
+  document.querySelectorAll<HTMLElement>('[data-bcn-dmr-copy-latlng]').forEach((wrap) => {
+    wrap.addEventListener('click', async () => {
+      const text = wrap.parentElement?.querySelector('[data-bcn-dmr-latlng]')?.textContent ?? '';
+      try {
+        await navigator.clipboard.writeText(text);
+        announce('Latitude/longitude copied');
+      } catch {
+        announce('Could not copy latitude/longitude');
+      }
+    });
+  });
+</script>
+
+<style>
+  /* Side-by-side above ~48rem of available width, stacked below (switcher knob). */
+  .bcn-dmr-details__band {
+    --switcher-threshold: 48rem;
+  }
+  /* Prod splits the band 50/50 across the full page; here the change-log rail takes a
+     column, so the facts get the larger share (≈ 3:2) to keep their values on one line. */
+  .bcn-dmr-details__band > :global(:first-child) {
+    flex-grow: 3;
+  }
+  .bcn-dmr-details__band > :global(:last-child) {
+    flex-grow: 2;
+  }
+
+  .bcn-dmr-details__latlng {
+    flex-wrap: nowrap;
+  }
+
+  /* The map matches the Details card's height (switcher children stretch); the floor
+     keeps a body when the band stacks on narrow screens. */
+  .bcn-dmr-details__map {
+    position: relative;
+    min-block-size: 20rem;
+  }
+  .bcn-dmr-details__map > :global(.bcn-obsmap) {
+    position: absolute;
+    inset: 0;
+  }
+</style>

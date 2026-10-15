@@ -1,0 +1,207 @@
+---
+// <BcnDmrChangeLog> — the Daily Monitoring Report review's right-rail change log:
+// who changed what, and when. A "Change log" heading, an esa-button-toggle filter
+// (All · Syncs to Fulcrum · Beacon only), and the date-grouped BcnChangeLog timeline.
+//
+// Server-renders the seeded state (initialState) so it reads without JS; on every
+// dmrStore 'change' and every filter change the client re-renders the list through
+// change-log.ts `renderChangeLog` — the same markup BcnChangeLog emits, styled by its
+// global `bcn-change-log` sheet. The status tags are esa-badge, which is compile-time
+// only, so each variant is pre-rendered into a <template> and its HTML reused.
+//
+// Not a live region, on purpose: every entry records something the user just did
+// elsewhere on the page, and that control owns its own feedback.
+//
+// Collapsible: the header's chevron folds the rail to a slim strip (expand button + a
+// vertical "Change log" label) and hands its width back to the report by re-pointing
+// the parent .sidebar's --sidebar-width on itself. The choice is remembered per
+// browser (localStorage, best effort). aria-expanded lives on the two real buttons.
+//
+// Usage (the narrow aside of a .sidebar):  <BcnDmrChangeLog />
+//
+// data-* hooks:
+//   [data-bcn-dmr-change-log]          root
+//   [data-dmr-log-filter]              the esa-button-toggle (value: all|fulcrum|beacon)
+//   [data-dmr-log-list]                the timeline container (re-rendered)
+//   [data-dmr-log-empty]               the empty state (toggled)
+//   template[data-dmr-log-tag="<key>"] pre-rendered badge per tag (pending|synced|withdrawn|beacon)
+//
+// bcn-lego-checked: no esa-* timeline/changelog lego (catalog listed); Beacon prod has
+// only page-level history views (commitment-revision-history, notification-audit-log,
+// action-timeline — no shared ui-* timeline). The timeline is BcnChangeLog, extended.
+// The rail surface is bespoke because esa-card's body cannot become a viewport-bounded,
+// internally scrolling region under a sticky header; filter = esa-button-toggle, empty
+// = esa-empty-state, tags = esa-badge.
+
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import '@esa/tokens/typography.css';
+import BcnChangeLog from './BcnChangeLog.astro';
+import { DMR_TAGS, dmrChangeLogDays } from './change-log';
+import { initialState } from '../../lib/dmr-review-store';
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+
+const days = dmrChangeLogDays(initialState());
+const FILTERS = [
+  { label: 'All', value: 'all' },
+  { label: 'Syncs to Fulcrum', value: 'fulcrum' },
+  { label: 'Beacon only', value: 'beacon' },
+];
+const headingId = 'bcn-dmr-change-log-title';
+const bodyId = 'bcn-dmr-change-log-body';
+---
+
+<div class:list={['bcn-dmr-change-log', className]} data-bcn-dmr-change-log>
+  <div class="bcn-dmr-change-log__strip stack" data-gap="sm" data-dmr-log-strip hidden>
+    <span data-dmr-log-expand>
+      <EsaButton variant="chrome" size="sm" iconOnly icon="chevrons-left" label="Expand change log" />
+    </span>
+    <span class="bcn-dmr-change-log__strip-label typography-label-md-strong" aria-hidden="true">Change log</span>
+  </div>
+
+  <div class="bcn-dmr-change-log__head stack" data-gap="sm" data-dmr-log-open>
+    <div class="repel" data-gap="xs">
+      <h2 id={headingId} class="bcn-dmr-change-log__title typography-title">Change log</h2>
+      <span data-dmr-log-collapse>
+        <EsaButton variant="chrome" size="sm" iconOnly icon="chevrons-right" label="Collapse change log" />
+      </span>
+    </div>
+    <esa-button-toggle
+      data-dmr-log-filter
+      label="Show"
+      size="sm"
+      value="all"
+      options={JSON.stringify(FILTERS)}
+    ></esa-button-toggle>
+  </div>
+
+  <div class="bcn-dmr-change-log__body" id={bodyId} role="region" aria-labelledby={headingId} tabindex="0" data-dmr-log-open>
+    <div data-dmr-log-list hidden={days.length === 0}>
+      <BcnChangeLog days={days} />
+    </div>
+    <div data-dmr-log-empty hidden={days.length > 0}>
+      <EsaEmptyState title="No changes to show" description="Select All to see every change." size="sm" />
+    </div>
+  </div>
+
+  {Object.values(DMR_TAGS).map((t) => (
+    <template data-dmr-log-tag={t.key}><EsaBadge value={t.label} variant={t.variant === 'neutral' ? 'primary' : t.variant} size="sm" /></template>
+  ))}
+</div>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+  import { dmrStore, type LogFilter } from '../../lib/dmr-review-store';
+  import { dmrChangeLogDays, renderChangeLog } from './change-log';
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-bcn-dmr-change-log]')) {
+    const toggle = root.querySelector<HTMLElement & { value: string }>('[data-dmr-log-filter]');
+    const list = root.querySelector<HTMLElement>('[data-dmr-log-list]');
+    const empty = root.querySelector<HTMLElement>('[data-dmr-log-empty]');
+    if (!toggle || !list || !empty) continue;
+
+    const badges = new Map(
+      [...root.querySelectorAll<HTMLTemplateElement>('template[data-dmr-log-tag]')].map((t) => [
+        t.dataset.dmrLogTag ?? '',
+        t.innerHTML.trim(),
+      ]),
+    );
+
+    let filter: LogFilter = 'all';
+    const paint = () => {
+      const days = dmrChangeLogDays(dmrStore.state, filter);
+      list.innerHTML = renderChangeLog(days, { tagHtml: (tag) => badges.get(tag.key) ?? tag.label });
+      list.hidden = days.length === 0;
+      empty.hidden = days.length > 0;
+    };
+
+    toggle.addEventListener('change', () => {
+      filter = (toggle.value || 'all') as LogFilter;
+      paint();
+    });
+    dmrStore.addEventListener('change', paint);
+
+    // ── Collapse / expand ──
+    const KEY = 'bcn-dmr-change-log-collapsed';
+    const strip = root.querySelector<HTMLElement>('[data-dmr-log-strip]')!;
+    const openParts = root.querySelectorAll<HTMLElement>('[data-dmr-log-open]');
+    const collapseBtn = root.querySelector<HTMLButtonElement>('[data-dmr-log-collapse] button')!;
+    const expandBtn = root.querySelector<HTMLButtonElement>('[data-dmr-log-expand] button')!;
+    const bodyId = root.querySelector('[role="region"]')?.id ?? '';
+    for (const b of [collapseBtn, expandBtn]) b.setAttribute('aria-controls', bodyId);
+
+    const setCollapsed = (collapsed: boolean, moveFocus: boolean) => {
+      root.toggleAttribute('data-collapsed', collapsed);
+      strip.hidden = !collapsed;
+      openParts.forEach((el) => (el.hidden = collapsed));
+      collapseBtn.setAttribute('aria-expanded', String(!collapsed));
+      expandBtn.setAttribute('aria-expanded', String(!collapsed));
+      if (moveFocus) (collapsed ? expandBtn : collapseBtn).focus();
+      try {
+        localStorage.setItem(KEY, collapsed ? '1' : '0');
+      } catch {
+        /* storage unavailable — the rail just opens expanded next time */
+      }
+    };
+    let saved = false;
+    try {
+      saved = localStorage.getItem(KEY) === '1';
+    } catch {
+      saved = false;
+    }
+    setCollapsed(saved, false);
+    collapseBtn.addEventListener('click', () => setCollapsed(true, true));
+    expandBtn.addEventListener('click', () => setCollapsed(false, true));
+  }
+</script>
+
+<style>
+  /* bcn-lego-checked: rail surface — esa-card cannot host a sticky, viewport-bounded
+     panel whose body scrolls internally; the timeline/filter/empty/tags are legos. */
+  .bcn-dmr-change-log {
+    position: sticky;
+    top: var(--spacing-400);
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    max-block-size: calc(100dvh - 2 * var(--spacing-400));
+    padding: var(--spacing-400);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    box-sizing: border-box;
+  }
+  .bcn-dmr-change-log__title { margin: 0; color: var(--color-content-default); }
+
+  /* Collapsed: a slim strip. Re-pointing the parent .sidebar's width knob on the aside
+     itself hands the space back to the report; no grow, so it stays slim even when the
+     sidebar has wrapped below the main column. */
+  .bcn-dmr-change-log[data-collapsed] {
+    --sidebar-width: 3.5rem;
+    flex-grow: 0;
+    padding: var(--spacing-200) var(--spacing-100);
+    align-items: center;
+  }
+  .bcn-dmr-change-log__strip { align-items: center; }
+  .bcn-dmr-change-log__strip[hidden],
+  .bcn-dmr-change-log [data-dmr-log-open][hidden] { display: none; }
+  .bcn-dmr-change-log__strip-label {
+    writing-mode: vertical-rl;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-dmr-change-log__body {
+    flex: 1 1 auto;
+    min-block-size: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    /* Room for the focus ring of the scroll region and of the timeline's own controls. */
+    padding: var(--spacing-050);
+    margin: calc(-1 * var(--spacing-050));
+  }
+</style>

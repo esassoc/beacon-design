@@ -555,6 +555,16 @@ export const prototypeGroups: PrototypeGroup[] = [
         status: 'in-progress',
         tenant: 'platform',
       },
+      {
+        slug: 'monitoring-daily-report-review',
+        title: 'Daily Report Review',
+        description:
+          'QA/QC review of one Daily Monitoring Report: correct monitoring data (batched and pushed back to Fulcrum) or rewrite report wording (Beacon only), with a change log of who changed what and when, then preview and generate the regulator report as a PDF.',
+        route: '/prototypes/monitoring/daily-report-review',
+        createdAt: '2026-10-15',
+        status: 'in-progress',
+        tenant: 'platform',
+      },
     ],
   },
   {

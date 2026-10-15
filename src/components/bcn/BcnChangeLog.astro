@@ -4,52 +4,84 @@
 // on a connecting rail; under it, a list of events, each "{text} {emphasis}" on one
 // line with the actor + time beneath. Presentational — no JS, host supplies the data.
 //
+// Optional per-event extensions (all additive — an event without them renders the
+// original markup exactly):
+//   context  — "· General Information" after the emphasis
+//   change   — { from, to }: old value struck, new plain; long values clamp to two
+//              lines with a "Show full text" disclosure
+//   time / datetime — "Priya Raman · <time>8:54 AM</time>"
+//   tag      — a quiet esa-badge on the who/when line ("Pending sync")
+// and per-day `datetime` (renders the date as <time>).
+//
+// RUNTIME: change-log.ts `renderChangeLog(days)` emits this exact markup as a string,
+// for logs that re-render in the browser. The styles are therefore GLOBAL, scoped by
+// the `bcn-change-log` class prefix, so runtime-built markup picks them up. Any markup
+// change here must land in change-log.ts too.
+//
 // bcn-lego-checked: no esa-* timeline/changelog lego — checked Ecology and Beacon.
 // bcn-change-log is a date-grouped vertical timeline; the spine is a rail, not a status
 // left-border.
 
-interface ChangeLogEvent {
-  text: string;
-  emphasis?: string;
-  /** Optional: renders the emphasis as a link to the record the event happened on. */
-  href?: string;
-  by: string;
-}
-interface ChangeLogDay {
-  date: string;
-  events: ChangeLogEvent[];
-}
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import '@esa/tokens/a11y.css';
+import '@esa/tokens/layouts.css';
+import { isLongChange, hasMeta, type ChangeLogDay, type ChangeLogTagVariant } from './change-log';
+
+export type { ChangeLogDay, ChangeLogEvent, ChangeLogTag } from './change-log';
+
 interface Props {
   days: ChangeLogDay[];
 }
 const { days } = Astro.props;
+
+/** `neutral` is esa-badge `primary` with its public --badge-* hooks re-pointed (see CSS). */
+const badgeVariant = (v: ChangeLogTagVariant) => (v === 'neutral' ? 'primary' : v);
 ---
 
 <ol class="bcn-change-log">
   {days.map((day) => (
     <li class="bcn-change-log__day">
-      <p class="bcn-change-log__date">{day.date}</p>
+      <p class="bcn-change-log__date">{day.datetime ? <time datetime={day.datetime}>{day.date}</time> : day.date}</p>
       <ul class="bcn-change-log__events">
-        {day.events.map((e) => (
-          <li class="bcn-change-log__event">
-            <span class="bcn-change-log__text">
-              {e.text}{' '}
-              {e.emphasis &&
-                (e.href ? (
-                  <a class="bcn-change-log__target" href={e.href}><strong>{e.emphasis}</strong></a>
-                ) : (
-                  <strong>{e.emphasis}</strong>
-                ))}
-            </span>
-            <span class="bcn-change-log__by">{e.by}</span>
-          </li>
-        ))}
+        {day.events.map((e) => {
+          const by = (
+            <span class="bcn-change-log__by">{e.by}{e.time && <> · {e.datetime ? <time datetime={e.datetime}>{e.time}</time> : e.time}</>}</span>
+          );
+          const long = e.change ? isLongChange(e.change) : false;
+          return (
+            <li class="bcn-change-log__event">
+              <span class="bcn-change-log__text">
+                {e.text && `${e.text} `}{e.emphasis &&
+                  (e.href ? (
+                    <a class="bcn-change-log__target" href={e.href}><strong>{e.emphasis}</strong></a>
+                  ) : (
+                    <strong>{e.emphasis}</strong>
+                  ))}{e.context && <> <span class="bcn-change-log__context">· {e.context}</span></>}
+              </span>
+              {e.change && (
+                <span class:list={['bcn-change-log__change', long && 'bcn-change-log__change--long']}><del class="bcn-change-log__from">{e.change.from}</del><span class="bcn-change-log__arrow" aria-hidden="true">→</span><span class="visually-hidden">changed to</span><ins class="bcn-change-log__to">{e.change.to}</ins>{long && (
+                  <details class="bcn-change-log__more"><summary><span class="bcn-change-log__more-show">Show full text</span><span class="bcn-change-log__more-hide">Show less</span></summary></details>
+                )}</span>
+              )}
+              {hasMeta(e) ? (
+                <span class="bcn-change-log__meta cluster" data-gap="xs">
+                  {by}
+                  {e.tag && (
+                    <span class={`bcn-change-log__tag bcn-change-log__tag--${e.tag.variant}`}><EsaBadge value={e.tag.label} variant={badgeVariant(e.tag.variant)} size="sm" /></span>
+                  )}
+                </span>
+              ) : (
+                by
+              )}
+            </li>
+          );
+        })}
       </ul>
     </li>
   ))}
 </ol>
 
-<style>
+<style is:global>
   .bcn-change-log { list-style: none; margin: 0; padding: 0; }
   /* The left border is the timeline SPINE (a rail), not a status indicator. */
   .bcn-change-log__day { position: relative; margin-left: 5px; padding: 0 0 var(--spacing-400) var(--spacing-500); border-left: 2px solid var(--color-border-default); }
@@ -64,4 +96,31 @@ const { days } = Astro.props;
   .bcn-change-log__target { color: var(--color-content-link); text-decoration: none; }
   .bcn-change-log__target:hover { text-decoration: underline; }
   .bcn-change-log__by { font-size: 0.75rem; color: var(--color-content-default-tertiary); }
+
+  /* ── Extensions (only rendered when the event carries the optional fields) ── */
+  .bcn-change-log__context { color: var(--color-content-default-secondary); }
+
+  /* The value change: old struck + muted, new plain. Short values sit on one line. */
+  .bcn-change-log__change { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--spacing-100); font-size: 0.875rem; line-height: 1.4; color: var(--color-content-default); overflow-wrap: anywhere; }
+  .bcn-change-log__from { color: var(--color-content-default-secondary); text-decoration: line-through; }
+  .bcn-change-log__to { text-decoration: none; }
+  .bcn-change-log__arrow { color: var(--color-content-default-secondary); }
+
+  /* Narrative values stack and clamp to two lines; the disclosure unclamps both. */
+  .bcn-change-log__change--long { flex-direction: column; align-items: stretch; row-gap: var(--spacing-100); }
+  .bcn-change-log__change--long .bcn-change-log__arrow { display: none; }
+  .bcn-change-log__change--long :is(.bcn-change-log__from, .bcn-change-log__to) { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+  .bcn-change-log__change--long:has(> .bcn-change-log__more[open]) :is(.bcn-change-log__from, .bcn-change-log__to) { display: block; -webkit-line-clamp: unset; line-clamp: none; overflow: visible; }
+  .bcn-change-log__more > summary { display: inline; cursor: pointer; font-size: 0.8125rem; color: var(--color-content-link); list-style: none; }
+  .bcn-change-log__more > summary::-webkit-details-marker { display: none; }
+  .bcn-change-log__more > summary:hover { text-decoration: underline; }
+  .bcn-change-log__more[open] .bcn-change-log__more-show,
+  .bcn-change-log__more:not([open]) .bcn-change-log__more-hide { display: none; }
+
+  /* who · when + tag. Meta stays >= 13px and darkens as it shrinks. */
+  .bcn-change-log__meta { margin-top: var(--spacing-050); }
+  .bcn-change-log__meta .bcn-change-log__by { font-size: 0.8125rem; color: var(--color-content-default-secondary); }
+  .bcn-change-log__tag { display: inline-flex; }
+  /* esa-badge has no neutral variant: `primary` with its public hooks re-pointed. */
+  .bcn-change-log__tag--neutral { --badge-bg: var(--color-background-elevation-sunken); --badge-text-color: var(--color-content-default-secondary); }
 </style>

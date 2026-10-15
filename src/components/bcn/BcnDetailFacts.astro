@@ -1,0 +1,55 @@
+---
+// <BcnDetailFacts> — a port of Beacon prod's `detail-facts` (shared/components/
+// detail-facts): the "Details" card facts treatment used on dashboard and record
+// detail pages. A <dl> of label-over-value facts with a hairline between rows; in
+// two-column mode the hairline runs per row and the first row has none.
+//
+// Pair with <BcnDetailFact> children, which take the value as a slot so a fact can
+// hold rich content (an editable field, a copy button, a note line):
+//
+//   <BcnDetailFacts columns={2}>
+//     <BcnDetailFact label="Field Person">Dana Whitcomb</BcnDetailFact>
+//     <BcnDetailFact label="Notes" full>…</BcnDetailFact>
+//   </BcnDetailFacts>
+//
+// bcn-lego-checked: no esa-* description-list/facts lego (checked Ecology). Beacon prod
+// has exactly this as detail-facts — ported faithfully (label 14px subtle, value 16px
+// semibold, subtle hairline between facts, two columns from tablet up). BcnKeyValue is
+// the form-toned dialog tier and has no row hairlines; bcn-detail-facts is the
+// reusable home for prod's Details-card facts.
+
+interface Props {
+  /** 2 = two columns from tablet width up (prod's detail-facts--two-column). */
+  columns?: 1 | 2;
+  class?: string;
+}
+const { columns = 1, class: className } = Astro.props;
+---
+
+<dl class:list={['bcn-detail-facts', className]} data-columns={columns}>
+  <slot />
+</dl>
+
+<style>
+  .bcn-detail-facts {
+    margin: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bcn-detail-facts > :global(.bcn-detail-fact + .bcn-detail-fact) {
+    border-top: var(--border-width-default, 1px) solid var(--color-border-default-subtle);
+  }
+
+  @media (min-width: 48rem) {
+    .bcn-detail-facts[data-columns='2'] {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--spacing-600, 2rem);
+    }
+    .bcn-detail-facts[data-columns='2'] > :global(.bcn-detail-fact:nth-child(2)) {
+      border-top: none;
+    }
+    .bcn-detail-facts[data-columns='2'] > :global(.bcn-detail-fact[data-full]) {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

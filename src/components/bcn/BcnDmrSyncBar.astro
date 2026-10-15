@@ -1,0 +1,212 @@
+---
+// <BcnDmrSyncBar> — Daily Monitoring Report: corrections waiting to push to Fulcrum.
+//
+// Sits above the report content. While dmrStore holds pending 'fulcrum' corrections it
+// shows a warning esa-alert-box ("Not synced · N corrections waiting to push to
+// Fulcrum.") with Review + Push to Fulcrum; at 0 pending the whole bar is `hidden`.
+// Review opens an esa-dialog listing each pending correction (field · context,
+// Fulcrum value → corrected value, who + when) with a per-row Undo that withdraws it
+// (sets the field back to what Fulcrum holds).
+//
+// Pushing — from the bar, the dialog, or the document event below — calls
+// dmrStore.pushToFulcrum(), closes the dialog and confirms with an esa-snackbar
+// ("Pushed N changes to Fulcrum"; the snackbar container routes it through the
+// shared announcer). If focus was inside this bar/dialog it moves to the page <h1>,
+// since the control the user pressed is gone.
+//
+// EVENTS LISTENED TO
+//   dmrStore 'change'                 → re-count, re-render the dialog list, hide at 0.
+//   document 'bcn-dmr-push-request'   → same push + snackbar. Dispatch it from anywhere
+//                                       (e.g. the report preview's "Push to Fulcrum
+//                                       first"): document.dispatchEvent(new CustomEvent(
+//                                       'bcn-dmr-push-request')). Focus is left alone
+//                                       when it is outside this component.
+//
+// Usage: <BcnDmrSyncBar />   (single instance per page)
+//
+// Runtime note: esa-alert-box / esa-button are compile-time .astro legos, so the count
+// lives in spans this component owns, and each dialog row is cloned from a <template>
+// whose Undo is a server-rendered EsaButton.
+import '@esa/tokens/typography.css';
+import '@esa/tokens/a11y.css';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { initialState, pendingEdits } from '../../lib/dmr-review-store';
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+
+const initialCount = pendingEdits(initialState()).length;
+const noun = (n: number) => (n === 1 ? 'correction' : 'corrections');
+---
+
+<div class:list={['bcn-dmr-sync-bar', className]} data-bcn-dmr-sync-bar hidden={initialCount === 0}>
+  <EsaAlertBox variant="warning" title="Not synced">
+    <div class="bcn-dmr-sync-bar__content repel" data-gap="sm">
+      <p class="bcn-dmr-sync-bar__message">
+        <span data-bcn-dmr-sync-count>{initialCount}</span>{' '}<span data-bcn-dmr-sync-noun>{noun(initialCount)}</span> waiting to push to Fulcrum.
+      </p>
+      <div class="cluster" data-gap="xs">
+        <EsaButton variant="secondary" appearance="outline" size="sm" data-bcn-dmr-sync-review>Review</EsaButton>
+        <EsaButton variant="primary" size="sm" data-bcn-dmr-sync-push>Push to Fulcrum</EsaButton>
+      </div>
+    </div>
+  </EsaAlertBox>
+
+  <esa-dialog heading="Corrections waiting to sync" size="lg" data-bcn-dmr-sync-dialog>
+    <ul class="bcn-dmr-sync-bar__list" role="list" data-bcn-dmr-sync-list></ul>
+    <EsaButton slot="footer" variant="primary" data-bcn-dmr-sync-dialog-push>Push to Fulcrum</EsaButton>
+    <EsaButton slot="footer" variant="secondary" appearance="outline" data-bcn-dmr-sync-dialog-cancel>Cancel</EsaButton>
+  </esa-dialog>
+
+  <template data-bcn-dmr-sync-row>
+    <li class="bcn-dmr-sync-bar__row repel" data-gap="md">
+      <div class="stack" data-gap="3xs">
+        <span class="typography-label-md-strong" data-row-field></span>
+        <span class="typography-body-md">
+          <span data-row-from></span>
+          <span aria-hidden="true">&rarr;</span><span class="visually-hidden">changed to</span>
+          <span data-row-to></span>
+        </span>
+        <span class="bcn-dmr-sync-bar__meta typography-body-sm" data-row-meta></span>
+      </div>
+      <EsaButton variant="secondary" appearance="outline" size="sm" data-bcn-dmr-sync-undo>Undo</EsaButton>
+    </li>
+  </template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import { dmrStore, pendingEdits, fieldDef, formatValue, fieldContext, fmtClock } from '../../lib/dmr-review-store';
+  import { snackbarHost } from '../../lib/snackbar';
+  import { announce } from '@esa/ecology/announcer';
+
+  type DialogEl = HTMLElement & { show(): void; close(): void; open: boolean; updateComplete: Promise<boolean> };
+
+  const host = document.querySelector<HTMLElement>('[data-bcn-dmr-sync-bar]');
+  if (host) {
+    const countEl = host.querySelector<HTMLElement>('[data-bcn-dmr-sync-count]')!;
+    const nounEl = host.querySelector<HTMLElement>('[data-bcn-dmr-sync-noun]')!;
+    const dialog = host.querySelector<DialogEl>('[data-bcn-dmr-sync-dialog]')!;
+    const list = host.querySelector<HTMLUListElement>('[data-bcn-dmr-sync-list]')!;
+    const rowTpl = host.querySelector<HTMLTemplateElement>('template[data-bcn-dmr-sync-row]')!;
+
+    const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
+
+    /** The bar's control vanishes on push — land on the page heading, not <body>. */
+    const focusHeading = () => {
+      const h1 = document.querySelector<HTMLElement>('main h1, h1');
+      if (!h1) return;
+      if (!h1.hasAttribute('tabindex')) h1.setAttribute('tabindex', '-1');
+      h1.focus();
+    };
+
+    const focusIsOurs = () => {
+      const active = document.activeElement;
+      return !active || active === document.body || host.contains(active);
+    };
+
+    const renderList = () => {
+      const s = dmrStore.state;
+      list.replaceChildren(
+        ...pendingEdits(s).map((e) => {
+          const def = fieldDef(e.fieldId);
+          const row = rowTpl.content.firstElementChild!.cloneNode(true) as HTMLLIElement;
+          row.dataset.fieldId = e.fieldId;
+          row.querySelector('[data-row-field]')!.textContent = `${def.label} · ${fieldContext(e.fieldId)}`;
+          row.querySelector('[data-row-from]')!.textContent = formatValue(def, s.fulcrum[e.fieldId]);
+          row.querySelector('[data-row-to]')!.textContent = formatValue(def, e.to);
+          row.querySelector('[data-row-meta]')!.textContent = `${e.by} · ${fmtClock(e.at)}`;
+          const undo = row.querySelector<HTMLButtonElement>('button[data-bcn-dmr-sync-undo]');
+          undo?.setAttribute('aria-label', `Undo ${def.label} correction`);
+          return row;
+        }),
+      );
+    };
+
+    const sync = () => {
+      const n = pendingEdits(dmrStore.state).length;
+      countEl.textContent = String(n);
+      nounEl.textContent = plural(n, 'correction', 'corrections');
+      host.hidden = n === 0;
+      if (dialog.open) renderList();
+    };
+
+    const push = async () => {
+      const wasOurs = focusIsOurs();
+      if (dialog.open) {
+        dialog.close();
+        await dialog.updateComplete;
+      }
+      const n = dmrStore.pushToFulcrum();
+      if (!n) return;
+      // Persistent (duration 0) with a dismiss control — SC 2.2.1; the container announces it.
+      const config = { message: `Pushed ${n} ${plural(n, 'change', 'changes')} to Fulcrum`, variant: 'success', duration: 0, dismissable: true };
+      snackbarHost().show(config);
+      if (wasOurs) focusHeading();
+    };
+
+    host.querySelector('[data-bcn-dmr-sync-review]')?.addEventListener('click', () => {
+      renderList();
+      dialog.show();
+    });
+    host.querySelector('[data-bcn-dmr-sync-push]')?.addEventListener('click', push);
+    dialog.querySelector('[data-bcn-dmr-sync-dialog-push]')?.addEventListener('click', push);
+    dialog.querySelector('[data-bcn-dmr-sync-dialog-cancel]')?.addEventListener('click', () => dialog.close());
+
+    list.addEventListener('click', async (event) => {
+      const btn = (event.target as HTMLElement).closest('[data-bcn-dmr-sync-undo]');
+      const row = btn?.closest<HTMLLIElement>('li[data-field-id]');
+      if (!row) return;
+      const fieldId = row.dataset.fieldId!;
+      const rows = [...list.children] as HTMLElement[];
+      const index = rows.indexOf(row);
+      dmrStore.edit(fieldId, dmrStore.state.fulcrum[fieldId]);
+      renderList(); // also run by sync(), but only while open — be explicit
+      announce(`${fieldDef(fieldId).label} correction withdrawn`);
+
+      const remaining = list.querySelectorAll<HTMLButtonElement>('button[data-bcn-dmr-sync-undo]');
+      if (remaining.length) {
+        remaining[Math.min(index, remaining.length - 1)].focus();
+      } else {
+        // Nothing left to review — the bar is hidden, so its Review trigger is gone too.
+        dialog.close();
+        await dialog.updateComplete;
+        focusHeading();
+      }
+    });
+
+    dmrStore.addEventListener('change', sync);
+    document.addEventListener('bcn-dmr-push-request', push);
+    sync();
+  }
+</script>
+
+<style>
+  .bcn-dmr-sync-bar[hidden] {
+    display: none;
+  }
+  .bcn-dmr-sync-bar__content {
+    align-items: center;
+  }
+  .bcn-dmr-sync-bar__message {
+    margin: 0;
+  }
+  .bcn-dmr-sync-bar__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bcn-dmr-sync-bar__row {
+    align-items: center;
+    padding-block: var(--spacing-300, 0.75rem);
+  }
+  .bcn-dmr-sync-bar__row + .bcn-dmr-sync-bar__row {
+    border-block-start: var(--border-width-default, 1px) solid var(--color-border-default-subtle, #d9d9d9);
+  }
+  .bcn-dmr-sync-bar__meta {
+    color: var(--color-content-default-secondary, #646464);
+  }
+</style>

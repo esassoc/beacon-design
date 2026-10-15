@@ -1,0 +1,267 @@
+---
+// <BcnTrackedField> — an editable, provenance-tracked field of the Daily Monitoring Report
+// review. Give it a `fieldId` from the DMR fixture's FIELDS; it server-renders the seeded
+// value from `initialState()`, then hydrates from `dmrStore` and re-renders on 'change'.
+//
+// What it shows:
+//   • the formatted value (`fieldView().display`);
+//   • a quiet provenance badge — 'pending' → "Pending sync" (warning), 'synced' →
+//     "Synced" (success), 'beacon' → "Edited in Beacon" (info), none → nothing. Each badge
+//     sits in an esa-tooltip on a focusable wrapper, so the detail ("Fulcrum value: 60 mph ·
+//     Changed by Priya Raman, Sep 12, 8:54 AM") opens on hover AND keyboard focus, and the
+//     same sentence is in the wrapper as visually-hidden text for screen readers;
+//   • a pencil (esa-button chrome, icon-only) that swaps the value for an inline editor
+//     built from the Lit lego matching def.input — esa-text-field (text / number / time),
+//     esa-select (def.options), esa-textarea. The destination line ("Syncs to Fulcrum when
+//     you push changes." / "Changes the report only. …") is the lego's help-text, so it is
+//     wired to the control with aria-describedby. Footer in Windows order: Save (primary)
+//     left of Cancel, right-aligned; for a Beacon field that differs from the inspector's
+//     text, a tertiary "Restore inspector's text" at far left. Esc cancels; focus returns
+//     to the pencil after save / cancel / restore. One editor open per page.
+//
+// Layouts:
+//   fact   — label above value, reading identically to <BcnKeyValue> (a facts-grid cell).
+//   block  — paragraph text, no visible label; the pencil's name carries label + context.
+//   inline — the value inline in a sentence / row; a visible label only when `label` is passed.
+//   toggle — esa-switch-toggle IS the editor (flips 'yes' / 'no'); no pencil. Still shows
+//            "Edited in Beacon" when the photo is excluded.
+//
+// Runtime hooks (read by ./tracked-field.ts): [data-bcn-tracked-field] on the root with
+// data-field-id / data-layout / data-label / data-kind / data-marker; data-tf-value,
+// data-tf-marker="pending|synced|beacon", data-tf-edit, data-tf-editor, data-tf-slot,
+// data-tf-save, data-tf-cancel, data-tf-restore, data-tf-switch inside it.
+//
+// bcn-lego-checked: no esa-* lego is an "editable, provenance-tracked field" — esa-text-field /
+// esa-select / esa-textarea are the editors (composed, built at runtime), esa-badge the marker,
+// esa-tooltip the detail, esa-button the pencil and footer, esa-switch-toggle the toggle.
+// Checked Beacon prod (origin/develop shared/ui/components): no inline-edit or field-
+// provenance primitive. bcn-tracked-field is the reusable home for read ↔ edit + marker.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import '@esa/tokens/a11y.css';
+import { initialState, fieldView, fieldContext } from '../../lib/dmr-review-store';
+import { markerCopy, MARKER_LABEL, type MarkerKey } from './tracked-field';
+
+interface Props {
+  fieldId: string;
+  layout?: 'fact' | 'block' | 'inline' | 'toggle';
+  /** Overrides def.label. On `inline`, passing it is what makes the label visible. */
+  label?: string;
+}
+const { fieldId, layout = 'fact', label: labelProp } = Astro.props;
+
+const state = initialState();
+const view = fieldView(state, fieldId);
+const label = labelProp ?? view.def.label;
+const context = fieldContext(fieldId);
+const detail = markerCopy(view, state.fulcrum[fieldId]);
+
+const showKey = layout === 'fact' || (layout === 'inline' && !!labelProp);
+const editName = context === 'General Information' ? `Edit ${label}` : `Edit ${label}, ${context}`;
+const ValueTag = layout === 'block' ? 'p' : 'span';
+const isToggle = layout === 'toggle';
+
+const MARKERS: { key: MarkerKey; variant: 'warning' | 'success' | 'info' }[] = [
+  { key: 'pending', variant: 'warning' },
+  { key: 'synced', variant: 'success' },
+  { key: 'beacon', variant: 'info' },
+];
+const tipAlign = layout === 'block' ? 'end' : 'start';
+---
+
+<div
+  class="bcn-tracked-field"
+  data-bcn-tracked-field
+  data-field-id={fieldId}
+  data-layout={layout}
+  data-label={label}
+  data-kind={view.def.kind}
+  data-marker={view.marker ?? ''}
+>
+  {showKey && <span class="bcn-tracked-field__key" data-tf-read>{label}</span>}
+
+  <div class:list={['bcn-tracked-field__read', layout !== 'block' && 'cluster']} data-gap="2xs" data-tf-read>
+    {isToggle ? (
+      <esa-switch-toggle label={label} size="md" checked={view.value === 'yes'} data-tf-switch></esa-switch-toggle>
+    ) : (
+      <ValueTag class:list={['bcn-tracked-field__value', layout === 'block' && 'typography-body-md']} data-tf-value>
+        {view.display}
+      </ValueTag>
+    )}
+    <span class="bcn-tracked-field__aside cluster" data-gap="2xs">
+      {MARKERS.map((m) => (
+        <esa-tooltip
+          class="bcn-tracked-field__tip"
+          text={view.marker === m.key ? detail : ''}
+          position="above"
+          align={tipAlign}
+          data-tf-marker={m.key}
+          hidden={view.marker !== m.key}
+        >
+          <span class="bcn-tracked-field__marker" tabindex="0">
+            <EsaBadge value={MARKER_LABEL[m.key]} variant={m.variant} size="sm" />
+            <span class="visually-hidden" data-tf-detail>{view.marker === m.key ? detail : ''}</span>
+          </span>
+        </esa-tooltip>
+      ))}
+      {!isToggle && (
+        <EsaButton variant="chrome" iconOnly icon="pencil" label={editName} size={layout === 'block' ? 'sm' : 'xs'} data-tf-edit />
+      )}
+    </span>
+  </div>
+
+  {!isToggle && (
+    <div class="bcn-tracked-field__editor stack" data-gap="xs" data-tf-editor hidden>
+      <div data-tf-slot></div>
+      <div class="bcn-tracked-field__footer cluster" data-gap="xs">
+        {view.def.kind === 'beacon' && (
+          <span data-tf-restore-wrap hidden>
+            <EsaButton variant="ghost" size="sm" data-tf-restore>Restore inspector's text</EsaButton>
+          </span>
+        )}
+        <span class="bcn-tracked-field__actions cluster" data-gap="xs">
+          <EsaButton variant="primary" size="sm" data-tf-save>Save</EsaButton>
+          <EsaButton variant="ghost" appearance="outline" size="sm" data-tf-cancel>Cancel</EsaButton>
+        </span>
+      </div>
+    </div>
+  )}
+</div>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-tooltip';
+  import '@esa/ecology/esa-confirm-dialog';
+  import { setupTrackedFields } from './tracked-field';
+
+  setupTrackedFields();
+</script>
+
+<style>
+  .bcn-tracked-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050, 0.125rem);
+    min-width: 0;
+  }
+  /* Layout primitives (.cluster) and esa-tooltip's :host both set a display, which beats
+     the UA [hidden] rule — restate it so the runtime toggles actually hide. */
+  .bcn-tracked-field :global([hidden]) {
+    display: none;
+  }
+
+  /* fact: the key mirrors <BcnKeyValue>'s key exactly, the value its prominent answer. */
+  .bcn-tracked-field__key {
+    font-size: var(--typography-label-md-font-size);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--form-label-color);
+  }
+  .bcn-tracked-field[data-layout='fact'] .bcn-tracked-field__value {
+    font-size: var(--typography-label-md-font-size);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  .bcn-tracked-field__value {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  /* block: the paragraph takes the row; marker + pencil hang at its top-right. */
+  .bcn-tracked-field[data-layout='block'] .bcn-tracked-field__read {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    column-gap: var(--spacing-200, 0.5rem);
+  }
+  .bcn-tracked-field[data-layout='block'] .bcn-tracked-field__value {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+
+  /* inline: flows inside a sentence or row until it opens an editor. */
+  .bcn-tracked-field[data-layout='inline'] {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: var(--spacing-100, 0.25rem);
+    vertical-align: middle;
+  }
+  .bcn-tracked-field[data-layout='inline'][data-editing] {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .bcn-tracked-field__aside {
+    flex-wrap: nowrap;
+  }
+  /* inline: click-to-edit. A value inside a sentence-like fact ("September 11, 2026
+     7:00 AM – 4:30 PM", "High 98°F · Low 61°F") has no room for a pencil, so the pencil
+     button is stretched invisibly over the value itself: clicking the value — or
+     Tab + Enter, which lands on the same real <button> with its "Edit <label>" name —
+     opens the editor. The field shows a hover tint and the focus ring instead. The
+     provenance marker sits above the overlay so its tooltip still opens. */
+  .bcn-tracked-field[data-layout='inline'] {
+    position: relative;
+    border-radius: var(--radius-sm);
+  }
+  /* Hug the content even as a flex/grid item (a stack would otherwise stretch it). */
+  .bcn-tracked-field[data-layout='inline']:not([data-editing]) {
+    align-self: flex-start;
+    justify-self: start;
+  }
+  .bcn-tracked-field[data-layout='inline']:not([data-editing]) .bcn-tracked-field__read {
+    flex-wrap: nowrap;
+  }
+  .bcn-tracked-field[data-layout='inline']:not([data-editing]) [data-tf-edit] {
+    position: absolute;
+    inset: 0;
+    inline-size: auto;
+    block-size: auto;
+    min-inline-size: 0;
+    min-block-size: 0;
+    /* esa-button squares its icon-only form; the overlay must match the field instead. */
+    aspect-ratio: auto;
+    opacity: 0;
+  }
+  .bcn-tracked-field[data-layout='inline']:not([data-editing]):hover {
+    background: var(--color-background-default-hover);
+  }
+  .bcn-tracked-field[data-layout='inline']:has([data-tf-edit]:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+  /* An editor opened inside a styled host (a semibold fact value, an italic note) reads
+     as a plain form, not as the host's text. */
+  .bcn-tracked-field__editor {
+    font-style: normal;
+    font-weight: var(--typography-font-weight-regular, 400);
+  }
+  .bcn-tracked-field[data-layout='inline'] .bcn-tracked-field__tip {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* The marker wrapper is focusable only so the tooltip can open from the keyboard. */
+  .bcn-tracked-field__marker {
+    display: inline-flex;
+    border-radius: var(--radius-sm);
+  }
+  .bcn-tracked-field__marker:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+
+  .bcn-tracked-field__editor {
+    padding-block: var(--spacing-100, 0.25rem);
+  }
+  /* Windows order: tertiary restore far left, Save/Cancel pushed right. */
+  .bcn-tracked-field__actions {
+    margin-inline-start: auto;
+  }
+</style>

@@ -23,3 +23,7 @@ public/handoff/**
 .env
 .env.*
 !.env.example
+
+# Client source documents (real names/logos) — reference only, never publish
+specimens/*.docx
+specimens/*.png

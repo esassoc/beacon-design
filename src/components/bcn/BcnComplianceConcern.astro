@@ -1,0 +1,367 @@
+---
+// <BcnComplianceConcern> — one compliance concern on the Daily Monitoring Report review
+// page: an expandable row over a PERSISTENT, shared record.
+//
+// A concern is prod's Observation: one record (status, description, first observation…)
+// that outlives any one visit, plus a daily log entry from every report that visits it.
+// On this page a reviewer can edit two things with very different reach:
+//   (a) THIS report's log entry — `item:<itemId>:summary` — affects this report only;
+//   (b) the SHARED record — `concern:<id>:status|description` — changes the concern in
+//       every daily report that includes it.
+// The expanded panel says which is which BEFORE any pencil: its own heading per scope,
+// and an info alert listing the other reports a record edit reaches. (BcnTrackedField
+// then repeats it in the editor's help text and confirms before saving a record field.)
+//
+// Collapsed (default) it reads like prod's work-area row: entity icon, bold record ID,
+// muted time, the record's CURRENT status as a quiet badge, thumbnails at the right, and
+// this report's entry text below. The chevron (BcnDisclosureToggle) opens:
+//   1. This report's log entry   — BcnTrackedField layout="block"
+//   2. Concern record            — scope alert + BcnDetailFacts (Status, First Observation,
+//                                   Reporter, Work Site, Description)
+//   3. Daily Logs (n)            — every visit, newest first; this report's entry is
+//                                   marked and reads live from dmrStore.
+//
+// Usage: <BcnComplianceConcern itemId="ts22-c1" />   (a WorkAreaItem with a concernId)
+//
+// Runtime hooks (./compliance-concern.ts, one bundled controller for every instance):
+// [data-bcn-cc] root with data-item-id / data-concern-id; data-bcn-cc-toggle,
+// data-bcn-cc-panel, data-bcn-cc-summary, data-bcn-cc-status (data-status),
+// data-bcn-cc-this-log. Thumbnails carry data-bcn-dmr-photo so BcnDmrWorkAreas'
+// include-in-report sync marks excluded photos.
+//
+// bcn-lego-checked: no esa-* concern / observation / record-row lego (checked Ecology:
+// esa-collapsible is a whole <details> card that takes only a string title, so it cannot
+// carry the icon + status badge + thumbnails row, and nesting it inside the work area's
+// esa-collapsible is cards-in-cards; esa-card is a page-level surface). Composed from
+// legos: esa-icon (entity glyph), esa-badge (status / report status / count),
+// esa-alert-box (scope statement), BcnDisclosureToggle (chevron + aria-expanded),
+// BcnTrackedField (every editable value), BcnDetailFacts (record facts). Checked Beacon
+// prod: the row is daily-monitoring-report-detail's `.work-area-item`, the facts and
+// "Daily Logs" list are observation-detail's `detail-facts` + `.daily-log` — ported here.
+// Bespoke CSS is that row/log chrome and thumbnail sizing. bcn-compliance-concern is the
+// reusable home.
+import '@esa/tokens/layouts.css';
+import '@esa/tokens/typography.css';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnDetailFact from './BcnDetailFact.astro';
+import BcnDetailFacts from './BcnDetailFacts.astro';
+import BcnDisclosureToggle from './BcnDisclosureToggle.astro';
+import BcnTrackedField from './BcnTrackedField.astro';
+import { ENTITY_GLYPH } from './compliance-concern';
+import { CONCERN_STATUSES, REPORT, WORK_AREAS } from '../../data/dmr-review-fixture';
+import {
+  concern as getConcern,
+  concernOtherReports,
+  fieldView,
+  fmtClock,
+  fmtDateLong,
+  fmtDateShort,
+  fmtTime12,
+  initialState,
+  photo,
+  statusLabel,
+} from '../../lib/dmr-review-store';
+import { photoDataUri } from '../../lib/dmr-report-art';
+
+interface Props {
+  /** The work-area item (category "Compliance Concerns") that logs this visit. */
+  itemId: string;
+}
+const { itemId } = Astro.props;
+
+const item = WORK_AREAS.flatMap((w) => w.items).find((i) => i.id === itemId);
+if (!item?.concernId) throw new Error(`BcnComplianceConcern: ${itemId} is not a compliance concern item`);
+const c = getConcern(item.concernId);
+const others = concernOtherReports(c.id);
+const otherById = new Map(others.map((r) => [r.id, r]));
+
+const seed = initialState();
+const status = seed.values[`concern:${c.id}:status`];
+const entryText = fieldView(seed, `item:${itemId}:summary`).display;
+const isExcluded = (photoId: string) => seed.values[`photo:${photoId}:include`] === 'no';
+
+const logs = [...c.logs].sort((a, b) => b.at.localeCompare(a.at));
+const glyph = ENTITY_GLYPH.concern;
+const panelId = `bcn-cc-panel-${itemId}`;
+const time = `${fmtDateLong(c.firstObserved)}, ${fmtClock(c.firstObserved)}`;
+---
+
+<article class="bcn-cc" data-bcn-cc data-item-id={itemId} data-concern-id={c.id} aria-label={`Compliance concern ${c.id}`}>
+  <div class="bcn-cc__row">
+    <div class="bcn-cc__text">
+      <div class="bcn-cc__head">
+        <span class="bcn-cc__icon"><EsaIcon name={glyph.name} paths={glyph.paths} size="sm" /></span>
+        <span class="bcn-cc__title typography-label-md-strong">{c.id}</span>
+        <time class="bcn-cc__muted typography-body-sm" datetime={`${REPORT.date}T${item.time}`}>{fmtTime12(item.time)}</time>
+        <span class="bcn-cc__quiet">
+          {CONCERN_STATUSES.map((s) => (
+            <span data-bcn-cc-status data-status={s} hidden={s !== status}>
+              <EsaBadge value={s} size="sm" />
+            </span>
+          ))}
+        </span>
+      </div>
+      <p class="bcn-cc__summary typography-body-md" data-bcn-cc-summary>{entryText}</p>
+    </div>
+    {item.photoIds.length > 0 && (
+      <ul class="bcn-cc__photos cluster" data-gap="xs">
+        {item.photoIds.map((id) => {
+          const p = photo(id);
+          return (
+            <li class="bcn-cc__thumb frame" data-bcn-dmr-photo={id} data-excluded={isExcluded(id) || undefined}>
+              <img src={photoDataUri(p.scene)} alt={p.alt} width="40" height="40" loading="lazy" decoding="async" />
+            </li>
+          );
+        })}
+      </ul>
+    )}
+    <span class="bcn-cc__toggle">
+      <BcnDisclosureToggle hook="data-bcn-cc-toggle" value={itemId} label={`${c.id} details and daily logs`} expanded={false} />
+    </span>
+  </div>
+
+  <div class="bcn-cc__panel stack" data-gap="lg" id={panelId} data-bcn-cc-panel hidden>
+    {/* 1 — this report only */}
+    <section class="stack" data-gap="xs" aria-labelledby={`${panelId}-entry`}>
+      <h4 id={`${panelId}-entry`} class="bcn-cc__h typography-label-md-strong">This report's log entry</h4>
+      <BcnTrackedField fieldId={`item:${itemId}:summary`} layout="block" />
+    </section>
+
+    {/* 2 — the shared record */}
+    <section class="stack" data-gap="sm" aria-labelledby={`${panelId}-record`}>
+      <h4 id={`${panelId}-record`} class="bcn-cc__h typography-label-md-strong">Concern record</h4>
+      <EsaAlertBox variant="info" title="Shared record">
+        {others.length > 0 ? (
+          <>
+            <p class="bcn-cc__alert-p">Changes here update {c.id} in every daily report that includes it:</p>
+            <ul class="bcn-cc__reports stack" data-gap="2xs">
+              {others.map((r) => (
+                <li class="cluster" data-gap="xs">
+                  <time datetime={r.date}>{fmtDateLong(r.date)}</time>
+                  <span>{r.fieldPerson}</span>
+                  <span class="bcn-cc__quiet"><EsaBadge value={statusLabel(r.status)} size="sm" /></span>
+                  {r.status === 'report-generated' && (
+                    <span data-bcn-cc-outdated={r.id} hidden>
+                      <EsaBadge value="Out of date — regenerate" variant="warning" size="sm" />
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p class="bcn-cc__alert-p">Only this daily report includes this concern so far.</p>
+        )}
+      </EsaAlertBox>
+      <BcnDetailFacts columns={2}>
+        <BcnDetailFact label="Status">
+          <BcnTrackedField fieldId={`concern:${c.id}:status`} layout="inline" />
+        </BcnDetailFact>
+        <BcnDetailFact label="First Observation">
+          <time datetime={c.firstObserved}>{time}</time>
+        </BcnDetailFact>
+        <BcnDetailFact label="Reporter">{c.reporter}</BcnDetailFact>
+        <BcnDetailFact label="Work Site">{c.workSite}</BcnDetailFact>
+        <BcnDetailFact label="Description" full>
+          <span class="bcn-cc__prose"><BcnTrackedField fieldId={`concern:${c.id}:description`} layout="block" /></span>
+        </BcnDetailFact>
+      </BcnDetailFacts>
+    </section>
+
+    {/* 3 — every visit, newest first */}
+    <section class="stack" data-gap="sm" aria-labelledby={`${panelId}-logs`}>
+      <h4 id={`${panelId}-logs`} class="bcn-cc__h cluster typography-label-md-strong" data-gap="xs">
+        <span>Daily Logs</span>
+        <EsaBadge value={logs.length} size="sm" />
+      </h4>
+      <ul class="bcn-cc__logs stack" data-gap="sm">
+        {logs.map((log) => {
+          const mine = log.reportId === REPORT.id;
+          const report = otherById.get(log.reportId);
+          return (
+            <li class="bcn-cc__log" data-this-report={mine || undefined}>
+              <div class="bcn-cc__log-text stack" data-gap="2xs">
+                <div class="bcn-cc__muted cluster typography-body-sm" data-gap="xs">
+                  <span class="bcn-cc__person">{log.fieldPerson}</span>
+                  <span aria-hidden="true">·</span>
+                  <time datetime={log.at}>{fmtDateShort(log.at)}, {fmtClock(log.at)}</time>
+                  {mine ? (
+                    <EsaBadge value="This report" variant="secondary" size="sm" />
+                  ) : (
+                    report && <span class="bcn-cc__quiet"><EsaBadge value={statusLabel(report.status)} size="sm" /></span>
+                  )}
+                </div>
+                {mine ? (
+                  <p class="bcn-cc__log-notes typography-body-md" data-bcn-cc-this-log>{entryText}</p>
+                ) : (
+                  <p class="bcn-cc__log-notes typography-body-md">{log.notes}</p>
+                )}
+              </div>
+              {log.photoIds.length > 0 && (
+                <ul class="bcn-cc__photos cluster" data-gap="xs">
+                  {log.photoIds.map((id) => {
+                    const p = photo(id);
+                    return (
+                      <li class="bcn-cc__thumb frame" data-bcn-dmr-photo={id} data-excluded={isExcluded(id) || undefined}>
+                        <img src={photoDataUri(p.scene)} alt={p.alt} width="40" height="40" loading="lazy" decoding="async" />
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  </div>
+</article>
+
+<style>
+  /* Prod's .work-area-item: a padded, rounded row on the tinted default surface. */
+  .bcn-cc {
+    padding: var(--spacing-300, 0.75rem);
+    border: var(--border-width-default, 1px) solid var(--color-border-default-subtle, #efefef);
+    border-radius: var(--radius-lg, 0.75rem);
+    background: var(--color-background-default, #fafafa);
+  }
+
+  /* Text and photos share a wrapping row; on a narrow row the photos drop below. */
+  .bcn-cc__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
+  }
+  .bcn-cc__text {
+    flex: 1 1 16rem;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-cc__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);
+  }
+  .bcn-cc__icon {
+    display: inline-flex;
+    color: var(--color-content-default-secondary, #646464);
+  }
+  .bcn-cc__title {
+    color: var(--color-content-default, #202020);
+  }
+  .bcn-cc__muted {
+    color: var(--color-content-default-secondary, #646464);
+  }
+  /* Indented from the title line, as prod's __content. */
+  .bcn-cc__summary {
+    margin: 0;
+    padding: var(--spacing-200, 0.5rem) 0 0 var(--spacing-400, 1rem);
+    color: var(--color-content-default, #202020);
+  }
+  .bcn-cc__summary[hidden] {
+    display: none;
+  }
+
+  /* Quiet badge: light-gray ground, secondary ink — through esa-badge's own hooks. */
+  .bcn-cc__quiet {
+    display: inline-flex;
+    --badge-bg: var(--color-background-elevation-sunken, #efefef);
+    --badge-text-color: var(--color-content-default-secondary, #646464);
+  }
+  .bcn-cc__quiet [hidden] {
+    display: none;
+  }
+
+  .bcn-cc__photos,
+  .bcn-cc__logs,
+  .bcn-cc__reports {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .bcn-cc__photos {
+    flex: 0 1 auto;
+    max-width: 40%;
+    justify-content: flex-end;
+  }
+  .bcn-cc__thumb {
+    --frame-ratio: 1;
+    inline-size: 2.5rem;
+    border-radius: var(--radius-sm, 0.25rem);
+  }
+  .bcn-cc [data-excluded] img {
+    opacity: 0.4;
+    filter: grayscale(1);
+  }
+  .bcn-cc__toggle {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 1.5rem;
+  }
+
+  /* Expanded: a divider, then the panel on the same surface — subordinate, not a card. */
+  .bcn-cc__panel {
+    margin-block-start: var(--spacing-300, 0.75rem);
+    padding: var(--spacing-400, 1rem) 0 var(--spacing-100, 0.25rem) var(--spacing-400, 1rem);
+    border-block-start: var(--border-width-default, 1px) solid var(--color-border-default, #dcdcdc);
+  }
+  .bcn-cc__panel[hidden] {
+    display: none;
+  }
+  .bcn-cc__h {
+    margin: 0;
+    color: var(--color-content-default, #202020);
+  }
+  .bcn-cc__alert-p {
+    margin: 0;
+  }
+  .bcn-cc__reports {
+    margin-block-start: var(--spacing-100, 0.25rem);
+  }
+  /* The description is prose: drop the fact's semibold value weight (prod __description). */
+  .bcn-cc__prose {
+    display: block;
+    font-weight: var(--typography-font-weight-regular, 400);
+  }
+
+  /* One daily log — observation-detail's .daily-log register. */
+  .bcn-cc__log {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
+    padding: var(--spacing-300, 0.75rem);
+    border: var(--border-width-default, 1px) solid var(--color-border-default-subtle, #efefef);
+    border-radius: var(--radius-md, 0.5rem);
+    background: var(--color-background-elevation-raised, #fcfcfc);
+  }
+  .bcn-cc__log-text {
+    flex: 1 1 16rem;
+    min-width: 0;
+  }
+  .bcn-cc__person {
+    font-weight: var(--typography-font-weight-semibold, 600);
+    color: var(--color-content-default, #202020);
+  }
+  .bcn-cc__log-notes {
+    margin: 0;
+    padding-inline-start: var(--spacing-400, 1rem);
+    color: var(--color-content-default, #202020);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .bcn-cc [data-bcn-dmr-photo] img {
+      transition: opacity 150ms ease, filter 150ms ease;
+    }
+  }
+</style>
+
+<script>
+  import { setupComplianceConcerns } from './compliance-concern';
+  setupComplianceConcerns();
+</script>

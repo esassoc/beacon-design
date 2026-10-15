@@ -1,0 +1,419 @@
+---
+// <BcnDmrWorkAreas> — the Daily Monitoring Report's "Work Area Reports" section.
+//
+// Port of Beacon prod's daily-monitoring-report-detail work-area section
+// (origin/develop: the `workAreaSections()` loop): an h2 with a file-text icon and a
+// count badge, then one disclosure per work area titled "<name>, <date> <start time>"
+// with its item count. Inside each, in prod's order: a row with the per-location
+// Compliance Level (the line that goes into the regulator report) on the left and the
+// right-aligned "View as" Categories / Chronological Order toggle, the items, then Notes,
+// Wildlife Observed and Photos.
+//
+// Items follow prod's `.work-area-item` row: the item's entity glyph (prod's
+// beacon-entity-icon map, ./compliance-concern.ts ENTITY_GLYPH), bold title, muted time,
+// the summary indented below, 40px thumbnails at the right. Category headings are the
+// brand-teal semibold of prod's global h3. Compliance Concerns rows are
+// <BcnComplianceConcern>, an expandable row over the shared concern record.
+//
+// Header gap: esa-collapsible takes only a string `title` (no summary slot), so prod's
+// "**CW-TS14**, Sep 11, 2026 9:05 AM [4]" (bold name, regular date, outlined count badge)
+// renders as one plain string with the count folded in: "CW-TS14, Sep 11, 2026 9:05 AM
+// (4 items)". A /request-lego candidate: a summary slot on esa-collapsible.
+//
+// Every editable value is a <BcnTrackedField>, which self-hydrates from dmrStore;
+// this component owns only the structure, the view toggle and the excluded-photo
+// de-emphasis.
+//
+// Usage: <BcnDmrWorkAreas />
+//
+// bcn-lego-checked: walked Ecology first — esa-collapsible is each work area,
+// esa-badge the counts, esa-icon the section/sub-section glyphs, esa-button-toggle
+// the "View as" control, BcnTrackedField every editable value. No esa- lego is an
+// item row or a photo tile: esa-card is a page-level surface with its own header and
+// padding, and nesting one per item inside an esa-collapsible is cards-in-cards.
+// Checked Beacon prod: the bordered `.work-area-item` row (border-subtle, radius-lg,
+// default background) and the `.work-area__photos` strip are ported from its SCSS.
+// Layout is stack/cluster/grid/frame from @esa/tokens/layouts.css; the only bespoke
+// CSS is that row/tile chrome, thumbnail sizing, and the excluded-photo state.
+// bcn-dmr-wa is the reusable home.
+import '@esa/tokens/layouts.css';
+import '@esa/tokens/typography.css';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnComplianceConcern from './BcnComplianceConcern.astro';
+import BcnTrackedField from './BcnTrackedField.astro';
+import { CATEGORY_GLYPH, ENTITY_GLYPH } from './compliance-concern';
+import {
+  CATEGORY_ORDER,
+  REPORT,
+  WORK_AREAS,
+  type WorkAreaItem,
+} from '../../data/dmr-review-fixture';
+import { fmtDateShort, fmtTime12, initialState, photo } from '../../lib/dmr-review-store';
+import { photoDataUri } from '../../lib/dmr-report-art';
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+
+// Lucide glyphs the esa-icon registry doesn't carry (passed through its `paths` fallback).
+const PAW_PRINT =
+  '<circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/>';
+const IMAGE =
+  '<rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>';
+
+// Seeded state, so excluded photos render de-emphasized before the script runs.
+const seed = initialState();
+const isExcluded = (photoId: string) => seed.values[`photo:${photoId}:include`] === 'no';
+
+const byTime = (a: WorkAreaItem, b: WorkAreaItem) =>
+  a.time.localeCompare(b.time) || CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category);
+
+const sections = WORK_AREAS.map((wa) => {
+  const chronological = [...wa.items].sort(byTime);
+  const categories = CATEGORY_ORDER.map((label) => ({
+    label,
+    key: label.toLowerCase().replace(/\s+/g, '-'),
+    items: chronological.filter((i) => i.category === label),
+  })).filter((c) => c.items.length > 0);
+  const photos = [...wa.items.flatMap((i) => i.photoIds), ...wa.photoIds]
+    .map((id) => photo(id))
+    .sort((a, b) => a.takenAt.localeCompare(b.takenAt));
+  const count = wa.items.length;
+  return {
+    wa,
+    title: `${wa.name}, ${fmtDateShort(REPORT.date)} ${fmtTime12(wa.startTime)} (${count} ${count === 1 ? 'item' : 'items'})`,
+    chronological,
+    categories,
+    photos,
+  };
+});
+---
+
+<section class:list={['bcn-dmr-wa', 'stack', className]} data-gap="sm" data-bcn-dmr-wa aria-labelledby="bcn-dmr-wa-heading">
+  <h2 id="bcn-dmr-wa-heading" class="bcn-dmr-wa__heading cluster typography-heading-md" data-gap="xs">
+    <EsaIcon name="file-text" size="md" />
+    <span>Work Area Reports</span>
+    <EsaBadge value={sections.length} size="sm" />
+  </h2>
+
+  <div class="stack" data-gap="sm">
+    {sections.map(({ wa, title, chronological, categories, photos }) => (
+      <div class="bcn-dmr-wa__area" data-bcn-dmr-wa-area={wa.id} data-view="categories">
+        <EsaCollapsible title={title} open>
+          {/* Prod's view-toggle row, with the Compliance Level (the regulator report's line
+              for this location) on the left so the row is a repel. */}
+          <div class="bcn-dmr-wa__viewrow repel" data-gap="sm">
+            <BcnTrackedField fieldId={`wa:${wa.id}:level`} layout="inline" label="Compliance level" />
+            {chronological.length > 0 && (
+              <esa-button-toggle class="bcn-dmr-wa__view" size="sm" label="View as" data-bcn-dmr-wa-view></esa-button-toggle>
+            )}
+          </div>
+
+          {chronological.length > 0 && (
+            <div>
+              {/* Categories view: each item <li> lives here (data-home names its list).
+                  The Chronological view MOVES the same nodes into the list below rather
+                  than rendering every BcnTrackedField twice. */}
+              <div class="bcn-dmr-wa__pane stack" data-gap="md" data-bcn-dmr-wa-pane="categories">
+                {categories.map((cat) => (
+                  <section class="stack" data-gap="sm">
+                    <h3 class="bcn-dmr-wa__category typography-label-md-strong">{cat.label}</h3>
+                    <ul class="bcn-dmr-wa__items stack" data-gap="sm" data-bcn-dmr-wa-home={cat.key}>
+                      {cat.items.map((item) => {
+                        const glyph = ENTITY_GLYPH[CATEGORY_GLYPH[item.category]];
+                        return (
+                          <li data-bcn-dmr-wa-item={item.id} data-home={cat.key} data-order={chronological.indexOf(item)}>
+                            {item.concernId ? (
+                              <BcnComplianceConcern itemId={item.id} />
+                            ) : (
+                              <div class="bcn-dmr-wa__item">
+                                <div class="bcn-dmr-wa__item-text">
+                                  <div class="bcn-dmr-wa__item-head">
+                                    <span class="bcn-dmr-wa__glyph"><EsaIcon name={glyph.name} paths={glyph.paths} size="sm" /></span>
+                                    <span class="typography-label-md-strong">{item.title}</span>
+                                    <time class="bcn-dmr-wa__muted typography-body-sm" datetime={`${REPORT.date}T${item.time}`}>{fmtTime12(item.time)}</time>
+                                  </div>
+                                  <div class="bcn-dmr-wa__item-body">
+                                    <BcnTrackedField fieldId={`item:${item.id}:summary`} layout="block" />
+                                  </div>
+                                </div>
+                                {item.photoIds.length > 0 && (
+                                  <ul class="bcn-dmr-wa__thumbs cluster" data-gap="xs">
+                                    {item.photoIds.map((id) => {
+                                      const p = photo(id);
+                                      return (
+                                        <li class="bcn-dmr-wa__thumb frame" data-bcn-dmr-photo={id} data-excluded={isExcluded(id) || undefined}>
+                                          <img src={photoDataUri(p.scene)} alt={p.alt} width="40" height="40" loading="lazy" decoding="async" />
+                                        </li>
+                                      );
+                                    })}
+                                  </ul>
+                                )}
+                              </div>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </section>
+                ))}
+              </div>
+              <ul class="bcn-dmr-wa__pane bcn-dmr-wa__items stack" data-gap="sm" data-bcn-dmr-wa-pane="chronological" hidden></ul>
+            </div>
+          )}
+
+          <section class="stack" data-gap="xs">
+            <h3 class="bcn-dmr-wa__subhead cluster typography-label-md-strong" data-gap="xs">
+              <EsaIcon name="notepad-text" size="sm" />
+              <span>Notes</span>
+            </h3>
+            <BcnTrackedField fieldId={`wa:${wa.id}:notes`} layout="block" />
+          </section>
+
+          {wa.species.length > 0 && (
+            <section class="stack" data-gap="xs">
+              <h3 class="bcn-dmr-wa__subhead cluster typography-label-md-strong" data-gap="xs">
+                <EsaIcon name="paw-print" paths={PAW_PRINT} size="sm" />
+                <span>Wildlife Observed</span>
+              </h3>
+              <ul class="bcn-dmr-wa__species typography-body-md">
+                {wa.species.map((s) => <li>{s}</li>)}
+              </ul>
+            </section>
+          )}
+
+          {photos.length > 0 && (
+            <section class="stack" data-gap="xs">
+              <h3 class="bcn-dmr-wa__subhead cluster typography-label-md-strong" data-gap="xs">
+                <EsaIcon name="image" paths={IMAGE} size="sm" />
+                <span>Photos</span>
+              </h3>
+              <ul class="bcn-dmr-wa__photos grid" data-gap="sm">
+                {photos.map((p) => (
+                  <li class="bcn-dmr-wa__tile stack" data-gap="xs" data-bcn-dmr-photo={p.id} data-excluded={isExcluded(p.id) || undefined}>
+                    <figure class="stack" data-gap="xs">
+                      <div class="bcn-dmr-wa__tile-img frame">
+                        <img src={photoDataUri(p.scene)} alt={p.alt} width="200" height="150" loading="lazy" decoding="async" />
+                      </div>
+                      <figcaption class="bcn-dmr-wa__muted typography-body-sm">Photo taken {fmtTime12(p.takenAt.slice(11, 16))}</figcaption>
+                    </figure>
+                    <BcnTrackedField fieldId={`photo:${p.id}:include`} layout="toggle" />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </EsaCollapsible>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  /* Prod's section title: a hairline under the heading row. */
+  .bcn-dmr-wa__heading {
+    margin: 0;
+    padding-block-end: var(--spacing-200, 0.5rem);
+    border-block-end: var(--border-width-default, 1px) solid var(--color-border-subtle, #e8e8e8);
+    color: var(--color-content-default, #202020);
+  }
+  .bcn-dmr-wa__heading :global(.esa-icon),
+  .bcn-dmr-wa__subhead :global(.esa-icon) {
+    color: var(--color-content-default-secondary, #646464);
+  }
+
+  .bcn-dmr-wa h3 {
+    margin: 0;
+    color: var(--color-content-default, #202020);
+  }
+
+  /* A class-applied `display: flex` (stack) beats the UA's [hidden] rule. */
+  .bcn-dmr-wa__pane[hidden] {
+    display: none;
+  }
+
+  /* Level left, "View as" right (prod's .work-area__view-toggle is flex-end). */
+  .bcn-dmr-wa__viewrow {
+    align-items: center;
+  }
+
+  /* "View as" label inline with its segments, as prod's layout="inline". The host is
+     the flex container, so turning its axis needs no shadow-DOM reach. */
+  .bcn-dmr-wa__view {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-200, 0.5rem);
+    margin-inline-start: auto;
+  }
+
+  /* Prod's .work-area__category-label: semibold, normal case, the global heading teal. */
+  .bcn-dmr-wa .bcn-dmr-wa__category {
+    margin: var(--spacing-200, 0.5rem) 0 0;
+    color: var(--color-content-brand, #005862);
+  }
+
+  .bcn-dmr-wa__items,
+  .bcn-dmr-wa__thumbs,
+  .bcn-dmr-wa__photos {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  /* Inset under the category heading so the rows read as its contents. */
+  .bcn-dmr-wa__items {
+    padding-inline-start: var(--spacing-400, 1rem);
+  }
+
+  /* Prod's .work-area-item row: text and photos share a wrapping row. */
+  .bcn-dmr-wa__item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
+    padding: var(--spacing-300, 0.75rem);
+    border: var(--border-width-default, 1px) solid var(--color-border-default-subtle, #efefef);
+    border-radius: var(--radius-lg, 0.75rem);
+    background: var(--color-background-default, #fafafa);
+  }
+  .bcn-dmr-wa__item-text {
+    flex: 1 1 16rem;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-dmr-wa__item-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);
+    color: var(--color-content-default, #202020);
+  }
+  .bcn-dmr-wa__glyph {
+    display: inline-flex;
+    color: var(--color-content-default-secondary, #646464);
+  }
+  /* Indented from the title line, as prod's __content. */
+  .bcn-dmr-wa__item-body {
+    padding: var(--spacing-200, 0.5rem) 0 0 var(--spacing-400, 1rem);
+  }
+
+  .bcn-dmr-wa__muted {
+    color: var(--color-content-default-secondary, #646464);
+  }
+
+  .bcn-dmr-wa__thumbs {
+    flex: 0 1 auto;
+    max-width: 40%;
+    justify-content: flex-end;
+  }
+  .bcn-dmr-wa__thumb {
+    --frame-ratio: 1;
+    inline-size: 2.5rem;
+    border-radius: var(--radius-sm, 0.25rem);
+  }
+
+  .bcn-dmr-wa__species {
+    margin: 0;
+    padding-inline-start: var(--spacing-500, 1.5rem);
+  }
+
+  .bcn-dmr-wa__photos {
+    --grid-min: 11rem;
+  }
+  .bcn-dmr-wa__tile {
+    padding: var(--spacing-200, 0.5rem);
+    border: var(--border-width-default, 1px) solid var(--color-border-subtle, #e8e8e8);
+    border-radius: var(--radius-md, 0.5rem);
+    background: var(--color-background-default, #ffffff);
+  }
+  .bcn-dmr-wa__tile figure {
+    margin: 0;
+  }
+  .bcn-dmr-wa__tile-img {
+    --frame-ratio: 4 / 3;
+    border-radius: var(--radius-sm, 0.25rem);
+  }
+
+  /* Excluded from the report: the image fades; the toggle beside it states it in words. */
+  .bcn-dmr-wa [data-excluded] img {
+    opacity: 0.4;
+    filter: grayscale(1);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .bcn-dmr-wa [data-bcn-dmr-photo] img {
+      transition: opacity 150ms ease, filter 150ms ease;
+    }
+  }
+</style>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+  import { dmrStore } from '../../lib/dmr-review-store';
+
+  type View = 'categories' | 'chronological';
+  type ToggleEl = HTMLElement & { options: { label: string; value: string }[]; value: string };
+
+  const VIEW_OPTIONS = [
+    { label: 'Categories', value: 'categories' },
+    { label: 'Chronological Order', value: 'chronological' },
+  ];
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-bcn-dmr-wa]')) {
+    // ── Per work area: Categories / Chronological ──────────────────────────
+    for (const area of root.querySelectorAll<HTMLElement>('[data-bcn-dmr-wa-area]')) {
+      const toggle = area.querySelector<ToggleEl>('[data-bcn-dmr-wa-view]');
+      const catPane = area.querySelector<HTMLElement>('[data-bcn-dmr-wa-pane="categories"]');
+      const chronoList = area.querySelector<HTMLElement>('[data-bcn-dmr-wa-pane="chronological"]');
+      if (!toggle || !catPane || !chronoList) continue;
+
+      const items = [...area.querySelectorAll<HTMLElement>('[data-bcn-dmr-wa-item]')];
+
+      const setView = (view: View) => {
+        area.dataset.view = view;
+        if (view === 'chronological') {
+          items
+            .slice()
+            .sort((a, b) => Number(a.dataset.order) - Number(b.dataset.order))
+            .forEach((li) => chronoList.append(li));
+        } else {
+          for (const li of items) {
+            area.querySelector(`[data-bcn-dmr-wa-home="${li.dataset.home}"]`)?.append(li);
+          }
+          // Restore time order within each category list.
+          for (const list of catPane.querySelectorAll<HTMLElement>('[data-bcn-dmr-wa-home]')) {
+            [...list.children]
+              .sort((a, b) => Number((a as HTMLElement).dataset.order) - Number((b as HTMLElement).dataset.order))
+              .forEach((li) => list.append(li));
+          }
+        }
+        catPane.hidden = view !== 'categories';
+        chronoList.hidden = view !== 'chronological';
+      };
+
+      customElements.whenDefined('esa-button-toggle').then(() => {
+        // `options` is an array: a property, never an attribute.
+        toggle.options = VIEW_OPTIONS;
+        toggle.value = (area.dataset.view as View) ?? 'categories';
+      });
+      toggle.addEventListener('change', (event) => {
+        const value = (event as CustomEvent<{ value: string }>).detail?.value;
+        if (value === 'categories' || value === 'chronological') setView(value);
+      });
+    }
+
+    // ── Excluded photos fade, in the tile and in every item thumbnail ──────
+    const photoEls = [...root.querySelectorAll<HTMLElement>('[data-bcn-dmr-photo]')];
+    const syncPhotos = () => {
+      for (const el of photoEls) {
+        const id = el.dataset.bcnDmrPhoto;
+        if (!id) continue;
+        el.toggleAttribute('data-excluded', dmrStore.field(`photo:${id}:include`).value === 'no');
+      }
+    };
+    syncPhotos();
+    dmrStore.addEventListener('change', syncPhotos);
+  }
+</script>
