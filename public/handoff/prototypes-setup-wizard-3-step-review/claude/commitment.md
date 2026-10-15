@@ -1,6 +1,6 @@
 # Commitment
 
-The commitment as a marked-up page in Beacon's document voice. Each requirement is a highlighter stroke over the words that are its basis, drawn by hand: every line of it its own stroke, ragged at the ends. Requirements take six bright inks in turn, in text order (yellow, pink, green, orange, blue, aqua). What the parse pulled out of those words (a species, a milestone, a season) is underlined inside the stroke. Plain text is what nothing will be tracked from: the gap a spot check reads. Plain text the review thinks binds has a wavy warning underline. The header: the code, the page (opens the PDF beside it), Edit (the ID, name and text), Confirm.
+The commitment as a marked-up page in Beacon's document voice. Each requirement is a highlighter stroke over the words that are its basis, drawn by hand: every line of it its own stroke, ragged at the ends. Requirements take six bright inks in turn, in text order (yellow, pink, green, orange, blue, aqua). What the parse pulled out of those words (a species, a milestone, a season) is underlined inside the stroke. Plain text is what nothing will be tracked from: the gap a spot check reads. Plain text the review thinks binds has a wavy warning underline: the prompt keeps each passage contiguous, so a duty stated elsewhere in the text can fall outside every requirement, and this is where a person catches it. The header: the code, the page (opens the PDF beside it), Edit (the ID, name and text), Confirm.
 
 ## Key decisions
 - No borders on the highlighter, and no list numbers ("R1"). Selected is a heavier pass of the same ink; with one selected or hovered from the rail, the others' ink fades and their words stay black.
@@ -12,7 +12,7 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
 - The stroke is an SVG in a theme token (--bcn-marker-1 to -6, and -faint-1 to -6), stretched to each line with box-decoration-break: clone. The painter numbers each mark's turn in data-ink.
 
 ## Done when
-- MMRP rows read the same way: each row's requirements tile its text, so a spot check reads the row against the PDF beside it.
+- Requirements are Beacon's own: its ExtractRequirementsFromCommitment v6 prompt over each commitment, split by who does the work, one contiguous passage each (scripts/extract-requirements.mjs). COA 11.3 is two: the biologist's capture and handling, and the capture records.
 - COA 11.7: the sentence about the U.S. Naval Observatory times is plain, between two strokes: the spot check sees what is not tracked.
 
 ## Markup
@@ -134,7 +134,7 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
       During all phases of Project construction, operations, and maintenance,
       <mark
         class="bcn-hl"
-        data-sid="req_01M2ESMHSDAW774SZWKJC8RQZB"
+        data-sid="coa-11-1-1"
         data-family="amber"
         data-shade="1"
         data-ink="1"
@@ -148,12 +148,12 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
       >
       <mark
         class="bcn-hl"
-        data-sid="req_01M2ESMHSDAW774SZWKJC8RQZC"
+        data-sid="coa-11-1-2"
         data-family="amber"
         data-shade="3"
         data-ink="2"
         data-suggested=""
-        title="11.1:2 Relocate Trapped or Injured Covered Species from Construction Site"
+        title="11.1:2 Relocate Trapped Covered Species by Designated Biologist"
         >If the animal is found within a fenced Project construction site and cannot move
         of its own volition, the Designated Biologist(s) shall move the animal outside of
         the area of construction according to their species-specific relocation or
@@ -163,12 +163,12 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
       >
       <mark
         class="bcn-hl"
-        data-sid="req_01M2ESMHSDAW774SZWKJC8RQZD"
+        data-sid="coa-11-1-3"
         data-family="amber"
         data-shade="1"
         data-ink="3"
         data-suggested=""
-        title="11.1:3 Record and Report Covered Species Sighting Locations to CDFW"
+        title="11.1:3 Record and Report Covered Species Sightings to CDFW"
         >Covered Species sightings shall be recorded with a GPS (including datum and
         horizontal accuracy in feet) and the Designated Biologist(s), Fisheries
         Biologist(S), or Biological Monitor(s) shall report Covered Species observed

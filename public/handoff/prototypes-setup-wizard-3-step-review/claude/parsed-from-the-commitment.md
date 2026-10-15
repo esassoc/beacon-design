@@ -23,7 +23,7 @@ Everything parsed out of the commitment, read only: its requirements in text ord
     <ol class="bcn-sw3at__reqs" data-at-reqs="">
       <li
         class="bcn-sw3at__req"
-        data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+        data-req="coa-11-1-1"
         tabindex="0"
         role="button"
         aria-pressed="false"
@@ -68,7 +68,7 @@ Everything parsed out of the commitment, read only: its requirements in text ord
       </li>
       <li
         class="bcn-sw3at__req"
-        data-req="req_01M2ESMHSDAW774SZWKJC8RQZC"
+        data-req="coa-11-1-2"
         tabindex="0"
         role="button"
         aria-pressed="false"
@@ -81,8 +81,8 @@ Everything parsed out of the commitment, read only: its requirements in text ord
         ></span
         ><span class="bcn-sw3at__reqtext"
           ><span class="bcn-sw3at__reqname"
-            ><span class="bcn-sw3at__reqid">11.1:2</span>Relocate Trapped or Injured
-            Covered Species from Construction Site</span
+            ><span class="bcn-sw3at__reqid">11.1:2</span>Relocate Trapped Covered Species
+            by Designated Biologist</span
           ><span class="bcn-sw3at__reqtype">Avoidance &amp; BMPs</span></span
         ><span
           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
@@ -113,7 +113,7 @@ Everything parsed out of the commitment, read only: its requirements in text ord
       </li>
       <li
         class="bcn-sw3at__req"
-        data-req="req_01M2ESMHSDAW774SZWKJC8RQZD"
+        data-req="coa-11-1-3"
         tabindex="0"
         role="button"
         aria-pressed="false"
@@ -127,7 +127,7 @@ Everything parsed out of the commitment, read only: its requirements in text ord
         ><span class="bcn-sw3at__reqtext"
           ><span class="bcn-sw3at__reqname"
             ><span class="bcn-sw3at__reqid">11.1:3</span>Record and Report Covered Species
-            Sighting Locations to CDFW</span
+            Sightings to CDFW</span
           ><span class="bcn-sw3at__reqtype">Reporting</span></span
         ><span
           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
@@ -192,22 +192,13 @@ Everything parsed out of the commitment, read only: its requirements in text ord
       >
     </h3>
     <ul class="bcn-sw3at__list" data-at-list="phase">
-      <li
-        class="bcn-sw3at__item"
-        data-uses="req_01M2ESMHSDAW774SZWKJC8RQZB req_01M2ESMHSDAW774SZWKJC8RQZC req_01M2ESMHSDAW774SZWKJC8RQZD"
-      >
+      <li class="bcn-sw3at__item" data-uses="coa-11-1-1 coa-11-1-2 coa-11-1-3">
         <span class="bcn-sw3at__name">Construction</span>
       </li>
-      <li
-        class="bcn-sw3at__item"
-        data-uses="req_01M2ESMHSDAW774SZWKJC8RQZB req_01M2ESMHSDAW774SZWKJC8RQZC req_01M2ESMHSDAW774SZWKJC8RQZD"
-      >
+      <li class="bcn-sw3at__item" data-uses="coa-11-1-1 coa-11-1-2 coa-11-1-3">
         <span class="bcn-sw3at__name">Maintenance</span>
       </li>
-      <li
-        class="bcn-sw3at__item"
-        data-uses="req_01M2ESMHSDAW774SZWKJC8RQZB req_01M2ESMHSDAW774SZWKJC8RQZC req_01M2ESMHSDAW774SZWKJC8RQZD"
-      >
+      <li class="bcn-sw3at__item" data-uses="coa-11-1-1 coa-11-1-2 coa-11-1-3">
         <span class="bcn-sw3at__name">Operations</span>
       </li>
     </ul>
@@ -223,7 +214,7 @@ Everything parsed out of the commitment, read only: its requirements in text ord
       >
     </h3>
     <ul class="bcn-sw3at__list" data-at-list="activity">
-      <li class="bcn-sw3at__item" data-uses="req_01M2ESMHSDAW774SZWKJC8RQZC">
+      <li class="bcn-sw3at__item" data-uses="coa-11-1-2">
         <span class="bcn-sw3at__name">Wildlife capture, handling and relocation</span>
       </li>
     </ul>

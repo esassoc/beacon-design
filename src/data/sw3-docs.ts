@@ -28,16 +28,17 @@ import {
   MERGES,
   SCOPE_PROPOSAL,
   SW3_REVIEW_CLIENT,
-  ENTITIES,
-  PHASES,
+  allEntities,
+  makeV6Requirement,
   type Box,
   type ReviewCommitment,
   type ReviewRequirement,
+  type V6Requirement,
   type Find,
   type ScanEvent,
 } from './setup-wizard-3-step';
 import { boxesFor, type TextLineBox } from '../lib/anchored-text';
-import { guessType, nameFrom } from '../lib/requirement-heuristics';
+import v6Json from './sw3-requirements.json';
 
 /** A named part of a document a person can scope to in their own words. */
 export interface DocSection {
@@ -184,10 +185,50 @@ interface MmrpRow {
 const M = mmrpJson as { pages: { n: number }[]; tables: { id: string; label: string; title: string; first: number; last: number }[]; rows: MmrpRow[] };
 const table = (id: string) => M.tables.find((t) => t.id === id)!;
 const rowsIn = (id: string) => M.rows.filter((r) => r.table === id).length;
+/** An MMRP row as step 2 reads it: its text is the row's, end to end, and each line box on
+ *  the page holds its share of the row's characters, so a requirement's passage boxes onto
+ *  the PDF. Its requirements are Beacon's v6 prompt's answers (sw3-requirements.json). */
+const mmrpReview = (() => {
+  const answers = (v6Json as unknown as { docs: { mmrp: Record<string, V6Requirement[]> } }).docs.mmrp;
+  const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  const commitments: ReviewCommitment[] = [];
+  const requirements: ReviewRequirement[] = [];
+  for (const row of M.rows) {
+    const lines: TextLineBox[] = [];
+    let at = 0;
+    for (const q of row.requirements) {
+      const end = at + q.text.length;
+      const total = q.boxes.reduce((n, b) => n + b.w, 0) || 1;
+      let s0 = at;
+      q.boxes.forEach((b, k) => {
+        const e0 = k === q.boxes.length - 1 ? end : Math.round(s0 + (q.text.length * b.w) / total);
+        lines.push({ ...b, s: s0, e: e0 });
+        s0 = e0;
+      });
+      at = end + 1;
+    }
+    const text = row.requirements.map((q) => q.text).join('\n');
+    const reqs = (answers[row.code] ?? []).map((r, i) => makeV6Requirement(r, `${slug(row.code)}-${i + 1}`, row.code, text, lines));
+    requirements.push(...reqs);
+    commitments.push({
+      code: row.code,
+      title: row.title,
+      page: row.page,
+      pages: [...new Set(row.blocks.map((b) => b.page))],
+      text,
+      heading: [],
+      blocks: row.blocks,
+      lines,
+      requirementIds: reqs.map((r) => r.id),
+    });
+  }
+  return { commitments, requirements };
+})();
+
 const mmrpFirst = table('t1').first;
 const mmrpLast = table('t3').last;
 const mmrpFinds: Find[] = M.rows.map((r) => ({ id: r.code, code: r.code, title: r.title, page: r.page, boxes: r.blocks, kind: 'commitment' }));
-const mmrpReplay = replay(mmrpFirst, mmrpLast, mmrpFinds, (code) => M.rows.find((r) => r.code === code)?.requirements.length ?? 0, PAGE_SECONDS);
+const mmrpReplay = replay(mmrpFirst, mmrpLast, mmrpFinds, (code) => mmrpReview.requirements.filter((r) => r.code === code).length, PAGE_SECONDS);
 
 const mmrp: ScanDoc = {
   id: 'mmrp',
@@ -221,7 +262,7 @@ const mmrp: ScanDoc = {
   events: mmrpReplay.events,
   seconds: mmrpReplay.seconds,
   commitments: M.rows.map((r) => ({ code: r.code, title: r.title, page: r.page, blocks: r.blocks, text: r.requirements.map((q) => q.text).join('\n'), columns: r.cols })),
-  spans: M.rows.flatMap((r) => r.requirements.map((q, i) => ({ id: `${r.code}#${i + 1}`, code: r.code, name: q.name, boxes: q.boxes }))),
+  spans: mmrpReview.requirements.filter((r) => r.anchor).map((r) => ({ id: r.id, code: r.code, name: r.name, boxes: r.anchor!.boxes })),
   calibrate: M.rows.slice(0, CALIBRATE).map((r) => r.code),
   merges: [],
 };
@@ -286,73 +327,6 @@ export const SCAN_DOC_BY_ID = new Map(SCAN_DOCS.map((d) => [d.id, d]));
 // One payload per file, in the order the project lists them. The review runs them end to
 // end in one scrubber.
 
-/** An MMRP row as step 2 reads it: its requirements tile the row's text, one after another,
- *  and each line box on the page holds its share of a requirement's characters. */
-const mmrpReview = (() => {
-  const norm = (t: string) => t.toLowerCase().replace(/\(.*?\)/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
-  const named = (t: string, kind: string) =>
-    ENTITIES.filter((e) => e.kind === kind && norm(e.name).length > 3 && norm(t).includes(norm(e.name))).map((e) => e.id);
-  const phaseOf: Record<string, string> = { preconstruction: 'Pre-Construction', construction: 'Construction', operations: 'Operations', postconstruction: 'Post-Construction' };
-  const commitments: ReviewCommitment[] = [];
-  const requirements: ReviewRequirement[] = [];
-  for (const row of M.rows) {
-    const lines: TextLineBox[] = [];
-    const ids: string[] = [];
-    let at = 0;
-    const phases = row.cols.timing
-      .split(';')
-      .map((p) => phaseOf[p.trim().split(' ')[0].toLowerCase()])
-      .filter((p): p is string => !!p && PHASES.includes(p as (typeof PHASES)[number]));
-    row.requirements.forEach((q, i) => {
-      const start = at;
-      const end = start + q.text.length;
-      const total = q.boxes.reduce((n, b) => n + b.w, 0) || 1;
-      let s0 = start;
-      q.boxes.forEach((b, k) => {
-        const e0 = k === q.boxes.length - 1 ? end : Math.round(s0 + (q.text.length * b.w) / total);
-        lines.push({ ...b, s: s0, e: e0 });
-        s0 = e0;
-      });
-      const id = `${row.code}#${i + 1}`;
-      ids.push(id);
-      const type = guessType(q.text);
-      requirements.push({
-        id,
-        code: row.code,
-        name: nameFrom(q.text),
-        type,
-        typeConfidence: 0.85,
-        phases: [...new Set(phases)],
-        timing: { frequency: 'Ongoing' },
-        speciesIds: named(q.text, 'species'),
-        activityIds: named(q.text, 'activity'),
-        seasonIds: named(q.text, 'season'),
-        milestoneIds: named(q.text, 'milestone'),
-        responsibleParty: row.cols.party ?? '',
-        deliverable: '',
-        quote: '',
-        anchor: { page: row.page, charStart: start, charEnd: end, boxes: [] },
-        values: [],
-        filing: 'suggested',
-      } as ReviewRequirement);
-      at = end + 1;
-    });
-    const pages = [...new Set(row.blocks.map((b) => b.page))];
-    commitments.push({
-      code: row.code,
-      title: row.title,
-      page: row.page,
-      pages,
-      text: row.requirements.map((q) => q.text).join('\n'),
-      heading: [],
-      blocks: row.blocks,
-      lines,
-      requirementIds: ids,
-    });
-  }
-  return { commitments, requirements };
-})();
-
 export const REVIEW_DOCS = [
   { ...SW3_REVIEW_CLIENT, id: itp.id, short: itp.short, name: itp.name, pdf: itp.pdf, aspect: 1.2941 },
   {
@@ -370,7 +344,7 @@ export const REVIEW_DOCS = [
     merges: [],
     commitments: mmrpReview.commitments,
     requirements: mmrpReview.requirements,
-    entities: ENTITIES,
+    entities: allEntities(),
     labels: SW3_REVIEW_CLIENT.labels,
   },
 ];

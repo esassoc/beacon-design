@@ -1306,7 +1306,7 @@ export const flagsOf = (code: string): Flag[] =>
     }
     for (const m of D.merges) {
       if (S.merges[m.id] || !mergeProposed(m.id)) continue;
-      const uses = reqs.some((r) => [r.timing.milestoneId, ...r.seasonIds].some((e) => e && m.fromIds.includes(e)));
+      const uses = reqs.some((r) => [...(r.milestoneIds ?? []), ...r.seasonIds].some((e) => e && m.fromIds.includes(e)));
       if (uses) flags.push({ kind: 'merge', mergeId: m.id });
     }
     const split = D.finds.find((f) => f.kind === 'split' && f.partOf === code);

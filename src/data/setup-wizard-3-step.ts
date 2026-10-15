@@ -9,9 +9,10 @@ import { withBase } from '../lib/base';
 // Everything here is derived from the ITP itself:
 //   sw3-anchors.json      scripts/anchor-itp.mjs over public/source-docs/itp.pdf, pp. 131–223 (Condition 11):
 //                         each commitment's text and boxes, each requirement quote's offsets
-//   setup-wizard-itp.json the 2026-09-14 bulk extraction: requirement names, types, timing,
-//                         species, activities, parties
-// Seasons have no extraction fixture; SEASON_PHRASES below are read from the ITP's own text.
+//   sw3-requirements.json scripts/extract-requirements.mjs: Beacon's own requirement prompt
+//                         (ExtractRequirementsFromCommitment v6) over each commitment's text, in
+//                         its output shape: name, verbatim passage, phases, type, scope,
+//                         frequency, activities, species, seasons, milestones, rationale
 //
 // The scan is a REPLAY: SCAN_EVENTS is the event stream the server would push
 // (page_scanned, commitment_found, commitment_parsed, entity_proposed, merge_proposed),
@@ -24,11 +25,10 @@ import { withBase } from '../lib/base';
 //   COA 11.36  found twice, split across the page break into p. 156
 //   COA 11.14  one requirement quotes a sentence that is not in the ITP
 //   COA 11.25  one requirement is the same text as another, under a different title
-//   COA 11.18  the parse missed its last duty (mowing timing): that sentence is uncovered
 // The milestone and season variants are not seeded: they are the extraction's own.
 
 import anchorsJson from './sw3-anchors.json';
-import itpJson from './setup-wizard-itp.json';
+import v6Json from './sw3-requirements.json';
 import itpPages from './itp-pages.json';
 import { STEP_GLYPH, REQUIREMENT_TYPE_LABEL, PHASES, type SetupStep, type RequirementType } from './setup-wizard';
 import { BINDING, sentences, boxesFor, coveredChars, type PageBox, type TextLineBox } from '../lib/anchored-text';
@@ -102,6 +102,8 @@ export interface ReviewRequirement {
   milestoneIds?: string[];
   /** Beacon's Requirement.Notes. */
   notes?: string;
+  /** Why the prompt grouped it so: who does the work and what "done" looks like. */
+  rationale?: string;
   responsibleParty: string;
   deliverable: string;
   /** The verbatim quote the extraction returned. */
@@ -280,28 +282,26 @@ interface RawAnchors {
   }[];
 }
 
-interface RawRequirement {
-  id: string;
-  commitment: string;
+/** One requirement as Beacon's v6 prompt returned it (scripts/extract-requirements.mjs). */
+export interface V6Requirement {
   name: string;
-  text: string;
-  type: RequirementType;
+  quote: string;
+  start: number;
+  end: number;
   phases: string[];
-  species: string[];
+  type: RequirementType;
+  scope: 'Project' | 'Component';
+  frequency: string | null;
   activities: string[];
-  responsibleParty: string;
-  deliverable: string;
-  timing: {
-    frequency: string;
-    deadline?: { milestone?: string; direction?: string; offset?: number; unit?: string };
-    recurrence?: { interval?: number; unit?: string };
-    stated?: string;
-  };
+  species: string[];
+  seasons: { Name: string; StartMonth?: number; StartDay?: number; EndMonth?: number; EndDay?: number }[];
+  milestones: string[];
+  related: number[];
+  rationale: string;
 }
 
 const RAW = anchorsJson as unknown as RawAnchors;
-const ITP = itpJson as unknown as { requirements: RawRequirement[] };
-const REQ_BY_ID = new Map(ITP.requirements.map((r) => [r.id, r]));
+const V6 = (v6Json as unknown as { docs: { itp: Record<string, V6Requirement[]> } }).docs.itp;
 
 export const SCAN_PAGES: ScanPage[] = RAW.pages;
 export const LOW_CONFIDENCE = 0.6;
@@ -313,10 +313,6 @@ const FALSE_CODE = 'COA 11.32';
 const FALSE_PAGE = 146;
 const UNANCHORED_IN = 'COA 11.14';
 const DUPLICATE_IN = 'COA 11.25';
-const DUPLICATE_OF = 'Submit SWPPP to CDFW with Construction Phase Authorization Package';
-const UNCOVERED_IN = 'COA 11.18';
-/** The parse missed this duty: its requirement is dropped, so its sentence is uncovered. */
-const UNCOVERED_DROP = 'Time Mowing to Species Dormancy and Dry Conditions';
 
 const slug = (s: string) =>
   s
@@ -332,20 +328,6 @@ const findIn = (text: string, needle: string, from = 0, to = text.length) => {
   return i >= 0 && i + needle.length <= to ? i : -1;
 };
 
-// Seasons: no wizard fixture, so the registry is read from the ITP's own phrasing. Each
-// phrasing is what a raw extraction produces as its own entity; the merge pass then
-// proposes which phrasings are one season.
-const SEASON_PHRASES: { name: string; phrases: string[] }[] = [
-  { name: 'GGS active season (May 1 – October 1)', phrases: ['active season (May 1 – October 1)'] },
-  { name: 'Active season (May 1 to October 1)', phrases: ['active season (May 1 to October 1)'] },
-  { name: 'GGS active period, May 1 – October 1', phrases: ['active period between May 1 and October 1'] },
-  { name: 'GGS inactive season', phrases: ['GGS inactive season', 'inactive season'] },
-  { name: 'Dry season (July 15 – October 15)', phrases: ['dry season (July 15 – October 15)', 'dry season of July 15 – October 15'] },
-  { name: 'July 15 – October 15 (dry season)', phrases: ['July 15 to October 15 of each year (dry season)'] },
-  { name: '“Dry season,” July 15 – Oct 15', phrases: ['dry season” defined as July 15-Oct 15'] },
-  { name: 'CTS active season', phrases: ['CTS active season'] },
-];
-
 const entities = new Map<string, Entity>();
 const entityId = (kind: EntityKind, name: string) => {
   const id = `${kind}:${fold(name)}`;
@@ -355,69 +337,68 @@ const entityId = (kind: EntityKind, name: string) => {
   return id;
 };
 
-const typeConfidence = (r: RawRequirement) => (r.type === 'Other' ? 0.41 : 0.9);
-
-const dirOf = (d?: string): Direction | undefined =>
-  d === 'Before' || d === 'After' || d === 'Within' ? d : undefined;
-const unitWord = (u?: string, n?: number) => {
-  if (!u) return '';
-  const w = u.toLowerCase().replace(/s$/, '');
-  return n === 1 ? w : `${w}s`;
+/** The responsible party each type implies (the v6 prompt's own table). */
+const PARTY: Record<RequirementType, string> = {
+  Survey: 'Field biologists',
+  Monitoring: 'Field monitors',
+  AvoidanceAndBMPs: 'Construction crews',
+  RestorationAndMitigation: 'Restoration crews',
+  Analysis: 'Technical analysts',
+  Plan: 'Environmental planners',
+  Design: 'Engineers',
+  Reporting: 'Compliance staff',
+  ApprovalAndConsultation: 'Permitting staff',
+  Financial: 'Admin and finance',
+  TrainingAndEducation: 'Compliance leads',
+  Other: '',
 };
 
-const makeRequirement = (
-  raw: RawRequirement,
+/** A season as the model named it. Its dates, when the text gave them, fold its variants. */
+const seasonLabel = (s: V6Requirement['seasons'][number]) => s.Name.replace(/\s+/g, ' ').trim();
+const seasonDates = new Map<string, string>();
+
+export const makeV6Requirement = (
+  raw: V6Requirement,
+  id: string,
   code: string,
   text: string,
   lines: TextLine[],
-  span: { start: number; end: number } | null,
 ): ReviewRequirement => {
-  const dl = raw.timing.deadline;
-  const timing: Timing = {
-    frequency: raw.timing.frequency,
-    milestoneId: dl?.milestone ? entityId('milestone', dl.milestone) : undefined,
-    direction: dirOf(dl?.direction),
-    offset: dl?.offset ? `${dl.offset} ${unitWord(dl.unit, dl.offset)}` : undefined,
-    recurrence: raw.timing.recurrence?.unit
-      ? `Every ${raw.timing.recurrence.interval && raw.timing.recurrence.interval > 1 ? `${raw.timing.recurrence.interval} ` : ''}${unitWord(raw.timing.recurrence.unit, raw.timing.recurrence.interval ?? 1)}`
-      : undefined,
-    stated: raw.timing.stated?.replace(/\s+/g, ' '),
-  };
+  const span = raw.start >= 0 ? { start: raw.start, end: raw.end } : null;
+  const milestoneIds = raw.milestones.map((m) => entityId('milestone', m));
+  const seasonIds = raw.seasons.map((s) => {
+    const id = entityId('season', seasonLabel(s));
+    if (s.StartMonth && s.EndMonth) seasonDates.set(id, `${s.StartMonth}/${s.StartDay}-${s.EndMonth}/${s.EndDay}`);
+    return id;
+  });
+  // Where each linked name sits in the requirement's words: underlined in the text.
   const values: ValueAnchor[] = [];
-  const seasonIds: string[] = [];
   if (span) {
     const at = (field: ValueAnchor['field'], value: string, needle: string) => {
       const i = findIn(text, needle, span.start, span.end);
       if (i >= 0) values.push({ field, value, charStart: i, charEnd: i + needle.length });
       return i >= 0;
     };
-    if (timing.stated) at('stated', timing.stated, timing.stated);
-    if (dl?.milestone) at('milestone', dl.milestone, dl.milestone);
+    for (const m of raw.milestones) at('milestone', m, m);
+    for (const s of raw.seasons) at('season', seasonLabel(s), s.Name);
     for (const sp of raw.species) at('species', sp, sp) || at('species', sp, sp.split(' ').slice(-2).join(' '));
-    at('party', raw.responsibleParty, raw.responsibleParty.split(/[,(]/)[0].trim());
-    for (const s of SEASON_PHRASES) {
-      for (const p of s.phrases) {
-        if (at('season', s.name, p)) {
-          seasonIds.push(entityId('season', s.name));
-          break;
-        }
-      }
-    }
   }
   return {
-    id: raw.id,
+    id,
     code,
     name: raw.name,
     type: raw.type,
-    typeConfidence: typeConfidence(raw),
+    typeConfidence: raw.type === 'Other' ? 0.41 : 0.9,
     phases: raw.phases,
-    timing,
+    timing: { frequency: raw.frequency ?? 'Ongoing', milestoneId: milestoneIds[0] },
     speciesIds: raw.species.map((s) => entityId('species', s)),
     activityIds: raw.activities.map((a) => entityId('activity', a)),
     seasonIds,
-    responsibleParty: raw.responsibleParty,
-    deliverable: raw.deliverable,
-    quote: raw.text.replace(/\s+/g, ' '),
+    milestoneIds,
+    responsibleParty: PARTY[raw.type] ?? '',
+    deliverable: '',
+    rationale: raw.rationale,
+    quote: raw.quote.replace(/\s+/g, ' '),
     anchor: span ? { page: boxesFor(lines, span.start, span.end)[0]?.page ?? 0, charStart: span.start, charEnd: span.end, boxes: boxesFor(lines, span.start, span.end) } : null,
     values,
     filing: 'suggested',
@@ -427,83 +408,48 @@ const makeRequirement = (
 export const REQUIREMENTS: ReviewRequirement[] = [];
 export const COMMITMENTS: ReviewCommitment[] = [];
 
-/** How much of the binding text the 2026-09-14 extraction's quotes cover, before partition. */
+/** How much of the binding text the extraction's passages cover. */
 export const RAW_COVERAGE = { binding: 0, covered: 0 };
 
 for (const c of RAW.commitments) {
-  const reqsIn = c.requirements.filter((r) => REQ_BY_ID.get(r.id)?.name !== UNCOVERED_DROP);
-  const anchored = reqsIn.filter((r) => r.start >= 0).sort((a, b) => a.start - b.start);
-  const spans = new Map(anchored.map((r) => [r.id, { start: r.start, end: r.end }]));
-
-  // Partition: every binding sentence belongs to exactly one requirement. Overlaps clip to
-  // the earlier span; a binding sentence no quote covers joins the requirement before it
-  // (or the first). The extraction prompt asks for this; the fixture enforces it here.
-  const order = anchored.map((r) => r.id);
-  for (let i = 1; i < order.length; i++) {
-    const prev = spans.get(order[i - 1])!;
-    const cur = spans.get(order[i])!;
-    if (cur.start < prev.end) cur.start = Math.min(cur.end, prev.end + 1);
-  }
-  for (const { start: ss, end: se } of sentences(c.text)) {
-    const s = { s: ss, e: se };
-    if (!BINDING.test(c.text.slice(s.s, s.e))) continue;
+  const reqs = (V6[c.code] ?? []).map((r, i) => makeV6Requirement(r, `${slug(c.code)}-${i + 1}`, c.code, c.text, c.lines));
+  for (const { start, end } of sentences(c.text)) {
+    if (!BINDING.test(c.text.slice(start, end))) continue;
     RAW_COVERAGE.binding++;
-    const covered = coveredChars({ start: s.s, end: s.e }, [...spans.values()]) > (s.e - s.s) * 0.5;
-    if (covered) {
-      RAW_COVERAGE.covered++;
-      continue;
-    }
-    if (!order.length) continue;
-    // Partition never reaches past the last span: a duty after every quote is the parse's miss.
-    if (spans.get(order.at(-1)!)!.end < s.s && c.code === UNCOVERED_IN) continue;
-    const ownerIdx = Math.max(0, order.findLastIndex((id) => spans.get(id)!.start <= s.s));
-    const owner = spans.get(order[ownerIdx])!;
-    const next = spans.get(order[ownerIdx + 1] ?? '');
-    owner.start = Math.min(owner.start, s.s);
-    owner.end = Math.max(owner.end, next ? Math.min(s.e, next.start - 1) : s.e);
+    const spans = reqs.filter((r) => r.anchor).map((r) => ({ start: r.anchor!.charStart, end: r.anchor!.charEnd }));
+    if (coveredChars({ start, end }, spans) > (end - start) * 0.5) RAW_COVERAGE.covered++;
   }
+  const ids = reqs.map((r) => r.id);
+  REQUIREMENTS.push(...reqs);
 
-  const ids: string[] = [];
-  for (const r of reqsIn) {
-    const raw = REQ_BY_ID.get(r.id);
-    if (!raw) continue;
-    const req = makeRequirement(raw, c.code, c.text, c.lines, spans.get(r.id) ?? null);
+  // Seeded: a requirement whose quote is not in the ITP (the made-up-text signal).
+  if (c.code === UNANCHORED_IN && reqs[0]) {
+    const req: ReviewRequirement = {
+      ...reqs[0],
+      id: 'req_sw3_unanchored',
+      name: 'Submit Weekly Trench Inspection Photos to CDFW',
+      type: 'Reporting',
+      phases: ['Construction'],
+      timing: { frequency: 'Recurring' },
+      speciesIds: [],
+      activityIds: [entityId('activity', 'Excavation and trenching')],
+      seasonIds: [],
+      milestoneIds: [],
+      responsibleParty: PARTY.Reporting,
+      rationale: 'Compliance staff photograph each inspected trench and submit the photographs weekly.',
+      quote: 'The Designated Biologist shall photograph each inspected trench and submit the photographs to CDFW weekly.',
+      anchor: null,
+      values: [],
+    };
     REQUIREMENTS.push(req);
     ids.push(req.id);
   }
 
-  if (c.code === UNANCHORED_IN) {
-    const base = REQ_BY_ID.get(c.requirements[0].id)!;
-    const req = makeRequirement(
-      {
-        ...base,
-        id: 'req_sw3_unanchored',
-        name: 'Submit Weekly Trench Inspection Photos to CDFW',
-        text: 'The Designated Biologist shall photograph each inspected trench and submit the photographs to CDFW weekly.',
-        type: 'Reporting',
-        deliverable: 'Weekly trench inspection photographs',
-        timing: { frequency: 'Recurring', recurrence: { interval: 1, unit: 'Weeks' } },
-        species: [],
-        activities: ['Excavation and trenching'],
-      },
-      c.code,
-      c.text,
-      c.lines,
-      null,
-    );
-    REQUIREMENTS.push(req);
-    ids.push(req.id);
-  }
-
+  // Seeded: the same words parsed twice, under a different name.
   if (c.code === DUPLICATE_IN) {
-    const orig = REQUIREMENTS.find((r) => r.code === c.code && r.name === DUPLICATE_OF);
+    const orig = reqs.find((r) => r.type === 'Reporting') ?? reqs[0];
     if (orig) {
-      const dup: ReviewRequirement = {
-        ...orig,
-        id: 'req_sw3_duplicate',
-        name: 'Provide SWPPP to CDFW Before Construction',
-        values: [...orig.values],
-      };
+      const dup: ReviewRequirement = { ...orig, id: 'req_sw3_duplicate', name: `${orig.name.replace(/^Submit /, 'Provide ')} Before Construction`, values: [...orig.values] };
       REQUIREMENTS.push(dup);
       ids.push(dup.id);
     }
@@ -527,38 +473,37 @@ export const REQUIREMENT_BY_ID = new Map(REQUIREMENTS.map((r) => [r.id, r]));
 
 // ── Entity registry and merge proposals ──────────────────────────────────────
 
-/** The merge pass's output: phrasings it clusters as one concept, by meaning. */
-const MERGE_SPEC: { kind: EntityKind; into: string; from: string[] }[] = [
-  {
-    kind: 'milestone',
-    into: 'Initiation of Covered Activities',
-    from: ['start of Covered Activities', 'start of any Covered Activity', 'Initiation of Covered Activity', 'Start of the Covered Activity'],
-  },
-  {
-    kind: 'milestone',
-    into: 'Initiation of In-Water Covered Activities',
-    from: ['Initiation of In-Water Covered Activity'],
-  },
-  {
-    kind: 'season',
-    into: 'GGS active season (May 1 – October 1)',
-    from: ['Active season (May 1 to October 1)', 'GGS active period, May 1 – October 1'],
-  },
-  {
-    kind: 'season',
-    into: 'Dry season (July 15 – October 15)',
-    from: ['July 15 – October 15 (dry season)', '“Dry season,” July 15 – Oct 15'],
-  },
-];
+/** The merge pass: phrasings of one concept, as the extraction named them across
+ *  commitments. Milestones fold by meaning (start, initiation and commencement of the same
+ *  thing; singular and plural); seasons by the same date range. The phrasing most
+ *  requirements use is the one the others merge into. */
+const MILESTONE_WORDS: Record<string, string> = { initiation: 'start', initiating: 'start', commencement: 'start', commence: 'start', beginning: 'start', begin: 'start', onset: 'start', starting: 'start', completion: 'end', completing: 'end', complete: 'end', finish: 'end', end: 'end' };
+const milestoneKey = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]+/g, ' ')
+    .split(/\s+/)
+    .filter((w) => w && !['of', 'the', 'any', 'a', 'an', 'all'].includes(w))
+    .map((w) => MILESTONE_WORDS[w] ?? w.replace(/ies$/, 'y').replace(/(?<!s)s$/, ''))
+    .join(' ');
+const uses = new Map<string, number>();
+for (const r of REQUIREMENTS) for (const id of [...(r.milestoneIds ?? []), ...r.seasonIds]) uses.set(id, (uses.get(id) ?? 0) + 1);
+const clusters = new Map<string, string[]>();
+for (const e of entities.values()) {
+  const key = e.kind === 'milestone' ? `m:${milestoneKey(e.name)}` : e.kind === 'season' && seasonDates.has(e.id) ? `s:${seasonDates.get(e.id)}` : null;
+  if (key) clusters.set(key, [...(clusters.get(key) ?? []), e.id]);
+}
 
-export const MERGES: MergeProposal[] = MERGE_SPEC.map((m) => ({
-  id: `merge:${slug(m.into)}`,
-  kind: m.kind,
-  intoId: `${m.kind}:${fold(m.into)}`,
-  fromIds: m.from.map((f) => `${m.kind}:${fold(f)}`).filter((id) => entities.has(id)),
-})).filter((m) => entities.has(m.intoId) && m.fromIds.length);
+export const MERGES: MergeProposal[] = [...clusters.values()]
+  .filter((ids) => ids.length > 1)
+  .map((ids) => {
+    const [intoId, ...fromIds] = [...ids].sort((x, y) => (uses.get(y) ?? 0) - (uses.get(x) ?? 0) || x.localeCompare(y));
+    return { id: `merge:${slug(entities.get(intoId)!.name)}`, kind: entities.get(intoId)!.kind, intoId, fromIds };
+  });
 
 export const ENTITIES: Entity[] = [...entities.values()].sort((a, b) => a.name.localeCompare(b.name));
+/** The registry as it stands, with any file read after this one (the MMRP) added. */
+export const allEntities = (): Entity[] => [...entities.values()].sort((a, b) => a.name.localeCompare(b.name));
 export const ENTITY_KIND_LABEL: Record<EntityKind, string> = {
   milestone: 'Milestones',
   season: 'Seasons',
@@ -627,7 +572,7 @@ export const SCAN_EVENTS: ScanEvent[] = (() => {
     ev.push({ t: tParsed, type: 'commitment_parsed', code: c.code, requirements: c.requirementIds.length });
     for (const id of c.requirementIds) {
       const r = REQUIREMENT_BY_ID.get(id)!;
-      for (const e of [r.timing.milestoneId, ...r.speciesIds, ...r.activityIds, ...r.seasonIds]) {
+      for (const e of [...(r.milestoneIds ?? []), ...r.speciesIds, ...r.activityIds, ...r.seasonIds]) {
         if (!e || seen.has(e)) continue;
         seen.add(e);
         firstUse.set(e, tParsed);

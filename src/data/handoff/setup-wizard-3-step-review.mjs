@@ -29,7 +29,7 @@ export default {
     {
       label: 'Commitment',
       selector: '[data-c]',
-      intent: 'The commitment as a marked-up page in Beacon\'s document voice. Each requirement is a highlighter stroke over the words that are its basis, drawn by hand: every line of it its own stroke, ragged at the ends. Requirements take six bright inks in turn, in text order (yellow, pink, green, orange, blue, aqua). What the parse pulled out of those words (a species, a milestone, a season) is underlined inside the stroke. Plain text is what nothing will be tracked from: the gap a spot check reads. Plain text the review thinks binds has a wavy warning underline. The header: the code, the page (opens the PDF beside it), Edit (the ID, name and text), Confirm.',
+      intent: 'The commitment as a marked-up page in Beacon\'s document voice. Each requirement is a highlighter stroke over the words that are its basis, drawn by hand: every line of it its own stroke, ragged at the ends. Requirements take six bright inks in turn, in text order (yellow, pink, green, orange, blue, aqua). What the parse pulled out of those words (a species, a milestone, a season) is underlined inside the stroke. Plain text is what nothing will be tracked from: the gap a spot check reads. Plain text the review thinks binds has a wavy warning underline: the prompt keeps each passage contiguous, so a duty stated elsewhere in the text can fall outside every requirement, and this is where a person catches it. The header: the code, the page (opens the PDF beside it), Edit (the ID, name and text), Confirm.',
       decisions: [
         'No borders on the highlighter, and no list numbers ("R1"). Selected is a heavier pass of the same ink; with one selected or hovered from the rail, the others\' ink fades and their words stay black.',
         'The text is read only. Its words change by telling Aldo (split, merge, you missed this); a requirement\'s record changes in its side panel.',
@@ -39,7 +39,7 @@ export default {
         'The painter cuts a mark wherever a value\'s words start or end; the controller joins touching pieces of one requirement back into one mark so the stroke is not broken.',
         'The stroke is an SVG in a theme token (--bcn-marker-1 to -6, and -faint-1 to -6), stretched to each line with box-decoration-break: clone. The painter numbers each mark\'s turn in data-ink.',
       ],
-      acceptance: ['MMRP rows read the same way: each row\'s requirements tile its text, so a spot check reads the row against the PDF beside it.', 'COA 11.7: the sentence about the U.S. Naval Observatory times is plain, between two strokes: the spot check sees what is not tracked.'],
+      acceptance: ['Requirements are Beacon\'s own: its ExtractRequirementsFromCommitment v6 prompt over each commitment, split by who does the work, one contiguous passage each (scripts/extract-requirements.mjs). COA 11.3 is two: the biologist\'s capture and handling, and the capture records.', 'COA 11.7: the sentence about the U.S. Naval Observatory times is plain, between two strokes: the spot check sees what is not tracked.'],
     },
     {
       label: 'Parsed from the commitment',

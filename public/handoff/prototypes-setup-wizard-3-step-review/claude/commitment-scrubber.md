@@ -15,7 +15,7 @@ Every commitment of every source file in one run, file after file, one cell each
 <div class="bcn-sw3rev__nav">
   <div class="bcn-sw3rev__where">
     <span class="bcn-sw3rev__pos" data-rev-pos=""
-      >ITP: 1 of 156. 0 confirmed, 20 to settle.</span
+      >ITP: 1 of 156. 0 confirmed, 157 to settle.</span
     ><span data-rev-next-open=""
       ><span
         class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
@@ -81,32 +81,18 @@ Every commitment of every source file in one run, file after file, one cell each
       aria-valuetext="ITP 11.1 Covered Species Observations, 3 requirements"
     >
       <span class="bcn-cscrub__cell" data-state="ready"></span
+      ><span class="bcn-cscrub__cell" data-state="ready"></span
       ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
       ><span class="bcn-cscrub__cell" data-state="flagged"></span
       ><span class="bcn-cscrub__cell" data-state="ready"></span
       ><span class="bcn-cscrub__cell" data-state="ready"></span
       ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
+      ><span class="bcn-cscrub__cell" data-state="flagged"></span
       ><span class="bcn-cscrub__cell" data-state="ready"></span
       ><span class="bcn-cscrub__cell" data-state="ready"></span
       ><span class="bcn-cscrub__cell" data-state="flagged"></span
       ><span class="bcn-cscrub__cell" data-state="flagged"></span
       ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="flagged"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
-      ><span class="bcn-cscrub__cell" data-state="ready"></span
       ><span class="bcn-cscrub__cell" data-state="flagged"></span
       ><span class="bcn-cscrub__cell" data-state="ready"></span
       ><span class="bcn-cscrub__cell" data-state="flagged"></span
@@ -116,10 +102,24 @@ Every commitment of every source file in one run, file after file, one cell each
       ><span class="bcn-cscrub__cell" data-state="ready"></span
       ><span class="bcn-cscrub__cell" data-state="ready"></span
       ><span class="bcn-cscrub__cell" data-state="ready"></span
+      ><span class="bcn-cscrub__cell" data-state="flagged"></span
+      ><span class="bcn-cscrub__cell" data-state="ready"></span
+      ><span class="bcn-cscrub__cell" data-state="ready"></span
+      ><span class="bcn-cscrub__cell" data-state="ready"></span
+      ><span class="bcn-cscrub__cell" data-state="ready"></span
+      ><span class="bcn-cscrub__cell" data-state="flagged"></span
+      ><span class="bcn-cscrub__cell" data-state="flagged"></span
+      ><span class="bcn-cscrub__cell" data-state="ready"></span
       ><span class="bcn-cscrub__cell" data-state="ready"></span
       ><span class="bcn-cscrub__cell" data-state="flagged"></span
       ><span class="bcn-cscrub__cell" data-state="ready"></span
       ><span class="bcn-cscrub__cell" data-state="flagged"></span
+      ><span class="bcn-cscrub__cell" data-state="flagged"></span
+      ><span class="bcn-cscrub__cell" data-state="flagged"></span
+      ><span class="bcn-cscrub__cell" data-state="ready"></span
+      ><span class="bcn-cscrub__cell" data-state="flagged"></span
+      ><span class="bcn-cscrub__cell" data-state="ready"></span
+      ><span class="bcn-cscrub__cell" data-state="ready"></span
       ><span class="bcn-cscrub__thumb" data-cs-thumb="" aria-hidden="true"></span>
     </div>
     <span data-cs-next=""

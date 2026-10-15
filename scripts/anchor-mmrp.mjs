@@ -74,12 +74,13 @@ const header = (p) => {
   if (!timing) return null;
   const hw = p.words.filter((w) => w.y0 >= timing.y0 - 14 && w.y0 <= timing.y0 + 2);
   const bottom = Math.max(...hw.map((w) => w.y1));
-  // Cluster header words into columns: a gap of 10pt or more starts a new one.
+  // Cluster header words into columns: a gap of 10pt or more starts a new one. Table 3's
+  // headers sit closer ("CMP Species Habitat", "CMP Text") but each starts with "CMP".
   const xs = [...hw].sort((a, b) => a.x0 - b.x0);
   const clusters = [];
   for (const w of xs) {
     const c = clusters.at(-1);
-    if (c && w.x0 - c.x1 < 10) c.x1 = Math.max(c.x1, w.x1);
+    if (c && w.x0 - c.x1 < 10 && w.t !== 'CMP') c.x1 = Math.max(c.x1, w.x1);
     else clusters.push({ x0: w.x0, x1: w.x1 });
   }
   return { bottom, edges: clusters.map((c) => c.x0) };

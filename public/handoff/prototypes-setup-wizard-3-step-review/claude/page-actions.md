@@ -30,7 +30,7 @@ Confirm all for every commitment nothing is flagged on, More with one item (Expo
         >
           <circle cx="12" cy="12" r="10"></circle>
           <path d="m9 12 2 2 4-4"></path></svg></span
-      ><span class="esa-button__label">Confirm all (136)</span>
+      ><span class="esa-button__label">Confirm all (87)</span>
     </button></span
   ><esa-dropdown-menu position="below-end" width="auto" data-ra-more="true"
     ><span

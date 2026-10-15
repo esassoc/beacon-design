@@ -161,7 +161,7 @@ export function interpretReview(code: string, text: string, selection: Range | n
     return { rule, reply: `I will parse every commitment that way, from here on. Commitments you confirmed keep their requirements.` };
   }
 
-  // Why: the words each value came from.
+  // Why: the grouping's reason, and the words each value came from.
   if (/^(why|how did|how come|where did)\b/i.test(s)) {
     const r = reqs.find((x) => refs.includes(x.id)) ?? reqs[0];
     if (!r) return { reply: `I found no requirements in ${short(code)}: nothing in it says who must do what.` };
@@ -169,8 +169,10 @@ export function interpretReview(code: string, text: string, selection: Range | n
       .filter((v) => ['species', 'milestone', 'season', 'party'].includes(v.field))
       .map((v) => `${v.field === 'party' ? 'the party' : `the ${v.field}`} from “${ctext.slice(v.charStart, v.charEnd)}”`);
     const verb = r.anchor ? `“${words(ctext.slice(r.anchor.charStart, r.anchor.charEnd), 10)}”` : 'its quote';
+    // The prompt's own reason for the grouping first: who does the work, what done looks like.
+    const why = r.rationale ? ` ${r.rationale.trim().replace(/\.?$/, '.')}` : ` It is ${REQUIREMENT_TYPE_LABEL[r.type]} because of ${verb}.`;
     return {
-      reply: `${label(code, r.id)} is ${REQUIREMENT_TYPE_LABEL[r.type]} because of ${verb}.${from.length ? ` I took ${from.join(', ')}.` : ''}`,
+      reply: `${label(code, r.id)}, ${REQUIREMENT_TYPE_LABEL[r.type]}.${why}${from.length ? ` I took ${from.join(', ')}.` : ''}`,
     };
   }
 
