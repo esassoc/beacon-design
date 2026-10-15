@@ -5,21 +5,22 @@
 //   built     the index in numbers; after a Re-run, the console shows it as a diff: the
 //             guidance as the prompt, Propose index as the tool, + added, − removed, and
 //             the bins kept because they are locked
-//   drafting  the console, open: the Draft run as a session. Each of develop's four stages
+//   drafting  the console's peek: its newest lines in a strip no taller than 100px; pressing
+//             it opens the whole session in a dialog. The Draft run as a session. Each of develop's four stages
 //             is a tool call whose output streams what the run is doing to this project
 //             (the commitments it reads, the bins it files into, the duties it merges, the
 //             actions it completes), from the drafts file; a spinner names the stage with
 //             elapsed time and its count; the four stages tick below it
 //   drafted   drafts left to review (or "Compliance Index approved"), what is outstanding
-//             for Draft again, what fit no subcategory with Suggest subcategories, and the
-//             run's log: open right after a run, then behind View log
+//             for Draft again, what fit no subcategory with Suggest subcategories, and View
+//             log, which opens the run's record in the same dialog (develop's processing log)
 //
 // Contract, on `document`:
 //   in   sw3i:change, sw3i:tick   repaint
 //   out  sw3i:suggest             open Suggest subcategories
 //
 // bcn-lego-checked: the console IS bcn-console (its "+N more" keys are esa-button); keys
-// ARE esa-button; the approved mark IS esa-icon. Checked Beacon: draft-obligations' strip
+// ARE esa-button; the lightbox is a native <dialog> (top layer, Esc) holding only the console, by Andy's call that the run log is not a form dialog; its close key IS esa-button; the approved mark IS esa-icon. Checked Beacon: draft-obligations' strip
 // and processing-run-log are this. bcn-sw3-index-run is its home.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
@@ -40,8 +41,16 @@ import BcnConsole from './BcnConsole.astro';
     <span data-ir-view-log><EsaButton variant="ghost" size="xs">View log</EsaButton></span>
   </div>
 
-  <BcnConsole label="Draft run" data-ir-console />
+  <div class="bcn-sw3ir__peek" data-ir-peek>
+    <BcnConsole label="Draft run" maxHeight="100px" data-ir-console />
+    <span class="bcn-sw3ir__expand" data-ir-expand><EsaButton variant="chrome" size="xs">Open log</EsaButton></span>
+  </div>
 </div>
+
+<dialog class="bcn-sw3ir-box" aria-label="Draft run" data-ir-dialog>
+  <span class="bcn-sw3ir-box__close" data-ir-close><EsaButton variant="chrome" size="sm" iconOnly icon="x" label="Close" /></span>
+  <BcnConsole label="Draft run" maxHeight="min(82vh, 52rem)" data-ir-console-full />
+</dialog>
 
 <style>
   .bcn-sw3ir {
@@ -58,6 +67,36 @@ import BcnConsole from './BcnConsole.astro';
   .bcn-sw3ir__step { font-weight: 600; font-variant-numeric: tabular-nums; }
   .bcn-sw3ir__line > span { font-variant-numeric: tabular-nums; }
   .bcn-sw3ir__ok { line-height: 0; color: var(--color-content-success); }
+  /* the peek: the console's newest lines, fading out at the top; the whole strip opens it */
+  .bcn-sw3ir__peek { position: relative; cursor: pointer; border-radius: var(--radius-300, 8px); }
+  .bcn-sw3ir__peek :global(.bcn-console__body) {
+    overflow: hidden;
+    padding-block: var(--spacing-300);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 2.25rem);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 2.25rem);
+  }
+  .bcn-sw3ir__peek :global(.bcn-console__more),
+  .bcn-sw3ir__peek :global(.bcn-console__todo) { display: none; }
+  .bcn-sw3ir__peek:hover :global(.bcn-console) { border-color: var(--bcn-console-fg-dim); }
+  .bcn-sw3ir__expand { position: absolute; top: var(--spacing-200); right: var(--spacing-300); color: var(--bcn-console-fg-muted); }
+  .bcn-sw3ir__peek:hover .bcn-sw3ir__expand { color: var(--bcn-console-fg); }
+  /* the lightbox: the console alone on the page, its close key in the corner */
+  .bcn-sw3ir-box {
+    width: min(60rem, calc(100vw - 2 * var(--spacing-500)));
+    max-width: none;
+    max-height: none;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    overflow: visible;
+  }
+  .bcn-sw3ir-box::backdrop { background: var(--bcn-console-scrim); }
+  .bcn-sw3ir-box[open] { animation: bcn-sw3ir-in 160ms ease-out; }
+  @keyframes bcn-sw3ir-in { from { opacity: 0; transform: scale(0.985); } }
+  @media (prefers-reduced-motion: reduce) { .bcn-sw3ir-box[open] { animation: none; } }
+  .bcn-sw3ir-box :global(.bcn-console__body) { padding-right: calc(var(--spacing-500) + 2.25rem); }
+  .bcn-sw3ir-box__close { position: absolute; top: var(--spacing-200); right: var(--spacing-200); z-index: 1; color: var(--bcn-console-fg-dim); }
+  .bcn-sw3ir-box__close:hover { color: var(--bcn-console-fg); }
   .bcn-sw3ir [data-ir-pending],
   .bcn-sw3ir [data-ir-nobin] { color: var(--color-content-default-secondary); }
 </style>
@@ -93,8 +132,14 @@ import BcnConsole from './BcnConsole.astro';
   if (root) {
     initIndex();
     const $ = <T extends HTMLElement = HTMLElement>(s: string) => root.querySelector<T>(s)!;
+    const peekEl = $('[data-ir-peek]');
     const host = $('[data-ir-console]');
     const kit = consoleKit(host);
+    const dialog = document.querySelector<HTMLDialogElement>('[data-ir-dialog]')!;
+    const full = consoleKit(dialog.querySelector<HTMLElement>('[data-ir-console-full]')!);
+    const peekBody = host.querySelector<HTMLElement>('[data-console-body]')!;
+    peekBody.tabIndex = -1;
+    host.setAttribute('aria-hidden', 'true');
     const n = (x: number) => x.toLocaleString('en-US');
     const plural = (x: number, one: string, many = `${one}s`) => `${n(x)} ${x === 1 ? one : many}`;
     const secs = (ms: number) => `${Math.max(0, Math.round(ms / 1000))}s`;
@@ -202,8 +247,6 @@ import BcnConsole from './BcnConsole.astro';
     };
     const TAIL = 5;
     let frame = 0;
-    let logOpen = false;
-    let wasDrafting = false;
 
     /** The Draft run as a session: live while it runs, the record after. */
     const runNodes = (c: RunCounts, again: boolean, at: { stage: number; frac: number[]; elapsed: number } | null): Node[] => {
@@ -236,7 +279,7 @@ import BcnConsole from './BcnConsole.astro';
         }
       }
       if (at) {
-        nodes.push(kit.spinner({ frame: frame++, verb: VERBS[at.stage], meta: [secs(at.elapsed), count(at.stage, c, again)] }));
+        nodes.push(kit.spinner({ frame, verb: VERBS[at.stage], meta: [secs(at.elapsed), count(at.stage, c, again)] }));
         nodes.push(kit.todo(STAGES.map((s, i) => ({ text: s, state: i < at.stage ? 'done' : i === at.stage ? 'active' : 'pending' }))));
       } else {
         const warn: ConsoleRow[] = [];
@@ -269,30 +312,50 @@ import BcnConsole from './BcnConsole.astro';
       ];
     };
 
-    const setLabel = (sel: string, text: string) => {
-      const l = root.querySelector(`${sel} .esa-button__label`);
-      if (l) l.textContent = text;
+    /** What the console shows now: a Re-run's diff, the live run, or the last run's record. */
+    const session = (): { heading: string; nodes: () => Node[] } | null => {
+      const ph = phase();
+      if (ph === 'built') return rerunSummary() ? { heading: 'Re-run', nodes: rerunNodes } : null;
+      if (ph === 'drafting') {
+        const p = runProgress()!;
+        const r = currentRun()!;
+        return { heading: r.again ? 'Draft again' : 'Draft run', nodes: () => runNodes(p.counts, r.again, { stage: p.stage, frac: p.frac, elapsed: Date.now() - r.started }) };
+      }
+      const last = lastRun();
+      return ph === 'drafted' && last ? { heading: last.requirements === 0 ? 'Draft again' : 'Draft run', nodes: () => runNodes(last, last.requirements === 0, null) } : null;
+    };
+
+    const paintConsoles = () => {
+      const s = session();
+      const ph = phase();
+      peekEl.hidden = !s || ph === 'drafted';
+      if (s && !peekEl.hidden) {
+        kit.paint(s.nodes());
+        peekBody.scrollTop = peekBody.scrollHeight;
+      }
+      if (dialog.open) {
+        if (!s) return dialog.close();
+        dialog.setAttribute('aria-label', s.heading);
+        full.paint(s.nodes());
+      }
+    };
+
+    const openLog = () => {
+      if (!session()) return;
+      paintConsoles();
+      dialog.showModal();
+      paintConsoles();
     };
 
     const render = () => {
       const ph = phase();
-      if (wasDrafting && ph === 'drafted') logOpen = true;
-      wasDrafting = ph === 'drafting';
+      if (ph === 'drafting') frame++;
       $('[data-ir-built]').hidden = ph !== 'built';
       $('[data-ir-drafted]').hidden = ph !== 'drafted';
-      const rr = rerunSummary();
-      host.hidden = !((ph === 'built' && rr) || ph === 'drafting' || (ph === 'drafted' && logOpen && lastRun()));
 
       if (ph === 'built') {
         const locked = lockedCount();
         $('[data-ir-built-text]').textContent = `${plural(cats().length, 'category', 'categories')}, ${plural(subs().length, 'subcategory', 'subcategories')}${locked ? `, ${n(locked)} locked` : ''}.`;
-        if (rr) kit.paint(rerunNodes());
-      }
-
-      if (ph === 'drafting') {
-        const p = runProgress()!;
-        const r = currentRun()!;
-        kit.paint(runNodes(p.counts, r.again, { stage: p.stage, frac: p.frac, elapsed: Date.now() - r.started }));
       }
 
       if (ph === 'drafted') {
@@ -306,17 +369,15 @@ import BcnConsole from './BcnConsole.astro';
         const left = unfiled().filter((u) => !filedBySuggest()[u.id]).length;
         $('[data-ir-nobin]').textContent = left ? `${plural(left, 'item')} fit no subcategory.` : '';
         $('[data-ir-suggest]').hidden = !left;
-        setLabel('[data-ir-view-log]', logOpen ? 'Hide log' : 'View log');
         $('[data-ir-view-log]').hidden = !lastRun();
-        const last = lastRun();
-        if (logOpen && last) kit.paint(runNodes(last, last.requirements === 0, null));
       }
+      paintConsoles();
     };
 
-    $('[data-ir-view-log]').addEventListener('click', () => {
-      logOpen = !logOpen;
-      render();
-    });
+    $('[data-ir-view-log]').addEventListener('click', openLog);
+    peekEl.addEventListener('click', openLog);
+    dialog.querySelector('[data-ir-close]')!.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (e) => e.target === dialog && dialog.close());
     $('[data-ir-suggest]').addEventListener('click', () => document.dispatchEvent(new CustomEvent('sw3i:suggest')));
     document.addEventListener('sw3i:change', render);
     document.addEventListener('sw3i:tick', render);

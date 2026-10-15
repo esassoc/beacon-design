@@ -1,41 +1,57 @@
 # Run console
 
-The Draft run as a session, inline in the step panel, open for the whole run and left open when it ends. The key pressed is the prompt line. Each stage is a tool call: a dot (blinking while it runs, green when done), its name and what it works over ("910 requirements"). Under it, behind an elbow, what the run is doing to this project streams: the commitments read with their requirements and items, the subcategories filed into with their item counts and each item that fits none, each draft merged from more than one item with its requirement IDs, each action completed with its type, scope and responsible party. A done stage folds to its sentence ("2,463 of 2,473 items filed, 10 fit no subcategory") with Show N to unfold every line. Below the stages, a spinner names the stage in progress with elapsed seconds and its count, and the four stages tick off under it. The run ends on "Done in 13s." with the drafts filed and what needs attention. After a Re-run (built phase), the same console shows the guidance as the prompt and Propose index as a diff: + added, − removed, and bins kept because they are locked.
+The Draft run as a session. In the step panel it is a peek no taller than 100px: the newest lines of the stage running and the spinner, fading out at the top. Pressing it (or Open log) opens the console by itself in a lightbox over the page, its close key in the corner; Esc and a click outside also close it. When the run ends the peek goes and View log reopens the same lightbox. The key pressed is the prompt line. Each stage is a tool call: a dot (blinking while it runs, green when done), its name and what it works over ("910 requirements"). Under it, behind an elbow, what the run is doing to this project streams: the commitments read with their requirements and items, the subcategories filed into with their item counts and each item that fits none, each draft merged from more than one item with its requirement IDs, each action completed with its type, scope and responsible party. A done stage folds to its sentence ("2,463 of 2,473 items filed, 10 fit no subcategory") with Show N to unfold every line. Below the stages, a spinner names the stage in progress with elapsed seconds and its count, and the four stages tick off under it. The run ends on "Done in 13s." with the drafts filed and what needs attention. After a Re-run (built phase), the same console shows the guidance as the prompt and Propose index as a diff: + added, − removed, and bins kept because they are locked.
 
 ## Key decisions
-- No percentage bar and no modal. The count that moves is always a real noun (requirements, items, actions), and the lines are the drafts file's own: commitment codes, subcategory names, requirement IDs.
+- No percentage bar and no form dialog: the lightbox is the console alone, a thin border on a dimmed page. The count that moves is always a real noun (requirements, items, actions), and the lines are the drafts file's own: commitment codes, subcategory names, requirement IDs.
 - The console is the one dark surface on the page, in the --bcn-console-* tokens; every text tone clears 4.5:1 on its ground.
 - Warnings are amber lines in the stage that found them (an item that fits no subcategory, an action with no responsible party); requirements that bind nothing are a quiet line under Read requirements.
 - bcn-console is reusable: prompt, tool, row, spinner, todo and message are its whole grammar (console.ts).
 
 ## Done when
 - Pressing Draft actions & obligations opens the console with the prompt line and Read requirements streaming commitment codes; the spinner reads "Reading requirements…" with seconds and "N of 910 requirements".
-- When the run ends the console stays open; Hide log closes it and View log reopens the same record.
+- The peek is at most 100px tall during a run; pressing it opens the full console in the lightbox, which keeps streaming until the run ends.
+- When the run ends the peek goes; View log opens the same record in the lightbox.
 - After a Re-run with guidance, added bins read as green + lines and removed bins as red − lines.
 
 ## Markup
 ```html
-<div class="bcn-console" style="--_console-max: 26rem" data-ir-console="true" hidden="">
+<div class="bcn-sw3ir__peek" data-ir-peek="" hidden="">
   <div
-    class="bcn-console__body"
-    role="log"
-    aria-live="polite"
-    aria-label="Draft run"
-    tabindex="0"
-    data-console-body=""
-  ></div>
-  <template data-console-more=""
+    class="bcn-console"
+    style="--_console-max: 100px"
+    data-ir-console="true"
+    aria-hidden="true"
+  >
+    <div
+      class="bcn-console__body"
+      role="log"
+      aria-live="polite"
+      aria-label="Draft run"
+      tabindex="-1"
+      data-console-body=""
+    ></div>
+    <template data-console-more=""
+      ><span
+        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs"
+        data-astro-cid-4xhmycw5=""
+        ><button
+          class="esa-button__native typography-microcopy-2xs"
+          type="button"
+          data-astro-cid-4xhmycw5=""
+        >
+          <span class="esa-button__label" data-astro-cid-4xhmycw5="">More</span>
+        </button></span
+      ></template
+    >
+  </div>
+  <span class="bcn-sw3ir__expand" data-ir-expand=""
     ><span
       class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs"
-      data-astro-cid-4xhmycw5=""
-      ><button
-        class="esa-button__native typography-microcopy-2xs"
-        type="button"
-        data-astro-cid-4xhmycw5=""
-      >
-        <span class="esa-button__label" data-astro-cid-4xhmycw5="">More</span>
+      ><button class="esa-button__native typography-microcopy-2xs" type="button">
+        <span class="esa-button__label">Open log</span>
       </button></span
-    ></template
+    ></span
   >
 </div>
 ```
@@ -322,6 +338,36 @@ The Draft run as a session, inline in the step panel, open for the whole run and
 }
 .bcn-console__item[data-state="active"] .bcn-console__box {
   border-color: var(--bcn-console-accent);
+}
+.bcn-sw3ir__peek {
+  cursor: pointer;
+  border-radius: var(--radius-300, 8px);
+  position: relative;
+}
+.bcn-sw3ir__peek .bcn-console__body {
+  padding-block: var(--spacing-300);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(#0000 0, #000 2.25rem);
+  mask-image: linear-gradient(#0000 0, #000 2.25rem);
+}
+.bcn-sw3ir__peek .bcn-console__more,
+.bcn-sw3ir__peek .bcn-console__todo {
+  display: none;
+}
+.bcn-sw3ir__peek:hover .bcn-console {
+  border-color: var(--bcn-console-fg-dim);
+}
+.bcn-sw3ir__expand {
+  top: var(--spacing-200);
+  right: var(--spacing-300);
+  color: var(--bcn-console-fg-muted);
+  position: absolute;
+}
+.bcn-sw3ir__peek:hover .bcn-sw3ir__expand {
+  color: var(--bcn-console-fg);
+}
+.bcn-sw3ir-box .bcn-console__body {
+  padding-right: calc(var(--spacing-500) + 2.25rem);
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);

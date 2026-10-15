@@ -1,6 +1,6 @@
 # Status line
 
-Under the step header. Built: the index in numbers. Drafted: drafts to review (or "Compliance Index approved."), what is outstanding for Draft again, what fit no subcategory with Suggest subcategories, and View log (Hide log while the log is open). During a run the console takes its place.
+Under the step header. Built: the index in numbers. Drafted: drafts to review (or "Compliance Index approved."), what is outstanding for Draft again, what fit no subcategory with Suggest subcategories, and View log, which opens the run's record in the console lightbox. During a run the console's peek sits under it.
 
 ## Key decisions
 - The four stages are project-wide, as draft-stages.ts runs them: Read requirements, File into bins, Merge duties, Complete drafts. Draft again takes only what is outstanding.

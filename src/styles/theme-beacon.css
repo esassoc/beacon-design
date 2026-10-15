@@ -260,6 +260,7 @@
   --bcn-console-fg-dim:    rgba(255, 255, 255, 0.56);
   --bcn-console-accent:    #4fd1c9; /* Aldo green, lifted for the dark ground */
   --bcn-console-ok:        #5fcf8f;
+  --bcn-console-scrim:     rgba(10, 11, 13, 0.62); /* behind the console lightbox */
   --bcn-console-warn:      #e9b863;
   --bcn-console-add:       #7ad79f;
   --bcn-console-add-bg:    rgba(95, 207, 143, 0.10);
