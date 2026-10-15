@@ -172,11 +172,12 @@ export const SW3_BASE = '/prototypes/setup-wizard-3-step';
 
 /** Test drive (2026-10-14): this variant is called Project Setup, with the scan glyph (Lucide
  *  scan-text) so it no longer echoes Aldo's green circle. In the side nav it is "Setup" under
- *  Project, with Dashboard and Lists. */
+ *  Project, with Dashboard, Components and Lists. */
 export const SW3_NAME = 'Project Setup';
 export const SW3_GLYPH = LUCIDE_EXTRA['scan-text'];
 export const SW3_NAV = [
   { id: 'dashboard', label: 'Dashboard' },
+  { id: 'components', label: 'Components', href: withBase('/prototypes/components') },
   { id: 'lists', label: 'Lists', href: withBase('/prototypes/lists') },
   { id: 'sw3-setup', label: 'Setup', href: withBase(SW3_BASE) },
 ];
