@@ -417,7 +417,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
         notice(
           `${doc}:n:done`,
           at,
-          `Read ${range(Math.min(...read), Math.max(...read))}: ${n} commitments.${open ? ` ${open} to settle, listed below.` : ''}`,
+          `Read ${range(Math.min(...read), Math.max(...read))}: ${n} commitments.${open ? ` ${open} to settle in Open items.` : ''}`,
           doc === 'itp' ? [{ label: 'Review commitments', tone: 'primary', does: { go: review } }] : [],
         ),
       );
@@ -445,11 +445,24 @@ export function setupSw3Aldo(root: HTMLElement): void {
     if (x.actions.some((a) => a.kind === 'pause')) return `Paused${where}`;
     return `Resumed${where}${pace?.pace === 'run' ? ', fast' : ''}`;
   };
+  /** A button pressed in the conversation, as a line: what it did, never a "you said". */
+  const PACE_LINE = { run: 'Reading the rest', watch: 'Reading the rest slowly', step: 'Reading the rest one at a time' } as const;
+  const buttonLine = (x: Steer): string => {
+    const codes = x.actions.filter((a) => a.kind === 'check').map((a) => (a as { code: string }).code);
+    const go = x.actions.find((a) => a.kind === 'go') as { pace?: keyof typeof PACE_LINE } | undefined;
+    const goLine = go ? PACE_LINE[go.pace ?? 'run'] : '';
+    if (codes.length) return `Confirmed ${codes.length > 2 ? `the first ${codes.length}` : codes.join(' and ')}${goLine ? `. ${goLine}` : ''}`;
+    if (goLine) return goLine;
+    // An undo or redo of a page edit says what it put back.
+    if (/^(Undid|Redid): /.test(x.text)) return x.text;
+    return x.reply.replace(/^Noted:\s*/, '').replace(/\.$/, '');
+  };
   const steerTurn = (x: Steer): T => {
     // The scan's controls are recorded like any steer (the model sees the person slow it
     // down), but the conversation shows one quiet line, and Aldo only answers a start.
-    // Steers saved before the flag existed are recognized by their labels.
-    if (x.controls ?? (x.via === 'button' && (/^(Start|Resume|Pause)$/.test(x.text) || x.text.startsWith('Speed:'))))
+    // So is a button pressed in the conversation: the card shows its new state, and the line
+    // says what it did. Typed messages stay messages.
+    if (x.controls || x.via === 'button')
       return {
         id: `${activeDoc()}:${x.id}`,
         at: runAt(x.at),
@@ -457,7 +470,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
         by: YOU,
         via: 'button',
         kind: 'event',
-        text: controlLine(x),
+        text: x.controls ?? /^(Start|Resume|Pause)$|^Speed:/.test(x.text) ? controlLine(x) : buttonLine(x),
         actions: x.actions,
         reply: x.actions.some((a) => a.kind === 'start') ? { text: x.reply } : undefined,
       };

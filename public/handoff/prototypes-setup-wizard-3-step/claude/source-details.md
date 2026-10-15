@@ -623,6 +623,7 @@ summary.esa-button--variant-chrome:focus-visible {
   border: 1px solid var(--color-border-default);
   border-radius: var(--radius-200);
   flex-direction: column;
+  flex: none;
   display: flex;
 }
 .bcn-sw3ed[hidden] {

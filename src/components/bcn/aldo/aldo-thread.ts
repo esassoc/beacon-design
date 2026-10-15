@@ -41,6 +41,8 @@ interface Msg<A extends AldoAction> {
   acts: ActionButton<A>[];
   cards?: Card<A>[];
   context?: ContextRef[];
+  /** A tooltip on the message (an event line's time). */
+  tip?: string;
   /** The hover keys beyond Copy. */
   keys: ('edit' | 'retry')[];
 }
@@ -102,7 +104,8 @@ export function mountThread<A extends AldoAction>(
     return turns.flatMap((t): Msg<A>[] => {
       if (t.kind === 'event') {
         const at = clock(t.time);
-        const line: Msg<A> = { id: `${t.id}:event`, turnId: t.id, from: 'system', kind: 'event', who: '', text: at ? `${t.text} at ${at}` : t.text, time: '', acts: [], keys: [] };
+        // The line is what happened; its time is in the tooltip.
+        const line: Msg<A> = { id: `${t.id}:event`, turnId: t.id, from: 'system', kind: 'event', who: '', text: t.text, time: '', tip: at, acts: [], keys: [] };
         return t.reply ? [line, { id: `${t.id}:aldo`, turnId: t.id, from: 'aldo', who: 'Aldo', text: t.reply.text, time: at, acts: t.reply.offers ?? [], keys: [] }] : [line];
       }
       if (t.by.kind === 'person') {
@@ -238,6 +241,8 @@ export function mountThread<A extends AldoAction>(
         if (m.kind === 'check' && !lead) lead = (prev as HTMLElement | null)?.dataset.kind === 'check' ? e : ((prev as HTMLElement | null) ?? e);
       }
       e.dataset.from = m.from;
+      if (m.tip) e.title = m.tip;
+      else e.removeAttribute('title');
       // The same speaker again: drawn closer to the turn before.
       const before = msgs[msgs.indexOf(m) - 1];
       e.toggleAttribute('data-cont', !!before && before.from === m.from);
