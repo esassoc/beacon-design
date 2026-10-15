@@ -1,0 +1,180 @@
+---
+// <BcnConsole> — the run console: a machine run watched as it works, in the grammar of a
+// Claude Code session (prompt, tool call with a status dot, elbowed results that fold to
+// "+N more", a shimmering spinner with elapsed time and a real count, the plan as a todo
+// under it, the closing message). The shell is the dark surface and the scrolling log;
+// its lines are built at runtime by consoleKit() in ./console.ts, because a run repaints
+// every tick.
+//
+// Usage:
+//   <BcnConsole label="Draft run" data-my-hook />
+//   const kit = consoleKit(host.querySelector('.bcn-console'));
+//   kit.paint([kit.prompt('Draft'), kit.tool({ name: 'Read', state: 'running' })]);
+//
+// bcn-lego-checked: no esa- lego is a streaming text log (esa-file-list and
+// esa-search-panel are lists of records; esa-progress-bar is the percentage this replaces).
+// Checked Beacon: processing-run-log is a monospace, newest-line-following pane with a tone
+// per line; this keeps its behavior and adds the session grammar. The "+N more" key IS
+// esa-button (chrome variant, so it takes the console's ink). bcn-console is the reusable
+// home for any run a person watches; bcn-ci-run-panel stays the setup-wizard-ci variant's
+// stat-and-bar page.
+import EsaButton from '@esa/ecology/esa-button.astro';
+
+interface Props {
+  /** The log's accessible name. */
+  label: string;
+  /** Cap on the log's height before it scrolls; a CSS length. */
+  maxHeight?: string;
+  [key: `data-${string}`]: unknown;
+}
+const { label, maxHeight = '26rem', ...rest } = Astro.props;
+---
+
+<div class="bcn-console" style={`--_console-max: ${maxHeight}`} {...rest}>
+  <div class="bcn-console__body" role="log" aria-live="polite" aria-label={label} tabindex="0" data-console-body></div>
+  <template data-console-more><EsaButton variant="chrome" size="xs">More</EsaButton></template>
+</div>
+
+<style is:global>
+  .bcn-console {
+    --_mono: var(--typography-font-family-mono, ui-monospace, monospace);
+    --_indent: 2.75ch;
+    position: relative;
+    border: 1px solid var(--bcn-console-border);
+    border-radius: var(--radius-300, 8px);
+    background: var(--bcn-console-bg);
+    box-shadow: var(--bcn-console-shadow);
+    color: var(--bcn-console-fg);
+    font-family: var(--_mono);
+    font-size: 0.8125rem;
+    line-height: 1.65;
+    font-variant-numeric: tabular-nums;
+    font-weight: 400;
+  }
+  .bcn-console__body {
+    max-height: var(--_console-max);
+    overflow-y: auto;
+    padding: var(--spacing-400) var(--spacing-500) var(--spacing-400);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    scrollbar-color: var(--bcn-console-border) transparent;
+  }
+  .bcn-console__body:focus-visible { outline: 2px solid var(--bcn-console-accent); outline-offset: -2px; border-radius: inherit; }
+  .bcn-console p, .bcn-console ul { margin: 0; }
+
+  /* prompt: ❯ what was asked */
+  .bcn-console__prompt { display: flex; gap: 1ch; color: var(--bcn-console-fg); font-weight: 500; }
+  .bcn-console__caret { color: var(--bcn-console-accent); flex: none; }
+
+  /* tool: ● name (arg), elbowed output */
+  .bcn-console__call { display: flex; align-items: baseline; gap: 1ch; min-width: 0; }
+  .bcn-console__dot {
+    flex: none;
+    width: 0.62em;
+    height: 0.62em;
+    margin: 0 calc(1ch - 0.62em) 0 0.19em;
+    border-radius: 50%;
+    background: var(--bcn-console-fg-dim);
+    transform: translateY(-0.02em);
+  }
+  .bcn-console__tool[data-state='done'] .bcn-console__dot { background: var(--bcn-console-ok); }
+  .bcn-console__tool[data-state='running'] .bcn-console__dot { background: var(--bcn-console-fg); animation: bcn-console-blink 1s steps(2, jump-none) infinite; }
+  .bcn-console__tool[data-state='pending'] { color: var(--bcn-console-fg-dim); }
+  .bcn-console__name { font-weight: 600; }
+  .bcn-console__arg { color: var(--bcn-console-fg-muted); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-console__said { color: var(--bcn-console-fg); }
+
+  .bcn-console__out { position: relative; padding-left: var(--_indent); display: flex; flex-direction: column; align-items: flex-start; }
+  .bcn-console__out::before {
+    content: '';
+    position: absolute;
+    left: 0.5ch;
+    top: 0.1em;
+    width: 1.1ch;
+    height: 0.75em;
+    border-left: 1px solid var(--bcn-console-fg-dim);
+    border-bottom: 1px solid var(--bcn-console-fg-dim);
+  }
+
+  /* row: sign, text, meta */
+  .bcn-console__row { display: flex; gap: 1.5ch; max-width: 100%; min-width: 0; color: var(--bcn-console-fg-muted); }
+  .bcn-console__row .bcn-console__t { max-width: 72ch; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-console__m { flex: none; color: var(--bcn-console-fg-dim); white-space: nowrap; }
+  .bcn-console__sign { flex: none; width: 1ch; margin-right: -0.5ch; }
+  .bcn-console__row[data-tone='warn'] { color: var(--bcn-console-warn); }
+  .bcn-console__row[data-tone='dim'] { color: var(--bcn-console-fg-dim); }
+  .bcn-console__row[data-tone='add'],
+  .bcn-console__row[data-tone='remove'] { align-self: stretch; padding: 0 1ch; margin-left: -1ch; border-radius: 3px; }
+  .bcn-console__row[data-tone='add'] { color: var(--bcn-console-add); background: var(--bcn-console-add-bg); }
+  .bcn-console__row[data-tone='remove'] { color: var(--bcn-console-remove); background: var(--bcn-console-remove-bg); }
+  .bcn-console__row[data-tone='add'] + .bcn-console__row[data-tone='add'],
+  .bcn-console__row[data-tone='remove'] + .bcn-console__row[data-tone='remove'] { border-top-left-radius: 0; border-top-right-radius: 0; }
+  .bcn-console__row[data-tone='dim'] .bcn-console__m,
+  .bcn-console__row[data-tone='warn'] .bcn-console__m { color: inherit; opacity: 0.8; }
+
+  /* "+N more": the hub button in the console's ink */
+  .bcn-console__more { margin: 0.1em 0 0.1em -1ch; color: var(--bcn-console-fg-dim); --button-chrome-bg-hover: var(--bcn-console-raised); }
+  .bcn-console__more .esa-button__native { font-family: var(--_mono); font-size: 0.8125rem; font-weight: 400; padding: 0 1ch; min-height: 0; height: auto; line-height: 1.65; }
+  .bcn-console__more .esa-button__native:hover { color: var(--bcn-console-fg); }
+
+  /* spinner: ✻ Verb… elapsed count */
+  .bcn-console__spin { display: flex; align-items: baseline; gap: 1.5ch; flex-wrap: wrap; }
+  .bcn-console__glyph { width: 1.5ch; margin-right: -0.5ch; font-size: 1.1em; line-height: 1; color: var(--bcn-console-accent); }
+  .bcn-console__verb {
+    font-weight: 500;
+    color: var(--bcn-console-accent);
+    background: linear-gradient(90deg, var(--bcn-console-accent) 0%, var(--bcn-console-accent) 40%, var(--bcn-console-fg) 50%, var(--bcn-console-accent) 60%, var(--bcn-console-accent) 100%);
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: bcn-console-shimmer 2.2s linear infinite;
+  }
+
+  /* todo: the plan under the spinner */
+  .bcn-console__todo { list-style: none; padding: 0 0 0 var(--_indent); position: relative; margin-top: calc(-1 * var(--spacing-200)) !important; }
+  .bcn-console__todo::before {
+    content: '';
+    position: absolute;
+    left: 0.5ch;
+    top: 0.1em;
+    width: 1.1ch;
+    height: 0.75em;
+    border-left: 1px solid var(--bcn-console-fg-dim);
+    border-bottom: 1px solid var(--bcn-console-fg-dim);
+  }
+  .bcn-console__item { display: flex; align-items: baseline; gap: 1ch; color: var(--bcn-console-fg-muted); }
+  .bcn-console__box {
+    flex: none;
+    position: relative;
+    width: 0.8em;
+    height: 0.8em;
+    border: 1px solid currentColor;
+    border-radius: 2px;
+    transform: translateY(0.08em);
+  }
+  .bcn-console__item[data-state='done'] { color: var(--bcn-console-fg-dim); }
+  .bcn-console__item[data-state='done'] .bcn-console__t { text-decoration: line-through; text-decoration-color: var(--bcn-console-fg-dim); }
+  .bcn-console__item[data-state='done'] .bcn-console__box { border-color: var(--bcn-console-ok); background: var(--bcn-console-ok); }
+  .bcn-console__item[data-state='done'] .bcn-console__box::after {
+    content: '';
+    position: absolute;
+    left: 0.24em;
+    top: 0.06em;
+    width: 0.2em;
+    height: 0.42em;
+    border: solid var(--bcn-console-bg);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .bcn-console__item[data-state='active'] { color: var(--bcn-console-fg); font-weight: 600; }
+  .bcn-console__item[data-state='active'] .bcn-console__box { border-color: var(--bcn-console-accent); }
+
+  @keyframes bcn-console-blink { 50% { opacity: 0.25; } }
+  @keyframes bcn-console-shimmer { from { background-position: 100% 0; } to { background-position: 0% 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-console__tool[data-state='running'] .bcn-console__dot,
+    .bcn-console__verb { animation: none; }
+  }
+</style>

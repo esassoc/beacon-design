@@ -471,6 +471,8 @@ export interface RunProgress {
   done: number;
   counts: RunCounts;
   finished: boolean;
+  /** How far through each stage, 0–1: what the console streams. */
+  frac: number[];
 }
 export const runProgress = (now = Date.now()): RunProgress | null => {
   const r = S.run;
@@ -502,11 +504,18 @@ export const runProgress = (now = Date.now()): RunProgress | null => {
     needParty: f(T.needParty, 3),
   };
   const elapsed = Math.max(0, now - r.started);
-  return { stage, done: Math.min(1, elapsed / total), counts, finished: elapsed >= total };
+  return { stage, done: Math.min(1, elapsed / total), counts, finished: elapsed >= total, frac };
 };
 
 /** The last finished run's counts, for its log. */
 export const lastRun = () => S.last;
+/** The run in flight, if any: when it started and whether it is Draft again. */
+export const currentRun = () => S.run;
+/** How long a run takes, in ms. */
+export const runMs = (again: boolean) => (again ? AGAIN_MS : STAGE_MS).reduce((a, b) => a + b, 0);
+/** What the Draft run makes of the current proposal, once loaded: the console's per-stage
+ *  lines (commitments read, bins filed, duties merged, actions completed). */
+export const runDrafts = (): Sw3IndexDrafts | null => drafts[S.basis] ?? null;
 
 /** What is still outstanding for Draft again. */
 export const pendingWork = () => ({

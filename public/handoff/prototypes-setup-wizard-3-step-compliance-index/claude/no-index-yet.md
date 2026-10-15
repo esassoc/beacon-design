@@ -214,6 +214,18 @@ Where step 3 starts: "No index yet", with Build index and + Category. Build inde
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.bcn-console__more .esa-button__native {
+  font-family: var(--_mono);
+  height: auto;
+  min-height: 0;
+  padding: 0 1ch;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.65;
+}
+.bcn-console__more .esa-button__native:hover {
+  color: var(--bcn-console-fg);
+}
 .bcn-sw3ix__start {
   justify-content: center;
   align-items: center;
@@ -474,10 +486,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-md-strong-line-height);
   letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
 }
-.esa-collapsible__summary .esa-icon {
-  color: var(--color-content-default-secondary, #646464);
-  flex-shrink: 0;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -506,6 +514,10 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
 }
 .esa-empty-state {
   --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
@@ -566,6 +578,7 @@ summary.esa-button--variant-chrome:focus-visible {
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
 - `--bcn-aldo-600`: #06736f _(component)_
+- `--bcn-console-fg`: #ffffffed _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_

@@ -520,6 +520,18 @@ Before drafting: Cited requirements, up to three, each its requirement ID, name 
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.bcn-console__more .esa-button__native {
+  font-family: var(--_mono);
+  height: auto;
+  min-height: 0;
+  padding: 0 1ch;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.65;
+}
+.bcn-console__more .esa-button__native:hover {
+  color: var(--bcn-console-fg);
+}
 .bcn-sw3ip {
   gap: var(--spacing-500);
   box-sizing: border-box;
@@ -1045,10 +1057,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
-.esa-collapsible__summary .esa-icon {
-  color: var(--color-content-default-secondary, #646464);
-  flex-shrink: 0;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -1167,6 +1175,10 @@ summary.esa-button--variant-chrome:focus-visible {
   border: 0;
   outline: 1px solid canvastext;
 }
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
+}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -1181,6 +1193,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--badge-bg`: #005862 _(component)_
 - `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-aldo-600`: #06736f _(component)_
+- `--bcn-console-fg`: #ffffffed _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_

@@ -67,6 +67,18 @@ Homes for what fit no subcategory, in develop's three parts: fits a bin you alre
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
+.bcn-console__more .esa-button__native {
+  font-family: var(--_mono);
+  height: auto;
+  min-height: 0;
+  padding: 0 1ch;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.65;
+}
+.bcn-console__more .esa-button__native:hover {
+  color: var(--bcn-console-fg);
+}
 .bcn-sw3is {
   gap: var(--spacing-500);
   flex-direction: column;
@@ -363,6 +375,7 @@ summary.esa-button--variant-chrome:focus-visible {
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
 - `--bcn-aldo-600`: #06736f _(component)_
+- `--bcn-console-fg`: #ffffffed _(component)_
 - `--border-width-default`: 1px _(semantic)_
 - `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--button-on-warning`: #fff _(component)_

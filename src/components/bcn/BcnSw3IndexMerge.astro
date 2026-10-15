@@ -1,80 +1,347 @@
 ---
 // <BcnSw3IndexMerge> — develop's Merge dialog: the drafts ticked on the subcategory page
-// become one draft that keeps every source behind them. Its title starts as the first
-// draft's; any draft's title can be taken instead.
+// become one draft that keeps every source behind them.
+//
+// Two columns. On the left, the drafts as they read, numbered: class, who reads it, title,
+// Applies when (or an action's record), and each requirement it rests on with its excerpt.
+// A draft's title is picked by pressing it (a radio group over the drafts' own titles). On
+// the right, the merged draft composing as the person decides: its title (editable), the
+// first draft's fields, and the union of the requirements and monitor signs, each marked
+// with the numbers of the drafts it came from. merge() in the store keeps exactly that
+// union.
 //
 // Contract, on `document`:
 //   in   sw3i:merge   detail: { ids }   open on these drafts
 //   out  sw3i:merged  detail: { id }    the merged draft
 //
-// bcn-lego-checked: the dialog IS esa-dialog; the title IS esa-text-field; the keys ARE
-// esa-button. Checked Beacon: subcategory-review's merge dialog ("Merge N drafts", "Use a
-// draft's title"). bcn-sw3-index-merge is its home.
+// bcn-lego-checked: the dialog IS esa-dialog; the title IS esa-textarea (titles run to 510 characters); class chips ARE
+// esa-badge; keys ARE esa-button. Picking a title is a role="radio" on each draft's own
+// title: esa-radio-group takes label-only options and cannot hold a draft's record. Checked
+// Beacon: subcategory-review's merge dialog ("Merge N drafts", "Use a draft's title").
+// bcn-sw3-index-merge is its home.
 import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
 ---
 
-<esa-dialog heading="Merge drafts" size="md" data-sw3-index-merge>
+<esa-dialog heading="Merge drafts" size="lg" class="bcn-sw3im-dialog" data-sw3-index-merge>
   <form class="bcn-sw3im" id="sw3-im-form" data-im-form>
-    <esa-text-field label="Title" size="sm" required maxlength="510" data-im-title></esa-text-field>
-    <section class="bcn-sw3im__use" aria-labelledby="sw3-im-use">
-      <h3 class="bcn-sw3im__h" id="sw3-im-use">Use a draft's title</h3>
-      <ol class="bcn-sw3im__list" data-im-list></ol>
+    <section class="bcn-sw3im__sources" aria-labelledby="sw3-im-src-h">
+      <h3 class="bcn-sw3im__h" id="sw3-im-src-h" data-im-src-h>Drafts</h3>
+      <ol class="bcn-sw3im__cards" role="radiogroup" aria-label="Title from" data-im-sources></ol>
+    </section>
+    <section class="bcn-sw3im__result" aria-labelledby="sw3-im-res-h">
+      <h3 class="bcn-sw3im__h" id="sw3-im-res-h">Merged draft</h3>
+      <div class="bcn-sw3im__card bcn-sw3im__card--result">
+        <div data-im-res-head></div>
+        <esa-textarea label="Title" size="sm" required maxlength="510" rows="3" auto-resize max-rows="6" data-im-title></esa-textarea>
+        <dl class="bcn-sw3im__fields" data-im-res-fields></dl>
+        <div class="bcn-sw3im__block">
+          <h4 class="bcn-sw3im__bh" data-im-res-locs-h></h4>
+          <ol class="bcn-sw3im__locs" data-im-res-locs></ol>
+        </div>
+        <div class="bcn-sw3im__block" data-im-res-signs-wrap>
+          <h4 class="bcn-sw3im__bh" data-im-res-signs-h></h4>
+          <ul class="bcn-sw3im__signs" data-im-res-signs></ul>
+        </div>
+      </div>
     </section>
   </form>
   <div slot="footer" class="bcn-sw3im__foot">
-    <EsaButton variant="primary" size="sm" type="submit" form="sw3-im-form">Merge</EsaButton>
+    <EsaButton variant="primary" size="sm" type="submit" form="sw3-im-form" data-im-submit>Merge</EsaButton>
     <EsaButton variant="secondary" size="sm" data-im-cancel>Cancel</EsaButton>
   </div>
-  <template data-im-tpl>
-    <li class="bcn-sw3im__item">
-      <span class="bcn-sw3im__t" data-im-t></span>
-      <EsaButton variant="ghost" size="xs" data-im-use>Use</EsaButton>
-    </li>
-  </template>
+  <template data-im-tpl="chip"><span class="bcn-sw3im__chip"><EsaBadge variant="secondary" size="sm" value="Adhere" /></span></template>
 </esa-dialog>
 
 <style>
-  .bcn-sw3im { display: flex; flex-direction: column; gap: var(--spacing-400); font-size: 0.875rem; }
-  .bcn-sw3im__use { display: flex; flex-direction: column; gap: var(--spacing-200); }
-  .bcn-sw3im__h { margin: 0; font-size: 0.875rem; font-weight: 600; }
-  .bcn-sw3im__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-150); }
-  .bcn-sw3im :global(.bcn-sw3im__item) { display: flex; align-items: baseline; gap: var(--spacing-300); }
-  .bcn-sw3im :global(.bcn-sw3im__t) { flex: 1; min-width: 0; }
+  .bcn-sw3im-dialog { --dialog-width-lg: min(68rem, calc(100vw - 4rem)); }
+  .bcn-sw3im {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--spacing-500);
+    align-items: start;
+    font-size: 0.875rem;
+    color: var(--color-content-default);
+  }
+  @media (max-width: 52rem) { .bcn-sw3im { grid-template-columns: minmax(0, 1fr); } }
+  .bcn-sw3im__sources, .bcn-sw3im__result { display: flex; flex-direction: column; gap: var(--spacing-200); min-width: 0; }
+  .bcn-sw3im__result { position: sticky; top: 0; }
+  .bcn-sw3im__h { margin: 0; font-size: 0.9375rem; font-weight: 600; }
+  .bcn-sw3im__cards { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-300); }
+
+  .bcn-sw3im :global(.bcn-sw3im__card) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    padding: var(--spacing-400);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised, var(--color-background-default));
+  }
+  .bcn-sw3im__card--result {
+    border-color: var(--color-border-default-strong);
+    box-shadow: var(--elevation-2);
+  }
+  .bcn-sw3im :global(.bcn-sw3im__head) { display: flex; align-items: center; gap: var(--spacing-200); color: var(--color-content-default-secondary); }
+  .bcn-sw3im :global(.bcn-sw3im__chip) { line-height: 0; }
+  .bcn-sw3im :global(.bcn-sw3im__n) {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    min-width: 1.375rem;
+    height: 1.375rem;
+    padding: 0 var(--spacing-100);
+    border: 1px solid var(--color-border-default-strong);
+    border-radius: var(--radius-full);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-content-default-secondary);
+    background: var(--color-background-default);
+  }
+
+  /* The title is the pick: a radio over the draft's own words. */
+  .bcn-sw3im :global(.bcn-sw3im__pick) {
+    display: grid;
+    grid-template-columns: 1.125rem minmax(0, 1fr);
+    gap: var(--spacing-250);
+    align-items: start;
+    margin: calc(-1 * var(--spacing-200));
+    padding: var(--spacing-200);
+    border: 1px solid transparent;
+    border-radius: var(--radius-100);
+    background: none;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.45;
+    text-align: left;
+    color: var(--color-content-default);
+    cursor: pointer;
+  }
+  .bcn-sw3im :global(.bcn-sw3im__pick:hover) { background: var(--color-background-default-hover, var(--color-background-elevation-sunken)); }
+  .bcn-sw3im :global(.bcn-sw3im__pick:focus-visible) { outline: var(--focus-ring-width, 2px) solid var(--color-border-focus); outline-offset: 1px; }
+  .bcn-sw3im :global(.bcn-sw3im__pick[aria-checked='true']) { border-color: var(--color-border-brand); background: var(--color-background-brand-subtle); }
+  .bcn-sw3im :global(.bcn-sw3im__radio) {
+    position: relative;
+    width: 1.125rem;
+    height: 1.125rem;
+    margin-top: 0.15em;
+    border: 1.5px solid var(--color-border-default-strong);
+    border-radius: 50%;
+    background: var(--color-background-default);
+  }
+  .bcn-sw3im :global(.bcn-sw3im__pick[aria-checked='true'] .bcn-sw3im__radio) { border-color: var(--color-background-brand); }
+  .bcn-sw3im :global(.bcn-sw3im__pick[aria-checked='true'] .bcn-sw3im__radio::after) {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: var(--color-background-brand);
+  }
+
+  .bcn-sw3im :global(.bcn-sw3im__fields) { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: var(--spacing-100) var(--spacing-300); margin: 0; }
+  .bcn-sw3im :global(.bcn-sw3im__fields dt) { color: var(--color-content-default-secondary); font-weight: 500; }
+  .bcn-sw3im :global(.bcn-sw3im__fields dd) { margin: 0; }
+  .bcn-sw3im :global(.bcn-sw3im__fields dd[data-needs]) { color: var(--color-content-warning); font-weight: 500; }
+
+  .bcn-sw3im__block { display: flex; flex-direction: column; gap: var(--spacing-150); padding-top: var(--spacing-300); border-top: 1px solid var(--color-border-subtle, var(--color-border-default)); }
+  .bcn-sw3im__bh { margin: 0; font-size: 0.875rem; font-weight: 600; }
+  .bcn-sw3im :global(.bcn-sw3im__locs) { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-250); }
+  .bcn-sw3im :global(.bcn-sw3im__loc) { display: grid; grid-template-columns: 4.75rem minmax(0, 1fr) auto; gap: var(--spacing-300); align-items: baseline; }
+  .bcn-sw3im :global(.bcn-sw3im__ref) { font-variant-numeric: tabular-nums; font-weight: 500; color: var(--color-content-default-secondary); white-space: nowrap; }
+  .bcn-sw3im :global(.bcn-sw3im__loc q) {
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    quotes: '“' '”';
+  }
+  .bcn-sw3im__card--result :global(.bcn-sw3im__loc q) { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+  .bcn-sw3im :global(.bcn-sw3im__from) { display: flex; gap: var(--spacing-050); }
+  .bcn-sw3im :global(.bcn-sw3im__signs) { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: var(--spacing-100); }
+  .bcn-sw3im :global(.bcn-sw3im__signs li) { padding-left: var(--spacing-100); }
+  .bcn-sw3im :global(.bcn-sw3im__sign) { display: flex; gap: var(--spacing-300); justify-content: space-between; align-items: baseline; }
+  .bcn-sw3im :global(.bcn-sw3im__card .bcn-sw3im__locs) { padding-top: var(--spacing-300); border-top: 1px solid var(--color-border-subtle, var(--color-border-default)); }
+  .bcn-sw3im :global(.bcn-sw3im__card--source .bcn-sw3im__loc) { grid-template-columns: 4.75rem minmax(0, 1fr); }
+
   .bcn-sw3im__foot { display: flex; gap: var(--spacing-200); justify-content: flex-end; width: 100%; }
 </style>
 
 <script>
   import '@esa/ecology/esa-dialog';
-  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
   import { initIndex, entry, titleOf, merge, mergeRefusal } from './sw3-index-store';
+  import { locatorRef, deadlineText } from './sw3-index';
+  import type { IndexEntry, IndexLocator } from '../../data/sw3-index-types';
   import { toast } from '../../lib/snackbar';
 
   const dialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>('[data-sw3-index-merge]');
   if (dialog) {
     initIndex();
-    const title = dialog.querySelector<HTMLElement & { value: string; updateComplete?: Promise<unknown> }>('[data-im-title]')!;
-    const list = dialog.querySelector<HTMLElement>('[data-im-list]')!;
-    const tpl = dialog.querySelector<HTMLTemplateElement>('[data-im-tpl]')!;
+    const $ = <T extends HTMLElement = HTMLElement>(s: string) => dialog.querySelector<T>(s)!;
+    const title = $<HTMLElement & { value: string }>('[data-im-title]');
+    const sources = $('[data-im-sources]');
     let ids: string[] = [];
+    let es: IndexEntry[] = [];
 
-    document.addEventListener('sw3i:merge', (e) => {
-      ids = (e as CustomEvent<{ ids: string[] }>).detail.ids;
-      if (mergeRefusal(ids)) return;
-      const es = ids.map((id) => entry(id)!);
-      dialog.heading = `Merge ${ids.length} drafts`;
-      title.value = titleOf(es[0]);
-      list.replaceChildren(
-        ...es.map((en) => {
-          const li = (tpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
-          li.querySelector<HTMLElement>('[data-im-t]')!.textContent = titleOf(en);
-          li.querySelector('[data-im-use]')!.addEventListener('click', () => (title.value = titleOf(en)));
+    const make = <K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string) => {
+      const el = document.createElement(tag);
+      if (cls) el.className = cls;
+      if (text !== undefined) el.textContent = text;
+      return el;
+    };
+    const num = (i: number) => {
+      const s = make('span', 'bcn-sw3im__n', String(i + 1));
+      s.setAttribute('aria-label', `Draft ${i + 1}`);
+      return s;
+    };
+    const chip = (e: IndexEntry) => {
+      const c = ($<HTMLTemplateElement>('[data-im-tpl="chip"]').content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+      const t = c.querySelector('.esa-badge__text');
+      if (t) t.textContent = e.kind === 'action' ? 'Action' : e.class;
+      return c;
+    };
+    const head = (e: IndexEntry, i?: number) => {
+      const h = make('div', 'bcn-sw3im__head');
+      if (i !== undefined) h.append(num(i));
+      h.append(chip(e));
+      if (e.kind === 'obligation') h.append(make('span', '', e.audience));
+      else if (e.type) h.append(make('span', '', e.type));
+      return h;
+    };
+    const fields = (dl: HTMLElement, e: IndexEntry) => {
+      const f = (k: string, v: string, needs?: boolean) => {
+        if (!v && !needs) return;
+        const dd = make('dd', '', v);
+        if (needs) dd.dataset.needs = '';
+        dl.append(make('dt', '', k), dd);
+      };
+      if (e.kind === 'obligation') f('Applies when', e.trigger || 'Always');
+      else {
+        f('Scope', e.scope || 'No scope', !e.scope);
+        f('Responsible party', e.responsibleParty || 'Needs input', !e.responsibleParty);
+        f('Frequency', e.recurrence ? `${e.frequency}, ${e.recurrence}` : e.frequency);
+        f('Deadline', deadlineText(e));
+      }
+    };
+    const loc = (l: IndexLocator, from?: number[]) => {
+      const li = make('li', 'bcn-sw3im__loc');
+      li.append(make('span', 'bcn-sw3im__ref', locatorRef(l)));
+      li.append(l.excerpt ? make('q', '', l.excerpt) : make('span', '', l.code));
+      if (from) {
+        const s = make('span', 'bcn-sw3im__from');
+        s.append(...from.map(num));
+        li.append(s);
+      }
+      return li;
+    };
+    const same = (a: IndexLocator, b: IndexLocator) => a.code === b.code && a.n === b.n && a.excerpt === b.excerpt;
+
+    /** The merged draft as merge() will make it: the first draft's fields, the union of
+     *  every source, and the title as it stands. */
+    const paintResult = () => {
+      const first = es[0];
+      $('[data-im-res-head]').replaceChildren(head(first));
+
+      const dl = $('[data-im-res-fields]');
+      dl.replaceChildren();
+      fields(dl, first);
+
+      const union: { l: IndexLocator; from: number[] }[] = [];
+      es.forEach((e, i) =>
+        e.locators.forEach((l) => {
+          const hit = union.find((u) => same(u.l, l));
+          if (hit) hit.from.includes(i) || hit.from.push(i);
+          else union.push({ l, from: [i] });
+        }),
+      );
+      $('[data-im-res-locs-h]').textContent = `Requirements (${union.length})`;
+      $('[data-im-res-locs]').replaceChildren(...union.map((u) => loc(u.l, u.from)));
+
+      const signs: { s: string; from: number[] }[] = [];
+      es.forEach((e, i) => {
+        if (e.kind !== 'obligation') return;
+        for (const s of e.monitorSigns) {
+          const hit = signs.find((x) => x.s === s);
+          if (hit) hit.from.includes(i) || hit.from.push(i);
+          else signs.push({ s, from: [i] });
+        }
+      });
+      $('[data-im-res-signs-wrap]').hidden = !signs.length;
+      $('[data-im-res-signs-h]').textContent = `Monitor signs (${signs.length})`;
+      $('[data-im-res-signs]').replaceChildren(
+        ...signs.map((x) => {
+          const li = make('li');
+          const row = make('span', 'bcn-sw3im__sign');
+          const from = make('span', 'bcn-sw3im__from');
+          from.append(...x.from.map(num));
+          row.append(make('span', '', x.s), from);
+          li.append(row);
           return li;
         }),
       );
+    };
+
+    /** Which draft's title the merged draft carries, if it carries one unchanged. */
+    const paintPicks = () => {
+      const v = title.value.trim();
+      const at = es.findIndex((e) => titleOf(e) === v);
+      sources.querySelectorAll<HTMLElement>('[data-im-pick]').forEach((b, i) => {
+        b.setAttribute('aria-checked', String(i === at));
+        b.tabIndex = i === (at < 0 ? 0 : at) ? 0 : -1;
+      });
+    };
+    const pick = (i: number) => {
+      title.value = titleOf(es[i]);
+      paintPicks();
+    };
+
+    const sourceCard = (e: IndexEntry, i: number) => {
+      const li = make('li', 'bcn-sw3im__card bcn-sw3im__card--source');
+      li.append(head(e, i));
+      const b = make('button', 'bcn-sw3im__pick');
+      b.type = 'button';
+      b.setAttribute('role', 'radio');
+      b.dataset.imPick = String(i);
+      const dot = make('span', 'bcn-sw3im__radio');
+      dot.setAttribute('aria-hidden', 'true');
+      b.append(dot, make('span', '', titleOf(e)));
+      b.addEventListener('click', () => pick(i));
+      b.addEventListener('keydown', (ev) => {
+        const d = ev.key === 'ArrowDown' || ev.key === 'ArrowRight' ? 1 : ev.key === 'ArrowUp' || ev.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        ev.preventDefault();
+        const j = (i + d + es.length) % es.length;
+        pick(j);
+        sources.querySelector<HTMLElement>(`[data-im-pick="${j}"]`)?.focus();
+      });
+      li.append(b);
+      const dl = make('dl', 'bcn-sw3im__fields');
+      fields(dl, e);
+      if (dl.childElementCount) li.append(dl);
+      const ol = make('ol', 'bcn-sw3im__locs');
+      ol.append(...e.locators.map((l) => loc(l)));
+      li.append(ol);
+      return li;
+    };
+
+    document.addEventListener('sw3i:merge', (ev) => {
+      ids = (ev as CustomEvent<{ ids: string[] }>).detail.ids;
+      if (mergeRefusal(ids)) return;
+      es = ids.map((id) => entry(id)!);
+      dialog.heading = `Merge ${ids.length} drafts`;
+      $('[data-im-src-h]').textContent = `Drafts (${es.length})`;
+      sources.replaceChildren(...es.map(sourceCard));
+      title.value = titleOf(es[0]);
+      paintResult();
+      paintPicks();
       dialog.open = true;
     });
-    dialog.querySelector('[data-im-form]')!.addEventListener('submit', (e) => {
-      e.preventDefault();
+    title.addEventListener('input', paintPicks);
+    title.addEventListener('change', paintPicks);
+    $('[data-im-form]').addEventListener('submit', (ev) => {
+      ev.preventDefault();
       const t = title.value.trim();
       if (!t) return;
       const id = merge(ids, t.slice(0, 510));
@@ -84,6 +351,6 @@ import EsaButton from '@esa/ecology/esa-button.astro';
         toast(`Merged ${ids.length} drafts.`, 'success');
       }
     });
-    dialog.querySelector('[data-im-cancel]')!.addEventListener('click', () => (dialog.open = false));
+    $('[data-im-cancel]').addEventListener('click', () => (dialog.open = false));
   }
 </script>

@@ -26,10 +26,26 @@ export default {
     },
     {
       label: 'Status line',
-      selector: '[data-sw3-index-run]',
-      intent: 'Under the step header. Built: the index in numbers, and after a Re-run, Added, Removed and Kept because locked (or "The re-run changed nothing."). Drafting: the stage ("Step 2 of 4: File into bins."), its counts, a bar, View progress. Drafted: drafts to review, what is outstanding for Draft again, what fit no subcategory with Suggest subcategories, View log.',
+      selector: '[data-sw3-index-run] > .bcn-sw3ir__line',
+      intent: 'Under the step header. Built: the index in numbers. Drafted: drafts to review (or "Compliance Index approved."), what is outstanding for Draft again, what fit no subcategory with Suggest subcategories, and View log (Hide log while the log is open). During a run the console takes its place.',
       decisions: ['The four stages are project-wide, as draft-stages.ts runs them: Read requirements, File into bins, Merge duties, Complete drafts. Draft again takes only what is outstanding.'],
       acceptance: ['A Draft run over the Re-run index ends at 2,222 drafts to review, with 3 items that fit no subcategory.'],
+    },
+    {
+      label: 'Run console',
+      selector: '[data-ir-console]',
+      intent: 'The Draft run as a session, inline in the step panel, open for the whole run and left open when it ends. The key pressed is the prompt line. Each stage is a tool call: a dot (blinking while it runs, green when done), its name and what it works over ("910 requirements"). Under it, behind an elbow, what the run is doing to this project streams: the commitments read with their requirements and items, the subcategories filed into with their item counts and each item that fits none, each draft merged from more than one item with its requirement IDs, each action completed with its type, scope and responsible party. A done stage folds to its sentence ("2,463 of 2,473 items filed, 10 fit no subcategory") with Show N to unfold every line. Below the stages, a spinner names the stage in progress with elapsed seconds and its count, and the four stages tick off under it. The run ends on "Done in 13s." with the drafts filed and what needs attention. After a Re-run (built phase), the same console shows the guidance as the prompt and Propose index as a diff: + added, − removed, and bins kept because they are locked.',
+      decisions: [
+        'No percentage bar and no modal. The count that moves is always a real noun (requirements, items, actions), and the lines are the drafts file\'s own: commitment codes, subcategory names, requirement IDs.',
+        'The console is the one dark surface on the page, in the --bcn-console-* tokens; every text tone clears 4.5:1 on its ground.',
+        'Warnings are amber lines in the stage that found them (an item that fits no subcategory, an action with no responsible party); requirements that bind nothing are a quiet line under Read requirements.',
+        'bcn-console is reusable: prompt, tool, row, spinner, todo and message are its whole grammar (console.ts).',
+      ],
+      acceptance: [
+        'Pressing Draft actions & obligations opens the console with the prompt line and Read requirements streaming commitment codes; the spinner reads "Reading requirements…" with seconds and "N of 910 requirements".',
+        'When the run ends the console stays open; Hide log closes it and View log reopens the same record.',
+        'After a Re-run with guidance, added bins read as green + lines and removed bins as red − lines.',
+      ],
     },
     {
       label: 'Index',
@@ -73,6 +89,16 @@ export default {
         'Guidance holds for one run and is not kept, as prod\'s.',
         'One Re-run with guidance was run ahead through Beacon\'s prompt ("give each listed species its own subcategory under an Endangered Species category"). Other guidance gets a plain answer that offers it.',
       ],
+    },
+    {
+      label: 'Merge',
+      selector: '[data-sw3-index-merge]',
+      intent: 'Two columns. Left, the ticked drafts as they read, numbered: class, who reads it, title, Applies when (or an action\'s scope, party, frequency and deadline), and each requirement with its excerpt. Right, the merged draft as it will be made: the title, the first draft\'s fields, and every requirement and monitor sign of every draft, each marked with the numbers of the drafts it came from. Pressing a draft\'s title makes it the merged title; the title stays editable. Merge, then Cancel.',
+      decisions: [
+        'The preview is what merge() keeps: the union of requirements (one row per requirement and excerpt) and of monitor signs. That a merge loses no source is shown by the numbers on each row, not said.',
+        'The merged draft takes the first ticked draft\'s class, audience and Applies when, whichever title is picked; the preview shows it.',
+      ],
+      acceptance: ['Merging two Compliance staff drafts in Take and injury reporting shows Requirements (2) marked 1 and 2, and Monitor signs (4) on the merged draft.'],
     },
     {
       label: 'Suggest subcategories',
