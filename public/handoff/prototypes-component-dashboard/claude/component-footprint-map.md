@@ -1,19 +1,24 @@
 # Component footprint map
 
-Where this component actually is: an inset map of its work areas, colored by clearance status, expanding to an interactive modal with a legend.
+> **Revised 2026-08-20 (Vision B).** Originally specced as a work-area map coloured by clearance status; re-scoped to a **read-only orientation map** — "where is this component" — a peer of the project dashboard map: relevant GIS layers, the project boundary (off by default), a component-boundary placeholder for when boundary geometry lands, and this component's work-area sites drawn as **neutral shapes** (no clearance colouring — a work area has no intrinsic status, and clearance status stays the Site Clearance feature's concern). The **Markup / Styles / Tokens** below are kept from the original clearance-map prototype for the card + expand-modal + Leaflet scaffold reference only; the clearance **legend and per-site colouring shown there are superseded** by this note.
+
+Where this component is: an inset map of the relevant layers + its work-area sites, expanding to an interactive modal. Read-only; expected to grow (notably the component boundary) in later work.
 
 ## Key decisions
-- The map draws WORK AREAS, not a component boundary, because Component has no geometry column and the boundary epic (BCN-1582) has not started. Work-area coordinates are real, already returned by the work-areas endpoint, and currently discarded by every surface — Site Clearance collapses them to a centroid dot. Drawing them is exactly what BCN-1583 slice 1 proposes, with no schema change.
+- **A peer of the project dashboard map.** Reuse the same `footprint-layers-map` / `beacon-map` the project map uses (BCN-1573) so the two read alike, rather than a bespoke map.
+- **Layers shown:** the project's relevant Feature Server layers filtered to this component; the **project boundary** layer present but **OFF by default**; a **component boundary** placeholder that lights up when boundary geometry is delivered (BCN-1583 / BCN-1584 — not yet).
+- **Work-area sites are drawn, neutrally.** Work-area coordinates are real, already returned by the work-areas endpoint (`WorkArea.GeometryGeoJSON`), and currently discarded by every surface except Site Clearance (which collapses them to a centroid dot). Draw them as neutral shapes — **no status colouring**. A work area has no intrinsic status column; its only status is derived *clearance* status, which belongs to Site Clearance (BCN-1337) and is not duplicated here.
 - The boundary source renders as a FIELD, not a caption, so it can name an uploaded file once BCN-1584 lands.
-- Basemap is grayscale — containers stay neutral, color lives in the data.
-- Every DOM id is namespaced by an idPrefix, so the same component serves the rail inset here and the full map on the component index.
+- Basemap is grayscale — containers stay neutral.
+- Every DOM id is namespaced by an idPrefix, so the same component serves the rail inset here and the full map on the component index (BCN-1639).
 
 ## Gotchas
 - Leaflet: call setView() BEFORE adding layers, and create the modal map lazily on first open, then invalidateSize() on every reopen — otherwise it renders as a grey box. Both gotchas are inherited from the project map.
 - The predecessor component (bcn-project-map) hardcodes singleton DOM ids and cannot be instantiated twice. Do not reproduce that.
+- Render gracefully when the component has no work-area geometry (layers-only, or an empty-but-present map) rather than erroring or showing a broken box.
 
 ## Done when
-- Work areas plot at their real coordinates colored by status; the inset expands to an interactive modal with a legend; reopening the modal renders the map, not a grey box.
+- The relevant layers render; the project boundary is available but off by default; this component's work-area sites plot at their real coordinates as neutral shapes; the inset expands to an interactive modal; reopening the modal renders the map, not a grey box. Read-only — no editing of shapes.
 
 ## Markup
 ```html
