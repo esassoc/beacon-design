@@ -1,0 +1,76 @@
+---
+// <BcnAldoPanel> — the shell every Aldo conversation sits in: the mark and title, then the
+// pieces in a fixed order (thread, instructions, needs, status, composer), each a slot a
+// surface fills or leaves out. It carries Aldo's glow, renders the parts bin once, and
+// loads the kit's stylesheet. Spec: docs/aldo-kit-spec.md.
+//
+// Collapsible: the header's chevron folds the panel into a rail (the mark, the name, and a
+// dot while something needs the person); the rail opens it again. The state is
+// `data-aldo="open" | "closed"` on the nearest ancestor that carries it (the host's grid
+// reads it), or on the panel. Events on the panel: `aldo:collapse`, `aldo:expand`.
+//
+// bcn-lego-checked: the mark IS bcn-aldo-mark, collapse IS esa-button chrome, the dot IS
+// esa-badge dot, the chevron IS esa-icon. The rail is a <button> because it is one vertical
+// target holding the mark and a vertical name; esa-button lays out one horizontal label.
+// Checked Beacon (the side nav's collapsed rail is the same shape, hand-built). bcn-aldo-panel
+// is the home for "Aldo's presence on a surface".
+import '../../../styles/bcn-aldo.css';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnAldoMark from './BcnAldoMark.astro';
+import BcnAldoParts from './BcnAldoParts.astro';
+
+interface Props {
+  title?: string;
+  /** Renders the collapse control and the rail. */
+  collapsible?: boolean;
+  /** The side the panel sits on: the chevrons point toward it. */
+  rail?: 'left' | 'right';
+  /** Aldo's border and shadow. Off inside a dialog that has its own chrome. */
+  glow?: boolean;
+  [attr: string]: unknown;
+}
+const { title = 'Aldo', collapsible = false, rail = 'right', glow = true, ...rest } = Astro.props;
+const away = rail === 'right' ? 'chevrons-right' : 'chevrons-left';
+const back = rail === 'right' ? 'chevrons-left' : 'chevrons-right';
+---
+
+<div class:list={['bcn-aldo-panel', glow && 'bcn-aldo-panel--glow']} data-aldo-panel {...rest}>
+  <section class="bcn-aldo-panel__body" aria-label={title}>
+    <header class="bcn-aldo-panel__head">
+      <BcnAldoMark size="sm" />
+      <h3 class="bcn-aldo-panel__title">{title}</h3>
+      {
+        collapsible && (
+          <span class="bcn-aldo-panel__close">
+            <EsaButton variant="chrome" iconOnly icon={away} label={`Collapse ${title}`} size="xs" data-aldo-collapse />
+          </span>
+        )
+      }
+    </header>
+    <slot name="thread" />
+    <slot name="instructions" />
+    <slot name="needs" />
+    <slot name="status" />
+    <slot name="composer" />
+  </section>
+  {
+    collapsible && (
+      <button type="button" class="bcn-aldo-panel__rail" data-aldo-expand aria-label={`Show ${title}`} title={`Show ${title}`}>
+        <EsaIcon name={back} size="sm" />
+        <BcnAldoMark size="sm" />
+        <span class="bcn-aldo-panel__railname">{title}</span>
+        <span class="bcn-aldo-panel__dot" data-aldo-dot hidden>
+          <EsaBadge dot variant="warning" size="xs" label="Something needs you" />
+        </span>
+      </button>
+    )
+  }
+  <BcnAldoParts />
+</div>
+
+<script>
+  import { setupAldoPanel } from './aldo-panel';
+  document.querySelectorAll<HTMLElement>('[data-aldo-panel]').forEach(setupAldoPanel);
+</script>

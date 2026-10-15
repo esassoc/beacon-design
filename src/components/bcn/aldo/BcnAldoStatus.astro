@@ -1,0 +1,15 @@
+---
+// <BcnAldoStatus> — where the work is, pinned above the composer: one esa-alert-box shown
+// at a time, by tone (info, warning, success, and neutral, which is the info box re-pointed
+// to gray), and an optional action under it ("Review the 12 so far"). Runtime:
+// aldo-panel.ts mountStatus(root).setStatus(status | null).
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+---
+
+<div class="bcn-aldo-status" data-aldo-status role="status" hidden>
+  <div data-tone="info" hidden><EsaAlertBox variant="info"><span data-status-text></span></EsaAlertBox></div>
+  <div data-tone="warning" hidden><EsaAlertBox variant="warning"><span data-status-text></span></EsaAlertBox></div>
+  <div data-tone="success" hidden><EsaAlertBox variant="success"><span data-status-text></span></EsaAlertBox></div>
+  <div data-tone="neutral" hidden><EsaAlertBox variant="info"><span data-status-text></span></EsaAlertBox></div>
+  <span class="bcn-aldo-actions" data-status-action></span>
+</div>

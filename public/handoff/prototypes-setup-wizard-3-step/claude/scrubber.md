@@ -695,6 +695,10 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -723,10 +727,6 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
-}
-.esa-collapsible__summary .esa-icon {
-  color: var(--color-content-default-secondary, #646464);
-  flex-shrink: 0;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

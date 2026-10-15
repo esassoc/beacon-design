@@ -1,0 +1,13 @@
+---
+// <BcnAldoInstructions> — what governs what Aldo does next: the scope, each rule with where
+// it took effect from, each fix. A closed esa-collapsible whose title carries the count;
+// hidden until something besides the scope is in effect. Runtime: aldo-panel.ts
+// mountInstructions(root).setInstructions(list).
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+---
+
+<div class="bcn-aldo-instructions" data-aldo-instructions hidden>
+  <EsaCollapsible title="Instructions in effect" flush>
+    <ol class="bcn-aldo-instructions__list" data-instructions-list></ol>
+  </EsaCollapsible>
+</div>

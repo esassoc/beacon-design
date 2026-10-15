@@ -36,7 +36,6 @@ import BcnSw3SourceEditor from './BcnSw3SourceEditor.astro';
 import BcnSw3Aldo from './BcnSw3Aldo.astro';
 import BcnSw3Toolbar from './BcnSw3Toolbar.astro';
 import BcnSw3PageTools from './BcnSw3PageTools.astro';
-import BcnAldoMark from './BcnAldoMark.astro';
 import { SW3_REVIEW, SW3_STEPS } from '../../data/setup-wizard-3-step';
 import { SCAN_DOCS, SCAN_SOURCES } from '../../data/sw3-docs';
 import { withBase } from '../../lib/base';
@@ -81,13 +80,8 @@ const sources = {
   </div>
 
   <div class="bcn-sw3scan__aldo">
+    <!-- Folds into its own rail (the panel's), on this section's data-aldo. -->
     <BcnSw3Aldo review={withBase(SW3_REVIEW)} />
-    <button type="button" class="bcn-sw3scan__rail bcn-sw3scan__rail--aldo" data-rail="aldo" aria-label="Show Aldo" title="Show Aldo">
-      <EsaIcon name="chevrons-left" size="sm" />
-      <BcnAldoMark size="sm" />
-      <span class="bcn-sw3scan__railname">Aldo</span>
-      <span class="bcn-sw3scan__raildot" data-rail-dot hidden></span>
-    </button>
   </div>
 
   <esa-side-dialog heading="New source document" size="md" data-new-dialog>
@@ -137,10 +131,8 @@ const sources = {
   .bcn-sw3scan[data-aldo='closed'] { grid-template-columns: 16rem minmax(0, 1fr) 2.75rem; }
   .bcn-sw3scan[data-library='closed'][data-aldo='closed'] { grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem; }
   .bcn-sw3scan[data-library='closed'] .bcn-sw3scan__sources > :global(.bcn-sw3src),
-  .bcn-sw3scan[data-aldo='closed'] .bcn-sw3scan__aldo > :global(.bcn-sw3aldo) { display: none; }
   .bcn-sw3scan__rail { display: none; }
-  .bcn-sw3scan[data-library='closed'] .bcn-sw3scan__rail[data-rail='library'],
-  .bcn-sw3scan[data-aldo='closed'] .bcn-sw3scan__rail[data-rail='aldo'] { display: flex; }
+  .bcn-sw3scan[data-library='closed'] .bcn-sw3scan__rail[data-rail='library'] { display: flex; }
   .bcn-sw3scan__rail {
     flex: 1;
     flex-direction: column;
@@ -163,16 +155,6 @@ const sources = {
     font-weight: 600;
     color: var(--color-content-default);
   }
-  .bcn-sw3scan__rail--aldo { border-color: var(--bcn-aldo-100); }
-  /* Aldo needs the person (the check): a dot on its rail. */
-  .bcn-sw3scan__raildot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--color-background-utility-warning);
-    box-shadow: 0 0 0 2px var(--color-background-elevation-raised);
-  }
-  .bcn-sw3scan__raildot[hidden] { display: none; }
 
   /* Contrast: the step's panel and the library sit up off the page; Aldo has its own glow. */
   .bcn-sw3scan__panel :global(.bcn-swsp) { box-shadow: var(--elevation-3); }

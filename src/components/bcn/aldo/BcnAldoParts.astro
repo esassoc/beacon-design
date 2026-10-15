@@ -1,0 +1,45 @@
+---
+// <BcnAldoParts> — the parts bin. Every lego the Aldo kit puts on the page at runtime,
+// rendered here once as a <template>: the message, esa-button in the five tones, the
+// commitment badge, the mark. aldo-parts.ts clones from it, so no runtime piece calls
+// document.createElement for an .astro lego. Rendered once per panel by BcnAldoPanel.
+//
+// The tone grammar (src/data/aldo.ts, Tone):
+//   primary  the next step              variant="primary"
+//   success  accept what Aldo proposed  variant="success"
+//   danger   remove                     variant="danger" appearance="soft"
+//   info     change the record          variant="info" appearance="soft"
+//   neutral  everything else            variant="secondary"
+//
+// bcn-lego-checked: every template IS a lego render (esa-button, bcn-commitment-badge,
+// bcn-aldo-mark), cloned at runtime because those legos are compile-time .astro and do not
+// exist in the browser. The message <li> is the kit's own markup (no esa- lego is a chat
+// message; checked Beacon: AIController has no thread UI). bcn-aldo-parts is the home for
+// "the legos the Aldo kit renders from data".
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnCommitmentBadge from '../BcnCommitmentBadge.astro';
+import BcnAldoMark from './BcnAldoMark.astro';
+---
+
+<div class="bcn-aldo-parts" data-aldo-parts hidden>
+  <template data-part="message">
+    <li class="bcn-aldo-msg">
+      <span class="bcn-aldo-msg__who" data-msg-who></span>
+      <p class="bcn-aldo-msg__text" data-msg-text></p>
+      <div class="bcn-aldo-msg__extra" data-msg-extra></div>
+      <span class="bcn-aldo-actions" data-msg-acts></span>
+    </li>
+  </template>
+  <template data-part="button-neutral"><EsaButton variant="secondary" size="xs">Action</EsaButton></template>
+  <template data-part="button-primary"><EsaButton variant="primary" size="xs">Action</EsaButton></template>
+  <template data-part="button-success"><EsaButton variant="success" size="xs">Action</EsaButton></template>
+  <template data-part="button-danger"><EsaButton variant="danger" appearance="soft" size="xs">Action</EsaButton></template>
+  <template data-part="button-info"><EsaButton variant="info" appearance="soft" size="xs">Action</EsaButton></template>
+  <template data-part="badge"><span><BcnCommitmentBadge code="" size="sm" /></span></template>
+  <template data-part="mark"><span><BcnAldoMark size="sm" /></span></template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+</script>

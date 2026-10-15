@@ -1,0 +1,372 @@
+/* bcn-aldo — the Aldo kit's one stylesheet, loaded by <BcnAldoPanel>. A plain stylesheet,
+   not scoped <style>, because the kit's messages, cards, rows and buttons are cloned at
+   runtime and scoped rules would not reach them. Spec: docs/aldo-kit-spec.md.
+
+   Density is declared once on the panel and every piece reads it: 13px text, 12px meta,
+   never 350 (Andy, 2026-10-14). The hub's medium weight resolves below that floor, so the
+   kit does not read it.
+
+   bcn-lego-checked: styles the kit's own pieces (bcn-aldo-panel, -thread, -msg, -card,
+   -needs, -instructions, -status, -composer) and re-points esa-alert-box, esa-collapsible,
+   esa-textarea and esa-button through their public tokens. No esa- lego is a chat thread or
+   an open-items list; checked Beacon (AIController has no thread UI). */
+
+.bcn-aldo-panel {
+  --_aldo-text: 0.8125rem;
+  --_aldo-meta: 0.75rem;
+  --_aldo-weight-body: 400;
+  --_aldo-weight-meta: 500;
+  --_aldo-weight-strong: 600;
+  --_aldo-radius: var(--radius-200);
+  --_aldo-radius-sm: var(--radius-100);
+  --_aldo-gap: var(--spacing-150, 0.375rem);
+  --_aldo-pad: var(--spacing-400);
+  --_aldo-line: var(--border-width-default, 1px);
+
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  font-size: var(--_aldo-text);
+  font-weight: var(--_aldo-weight-body);
+  line-height: 1.4;
+}
+
+/* ── Shell ──────────────────────────────────────────────────────────────── */
+
+.bcn-aldo-panel__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--color-background-elevation-raised);
+  border-radius: var(--_aldo-radius);
+}
+.bcn-aldo-panel--glow .bcn-aldo-panel__body {
+  border: var(--_aldo-line) solid var(--bcn-aldo-100);
+  box-shadow: var(--bcn-aldo-prompt-shadow);
+}
+.bcn-aldo-panel__head {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  padding: var(--spacing-300) var(--_aldo-pad);
+  border-bottom: var(--_aldo-line) solid var(--color-border-default-subtle);
+}
+.bcn-aldo-panel__title {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: var(--_aldo-weight-strong);
+  color: var(--color-content-default);
+}
+.bcn-aldo-panel__close { margin-left: auto; }
+
+/* Collapsed: the rail alone. The state is on the host (its grid reads it) or the panel. */
+.bcn-aldo-panel__rail { display: none; }
+[data-aldo='closed'] .bcn-aldo-panel__body { display: none; }
+[data-aldo='closed'] .bcn-aldo-panel__rail { display: flex; }
+.bcn-aldo-panel__rail {
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) 0;
+  border: var(--_aldo-line) solid var(--bcn-aldo-100);
+  border-radius: var(--_aldo-radius);
+  background: var(--color-background-elevation-raised);
+  box-shadow: var(--elevation-2);
+  color: var(--color-content-default-secondary);
+  font: inherit;
+  cursor: pointer;
+}
+.bcn-aldo-panel__rail:hover { color: var(--color-content-default); background: var(--color-background-elevation-sunken); }
+.bcn-aldo-panel__rail:focus-visible { outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color); outline-offset: var(--focus-ring-offset, 2px); }
+.bcn-aldo-panel__railname {
+  writing-mode: vertical-rl;
+  font-size: var(--_aldo-text);
+  font-weight: var(--_aldo-weight-strong);
+  color: var(--color-content-default);
+}
+.bcn-aldo-panel__dot { display: inline-flex; }
+.bcn-aldo-panel__dot[hidden] { display: none; }
+
+/* ── Thread ─────────────────────────────────────────────────────────────── */
+
+.bcn-aldo-thread {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+  min-height: 0;
+  margin: 0;
+  padding: var(--_aldo-pad);
+  list-style: none;
+  overflow-y: auto;
+}
+
+.bcn-aldo-msg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_aldo-gap);
+  max-width: 94%;
+  animation: bcn-aldo-in 220ms ease-out;
+}
+.bcn-aldo-msg[data-from='aldo'] { align-self: flex-start; }
+.bcn-aldo-msg[data-from='you'] { align-self: flex-end; align-items: flex-end; }
+.bcn-aldo-msg[data-from='system'] { align-self: center; align-items: center; }
+.bcn-aldo-msg__who {
+  font-size: var(--_aldo-meta);
+  font-weight: var(--_aldo-weight-meta);
+  color: var(--color-content-default-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.bcn-aldo-msg__who[hidden],
+.bcn-aldo-msg__text[hidden] { display: none; }
+.bcn-aldo-msg__text {
+  margin: 0;
+  padding: var(--spacing-200) var(--spacing-300);
+  border-radius: var(--_aldo-radius);
+  color: var(--color-content-default);
+  white-space: pre-line;
+}
+.bcn-aldo-msg[data-from='aldo'] .bcn-aldo-msg__text { background: var(--bcn-aldo-50); }
+.bcn-aldo-msg[data-from='you'] .bcn-aldo-msg__text {
+  background: var(--color-background-default);
+  border: var(--_aldo-line) solid var(--color-border-default-subtle);
+}
+/* A button press: recorded, but not a speech bubble. A system turn: a centered line. */
+.bcn-aldo-msg[data-via='button'] .bcn-aldo-msg__text,
+.bcn-aldo-msg[data-from='system'] .bcn-aldo-msg__text {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-content-default-secondary);
+  font-weight: var(--_aldo-weight-meta);
+}
+.bcn-aldo-msg__extra { display: flex; flex-direction: column; gap: var(--spacing-200); }
+.bcn-aldo-msg__extra:empty { display: none; }
+/* A check turn is a card at full width, with room after it. */
+.bcn-aldo-msg[data-kind='check'] { max-width: 100%; width: 100%; margin-bottom: var(--spacing-200); }
+
+@keyframes bcn-aldo-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bcn-aldo-msg { animation: none; }
+}
+
+/* ── Actions: a row of buttons from ActionButton[] ──────────────────────── */
+
+.bcn-aldo-actions { display: flex; flex-wrap: wrap; gap: var(--_aldo-gap); }
+.bcn-aldo-actions:empty { display: none; }
+
+/* ── Card ───────────────────────────────────────────────────────────────── */
+
+.bcn-aldo-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_aldo-gap);
+  padding: var(--spacing-250, 0.625rem) var(--spacing-300);
+  border: var(--_aldo-line) solid var(--color-border-default-subtle);
+  border-radius: var(--_aldo-radius);
+  background: var(--color-background-elevation-raised);
+}
+/* Suggested by Aldo: dashed, until a person confirms it. The comments grammar's color. */
+.bcn-aldo-card[data-state='suggested'],
+.bcn-aldo-card[data-state='editing'] { border-style: dashed; border-color: var(--color-content-default-tertiary); }
+.bcn-aldo-card[data-state='confirmed'] { border-style: solid; border-color: var(--color-border-default-subtle); }
+.bcn-aldo-card__head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-200);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  color: var(--color-content-default);
+  cursor: pointer;
+}
+.bcn-aldo-card__head:hover .bcn-aldo-card__title { text-decoration: underline; }
+.bcn-aldo-card__head:focus-visible { outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color); outline-offset: var(--focus-ring-offset, 2px); }
+.bcn-aldo-card__title { font-size: var(--_aldo-text); font-weight: var(--_aldo-weight-strong); line-height: 1.3; }
+/* The text Aldo read, quoted in the document voice, four lines until Show all. */
+.bcn-aldo-card__quote {
+  margin: 0;
+  padding: var(--spacing-200) var(--spacing-250, 0.625rem);
+  border-radius: var(--_aldo-radius-sm);
+  background: var(--color-background-elevation-sunken);
+  color: var(--color-content-default);
+  font-family: var(--font-decorative);
+  font-size: var(--_aldo-meta);
+  line-height: 1.45;
+  white-space: pre-line;
+}
+.bcn-aldo-card__quotetext {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.bcn-aldo-card__quote[data-all] .bcn-aldo-card__quotetext { display: block; }
+.bcn-aldo-card__fields {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--spacing-50, 0.125rem) var(--spacing-200);
+  margin: var(--spacing-100) 0 0;
+  font-size: var(--_aldo-meta);
+  line-height: 1.35;
+}
+.bcn-aldo-card__fields dt { color: var(--color-content-default-secondary); font-weight: var(--_aldo-weight-meta); }
+.bcn-aldo-card__fields dd { margin: 0; font-weight: var(--_aldo-weight-meta); }
+.bcn-aldo-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-200);
+  flex-wrap: wrap;
+}
+.bcn-aldo-card__meta,
+.bcn-aldo-card__acts { display: flex; flex-wrap: wrap; gap: var(--_aldo-gap); }
+.bcn-aldo-card__form { display: flex; flex-direction: column; gap: var(--spacing-200); }
+.bcn-aldo-card__settled {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--_aldo-meta);
+  font-weight: var(--_aldo-weight-strong);
+  color: var(--color-content-utility-success);
+}
+
+/* ── Instructions in effect ─────────────────────────────────────────────── */
+
+.bcn-aldo-instructions {
+  margin: 0 var(--_aldo-pad) var(--spacing-200);
+  padding: 0 var(--spacing-300);
+  border: var(--_aldo-line) solid var(--color-border-default-subtle);
+  border-radius: var(--_aldo-radius-sm);
+  background: var(--color-background-elevation-sunken);
+  --typography-label-sm-strong-font-size: var(--_aldo-text);
+}
+.bcn-aldo-instructions[hidden] { display: none; }
+.bcn-aldo-instructions .esa-collapsible__summary { padding-block: var(--_aldo-gap); }
+.bcn-aldo-instructions__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_aldo-gap);
+  max-height: 9rem;
+  margin: 0;
+  padding: 0 0 var(--spacing-200) var(--spacing-400);
+  overflow-y: auto;
+  font-size: var(--_aldo-text);
+  line-height: 1.35;
+}
+.bcn-aldo-instructions__from {
+  color: var(--color-content-default-secondary);
+  font-size: var(--_aldo-meta);
+  font-weight: var(--_aldo-weight-meta);
+}
+
+/* ── Needs you ──────────────────────────────────────────────────────────── */
+
+.bcn-aldo-needs {
+  margin: 0 var(--_aldo-pad) var(--spacing-200);
+  border: var(--_aldo-line) solid var(--color-border-default);
+  border-radius: var(--_aldo-radius-sm);
+  background: var(--color-background-elevation-raised);
+  box-shadow: var(--elevation-1);
+  overflow: hidden;
+}
+.bcn-aldo-needs[hidden] { display: none; }
+.bcn-aldo-needs__head {
+  display: flex;
+  align-items: center;
+  gap: var(--_aldo-gap);
+  margin: 0;
+  padding: var(--_aldo-gap) var(--spacing-300);
+  background: var(--color-background-elevation-sunken);
+  border-bottom: var(--_aldo-line) solid var(--color-border-default);
+  font-size: var(--_aldo-text);
+  font-weight: var(--_aldo-weight-strong);
+  color: var(--color-content-default);
+}
+.bcn-aldo-needs__head .esa-badge { font-variant-numeric: tabular-nums; }
+.bcn-aldo-needs__list {
+  max-height: 13rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+}
+.bcn-aldo-needs__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_aldo-gap);
+  padding: var(--spacing-200) var(--spacing-300);
+}
+.bcn-aldo-needs__item + .bcn-aldo-needs__item { border-top: var(--_aldo-line) solid var(--color-border-default-subtle); }
+.bcn-aldo-needs__text {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: var(--_aldo-weight-meta);
+  line-height: 1.35;
+  color: var(--color-content-default);
+  text-align: left;
+}
+button.bcn-aldo-needs__text { cursor: pointer; }
+button.bcn-aldo-needs__text:hover { text-decoration: underline; }
+button.bcn-aldo-needs__text:focus-visible { outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color); outline-offset: var(--focus-ring-offset, 2px); }
+.bcn-aldo-needs__item .bcn-aldo-actions { gap: var(--spacing-100); }
+
+/* ── Status ─────────────────────────────────────────────────────────────── */
+
+.bcn-aldo-status { padding: 0 var(--_aldo-pad) var(--spacing-200); }
+.bcn-aldo-status[hidden],
+.bcn-aldo-status > [hidden] { display: none; }
+.bcn-aldo-status .esa-alert-box {
+  align-items: center;
+  padding: var(--_aldo-gap) var(--spacing-250, 0.625rem);
+  font-size: var(--_aldo-text);
+}
+.bcn-aldo-status .esa-alert-box__icon svg { width: 16px; height: 16px; }
+/* Neutral: the info box, in gray. */
+.bcn-aldo-status [data-tone='neutral'] {
+  --color-background-utility-info-subtle: var(--color-background-elevation-sunken);
+  --color-border-utility-info: var(--color-border-default);
+  --color-content-utility-info: var(--color-content-default-secondary);
+}
+.bcn-aldo-status > .bcn-aldo-actions { margin-top: var(--_aldo-gap); }
+
+/* ── Composer ───────────────────────────────────────────────────────────── */
+
+.bcn-aldo-composer__suggest { padding: 0 var(--_aldo-pad) var(--spacing-200); gap: var(--spacing-200); }
+.bcn-aldo-composer__shell {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--spacing-200);
+  margin: 0 var(--spacing-300) var(--spacing-300);
+  padding: var(--spacing-100) var(--spacing-200) var(--spacing-100) var(--spacing-300);
+  border: var(--_aldo-line) solid var(--bcn-aldo-100);
+  border-radius: var(--_aldo-radius);
+  background: var(--color-background-elevation-raised);
+  box-shadow: var(--bcn-aldo-prompt-shadow);
+}
+/* The shell carries the field's focus (a sanctioned :focus-within wrapper). */
+.bcn-aldo-composer__shell:focus-within { outline: var(--focus-ring-width, 2px) solid var(--bcn-aldo-prompt-ring); }
+.bcn-aldo-composer__field {
+  flex: 1;
+  min-width: 0;
+  --focus-ring-color: var(--color-background-elevation-raised);
+  --form-border-width: 0;
+}
+/* Send: the one Aldo-green control, round. */
+.bcn-aldo-composer__send {
+  --button-radius-sm: 999px;
+  --color-background-brand: var(--bcn-aldo);
+  --color-background-brand-hover: var(--bcn-aldo-600);
+  display: inline-flex;
+  padding-bottom: var(--spacing-100);
+}
+.bcn-aldo-composer[data-busy] .bcn-aldo-composer__shell { opacity: 0.7; }

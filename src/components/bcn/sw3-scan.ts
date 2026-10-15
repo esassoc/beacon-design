@@ -105,7 +105,6 @@ export function setupSw3Scan(root: HTMLElement): void {
   const toolsEl = $('[data-sw3-tools]');
   /** A page tool's native button (EsaButton puts data-* on it). */
   const tool = (k: string) => toolsEl.querySelector<HTMLButtonElement>(`button[data-tool="${k}"]`)!;
-  const railDot = $('[data-rail-dot]');
   const pagePane = $('[data-sw3-pagepane]');
   const empty = $('[data-sw3-empty]');
   const confirmEl = $<Confirm>('[data-confirm]');
@@ -634,9 +633,10 @@ export function setupSw3Scan(root: HTMLElement): void {
     /* no storage */
   }
   root.querySelector('[data-rail="library"]')?.addEventListener('click', () => setLibrary(true));
-  root.querySelector('[data-rail="aldo"]')?.addEventListener('click', () => setAldo(true));
   root.querySelector('[data-rail-close="library"]')?.addEventListener('click', () => setLibrary(false));
-  root.querySelector('[data-rail-close="aldo"]')?.addEventListener('click', () => setAldo(false));
+  // Aldo's panel folds itself (on this section's data-aldo); keep where it was left.
+  root.addEventListener('aldo:collapse', () => setAldo(false));
+  root.addEventListener('aldo:expand', () => setAldo(true));
   document.addEventListener('sw3:page', (e) => pick((e as CustomEvent<{ page: number }>).detail.page));
   document.addEventListener('sw3:find', (e) => select((e as CustomEvent<{ id: string }>).detail.id));
   document.addEventListener('sw3:aldo', () => setAldo(true));
@@ -648,12 +648,6 @@ export function setupSw3Scan(root: HTMLElement): void {
     clearSel();
     setDrawing(true);
     render();
-  });
-  // Anything waiting on the person puts a dot on Aldo's rail.
-  let needsYou = false;
-  document.addEventListener('sw3:needs', (e) => {
-    needsYou = (e as CustomEvent<{ count: number }>).detail.count > 0;
-    railDot.hidden = !needsYou;
   });
   // Fix at the check: redraw the commitment's box.
   document.addEventListener('sw3:redraw', (e) => {
@@ -750,7 +744,6 @@ export function setupSw3Scan(root: HTMLElement): void {
     const isChecking = checking();
     if (isChecking && !wasChecking) setAldo(true);
     wasChecking = isChecking;
-    railDot.hidden = !needsYou;
 
     if (isFollowing() && on) {
       if (isChecking) {

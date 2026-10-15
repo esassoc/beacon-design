@@ -227,7 +227,8 @@ export interface Steer {
   reply: string;
   /** Pages read before a rule, offered for a re-read. */
   offer?: { first: number; last: number };
-  /** An unclear message: the readings Aldo saw, each sendable as is. */
+  /** Deprecated: steers recorded before `unclear` was an action kind carry their readings
+   *  here. New ones carry them on the action. */
   choices?: { label: string; text: string }[];
 }
 
@@ -585,6 +586,7 @@ const apply = (a: SteerAction) => {
       S.manual = true;
       break;
     case 'answer':
+    case 'unclear':
       break;
     case 'reread':
       // The clock idles at the run's end; restart it from here so the re-read is watched.
@@ -601,9 +603,9 @@ const apply = (a: SteerAction) => {
   }
 };
 
-const record = (text: string, via: Steer['via'], actions: SteerAction[], reply: string, offer?: Steer['offer'], choices?: Steer['choices']) => {
+const record = (text: string, via: Steer['via'], actions: SteerAction[], reply: string, offer?: Steer['offer']) => {
   const live = started() && !finished();
-  S.steers.push({ id: `s${S.steers.length + 1}`, at: now(), page: live ? headPage() : null, via, text, actions, reply, offer, ...(choices ? { choices } : {}) });
+  S.steers.push({ id: `s${S.steers.length + 1}`, at: now(), page: live ? headPage() : null, via, text, actions, reply, offer });
   for (const a of actions) apply(a);
 };
 
@@ -642,7 +644,7 @@ export const say = (text: string) =>
       hasCommitments: D.finds.length > 0,
       describe,
     });
-    record(text, 'typed', r.actions, r.reply, r.offer, r.choices);
+    record(text, 'typed', r.actions, r.reply, r.offer);
   });
 
 /** One of Aldo's buttons: a known action, recorded the same way as a typed steer. */

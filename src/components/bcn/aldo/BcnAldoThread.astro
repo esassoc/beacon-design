@@ -1,0 +1,10 @@
+---
+// <BcnAldoThread> — the log of one Aldo conversation. Markup only: aldo-thread.ts
+// mountThread() renders Turn[] into it (one message per turn, two for a person's turn
+// with a reply), keyed by turn id. Styles: src/styles/bcn-aldo.css.
+//
+// bcn-lego-checked: no esa- lego is a message thread; checked Beacon (AIController's chat has
+// no thread UI in the app shell). bcn-aldo-thread is the home for "a conversation's log".
+---
+
+<ol class="bcn-aldo-thread" data-aldo-thread aria-live="polite"></ol>

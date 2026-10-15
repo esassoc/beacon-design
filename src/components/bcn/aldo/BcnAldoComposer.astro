@@ -1,0 +1,47 @@
+---
+// <BcnAldoComposer> — where a person speaks to Aldo. The field is esa-textarea with its
+// border off; the shell carries the Aldo ring on :focus-within and the round green send, the
+// one green control in the kit. Suggestions (Choice[]) sit above the field.
+//
+//   mode="thread"  Enter sends, Shift+Enter is a new line: a turn is a line.
+//   mode="card"    Cmd/Ctrl+Enter sends: a one-shot prompt is a paragraph.
+//
+// Runtime: aldo-composer.ts mountComposer(root, onSend) returns
+// { setSuggestions(choices, press), setBusy(on), focus() }. The root also emits
+// `aldo:send` { text }.
+//
+// bcn-lego-checked: the field IS esa-textarea, send IS esa-button re-pointed to a round
+// Aldo-green control (radius and brand tokens), suggestions are esa-button via the parts
+// bin. No esa- lego is a composer with an embedded trailing control; checked Beacon (its AI
+// prompt is a plain textarea). Hub candidate esa-composer (docs/aldo-kit-spec.md, section 6).
+import EsaButton from '@esa/ecology/esa-button.astro';
+
+interface Props {
+  mode?: 'thread' | 'card';
+  /** An example of what to say, never an instruction. */
+  placeholder?: string;
+  label?: string;
+  maxRows?: number;
+}
+const { mode = 'thread', placeholder = '', label = 'Message Aldo', maxRows = 6 } = Astro.props;
+---
+
+<div class="bcn-aldo-composer" data-aldo-composer data-mode={mode}>
+  <div class="bcn-aldo-actions bcn-aldo-composer__suggest" data-composer-suggest></div>
+  <form class="bcn-aldo-composer__shell" data-composer-form>
+    <esa-textarea
+      class="bcn-aldo-composer__field"
+      data-composer-input
+      size="md"
+      rows="1"
+      max-rows={String(maxRows)}
+      auto-resize
+      aria-label={label}
+      placeholder={placeholder}></esa-textarea>
+    <span class="bcn-aldo-composer__send"><EsaButton iconOnly icon="arrow-up" size="sm" label="Send" data-composer-send /></span>
+  </form>
+</div>
+
+<script>
+  import '@esa/ecology/esa-textarea';
+</script>

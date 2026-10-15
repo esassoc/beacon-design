@@ -1181,13 +1181,15 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3src__list .bcn-sw3src__menu[open] {
   opacity: 1;
 }
+.bcn-aldo-needs__head .esa-badge {
+  font-variant-numeric: tabular-nums;
+}
 .bcn-sw3tools esa-button-group,
 .bcn-sw3tools .esa-button,
 .bcn-sw3tools esa-dropdown-menu {
   flex: none;
 }
 .bcn-sw3scan[data-library="closed"] .bcn-sw3scan__sources > .bcn-sw3src,
-.bcn-sw3scan[data-aldo="closed"] .bcn-sw3scan__aldo > .bcn-sw3aldo,
 .bcn-sw3scan__rail {
   display: none;
 }
@@ -1211,35 +1213,6 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-microcopy-2xs-strong-font-weight);
   line-height: var(--typography-microcopy-2xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
 }
 .esa-progress-bar {
   --_progress-height: var(--progress-bar-height-md, 8px);
@@ -1307,6 +1280,35 @@ summary.esa-button--variant-chrome:focus-visible {
 .esa-collapsible__summary .esa-icon {
   color: var(--color-content-default-secondary, #646464);
   flex-shrink: 0;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
 }
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));

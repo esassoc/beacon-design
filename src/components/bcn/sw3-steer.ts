@@ -9,6 +9,10 @@
 // re-read. This module is the prototype's stand-in for that call: a handful of patterns,
 // deterministic, so a demo says the same thing every time.
 
+import type { Choice } from '../../data/aldo';
+
+/** The scan's extension of the kit's AldoAction (src/data/aldo.ts): `dismiss` and `keep`
+ *  are the kit's reject and accept on a find. */
 export type SteerAction =
   | { kind: 'start' }
   | { kind: 'scope'; first: number; last: number; label: string }
@@ -27,7 +31,9 @@ export type SteerAction =
   | { kind: 'clear'; first: number; last: number }
   | { kind: 'manual' }
   /** A question: Aldo answers, nothing changes. */
-  | { kind: 'answer' };
+  | { kind: 'answer' }
+  /** Too short to act on: the readings Aldo sees, each a message the person can send as is. */
+  | { kind: 'unclear'; choices: Choice[] };
 
 export interface SteerContext {
   started: boolean;
@@ -60,8 +66,6 @@ const PACE_REPLY = {
 export interface Interpretation {
   actions: SteerAction[];
   reply: string;
-  /** Unclear: the readings Aldo can see, each a message the person can send as is. */
-  choices?: { label: string; text: string }[];
 }
 
 const range = (a: number, b: number) => (a === b ? `p. ${a}` : `pp. ${a}–${b}`);
@@ -214,12 +218,16 @@ export function interpret(raw: string, ctx: SteerContext): Interpretation & { of
   // Too short to be an instruction: say what it could mean, and let the person pick.
   if (text.split(/\s+/).length <= 2 && !/cross[- ]?ref|reference/i.test(text)) {
     return {
-      actions: [{ kind: 'answer' }],
-      reply: `I am not sure what to do with "${text}".`,
-      choices: [
-        { label: 'Make it an instruction', text: `Rule: ${text}` },
-        { label: `Ask about ${text}`, text: `What is ${text}?` },
+      actions: [
+        {
+          kind: 'unclear',
+          choices: [
+            { label: 'Make it an instruction', text: `Rule: ${text}` },
+            { label: `Ask about ${text}`, text: `What is ${text}?` },
+          ],
+        },
       ],
+      reply: `I am not sure what to do with "${text}".`,
     };
   }
 
