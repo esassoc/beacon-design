@@ -667,7 +667,8 @@ button.bcn-aldo-needs__text:focus-visible { outline: var(--focus-ring-width, 2px
 .bcn-aldo-panel__waiting:focus-visible { outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color); outline-offset: var(--focus-ring-offset, 2px); }
 .bcn-aldo-panel__waiting svg { transition: transform 150ms ease; }
 .bcn-aldo-panel[data-side-open] .bcn-aldo-panel__waiting svg { transform: rotate(180deg); }
-.bcn-aldo-panel__waiting + .bcn-aldo-panel__expand { margin-left: 0; }
+/* The indicator takes the push to the right; hidden, the expand key takes it back. */
+.bcn-aldo-panel__waiting:not([hidden]) + .bcn-aldo-panel__expand { margin-left: 0; }
 .bcn-aldo-panel__waiting[data-nudge] { animation: bcn-aldo-nudge 600ms ease-out; }
 @keyframes bcn-aldo-nudge { 30% { transform: scale(1.08); } }
 @media (prefers-reduced-motion: reduce) { .bcn-aldo-panel__waiting[data-nudge] { animation: none; } }
