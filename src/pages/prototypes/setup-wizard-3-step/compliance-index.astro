@@ -10,6 +10,7 @@
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
+import BcnSwReset from '../../../components/bcn/BcnSwReset.astro';
 import BcnSwStepNav from '../../../components/bcn/BcnSwStepNav.astro';
 import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
 import BcnSw3IndexActions from '../../../components/bcn/BcnSw3IndexActions.astro';
@@ -31,10 +32,11 @@ const STEP = SW3_STEPS[2];
   sections:
     - wizard chrome     -> bcn-setup-wizard-frame   # three steps, straight run, step 3 active
     - step panel        -> bcn-sw-step-panel        # numeral, title
-    - status line       -> bcn-sw3-index-run        # the run, what is left
+    - run console       -> bcn-sw3-index-run        # the run's peek and log
     - console           -> bcn-sw-step-nav          # the panel's foot: Previous, Next, the step's keys, the subcategory scrubber
     - step keys         -> bcn-sw3-index-actions    # in the console: Build index; Re-run, Draft; then Start over, Draft again, Approve
     - index review      -> bcn-sw3-index            # empty state; index, subcategory, Aldo
+    - reset             -> bcn-sw-reset             # Reset the prototype: step 3 starts over
     - entry edit        -> bcn-sw3-entry-edit       # side panel: a draft's record
     - merge             -> bcn-sw3-index-merge      # dialog: ticked drafts into one
     - suggest           -> bcn-sw3-index-suggest    # dialog: homes for what fit no subcategory
@@ -52,6 +54,7 @@ const STEP = SW3_STEPS[2];
           <BcnSwStepNav hook="ix" label="Subcategory"><BcnSw3IndexActions /></BcnSwStepNav>
         </BcnSwStepPanel>
         <BcnSw3Index />
+        <BcnSwReset step="index" />
       </div>
       <BcnSw3EntryEdit />
       <BcnSw3IndexMerge />

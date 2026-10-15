@@ -69,8 +69,9 @@ const { label = 'Commitment', size = 40 } = Astro.props;
     display: grid;
     grid-template-columns: repeat(var(--_n, 1), minmax(0, 1fr));
     gap: 1px;
-    height: 32px;
-    padding: 5px;
+    /* Cells as tall as step 1's page tiles (bcn-page-scrubber): 32px in a 44px track. */
+    height: 44px;
+    padding: 6px;
     cursor: pointer;
     touch-action: none;
     border-radius: var(--radius-100);
@@ -102,7 +103,7 @@ const { label = 'Commitment', size = 40 } = Astro.props;
     position: absolute;
     top: -4px;
     bottom: -6px;
-    left: calc(5px + (100% - 10px) / var(--_n, 1) * var(--_i, 0) - 1.5px);
+    left: calc(6px + (100% - 12px) / var(--_n, 1) * var(--_i, 0) - 1.5px);
     width: 2px;
     border-radius: 1px;
     background: var(--_hue, var(--color-content-default));
@@ -113,9 +114,9 @@ const { label = 'Commitment', size = 40 } = Astro.props;
     position: absolute;
     top: -3px;
     bottom: -3px;
-    left: calc(5px + (100% - 10px) / var(--_n, 1) * var(--_at, 0) - 3px);
+    left: calc(6px + (100% - 12px) / var(--_n, 1) * var(--_at, 0) - 3px);
     z-index: 1;
-    width: max(8px, calc((100% - 10px) / var(--_n, 1) + 6px));
+    width: max(8px, calc((100% - 12px) / var(--_n, 1) + 6px));
     border: 2px solid var(--color-content-default);
     border-radius: 3px;
     pointer-events: none;
@@ -125,7 +126,7 @@ const { label = 'Commitment', size = 40 } = Astro.props;
   .bcn-cscrub__ticks {
     position: relative;
     height: 16px;
-    margin: 0 5px;
+    margin: 0 6px;
   }
   .bcn-cscrub__thumb[hidden] { display: none; }
   .bcn-cscrub__ticks :global(.bcn-cscrub__tick) {

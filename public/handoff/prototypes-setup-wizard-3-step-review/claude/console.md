@@ -3,6 +3,8 @@
 The foot of the step's panel, as step 1 carries its scan console: header and console are one panel, and the header carries no keys. A sunken tray across the panel under the header rule, every key neutral: Prev at its left end, Next at its right, Confirm all and Export centered between. Under it, every commitment of every source file in one run, file after file, one cell each: gray while parsing, darker gray until confirmed, a light tint of the step's purple once confirmed. A rule through the strip marks where one file ends and the next begins, and the file's short name (ITP, MMRP) sits under the strip where its run starts. The strip shows 40 at a time; the double chevrons page the window, which otherwise follows the commitment in view. The thumb is the one in view. Click or drag to land on one; Previous and Next, or the arrow keys, step one at a time across files.
 
 ## Key decisions
+- Reset the prototype, under the workspace as on step 1, starts step 2 over after a confirm: every commitment as the parse left it, no edits, confirmations or talk with Aldo. The scans are kept.
+- Scrubber cells are 32px tall, as step 1's page tiles are.
 - No position line and no Next to settle: where you are is the thumb, and what is left to settle is in each cell's tooltip and in Aldo.
 - No amber: a commitment with something to settle reads as any other unconfirmed one. Only confirmed has a color.
 - No link on to the Compliance Index here: the wizard's step bar is the way on.
@@ -104,7 +106,7 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
       </div>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnSw3ReviewActions.astro_astro_type_script_index_0_lang.DeDGVDYX.js"
+        src="/beacon-design/_astro/BcnSw3ReviewActions.astro_astro_type_script_index_0_lang.BWMHcN7W.js"
       ></script></span
     ><span class="bcn-swsn__end bcn-swsn__end--next" data-rev-step=""
       ><span
@@ -382,8 +384,8 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
   border-radius: var(--radius-100);
   background: var(--color-background-elevation-sunken);
   gap: 1px;
-  height: 32px;
-  padding: 5px;
+  height: 44px;
+  padding: 6px;
   display: grid;
   position: relative;
 }
@@ -421,7 +423,7 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
 .bcn-cscrub__track .bcn-cscrub__sep {
   top: -4px;
   bottom: -6px;
-  left: calc(5px + (100% - 10px) / var(--_n, 1) * var(--_i, 0) - 1.5px);
+  left: calc(6px + (100% - 12px) / var(--_n, 1) * var(--_i, 0) - 1.5px);
   background: var(--_hue, var(--color-content-default));
   pointer-events: none;
   border-radius: 1px;
@@ -431,9 +433,9 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
 .bcn-cscrub__thumb {
   top: -3px;
   bottom: -3px;
-  left: calc(5px + (100% - 10px) / var(--_n, 1) * var(--_at, 0) - 3px);
+  left: calc(6px + (100% - 12px) / var(--_n, 1) * var(--_at, 0) - 3px);
   z-index: 1;
-  width: max(8px, calc((100% - 10px) / var(--_n, 1) + 6px));
+  width: max(8px, calc((100% - 12px) / var(--_n, 1) + 6px));
   border: 2px solid var(--color-content-default);
   pointer-events: none;
   border-radius: 3px;
@@ -442,7 +444,7 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
 }
 .bcn-cscrub__ticks {
   height: 16px;
-  margin: 0 5px;
+  margin: 0 6px;
   position: relative;
 }
 .bcn-cscrub__thumb[hidden] {

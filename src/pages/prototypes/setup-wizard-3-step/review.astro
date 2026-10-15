@@ -11,6 +11,7 @@
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
+import BcnSwReset from '../../../components/bcn/BcnSwReset.astro';
 import BcnSwStepNav from '../../../components/bcn/BcnSwStepNav.astro';
 import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
 import BcnSw3ReviewActions from '../../../components/bcn/BcnSw3ReviewActions.astro';
@@ -32,6 +33,7 @@ const STEP = SW3_STEPS[1];
     - console           -> bcn-sw-step-nav          # the panel's foot: Previous, Next, the step's keys, the commitment scrubber
     - step keys         -> bcn-sw3-review-actions   # in the console: Confirm all (undo), Export
     - review            -> bcn-sw3-review           # marked-up commitment, parsed-data rail, Aldo
+    - reset             -> bcn-sw-reset             # Reset the prototype: step 2 starts over
     - requirement edit  -> bcn-sw3-req-edit         # side panel: the requirement's record
     - source peek       -> bcn-sw3-source-peek      # side panel: the commitment on the PDF
     - commitment edit   -> bcn-sw3-edit-find        # side panel: ID, name, text
@@ -46,6 +48,7 @@ const STEP = SW3_STEPS[1];
           <BcnSwStepNav hook="rev" label="Commitment" token={STEP.token}><BcnSw3ReviewActions /></BcnSwStepNav>
         </BcnSwStepPanel>
         <BcnSw3Review />
+        <BcnSwReset step="review" />
       </div>
       <BcnSw3ReqEdit />
       <BcnSw3SourcePeek />

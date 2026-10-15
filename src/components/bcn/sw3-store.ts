@@ -484,6 +484,25 @@ export const resetEverything = () => {
   emit();
 };
 
+/** Start step 2 over on every document: the review as the parse left it (no edits,
+ *  confirmations or talk with Aldo), the scans kept. */
+export const resetReview = () => {
+  const prev = current;
+  const blank = fresh();
+  for (const id of slots.keys()) {
+    use(id);
+    for (const k of REV_KEYS) (S as unknown as Record<string, unknown>)[k] = structuredClone(blank[k]);
+    S.talk = [];
+    S.parseRules = [];
+    slots.get(id)!.S = S;
+    cache.clear();
+    save();
+  }
+  use(prev);
+  revHistory.clear();
+  emit();
+};
+
 // ── The run clock ─────────────────────────────────────────────────────────────
 
 export const SPEEDS = [1, 4, 16];

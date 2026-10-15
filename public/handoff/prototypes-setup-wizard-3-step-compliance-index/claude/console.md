@@ -3,6 +3,8 @@
 The foot of the step's panel, as step 1 carries its scan console: the header carries no keys. A sunken tray across the panel under the header rule, every key neutral: Prev at its left end, Next at its right, the step's keys centered between, by phase. No index yet: Build index and + Category (no Prev or Next). Built: Re-run and Draft actions & obligations. During a run: the run's key, disabled. After it: Start over (the undo glyph), Draft again (its title names what is outstanding), Suggest Subcategories (while something fits no subcategory), View Log (the run's record in the console lightbox) and Approve All. Under the tray, once there is an index, every subcategory in index order, step 2's scrubber, a rule and the category's name where each category starts, a band of the category's hue along the foot of its cells and its name marked in the same hue. Drafted: dark gray for drafts never opened, mid gray for opened with drafts to review, green when every draft is decided. No amber: nothing on the strip reads as alarm.
 
 ## Key decisions
+- Reset the prototype, under the workspace as on step 1, starts step 3 over after a confirm: no index, no drafts, no talk with Aldo.
+- Scrubber cells are 32px tall, as step 1's page tiles are.
 - Start over is PR #1520's: once a Draft run exists it replaces Re-run, and it deletes the index and every draft back to "No index yet". Prod refuses it while a run is live or an approved record has evidence.
 - Approve All approves every pending draft after a confirm that counts the subcategories never opened. Draft actions with no scope stay drafts.
 - No position line and no Next to review: Prev and Next, or the arrow keys, step one subcategory at a time; the thumb is where you are.
@@ -554,8 +556,8 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
   border-radius: var(--radius-100);
   background: var(--color-background-elevation-sunken);
   gap: 1px;
-  height: 32px;
-  padding: 5px;
+  height: 44px;
+  padding: 6px;
   display: grid;
   position: relative;
 }
@@ -593,7 +595,7 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
 .bcn-cscrub__track .bcn-cscrub__sep {
   top: -4px;
   bottom: -6px;
-  left: calc(5px + (100% - 10px) / var(--_n, 1) * var(--_i, 0) - 1.5px);
+  left: calc(6px + (100% - 12px) / var(--_n, 1) * var(--_i, 0) - 1.5px);
   background: var(--_hue, var(--color-content-default));
   pointer-events: none;
   border-radius: 1px;
@@ -603,9 +605,9 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
 .bcn-cscrub__thumb {
   top: -3px;
   bottom: -3px;
-  left: calc(5px + (100% - 10px) / var(--_n, 1) * var(--_at, 0) - 3px);
+  left: calc(6px + (100% - 12px) / var(--_n, 1) * var(--_at, 0) - 3px);
   z-index: 1;
-  width: max(8px, calc((100% - 10px) / var(--_n, 1) + 6px));
+  width: max(8px, calc((100% - 12px) / var(--_n, 1) + 6px));
   border: 2px solid var(--color-content-default);
   pointer-events: none;
   border-radius: 3px;
@@ -614,7 +616,7 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
 }
 .bcn-cscrub__ticks {
   height: 16px;
-  margin: 0 5px;
+  margin: 0 6px;
   position: relative;
 }
 .bcn-cscrub__thumb[hidden] {

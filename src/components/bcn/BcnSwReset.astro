@@ -1,0 +1,69 @@
+---
+// <BcnSwReset> — "Reset the prototype" under a wizard step's workspace, as step 1 carries it
+// under its scan: a quiet key at the right that, after a confirm, starts this step over.
+//
+//   review  step 2: every commitment's review as the parse left it (no requirement edits,
+//           confirmations or talk with Aldo); the scans from step 1 are kept
+//   index   step 3: no index yet, no drafts, no talk with Aldo
+//
+// bcn-lego-checked: the key IS esa-button; the confirm IS esa-confirm-dialog. Step 1's reset
+// (bcn-sw3-scan__reset) is inline in its scan; this is the same key for steps 2 and 3.
+// bcn-sw-reset is its home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+
+interface Props {
+  step: 'review' | 'index';
+}
+const { step } = Astro.props;
+const message =
+  step === 'review'
+    ? 'Every commitment goes back to how the parse left it: requirement edits, confirmations and the talk with Aldo are cleared. The source documents and their scans are kept.'
+    : 'The index, its drafts and the talk with Aldo are cleared, and the step goes back to Build index.';
+---
+
+<div class="bcn-swreset" data-sw-reset={step}>
+  <EsaButton variant="ghost" size="sm" icon="rotate-ccw" data-sw-reset-key>Reset the prototype</EsaButton>
+  <esa-confirm-dialog variant="danger" heading="Reset the prototype?" message={message} confirm-label="Reset" cancel-label="Cancel" data-sw-reset-confirm></esa-confirm-dialog>
+</div>
+
+<style>
+  .bcn-swreset {
+    display: flex;
+    justify-content: flex-end;
+    padding: var(--spacing-200) 0;
+    --color-background-brand-muted: var(--color-background-elevation-raised);
+    --color-content-on-brand-muted: var(--color-content-default);
+  }
+</style>
+
+<script>
+  import '@esa/ecology/esa-confirm-dialog';
+  import { resetReview, initSw3 } from './sw3-store';
+  import { initIndex, startOver } from './sw3-index-store';
+  import { toast } from '../../lib/snackbar';
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-sw-reset]')) {
+    const confirm = root.querySelector<HTMLElement & { show(): void }>('[data-sw-reset-confirm]')!;
+    root.querySelector('[data-sw-reset-key]')!.addEventListener('click', () => confirm.show());
+    confirm.addEventListener('confirm', () => {
+      if (root.dataset.swReset === 'review') {
+        initSw3();
+        resetReview();
+        try {
+          localStorage.removeItem('sw3:review-at');
+        } catch {
+          /* no storage */
+        }
+      } else {
+        initIndex();
+        startOver();
+        try {
+          localStorage.removeItem('sw3:index-at');
+        } catch {
+          /* no storage */
+        }
+      }
+      toast('The prototype is reset.', 'success');
+    });
+  }
+</script>
