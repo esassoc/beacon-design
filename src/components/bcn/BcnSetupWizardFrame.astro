@@ -168,9 +168,14 @@ const pill = (s: SetupStep) => ({
     background: var(--bcn-teal-600, var(--color-background-brand));
   }
   /* A glyph of its own sits in a rounded square: the green circle is Aldo's. */
+  /* A glyph of its own stands alone, in the wizard's green, with no fill behind it. */
   .bcn-swf__mark[data-square] {
-    border-radius: var(--radius-sm);
-    color: var(--color-content-default-knockout);
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: none;
+    color: var(--bcn-teal-600, var(--color-content-brand));
+    --icon-size-xs: 20px;
   }
   .bcn-swf__title {
     margin: 0;
