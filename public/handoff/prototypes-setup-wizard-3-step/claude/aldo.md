@@ -1,6 +1,6 @@
 # Aldo
 
-The conversation that scopes, checks and steers the scan of the file in view, dense at 13px, with the composer always in view. The run's status is not here: it sits by the scan's controls. The run stops after its first three commitments; Aldo says what to check, then gives each commitment its own message: a lead (where it took the ID and name from, how far the text runs) and a card with the ID, name and quoted text (clamped, with Show all), a p. N button, Looks right and Fix. Fix opens the ID, name and text as fields, with Save and Redraw the box. Edit ID and name on the page toolbar opens the same fields for any commitment. Requirements, timing and parties are reviewed in step 2.
+The conversation that scopes, checks and steers the scan of the file in view, dense at 13px, with the composer always in view. The run's status is not here: it sits by the scan's controls. The run stops after its first three commitments; Aldo says what to check, then gives each commitment its own message: a lead (where it took the ID and name from, how far the text runs) and a card with the ID, name and quoted text (clamped, with Show all), a p. N button, Looks right and Fix. Fix opens the ID, name and text as fields, with Save and Redraw the box. Edit ID and name on the page toolbar opens the same fields for any commitment in a side panel, not in the conversation; Save is recorded there as an event line. Requirements, timing and parties are reviewed in step 2.
 
 ## Key decisions
 - Open items: what waits on the person is listed with its answers until answered, behind an indicator in the panel's header (a count and "open items", or "Instructions (n)" when nothing waits) that opens it as a tray over the log; the indicator nods when a new item arrives and never opens on its own. Expanded on a wide window (1440 and up) the list is a sidebar beside the conversation instead (items: the check, a flagged reference with Dismiss / Keep it / Skip all cross-references, a headless passage with Merge / Keep separate, pages with nothing found with Mark on p. N / Nothing there, a drawn box with no ID). The log keeps the notice text; the buttons live only in the list.
@@ -1914,7 +1914,7 @@ button.bcn-aldo-needs__text:focus-visible {
 .bcn-aldo-panel[data-side-open] .bcn-aldo-panel__waiting svg {
   transform: rotate(180deg);
 }
-.bcn-aldo-panel__waiting + .bcn-aldo-panel__expand {
+.bcn-aldo-panel__waiting:not([hidden]) + .bcn-aldo-panel__expand {
   margin-left: 0;
 }
 .bcn-aldo-panel__waiting[data-nudge] {

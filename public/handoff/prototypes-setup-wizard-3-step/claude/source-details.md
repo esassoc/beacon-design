@@ -703,6 +703,20 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
   color: var(--bcn-aldo-600);
 }
+.bcn-sw3edf {
+  gap: var(--spacing-400);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-sw3edf [hidden] {
+  display: none;
+}
+.bcn-sw3edf__foot {
+  justify-content: flex-end;
+  gap: var(--spacing-200);
+  width: 100%;
+  display: flex;
+}
 .bcn-sw3tools esa-button-group,
 .bcn-sw3tools .esa-button,
 .bcn-sw3tools esa-dropdown-menu {

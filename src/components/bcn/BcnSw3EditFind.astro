@@ -1,0 +1,80 @@
+---
+// <BcnSw3EditFind> — one commitment's ID, name and (for one the scan read) its text, edited
+// in a side panel from the page tools: Edit, Enter on a selected box, or a new box drawn by
+// hand. Save writes through the store's editFind, which records the edit in Aldo's thread.
+//
+// Contract, on `document`:
+//   in   sw3:edit  detail: { id }   open on that find
+//
+// bcn-lego-checked: the panel IS esa-side-dialog, the fields ARE esa-text-field and
+// esa-textarea, the actions ARE esa-button. Checked Beacon: its commitment edit is a side
+// dialog of fields, which this is. bcn-sw3-edit-find is the home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+---
+
+<esa-side-dialog heading="Edit commitment" size="md" data-sw3-edit-find>
+  <form class="bcn-sw3edf" data-edf-form id="sw3-edf-form">
+    <esa-text-field label="ID" size="sm" data-edf-code></esa-text-field>
+    <esa-text-field label="Name" size="sm" data-edf-title></esa-text-field>
+    <esa-textarea label="Text" size="sm" rows="10" auto-resize max-rows="24" data-edf-text hidden></esa-textarea>
+  </form>
+  <div slot="footer" class="bcn-sw3edf__foot">
+    <EsaButton variant="primary" size="sm" type="submit" form="sw3-edf-form">Save</EsaButton>
+    <EsaButton variant="secondary" size="sm" data-edf-cancel>Cancel</EsaButton>
+  </div>
+</esa-side-dialog>
+
+<style>
+  .bcn-sw3edf { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-sw3edf [hidden] { display: none; }
+  .bcn-sw3edf__foot { display: flex; justify-content: flex-end; gap: var(--spacing-200); width: 100%; }
+</style>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import { finds, identified, editFind } from './sw3-store';
+
+  type Field = HTMLElement & { value: string; updateComplete?: Promise<unknown> };
+  const dialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>('[data-sw3-edit-find]');
+  if (dialog) {
+    const form = dialog.querySelector<HTMLFormElement>('[data-edf-form]')!;
+    const code = dialog.querySelector<Field>('[data-edf-code]')!;
+    const title = dialog.querySelector<Field>('[data-edf-title]')!;
+    const text = dialog.querySelector<Field>('[data-edf-text]')!;
+    let id: string | null = null;
+    let hasText = false;
+
+    const close = () => ((dialog.open = false), (id = null));
+    document.addEventListener('sw3:edit', async (e) => {
+      const f = finds().find((x) => x.id === (e as CustomEvent<{ id: string }>).detail.id);
+      if (!f) return;
+      id = f.id;
+      const c = f.code ? identified(f.code) : null;
+      hasText = !!c;
+      const pg = f.boxes[0]?.page ?? f.page;
+      dialog.heading = f.shown ? `Edit ${f.shown}` : `Box on p. ${pg}`;
+      code.value = f.shown;
+      title.value = f.parsed || f.shown ? f.title : '';
+      text.value = c?.text ?? '';
+      text.hidden = !c;
+      dialog.open = true;
+      await code.updateComplete;
+      requestAnimationFrame(() => (f.shown ? title : code).focus());
+    });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = id && finds().find((x) => x.id === id);
+      if (f)
+        editFind(f.id, {
+          code: code.value.trim() || f.shown,
+          title: title.value.trim() || f.title,
+          ...(hasText ? { text: text.value } : {}),
+        });
+      close();
+    });
+    dialog.querySelector('[data-edf-cancel]')?.addEventListener('click', close);
+    dialog.addEventListener('close', () => (id = null));
+  }
+</script>

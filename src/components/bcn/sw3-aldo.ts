@@ -9,7 +9,6 @@
 //   out  sw3:find  detail: { id }     a commitment anchor; the host shows it
 //   out  sw3:mark  detail: { page? }  Mark (on a page): the host arms drawing
 //   out  sw3:redraw detail: { id }    Redraw the box, from a Fix
-//   in   sw3:edit  detail: { id }     Edit ID and name, from the page tools
 //
 // What waits on the person is the Needs you list, until it is answered: the check, a
 // flagged reference, a passage with no heading, pages with nothing found, a box with no ID.
@@ -36,7 +35,6 @@ import {
   checked,
   identified,
   fixCommitment,
-  editFind,
   openItems,
   preparing,
   rules,
@@ -190,9 +188,8 @@ export function setupSw3Aldo(root: HTMLElement): void {
     paintContext();
   });
 
-  // View state: which check cards are open as forms, and the page tools' edit.
+  // View state: which check cards are open as forms.
   const fixing = new Set<string>();
-  let editing: { id: string; at: number } | null = null;
 
   // ── The opening: the scope pass ─────────────────────────────────────────────
   const opening = (): T => {
@@ -320,61 +317,6 @@ export function setupSw3Aldo(root: HTMLElement): void {
     ];
   };
 
-  // ── Edit ID and name, from the page tools ───────────────────────────────────
-  // Any commitment on the page, not only those at the check: its ID, name and (for one the
-  // scan read) its text, in the conversation where the record of it is.
-  document.addEventListener('sw3:edit', (e) => {
-    editing = { id: (e as CustomEvent<{ id: string }>).detail.id, at: now() };
-    render();
-    requestAnimationFrame(() => {
-      const id = `${activeDoc()}:edit`;
-      thread.scrollTo(id);
-      thread.element(id)?.querySelector<HTMLElement>('esa-text-field')?.focus({ preventScroll: true } as FocusOptions);
-    });
-  });
-  const editTurn = (): T[] => {
-    const f = editing && finds().find((x) => x.id === editing!.id);
-    if (!editing || !f) return [];
-    const c = f.code ? identified(f.code) : null;
-    const pg = f.boxes[0]?.page ?? f.page;
-    return [
-      {
-        id: `${activeDoc()}:edit`,
-        at: runAt(editing.at),
-        by: ALDO,
-        via: 'event',
-        kind: 'check',
-        actions: [],
-        text: f.shown ? `${f.shown} on p. ${pg}, as I have it.` : `Your box on p. ${pg}. Give it an ID and a name.`,
-        cards: [
-          {
-            id: `edit:${f.id}`,
-            subject: { entity: 'commitment', id: f.id, label: f.shown },
-            badge: f.shown || undefined,
-            title: f.parsed || f.shown ? f.title : `Box on p. ${pg}`,
-            actions: [],
-            edit: {
-              fields: [
-                { key: 'code', label: 'ID', value: f.shown },
-                { key: 'title', label: 'Name', value: f.parsed || f.shown ? f.title : '' },
-                ...(c ? [{ key: 'text', label: 'Text', value: c.text, multiline: true }] : []),
-              ],
-              save: {
-                label: 'Save',
-                run: (v) => {
-                  editing = null;
-                  editFind(f.id, { code: v.code.trim() || f.shown, title: v.title.trim() || f.title, ...(c ? { text: v.text } : {}) });
-                  render();
-                },
-              },
-              extra: [{ label: 'Cancel', does: { run: () => ((editing = null), render()) } }],
-            },
-          },
-        ],
-      },
-    ];
-  };
-
   // ── What the scan raises ────────────────────────────────────────────────────
   const eventT = (findId: string) =>
     (payload().events.find((e) => e.type === 'commitment_found' && e.findId === findId) as { t: number } | undefined)?.t ?? Infinity;
@@ -453,8 +395,8 @@ export function setupSw3Aldo(root: HTMLElement): void {
     const goLine = go ? PACE_LINE[go.pace ?? 'run'] : '';
     if (codes.length) return `Confirmed ${codes.length > 2 ? `the first ${codes.length}` : codes.join(' and ')}${goLine ? `. ${goLine}` : ''}`;
     if (goLine) return goLine;
-    // An undo or redo of a page edit says what it put back.
-    if (/^(Undid|Redid): /.test(x.text)) return x.text;
+    // An edit from the side panel, an undo or a redo says what it changed.
+    if (/^(Undid:|Redid:|Edited) /.test(x.text)) return x.text;
     return x.reply.replace(/^Noted:\s*/, '').replace(/\.$/, '');
   };
   const steerTurn = (x: Steer): T => {
@@ -640,12 +582,11 @@ export function setupSw3Aldo(root: HTMLElement): void {
     const doc = activeDoc();
     if (doc !== lastDoc) {
       lastDoc = doc;
-      editing = null;
       fixing.clear();
     }
     const t = now();
     // At one run time (the check holds the clock), what was said follows the check.
-    thread.render(doc, [opening(), ...checkTurns(t), ...steers().map(steerTurn), ...notices(t), ...editTurn()]);
+    thread.render(doc, [opening(), ...checkTurns(t), ...steers().map(steerTurn), ...notices(t)]);
     instructions.setInstructions(instructionList());
     needsList.setItems(items());
     setStatus(statusOf(), !!preparing() || (started() && !finished() && headPage() !== null && !paused() && !checking() && !heldForStep()));

@@ -34,6 +34,7 @@ import BcnPageView from './BcnPageView.astro';
 import BcnSw3Sources from './BcnSw3Sources.astro';
 import BcnSw3SourceEditor from './BcnSw3SourceEditor.astro';
 import BcnSw3Aldo from './BcnSw3Aldo.astro';
+import BcnSw3EditFind from './BcnSw3EditFind.astro';
 import BcnSw3Toolbar from './BcnSw3Toolbar.astro';
 import BcnSw3PageTools from './BcnSw3PageTools.astro';
 import { SW3_REVIEW, SW3_STEPS } from '../../data/setup-wizard-3-step';
@@ -95,6 +96,8 @@ const sources = {
       <EsaButton variant="primary" size="sm" type="submit" form="sw3-new-form">Create</EsaButton>
     </div>
   </esa-side-dialog>
+
+  <BcnSw3EditFind />
 
   <esa-confirm-dialog variant="danger" confirm-label="Delete" data-confirm></esa-confirm-dialog>
 

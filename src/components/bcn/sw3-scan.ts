@@ -234,7 +234,6 @@ export function setupSw3Scan(root: HTMLElement): void {
   let enterEdit = false;
   const editSelected = () => {
     if (!selected) return;
-    setAldo(true);
     document.dispatchEvent(new CustomEvent('sw3:edit', { detail: { id: selected } }));
   };
 
