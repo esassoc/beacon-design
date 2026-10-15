@@ -1,11 +1,14 @@
 # Commitment
 
-The commitment as a marked-up page in Beacon's document voice. Each requirement is a highlighter stroke over the words that are its basis, drawn by hand: every line of it its own stroke, ragged at the ends. Requirements take six bright inks in turn, in text order (yellow, pink, green, orange, blue, aqua). What the parse pulled out of those words (a species, a milestone, a season) is underlined inside the stroke. Plain text is what nothing will be tracked from: the gap a spot check reads. Plain text the review thinks binds has a wavy warning underline: the prompt keeps each passage contiguous, so a duty stated elsewhere in the text can fall outside every requirement, and this is where a person catches it. Above it, one bar pinned across the top of the pane, as the PDF's page tools are on step 1: Select (V) and Highlight (H), Delete (the selected requirement); then the page (opens the PDF beside it), Edit (the ID, name and text) and Confirm. Under the bar, the code and the name.
+The commitment as a marked-up page in Beacon's document voice. Each requirement is a highlighter stroke over the words that are its basis, drawn by hand: every line of it its own stroke, ragged at the ends. Requirements take six bright inks in turn, in text order (yellow, pink, green, orange, blue, aqua). What the parse pulled out of those words (a species, a milestone, a season) is underlined inside the stroke. Plain text is what nothing will be tracked from: the gap a spot check reads. Plain text the review thinks binds has a wavy underline in Aldo's green (his question, not an error; its title says "Reads as binding, and no requirement covers it"): the prompt keeps each passage contiguous, so a duty stated elsewhere in the text can fall outside every requirement, and this is where a person catches it. Above it, one bar pinned across the top of the pane, as the PDF's page tools are on step 1: Select (V) and Highlight (H), Delete (the selected requirement), Undo and Redo; then the page (opens the PDF beside it), Edit (the ID, name and text) and Confirm. Under the bar, the code and the name.
 
 ## Key decisions
 - No borders on the highlighter, and no list numbers ("R1"). Selected is a heavier pass of the same ink; with one selected or hovered from the rail, the others' ink fades and their words stay black.
 - The highlights are edited by hand, as on the comments prototype. The selected requirement grows a grip at each end; dragging one moves that end to the word under the pointer, live, and release saves it. Ends snap to whole words and stop at a paragraph break or the next requirement.
 - Highlight mode: one drag over free words makes them a new requirement ("New requirement"), selected, its record opened in the side panel to name it; then the mode returns to Select. A drag over words another requirement holds is clipped to the free words. Esc cancels.
+- Clicking a wavy-underlined sentence selects it (lit in a green wash, its rail row marked); Highlight or H then makes it a requirement and opens its record.
+- Undo and Redo (Cmd+Z, Shift+Cmd+Z) step through every change to the step's record: highlights, records, not binding, merges, confirmations, Aldo's proposals accepted (a proposal and its edits are one step, and its keys come back). Each step lands on the commitment it was made on. The conversation itself is not undone. History lives for the page load, per file.
+- In a narrow pane the mode labels fold away, then the page key's; titles carry them.
 - Delete removes the selected requirement, highlight and record. Words can still change by telling Aldo (split, merge, you missed this).
 - Confirm is disabled while a blocking item is open (a type to check and a hand-marked commitment do not block).
 
@@ -114,6 +117,65 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
               <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
               <line x1="10" x2="10" y1="11" y2="17"></line>
               <line x1="14" x2="14" y1="11" y2="17"></line></svg
+          ></span></button></span
+      ><span class="bcn-sw3c__rule" aria-hidden="true"></span
+      ><span
+        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          aria-label="Undo (Cmd+Z)"
+          title="Undo (Cmd+Z)"
+          data-ico="undo-2"
+          data-c-tool="undo"
+          disabled=""
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+              data-ico="undo-2"
+            >
+              <path d="M9 14 4 9l5-5"></path>
+              <path
+                d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"
+              ></path></svg
+          ></span></button></span
+      ><span
+        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          aria-label="Redo (Shift+Cmd+Z)"
+          title="Redo (Shift+Cmd+Z)"
+          data-ico="redo-2"
+          data-c-tool="redo"
+          disabled=""
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+              data-ico="redo-2"
+            >
+              <path d="m15 14 5-5-5-5"></path>
+              <path
+                d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5A5.5 5.5 0 0 0 9.5 20H13"
+              ></path></svg
           ></span></button
       ></span>
     </div>
@@ -124,7 +186,7 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
           ><button
             class="esa-button__native typography-microcopy-xs"
             type="button"
-            title="Open the source page"
+            title="Open the source page (p. 131)"
             data-c-pages="true"
           >
             <span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -555,6 +617,7 @@ mark.bcn-hl[data-family="none"] {
   display: flex;
   position: sticky;
   top: 0;
+  container-type: inline-size;
 }
 .bcn-sw3c__group {
   align-items: center;
@@ -700,7 +763,7 @@ mark.bcn-hl[data-family="none"] {
 }
 .bcn-sw3c__text mark.bcn-hl[data-dup] {
   box-shadow: none;
-  text-decoration: underline wavy var(--color-content-warning);
+  text-decoration: underline wavy var(--bcn-aldo);
   text-underline-offset: 5px;
 }
 .bcn-sw3c__text .bcn-at-lit {
@@ -719,8 +782,15 @@ mark.bcn-hl[data-family="none"] {
   border-radius: 2px;
 }
 .bcn-sw3c__text mark.bcn-at-gap {
+  cursor: pointer;
+}
+.bcn-sw3c__text mark.bcn-at-gap[data-lit] {
+  background: color-mix(in srgb, var(--bcn-aldo) 14%, transparent);
+  border-radius: 2px;
+}
+.bcn-sw3c__text mark.bcn-at-gap {
   color: inherit;
-  text-decoration: underline wavy var(--color-content-warning);
+  text-decoration: underline wavy var(--bcn-aldo);
   text-underline-offset: 5px;
   background: 0 0;
   text-decoration-thickness: 1.5px;
@@ -1155,7 +1225,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--color-content-warning`: #ab6400 _(component)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_

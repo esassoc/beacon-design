@@ -91,7 +91,7 @@ export const paintAnchored = ({ text, spans, gaps, activeId = null, lit = null, 
         `${span.suggested ? ' data-suggested' : ''}${span.id === activeId ? ' data-active' : ''}${dup ? ' data-dup' : ''}` +
         ` title="${esc(span.label)}">${inner}</mark>`;
     } else if (gap) {
-      html += `<mark class="bcn-at-gap" data-gap="${gap.start}" title="No requirement covers this">${inner}</mark>`;
+      html += `<mark class="bcn-at-gap" data-gap="${gap.start}" title="Reads as binding, and no requirement covers it">${inner}</mark>`;
     } else html += inner;
   }
   if (paraOpen) html += '</p>';

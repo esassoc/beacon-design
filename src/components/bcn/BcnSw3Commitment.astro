@@ -10,8 +10,11 @@
 // step 1 (bcn-sw3-page-tools: borderless keys, a tool that needs a selection in its place,
 // off until there is one):
 //   Select (V)            click a highlight to select it; its ends grow grips to drag
-//   Highlight (H)         one drag over free words makes them a new requirement; Esc cancels
+//   Highlight (H)         one drag over free words makes them a new requirement; Esc cancels.
+//                         With a wavy-underlined sentence selected (click it), it makes that one
 //   Delete (Delete)       the selected requirement, highlight and record
+//   Undo, Redo (Cmd+Z, Shift+Cmd+Z)  any change to step 2's record, here, in the rail, in a
+//                         side panel or accepted from Aldo; it lands on the commitment it was on
 //   p. 131                the source page (a side panel with the PDF)
 //   Edit                  the commitment's ID, name and text, in a side panel
 //   Confirm               the commitment; Confirmed reopens it
@@ -54,6 +57,9 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
         <EsaButton variant="secondary" size="sm" icon="plus" data-ico="highlighter" data-c-tool="mark" title="Highlight a new requirement (H)" aria-pressed="false">Highlight</EsaButton>
         <span class="bcn-sw3c__rule" aria-hidden="true"></span>
         <EsaButton variant="ghost" size="sm" icon="trash-2" iconOnly label="Delete the selected requirement (Delete)" data-c-tool="delete" />
+        <span class="bcn-sw3c__rule" aria-hidden="true"></span>
+        <EsaButton variant="ghost" size="sm" icon="plus" data-ico="undo-2" iconOnly label="Undo (Cmd+Z)" data-c-tool="undo" />
+        <EsaButton variant="ghost" size="sm" icon="plus" data-ico="redo-2" iconOnly label="Redo (Shift+Cmd+Z)" data-c-tool="redo" />
       </div>
     )}
     <div class="bcn-sw3c__group">
@@ -87,6 +93,7 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
   .bcn-sw3c { display: flex; flex-direction: column; min-height: 100%; }
   /* The tools: one strip pinned across the top of the pane, as the PDF's page tools are. */
   .bcn-sw3c__tools {
+    container-type: inline-size;
     position: sticky;
     top: 0;
     z-index: 2;
@@ -98,6 +105,15 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
     padding: var(--spacing-150, 0.375rem) var(--spacing-200);
     background: var(--color-background-elevation-raised);
     border-bottom: 1px solid var(--color-border-default);
+  }
+  /* A narrow pane: the mode labels fold away, the titles carry them, so the bar stays one row. */
+  @container (max-width: 640px) {
+    .bcn-sw3c__group :global([data-c-tool] .esa-button__label) { display: none; }
+  }
+  /* Narrower still: the page key folds to its icon too; its title names the pages. */
+  @container (max-width: 540px) {
+    .bcn-sw3c__group :global([data-c-pages] .esa-button__label) { display: none; }
+    .bcn-sw3c__rule { display: none; }
   }
   .bcn-sw3c__group { display: flex; align-items: center; gap: var(--spacing-100); flex: none; }
   .bcn-sw3c__group > :global(*) { flex: none; }
@@ -178,7 +194,7 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
   .bcn-sw3c[data-mode='mark'] .bcn-sw3c__text { cursor: text; }
   .bcn-sw3c[data-mode='mark'] .bcn-sw3c__text ::selection,
   .bcn-sw3c[data-mode='mark'] .bcn-sw3c__text :global(*::selection) { background: var(--bcn-marker-selection); }
-  .bcn-sw3c__text :global(mark.bcn-hl[data-dup]) { box-shadow: none; text-decoration: underline wavy var(--color-content-warning); text-underline-offset: 5px; }
+  .bcn-sw3c__text :global(mark.bcn-hl[data-dup]) { box-shadow: none; text-decoration: underline wavy var(--bcn-aldo); text-underline-offset: 5px; }
 
   /* Step 3: the words an index entry rests on (its excerpt), a heavier pass inside the stroke. */
   .bcn-sw3c__text :global(.bcn-at-lit) { font-weight: 600; }
@@ -195,11 +211,14 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
     border-radius: 2px;
   }
 
-  /* Plain text the review thinks binds: no requirement covers it. */
+  /* Plain text the review thinks binds: no requirement covers it, in Aldo's green (his
+     question to the person, not an error). Lit from the rail. */
+  .bcn-sw3c__text :global(mark.bcn-at-gap) { cursor: pointer; }
+  .bcn-sw3c__text :global(mark.bcn-at-gap[data-lit]) { background: color-mix(in srgb, var(--bcn-aldo) 14%, transparent); border-radius: 2px; }
   .bcn-sw3c__text :global(mark.bcn-at-gap) {
     background: none;
     color: inherit;
-    text-decoration: underline wavy var(--color-content-warning);
+    text-decoration: underline wavy var(--bcn-aldo);
     text-decoration-thickness: 1.5px;
     text-underline-offset: 5px;
   }

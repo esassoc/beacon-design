@@ -385,7 +385,9 @@ const save = () => {
 const emit = (name = 'sw3:change') => document.dispatchEvent(new CustomEvent(name, { detail: { doc: current } }));
 
 const commit = (fn: () => void) => {
+  const before = revWatch();
   fn();
+  revRecord(before);
   save();
   cache.clear();
   slots.get(current)!.S = S;
@@ -393,6 +395,69 @@ const commit = (fn: () => void) => {
 };
 
 export const state = () => S;
+
+// ── Step 2's undo: every change to the review record, a step at a time ───────────
+// Any commit that changes what step 2 records (requirements made, edited, removed, kept;
+// not binding; entity merges; confirmations; Aldo's proposals settled) is one step. Commits in
+// the same tick are one step, so accepting a proposal (settled, then its edits) undoes
+// whole. The conversation itself is not undone: a proposal's state is, so its keys return.
+// Each step remembers the commitment in view when it was made, and undo lands there.
+const REV_KEYS = ['removed', 'kept', 'edits', 'confirmed', 'created', 'notBinding', 'merges', 'commitmentsConfirmed'] as const;
+type RevStep = { snap: string; code: string | null };
+const revHistory = new Map<string, { undo: RevStep[]; redo: RevStep[] }>();
+const revHist = () => {
+  let h = revHistory.get(current);
+  if (!h) revHistory.set(current, (h = { undo: [], redo: [] }));
+  return h;
+};
+let revFocus: string | null = null;
+let revOpen = false;
+let revReplaying = false;
+const snapRev = (): string =>
+  JSON.stringify({
+    ...Object.fromEntries(REV_KEYS.map((k) => [k, S[k]])),
+    proposals: (S.talk ?? []).flatMap((t) => (t.proposals ?? []).map((p) => [t.id, p.id, p.state ?? null])),
+  });
+const putRev = (snap: string) => {
+  const v = JSON.parse(snap) as Pick<Sw3State, (typeof REV_KEYS)[number]> & { proposals: [string, string, 'accepted' | 'dismissed' | null][] };
+  for (const k of REV_KEYS) (S as unknown as Record<string, unknown>)[k] = v[k];
+  for (const t of S.talk ?? [])
+    for (const p of t.proposals ?? []) {
+      const was = v.proposals.find(([tid, pid]) => tid === t.id && pid === p.id);
+      p.state = was?.[2] ?? undefined;
+    }
+};
+const revWatch = () => (revReplaying || revOpen ? null : snapRev());
+const revRecord = (before: string | null) => {
+  if (before === null || before === snapRev()) return;
+  revHist().undo.push({ snap: before, code: revFocus });
+  revHist().redo = [];
+  revOpen = true;
+  queueMicrotask(() => (revOpen = false));
+};
+/** The commitment in view, so a step knows where it was made. */
+export const setReviewFocus = (code: string | null) => {
+  revFocus = code;
+};
+export const canUndoReview = () => revHist().undo.length > 0;
+export const canRedoReview = () => revHist().redo.length > 0;
+const replay = (from: RevStep[], to: RevStep[]): string | null => {
+  const step = from.pop();
+  if (!step) return null;
+  revReplaying = true;
+  try {
+    commit(() => {
+      to.push({ snap: snapRev(), code: step.code });
+      putRev(step.snap);
+    });
+  } finally {
+    revReplaying = false;
+  }
+  return step.code;
+};
+/** Undo the last change to step 2's record; the commitment it was made on, to land there. */
+export const undoReview = () => replay(revHist().undo, revHist().redo);
+export const redoReview = () => replay(revHist().redo, revHist().undo);
 
 /** Start over: a fresh run and no calls made. */
 export const resetAll = () => {

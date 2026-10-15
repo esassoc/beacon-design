@@ -1,6 +1,6 @@
 # Parsed from the commitment
 
-Everything parsed out of the commitment, read only: its requirements in text order, each with the ink it is highlighted in, its ID, its name, its type and an Edit key; then a roll-up of what they link to, by kind: species, milestones, phases, construction activities, seasons. An empty kind is one quiet line ("None"). Hover a row and the text lights the words it came from; click a requirement to select it.
+Everything parsed out of the commitment: its requirements in text order, each with the ink it is highlighted in, its ID, its name, its type and an Edit key; Not tracked (N), shown only when there are any: each sentence under the wavy rule, quoted and cut to three lines, with Make a requirement (its record opens to edit) and Not binding, both small ghost keys; hovering one lights its words in the text; then a roll-up of what they link to, by kind: species, milestones, phases, construction activities, seasons. An empty kind is one quiet line ("None"). Hover a row and the text lights the words it came from; click a requirement to select it.
 
 ## Key decisions
 - A requirement's ID is its commitment's, a colon, and its place in the text (Beacon's DisplayIndex): 11.3:2, CMP-14:2. A colon because a dot is ITP sub-numbering (11.42.1 is a commitment) and a dash is in MMRP codes. A split or an added requirement renumbers those after it. Aldo reads and says IDs ("remove 11.2:2").
@@ -158,6 +158,18 @@ Everything parsed out of the commitment, read only: its requirements in text ord
       </li>
     </ol>
   </section>
+  <section class="bcn-sw3at__sec" data-at-sec="gap" hidden="">
+    <h3 class="bcn-sw3at__h">
+      Not tracked
+      <span data-at-count=""
+        ><span
+          class="esa-badge esa-badge--secondary esa-badge--xs typography-microcopy-2xs-strong"
+          ><span class="esa-badge__text">0</span></span
+        ></span
+      >
+    </h3>
+    <ul class="bcn-sw3at__list" data-at-gaps=""></ul>
+  </section>
   <section class="bcn-sw3at__sec" data-at-sec="species">
     <h3 class="bcn-sw3at__h">
       Species<span data-at-count=""
@@ -262,6 +274,34 @@ Everything parsed out of the commitment, read only: its requirements in text ord
             ></path>
             <path d="m15 5 4 4"></path></svg
         ></span></button></span></template
+  ><template data-at-tpl="track"
+    ><span
+      class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+      data-astro-cid-4xhmycw5=""
+      ><button
+        class="esa-button__native typography-microcopy-2xs"
+        type="button"
+        data-astro-cid-e4wmksru="true"
+        data-astro-cid-4xhmycw5=""
+      >
+        <span class="esa-button__label" data-astro-cid-4xhmycw5=""
+          >Make a requirement</span
+        >
+      </button></span
+    ></template
+  ><template data-at-tpl="not-binding"
+    ><span
+      class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+      data-astro-cid-4xhmycw5=""
+      ><button
+        class="esa-button__native typography-microcopy-2xs"
+        type="button"
+        data-astro-cid-e4wmksru="true"
+        data-astro-cid-4xhmycw5=""
+      >
+        <span class="esa-button__label" data-astro-cid-4xhmycw5="">Not binding</span>
+      </button></span
+    ></template
   ><template data-at-tpl="merge"
     ><span
       class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
@@ -642,6 +682,40 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3at__sec:last-child {
   border-bottom: 0;
 }
+.bcn-sw3at__sec[hidden] {
+  display: none;
+}
+.bcn-sw3at .bcn-sw3at__gap {
+  gap: var(--spacing-150);
+  padding: var(--spacing-150) var(--spacing-200);
+  margin: 0 calc(-1 * var(--spacing-200));
+  border-radius: var(--radius-100);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-sw3at .bcn-sw3at__gap:hover {
+  background: var(--color-background-default-hover);
+}
+.bcn-sw3at .bcn-sw3at__gap[data-selected] {
+  background: var(--color-background-elevation-sunken);
+  box-shadow: inset 0 0 0 1px var(--color-border-default);
+}
+.bcn-sw3at .bcn-sw3at__quote {
+  -webkit-line-clamp: 3;
+  font-family: var(--font-decorative, var(--typography-font-family-sans));
+  text-decoration: underline wavy var(--bcn-aldo);
+  text-underline-offset: 4px;
+  quotes: "“" "”";
+  -webkit-box-orient: vertical;
+  text-decoration-thickness: 1px;
+  display: -webkit-box;
+  overflow: hidden;
+}
+.bcn-sw3at .bcn-sw3at__gapkeys {
+  gap: var(--spacing-150);
+  flex-wrap: wrap;
+  display: flex;
+}
 .bcn-sw3at__h {
   align-items: center;
   gap: var(--spacing-200);
@@ -933,6 +1007,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--animation-spin`: .75s linear infinite _(semantic)_
 - `--badge-bg`: #005862 _(component)_
 - `--badge-text-color`: #fcfcfc _(component)_
+- `--bcn-aldo`: #08908b _(component)_
 - `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
@@ -1003,6 +1078,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
+- `--font-decorative`: "Besley", serif _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-sm`: 16px _(primitive)_
@@ -1020,6 +1096,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
+- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
 - `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_

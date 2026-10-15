@@ -1,6 +1,8 @@
 ---
 // <BcnSw3Attributes> — everything parsed out of one commitment, read only: its
-// requirements (numbered as they are in the text, each with its type and an Edit key), then
+// requirements (numbered as they are in the text, each with its type and an Edit key); Not
+// tracked, each sentence that reads as binding with no requirement over it (the wavy
+// underline), with Make a requirement (its record opens to edit) and Not binding; then
 // a roll-up of what they link to, by kind: species, milestones, phases, construction
 // activities, seasons. A phrasing Beacon
 // would merge into another sits on its row with Merge and Keep separate, so the project's
@@ -34,6 +36,10 @@ const KINDS = [
     <h3 class="bcn-sw3at__h">Requirements <span data-at-count><EsaBadge variant="secondary" size="xs" value="0" /></span></h3>
     <ol class="bcn-sw3at__reqs" data-at-reqs></ol>
   </section>
+  <section class="bcn-sw3at__sec" data-at-sec="gap" hidden>
+    <h3 class="bcn-sw3at__h">Not tracked <span data-at-count><EsaBadge variant="secondary" size="xs" value="0" /></span></h3>
+    <ul class="bcn-sw3at__list" data-at-gaps></ul>
+  </section>
   {
     KINDS.map((k) => (
       <section class="bcn-sw3at__sec" data-at-sec={k.key}>
@@ -50,6 +56,8 @@ const KINDS = [
   }
   <!-- Keys the controller clones per row. -->
   <template data-at-tpl="edit"><EsaButton variant="chrome" iconOnly icon="pencil" label="Edit requirement" size="xs" /></template>
+  <template data-at-tpl="track"><EsaButton variant="ghost" size="xs">Make a requirement</EsaButton></template>
+  <template data-at-tpl="not-binding"><EsaButton variant="ghost" size="xs">Not binding</EsaButton></template>
   <template data-at-tpl="merge"><EsaButton variant="secondary" size="xs">Merge</EsaButton></template>
   <template data-at-tpl="keep"><EsaButton variant="ghost" size="xs">Keep separate</EsaButton></template>
 </div>
@@ -70,6 +78,31 @@ const KINDS = [
     border-bottom: 1px solid var(--color-border-default-subtle);
   }
   .bcn-sw3at__sec:last-child { border-bottom: 0; }
+  .bcn-sw3at__sec[hidden] { display: none; }
+  /* A sentence nothing tracks: its words, under the same wavy rule as in the text, then
+     its two keys. */
+  .bcn-sw3at :global(.bcn-sw3at__gap) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    padding: var(--spacing-150) var(--spacing-200);
+    margin: 0 calc(-1 * var(--spacing-200));
+    border-radius: var(--radius-100);
+  }
+  .bcn-sw3at :global(.bcn-sw3at__gap:hover) { background: var(--color-background-default-hover); }
+  .bcn-sw3at :global(.bcn-sw3at__gap[data-selected]) { background: var(--color-background-elevation-sunken); box-shadow: inset 0 0 0 1px var(--color-border-default); }
+  .bcn-sw3at :global(.bcn-sw3at__quote) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    text-decoration: underline wavy var(--bcn-aldo);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    quotes: '“' '”';
+  }
+  .bcn-sw3at :global(.bcn-sw3at__gapkeys) { display: flex; flex-wrap: wrap; gap: var(--spacing-150); }
   .bcn-sw3at__h {
     display: flex;
     align-items: center;

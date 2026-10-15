@@ -1,7 +1,7 @@
 // Controller for <BcnSw3Attributes>. setupX shape: show(code, selected) repaints the rail
 // from sw3-store for one commitment; the host decides what hovering and selecting do.
 
-import { requirementsOf, requirementRef, flagsOf, payload, mergeProposed, mergeState, acceptMerge, dismissMerge, resolveEntity, LOW_CONFIDENCE } from './sw3-store';
+import { requirementsOf, requirementRef, flagsOf, commitmentOf, markNotBinding, payload, mergeProposed, mergeState, acceptMerge, dismissMerge, resolveEntity, LOW_CONFIDENCE } from './sw3-store';
 import { REQUIREMENT_TYPE_LABEL } from '../../data/setup-wizard';
 import { INKS } from './anchored-text-paint';
 
@@ -9,17 +9,21 @@ export interface AttrHover {
   reqIds: string[];
   /** Entity ids whose words to light. */
   valueKeys: string[];
+  /** A sentence nothing tracks: where it starts, to light its words. */
+  gap?: number;
 }
 
 interface Handlers {
   onSelect: (reqId: string | null) => void;
   onHover: (h: AttrHover | null) => void;
   onEdit: (reqId: string) => void;
+  /** Make a sentence nothing tracks into a requirement. */
+  onTrack: (range: { start: number; end: number }) => void;
 }
 
 type Kind = 'species' | 'milestone' | 'phase' | 'activity' | 'season';
 
-export function setupSw3Attributes(root: HTMLElement, { onSelect, onHover, onEdit }: Handlers) {
+export function setupSw3Attributes(root: HTMLElement, { onSelect, onHover, onEdit, onTrack }: Handlers) {
   const tpl = (name: string) => (root.querySelector<HTMLTemplateElement>(`[data-at-tpl="${name}"]`)!.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
   const setCount = (sec: HTMLElement, n: number) => {
     const t = sec.querySelector('[data-at-count] .esa-badge__text');
@@ -40,7 +44,7 @@ export function setupSw3Attributes(root: HTMLElement, { onSelect, onHover, onEdi
   const show = (code: string, sel: string | null) => {
     const reqs = requirementsOf(code);
     const flags = flagsOf(code);
-    const next = JSON.stringify([code, reqs, flags.filter((f) => f.kind === 'merge')]);
+    const next = JSON.stringify([code, reqs, flags.filter((f) => f.kind === 'merge' || f.kind === 'uncovered')]);
     selected = sel;
     if (next !== sig) {
       sig = next;
@@ -97,6 +101,35 @@ export function setupSw3Attributes(root: HTMLElement, { onSelect, onHover, onEdi
           if (e.key === 'Enter' || e.key === ' ') (e.preventDefault(), onSelect(selected === r.id ? null : r.id));
         });
         hoverOn(li, { reqIds: [r.id], valueKeys: [] });
+        return li;
+      }),
+    );
+
+    // Not tracked: sentences that read as binding with no requirement over them (the wavy
+    // underline in the text). Each can become a requirement, or be ruled not binding.
+    const gapSec = root.querySelector<HTMLElement>('[data-at-sec="gap"]')!;
+    const gaps = flagsOf(code).filter((f) => f.kind === 'uncovered' && f.range).map((f) => f.range!);
+    const text = commitmentOf(code)?.text ?? '';
+    gapSec.hidden = !gaps.length;
+    setCount(gapSec, gaps.length);
+    gapSec.querySelector('[data-at-gaps]')!.replaceChildren(
+      ...gaps.map((g) => {
+        const li = document.createElement('li');
+        li.className = 'bcn-sw3at__gap';
+        li.dataset.atGap = String(g.start);
+        const q = document.createElement('q');
+        q.className = 'bcn-sw3at__quote';
+        q.textContent = text.slice(g.start, g.end).trim();
+        q.title = q.textContent;
+        const keys = document.createElement('div');
+        keys.className = 'bcn-sw3at__gapkeys';
+        const track = tpl('track');
+        track.addEventListener('click', () => onTrack(g));
+        const not = tpl('not-binding');
+        not.addEventListener('click', () => markNotBinding(code, g.start));
+        keys.append(track, not);
+        li.append(q, keys);
+        hoverOn(li, { reqIds: [], valueKeys: [], gap: g.start });
         return li;
       }),
     );

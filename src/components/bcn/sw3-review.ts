@@ -35,6 +35,11 @@ import {
   createRequirement,
   removeRequirement,
   editRequirement,
+  setReviewFocus,
+  undoReview,
+  redoReview,
+  canUndoReview,
+  canRedoReview,
   identified,
   finds,
   payload,
@@ -83,6 +88,8 @@ export function setupSw3Review(root: HTMLElement): void {
   let current: string | null = null;
   let selected: string | null = null;
   let hover: AttrHover | null = null;
+  /** An untracked sentence selected in the text: where it starts. */
+  let selectedGap: number | null = null;
   let want: string | null = null;
   try {
     want = localStorage.getItem(KEY);
@@ -115,6 +122,7 @@ export function setupSw3Review(root: HTMLElement): void {
     const moved = key !== here();
     current = code;
     selected = reqId;
+    selectedGap = null;
     try {
       localStorage.setItem(KEY, key);
     } catch {
@@ -167,6 +175,15 @@ export function setupSw3Review(root: HTMLElement): void {
       paintFocus();
     },
     onEdit: (id) => fire('sw3:req-edit', { id }),
+    onTrack: (g) => {
+      if (!current) return;
+      const range = clipToFree(current, g.start, g.end);
+      if (range.end - range.start < 3) return;
+      const id = createRequirement(current, range);
+      selected = id;
+      render();
+      fire('sw3:req-edit', { id });
+    },
   });
 
   // ── The tools ───────────────────────────────────────────────────────────────
@@ -180,7 +197,21 @@ export function setupSw3Review(root: HTMLElement): void {
     if (mode === 'mark') fire('sw3:rev-selection', null);
   };
   tool('select').addEventListener('click', () => setMode('select'));
-  tool('mark').addEventListener('click', () => setMode(art.dataset.mode === 'mark' ? 'select' : 'mark'));
+  /** The selected untracked sentence, made a requirement and opened to edit. */
+  const trackGap = () => {
+    if (!current || selectedGap === null) return false;
+    const g = flagsOf(current).find((f) => f.kind === 'uncovered' && f.range?.start === selectedGap)?.range;
+    selectedGap = null;
+    if (!g) return false;
+    const range = clipToFree(current, g.start, g.end);
+    if (range.end - range.start < 3) return false;
+    const id = createRequirement(current, range);
+    selected = id;
+    render();
+    fire('sw3:req-edit', { id });
+    return true;
+  };
+  tool('mark').addEventListener('click', () => trackGap() || setMode(art.dataset.mode === 'mark' ? 'select' : 'mark'));
   const deleteSelected = () => {
     if (!current || !selected) return;
     const id = selected;
@@ -188,6 +219,20 @@ export function setupSw3Review(root: HTMLElement): void {
     removeRequirement(id);
   };
   tool('delete').addEventListener('click', deleteSelected);
+  /** Undo or redo a change to the record, landing on the commitment it was made on. */
+  const replay = (fn: () => string | null) => {
+    const code = fn();
+    if (code && code !== current && codes().includes(code)) go(keyOf(activeDoc(), code));
+  };
+  tool('undo').addEventListener('click', () => replay(undoReview));
+  tool('redo').addEventListener('click', () => replay(redoReview));
+  document.addEventListener('keydown', (e) => {
+    if (!(e.metaKey || e.ctrlKey) || e.key.toLowerCase() !== 'z') return;
+    const t = e.target as HTMLElement;
+    if (t.closest('input, textarea, select, [contenteditable], esa-textarea, esa-text-field, esa-combobox, esa-select, esa-side-dialog, esa-dialog, [data-aldo-panel]')) return;
+    e.preventDefault();
+    replay(e.shiftKey ? redoReview : undoReview);
+  });
   art.querySelector('[data-c-peek]')!.addEventListener('click', () => current && fire('sw3:peek', { code: current, reqId: selected ?? undefined }));
   art.querySelector('[data-c-edit]')!.addEventListener('click', () => {
     const f = finds().find((x) => x.code === current);
@@ -202,7 +247,7 @@ export function setupSw3Review(root: HTMLElement): void {
     if (t.closest('input, textarea, select, [contenteditable], esa-textarea, esa-text-field, esa-combobox, esa-select, esa-side-dialog, esa-dialog, [data-aldo-panel]')) return;
     const k = e.key.toLowerCase();
     if (k === 'v') setMode('select');
-    else if (k === 'h') setMode('mark');
+    else if (k === 'h') trackGap() || setMode('mark');
     else if (k === 'escape' && art.dataset.mode === 'mark') setMode('select');
     else if ((e.key === 'Delete' || e.key === 'Backspace') && selected) (e.preventDefault(), deleteSelected());
   });
@@ -288,8 +333,17 @@ export function setupSw3Review(root: HTMLElement): void {
   // ── The text: click a highlight to select it; select words to talk about them ──
   body.addEventListener('click', (e) => {
     if (!current || !document.getSelection()?.isCollapsed) return;
+    // A sentence nothing tracks (the wavy rule): select it, for Highlight to make it one.
+    const gap = (e.target as HTMLElement).closest<HTMLElement>('mark.bcn-at-gap[data-gap]');
+    if (gap) {
+      const at = Number(gap.dataset.gap);
+      selectedGap = selectedGap === at ? null : at;
+      selected = null;
+      return render();
+    }
     const mark = (e.target as HTMLElement).closest<HTMLElement>('mark.bcn-hl[data-sid]');
     selected = mark && mark.dataset.sid !== selected ? mark.dataset.sid! : null;
+    selectedGap = null;
     render();
   });
   /** A point in the text, as an offset into the commitment's text. */
@@ -408,6 +462,7 @@ export function setupSw3Review(root: HTMLElement): void {
       m.toggleAttribute('data-hover', on.has(m.dataset.sid!));
     });
     body.querySelectorAll<HTMLElement>('.bcn-at-val').forEach((v) => v.toggleAttribute('data-lit', keys.has(v.dataset.v!)));
+    body.querySelectorAll<HTMLElement>('mark.bcn-at-gap').forEach((g) => g.toggleAttribute('data-lit', (hover?.gap !== undefined && g.dataset.gap === String(hover.gap)) || g.dataset.gap === String(selectedGap)));
     body.toggleAttribute('data-focus', !!selected || on.size > 0);
   };
 
@@ -464,6 +519,8 @@ export function setupSw3Review(root: HTMLElement): void {
     const pages = art.querySelector<HTMLElement>('[data-c-pages]');
     const pl = pages?.querySelector('.esa-button__label') ?? pages;
     if (pl) pl.textContent = pagesLabel(c.pages);
+    const pb = pages && btnOf(pages);
+    if (pb) pb.title = `Open the source page (${pagesLabel(c.pages)})`;
     const confirmBtn = art.querySelector<HTMLButtonElement>('[data-c-confirm] button');
     if (confirmBtn) {
       const why = blocking(code).length;
@@ -481,6 +538,11 @@ export function setupSw3Review(root: HTMLElement): void {
     }
     paintFocus();
     btnOf(tool('delete')).disabled = !selected;
+    btnOf(tool('mark')).title = selectedGap !== null ? 'Make the selected sentence a requirement (H)' : 'Highlight a new requirement (H)';
+    root.querySelectorAll<HTMLElement>('[data-at-gap]').forEach((li) => li.toggleAttribute('data-selected', li.dataset.atGap === String(selectedGap)));
+    btnOf(tool('undo')).disabled = !canUndoReview();
+    btnOf(tool('redo')).disabled = !canRedoReview();
+    setReviewFocus(code);
     requestAnimationFrame(placeGrips);
     attrs.show(code, selected);
     fire('sw3:rev-current', { code, reqId: selected });

@@ -130,7 +130,7 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
     </div>
     <script
       type="module"
-      src="/beacon-design/_astro/BcnSw3ReviewActions.astro_astro_type_script_index_0_lang.VhYmki28.js"
+      src="/beacon-design/_astro/BcnSw3ReviewActions.astro_astro_type_script_index_0_lang.DeDGVDYX.js"
     ></script>
   </div>
   <div class="bcn-swsn__scrub" data-rev-scrub="">
@@ -545,6 +545,13 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
 }
 .bcn-swsn__scrub:empty {
   display: none;
+}
+.bcn-swsn .bcn-cscrub__cell[data-state="flagged"] {
+  background: color-mix(
+    in srgb,
+    var(--color-content-default) 62%,
+    var(--color-background-elevation-raised)
+  );
 }
 .bcn-swsn[data-tinted] .bcn-cscrub__cell[data-state="confirmed"] {
   background: color-mix(
