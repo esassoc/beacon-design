@@ -1,6 +1,6 @@
 ---
-// <BcnSw3IndexRun> — step 3's run console and status line, inside the step panel under its
-// header (PR #1520's draft strip, made watchable).
+// <BcnSw3IndexRun> — step 3's run console, inside the step panel under its header (PR
+// #1520's draft strip, made watchable).
 //
 //   built     nothing, until a Re-run: then the console shows it as a diff: the
 //             guidance as the prompt, Propose index as the tool, + added, − removed, and
@@ -11,32 +11,21 @@
 //             (the commitments it reads, the bins it files into, the duties it merges, the
 //             actions it completes), from the drafts file; a spinner names the stage with
 //             elapsed time and its count; the four stages tick below it
-//   drafted   drafts left to review (or "Compliance Index approved"), what is outstanding
-//             for Draft again, what fit no subcategory with Suggest subcategories, and View
-//             log, which opens the run's record in the same dialog (develop's processing log)
+//   drafted   nothing on the page: View Log in the console (bcn-sw3-index-actions) opens
+//             the run's record in the same dialog (develop's processing log)
 //
 // Contract, on `document`:
 //   in   sw3i:change, sw3i:tick   repaint
-//   out  sw3i:suggest             open Suggest subcategories
+//   in   sw3i:view-log            open the run's record
 //
 // bcn-lego-checked: the console IS bcn-console (its "+N more" keys are esa-button); keys
-// ARE esa-button; the lightbox is a native <dialog> (top layer, Esc) holding only the console, by Andy's call that the run log is not a form dialog; its close key IS esa-button; the approved mark IS esa-icon. Checked Beacon: draft-obligations' strip
+// ARE esa-button; the lightbox is a native <dialog> (top layer, Esc) holding only the console, by Andy's call that the run log is not a form dialog; its close key IS esa-button. Checked Beacon: draft-obligations' strip
 // and processing-run-log are this. bcn-sw3-index-run is its home.
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnConsole from './BcnConsole.astro';
 ---
 
 <div class="bcn-sw3ir" data-sw3-index-run>
-
-  <div class="bcn-sw3ir__line" data-ir-drafted>
-    <span class="bcn-sw3ir__ok" data-ir-approved-mark><EsaIcon name="circle-check" size="sm" /></span>
-    <span class="bcn-sw3ir__step" data-ir-review></span>
-    <span data-ir-pending></span>
-    <span data-ir-nobin></span>
-    <span data-ir-suggest><EsaButton variant="secondary" size="xs">Suggest subcategories</EsaButton></span>
-    <span data-ir-view-log><EsaButton variant="ghost" size="xs">View log</EsaButton></span>
-  </div>
 
   <div class="bcn-sw3ir__peek" data-ir-peek>
     <BcnConsole label="Draft run" maxHeight="100px" data-ir-console />
@@ -60,10 +49,6 @@ import BcnConsole from './BcnConsole.astro';
   }
   .bcn-sw3ir [hidden] { display: none !important; }
   .bcn-sw3ir:not(:has(> :not([hidden]))) { display: none; }
-  .bcn-sw3ir__line { display: flex; align-items: center; gap: var(--spacing-200) var(--spacing-300); flex-wrap: wrap; min-height: 28px; }
-  .bcn-sw3ir__step { font-weight: 600; font-variant-numeric: tabular-nums; }
-  .bcn-sw3ir__line > span { font-variant-numeric: tabular-nums; }
-  .bcn-sw3ir__ok { line-height: 0; color: var(--color-content-success); }
   /* the peek: the console's newest lines, fading out at the top; the whole strip opens it */
   .bcn-sw3ir__peek { position: relative; cursor: pointer; border-radius: var(--radius-300, 8px); }
   .bcn-sw3ir__peek :global(.bcn-console__body) {
@@ -94,8 +79,6 @@ import BcnConsole from './BcnConsole.astro';
   .bcn-sw3ir-box :global(.bcn-console__body) { padding-right: calc(var(--spacing-500) + 2.25rem); }
   .bcn-sw3ir-box__close { position: absolute; top: var(--spacing-200); right: var(--spacing-200); z-index: 1; color: var(--bcn-console-fg-dim); }
   .bcn-sw3ir-box__close:hover { color: var(--bcn-console-fg); }
-  .bcn-sw3ir [data-ir-pending],
-  .bcn-sw3ir [data-ir-nobin] { color: var(--color-content-default-secondary); }
 </style>
 
 <script>
@@ -111,8 +94,6 @@ import BcnConsole from './BcnConsole.astro';
     runDrafts,
     plan,
     STAGES,
-    totals,
-    pendingWork,
     unfiled,
     filedBySuggest,
     lastRun,
@@ -344,29 +325,13 @@ import BcnConsole from './BcnConsole.astro';
     const render = () => {
       const ph = phase();
       if (ph === 'drafting') frame++;
-      $('[data-ir-drafted]').hidden = ph !== 'drafted';
-
-      if (ph === 'drafted') {
-        const t = totals();
-        const approvedAll = t.pending === 0 && t.drafts > 0;
-        $('[data-ir-approved-mark]').hidden = !approvedAll;
-        $('[data-ir-review]').textContent = approvedAll ? 'Compliance Index approved.' : `${n(t.pending)} of ${plural(t.drafts, 'draft')} to review.`;
-        const w = pendingWork();
-        const parts = [w.filed && `${plural(w.filed, 'filed item')} not yet drafted`, w.refile && `${plural(w.refile, 'item')} not yet categorized`].filter(Boolean);
-        $('[data-ir-pending]').textContent = parts.length ? `${parts.join(', ')}. Draft again to include them.` : approvedAll ? 'Approved actions and obligations stay editable.' : '';
-        const left = unfiled().filter((u) => !filedBySuggest()[u.id]).length;
-        $('[data-ir-nobin]').textContent = left ? `${plural(left, 'item')} fit no subcategory.` : '';
-        $('[data-ir-suggest]').hidden = !left;
-        $('[data-ir-view-log]').hidden = !lastRun();
-      }
       paintConsoles();
     };
 
-    $('[data-ir-view-log]').addEventListener('click', openLog);
+    document.addEventListener('sw3i:view-log', openLog);
     peekEl.addEventListener('click', openLog);
     dialog.querySelector('[data-ir-close]')!.addEventListener('click', () => dialog.close());
     dialog.addEventListener('click', (e) => e.target === dialog && dialog.close());
-    $('[data-ir-suggest]').addEventListener('click', () => document.dispatchEvent(new CustomEvent('sw3i:suggest')));
     document.addEventListener('sw3i:change', render);
     document.addEventListener('sw3i:tick', render);
     render();

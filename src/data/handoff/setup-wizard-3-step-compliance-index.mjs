@@ -18,20 +18,13 @@ export default {
     {
       label: 'Console',
       selector: '[data-ix-nav]',
-      intent: 'The foot of the step\'s panel, as step 1 carries its scan console: the header carries no keys. A sunken tray of keys centered under the header rule, by phase. No index yet: Build index and + Category. Built: Previous, Next, Re-run and Draft actions & obligations. During a run: Previous, Next and the run\'s key, disabled. After it: Previous, Next, Start over, Draft again (primary while something is outstanding) and Approve Compliance Index. Under the tray, once there is an index, every subcategory in index order, step 2\'s scrubber, a rule and the category\'s name where each category starts, a band of the category\'s hue along the foot of its cells and its name marked in the same hue. Drafted: dark gray for drafts never opened, mid gray for opened with drafts to review, green when every draft is decided. No amber: nothing on the strip reads as alarm.',
+      intent: 'The foot of the step\'s panel, as step 1 carries its scan console: the header carries no keys. A sunken tray across the panel under the header rule, every key neutral: Prev at its left end, Next at its right, the step\'s keys centered between, by phase. No index yet: Build index and + Category (no Prev or Next). Built: Re-run and Draft actions & obligations. During a run: the run\'s key, disabled. After it: Start over (the undo glyph), Draft again (its title names what is outstanding), Suggest Subcategories (while something fits no subcategory), View Log (the run\'s record in the console lightbox) and Approve All. Under the tray, once there is an index, every subcategory in index order, step 2\'s scrubber, a rule and the category\'s name where each category starts, a band of the category\'s hue along the foot of its cells and its name marked in the same hue. Drafted: dark gray for drafts never opened, mid gray for opened with drafts to review, green when every draft is decided. No amber: nothing on the strip reads as alarm.',
       decisions: [
         'Start over is PR #1520\'s: once a Draft run exists it replaces Re-run, and it deletes the index and every draft back to "No index yet". Prod refuses it while a run is live or an approved record has evidence.',
-        'Approve Compliance Index approves every pending draft after a confirm that counts the subcategories never opened. Draft actions with no scope stay drafts.',
-        'No position line and no Next to review: Previous and Next, or the arrow keys, step one subcategory at a time; the thumb is where you are.',
+        'Approve All approves every pending draft after a confirm that counts the subcategories never opened. Draft actions with no scope stay drafts.',
+        'No position line and no Next to review: Prev and Next, or the arrow keys, step one subcategory at a time; the thumb is where you are.',
         'Opened is not reviewed. Prod sets FirstOpenedDate the first time a bin with drafts is opened.',
       ],
-    },
-    {
-      label: 'Status line',
-      selector: '[data-sw3-index-run] > .bcn-sw3ir__line',
-      intent: 'Under the step header. Built: nothing (no count of categories and subcategories; the index pane is the count). Drafted: drafts to review (or "Compliance Index approved."), what is outstanding for Draft again, what fit no subcategory with Suggest subcategories, and View log, which opens the run\'s record in the console lightbox. During a run the console\'s peek sits under it.',
-      decisions: ['The four stages are project-wide, as draft-stages.ts runs them: Read requirements, File into bins, Merge duties, Complete drafts. Draft again takes only what is outstanding.'],
-      acceptance: ['A Draft run over the Re-run index ends at 2,222 drafts to review, with 3 items that fit no subcategory.'],
     },
     {
       label: 'Run console',
@@ -66,16 +59,28 @@ export default {
     {
       label: 'Subcategory page',
       selector: '[data-sw3-index-page]',
-      intent: 'One bar pinned across the top of the pane, as the PDF\'s page tools are on step 1: where it sits as a breadcrumb, Category › Subcategory, each with its color dot in the category\'s hue (as in the index and the scrubber), each cut to fit with the full name in its title; then Merge (off until two or more are ticked, then Merge (N)), Discard all and Approve all (N). Pressing the category goes to its first subcategory. In a pane under 720px, Merge and Discard all fold to their icons. No title in the document voice. Before drafting: the lists as develop renders them before a run fills them, Actions (0) and Obligations (0) each reading None, Approve all and Discard all disabled. Drafted: actions first, then obligations by who reads them, then Discarded (N), folded, with Restore and Restore all. Each draft is one line, its title cut to the row, with a box to tick for Merge; its title opens the record in place. Approve all (N) asks first; Discard all does not.',
+      intent: 'One bar pinned across the top of the pane, as the PDF\'s page tools are on step 1: where it sits, Category › Subcategory as plain text (a header, not links), each with its color dot in the category\'s hue (as in the index and the scrubber), each cut to fit with the full name in its title; then Merge (off until two or more are ticked, then Merge (N)), Discard all and Approve all (N). In a pane under 720px, Merge and Discard all fold to their icons. No title in the document voice. Before drafting: the lists as develop renders them before a run fills them, Actions (0) and Obligations (0) each reading None, Approve all and Discard all disabled. Drafted: two lists, Actions then Obligations, then Discarded (N), folded, with Restore and Restore all. Each draft is one line: a box to tick for Merge, its kind chip, its title cut to the row, and its commitments as purple commitment badges. More than one commitment stacks left to right, the ones under it peeking out; pressing the stack opens a popover to its left listing every commitment with its title, each opening it. The title opens the draft\'s edit form in the side panel. Approve all (N) asks first; Discard all does not.',
       decisions: [
         'Review is by home subcategory only. Also filed in shows on the obligation, read only.',
-        'A draft action with no scope cannot be approved: "This draft has no scope. Set one in Edit before approving it."',
+        'A draft action with no scope cannot be approved: "This draft has no scope. Set one before approving it."',
+        'Actions and obligations are the structure. Audience is a field on the obligation, not a grouping; sorting, filtering or grouping by it can come later as options.',
         'Merge takes two or more drafts of one kind and, for obligations, one audience; when it cannot, its title says why. The merged draft keeps every source.',
-        'The breadcrumb is esa-breadcrumbs; its icon slot holds the dot, and the controller writes the names and the hue at run time.',
+        'The header is esa-breadcrumbs with no links; its icon slot holds the dot, and the controller writes the names and the hue at run time.',
         'Rationale is never stored or shown, as in prod.',
-        'Kind marks are develop\'s: an action is the Action icon in the action hue; an obligation is its class chip (Adhere, Monitor, Notify, Roster) tinted from the class hue.',
+        'Kind chips: an action is its requirement type (Plan, Reporting, Approval & Consultation…) tinted from the action hue; an obligation is develop\'s class chip (Adhere, Monitor, Notify, Roster) tinted from the class hue. Each list\'s kind column is as wide as its widest chip.',
       ],
       acceptance: ['Ticking two Compliance staff drafts in Take and injury reporting and merging them leaves 20 drafts where there were 21.'],
+    },
+    {
+      label: 'Edit panel',
+      selector: '[data-sw3-entry-edit]',
+      intent: 'A draft\'s edit form in the side panel, as develop\'s two edit dialogs carry it. The header names it (Edit obligation, or the action\'s name) with its status badge. An obligation: Title, Class, Audience, Applies when, Monitor signs (type one and press Enter), then its Sources (each requirement\'s commitment badge and name, and the words it rests on) and Also filed in. An action, in three tabs: Details (Name, Type, Responsible party, Scope, Action text), Timing (Frequency; one time: deadline milestone, offset, period and direction; recurring: every N periods between a start and an end milestone; as needed: the event that triggers it) and Evidence of compliance (Expected evidence), then its Sources. The footer: Approve and Discard (Restore on a discarded draft) at the left; Save and Cancel at the right.',
+      decisions: [
+        'The review\'s verdicts live in the panel because the row has no record of its own. In develop the subcategory pane holds them; the edit dialog in index mode has only Save and Cancel.',
+        'Approve saves the form first, so setting a scope and approving is one press.',
+        'Sources are read only: what a draft rests on changes only by Merge.',
+      ],
+      acceptance: ['Opening Take Contact Representative Notice shows Reporting, DWR, Project scope and one source, EC-1.'],
     },
     {
       label: 'Commitment panel',

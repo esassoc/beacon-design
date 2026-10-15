@@ -1,6 +1,6 @@
 # Console
 
-The foot of the step's panel, as step 1 carries its scan console: header and console are one panel, and the header carries no keys. A sunken tray of keys centered under the header rule: Previous and Next, then Confirm all and Export. Under it, every commitment of every source file in one run, file after file, one cell each: gray while parsing, darker gray until confirmed, a light tint of the step's purple once confirmed. A rule through the strip marks where one file ends and the next begins, and the file's short name (ITP, MMRP) sits under the strip where its run starts. The strip shows 40 at a time; the double chevrons page the window, which otherwise follows the commitment in view. The thumb is the one in view. Click or drag to land on one; Previous and Next, or the arrow keys, step one at a time across files.
+The foot of the step's panel, as step 1 carries its scan console: header and console are one panel, and the header carries no keys. A sunken tray across the panel under the header rule, every key neutral: Prev at its left end, Next at its right, Confirm all and Export centered between. Under it, every commitment of every source file in one run, file after file, one cell each: gray while parsing, darker gray until confirmed, a light tint of the step's purple once confirmed. A rule through the strip marks where one file ends and the next begins, and the file's short name (ITP, MMRP) sits under the strip where its run starts. The strip shows 40 at a time; the double chevrons page the window, which otherwise follows the commitment in view. The thumb is the one in view. Click or drag to land on one; Previous and Next, or the arrow keys, step one at a time across files.
 
 ## Key decisions
 - No position line and no Next to settle: where you are is the thumb, and what is left to settle is in each cell's tooltip and in Aldo.
@@ -12,7 +12,7 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
 - Landing on a commitment in another file makes that file the active one: the text, the rail, Aldo and the side panels all read it.
 
 ## Done when
-- Previous is off on the first commitment and Next on the last; Next from the last ITP commitment lands on the first MMRP one.
+- Prev is off on the first commitment and Next on the last; Next from the last ITP commitment lands on the first MMRP one.
 - Confirm all paints every clean cell light purple.
 
 ## Markup
@@ -24,11 +24,7 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
   style="--_step: var(--color-commitment)"
 >
   <div class="bcn-swsn__console">
-    <esa-button-group
-      class="bcn-swsn__step"
-      aria-label="Step through commitments"
-      data-rev-step=""
-      role="group"
+    <span class="bcn-swsn__end" data-rev-step=""
       ><span
         class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
         ><button
@@ -51,8 +47,66 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
               focusable="false"
             >
               <path d="m15 18-6-6 6-6"></path></svg></span
-          ><span class="esa-button__label">Previous</span>
+          ><span class="esa-button__label">Prev</span>
         </button></span
+      ></span
+    ><span class="bcn-swsn__keys"
+      ><div class="bcn-sw3ra" data-sw3-review-actions="">
+        <span
+          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            data-ra-confirm-all="true"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="m9 12 2 2 4-4"></path></svg></span
+            ><span class="esa-button__label">Confirm all (87)</span>
+          </button></span
+        ><span
+          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            title="Export for offline review (.docx)"
+            data-ra-export="true"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" x2="12" y1="15" y2="3"></line></svg></span
+            ><span class="esa-button__label">Export</span>
+          </button></span
+        >
+      </div>
+      <script
+        type="module"
+        src="/beacon-design/_astro/BcnSw3ReviewActions.astro_astro_type_script_index_0_lang.DeDGVDYX.js"
+      ></script></span
+    ><span class="bcn-swsn__end bcn-swsn__end--next" data-rev-step=""
       ><span
         class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
         ><button
@@ -76,62 +130,7 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
             >
               <path d="m9 18 6-6-6-6"></path></svg
           ></span></button></span
-    ></esa-button-group>
-    <div class="bcn-sw3ra" data-sw3-review-actions="">
-      <span
-        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-        ><button
-          class="esa-button__native typography-microcopy-xs"
-          type="button"
-          data-ra-confirm-all="true"
-        >
-          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-            ><svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="m9 12 2 2 4-4"></path></svg></span
-          ><span class="esa-button__label">Confirm all (87)</span>
-        </button></span
-      ><span
-        class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-        ><button
-          class="esa-button__native typography-microcopy-xs"
-          type="button"
-          title="Export for offline review (.docx)"
-          data-ra-export="true"
-        >
-          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-            ><svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" x2="12" y1="15" y2="3"></line></svg></span
-          ><span class="esa-button__label">Export</span>
-        </button></span
-      >
-    </div>
-    <script
-      type="module"
-      src="/beacon-design/_astro/BcnSw3ReviewActions.astro_astro_type_script_index_0_lang.DeDGVDYX.js"
-    ></script>
+    ></span>
   </div>
   <div class="bcn-swsn__scrub" data-rev-scrub="">
     <div
@@ -263,10 +262,6 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
 
 ## Styles
 ```css
-/* No box of its own — the buttons stay direct flex items of the host. */
-.esa-button-group__slot {
-  display: contents;
-}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
@@ -525,20 +520,32 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
   display: none !important;
 }
 .bcn-swsn__console {
-  justify-content: center;
   align-items: center;
   gap: var(--spacing-200);
-  max-width: 100%;
   padding: var(--spacing-100);
   background: var(--color-background-elevation-sunken);
   border: 1px solid var(--color-border-default-subtle);
   border-radius: var(--radius-200);
+  grid-template-columns: 1fr auto 1fr;
+  display: grid;
+}
+.bcn-swsn__keys {
+  justify-content: center;
+  gap: var(--spacing-200);
   flex-wrap: wrap;
-  align-self: center;
+  grid-column: 2;
   display: flex;
 }
-.bcn-swsn__console > * {
+.bcn-swsn__keys > * {
   flex: none;
+}
+.bcn-swsn__end {
+  grid-area: 1/1;
+  justify-self: start;
+}
+.bcn-swsn__end--next {
+  grid-column: 3;
+  justify-self: end;
 }
 .bcn-swsn button:disabled {
   opacity: 0.38;

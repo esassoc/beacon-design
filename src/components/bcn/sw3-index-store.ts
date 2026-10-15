@@ -655,7 +655,7 @@ export const blocked = (id: string) => {
   const e = entry(id);
   return !!e && e.kind === 'action' && !e.scope;
 };
-export const NO_SCOPE = 'This draft has no scope. Set one in Edit before approving it.';
+export const NO_SCOPE = 'This draft has no scope. Set one before approving it.';
 
 const decide = (ids: string[], status: EntryStatus) =>
   commit(() => {

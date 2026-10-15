@@ -8,12 +8,14 @@
 //   in   sw3i:go       detail: { sub, entryId? }         a subcategory or draft pressed
 //   out  sw3i:tick                                       the Draft run moved (strip, log)
 //   out  sw3i:locator  detail: { doc, code, n, excerpt } a locator (the commitment panel)
-//   out  sw3i:edit     detail: { id }                    Edit a draft (side panel)
+//   out  sw3i:edit     detail: { id }                    a draft pressed: its edit form (side panel)
+//   in   sw3i:edit-closed                                the side panel closed
 //   out  sw3i:merge    detail: { ids }                   Merge the ticked drafts (dialog)
 //   out  sw3i:rename   detail: { id }                    name a category just made (index)
 
 import '@esa/ecology/esa-confirm-dialog';
 import '@esa/ecology/esa-checkbox';
+import '@esa/ecology/esa-popover';
 import {
   initIndex,
   phase,
@@ -34,18 +36,11 @@ import {
   homeIn,
   isOpened,
   markOpened,
-  alsoIn,
-  blocked,
-  NO_SCOPE,
-  approve,
-  discard,
-  restore,
   approvable,
   approveAll,
   discardAll,
   restoreAll,
   mergeRefusal,
-  AUDIENCES,
   totals,
 } from './sw3-index-store';
 import { initSw3, docIds, peek, started, startRun, skipToEnd, payload, requirementRef, requirementsOf, commitmentOf } from './sw3-store';
@@ -86,6 +81,17 @@ export const deadlineText = (a: IndexAction): string => {
   if (!d.offset || !d.unit) return at;
   const unit = d.unit.toLowerCase().replace(/s$/, '');
   return `${d.offset} ${unit}${d.offset === 1 ? '' : 's'} ${d.direction.toLowerCase() || 'before'} ${d.milestone}`;
+};
+
+/** A recurring action's cadence in words: "Every 3 months, Start of construction to End of
+ *  construction". */
+export const recurrenceText = (a: IndexAction): string => {
+  const r = a.recurrence;
+  if (!r) return '';
+  const unit = r.unit.toLowerCase().replace(/s$/, '');
+  const every = r.every === 1 ? `Every ${unit}` : `Every ${r.every} ${unit}s`;
+  const span = r.from && r.until ? `, ${r.from} to ${r.until}` : r.from ? `, from ${r.from}` : r.until ? `, until ${r.until}` : '';
+  return every + span;
 };
 
 export function setupSw3Index(root: HTMLElement): void {
@@ -130,7 +136,10 @@ export function setupSw3Index(root: HTMLElement): void {
     }
     render();
     if (moved && !entryId) pane.scrollTop = 0;
-    if (entryId) page.querySelector(`[data-entry="${CSS.escape(entryId)}"]`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    if (entryId) {
+      page.querySelector(`[data-entry="${CSS.escape(entryId)}"]`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      fire('sw3i:edit', { id: entryId });
+    }
   };
 
   // ── The scrubber ─────────────────────────────────────────────────────────────
@@ -174,16 +183,6 @@ export function setupSw3Index(root: HTMLElement): void {
     Object.assign(a.dataset, attrs);
     return a;
   };
-  const field = (dl: HTMLElement, label: string, value: Node | string, needs = false) => {
-    if (value === '') return;
-    const dt = document.createElement('dt');
-    dt.textContent = label;
-    const dd = document.createElement('dd');
-    dd.append(value);
-    dd.toggleAttribute('data-needs', needs);
-    dl.append(dt, dd);
-  };
-  const locsOf = (en: IndexEntry) => en.locators.filter((l, i, a) => a.findIndex((x) => x.doc === l.doc && x.code === l.code && x.n === l.n) === i);
   const setLabel = (host: HTMLElement, text: string, disabled?: boolean) => {
     const l = host.querySelector('.esa-button__label');
     if (l) l.textContent = text;
@@ -214,76 +213,72 @@ export function setupSw3Index(root: HTMLElement): void {
   };
 
   // ── Drafted: the review ──────────────────────────────────────────────────────
+  /** The commitments a draft rests on, one per commitment, each with its first locator. */
+  const citesOf = (en: IndexEntry) =>
+    en.locators.filter((l, i, a) => a.findIndex((x) => x.doc === l.doc && x.code === l.code) === i);
+  const badge = (code: string) => {
+    const b = tpl('badge');
+    b.textContent = code;
+    return b;
+  };
+  const citeLink = (en: IndexEntry, l: IndexLocator) => {
+    const a = link('', { loc: String(en.locators.indexOf(l)), entry: en.id });
+    return a;
+  };
+  /** One commitment: its badge, a link to it. More: a stack, left to right, whose popover
+   *  lists them all, each a link. */
+  const cites = (en: IndexEntry): HTMLElement | null => {
+    const cs = citesOf(en);
+    if (!cs.length) return null;
+    if (cs.length === 1) {
+      const a = citeLink(en, cs[0]);
+      a.className = 'bcn-sw3ip__cite';
+      a.title = `Open ${cs[0].code}`;
+      a.append(badge(cs[0].code));
+      return a;
+    }
+    const pop = document.createElement('esa-popover');
+    // Opens to its left, over the row's own title: the pane's right edge cannot clip it.
+    pop.setAttribute('position', 'left');
+    pop.setAttribute('label', 'Commitments');
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'bcn-sw3ip__stack';
+    btn.style.setProperty('--_n', String(Math.min(cs.length, 3)));
+    btn.title = `${cs.length} commitments: ${cs.map((l) => l.code).join(', ')}`;
+    btn.setAttribute('aria-label', btn.title);
+    btn.append(...cs.slice(0, 3).map((l) => badge(l.code)));
+    const list = document.createElement('div');
+    list.slot = 'content';
+    list.className = 'bcn-sw3ip__citelist';
+    for (const l of cs) {
+      const a = citeLink(en, l);
+      const title = document.createElement('span');
+      title.textContent = peek(l.doc, () => commitmentOf(l.code)?.title) ?? '';
+      a.append(badge(l.code), title);
+      list.append(a);
+    }
+    pop.append(btn, list);
+    return pop;
+  };
+
   const entryRow = (en: IndexEntry) => {
     const li = tpl('entry');
     const status = statusOf(en.id);
     li.dataset.entry = en.id;
     li.dataset.status = status;
-    const isOpen = open === en.id;
-    li.toggleAttribute('data-open', isOpen);
+    li.toggleAttribute('data-open', open === en.id);
     const tick = li.querySelector<HTMLElement & { checked: boolean }>('esa-checkbox')!;
     tick.checked = ticked.has(en.id);
     tick.setAttribute('aria-label', `Select “${titleOf(en)}” for merge`);
     li.querySelector<HTMLElement>('[data-e-chip]')!.replaceChildren(draftKind(en));
-    const name = li.querySelector<HTMLAnchorElement>('[data-e-toggle]')!;
+    const name = li.querySelector<HTMLAnchorElement>('[data-e-open]')!;
     name.textContent = titleOf(en);
     name.title = titleOf(en);
     name.href = `#${en.id}`;
-    name.setAttribute('aria-expanded', String(isOpen));
-    const locs = li.querySelector<HTMLElement>('[data-e-locs]')!;
-    locsOf(en).forEach((l, i) => {
-      if (i) locs.append(', ');
-      locs.append(link(locatorRef(l), { loc: String(en.locators.indexOf(l)), entry: en.id }));
-    });
-
-    const rec = li.querySelector<HTMLElement>('[data-e-rec]')!;
-    rec.hidden = !isOpen;
-    if (!isOpen) return li;
-    const dl = rec.querySelector<HTMLElement>('[data-e-fields]')!;
-    if (en.kind === 'obligation') {
-      field(dl, 'Audience', en.audience);
-      field(dl, 'Applies when', en.trigger || 'Always');
-      if (en.monitorSigns.length) {
-        const ul = document.createElement('ul');
-        for (const s of en.monitorSigns) {
-          const x = document.createElement('li');
-          x.textContent = s;
-          ul.append(x);
-        }
-        field(dl, 'Monitor signs', ul);
-      }
-      const others = alsoIn(en.id).filter((s) => subOf(s));
-      if (others.length) {
-        const span = document.createElement('span');
-        others.forEach((s, i) => {
-          if (i) span.append(', ');
-          span.append(link(subOf(s)!.sub.name, { goSub: s }));
-        });
-        field(dl, 'Also filed in', span);
-      }
-    } else {
-      field(dl, 'Type', en.type);
-      field(dl, 'Scope', en.scope || 'No scope', !en.scope);
-      field(dl, 'Responsible party', en.responsibleParty || 'Needs input', !en.responsibleParty);
-      field(dl, 'Frequency', en.recurrence ? `${en.frequency}, ${en.recurrence}` : en.frequency);
-      field(dl, 'Deadline', deadlineText(en));
-      field(dl, 'Expected evidence', en.expectedEvidence);
-      field(dl, 'Text', en.text);
-    }
-    const block = rec.querySelector<HTMLElement>('[data-e-block]')!;
-    block.hidden = !(status === 'draft' && blocked(en.id));
-    block.textContent = NO_SCOPE;
-    setLabel(rec.querySelector<HTMLElement>('[data-e-approve]')!, 'Approve', status === 'draft' && blocked(en.id));
-    const passages = rec.querySelector<HTMLElement>('[data-e-passages]')!;
-    for (const l of en.locators) {
-      if (!l.excerpt) continue;
-      const p = document.createElement('p');
-      p.className = 'bcn-sw3ip__passage';
-      const q = document.createElement('q');
-      q.textContent = l.excerpt;
-      p.append(link(locatorRef(l), { loc: String(en.locators.indexOf(l)), entry: en.id }), q);
-      passages.append(p);
-    }
+    name.setAttribute('aria-haspopup', 'dialog');
+    const c = cites(en);
+    if (c) li.querySelector<HTMLElement>('[data-e-cites]')!.append(c);
     return li;
   };
 
@@ -299,17 +294,17 @@ export function setupSw3Index(root: HTMLElement): void {
     if (open && !list.some((en) => en.id === open)) open = null;
     for (const id of [...ticked]) if (!list.some((en) => en.id === id && statusOf(id) === 'draft')) ticked.delete(id);
 
-    // Actions first; then obligations by who reads them, those with none last.
-    const groups: { name: string; items: IndexEntry[] }[] = [
-      { name: 'Actions', items: live.filter((en) => en.kind === 'action') },
-      ...AUDIENCES.map((a) => ({ name: a, items: live.filter((en) => en.kind === 'obligation' && en.audience === a) })),
-      { name: 'No audience', items: live.filter((en) => en.kind === 'obligation' && !AUDIENCES.includes(en.audience)) },
+    // Two lists: actions, then obligations.
+    const groups: { name: string; kind: IndexEntry['kind']; items: IndexEntry[] }[] = [
+      { name: 'Actions', kind: 'action', items: live.filter((en) => en.kind === 'action') },
+      { name: 'Obligations', kind: 'obligation', items: live.filter((en) => en.kind === 'obligation') },
     ];
     groupsEl.replaceChildren(
       ...groups
         .filter((g) => g.items.length)
         .map((g) => {
           const sec = tpl('group');
+          sec.dataset.kind = g.kind;
           sec.querySelector<HTMLElement>('[data-g-name]')!.textContent = `${g.name} (${g.items.length})`;
           sec.querySelector<HTMLElement>('[data-g-entries]')!.append(...g.items.map(entryRow));
           return sec;
@@ -336,7 +331,7 @@ export function setupSw3Index(root: HTMLElement): void {
     if (b) b.title = why ?? `Merge the ${ticked.size} ticked drafts`;
   };
 
-  /** Category > Subcategory, in the breadcrumb lego: its text and its dots. */
+  /** Category > Subcategory, in the breadcrumb lego as plain text: its text and its dots. */
   const paintCrumbs = (cat: string, sub: string, hue: string) => {
     page.querySelectorAll<HTMLElement>('[data-ip-crumbs] .esa-breadcrumbs__item').forEach((item, i) => {
       const label = item.querySelector<HTMLElement>('.esa-breadcrumbs__link, .esa-breadcrumbs__current')!;
@@ -348,12 +343,6 @@ export function setupSw3Index(root: HTMLElement): void {
       label.style.setProperty('--_hue', hue);
     });
   };
-  page.querySelector('[data-ip-crumbs] .esa-breadcrumbs__link')!.addEventListener('click', (e) => {
-    e.preventDefault();
-    const ref = subOf(current);
-    const first = ref && subs().find((s) => s.cat.id === ref.cat.id);
-    if (first) go(first.sub.id);
-  });
   const paintPage = () => {
     const ph = phase();
     const ref = subOf(current)!;
@@ -396,21 +385,22 @@ export function setupSw3Index(root: HTMLElement): void {
       go(goSub.dataset.goSub!);
       return;
     }
-    const li = t.closest<HTMLElement>('[data-entry]');
+    const name = t.closest<HTMLElement>('[data-e-open]');
+    const li = name?.closest<HTMLElement>('[data-entry]');
     if (!li) return;
-    const id = li.dataset.entry!;
-    if (phase() === 'drafting' && !t.closest('[data-e-toggle]')) {
-      toast(PAUSED, 'error');
-      return;
-    }
-    if (t.closest('[data-e-toggle]')) {
-      e.preventDefault();
-      open = open === id ? null : id;
-      render();
-    } else if (t.closest('[data-e-approve]')) approve([id]);
-    else if (t.closest('[data-e-discard]')) discard([id]);
-    else if (t.closest('[data-e-restore]')) restore([id]);
-    else if (t.closest('[data-e-edit]')) fire('sw3i:edit', { id });
+    e.preventDefault();
+    edit(li.dataset.entry!);
+  });
+  /** A draft's edit form, in the side panel; the row stays marked while it is open. */
+  const edit = (id: string) => {
+    open = id;
+    fire('sw3i:edit', { id });
+    render();
+  };
+  document.addEventListener('sw3i:edit-closed', () => {
+    if (!open) return;
+    open = null;
+    render();
   });
   page.addEventListener('change', (e) => {
     const li = (e.target as HTMLElement).closest<HTMLElement>('[data-entry]');
@@ -439,7 +429,7 @@ export function setupSw3Index(root: HTMLElement): void {
     root.dataset.phase = ph;
     // No index yet, or one on its way: the console holds Build index alone.
     const all = ph === 'empty' || ph === 'building' ? [] : subs();
-    nav.querySelector<HTMLElement>('[data-ix-step]')!.hidden = !all.length;
+    nav.querySelectorAll<HTMLElement>('[data-ix-step]').forEach((x) => (x.hidden = !all.length));
     nav.querySelector<HTMLElement>('[data-ix-scrub]')!.hidden = !all.length;
     if (ph === 'empty' || ph === 'building') return;
     if (!all.length) {

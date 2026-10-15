@@ -1,14 +1,15 @@
 # Subcategory page
 
-One bar pinned across the top of the pane, as the PDF's page tools are on step 1: where it sits as a breadcrumb, Category › Subcategory, each with its color dot in the category's hue (as in the index and the scrubber), each cut to fit with the full name in its title; then Merge (off until two or more are ticked, then Merge (N)), Discard all and Approve all (N). Pressing the category goes to its first subcategory. In a pane under 720px, Merge and Discard all fold to their icons. No title in the document voice. Before drafting: the lists as develop renders them before a run fills them, Actions (0) and Obligations (0) each reading None, Approve all and Discard all disabled. Drafted: actions first, then obligations by who reads them, then Discarded (N), folded, with Restore and Restore all. Each draft is one line, its title cut to the row, with a box to tick for Merge; its title opens the record in place. Approve all (N) asks first; Discard all does not.
+One bar pinned across the top of the pane, as the PDF's page tools are on step 1: where it sits, Category › Subcategory as plain text (a header, not links), each with its color dot in the category's hue (as in the index and the scrubber), each cut to fit with the full name in its title; then Merge (off until two or more are ticked, then Merge (N)), Discard all and Approve all (N). In a pane under 720px, Merge and Discard all fold to their icons. No title in the document voice. Before drafting: the lists as develop renders them before a run fills them, Actions (0) and Obligations (0) each reading None, Approve all and Discard all disabled. Drafted: two lists, Actions then Obligations, then Discarded (N), folded, with Restore and Restore all. Each draft is one line: a box to tick for Merge, its kind chip, its title cut to the row, and its commitments as purple commitment badges. More than one commitment stacks left to right, the ones under it peeking out; pressing the stack opens a popover to its left listing every commitment with its title, each opening it. The title opens the draft's edit form in the side panel. Approve all (N) asks first; Discard all does not.
 
 ## Key decisions
 - Review is by home subcategory only. Also filed in shows on the obligation, read only.
-- A draft action with no scope cannot be approved: "This draft has no scope. Set one in Edit before approving it."
+- A draft action with no scope cannot be approved: "This draft has no scope. Set one before approving it."
+- Actions and obligations are the structure. Audience is a field on the obligation, not a grouping; sorting, filtering or grouping by it can come later as options.
 - Merge takes two or more drafts of one kind and, for obligations, one audience; when it cannot, its title says why. The merged draft keeps every source.
-- The breadcrumb is esa-breadcrumbs; its icon slot holds the dot, and the controller writes the names and the hue at run time.
+- The header is esa-breadcrumbs with no links; its icon slot holds the dot, and the controller writes the names and the hue at run time.
 - Rationale is never stored or shown, as in prod.
-- Kind marks are develop's: an action is the Action icon in the action hue; an obligation is its class chip (Adhere, Monitor, Notify, Roster) tinted from the class hue.
+- Kind chips: an action is its requirement type (Plan, Reporting, Approval & Consultation…) tinted from the action hue; an obligation is develop's class chip (Adhere, Monitor, Notify, Roster) tinted from the class hue. Each list's kind column is as wide as its widest chip.
 
 ## Done when
 - Ticking two Compliance staff drafts in Take and injury reporting and merging them leaves 20 drafts where there were 21.
@@ -21,10 +22,10 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
       <nav class="esa-breadcrumbs esa-breadcrumbs--sm" aria-label="Breadcrumb">
         <ol class="esa-breadcrumbs__list">
           <li class="esa-breadcrumbs__item">
-            <a href="#" class="esa-breadcrumbs__link typography-body-sm"
+            <span class="esa-breadcrumbs__current typography-label-sm"
               ><span class="esa-breadcrumbs__icon"
                 ><span class="bcn-sw3ip__dot" data-ip-dot=""></span></span
-              >Category</a
+              >Category</span
             ><svg
               class="esa-breadcrumbs__separator"
               width="16"
@@ -181,13 +182,8 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
             data-astro-cid-volza5tu="true"
           ></esa-checkbox></span
         ><span class="bcn-sw3ip__chip" data-e-chip="" data-astro-cid-volza5tu=""></span
-        ><a
-          class="bcn-sw3ip__name"
-          href="#"
-          data-e-toggle=""
-          data-astro-cid-volza5tu=""
-        ></a
-        ><span class="bcn-sw3ip__locs" data-e-locs="" data-astro-cid-volza5tu=""></span
+        ><a class="bcn-sw3ip__name" href="#" data-e-open="" data-astro-cid-volza5tu=""></a
+        ><span class="bcn-sw3ip__cites" data-e-cites="" data-astro-cid-volza5tu=""></span
         ><span class="bcn-sw3ip__ok" data-e-ok="" data-astro-cid-volza5tu=""
           ><span
             class="esa-icon esa-icon--sm"
@@ -209,150 +205,9 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
               <circle cx="12" cy="12" r="10"></circle>
               <path d="m9 12 2 2 4-4"></path></svg></span
         ></span>
-      </div>
-      <div class="bcn-sw3ip__rec" data-e-rec="" hidden="" data-astro-cid-volza5tu="">
-        <p
-          class="bcn-sw3ip__block"
-          data-e-block=""
-          hidden=""
-          data-astro-cid-volza5tu=""
-        ></p>
-        <dl class="bcn-sw3ip__fields" data-e-fields="" data-astro-cid-volza5tu=""></dl>
-        <div
-          class="bcn-sw3ip__passages"
-          data-e-passages=""
-          data-astro-cid-volza5tu=""
-        ></div>
-        <div class="bcn-sw3ip__keys" data-astro-cid-volza5tu="">
-          <span data-e-approve="" data-astro-cid-volza5tu=""
-            ><span
-              class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-              data-astro-cid-4xhmycw5=""
-              ><button
-                class="esa-button__native typography-microcopy-2xs"
-                type="button"
-                data-astro-cid-volza5tu="true"
-                data-astro-cid-4xhmycw5=""
-              >
-                <span
-                  class="esa-icon esa-icon--xs"
-                  aria-hidden="true"
-                  data-astro-cid-c7ivvrtd=""
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                    data-astro-cid-c7ivvrtd=""
-                  >
-                    <path d="M20 6 9 17l-5-5"></path></svg></span
-                ><span class="esa-button__label" data-astro-cid-4xhmycw5="">Approve</span>
-              </button></span
-            ></span
-          ><span data-e-discard="" data-astro-cid-volza5tu=""
-            ><span
-              class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-              data-astro-cid-4xhmycw5=""
-              ><button
-                class="esa-button__native typography-microcopy-2xs"
-                type="button"
-                data-astro-cid-volza5tu="true"
-                data-astro-cid-4xhmycw5=""
-              >
-                <span
-                  class="esa-icon esa-icon--xs"
-                  aria-hidden="true"
-                  data-astro-cid-c7ivvrtd=""
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                    data-astro-cid-c7ivvrtd=""
-                  >
-                    <path d="M18 6 6 18"></path>
-                    <path d="m6 6 12 12"></path></svg></span
-                ><span class="esa-button__label" data-astro-cid-4xhmycw5="">Discard</span>
-              </button></span
-            ></span
-          ><span data-e-restore="" data-astro-cid-volza5tu=""
-            ><span
-              class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-              data-astro-cid-4xhmycw5=""
-              ><button
-                class="esa-button__native typography-microcopy-2xs"
-                type="button"
-                data-astro-cid-volza5tu="true"
-                data-astro-cid-4xhmycw5=""
-              >
-                <span
-                  class="esa-icon esa-icon--xs"
-                  aria-hidden="true"
-                  data-astro-cid-c7ivvrtd=""
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                    data-astro-cid-c7ivvrtd=""
-                  >
-                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                    <path d="M3 3v5h5"></path></svg></span
-                ><span class="esa-button__label" data-astro-cid-4xhmycw5="">Restore</span>
-              </button></span
-            ></span
-          ><span data-e-edit="" data-astro-cid-volza5tu=""
-            ><span
-              class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-              data-astro-cid-4xhmycw5=""
-              ><button
-                class="esa-button__native typography-microcopy-2xs"
-                type="button"
-                data-astro-cid-volza5tu="true"
-                data-astro-cid-4xhmycw5=""
-              >
-                <span
-                  class="esa-icon esa-icon--xs"
-                  aria-hidden="true"
-                  data-astro-cid-c7ivvrtd=""
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                    data-astro-cid-c7ivvrtd=""
-                  >
-                    <path
-                      d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
-                    ></path>
-                    <path d="m15 5 4 4"></path></svg></span
-                ><span class="esa-button__label" data-astro-cid-4xhmycw5="">Edit</span>
-              </button></span
-            ></span
-          >
-        </div>
-      </div>
-    </li></template
+      </div></li></template
+  ><template data-ip-tpl="badge"
+    ><span class="bcn-cbadge bcn-cbadge--sm" data-astro-cid-cqxc3yz3=""></span></template
   ><span hidden="" data-ip-merge-glyph=""
     ><path d="m8 6 4-4 4 4"
       ><path d="M12 2v10.3a4 4 0 0 1-1.172 2.872L4 22"
@@ -363,42 +218,6 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
 
 ## Styles
 ```css
-/* Type comes from .typography-body-sm on the element.
-
-       Both nodes are always in the DOM (the live region has to pre-exist its content),
-       so the gap is opt-IN via .is-shown rather than collapsed with :empty — Lit's
-       template whitespace defeats :empty in engines that follow Selectors L3. */
-.help,
-.error {
-  margin: 0;
-}
-/* Type comes from .typography-body-sm — help and error are one size at every
-       control step, so they name the composite directly rather than mapping. */
-/* Both nodes are ALWAYS in the DOM (see render()), so the gap is opt-IN rather
-       than collapsed away. Deliberately not display:none when empty — that removes
-       the node from the accessibility tree, and a live region that is not in the tree
-       cannot announce anything. An empty <p> with no margin occupies no space.
-
-       .is-shown rather than :empty: Lit's template whitespace leaves a text node
-       inside the element, and browsers still disagree about whether :empty ignores
-       whitespace-only children (Selectors L4 says yes, L3 says no). A class is
-       deterministic; :empty here would silently leave 4px of dead space under every
-       clean field in some engines and not others. */
-.help,
-.error {
-  margin: 0;
-}
-/* No box of its own — the buttons stay direct flex items of the host. */
-.esa-button-group__slot {
-  display: contents;
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
 .typography-label-sm {
   font-family: var(--typography-label-sm-font-family);
   font-size: var(--typography-label-sm-font-size);
@@ -484,6 +303,29 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
+}
+.bcn-cbadge {
+  font-family: var(--typography-font-family-mono);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  border-radius: var(--radius-100);
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-block;
+}
+.bcn-cbadge--md {
+  font-size: var(--font-size-100);
+  padding: 1px var(--spacing-200);
+}
+.bcn-cbadge--sm {
+  padding: 1px var(--spacing-150);
+  font-size: 0.75rem;
+}
+.bcn-cbadge--neutral {
+  font-family: var(--typography-font-family-sans);
+  color: var(--bcn-gray-700);
+  background: var(--bcn-gray-100);
 }
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -654,6 +496,10 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
   margin-right: var(--spacing-150, 6px);
   display: inline-flex;
 }
+.bcn-sw3ip__crumbs .esa-breadcrumbs__item:first-child .esa-breadcrumbs__current {
+  color: var(--color-content-default-secondary);
+  font-weight: 400;
+}
 .bcn-sw3ip__crumbs .bcn-sw3ip__dot {
   background: var(--_hue, var(--color-content-default-tertiary));
   border-radius: 50%;
@@ -690,12 +536,20 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
   display: flex;
 }
 .bcn-sw3ip .bcn-sw3ip__entries {
-  gap: var(--spacing-100);
-  flex-direction: column;
+  column-gap: var(--spacing-200);
+  row-gap: var(--spacing-100);
+  grid-template-columns: auto fit-content(9.5rem) minmax(0, 1fr) auto auto;
   margin: 0;
   padding: 0;
   list-style: none;
-  display: flex;
+  display: grid;
+}
+.bcn-sw3ip .bcn-sw3ip__entries > li {
+  grid-column: 1/-1;
+}
+.bcn-sw3ip .bcn-sw3ip__entry {
+  grid-template-columns: subgrid;
+  display: grid;
 }
 .bcn-sw3ip__discarded {
   gap: var(--spacing-200);
@@ -732,23 +586,34 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
   border-color: var(--color-border-default-focus);
 }
 .bcn-sw3ip .bcn-sw3ip__line {
-  align-items: baseline;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+  align-items: center;
   gap: var(--spacing-200);
   padding: var(--spacing-150) var(--spacing-300);
-  grid-template-columns: 1.25rem 3.75rem minmax(0, 1fr) auto 1.25rem;
   font-size: 0.875rem;
   display: grid;
 }
 .bcn-sw3ip .bcn-sw3ip__tick {
-  align-self: center;
+  width: 1.25rem;
+  padding-right: var(--spacing-100);
   line-height: 0;
+  display: flex;
+}
+.bcn-sw3ip .bcn-sw3ip__ok {
+  width: 1.25rem;
+  display: flex;
 }
 .bcn-sw3ip .bcn-sw3ip__entry:not([data-status="draft"]) .bcn-sw3ip__tick {
   visibility: hidden;
 }
 .bcn-sw3ip .bcn-sw3ip__chip {
-  align-self: center;
+  min-width: 0;
   line-height: 0;
+  display: flex;
+}
+.bcn-sw3ip .bcn-sw3ip__chip .bcn-draft-kind {
+  max-width: 100%;
 }
 .bcn-sw3ip .bcn-sw3ip__name {
   text-overflow: ellipsis;
@@ -771,96 +636,111 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
   color: var(--color-content-default-tertiary);
   text-decoration: line-through;
 }
-.bcn-sw3ip .bcn-sw3ip__locs {
-  font-variant-numeric: tabular-nums;
-  color: var(--color-content-default-secondary);
-  white-space: nowrap;
-}
-.bcn-sw3ip .bcn-sw3ip__locs a,
-.bcn-sw3ip .bcn-sw3ip__passage a,
-.bcn-sw3ip .bcn-sw3ip__fields a {
-  color: var(--color-content-link, var(--color-content-brand));
-  text-decoration: none;
-}
-.bcn-sw3ip .bcn-sw3ip__locs a:hover,
-.bcn-sw3ip .bcn-sw3ip__passage a:hover,
-.bcn-sw3ip .bcn-sw3ip__fields a:hover {
-  text-decoration: underline;
+.bcn-sw3ip .bcn-sw3ip__entry[data-open] {
+  background: var(--color-background-elevation-sunken);
 }
 .bcn-sw3ip .bcn-sw3ip__ok {
   visibility: hidden;
   color: var(--color-content-success);
-  align-self: center;
   line-height: 0;
 }
 .bcn-sw3ip .bcn-sw3ip__entry[data-status="approved"] .bcn-sw3ip__ok {
   visibility: visible;
 }
-.bcn-sw3ip .bcn-sw3ip__rec {
-  gap: var(--spacing-300);
-  padding: 0 var(--spacing-300) var(--spacing-300)
-    calc(1.25rem + 5.25rem + 2 * var(--spacing-200) + var(--spacing-300));
-  flex-direction: column;
-  font-size: 0.875rem;
+.bcn-sw3ip .bcn-sw3ip__cites {
+  justify-content: flex-end;
+  line-height: 0;
   display: flex;
 }
-.bcn-sw3ip .bcn-sw3ip__block {
-  color: var(--color-content-warning);
-  margin: 0;
-  font-weight: 500;
+.bcn-sw3ip :is(.bcn-sw3ip__cite, .bcn-sw3ip__stack) {
+  border-radius: var(--radius-100);
+  cursor: pointer;
+  font: inherit;
+  background: 0 0;
+  border: 0;
+  padding: 0;
+  line-height: 1.5;
+  text-decoration: none;
+  display: inline-flex;
 }
-.bcn-sw3ip .bcn-sw3ip__fields {
-  gap: var(--spacing-100) var(--spacing-300);
-  grid-template-columns: 9rem minmax(0, 1fr);
-  margin: 0;
-  display: grid;
+.bcn-sw3ip .bcn-sw3ip__cite:hover .bcn-cbadge,
+.bcn-sw3ip .bcn-sw3ip__stack:hover .bcn-cbadge:first-child {
+  background: color-mix(
+    in srgb,
+    var(--color-commitment) 22%,
+    var(--color-background-elevation-raised)
+  );
 }
-.bcn-sw3ip .bcn-sw3ip__fields dt {
-  color: var(--color-content-default-secondary);
-  font-weight: 500;
+.bcn-sw3ip .bcn-sw3ip__stack {
+  padding-right: calc((var(--_n) - 1) * 9px);
+  display: inline-grid;
 }
-.bcn-sw3ip .bcn-sw3ip__fields dd {
-  color: var(--color-content-default);
-  margin: 0;
+.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge {
+  box-shadow:
+    1.5px 0 0 0 var(--color-background-elevation-raised),
+    0 0 0 1px var(--color-background-elevation-raised);
+  grid-area: 1/1;
 }
-.bcn-sw3ip .bcn-sw3ip__fields ul {
-  margin: 0;
-  padding-left: 1.1em;
+.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge:first-child {
+  z-index: 3;
 }
-.bcn-sw3ip .bcn-sw3ip__fields dd[data-needs] {
-  color: var(--color-content-warning);
-  font-weight: 500;
+.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge:nth-child(2) {
+  z-index: 2;
+  color: #0000;
+  background: color-mix(
+    in srgb,
+    var(--color-commitment) 26%,
+    var(--color-background-elevation-raised)
+  );
+  transform: translate(9px) scaleY(0.84);
 }
-.bcn-sw3ip .bcn-sw3ip__passages {
+.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge:nth-child(3) {
+  z-index: 1;
+  color: #0000;
+  background: color-mix(
+    in srgb,
+    var(--color-commitment) 40%,
+    var(--color-background-elevation-raised)
+  );
+  transform: translate(18px) scaleY(0.68);
+}
+.bcn-sw3ip .bcn-sw3ip__stack:hover .bcn-cbadge:nth-child(2) {
+  transform: translate(11px) scaleY(0.84);
+}
+.bcn-sw3ip .bcn-sw3ip__stack:hover .bcn-cbadge:nth-child(3) {
+  transform: translate(22px) scaleY(0.68);
+}
+.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge {
+  transition: transform 0.12s ease-out;
+}
+.bcn-sw3ip .bcn-sw3ip__citelist {
+  width: max-content;
+  min-width: 16rem;
+  max-width: min(26rem, 60vw);
+  margin: calc(-1 * var(--spacing-100));
+  flex-direction: column;
+  line-height: 1.4;
+  display: flex;
+}
+.bcn-sw3ip .bcn-sw3ip__citelist a {
+  align-items: baseline;
   gap: var(--spacing-200);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-sw3ip .bcn-sw3ip__passage {
-  gap: var(--spacing-300);
-  font-variant-numeric: tabular-nums;
-  grid-template-columns: 4.5rem minmax(0, 1fr);
-  margin: 0;
+  padding: var(--spacing-150) var(--spacing-200);
+  border-radius: var(--radius-100);
+  color: var(--color-content-default);
+  grid-template-columns: auto minmax(0, 1fr);
+  font-size: 0.8125rem;
+  text-decoration: none;
   display: grid;
 }
-.bcn-sw3ip .bcn-sw3ip__passage q {
-  font-family: var(--font-decorative, var(--typography-font-family-sans));
-  color: var(--color-content-default);
-  quotes: "“" "”";
-  font-size: 0.9375rem;
-  line-height: 1.6;
+.bcn-sw3ip .bcn-sw3ip__citelist a:hover {
+  background: var(--color-background-elevation-sunken);
 }
-.bcn-sw3ip .bcn-sw3ip__keys {
-  gap: var(--spacing-150);
-  flex-wrap: wrap;
-  display: flex;
-}
-.bcn-sw3ip .bcn-sw3ip__entry:not([data-status="discarded"]) [data-e-restore],
-.bcn-sw3ip .bcn-sw3ip__entry[data-status="discarded"] [data-e-discard],
-.bcn-sw3ip .bcn-sw3ip__entry[data-status="discarded"] [data-e-approve],
-.bcn-sw3ip .bcn-sw3ip__entry[data-status="discarded"] [data-e-edit],
-.bcn-sw3ip .bcn-sw3ip__entry[data-status="approved"] [data-e-approve] {
-  display: none;
+.bcn-sw3ip .bcn-sw3ip__citelist a span:last-child {
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -1065,13 +945,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
   color: var(--bcn-aldo-600);
 }
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
 .typography-label-sm {
   font-family: var(--typography-label-sm-font-family);
   font-size: var(--typography-label-sm-font-size);
@@ -1174,9 +1047,11 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--animation-spin`: .75s linear infinite _(semantic)_
 - `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-console-fg`: #ffffffed _(component)_
+- `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
+- `--bcn-gray-700`: #525252 _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
@@ -1210,13 +1085,13 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-focus`: #3e9b4f _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
+- `--color-commitment`: #58508d _(component)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
 - `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-link`: #005862 _(semantic)_
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-on-utility-success`: #fcfcfc _(semantic)_
 - `--color-content-on-utility-warning`: #4f3422 _(semantic)_
@@ -1225,11 +1100,10 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--color-content-warning`: #ab6400 _(component)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
-- `--font-decorative`: "Besley", serif _(component)_
+- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-sm`: 16px _(primitive)_
@@ -1245,12 +1119,9 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-600`: 2rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
-- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
-- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-body-sm-line-height`: 1.6 _(semantic)_
+- `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
 - `--typography-label-sm-font-weight`: 500 _(semantic)_

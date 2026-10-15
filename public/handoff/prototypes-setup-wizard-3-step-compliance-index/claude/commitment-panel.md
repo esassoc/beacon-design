@@ -90,10 +90,6 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
 
 ## Styles
 ```css
-/* No box of its own — the buttons stay direct flex items of the host. */
-.esa-button-group__slot {
-  display: contents;
-}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
@@ -226,6 +222,7 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
   display: flex;
   position: sticky;
   top: 0;
+  container-type: inline-size;
 }
 .bcn-sw3c__group {
   align-items: center;
@@ -258,6 +255,9 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
   flex-direction: column;
   display: flex;
   position: relative;
+}
+.bcn-sw3c:not([data-readonly]) .bcn-sw3c__page {
+  padding-bottom: calc(var(--spacing-500) + 2.5rem);
 }
 .bcn-sw3c__head {
   align-items: center;
@@ -371,7 +371,7 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
 }
 .bcn-sw3c__text mark.bcn-hl[data-dup] {
   box-shadow: none;
-  text-decoration: underline wavy var(--color-content-warning);
+  text-decoration: underline wavy var(--bcn-aldo);
   text-underline-offset: 5px;
 }
 .bcn-sw3c__text .bcn-at-lit {
@@ -390,8 +390,15 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
   border-radius: 2px;
 }
 .bcn-sw3c__text mark.bcn-at-gap {
+  cursor: pointer;
+}
+.bcn-sw3c__text mark.bcn-at-gap[data-lit] {
+  background: color-mix(in srgb, var(--bcn-aldo) 14%, transparent);
+  border-radius: 2px;
+}
+.bcn-sw3c__text mark.bcn-at-gap {
   color: inherit;
-  text-decoration: underline wavy var(--color-content-warning);
+  text-decoration: underline wavy var(--bcn-aldo);
   text-underline-offset: 5px;
   background: 0 0;
   text-decoration-thickness: 1.5px;
@@ -403,6 +410,21 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
     var(--bcn-aldo, var(--color-background-info)) 28%,
     transparent
   );
+}
+.bcn-sw3c__pop {
+  z-index: 3;
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-200);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-content-default) 14%, transparent);
+  font-family: var(--typography-font-family-sans);
+  gap: 2px;
+  padding: 2px;
+  display: flex;
+  position: absolute;
+}
+.bcn-sw3c__pop[hidden] {
+  display: none;
 }
 .bcn-sw3c__grip {
   background: var(--color-content-default);
@@ -469,6 +491,52 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
 }
 .bcn-console__more .esa-button__native:hover {
   color: var(--bcn-console-fg);
+}
+.bcn-sw3ip .bcn-sw3ip__cite:hover .bcn-cbadge,
+.bcn-sw3ip .bcn-sw3ip__stack:hover .bcn-cbadge:first-child {
+  background: color-mix(
+    in srgb,
+    var(--color-commitment) 22%,
+    var(--color-background-elevation-raised)
+  );
+}
+.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge {
+  box-shadow:
+    1.5px 0 0 0 var(--color-background-elevation-raised),
+    0 0 0 1px var(--color-background-elevation-raised);
+  grid-area: 1/1;
+}
+.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge:first-child {
+  z-index: 3;
+}
+.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge:nth-child(2) {
+  z-index: 2;
+  color: #0000;
+  background: color-mix(
+    in srgb,
+    var(--color-commitment) 26%,
+    var(--color-background-elevation-raised)
+  );
+  transform: translate(9px) scaleY(0.84);
+}
+.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge:nth-child(3) {
+  z-index: 1;
+  color: #0000;
+  background: color-mix(
+    in srgb,
+    var(--color-commitment) 40%,
+    var(--color-background-elevation-raised)
+  );
+  transform: translate(18px) scaleY(0.68);
+}
+.bcn-sw3ip .bcn-sw3ip__stack:hover .bcn-cbadge:nth-child(2) {
+  transform: translate(11px) scaleY(0.84);
+}
+.bcn-sw3ip .bcn-sw3ip__stack:hover .bcn-cbadge:nth-child(3) {
+  transform: translate(22px) scaleY(0.68);
+}
+.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge {
+  transition: transform 0.12s ease-out;
 }
 .bcn-sw3cp-dialog {
   --side-dialog-width-lg: min(760px, 56vw);
@@ -816,7 +884,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--color-content-warning`: #ab6400 _(component)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
@@ -828,6 +895,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
+- `--radius-200`: .5rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_

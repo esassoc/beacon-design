@@ -9,7 +9,7 @@ export default {
     {
       label: 'Console',
       selector: '[data-rev-nav]',
-      intent: 'The foot of the step\'s panel, as step 1 carries its scan console: header and console are one panel, and the header carries no keys. A sunken tray of keys centered under the header rule: Previous and Next, then Confirm all and Export. Under it, every commitment of every source file in one run, file after file, one cell each: gray while parsing, darker gray until confirmed, a light tint of the step\'s purple once confirmed. A rule through the strip marks where one file ends and the next begins, and the file\'s short name (ITP, MMRP) sits under the strip where its run starts. The strip shows 40 at a time; the double chevrons page the window, which otherwise follows the commitment in view. The thumb is the one in view. Click or drag to land on one; Previous and Next, or the arrow keys, step one at a time across files.',
+      intent: 'The foot of the step\'s panel, as step 1 carries its scan console: header and console are one panel, and the header carries no keys. A sunken tray across the panel under the header rule, every key neutral: Prev at its left end, Next at its right, Confirm all and Export centered between. Under it, every commitment of every source file in one run, file after file, one cell each: gray while parsing, darker gray until confirmed, a light tint of the step\'s purple once confirmed. A rule through the strip marks where one file ends and the next begins, and the file\'s short name (ITP, MMRP) sits under the strip where its run starts. The strip shows 40 at a time; the double chevrons page the window, which otherwise follows the commitment in view. The thumb is the one in view. Click or drag to land on one; Previous and Next, or the arrow keys, step one at a time across files.',
       decisions: [
         'No position line and no Next to settle: where you are is the thumb, and what is left to settle is in each cell\'s tooltip and in Aldo.',
         'No amber: a commitment with something to settle reads as any other unconfirmed one. Only confirmed has a color.',
@@ -19,7 +19,7 @@ export default {
         'A window of 40, as the source step shows 50 pages: a commitment\'s tick label ("MM AES-1a") is wider than a page number, and 40 keeps a label every tenth cell legible at the 1280 layout.',
         'Landing on a commitment in another file makes that file the active one: the text, the rail, Aldo and the side panels all read it.',
       ],
-      acceptance: ['Previous is off on the first commitment and Next on the last; Next from the last ITP commitment lands on the first MMRP one.', 'Confirm all paints every clean cell light purple.'],
+      acceptance: ['Prev is off on the first commitment and Next on the last; Next from the last ITP commitment lands on the first MMRP one.', 'Confirm all paints every clean cell light purple.'],
     },
     {
       label: 'Commitment',

@@ -379,10 +379,6 @@ The commitment as a marked-up page in Beacon's document voice. Each requirement 
 
 ## Styles
 ```css
-/* No box of its own — the buttons stay direct flex items of the host. */
-.esa-button-group__slot {
-  display: contents;
-}
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
   font-size: var(--typography-microcopy-2xs-font-size);

@@ -1,21 +1,22 @@
 ---
 // <BcnSwStepNav> — the console at the foot of a wizard step's panel, as step 1's scan
-// console is (bcn-sw3-toolbar): a sunken tray of keys centered under the header, then the
-// scrubber. The tray opens with Previous and Next, which step the scrubber one record at a
-// time; the step's own keys follow in the default slot (step 2: Confirm all, Export; step 3:
-// Build index, Re-run, Draft, Start over, Approve).
+// console is (bcn-sw3-toolbar): a sunken tray of neutral keys across the panel, then the
+// scrubber. Prev sits at the tray's left end and Next at its right, each stepping the
+// scrubber one record; the step's own keys sit centered between them, from the default
+// slot (step 2: Confirm all, Export; step 3: Build index, Re-run, Draft, Start over,
+// Approve All).
 //
 // Usage, in <BcnSwStepPanel>'s default slot:
 //   <BcnSwStepNav hook="ix" label="Subcategory"><BcnSw3IndexActions /></BcnSwStepNav>
 // The controller finds `[data-ix-nav]`, and inside it `[data-ix-prev]`, `[data-ix-next]`,
-// `[data-ix-step]` (the pair, hidden when there is nothing to step) and the scrubber's
+// `[data-ix-step]` (on each of the two, hidden when there is nothing to step) and the scrubber's
 // `[data-commitment-scrubber]` inside `[data-ix-scrub]`.
 //
 // A record that still wants a look (step 3: drafts never opened) is a darker gray, never
 // amber. `token` (step 2): a decided record's cell takes a light tint of the step's color,
 // and a record with something to settle reads as any other undecided one.
 //
-// bcn-lego-checked: Previous and Next ARE esa-button in esa-button-group; the scrubber IS
+// bcn-lego-checked: Prev and Next ARE esa-button; the scrubber IS
 // bcn-commitment-scrubber. The tray is step 1's bcn-sw3bar console geometry (sunken, a
 // hairline, centered). No esa- lego is a panel's footer console. bcn-sw-step-nav is its home.
 import EsaButton from '@esa/ecology/esa-button.astro';
@@ -37,11 +38,13 @@ const lower = label.toLowerCase();
 
 <div class="bcn-swsn" {...at('nav')} data-tinted={token ? '' : undefined} style={token ? `--_step: var(--color-${token});` : undefined}>
   <div class="bcn-swsn__console">
-    <esa-button-group class="bcn-swsn__step" aria-label={`Step through ${lower}s`} {...at('step')}>
-      <EsaButton variant="secondary" size="sm" icon="chevron-left" title={`Previous ${lower} (Left arrow)`} {...at('prev')}>Previous</EsaButton>
+    <span class="bcn-swsn__end" {...at('step')}>
+      <EsaButton variant="secondary" size="sm" icon="chevron-left" title={`Previous ${lower} (Left arrow)`} {...at('prev')}>Prev</EsaButton>
+    </span>
+    <span class="bcn-swsn__keys"><slot /></span>
+    <span class="bcn-swsn__end bcn-swsn__end--next" {...at('step')}>
       <EsaButton variant="secondary" size="sm" iconRight="chevron-right" title={`Next ${lower} (Right arrow)`} {...at('next')}>Next</EsaButton>
-    </esa-button-group>
-    <slot />
+    </span>
   </div>
   <div class="bcn-swsn__scrub" {...at('scrub')}>
     <BcnCommitmentScrubber label={label} />
@@ -62,21 +65,22 @@ const lower = label.toLowerCase();
   }
   .bcn-swsn[hidden],
   .bcn-swsn [hidden] { display: none !important; }
-  /* The tray: the keys side by side on a sunken strip, centered, as on step 1. */
+  /* The tray: a sunken strip across the panel, as on step 1; Prev at its left end, Next at
+     its right, the step's keys centered between. */
   .bcn-swsn__console {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: center;
     gap: var(--spacing-200);
-    align-self: center;
-    max-width: 100%;
     padding: var(--spacing-100);
     background: var(--color-background-elevation-sunken);
     border: 1px solid var(--color-border-default-subtle);
     border-radius: var(--radius-200);
   }
-  .bcn-swsn__console > :global(*) { flex: none; }
+  .bcn-swsn__keys { grid-column: 2; display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-200); }
+  .bcn-swsn__keys > :global(*) { flex: none; }
+  .bcn-swsn__end { grid-row: 1; grid-column: 1; justify-self: start; }
+  .bcn-swsn__end--next { grid-column: 3; justify-self: end; }
   /* A key that cannot act now is plainly off, as on step 1's console. */
   .bcn-swsn :global(button:disabled) { opacity: 0.38; }
   .bcn-swsn__scrub:empty { display: none; }
@@ -93,6 +97,3 @@ const lower = label.toLowerCase();
   }
 </style>
 
-<script>
-  import '@esa/ecology/esa-button-group';
-</script>

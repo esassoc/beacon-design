@@ -170,7 +170,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
   import '@esa/ecology/esa-dialog';
   import '@esa/ecology/esa-textarea';
   import { initIndex, entry, titleOf, merge, mergeRefusal } from './sw3-index-store';
-  import { locatorRef, deadlineText } from './sw3-index';
+  import { locatorRef, deadlineText, recurrenceText } from './sw3-index';
   import { draftKind } from './draft-kind';
   import type { IndexEntry, IndexLocator } from '../../data/sw3-index-types';
   import { toast } from '../../lib/snackbar';
@@ -215,7 +215,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
       else {
         f('Scope', e.scope || 'No scope', !e.scope);
         f('Responsible party', e.responsibleParty || 'Needs input', !e.responsibleParty);
-        f('Frequency', e.recurrence ? `${e.frequency}, ${e.recurrence}` : e.frequency);
+        f('Frequency', e.recurrence ? recurrenceText(e) : e.frequency);
         f('Deadline', deadlineText(e));
       }
     };

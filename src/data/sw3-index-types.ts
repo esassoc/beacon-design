@@ -43,6 +43,14 @@ export interface IndexDeadline {
   direction: string;
 }
 
+/** ActionRecurrence: every N periods, between two milestones. */
+export interface IndexRecurrence {
+  every: number;
+  unit: string;
+  from: string;
+  until: string;
+}
+
 export interface IndexAction {
   id: string;
   kind: 'action';
@@ -50,17 +58,19 @@ export interface IndexAction {
   name: string;
   /** Action.Description: what is done. */
   text: string;
-  /** Action.ActionType: Plan, Report, Survey, Notification… */
+  /** Action.RequirementType: Plan, Reporting, Survey, Approval & Consultation… */
   type: string;
   /** Empty blocks approval: "This draft has no scope." */
   scope: ActionScope | '';
   /** Empty means "Needs input". */
   responsibleParty: string;
   expectedEvidence: string;
-  /** Onetime, Recurring… */
+  /** Onetime, Recurring, AsNeeded. */
   frequency: string;
   deadline: IndexDeadline | null;
-  recurrence: string | null;
+  recurrence: IndexRecurrence | null;
+  /** As needed: the event that calls for it. */
+  eventTrigger?: string;
   locators: IndexLocator[];
 }
 
@@ -168,3 +178,27 @@ export const SCOPE_OPTIONS: { value: ActionScope; label: string }[] = [
   { value: 'Project', label: 'Project' },
   { value: 'Component', label: 'Component' },
 ];
+
+/** Prod's RequirementType: what an action is, its badge on the review row. */
+export const ACTION_TYPES = [
+  'Analysis',
+  'Approval & Consultation',
+  'Avoidance & BMPs',
+  'Design',
+  'Financial',
+  'Monitoring',
+  'Plan',
+  'Reporting',
+  'Restoration & Mitigation',
+  'Survey',
+  'Other',
+] as const;
+export const TYPE_OPTIONS = ACTION_TYPES.map((t) => ({ value: t, label: t }));
+/** Prod's action-timing-form frequencies. */
+export const FREQUENCY_OPTIONS = [
+  { value: 'Onetime', label: 'One time' },
+  { value: 'Recurring', label: 'Recurring' },
+  { value: 'AsNeeded', label: 'As needed' },
+];
+export const PERIOD_OPTIONS = ['Days', 'Weeks', 'Months', 'Years'].map((p) => ({ value: p, label: p }));
+export const DIRECTION_OPTIONS = ['Before', 'After'].map((p) => ({ value: p, label: p }));

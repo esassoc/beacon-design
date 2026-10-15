@@ -2,21 +2,21 @@
 // <BcnDraftKind> — the styles for a draft's kind mark, built at run time by draftKind() in
 // ./draft-kind.ts. Render this once on a page that shows draft rows.
 //
-// Develop's marks (compliance-index-step subcategory review): an action is the Action
-// entity icon in --color-action; an obligation is obligation-class-chip, 11px at weight 500
-// on a 14% tint of its class hue, the text at 78% of the hue toward black. Adhere reads
-// --color-obligation, Monitor and Notify their own hues, Roster --color-action.
+// An obligation is develop's obligation-class-chip, 11px at weight 500 on a 14% tint of its
+// class hue, the text at 78% of the hue toward black. Adhere reads --color-obligation,
+// Monitor and Notify their own hues, Roster --color-action. An action is its requirement
+// type on the same chip in --color-action, cut to its column when long.
 //
 // bcn-lego-checked: esa-badge's variants are status tones, not a hue per obligation class,
 // and it has no hook for a class hue. Checked Beacon: obligation-class-chip and the
-// sr__action-icon are this, ported faithfully. bcn-draft-kind is its home.
+// the type chip is its metrics in the action color. bcn-draft-kind is its home.
 ---
 
 <style is:global>
   .bcn-draft-kind { display: inline-flex; align-items: center; flex-shrink: 0; }
-  .bcn-draft-kind--action { color: var(--color-action); line-height: 0; }
   .bcn-draft-kind--class {
     --_hue: var(--color-obligation);
+    display: inline-block;
     padding: 1px var(--spacing-200);
     border-radius: var(--radius-sm, 4px);
     font-size: 0.6875rem;
@@ -24,8 +24,12 @@
     line-height: 1.5;
     background: color-mix(in srgb, var(--_hue) 14%, var(--color-background-elevation-raised));
     color: color-mix(in srgb, var(--_hue) 78%, var(--color-content-default));
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .bcn-draft-kind--class[data-class='monitor'] { --_hue: var(--color-obligation-monitor); }
   .bcn-draft-kind--class[data-class='notify'] { --_hue: var(--color-obligation-notify); }
-  .bcn-draft-kind--class[data-class='roster'] { --_hue: var(--color-action); }
+  .bcn-draft-kind--class:is([data-class='roster'], [data-class='action']) { --_hue: var(--color-action); }
 </style>

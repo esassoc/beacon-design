@@ -3,30 +3,33 @@
 //
 // The tools, in one bar pinned across the top of the pane, as the PDF's page tools are on
 // step 1 (borderless keys; a tool that needs a selection in its place, off until there is
-// one): where it sits, Category › Subcategory, each with its color dot (the category's hue,
-// as in the index and the scrubber); then Merge (two or more ticked), Discard all and
-// Approve all (N). Pressing the category goes to its first subcategory.
+// one): where it sits, Category › Subcategory as plain text with each one's color dot (the
+// category's hue, as in the index and the scrubber), never links; then Merge (two or more
+// ticked), Discard all and Approve all (N).
 //
-// Before drafting: its lists as develop renders them before a
-// run fills them: Actions (0) and Obligations (0), each reading None, the keys disabled.
+// Before drafting: its lists as develop renders them before a run fills them: Actions (0)
+// and Obligations (0), each reading None, the keys disabled.
 //
-// Drafted: the review, in Beacon's document voice. Actions first, then obligations by who
-// reads them (Crews, Monitors, Compliance staff), then Discarded (N), folded. Each draft is
-// one line, its title cut to the line (a box to tick for Merge, kind, title, locators); pressing the title opens its
-// record in place: an obligation's audience, Applies when, monitor signs, Also filed in;
-// an action's type, scope, responsible party (Needs input when none), frequency, deadline,
-// expected evidence and text; and each passage it rests on, quoted under its locator. Keys:
-// Approve, Discard, Restore, Edit.
+// Drafted: the review, in Beacon's document voice. Two lists, Actions then Obligations,
+// then Discarded (N), folded. Each draft is one line: a box to tick for Merge; its kind (an
+// action's requirement type in the action color, an obligation's class chip); its title,
+// cut to the line; the commitments it rests on, as commitment badges (more than one stack
+// left to right, and open a popover listing them all); an approved check. Pressing the
+// title opens its edit form in the side panel (bcn-sw3-entry-edit), where Approve, Discard
+// and Restore live.
 //
 // The controller is the host's (sw3-index.ts): this component is markup, templates and look.
 //
-// bcn-lego-checked: the trail IS esa-breadcrumbs (its icon slot holds the color dot); the kind mark IS bcn-draft-kind (develop's obligation-class-chip and Action icon); every key IS esa-button; the tick IS
-// esa-checkbox; the check IS esa-icon; Discarded IS esa-collapsible. Checked Beacon:
-// subcategory-review lists actions then obligations by audience with checkboxes on the
-// rows and the selected draft's fields in a side pane; this keeps its order, grouping and
-// verbs and opens the record in place. bcn-sw3-index-page is its home.
+// bcn-lego-checked: the trail IS esa-breadcrumbs with no links (its icon slot holds the
+// color dot); the kind mark IS bcn-draft-kind (develop's obligation-class-chip, and a
+// requirement-type chip on its metrics); the cites ARE bcn-commitment-badge in esa-popover;
+// every key IS esa-button; the tick IS esa-checkbox; the check IS esa-icon. Checked Beacon:
+// subcategory-review lists actions then obligations with checkboxes on the rows and opens
+// the edit dialogs (ObligationEditDialog, ActionsStepEditDialog). bcn-sw3-index-page is
+// its home.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnDraftKind from './BcnDraftKind.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaBreadcrumbs from '@esa/ecology/esa-breadcrumbs.astro';
 import { glyphPaths } from './comment-glyphs';
@@ -38,7 +41,7 @@ const dot = '<span class="bcn-sw3ip__dot" data-ip-dot></span>';
 <article class="bcn-sw3ip" data-sw3-index-page aria-label="Subcategory">
   <div class="bcn-sw3ip__tools" role="toolbar" aria-label="Subcategory tools">
     <div class="bcn-sw3ip__crumbs" data-ip-crumbs>
-      <EsaBreadcrumbs size="sm" items={[{ label: 'Category', href: '#', icon: dot }, { label: 'Subcategory', icon: dot }]} />
+      <EsaBreadcrumbs size="sm" items={[{ label: 'Category', icon: dot }, { label: 'Subcategory', icon: dot }]} />
     </div>
     <div class="bcn-sw3ip__toolkeys" data-ip-acts>
       <EsaButton variant="ghost" size="sm" icon="plus" title="Merge the ticked drafts" data-ip-merge>Merge</EsaButton>
@@ -72,23 +75,13 @@ const dot = '<span class="bcn-sw3ip__dot" data-ip-dot></span>';
       <div class="bcn-sw3ip__line">
         <span class="bcn-sw3ip__tick" data-e-tick><esa-checkbox size="sm" aria-label="Select for merge"></esa-checkbox></span>
         <span class="bcn-sw3ip__chip" data-e-chip></span>
-        <a class="bcn-sw3ip__name" href="#" data-e-toggle></a>
-        <span class="bcn-sw3ip__locs" data-e-locs></span>
+        <a class="bcn-sw3ip__name" href="#" data-e-open></a>
+        <span class="bcn-sw3ip__cites" data-e-cites></span>
         <span class="bcn-sw3ip__ok" data-e-ok><EsaIcon name="circle-check" size="sm" label="Approved" /></span>
-      </div>
-      <div class="bcn-sw3ip__rec" data-e-rec hidden>
-        <p class="bcn-sw3ip__block" data-e-block hidden></p>
-        <dl class="bcn-sw3ip__fields" data-e-fields></dl>
-        <div class="bcn-sw3ip__passages" data-e-passages></div>
-        <div class="bcn-sw3ip__keys">
-          <span data-e-approve><EsaButton variant="secondary" size="xs" icon="check">Approve</EsaButton></span>
-          <span data-e-discard><EsaButton variant="ghost" size="xs" icon="x">Discard</EsaButton></span>
-          <span data-e-restore><EsaButton variant="ghost" size="xs" icon="rotate-ccw">Restore</EsaButton></span>
-          <span data-e-edit><EsaButton variant="ghost" size="xs" icon="pencil">Edit</EsaButton></span>
-        </div>
       </div>
     </li>
   </template>
+  <template data-ip-tpl="badge"><BcnCommitmentBadge code="" size="sm" /></template>
   <span hidden data-ip-merge-glyph set:html={glyphPaths('merge')} />
 </article>
 
@@ -127,6 +120,8 @@ const dot = '<span class="bcn-sw3ip__dot" data-ip-dot></span>';
   .bcn-sw3ip__crumbs :global(.esa-breadcrumbs__link),
   .bcn-sw3ip__crumbs :global(.esa-breadcrumbs__current) { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bcn-sw3ip__crumbs :global(.esa-breadcrumbs__icon) { display: inline-flex; vertical-align: middle; margin-right: var(--spacing-150, 6px); }
+  /* The category reads as the parent: regular weight, secondary. */
+  .bcn-sw3ip__crumbs :global(.esa-breadcrumbs__item:first-child .esa-breadcrumbs__current) { font-weight: 400; color: var(--color-content-default-secondary); }
   .bcn-sw3ip__crumbs :global(.bcn-sw3ip__dot) { width: 8px; height: 8px; border-radius: 50%; background: var(--_hue, var(--color-content-default-tertiary)); }
   .bcn-sw3ip :global(.bcn-sw3ip__gh) {
     margin: 0;
@@ -141,7 +136,19 @@ const dot = '<span class="bcn-sw3ip__dot" data-ip-dot></span>';
   .bcn-sw3ip__review { display: flex; flex-direction: column; gap: var(--spacing-500); padding: var(--spacing-500) var(--spacing-600); }
   .bcn-sw3ip__groups { display: flex; flex-direction: column; gap: var(--spacing-500); }
   .bcn-sw3ip :global(.bcn-sw3ip__group) { display: flex; flex-direction: column; gap: var(--spacing-200); }
-  .bcn-sw3ip :global(.bcn-sw3ip__entries) { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-100); }
+  /* A list's rows share its columns (subgrid): the kind column is as wide as its widest
+     chip, so an action's type and an obligation's class sit snug against the title. */
+  .bcn-sw3ip :global(.bcn-sw3ip__entries) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: auto fit-content(9.5rem) minmax(0, 1fr) auto auto;
+    column-gap: var(--spacing-200);
+    row-gap: var(--spacing-100);
+  }
+  .bcn-sw3ip :global(.bcn-sw3ip__entries > li) { grid-column: 1 / -1; }
+  .bcn-sw3ip :global(.bcn-sw3ip__entry) { display: grid; grid-template-columns: subgrid; }
 
   .bcn-sw3ip__discarded { display: flex; flex-direction: column; gap: var(--spacing-200); }
   .bcn-sw3ip__discarded > summary { cursor: pointer; list-style-position: inside; }
@@ -160,57 +167,76 @@ const dot = '<span class="bcn-sw3ip__dot" data-ip-dot></span>';
 
   .bcn-sw3ip :global(.bcn-sw3ip__line) {
     display: grid;
-    grid-template-columns: 1.25rem 3.75rem minmax(0, 1fr) auto 1.25rem;
-    align-items: baseline;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    align-items: center;
     gap: var(--spacing-200);
     padding: var(--spacing-150) var(--spacing-300);
     font-size: 0.875rem;
   }
-  .bcn-sw3ip :global(.bcn-sw3ip__tick) { align-self: center; line-height: 0; }
+  .bcn-sw3ip :global(.bcn-sw3ip__tick) { display: flex; width: 1.25rem; padding-right: var(--spacing-100); line-height: 0; }
+  .bcn-sw3ip :global(.bcn-sw3ip__ok) { display: flex; width: 1.25rem; }
   .bcn-sw3ip :global(.bcn-sw3ip__entry:not([data-status='draft']) .bcn-sw3ip__tick) { visibility: hidden; }
-  .bcn-sw3ip :global(.bcn-sw3ip__chip) { align-self: center; line-height: 0; }
-  /* One line each: the title is cut to the row; the record opens it in full. */
+  .bcn-sw3ip :global(.bcn-sw3ip__chip) { display: flex; min-width: 0; line-height: 0; }
+  .bcn-sw3ip :global(.bcn-sw3ip__chip .bcn-draft-kind) { max-width: 100%; }
+  /* One line each: the title is cut to the row; the side panel holds it in full. */
   .bcn-sw3ip :global(.bcn-sw3ip__name) { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--color-content-default); font-weight: 500; text-decoration: none; }
   .bcn-sw3ip :global(.bcn-sw3ip__none) { padding: var(--spacing-150) var(--spacing-300); font-size: 0.875rem; color: var(--color-content-default-secondary); }
   .bcn-sw3ip :global(.bcn-sw3ip__name:hover) { text-decoration: underline; }
   .bcn-sw3ip :global(.bcn-sw3ip__entry[data-status='discarded'] .bcn-sw3ip__name) { text-decoration: line-through; color: var(--color-content-default-tertiary); }
-  .bcn-sw3ip :global(.bcn-sw3ip__locs) { font-variant-numeric: tabular-nums; color: var(--color-content-default-secondary); white-space: nowrap; }
-  .bcn-sw3ip :global(.bcn-sw3ip__locs a),
-  .bcn-sw3ip :global(.bcn-sw3ip__passage a),
-  .bcn-sw3ip :global(.bcn-sw3ip__fields a) { color: var(--color-content-link, var(--color-content-brand)); text-decoration: none; }
-  .bcn-sw3ip :global(.bcn-sw3ip__locs a:hover),
-  .bcn-sw3ip :global(.bcn-sw3ip__passage a:hover),
-  .bcn-sw3ip :global(.bcn-sw3ip__fields a:hover) { text-decoration: underline; }
-  .bcn-sw3ip :global(.bcn-sw3ip__ok) { visibility: hidden; align-self: center; line-height: 0; color: var(--color-content-success); }
+  .bcn-sw3ip :global(.bcn-sw3ip__entry[data-open]) { background: var(--color-background-elevation-sunken); }
+  .bcn-sw3ip :global(.bcn-sw3ip__ok) { visibility: hidden; line-height: 0; color: var(--color-content-success); }
   .bcn-sw3ip :global(.bcn-sw3ip__entry[data-status='approved'] .bcn-sw3ip__ok) { visibility: visible; }
 
-  /* The record, opened in place. */
-  .bcn-sw3ip :global(.bcn-sw3ip__rec) {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-300);
-    padding: 0 var(--spacing-300) var(--spacing-300) calc(1.25rem + 5.25rem + 2 * var(--spacing-200) + var(--spacing-300));
-    font-size: 0.875rem;
+  /* The commitments a draft rests on: one badge, or a stack of them. */
+  .bcn-sw3ip :global(.bcn-sw3ip__cites) { display: flex; justify-content: flex-end; line-height: 0; }
+  .bcn-sw3ip :global(:is(.bcn-sw3ip__cite, .bcn-sw3ip__stack)) {
+    display: inline-flex;
+    padding: 0;
+    border: 0;
+    background: none;
+    border-radius: var(--radius-100);
+    text-decoration: none;
+    cursor: pointer;
+    font: inherit;
+    line-height: 1.5;
   }
-  .bcn-sw3ip :global(.bcn-sw3ip__block) { margin: 0; color: var(--color-content-warning); font-weight: 500; }
-  .bcn-sw3ip :global(.bcn-sw3ip__fields) { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: var(--spacing-100) var(--spacing-300); margin: 0; }
-  .bcn-sw3ip :global(.bcn-sw3ip__fields dt) { color: var(--color-content-default-secondary); font-weight: 500; }
-  .bcn-sw3ip :global(.bcn-sw3ip__fields dd) { margin: 0; color: var(--color-content-default); }
-  .bcn-sw3ip :global(.bcn-sw3ip__fields ul) { margin: 0; padding-left: 1.1em; }
-  .bcn-sw3ip :global(.bcn-sw3ip__fields dd[data-needs]) { color: var(--color-content-warning); font-weight: 500; }
-  .bcn-sw3ip :global(.bcn-sw3ip__passages) { display: flex; flex-direction: column; gap: var(--spacing-200); }
-  .bcn-sw3ip :global(.bcn-sw3ip__passage) { margin: 0; display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: var(--spacing-300); font-variant-numeric: tabular-nums; }
-  .bcn-sw3ip :global(.bcn-sw3ip__passage q) {
-    font-family: var(--font-decorative, var(--typography-font-family-sans));
-    font-size: 0.9375rem;
-    line-height: 1.6;
+  .bcn-sw3ip :global(.bcn-sw3ip__cite:hover .bcn-cbadge),
+  .bcn-sw3ip :global(.bcn-sw3ip__stack:hover .bcn-cbadge:first-child) { background: color-mix(in srgb, var(--color-commitment) 22%, var(--color-background-elevation-raised)); }
+  /* Stacked left to right: the first on top, each one under it a step to the right, its
+     edge in a deeper tint so the layers read as cards. */
+  .bcn-sw3ip :global(.bcn-sw3ip__stack) { display: inline-grid; padding-right: calc((var(--_n) - 1) * 9px); }
+  .bcn-sw3ip :global(.bcn-sw3ip__stack .bcn-cbadge) { grid-area: 1 / 1; box-shadow: 1.5px 0 0 0 var(--color-background-elevation-raised), 0 0 0 1px var(--color-background-elevation-raised); }
+  .bcn-sw3ip :global(.bcn-sw3ip__stack .bcn-cbadge:nth-child(1)) { z-index: 3; }
+  .bcn-sw3ip :global(.bcn-sw3ip__stack .bcn-cbadge:nth-child(2)) {
+    z-index: 2;
+    transform: translateX(9px) scaleY(0.84);
+    color: transparent;
+    background: color-mix(in srgb, var(--color-commitment) 26%, var(--color-background-elevation-raised));
+  }
+  .bcn-sw3ip :global(.bcn-sw3ip__stack .bcn-cbadge:nth-child(3)) {
+    z-index: 1;
+    transform: translateX(18px) scaleY(0.68);
+    color: transparent;
+    background: color-mix(in srgb, var(--color-commitment) 40%, var(--color-background-elevation-raised));
+  }
+  /* The popover: every commitment, its badge and its title; each opens it. */
+  .bcn-sw3ip :global(.bcn-sw3ip__stack:hover .bcn-cbadge:nth-child(2)) { transform: translateX(11px) scaleY(0.84); }
+  .bcn-sw3ip :global(.bcn-sw3ip__stack:hover .bcn-cbadge:nth-child(3)) { transform: translateX(22px) scaleY(0.68); }
+  .bcn-sw3ip :global(.bcn-sw3ip__stack .bcn-cbadge) { transition: transform 120ms ease-out; }
+  @media (prefers-reduced-motion: reduce) { .bcn-sw3ip :global(.bcn-sw3ip__stack .bcn-cbadge) { transition: none; } }
+  .bcn-sw3ip :global(.bcn-sw3ip__citelist) { display: flex; flex-direction: column; width: max-content; min-width: 16rem; max-width: min(26rem, 60vw); margin: calc(-1 * var(--spacing-100)); line-height: 1.4; }
+  .bcn-sw3ip :global(.bcn-sw3ip__citelist a) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: baseline;
+    gap: var(--spacing-200);
+    padding: var(--spacing-150) var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: 0.8125rem;
     color: var(--color-content-default);
-    quotes: '“' '”';
+    text-decoration: none;
   }
-  .bcn-sw3ip :global(.bcn-sw3ip__keys) { display: flex; gap: var(--spacing-150); flex-wrap: wrap; }
-  .bcn-sw3ip :global(.bcn-sw3ip__entry:not([data-status='discarded']) [data-e-restore]),
-  .bcn-sw3ip :global(.bcn-sw3ip__entry[data-status='discarded'] [data-e-discard]),
-  .bcn-sw3ip :global(.bcn-sw3ip__entry[data-status='discarded'] [data-e-approve]),
-  .bcn-sw3ip :global(.bcn-sw3ip__entry[data-status='discarded'] [data-e-edit]),
-  .bcn-sw3ip :global(.bcn-sw3ip__entry[data-status='approved'] [data-e-approve]) { display: none; }
+  .bcn-sw3ip :global(.bcn-sw3ip__citelist a:hover) { background: var(--color-background-elevation-sunken); }
+  .bcn-sw3ip :global(.bcn-sw3ip__citelist a span:last-child) { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 </style>

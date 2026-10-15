@@ -573,10 +573,6 @@ One conversation per subcategory. Before drafting it takes Re-run guidance in pl
 
 ## Styles
 ```css
-/* No box of its own — the buttons stay direct flex items of the host. */
-.esa-button-group__slot {
-  display: contents;
-}
 /* Both message nodes ALWAYS render — a live region created at the same moment as
        its text is routinely not announced, so it has to already exist. When empty they
        carry .visually-hidden, which takes them out of flow: .field is a flex column
@@ -868,6 +864,52 @@ One conversation per subcategory. Before drafting it takes Re-run guidance in pl
 }
 .bcn-console__more .esa-button__native:hover {
   color: var(--bcn-console-fg);
+}
+.bcn-sw3ip .bcn-sw3ip__cite:hover .bcn-cbadge,
+.bcn-sw3ip .bcn-sw3ip__stack:hover .bcn-cbadge:first-child {
+  background: color-mix(
+    in srgb,
+    var(--color-commitment) 22%,
+    var(--color-background-elevation-raised)
+  );
+}
+.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge {
+  box-shadow:
+    1.5px 0 0 0 var(--color-background-elevation-raised),
+    0 0 0 1px var(--color-background-elevation-raised);
+  grid-area: 1/1;
+}
+.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge:first-child {
+  z-index: 3;
+}
+.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge:nth-child(2) {
+  z-index: 2;
+  color: #0000;
+  background: color-mix(
+    in srgb,
+    var(--color-commitment) 26%,
+    var(--color-background-elevation-raised)
+  );
+  transform: translate(9px) scaleY(0.84);
+}
+.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge:nth-child(3) {
+  z-index: 1;
+  color: #0000;
+  background: color-mix(
+    in srgb,
+    var(--color-commitment) 40%,
+    var(--color-background-elevation-raised)
+  );
+  transform: translate(18px) scaleY(0.68);
+}
+.bcn-sw3ip .bcn-sw3ip__stack:hover .bcn-cbadge:nth-child(2) {
+  transform: translate(11px) scaleY(0.84);
+}
+.bcn-sw3ip .bcn-sw3ip__stack:hover .bcn-cbadge:nth-child(3) {
+  transform: translate(22px) scaleY(0.68);
+}
+.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge {
+  transition: transform 0.12s ease-out;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);

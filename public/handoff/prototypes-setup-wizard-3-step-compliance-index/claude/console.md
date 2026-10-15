@@ -1,23 +1,18 @@
 # Console
 
-The foot of the step's panel, as step 1 carries its scan console: the header carries no keys. A sunken tray of keys centered under the header rule, by phase. No index yet: Build index and + Category. Built: Previous, Next, Re-run and Draft actions & obligations. During a run: Previous, Next and the run's key, disabled. After it: Previous, Next, Start over, Draft again (primary while something is outstanding) and Approve Compliance Index. Under the tray, once there is an index, every subcategory in index order, step 2's scrubber, a rule and the category's name where each category starts, a band of the category's hue along the foot of its cells and its name marked in the same hue. Drafted: dark gray for drafts never opened, mid gray for opened with drafts to review, green when every draft is decided. No amber: nothing on the strip reads as alarm.
+The foot of the step's panel, as step 1 carries its scan console: the header carries no keys. A sunken tray across the panel under the header rule, every key neutral: Prev at its left end, Next at its right, the step's keys centered between, by phase. No index yet: Build index and + Category (no Prev or Next). Built: Re-run and Draft actions & obligations. During a run: the run's key, disabled. After it: Start over (the undo glyph), Draft again (its title names what is outstanding), Suggest Subcategories (while something fits no subcategory), View Log (the run's record in the console lightbox) and Approve All. Under the tray, once there is an index, every subcategory in index order, step 2's scrubber, a rule and the category's name where each category starts, a band of the category's hue along the foot of its cells and its name marked in the same hue. Drafted: dark gray for drafts never opened, mid gray for opened with drafts to review, green when every draft is decided. No amber: nothing on the strip reads as alarm.
 
 ## Key decisions
 - Start over is PR #1520's: once a Draft run exists it replaces Re-run, and it deletes the index and every draft back to "No index yet". Prod refuses it while a run is live or an approved record has evidence.
-- Approve Compliance Index approves every pending draft after a confirm that counts the subcategories never opened. Draft actions with no scope stay drafts.
-- No position line and no Next to review: Previous and Next, or the arrow keys, step one subcategory at a time; the thumb is where you are.
+- Approve All approves every pending draft after a confirm that counts the subcategories never opened. Draft actions with no scope stay drafts.
+- No position line and no Next to review: Prev and Next, or the arrow keys, step one subcategory at a time; the thumb is where you are.
 - Opened is not reviewed. Prod sets FirstOpenedDate the first time a bin with drafts is opened.
 
 ## Markup
 ```html
 <div class="bcn-swsn" data-ix-nav="">
   <div class="bcn-swsn__console">
-    <esa-button-group
-      class="bcn-swsn__step"
-      aria-label="Step through subcategorys"
-      data-ix-step=""
-      role="group"
-      hidden=""
+    <span class="bcn-swsn__end" data-ix-step="" hidden=""
       ><span
         class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
         ><button
@@ -39,8 +34,284 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
               focusable="false"
             >
               <path d="m15 18-6-6 6-6"></path></svg></span
-          ><span class="esa-button__label">Previous</span>
+          ><span class="esa-button__label">Prev</span>
         </button></span
+      ></span
+    ><span class="bcn-swsn__keys"
+      ><div class="bcn-sw3ia" data-sw3-index-actions="">
+        <span data-ia-empty=""
+          ><span
+            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-ico="play"
+              data-ia-build="true"
+            >
+              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                  data-ico="play"
+                >
+                  <polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span
+              ><span class="esa-button__label">Build index</span>
+            </button></span
+          ></span
+        ><span data-ia-empty-cat=""
+          ><span
+            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-ia-add-cat="true"
+            >
+              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="M5 12h14"></path>
+                  <path d="M12 5v14"></path></svg></span
+              ><span class="esa-button__label">Category</span>
+            </button></span
+          ></span
+        ><span data-ia-built="" hidden=""
+          ><span
+            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-ia-rerun="true"
+            >
+              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                  <path d="M3 3v5h5"></path></svg></span
+              ><span class="esa-button__label">Re-run</span>
+            </button></span
+          ></span
+        ><span data-ia-drafted="" hidden=""
+          ><span
+            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-ico="undo-2"
+              data-ia-start-over="true"
+              title=""
+            >
+              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                  data-ico="undo-2"
+                >
+                  <path d="M9 14 4 9l5-5"></path>
+                  <path
+                    d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"
+                  ></path></svg></span
+              ><span class="esa-button__label">Start over</span>
+            </button></span
+          ></span
+        ><span data-ia-again-wrap="" hidden=""
+          ><span
+            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-ico="play"
+              data-ia-again="true"
+              title="Draft again"
+            >
+              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                  data-ico="play"
+                >
+                  <polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span
+              ><span class="esa-button__label">Draft again</span>
+            </button></span
+          ></span
+        ><span data-ia-draft-wrap="" hidden=""
+          ><span
+            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-ico="play"
+              data-ia-draft="true"
+            >
+              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                  data-ico="play"
+                >
+                  <polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span
+              ><span class="esa-button__label">Draft actions &amp; obligations</span>
+            </button></span
+          ></span
+        ><span data-ia-suggest-wrap="" hidden=""
+          ><span
+            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-ico="square-dashed"
+              data-ia-suggest="true"
+            >
+              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                  data-ico="square-dashed"
+                >
+                  <path d="M5 3a2 2 0 0 0-2 2"></path>
+                  <path d="M19 3a2 2 0 0 1 2 2"></path>
+                  <path d="M21 19a2 2 0 0 1-2 2"></path>
+                  <path d="M5 21a2 2 0 0 1-2-2"></path>
+                  <path d="M9 3h1"></path>
+                  <path d="M9 21h1"></path>
+                  <path d="M14 3h1"></path>
+                  <path d="M14 21h1"></path>
+                  <path d="M3 9v1"></path>
+                  <path d="M21 9v1"></path>
+                  <path d="M3 14v1"></path>
+                  <path d="M21 14v1"></path></svg></span
+              ><span class="esa-button__label">Suggest Subcategories</span>
+            </button></span
+          ></span
+        ><span data-ia-log-wrap="" hidden=""
+          ><span
+            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-ia-log="true"
+            >
+              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                  ></path>
+                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                  <path d="M10 9H8"></path>
+                  <path d="M16 13H8"></path>
+                  <path d="M16 17H8"></path></svg></span
+              ><span class="esa-button__label">View Log</span>
+            </button></span
+          ></span
+        ><span data-ia-approve-wrap="" hidden=""
+          ><span
+            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-ia-approve="true"
+              disabled=""
+              title=""
+            >
+              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path></svg></span
+              ><span class="esa-button__label">Approve All</span>
+            </button></span
+          ></span
+        ><esa-confirm-dialog
+          heading="Start over?"
+          variant="danger"
+          confirm-label="Start over"
+          cancel-label="Cancel"
+          data-ia-confirm-start="true"
+        ></esa-confirm-dialog
+        ><esa-confirm-dialog
+          heading="Approve the Compliance Index?"
+          confirm-label="Approve"
+          cancel-label="Cancel"
+          data-ia-confirm-approve="true"
+          variant="default"
+        ></esa-confirm-dialog>
+      </div>
+      <script
+        type="module"
+        src="/beacon-design/_astro/BcnSw3IndexActions.astro_astro_type_script_index_0_lang.CRvDM-DA.js"
+      ></script></span
+    ><span class="bcn-swsn__end bcn-swsn__end--next" data-ix-step="" hidden=""
       ><span
         class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
         ><button
@@ -64,223 +335,7 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
             >
               <path d="m9 18 6-6-6-6"></path></svg
           ></span></button></span
-    ></esa-button-group>
-    <div class="bcn-sw3ia" data-sw3-index-actions="">
-      <span data-ia-empty=""
-        ><span
-          class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
-          ><button
-            class="esa-button__native typography-microcopy-xs"
-            type="button"
-            data-ia-build="true"
-          >
-            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-              ><svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path
-                  d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"
-                ></path>
-                <path d="M20 3v4"></path>
-                <path d="M22 5h-4"></path>
-                <path d="M4 17v2"></path>
-                <path d="M5 18H3"></path></svg></span
-            ><span class="esa-button__label">Build index</span>
-          </button></span
-        ></span
-      ><span data-ia-empty-cat=""
-        ><span
-          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-          ><button
-            class="esa-button__native typography-microcopy-xs"
-            type="button"
-            data-ia-add-cat="true"
-          >
-            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-              ><svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path d="M5 12h14"></path>
-                <path d="M12 5v14"></path></svg></span
-            ><span class="esa-button__label">Category</span>
-          </button></span
-        ></span
-      ><span data-ia-built="" hidden=""
-        ><span
-          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-          ><button
-            class="esa-button__native typography-microcopy-xs"
-            type="button"
-            data-ia-rerun="true"
-          >
-            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-              ><svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                <path d="M3 3v5h5"></path></svg></span
-            ><span class="esa-button__label">Re-run</span>
-          </button></span
-        ></span
-      ><span data-ia-drafted="" hidden=""
-        ><span
-          class="esa-button esa-button--variant-danger esa-button--appearance-outline esa-button--sm"
-          ><button
-            class="esa-button__native typography-microcopy-xs"
-            type="button"
-            data-ia-start-over="true"
-            title=""
-          >
-            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-              ><svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path d="M3 6h18"></path>
-                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                <line x1="10" x2="10" y1="11" y2="17"></line>
-                <line x1="14" x2="14" y1="11" y2="17"></line></svg></span
-            ><span class="esa-button__label">Start over</span>
-          </button></span
-        ></span
-      ><span data-ia-again-wrap="" hidden=""
-        ><span
-          class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-          ><button
-            class="esa-button__native typography-microcopy-xs esa-button--variant-secondary"
-            type="button"
-            data-ia-again="true"
-          >
-            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-              ><svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path
-                  d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"
-                ></path>
-                <path d="M20 3v4"></path>
-                <path d="M22 5h-4"></path>
-                <path d="M4 17v2"></path>
-                <path d="M5 18H3"></path></svg></span
-            ><span class="esa-button__label">Draft again</span>
-          </button></span
-        ></span
-      ><span data-ia-draft-wrap="" hidden=""
-        ><span
-          class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
-          ><button
-            class="esa-button__native typography-microcopy-xs"
-            type="button"
-            data-ia-draft="true"
-          >
-            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-              ><svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path
-                  d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"
-                ></path>
-                <path d="M20 3v4"></path>
-                <path d="M22 5h-4"></path>
-                <path d="M4 17v2"></path>
-                <path d="M5 18H3"></path></svg></span
-            ><span class="esa-button__label">Draft actions &amp; obligations</span>
-          </button></span
-        ></span
-      ><span data-ia-approve-wrap="" hidden=""
-        ><span
-          class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
-          ><button
-            class="esa-button__native typography-microcopy-xs"
-            type="button"
-            data-ia-approve="true"
-            disabled=""
-            title=""
-          >
-            <span class="esa-icon esa-icon--sm" aria-hidden="true"
-              ><svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="m9 12 2 2 4-4"></path></svg></span
-            ><span class="esa-button__label">Approve Compliance Index</span>
-          </button></span
-        ></span
-      ><esa-confirm-dialog
-        heading="Start over?"
-        variant="danger"
-        confirm-label="Start over"
-        cancel-label="Cancel"
-        data-ia-confirm-start="true"
-      ></esa-confirm-dialog
-      ><esa-confirm-dialog
-        heading="Approve the Compliance Index?"
-        confirm-label="Approve"
-        cancel-label="Cancel"
-        data-ia-confirm-approve="true"
-        variant="default"
-      ></esa-confirm-dialog>
-    </div>
-    <script
-      type="module"
-      src="/beacon-design/_astro/BcnSw3IndexActions.astro_astro_type_script_index_0_lang.B9xPdZzu.js"
-    ></script>
+    ></span>
   </div>
   <div class="bcn-swsn__scrub" data-ix-scrub="" hidden="">
     <div class="bcn-cscrub" data-commitment-scrubber="" data-size="40" style="--_n: 40">
@@ -379,10 +434,6 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
 
 ## Styles
 ```css
-/* No box of its own — the buttons stay direct flex items of the host. */
-.esa-button-group__slot {
-  display: contents;
-}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
@@ -641,20 +692,32 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
   display: none !important;
 }
 .bcn-swsn__console {
-  justify-content: center;
   align-items: center;
   gap: var(--spacing-200);
-  max-width: 100%;
   padding: var(--spacing-100);
   background: var(--color-background-elevation-sunken);
   border: 1px solid var(--color-border-default-subtle);
   border-radius: var(--radius-200);
+  grid-template-columns: 1fr auto 1fr;
+  display: grid;
+}
+.bcn-swsn__keys {
+  justify-content: center;
+  gap: var(--spacing-200);
   flex-wrap: wrap;
-  align-self: center;
+  grid-column: 2;
   display: flex;
 }
-.bcn-swsn__console > * {
+.bcn-swsn__keys > * {
   flex: none;
+}
+.bcn-swsn__end {
+  grid-area: 1/1;
+  justify-self: start;
+}
+.bcn-swsn__end--next {
+  grid-column: 3;
+  justify-self: end;
 }
 .bcn-swsn button:disabled {
   opacity: 0.38;

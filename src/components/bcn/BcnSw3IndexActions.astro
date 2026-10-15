@@ -8,11 +8,13 @@
 //             Draft actions & obligations, the one Draft run
 //   drafting  the run's key, disabled
 //   drafted   Start over (PR #1520: once a run exists it replaces Re-run; a confirmed delete
-//             back to no index), Draft again (primary while something is outstanding), and
-//             Approve Compliance Index (confirmed; "Compliance Index approved" when nothing
-//             is left)
+//             back to no index), Draft again, Suggest Subcategories (while something fits
+//             no subcategory), View Log (the run's record), and Approve All (confirmed; "All
+//             approved" when nothing is left). Every key is neutral.
 //
 // Contract, on `document`:
+//   out  sw3i:suggest     Suggest Subcategories pressed
+//   out  sw3i:view-log    View Log pressed
 //   out  sw3i:rerun-ask   Re-run pressed: Aldo asks for guidance
 //   out  sw3i:rename      detail: { id }   + Category made one: its name opens for typing
 //
@@ -24,7 +26,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 
 <div class="bcn-sw3ia" data-sw3-index-actions>
   <span data-ia-empty>
-    <EsaButton variant="primary" size="sm" icon="sparkles" data-ia-build>Build index</EsaButton>
+    <EsaButton variant="secondary" size="sm" icon="plus" data-ico="play" data-ia-build>Build index</EsaButton>
   </span>
   <span data-ia-empty-cat>
     <EsaButton variant="secondary" size="sm" icon="plus" data-ia-add-cat>Category</EsaButton>
@@ -33,16 +35,22 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     <EsaButton variant="secondary" size="sm" icon="rotate-ccw" data-ia-rerun>Re-run</EsaButton>
   </span>
   <span data-ia-drafted>
-    <EsaButton variant="danger" appearance="outline" size="sm" icon="trash-2" data-ia-start-over>Start over</EsaButton>
+    <EsaButton variant="secondary" size="sm" icon="plus" data-ico="undo-2" data-ia-start-over>Start over</EsaButton>
   </span>
   <span data-ia-again-wrap>
-    <EsaButton variant="secondary" size="sm" icon="sparkles" data-ia-again>Draft again</EsaButton>
+    <EsaButton variant="secondary" size="sm" icon="plus" data-ico="play" data-ia-again>Draft again</EsaButton>
   </span>
   <span data-ia-draft-wrap>
-    <EsaButton variant="primary" size="sm" icon="sparkles" data-ia-draft>Draft actions &amp; obligations</EsaButton>
+    <EsaButton variant="secondary" size="sm" icon="plus" data-ico="play" data-ia-draft>Draft actions &amp; obligations</EsaButton>
+  </span>
+  <span data-ia-suggest-wrap>
+    <EsaButton variant="secondary" size="sm" icon="plus" data-ico="square-dashed" data-ia-suggest>Suggest Subcategories</EsaButton>
+  </span>
+  <span data-ia-log-wrap>
+    <EsaButton variant="secondary" size="sm" icon="file-text" data-ia-log>View Log</EsaButton>
   </span>
   <span data-ia-approve-wrap>
-    <EsaButton variant="primary" size="sm" icon="circle-check" data-ia-approve>Approve Compliance Index</EsaButton>
+    <EsaButton variant="secondary" size="sm" icon="circle-check" data-ia-approve>Approve All</EsaButton>
   </span>
   <esa-confirm-dialog heading="Start over?" variant="danger" confirm-label="Start over" cancel-label="Cancel" data-ia-confirm-start></esa-confirm-dialog>
   <esa-confirm-dialog heading="Approve the Compliance Index?" confirm-label="Approve" cancel-label="Cancel" data-ia-confirm-approve></esa-confirm-dialog>
@@ -55,8 +63,8 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 
 <script>
   import '@esa/ecology/esa-confirm-dialog';
-  import { initIndex, phase, buildIndex, addCategory, startOver, approveIndex, totals, pendingAll, subs, pendingIn, isOpened, startDraft, pendingWork } from './sw3-index-store';
-  import { fillGlyph } from './comment-glyphs';
+  import { initIndex, phase, buildIndex, addCategory, startOver, approveIndex, totals, pendingAll, subs, pendingIn, isOpened, startDraft, pendingWork, unfiled, filedBySuggest, lastRun } from './sw3-index-store';
+  import { setIcon, type ExtraIcon } from '../../lib/lucide-extra';
   import { toast } from '../../lib/snackbar';
 
   const root = document.querySelector<HTMLElement>('[data-sw3-index-actions]');
@@ -68,17 +76,11 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     const approveDlg = $('[data-ia-confirm-approve]') as Confirm;
     const n = (x: number) => x.toLocaleString('en-US');
     const plural = (x: number, one: string, many = `${one}s`) => `${n(x)} ${x === 1 ? one : many}`;
-    for (const s of ['[data-ia-again]', '[data-ia-draft]', '[data-ia-build]']) fillGlyph($(s), 'sparkles');
+    root.querySelectorAll<HTMLElement>('[data-ico]').forEach((h) => setIcon(h, h.dataset.ico as ExtraIcon));
     const btn = (host: HTMLElement) => (host.matches('button') ? (host as HTMLButtonElement) : host.querySelector('button'))!;
     const label = (host: HTMLElement, text: string) => {
       const l = host.querySelector('.esa-button__label');
       if (l) l.textContent = text;
-    };
-    /** Draft again is primary while something is outstanding, outlined once drafts wait. */
-    const tone = (host: HTMLElement, primary: boolean) => {
-      const b = btn(host);
-      b.classList.toggle('esa-button--variant-primary', primary);
-      b.classList.toggle('esa-button--variant-secondary', !primary);
     };
 
     $('[data-ia-build]').addEventListener('click', () => buildIndex());
@@ -86,6 +88,8 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     $('[data-ia-rerun]').addEventListener('click', () => document.dispatchEvent(new CustomEvent('sw3i:rerun-ask')));
     $('[data-ia-draft]').addEventListener('click', () => void startDraft());
     $('[data-ia-again]').addEventListener('click', () => void startDraft());
+    $('[data-ia-suggest]').addEventListener('click', () => document.dispatchEvent(new CustomEvent('sw3i:suggest')));
+    $('[data-ia-log]').addEventListener('click', () => document.dispatchEvent(new CustomEvent('sw3i:view-log')));
 
     $('[data-ia-start-over]').addEventListener('click', () => {
       const t = totals();
@@ -130,13 +134,16 @@ import EsaButton from '@esa/ecology/esa-button.astro';
       $('[data-ia-drafted]').hidden = !(ph === 'drafted' || (ph === 'drafting' && totals().drafts > 0));
       $('[data-ia-again-wrap]').hidden = $('[data-ia-drafted]').hidden;
       $('[data-ia-approve-wrap]').hidden = $('[data-ia-drafted]').hidden;
+      $('[data-ia-suggest-wrap]').hidden = ph !== 'drafted' || !unfiled().some((u) => !filedBySuggest()[u.id]);
+      $('[data-ia-log-wrap]').hidden = ph !== 'drafted' || !lastRun();
       const running = ph === 'drafting';
       btn($('[data-ia-draft]')).disabled = running;
       label($('[data-ia-draft]'), running ? 'Drafting' : 'Draft actions & obligations');
-      const w = pendingWork();
-      const outstanding = w.filed + w.refile > 0;
-      tone($('[data-ia-again]'), outstanding);
       btn($('[data-ia-again]')).disabled = running;
+      // What Draft again would take in, on its title now the status line is gone.
+      const w = pendingWork();
+      const parts = [w.filed && `${plural(w.filed, 'filed item')} not yet drafted`, w.refile && `${plural(w.refile, 'item')} not yet categorized`].filter(Boolean);
+      btn($('[data-ia-again]')).title = parts.length ? `Draft again to include ${parts.join(', ')}` : 'Draft again';
       btn($('[data-ia-start-over]')).disabled = running;
       const startB = btn($('[data-ia-start-over]'));
       startB.title = running ? 'A Draft run is still adding drafts.' : '';
@@ -145,7 +152,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
       const approveB = btn($('[data-ia-approve]'));
       approveB.disabled = running || done || t.pending === t.blocked;
       approveB.title = running ? 'A Draft run is still adding drafts. Approve, discard and restore are paused until it finishes.' : '';
-      label($('[data-ia-approve]'), done ? 'Compliance Index approved' : 'Approve Compliance Index');
+      label($('[data-ia-approve]'), done ? 'All approved' : 'Approve All');
     };
     document.addEventListener('sw3i:change', render);
     render();

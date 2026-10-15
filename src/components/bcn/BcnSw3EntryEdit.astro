@@ -1,35 +1,119 @@
 ---
-// <BcnSw3EntryEdit> — one draft's record, edited in a side panel: an obligation's title
-// (510 at most), class, audience, Applies when and monitor signs (prod's obligation edit
-// dialog), or an action's name, scope, responsible party, expected evidence and text (the
-// action editor's Details). Its sources are not here: they are the requirements it rests
-// on, and change only by Merge. Save keeps it a draft; approving is the review's.
+// <BcnSw3EntryEdit> — one draft's edit form, in a side panel, as develop's two edit dialogs
+// carry it. Pressing a draft's title on the subcategory review opens it.
+//
+//   obligation  ObligationEditDialog: Title (510 at most), Class, Audience, Applies when,
+//               Monitor signs; then its Sources (each requirement, its commitment badge, the
+//               words it rests on) and Also filed in
+//   action      ActionsStepEditDialog, in its three tabs: Details (Name, Type, Responsible
+//               party, Scope, Text), Timing (Frequency; one time: the deadline's milestone,
+//               offset, period and direction; recurring: every N periods, start and end
+//               milestones; as needed: the event that triggers it) and Evidence of compliance
+//               (Expected evidence); then its Sources
+//
+// The header names it with its status. The review's verdicts are here, since the row has no
+// record of its own: Approve (it saves first; a draft with no scope cannot), Discard, and
+// Restore on a discarded one. Save keeps it a draft.
 //
 // Contract, on `document`:
-//   in   sw3i:edit  detail: { id }   open on that entry
+//   in   sw3i:edit         detail: { id }   open on that draft
+//   out  sw3i:edit-closed                  the panel closed
 //
-// bcn-lego-checked: the panel IS esa-side-dialog; fields ARE esa-text-field, esa-select and
-// esa-textarea; actions ARE esa-button. Checked Beacon: the obligation upsert (Title,
-// ObligationClass, ObligationAudience, TriggerText, MonitorSigns) and the action editor's
-// Details tab. bcn-sw3-entry-edit is the home.
+// bcn-lego-checked: the panel IS esa-side-dialog; the tabs ARE esa-tab-layout; fields ARE
+// esa-text-field, esa-select, esa-button-toggle, esa-input-tag and esa-textarea; the status
+// IS esa-badge; the source codes ARE bcn-commitment-badge; actions ARE esa-button. Checked
+// Beacon: obligation-edit-dialog and actions-step-edit-dialog (with action-timing-form) are
+// this, field for field. bcn-sw3-entry-edit is the home.
 import EsaButton from '@esa/ecology/esa-button.astro';
-import { AUDIENCE_OPTIONS, CLASS_OPTIONS, SCOPE_OPTIONS } from '../../data/sw3-index-types';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import {
+  AUDIENCE_OPTIONS,
+  CLASS_OPTIONS,
+  SCOPE_OPTIONS,
+  TYPE_OPTIONS,
+  FREQUENCY_OPTIONS,
+  PERIOD_OPTIONS,
+  DIRECTION_OPTIONS,
+} from '../../data/sw3-index-types';
+const opts = (o: unknown) => JSON.stringify(o);
 ---
 
-<esa-side-dialog heading="Edit entry" size="md" data-sw3-entry-edit>
+<esa-side-dialog heading="Edit" size="md" data-sw3-entry-edit>
+  <div slot="header" class="bcn-sw3ee__head">
+    <h2 class="bcn-sw3ee__title typography-title" data-ee-heading></h2>
+    <span data-ee-status="draft"><EsaBadge size="sm" variant="secondary" value="Draft" /></span>
+    <span data-ee-status="approved"><EsaBadge size="sm" variant="success" value="Approved" /></span>
+    <span data-ee-status="discarded"><EsaBadge size="sm" variant="secondary" value="Discarded" /></span>
+  </div>
+
   <form class="bcn-sw3ee" data-ee-form id="sw3-ee-form">
-    <esa-text-field label="Title" size="sm" required maxlength="510" data-ee-title></esa-text-field>
-    <esa-select label="Class" size="sm" data-ee-class data-options={JSON.stringify(CLASS_OPTIONS)} data-ob></esa-select>
-    <esa-select label="Audience" size="sm" data-ee-audience data-options={JSON.stringify(AUDIENCE_OPTIONS)} data-ob></esa-select>
-    <esa-textarea label="Applies when" size="sm" rows="2" auto-resize data-ee-trigger data-ob></esa-textarea>
-    <esa-textarea label="Monitor signs" size="sm" rows="3" auto-resize help-text="One per line" data-ee-signs data-ob></esa-textarea>
-    <esa-select label="Scope" size="sm" data-ee-scope data-options={JSON.stringify(SCOPE_OPTIONS)} data-ac></esa-select>
-    <esa-text-field label="Responsible party" size="sm" data-ee-party data-ac></esa-text-field>
-    <esa-textarea label="Expected evidence" size="sm" rows="2" auto-resize data-ee-evidence data-ac></esa-textarea>
-    <esa-textarea label="Text" size="sm" rows="3" auto-resize data-ee-text data-ac></esa-textarea>
+    <p class="bcn-sw3ee__block" data-ee-block hidden></p>
+
+    <div class="bcn-sw3ee__fields" data-ob>
+      <esa-text-field label="Title" size="sm" required maxlength="510" data-ee-title></esa-text-field>
+      <esa-button-toggle label="Class" size="sm" data-ee-class data-options={opts(CLASS_OPTIONS)}></esa-button-toggle>
+      <esa-button-toggle label="Audience" size="sm" data-ee-audience data-options={opts(AUDIENCE_OPTIONS)}></esa-button-toggle>
+      <esa-textarea label="Applies when" size="sm" rows="2" auto-resize data-ee-trigger></esa-textarea>
+      <esa-input-tag label="Monitor signs" size="sm" tags-below hint="Type one and press Enter." placeholder="Add a sign" data-ee-signs></esa-input-tag>
+    </div>
+
+    <esa-tab-layout size="sm" data-ac data-ee-tabs>
+      <div slot="panel-0" class="bcn-sw3ee__fields">
+        <esa-text-field label="Name" size="sm" required data-ee-name></esa-text-field>
+        <esa-select label="Type" size="sm" data-ee-type data-options={opts(TYPE_OPTIONS)}></esa-select>
+        <esa-text-field label="Responsible party" size="sm" data-ee-party></esa-text-field>
+        <esa-button-toggle label="Scope" size="sm" data-ee-scope data-options={opts(SCOPE_OPTIONS)}></esa-button-toggle>
+        <esa-textarea label="Action text" size="sm" rows="4" auto-resize data-ee-text></esa-textarea>
+      </div>
+      <div slot="panel-1" class="bcn-sw3ee__fields">
+        <esa-select label="Frequency" size="sm" data-ee-frequency data-options={opts(FREQUENCY_OPTIONS)}></esa-select>
+        <div class="bcn-sw3ee__fields" data-ee-when="Onetime">
+          <esa-select label="Deadline milestone" size="sm" data-ee-milestone></esa-select>
+          <div class="bcn-sw3ee__row">
+            <esa-text-field label="Offset" size="sm" type="number" min="0" data-ee-offset></esa-text-field>
+            <esa-select label="Period" size="sm" data-ee-unit data-options={opts(PERIOD_OPTIONS)}></esa-select>
+            <esa-select label="Direction" size="sm" data-ee-direction data-options={opts(DIRECTION_OPTIONS)}></esa-select>
+          </div>
+        </div>
+        <div class="bcn-sw3ee__fields" data-ee-when="Recurring">
+          <div class="bcn-sw3ee__row">
+            <esa-text-field label="Every" size="sm" type="number" min="1" data-ee-every></esa-text-field>
+            <esa-select label="Period" size="sm" data-ee-every-unit data-options={opts(PERIOD_OPTIONS)}></esa-select>
+          </div>
+          <esa-select label="Start milestone" size="sm" data-ee-from></esa-select>
+          <esa-select label="End milestone" size="sm" data-ee-until></esa-select>
+        </div>
+        <div class="bcn-sw3ee__fields" data-ee-when="AsNeeded">
+          <esa-textarea label="Event trigger" size="sm" rows="2" auto-resize data-ee-event></esa-textarea>
+        </div>
+      </div>
+      <div slot="panel-2" class="bcn-sw3ee__fields">
+        <esa-textarea label="Expected evidence of compliance" size="sm" rows="4" auto-resize data-ee-evidence></esa-textarea>
+      </div>
+    </esa-tab-layout>
+
+    <section class="bcn-sw3ee__section" aria-labelledby="sw3-ee-sources">
+      <h3 class="bcn-sw3ee__h" id="sw3-ee-sources" data-ee-sources-h>Sources</h3>
+      <ul class="bcn-sw3ee__sources" data-ee-sources></ul>
+    </section>
+    <section class="bcn-sw3ee__section" aria-labelledby="sw3-ee-filed" data-ob>
+      <h3 class="bcn-sw3ee__h" id="sw3-ee-filed">Also filed in</h3>
+      <ul class="bcn-sw3ee__filed" data-ee-filed></ul>
+    </section>
   </form>
+
+  <template data-ee-tpl="source">
+    <li class="bcn-sw3ee__source">
+      <div class="bcn-sw3ee__source-head"><BcnCommitmentBadge code="" size="sm" /><span data-ee-req></span></div>
+      <blockquote class="bcn-sw3ee__excerpt" data-ee-excerpt></blockquote>
+    </li>
+  </template>
+
   <div slot="footer" class="bcn-sw3ee__foot">
-    <EsaButton variant="ghost" size="sm" icon="x" data-ee-discard>Discard</EsaButton>
+    <span data-ee-approve><EsaButton variant="secondary" size="sm" icon="circle-check">Approve</EsaButton></span>
+    <span data-ee-discard><EsaButton variant="ghost" size="sm" icon="x">Discard</EsaButton></span>
+    <span data-ee-restore><EsaButton variant="ghost" size="sm" icon="rotate-ccw">Restore</EsaButton></span>
     <span class="bcn-sw3ee__main">
       <EsaButton variant="primary" size="sm" type="submit" form="sw3-ee-form">Save</EsaButton>
       <EsaButton variant="secondary" size="sm" data-ee-cancel>Cancel</EsaButton>
@@ -38,99 +122,283 @@ import { AUDIENCE_OPTIONS, CLASS_OPTIONS, SCOPE_OPTIONS } from '../../data/sw3-i
 </esa-side-dialog>
 
 <style>
-  .bcn-sw3ee { display: flex; flex-direction: column; gap: var(--spacing-400); }
-  .bcn-sw3ee [hidden] { display: none; }
+  .bcn-sw3ee { display: flex; flex-direction: column; gap: var(--spacing-500); font-size: 0.8125rem; }
+  .bcn-sw3ee [hidden],
+  .bcn-sw3ee__foot [hidden],
+  .bcn-sw3ee__head [hidden] { display: none !important; }
+  .bcn-sw3ee__head { display: flex; align-items: center; gap: var(--spacing-200); min-width: 0; }
+  .bcn-sw3ee__title { margin: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-sw3ee__head > span { flex: none; line-height: 0; }
+  .bcn-sw3ee__fields { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  [data-ee-tabs] .bcn-sw3ee__fields[slot] { padding-top: var(--spacing-400); }
+  .bcn-sw3ee__row { display: grid; grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr)); gap: var(--spacing-300); }
+  .bcn-sw3ee__block { margin: 0; color: var(--color-content-warning); font-weight: 500; }
+  .bcn-sw3ee__section { display: flex; flex-direction: column; gap: var(--spacing-200); padding-top: var(--spacing-400); border-top: 1px solid var(--color-border-default); }
+  .bcn-sw3ee__h { margin: 0; font-size: 0.8125rem; font-weight: 600; color: var(--color-content-default); }
+  .bcn-sw3ee__sources,
+  .bcn-sw3ee__filed { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-sw3ee__filed { gap: var(--spacing-100); }
+  .bcn-sw3ee__source { display: flex; flex-direction: column; gap: var(--spacing-150, 6px); }
+  .bcn-sw3ee__source-head { display: flex; align-items: baseline; gap: var(--spacing-200); font-weight: 500; }
+  .bcn-sw3ee__excerpt {
+    margin: 0;
+    padding-left: var(--spacing-300);
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-content-default);
+  }
+  .bcn-sw3ee__excerpt:empty { display: none; }
   .bcn-sw3ee__foot { display: flex; align-items: center; gap: var(--spacing-200); width: 100%; }
   .bcn-sw3ee__main { display: flex; gap: var(--spacing-200); margin-left: auto; }
+  .bcn-sw3ee__foot :global(button:disabled) { opacity: 0.38; }
 </style>
 
 <script>
   import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-tab-layout';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-input-tag';
   import '@esa/ecology/esa-textarea';
-  import { initIndex, entry, editEntry, discard } from './sw3-index-store';
+  import {
+    initIndex,
+    entry,
+    editEntry,
+    approve,
+    discard,
+    restore,
+    statusOf,
+    blocked,
+    NO_SCOPE,
+    phase,
+    subs,
+    subOf,
+    entriesIn,
+    alsoIn,
+  } from './sw3-index-store';
+  import { requirementAt } from './sw3-index';
   import { toast } from '../../lib/snackbar';
-  import type { ActionScope, IndexAudience, IndexClass } from '../../data/sw3-index-types';
+  import type { ActionScope, IndexAction, IndexAudience, IndexClass, IndexEntry } from '../../data/sw3-index-types';
 
-  type Field = HTMLElement & { value: string; label?: string; options?: unknown; updateComplete?: Promise<unknown> };
-  const dialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>('[data-sw3-entry-edit]');
+  type Field = HTMLElement & { value: any; label?: string; options?: unknown; updateComplete?: Promise<unknown> };
+  type Dialog = HTMLElement & { open: boolean };
+  const dialog = document.querySelector<Dialog>('[data-sw3-entry-edit]');
   if (dialog) {
     initIndex();
     const $ = (s: string) => dialog.querySelector<Field>(s)!;
-    const title = $('[data-ee-title]');
-    const cls = $('[data-ee-class]');
-    const audience = $('[data-ee-audience]');
-    const trigger = $('[data-ee-trigger]');
-    const signs = $('[data-ee-signs]');
-    const party = $('[data-ee-party]');
-    const scope = $('[data-ee-scope]');
-    const evidence = $('[data-ee-evidence]');
-    const text = $('[data-ee-text]');
+    const f = {
+      title: $('[data-ee-title]'),
+      cls: $('[data-ee-class]'),
+      audience: $('[data-ee-audience]'),
+      trigger: $('[data-ee-trigger]'),
+      signs: $('[data-ee-signs]'),
+      name: $('[data-ee-name]'),
+      type: $('[data-ee-type]'),
+      party: $('[data-ee-party]'),
+      scope: $('[data-ee-scope]'),
+      text: $('[data-ee-text]'),
+      frequency: $('[data-ee-frequency]'),
+      milestone: $('[data-ee-milestone]'),
+      offset: $('[data-ee-offset]'),
+      unit: $('[data-ee-unit]'),
+      direction: $('[data-ee-direction]'),
+      every: $('[data-ee-every]'),
+      everyUnit: $('[data-ee-every-unit]'),
+      from: $('[data-ee-from]'),
+      until: $('[data-ee-until]'),
+      event: $('[data-ee-event]'),
+      evidence: $('[data-ee-evidence]'),
+    };
+    const tabs = $('[data-ee-tabs]') as Field & { tabs: { label: string }[]; activeIndex: number };
     let id: string | null = null;
+    const PAUSED = 'A Draft run is still adding drafts. Approve, discard and restore are paused until it finishes.';
 
-    customElements.whenDefined('esa-select').then(() => {
-      for (const el of [cls, audience, scope]) el.options = JSON.parse(el.dataset.options!);
+    const ready = Promise.all(['esa-select', 'esa-button-toggle', 'esa-tab-layout'].map((t) => customElements.whenDefined(t))).then(() => {
+      dialog.querySelectorAll<Field>('[data-options]').forEach((el) => (el.options = JSON.parse(el.dataset.options!)));
+      tabs.tabs = [{ label: 'Details' }, { label: 'Timing' }, { label: 'Evidence of compliance' }];
     });
-    const close = () => ((dialog.open = false), (id = null));
+
+    /** The project's milestones, as the drafts name them: the deadline and span pickers. */
+    const milestones = (a: IndexAction) => {
+      const all = new Set<string>();
+      for (const { sub } of subs())
+        for (const en of entriesIn(sub.id))
+          if (en.kind === 'action') [en.deadline?.milestone, en.recurrence?.from, en.recurrence?.until].forEach((m) => m && all.add(m));
+      [a.deadline?.milestone, a.recurrence?.from, a.recurrence?.until].forEach((m) => m && all.add(m));
+      return [{ value: '', label: 'None' }, ...[...all].sort((x, y) => x.localeCompare(y)).map((m) => ({ value: m, label: m }))];
+    };
+    const showTiming = () => {
+      dialog.querySelectorAll<HTMLElement>('[data-ee-when]').forEach((x) => (x.hidden = x.dataset.eeWhen !== f.frequency.value));
+    };
+    f.frequency.addEventListener('change', showTiming);
+
+    const btn = (sel: string) => dialog.querySelector<HTMLElement>(sel)!.querySelector('button')!;
+    const paintVerdicts = (en: IndexEntry) => {
+      const status = statusOf(en.id);
+      dialog.querySelectorAll<HTMLElement>('[data-ee-status]').forEach((b) => (b.hidden = b.dataset.eeStatus !== status));
+      const drafting = phase() === 'drafting';
+      dialog.querySelector<HTMLElement>('[data-ee-approve]')!.hidden = status !== 'draft';
+      dialog.querySelector<HTMLElement>('[data-ee-discard]')!.hidden = status === 'discarded';
+      dialog.querySelector<HTMLElement>('[data-ee-restore]')!.hidden = status !== 'discarded';
+      for (const s of ['[data-ee-approve]', '[data-ee-discard]', '[data-ee-restore]']) {
+        btn(s).disabled = drafting;
+        btn(s).title = drafting ? PAUSED : '';
+      }
+      const block = dialog.querySelector<HTMLElement>('[data-ee-block]')!;
+      block.hidden = !(status === 'draft' && blocked(en.id));
+      block.textContent = NO_SCOPE;
+    };
+
+    const paintSources = (en: IndexEntry) => {
+      const list = dialog.querySelector<HTMLElement>('[data-ee-sources]')!;
+      const tpl = dialog.querySelector<HTMLTemplateElement>('[data-ee-tpl="source"]')!;
+      const seen = en.locators.filter((l, i, a) => a.findIndex((x) => x.doc === l.doc && x.code === l.code && x.n === l.n) === i);
+      dialog.querySelector<HTMLElement>('[data-ee-sources-h]')!.textContent = `Sources (${seen.length})`;
+      list.replaceChildren(
+        ...seen.map((l) => {
+          const li = tpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+          li.querySelector('.bcn-cbadge')!.textContent = l.code;
+          li.querySelector<HTMLElement>('[data-ee-req]')!.textContent = requirementAt(l)?.name ?? '';
+          li.querySelector<HTMLElement>('[data-ee-excerpt]')!.textContent = l.excerpt;
+          return li;
+        }),
+      );
+      const filed = dialog.querySelector<HTMLElement>('[data-ee-filed]')!;
+      const others = alsoIn(en.id).map((s) => subOf(s)).filter((s) => !!s);
+      filed.replaceChildren(
+        ...(others.length ? others.map((s) => `${s.cat.name} › ${s.sub.name}`) : ['No other subcategory.']).map((t) => {
+          const li = document.createElement('li');
+          li.textContent = t;
+          return li;
+        }),
+      );
+    };
+
+    const close = () => {
+      if (dialog.open) dialog.open = false;
+      if (id) {
+        id = null;
+        document.dispatchEvent(new CustomEvent('sw3i:edit-closed'));
+      }
+    };
+    dialog.addEventListener('close', close);
 
     document.addEventListener('sw3i:edit', async (e) => {
       const en = entry((e as CustomEvent<{ id: string }>).detail.id);
       if (!en) return;
       id = en.id;
-      await customElements.whenDefined('esa-select');
+      await ready;
       const ob = en.kind === 'obligation';
-      dialog.heading = ob ? 'Edit obligation' : 'Edit action';
+      dialog.querySelector<HTMLElement>('[data-ee-heading]')!.textContent = ob ? 'Edit obligation' : en.name;
       dialog.querySelectorAll<HTMLElement>('[data-ob]').forEach((x) => (x.hidden = !ob));
       dialog.querySelectorAll<HTMLElement>('[data-ac]').forEach((x) => (x.hidden = ob));
-      title.label = ob ? 'Title' : 'Name';
       if (ob) {
-        title.value = en.title;
-        cls.value = en.class;
-        audience.value = en.audience;
-        trigger.value = en.trigger;
-        signs.value = en.monitorSigns.join('\n');
+        f.title.value = en.title;
+        f.cls.value = en.class;
+        f.audience.value = en.audience;
+        f.trigger.value = en.trigger;
+        f.signs.value = en.monitorSigns;
       } else {
-        title.value = en.name;
-        party.value = en.responsibleParty;
-        scope.value = en.scope;
-        evidence.value = en.expectedEvidence;
-        text.value = en.text;
+        tabs.activeIndex = 0;
+        f.name.value = en.name;
+        f.type.value = en.type;
+        f.party.value = en.responsibleParty;
+        f.scope.value = en.scope;
+        f.text.value = en.text;
+        f.frequency.value = en.frequency || 'Onetime';
+        const ms = milestones(en);
+        for (const m of [f.milestone, f.from, f.until]) m.options = ms;
+        f.milestone.value = en.deadline?.milestone ?? '';
+        f.offset.value = en.deadline?.offset ? String(en.deadline.offset) : '';
+        f.unit.value = en.deadline?.unit || 'Days';
+        f.direction.value = en.deadline?.direction || 'Before';
+        f.every.value = String(en.recurrence?.every ?? 1);
+        f.everyUnit.value = en.recurrence?.unit || 'Months';
+        f.from.value = en.recurrence?.from ?? '';
+        f.until.value = en.recurrence?.until ?? '';
+        f.event.value = en.eventTrigger ?? '';
+        f.evidence.value = en.expectedEvidence;
+        showTiming();
       }
+      paintVerdicts(en);
+      paintSources(en);
       dialog.open = true;
-      await title.updateComplete;
-      requestAnimationFrame(() => title.focus());
+      const first = ob ? f.title : f.name;
+      await first.updateComplete;
+      requestAnimationFrame(() => first.focus());
     });
+    document.addEventListener('sw3i:change', () => {
+      const en = id && dialog.open ? entry(id) : null;
+      if (en) paintVerdicts(en);
+    });
+
+    /** Keep what the form says on the draft. */
+    const save = (): IndexEntry | null => {
+      if (!id) return null;
+      const en = entry(id)!;
+      if (en.kind === 'obligation') {
+        editEntry(id, {
+          title: f.title.value.trim() || en.title,
+          class: f.cls.value as IndexClass,
+          audience: f.audience.value as IndexAudience,
+          trigger: f.trigger.value.trim(),
+          monitorSigns: (f.signs.value as string[]).map((s) => s.trim()).filter(Boolean),
+        });
+      } else {
+        const freq = f.frequency.value as string;
+        editEntry(id, {
+          name: f.name.value.trim() || en.name,
+          type: f.type.value,
+          responsibleParty: f.party.value.trim(),
+          scope: f.scope.value as ActionScope,
+          text: f.text.value.trim(),
+          frequency: freq,
+          deadline:
+            freq === 'Onetime' && f.milestone.value
+              ? { milestone: f.milestone.value, offset: Number(f.offset.value) || 0, unit: f.offset.value ? f.unit.value : '', direction: f.direction.value }
+              : null,
+          recurrence:
+            freq === 'Recurring'
+              ? { every: Math.max(1, Number(f.every.value) || 1), unit: f.everyUnit.value, from: f.from.value, until: f.until.value }
+              : null,
+          eventTrigger: freq === 'AsNeeded' ? f.event.value.trim() : '',
+          expectedEvidence: f.evidence.value.trim(),
+        });
+      }
+      return entry(id)!;
+    };
 
     $('[data-ee-form]').addEventListener('submit', (e) => {
       e.preventDefault();
-      if (!id) return;
-      const en = entry(id)!;
-      const t = title.value.trim();
-      if (en.kind === 'obligation')
-        editEntry(id, {
-          title: t || en.title,
-          class: cls.value as IndexClass,
-          audience: audience.value as IndexAudience,
-          trigger: trigger.value.trim(),
-          monitorSigns: signs.value.split('\n').map((s) => s.trim()).filter(Boolean),
-        });
-      else
-        editEntry(id, {
-          name: t || en.name,
-          scope: scope.value as ActionScope,
-          responsibleParty: party.value.trim(),
-          expectedEvidence: evidence.value.trim(),
-          text: text.value.trim(),
-        });
+      if (save()) toast('Saved.', 'success');
       close();
     });
     $('[data-ee-cancel]').addEventListener('click', close);
+    $('[data-ee-approve]').addEventListener('click', () => {
+      const en = save();
+      if (!en) return;
+      if (blocked(en.id)) {
+        paintVerdicts(en);
+        toast(NO_SCOPE, 'error');
+        return;
+      }
+      approve([en.id]);
+      toast('Approved.', 'success');
+      close();
+    });
     $('[data-ee-discard]').addEventListener('click', () => {
       if (!id) return;
       discard([id]);
-      close();
       toast('Discarded. Restore it from Discarded on the subcategory.', 'success');
+      close();
+    });
+    $('[data-ee-restore]').addEventListener('click', () => {
+      if (!id) return;
+      restore([id]);
+      toast('Restored to drafts.', 'success');
+      close();
     });
   }
 </script>
