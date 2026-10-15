@@ -699,6 +699,9 @@ summary.esa-button--variant-chrome:focus-visible {
   flex: none;
   display: flex;
 }
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
 .bcn-sw3tools esa-button-group,
 .bcn-sw3tools .esa-button,
 .bcn-sw3tools esa-dropdown-menu {
@@ -811,6 +814,7 @@ summary.esa-button--variant-chrome:focus-visible {
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
+- `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_

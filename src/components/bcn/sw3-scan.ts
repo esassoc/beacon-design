@@ -73,6 +73,8 @@ const show = (btn: HTMLElement | null, on: boolean) => {
   const host = (btn.closest('.esa-button') as HTMLElement | null) ?? btn;
   host.style.display = on ? '' : 'none';
 };
+/** A steer given with the scan's controls: the record keeps it, the conversation shows a line. */
+const CONTROLS = { controls: true };
 const PACE_LABEL: Record<Pace, string> = { step: 'One at a time', watch: 'Slow', run: 'Fast' };
 const PACE_REPLY: Record<Pace, string> = {
   run: 'Going fast. I will raise anything that needs you as I reach it.',
@@ -537,21 +539,21 @@ export function setupSw3Scan(root: HTMLElement): void {
     const go = D().proposal?.go;
     if (!started()) {
       if (!go) return;
-      act('Start', [{ kind: 'scope', first: go.first, last: go.last, label: go.scope }, { kind: 'start' }], `Reading ${go.scope}. I will stop after the first ${D().calibrate?.length ?? 3} commitments so you can check how I read them.`);
+      act('Start', [{ kind: 'scope', first: go.first, last: go.last, label: go.scope }, { kind: 'start' }], `Reading ${go.scope}. I will stop after the first ${D().calibrate?.length ?? 3} commitments so you can check how I read them.`, CONTROLS);
     } else if (checking()) {
       // After the check the default is to let it read: Fast, unless One at a time was chosen.
       const p: Pace = pace() === 'step' ? 'step' : 'run';
-      act('Resume', { kind: 'go', pace: p }, PACE_REPLY[p]);
+      act('Resume', { kind: 'go', pace: p }, PACE_REPLY[p], CONTROLS);
     }
-    else act('Resume', { kind: 'resume' }, `Resuming at p. ${headPage()}.`);
+    else act('Resume', { kind: 'resume' }, `Resuming at p. ${headPage()}.`, CONTROLS);
   });
-  tx.pause.addEventListener('click', () => act('Pause', { kind: 'pause' }, `Pausing after p. ${headPage()}: that page is already being read.`));
+  tx.pause.addEventListener('click', () => act('Pause', { kind: 'pause' }, `Pausing after p. ${headPage()}: that page is already being read.`, CONTROLS));
   tx.restart.addEventListener('click', restart);
   customElements.whenDefined('esa-dropdown-menu').then(() => ((speed as HTMLElement & { items: unknown }).items = JSON.parse(speed.dataset.items!)));
   speed.addEventListener('menu-action', (e) => {
     const p = (e as CustomEvent<Pace>).detail;
     if (p === pace()) return;
-    act(`Speed: ${PACE_LABEL[p]}`, checking() ? { kind: 'go', pace: p } : { kind: 'pace', pace: p }, PACE_REPLY[p]);
+    act(`Speed: ${PACE_LABEL[p]}`, checking() ? { kind: 'go', pace: p } : { kind: 'pace', pace: p }, PACE_REPLY[p], CONTROLS);
   });
   const toggleMark = () => {
     if (sel?.kind !== 'file') return;
@@ -649,16 +651,6 @@ export function setupSw3Scan(root: HTMLElement): void {
   // Aldo's panel folds itself (on this section's data-aldo); keep where it was left.
   root.addEventListener('aldo:collapse', () => setAldo(false));
   root.addEventListener('aldo:expand', () => setAldo(true));
-  // Aldo pinned over the right half: keep the workspace to its left.
-  const reserve = () => {
-    const left = parseFloat(root.style.getPropertyValue('--aldo-overlay-left'));
-    if (!root.hasAttribute('data-aldo-expanded') || !left) return root.style.removeProperty('--_aldo-reserve');
-    root.style.removeProperty('--_aldo-reserve');
-    const right = root.getBoundingClientRect().right;
-    root.style.setProperty('--_aldo-reserve', `${Math.max(0, right - left + 16)}px`);
-  };
-  root.addEventListener('aldo:overlay-resize', reserve);
-  root.addEventListener('aldo:dock', () => requestAnimationFrame(reserve));
   document.addEventListener('sw3:page', (e) => pick((e as CustomEvent<{ page: number }>).detail.page));
   document.addEventListener('sw3:find', (e) => select((e as CustomEvent<{ id: string }>).detail.id));
   document.addEventListener('sw3:aldo', () => setAldo(true));

@@ -3,7 +3,7 @@
 The conversation that scopes, checks and steers the scan of the file in view, dense at 13px, with the composer always in view. The run's status is not here: it sits by the scan's controls. The run stops after its first three commitments; Aldo says what to check, then gives each commitment its own message: a lead (where it took the ID and name from, how far the text runs) and a card with the ID, name and quoted text (clamped, with Show all), a p. N button, Looks right and Fix. Fix opens the ID, name and text as fields, with Save and Redraw the box. Edit ID and name on the page toolbar opens the same fields for any commitment. Requirements, timing and parties are reviewed in step 2.
 
 ## Key decisions
-- Needs you: what waits on the person is listed with its answers until answered, behind an indicator in the panel's header (a count and "needs you", or "Instructions (n)" when nothing waits) that opens it as a tray over the log; the indicator nods when a new item arrives and never opens on its own. Expanded on a wide window (1440 and up) the list is a sidebar beside the conversation instead (items: the check, a flagged reference with Dismiss / Keep it / Skip all cross-references, a headless passage with Merge / Keep separate, pages with nothing found with Mark on p. N / Nothing there, a drawn box with no ID). The log keeps the notice text; the buttons live only in the list.
+- Open items: what waits on the person is listed with its answers until answered, behind an indicator in the panel's header (a count and "open items", or "Instructions (n)" when nothing waits) that opens it as a tray over the log; the indicator nods when a new item arrives and never opens on its own. Expanded on a wide window (1440 and up) the list is a sidebar beside the conversation instead (items: the check, a flagged reference with Dismiss / Keep it / Skip all cross-references, a headless passage with Merge / Keep separate, pages with nothing found with Mark on p. N / Nothing there, a drawn box with no ID). The log keeps the notice text; the buttons live only in the list.
 - After the check: Read the rest (fast, the default), Watch it, One at a time. Before it, the status reads "Stopping after 3 commitments for your check", never a pause.
 - A question is answered and changes nothing; a message too short to act on gets its readings as buttons. Prod's structured call needs answer and unclear kinds.
 - Instructions in effect, collapsed under the log with a count: the scope, each rule with the page it took effect from, each fix from the check.
@@ -19,11 +19,12 @@ The conversation that scopes, checks and steers the scan of the file in view, de
 - The composer carries what rides along as chips above the field: the page in view and the selected commitment attach themselves (dashed, removable; a removed one stays off until the person moves), @ adds a commitment from a menu that filters as you type and writes its ID into the sentence, and a file is attached with the paperclip or dropped on the composer. Aldo reads a file as context for this document, never as a source of commitments. A sent message shows its chips under it; pressing one opens what it names.
 - / at the start of the field lists the commands (scope, skip, rule, reread, why, pause, resume); each puts the start of a message in the field to finish.
 - A reply comes in as it is written: three dots, then the words. While it does, send is Stop; Stop ends the reply where it is and marks it Stopped (in prod it cancels the call). The latest messages have hover keys beside Copy: Edit on the person's (takes the message back, and what it did, and puts it in the field with its chips) and Retry on Aldo's (asks again).
-- Expand (beside the fold chevron) pins the conversation over the right of the window, under the top bar, for when talking to Aldo is the work: about half the window, or 60% with the Needs you sidebar on a wide window. It is not modal: the page beside it stays live and narrows, the Library folds to its rail, and Aldo's page and commitment references move the page in view. Dock or Esc puts it back where it was, mid-sentence drafts included (Esc closes an open tray first).
+- Expand (beside the fold chevron) lays the conversation over the right of the window, under the top bar and over the help bar, for when talking to Aldo is the work: about half the window, or 60% with the Open items sidebar on a wide window (the sidebar folds away when nothing is open). Nothing under it moves. Any press that changes the record or opens something (an answer to an open item, Looks right, a page or commitment reference, a chip) docks it, so the person sees what happened. Dock or Esc docks it too, mid-sentence drafts included (Esc closes an open tray first).
+- The scan's controls (Scan, Pause, Resume, speed) are recorded as steers, so the model sees a person slow it down, but the conversation shows each as one quiet centered line ("Set the speed to Fast on p. 132 at 7:14 PM"), with no bubble and no reply; only Scan gets Aldo's answer.
 
 ## Done when
-- At the check, Needs you reads "Check the first 3: 3 left." All look right, then Read the rest: the run goes on at Fast.
-- When the run is done: Needs you lists COA 11.32, the top of p. 156 and pp. 152 to 154; Keep it on 11.32 and Merge on p. 156 leave one, and the status reads "1 to settle."
+- At the check, Open items reads "Check the first 3: 3 left." All look right, then Read the rest: the run goes on at Fast.
+- When the run is done: Open items lists COA 11.32, the top of p. 156 and pp. 152 to 154; Keep it on 11.32 and Merge on p. 156 leave one, and the status reads "1 to settle."
 - Type "why did you flag 11.32?": Aldo explains and the instructions are unchanged.
 - On the MMRP, Mark them myself, then drag over MM AES-1a: Aldo reads it as MM AES-1a and the status reads "By hand. 1 marked."
 - Fix COA 11.1, change its name, Save: the card reads Fixed, and step 2 shows the new name.
@@ -42,23 +43,25 @@ The conversation that scopes, checks and steers the scan of the file in view, de
   <section class="bcn-aldo-panel__body" aria-label="Aldo">
     <header class="bcn-aldo-panel__head">
       <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-        ><span class="bcn-aldo-mark__glyph"
-          ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-            ><svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path
-                d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-              ></path>
-              <circle cx="12" cy="12" r="10"></circle></svg></span></span
+        ><svg
+          class="bcn-aldo-mark__glyph"
+          viewBox="0 0 64 64"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+          <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+          <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+          <circle
+            cx="33.2"
+            cy="31.1"
+            r="2"
+            fill="currentColor"
+            stroke="none"
+          ></circle></svg
       ></span>
       <h3 class="bcn-aldo-panel__title">Aldo</h3>
       <button
@@ -299,7 +302,7 @@ Tell me where to start, or scan Condition 11."
               max-rows="6"
               auto-resize=""
               aria-label="Message Aldo"
-              placeholder="Tell Aldo what to read, skip or fix"
+              placeholder="Read, skip or fix"
             ></esa-textarea
             ><span class="bcn-aldo-composer__attach"
               ><span
@@ -373,9 +376,14 @@ Tell me where to start, or scan Condition 11."
       class="bcn-aldo-panel__side"
       id="aldo-side"
       data-aldo-side=""
-      aria-label="Needs you and instructions"
+      aria-label="Open items and instructions"
     >
-      <section class="bcn-aldo-needs" data-aldo-needs="" aria-label="Needs you" hidden="">
+      <section
+        class="bcn-aldo-needs"
+        data-aldo-needs=""
+        aria-label="Open items"
+        hidden=""
+      >
         <h4 class="bcn-aldo-needs__head">
           <button
             type="button"
@@ -396,7 +404,7 @@ Tell me where to start, or scan Condition 11."
                 focusable="false"
               >
                 <path d="m6 9 6 6 6-6"></path></svg></span
-            ><span>Needs you</span
+            ><span>Open items</span
             ><span data-needs-count=""
               ><span
                 class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong"
@@ -441,28 +449,30 @@ Tell me where to start, or scan Condition 11."
         <path d="m11 17-5-5 5-5"></path>
         <path d="m18 17-5-5 5-5"></path></svg></span
     ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-      ><span class="bcn-aldo-mark__glyph"
-        ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-          ><svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path
-              d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-            ></path>
-            <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+      ><svg
+        class="bcn-aldo-mark__glyph"
+        viewBox="0 0 64 64"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+        <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+        <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+        <circle
+          cx="33.2"
+          cy="31.1"
+          r="2"
+          fill="currentColor"
+          stroke="none"
+        ></circle></svg></span
     ><span class="bcn-aldo-panel__railname">Aldo</span
     ><span class="bcn-aldo-panel__dot" data-aldo-dot="" hidden=""
       ><span
         class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong esa-badge--dot"
-        ><span class="visually-hidden">Something needs you</span></span
+        ><span class="visually-hidden">An open item waits</span></span
       ></span
     >
   </button>
@@ -678,27 +688,33 @@ Tell me where to start, or scan Condition 11."
           data-size="sm"
           aria-hidden="true"
           data-astro-cid-lgb5fntv=""
-          ><span class="bcn-aldo-mark__glyph" data-astro-cid-lgb5fntv=""
-            ><span
-              class="esa-icon esa-icon--xs"
-              aria-hidden="true"
-              data-astro-cid-c7ivvrtd=""
-              ><svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-                data-astro-cid-c7ivvrtd=""
-              >
-                <path
-                  d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                ></path>
-                <circle cx="12" cy="12" r="10"></circle></svg></span></span></span></span
+          ><svg
+            class="bcn-aldo-mark__glyph"
+            viewBox="0 0 64 64"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            data-astro-cid-lgb5fntv=""
+          >
+            <path d="M47.59 23A18 18 0 1 1 31.37 14.01" data-astro-cid-lgb5fntv=""></path>
+            <path
+              d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"
+              data-astro-cid-lgb5fntv=""
+            ></path>
+            <path
+              d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"
+              data-astro-cid-lgb5fntv=""
+            ></path>
+            <circle
+              cx="33.2"
+              cy="31.1"
+              r="2"
+              fill="currentColor"
+              stroke="none"
+              data-astro-cid-lgb5fntv=""
+            ></circle></svg></span></span
     ></template>
   </div>
   <script
@@ -834,7 +850,6 @@ Tell me where to start, or scan Condition 11."
   display: inline-flex;
 }
 .bcn-aldo-mark[data-size="sm"] {
-  --icon-size-xs: 12px;
   width: 20px;
   height: 20px;
 }
@@ -847,16 +862,15 @@ Tell me where to start, or scan Condition 11."
   height: 64px;
 }
 .bcn-aldo-mark__glyph {
-  justify-content: center;
-  align-items: center;
-  line-height: 0;
-  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .bcn-aldo-mark[data-animated] {
   animation: 2s ease-in-out infinite bcn-aldo-pulse;
 }
 .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
-  animation: 8s linear infinite bcn-aldo-spin;
+  animation: 12s linear infinite bcn-aldo-spin;
 }
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
@@ -1391,8 +1405,18 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-aldo-msg__tools [data-copied] {
   color: var(--color-content-utility-success);
 }
+.bcn-aldo-msg__tools {
+  --button-chrome-bg-hover: var(--bcn-aldo-50);
+  color: var(--color-content-default-secondary);
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
 .bcn-aldo-msg__time {
-  font-size: var(--_aldo-meta);
+  margin-top: calc(var(--spacing-100, 0.25rem) - var(--_aldo-inner));
+  padding-inline: var(--spacing-200);
+  font-size: 0.6875rem;
+  line-height: 1.2;
   font-weight: var(--_aldo-weight-meta);
   color: var(--color-content-default-tertiary);
   font-variant-numeric: tabular-nums;
@@ -1438,6 +1462,13 @@ summary.esa-button--variant-chrome:focus-visible {
   gap: var(--spacing-200);
   flex-direction: column;
   display: flex;
+}
+.bcn-aldo-msg[data-kind="event"] .bcn-aldo-msg__text {
+  font-size: var(--_aldo-meta);
+  color: var(--color-content-default-tertiary);
+}
+.bcn-aldo-msg[data-kind="event"] .bcn-aldo-msg__tools {
+  display: none;
 }
 .bcn-aldo-msg[data-from="you"] .bcn-aldo-msg__extra {
   align-items: flex-end;
@@ -1794,7 +1825,7 @@ button.bcn-aldo-needs__text:focus-visible {
   --_aldo-same: var(--spacing-400, 1rem);
   --_aldo-inner: var(--spacing-300, 0.75rem);
   --_aldo-region: var(--spacing-400, 1rem);
-  z-index: 900;
+  z-index: 1050;
   top: calc(var(--_aldo-top, 0px) + var(--spacing-400, 1rem));
   right: var(--spacing-400, 1rem);
   bottom: var(--spacing-400, 1rem);
@@ -1933,9 +1964,10 @@ button.bcn-aldo-needs__text:focus-visible {
   max-height: none;
   box-shadow: none;
   padding: var(--spacing-400);
+  gap: var(--spacing-500, 1.5rem);
   border: 0;
   border-left: var(--_aldo-line) solid var(--color-border-default-subtle);
-  background: var(--color-background-elevation-sunken);
+  background: var(--color-background-elevation-raised);
   border-radius: 0;
   border-bottom-right-radius: inherit;
   font-size: 0.8125rem;
@@ -1955,6 +1987,65 @@ button.bcn-aldo-needs__text:focus-visible {
   .bcn-aldo-panel__side
   .bcn-aldo-needs[data-folded]
   .bcn-aldo-needs__list {
+  display: none;
+}
+.bcn-aldo-panel__side .bcn-aldo-needs {
+  box-shadow: none;
+  background: 0 0;
+  border: 0;
+  overflow: visible;
+}
+.bcn-aldo-panel__side .bcn-aldo-needs__head {
+  background: 0 0;
+  border-bottom: 0;
+}
+.bcn-aldo-panel__side .bcn-aldo-needs__toggle {
+  padding: 0 0 var(--spacing-200);
+}
+.bcn-aldo-panel__side .bcn-aldo-needs__list {
+  gap: var(--spacing-200);
+  flex-direction: column;
+  max-height: none;
+  display: flex;
+  overflow: visible;
+}
+.bcn-aldo-panel__side .bcn-aldo-needs__item {
+  gap: var(--spacing-200);
+  padding: var(--spacing-300);
+  border: var(--_aldo-line) solid var(--color-border-default);
+  border-radius: var(--_aldo-radius);
+  background: var(--color-background-elevation-raised);
+  transition:
+    border-color 0.12s,
+    box-shadow 0.12s;
+}
+.bcn-aldo-panel__side .bcn-aldo-needs__item:hover {
+  border-color: var(--bcn-aldo-100);
+  box-shadow: var(--elevation-1);
+}
+.bcn-aldo-panel__side .bcn-aldo-needs__item + .bcn-aldo-needs__item {
+  border-top: var(--_aldo-line) solid var(--color-border-default);
+}
+.bcn-aldo-panel__side .bcn-aldo-needs__item:hover + .bcn-aldo-needs__item {
+  border-top-color: var(--color-border-default);
+}
+.bcn-aldo-panel__side .bcn-aldo-instructions {
+  background: 0 0;
+  border: 0;
+  padding: 0;
+}
+.bcn-aldo-panel__side .bcn-aldo-instructions .esa-collapsible__summary {
+  padding-block: 0 var(--spacing-200);
+}
+.bcn-aldo-panel__side .bcn-aldo-instructions__list {
+  gap: var(--spacing-300);
+  max-height: none;
+  padding: 0;
+  list-style: none;
+}
+.bcn-aldo-panel[data-expanded]
+  .bcn-aldo-panel__body:not(:has(.bcn-aldo-panel__side > :not([hidden])))
+  .bcn-aldo-panel__side {
   display: none;
 }
 .bcn-sw3tools esa-button-group,
@@ -2317,6 +2408,7 @@ button.bcn-aldo-needs__text:focus-visible {
 - `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-aldo`: #08908b _(component)_
 - `--bcn-aldo-100`: #cfeceb _(component)_
+- `--bcn-aldo-50`: #e8f6f5 _(component)_
 - `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-aldo-prompt-ring`: #08908b8c _(component)_
 - `--bcn-aldo-prompt-shadow`: 0 1px 2px #1018200f, 0 10px 24px -6px #10182024, 0 28px 60px -18px #08908b61 _(component)_

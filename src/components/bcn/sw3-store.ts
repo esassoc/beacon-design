@@ -232,6 +232,8 @@ export interface Steer {
   wall?: number;
   /** What rode along with it: the page in view, a commitment, a file. */
   context?: ContextRef[];
+  /** Given with the scan's controls (Scan, Pause, Resume, speed), not in the conversation. */
+  controls?: boolean;
   /** Deprecated: steers recorded before `unclear` was an action kind carry their readings
    *  here. New ones carry them on the action. */
   choices?: { label: string; text: string }[];
@@ -673,8 +675,11 @@ export const takeBack = (id: string): Steer | null => {
 };
 
 /** One of Aldo's buttons: a known action, recorded the same way as a typed steer. */
-export const act = (label: string, action: SteerAction | SteerAction[], reply: string) =>
-  commit(() => record(label, 'button', Array.isArray(action) ? action : [action], reply));
+export const act = (label: string, action: SteerAction | SteerAction[], reply: string, opts: { controls?: boolean } = {}) =>
+  commit(() => {
+    record(label, 'button', Array.isArray(action) ? action : [action], reply);
+    if (opts.controls) S.steers.at(-1)!.controls = true;
+  });
 
 export const steers = () => S.steers;
 

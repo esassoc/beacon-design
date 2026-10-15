@@ -5,7 +5,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
 ## Key decisions
 - SetupWizardSourceDto and SetupWizardSourceFileDto as they are: source fields plus files with PageCount and CommitmentCount. The per-file scan state is new.
 - Every run keeps going while another file is in view.
-- Each row carries one badge for what waits on that file: "3 to check" at the check, otherwise "N to settle" (its Needs you list). A scanned file reads "Reading page images, p. N of M" with a progress bar while OCR runs.
+- Each row carries one badge for what waits on that file: "3 to check" at the check, otherwise "N to settle" (its Open items list). A scanned file reads "Reading page images, p. N of M" with a progress bar while OCR runs.
 - Deletes ask first through a confirm dialog that states the impact (DeletionImpactGet): how many files and commitments go with it.
 
 ## Done when
@@ -1181,6 +1181,9 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3src__list .bcn-sw3src__menu[open] {
   opacity: 1;
 }
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
 .bcn-aldo-needs__head .esa-badge {
   font-variant-numeric: tabular-nums;
 }
@@ -1191,9 +1194,6 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-sw3scan[data-library="closed"] .bcn-sw3scan__sources > .bcn-sw3src,
 .bcn-sw3scan__rail {
-  display: none;
-}
-.bcn-sw3scan[data-aldo-expanded] .bcn-sw3scan__sources > .bcn-sw3src {
   display: none;
 }
 .typography-microcopy-2xs {
@@ -1416,6 +1416,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--animation-spin`: .75s linear infinite _(semantic)_
 - `--badge-bg`: #005862 _(component)_
 - `--badge-text-color`: #fcfcfc _(component)_
+- `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_

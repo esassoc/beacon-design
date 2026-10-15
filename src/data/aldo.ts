@@ -72,8 +72,10 @@ export interface Turn<A extends AldoAction = AldoAction> {
   offers?: ActionButton<A>[];
   /** Rich content Aldo attached to this turn: the check's cards, a draft. */
   cards?: Card<A>[];
-  /** A kind with its own layout. 'check' renders as lead + card, with no who line. */
-  kind?: 'message' | 'check' | 'notice' | 'opening';
+  /** A kind with its own layout. 'check' renders as lead + card, with no who line. 'event'
+   *  is something done outside the conversation (a control pressed): one quiet centered line
+   *  with its time, no bubble. */
+  kind?: 'message' | 'check' | 'notice' | 'opening' | 'event';
   /** On a person's turn: what was attached to it (the page in view, a commitment, a file). */
   context?: ContextRef[];
 }
@@ -251,7 +253,7 @@ export interface Card<A extends AldoAction = AldoAction> {
   where?: { label: string; go: Anchor };
   /** Drives dashed (suggested) vs solid (confirmed). */
   proposal?: Pick<Proposal, 'id' | 'state'>;
-  /** Shown in place of the actions once confirmed: "Read right", "Fixed". */
+  /** Shown in place of the actions once confirmed: "Confirmed", "Fixed". */
   settled?: string;
   actions: ActionButton<A>[];
   /** Editing: the fields a person can change in place. Save receives their values. */

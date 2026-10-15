@@ -16,15 +16,18 @@ export interface AldoHost<A extends AldoAction = AldoAction> {
 
 export type Press<A extends AldoAction = AldoAction> = (b: ActionButton<A>) => void;
 
-/** A press, resolved against the host. `run` is a view-only effect. */
+/** A press, resolved against the host. `run` is a view-only effect. `scope`, when given, is
+ *  told (`aldo:dock-request`) after a press that changes the record or opens something, so an
+ *  expanded panel gets out of the way of what happened. */
 export const pressWith =
-  <A extends AldoAction>(host: AldoHost<A>): Press<A> =>
+  <A extends AldoAction>(host: AldoHost<A>, scope?: Element): Press<A> =>
   (b) => {
     const d = b.does;
     if ('say' in d) host.say(d.say);
     else if ('act' in d) host.act(b.label, Array.isArray(d.act) ? d.act : [d.act], d.reply);
     else if ('go' in d) host.go(d.go);
     else d.run();
+    if ('act' in d || 'go' in d) scope?.dispatchEvent(new CustomEvent('aldo:dock-request', { bubbles: true }));
   };
 
 export type FieldEl = HTMLElement & { value: string };

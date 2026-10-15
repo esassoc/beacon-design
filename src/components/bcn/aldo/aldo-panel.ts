@@ -42,7 +42,7 @@ function setupSide(root: HTMLElement): void {
     toggle.hidden = !needs && !rules;
     countHost.hidden = !needs;
     count.textContent = String(needs);
-    label.textContent = needs ? (needs === 1 ? 'needs you' : 'need you') : `Instructions (${rules})`;
+    label.textContent = needs ? (needs === 1 ? 'open item' : 'open items') : `Instructions (${rules})`;
     if (toggle.hidden) set(false);
   };
   const head = root.querySelector<HTMLElement>('.bcn-aldo-panel__head');
@@ -80,8 +80,9 @@ function setupSide(root: HTMLElement): void {
   });
 }
 
-/** Expanded: the panel's body pins itself over the right half of the window, non-modal, so
- *  the page beside it stays live and Aldo's page buttons move it in view. The host learns
+/** Expanded: the panel's body pins itself over the right of the window as an overlay; the
+ *  page under it does not move. A press that changes the record or opens something docks it
+ *  (`aldo:dock-request`), so the person sees what happened. The host learns
  *  where the panel starts (`--aldo-overlay-left` and `data-aldo-expanded` on the nearest
  *  `[data-aldo]` ancestor) and makes room. Esc or Dock puts it back. */
 function setupOverlay(root: HTMLElement): void {
@@ -136,6 +137,7 @@ function setupOverlay(root: HTMLElement): void {
       root.dispatchEvent(new CustomEvent('aldo:dock', { bubbles: true }));
     });
   keys.forEach((k) => k.addEventListener('click', () => (k.dataset.aldoOverlay === 'open' ? open() : dock())));
+  root.addEventListener('aldo:dock-request', () => expanded() && dock());
   window.addEventListener('resize', measure);
   // Esc docks, unless something inside Aldo (a menu, a field) is using it first.
   document.addEventListener('keydown', (e) => {

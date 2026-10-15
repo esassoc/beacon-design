@@ -2,46 +2,40 @@
 // <BcnAldoMark> — "Aldo", Beacon's help & guidance identity mark.
 //
 // Aldo is the friendly face of Beacon's whole help system, named after
-// conservationist Aldo Leopold. It is a white compass glyph centered in a filled
-// Aldo-green circle, and it is the ONE badge that stands for guidance everywhere
-// it appears: the floating help-bar button, the guidance drawer header, and the
-// Help & Guidance page hero. Aldo green (--bcn-aldo) is a deliberately distinct
-// accent — never --color-background-brand — so the guide reads as its own presence, not
-// another primary action.
+// conservationist Aldo Leopold. The mark is "Eighty Years": the growth rings of a
+// sawn oak, slightly off center, with one wedge cut out, after the Good Oak essay in
+// A Sand County Almanac. It stands for the long record a compliance program keeps.
+// White rings in a filled Aldo-green circle, the ONE badge that stands for guidance
+// everywhere it appears: the help bar, the guidance drawer, the Aldo panel, the
+// Help & Guidance hero. Aldo green (--bcn-aldo) is a deliberately distinct accent,
+// never --color-background-brand, so the guide reads as its own presence.
+// Chosen 2026-10-14 over the stock Lucide compass (review rounds 1 and 2).
 //
-// Purely decorative (aria-hidden). It carries no interactivity of its own — a host
+// Purely decorative (aria-hidden). It carries no interactivity of its own: a host
 // wraps it in a button or link when the mark needs to be actionable.
 //
 // bcn-lego-checked: no esa-* lego is a branded identity badge. esa-avatar renders a
 // PERSON (initials/photo); esa-badge and esa-icon-button are generic chrome; none
-// carries a brand mark. Checked Beacon (no help-mark component exists). The compass
-// itself IS composed from the esa-icon lego (custom Lucide paths, since 'compass'
-// isn't in esa-icon's registry); the circle + animation are this mark's own
-// identity, so bcn-aldo-mark is its reusable home.
-import EsaIcon from '@esa/ecology/esa-icon.astro';
+// carries a brand mark. Checked Beacon (no help-mark component exists). The rings are
+// drawn on the circle's own 64 grid (inline SVG, not esa-icon's 24 grid) so they keep
+// their proportion to the circle at every size; bcn-aldo-mark is their reusable home.
 
 interface Props {
-  /** sm=20px, md=40px, lg=64px container (icon ~12/20/28). Default 'md'. */
+  /** sm=20px, md=40px, lg=64px. Default 'md'. */
   size?: 'sm' | 'md' | 'lg';
-  /** Gentle pulse on the circle + slow 8s linear rotation of the compass glyph. Default false. */
+  /** Gentle pulse on the circle and a slow turn of the rings: Aldo at work. Default false. */
   animated?: boolean;
 }
 const { size = 'md', animated = false } = Astro.props;
-
-// Lucide "compass" — not in esa-icon's built-in registry, so handed to the lego as
-// custom paths (same mechanism AppShell uses for its off-registry nav glyphs).
-const COMPASS_PATHS =
-  '<path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/>';
-
-// esa-icon size step per container. The exact px is pinned in scoped CSS via the
-// public --icon-size-* token the lego reads (sm nudges its 14px xs down to 12px).
-const ICON_STEP = { sm: 'xs', md: 'md', lg: 'xl' } as const;
 ---
 
 <span class="bcn-aldo-mark" data-size={size} data-animated={animated ? '' : undefined} aria-hidden="true">
-  <span class="bcn-aldo-mark__glyph">
-    <EsaIcon name="compass" paths={COMPASS_PATHS} size={ICON_STEP[size]} />
-  </span>
+  <svg class="bcn-aldo-mark__glyph" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M47.59 23A18 18 0 1 1 31.37 14.01" />
+    <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41" />
+    <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8" />
+    <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none" />
+  </svg>
 </span>
 
 <style>
@@ -56,27 +50,20 @@ const ICON_STEP = { sm: 'xs', md: 'md', lg: 'xl' } as const;
     line-height: 0;
   }
 
-  /* Container box + pinned icon size per step. The sm case overrides esa-icon's
-     14px xs down to 12px through the public token the lego resolves
-     (var(--icon-size-xs, 14px)); md/lg already match the lego's 20/28 defaults. */
-  .bcn-aldo-mark[data-size='sm'] { width: 20px; height: 20px; --icon-size-xs: 12px; }
+  /* The circle per step; the rings fill it on its own 64 grid. */
+  .bcn-aldo-mark[data-size='sm'] { width: 20px; height: 20px; }
   .bcn-aldo-mark[data-size='md'] { width: 40px; height: 40px; }
   .bcn-aldo-mark[data-size='lg'] { width: 64px; height: 64px; }
 
-  .bcn-aldo-mark__glyph {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 0;
-  }
+  .bcn-aldo-mark__glyph { display: block; width: 100%; height: 100%; }
 
-  /* When animated: a soft expanding-ring pulse on the circle + a slow compass spin.
+  /* When animated: a soft expanding-ring pulse on the circle and a slow turn of the rings.
      The ring grows outward as a box-shadow whose Aldo tint fades to transparent. */
   .bcn-aldo-mark[data-animated] {
     animation: bcn-aldo-pulse 2s ease-in-out infinite;
   }
   .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
-    animation: bcn-aldo-spin 8s linear infinite;
+    animation: bcn-aldo-spin 12s linear infinite;
   }
 
   @keyframes bcn-aldo-pulse {

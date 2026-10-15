@@ -98,8 +98,13 @@ export function mountThread<A extends AldoAction>(
   const toEnd = () => (scroller.scrollTop = scroller.scrollHeight);
 
   const messages = (turns: Turn<A>[]): Msg<A>[] => {
-    const lastPerson = turns.filter((t) => t.by.kind === 'person').at(-1)?.id;
+    const lastPerson = turns.filter((t) => t.by.kind === 'person' && t.kind !== 'event').at(-1)?.id;
     return turns.flatMap((t): Msg<A>[] => {
+      if (t.kind === 'event') {
+        const at = clock(t.time);
+        const line: Msg<A> = { id: `${t.id}:event`, turnId: t.id, from: 'system', kind: 'event', who: '', text: at ? `${t.text} at ${at}` : t.text, time: '', acts: [], keys: [] };
+        return t.reply ? [line, { id: `${t.id}:aldo`, turnId: t.id, from: 'aldo', who: 'Aldo', text: t.reply.text, time: at, acts: t.reply.offers ?? [], keys: [] }] : [line];
+      }
       if (t.by.kind === 'person') {
         const page = t.anchor && 'page' in t.anchor ? t.anchor.page : null;
         const live = t.id === lastPerson && t.via === 'typed' && (opts.canChange?.(t.id) ?? false);

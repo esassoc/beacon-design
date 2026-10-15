@@ -38,9 +38,13 @@ interface Props {
    * the shared trunk and its Actions | Obligations fork.
    */
   steps?: SetupStep[];
+  /** The wizard's name in the header. Default "Setup Wizard". */
+  title?: string;
+  /** Inline Lucide markup for the header glyph. Default the compass. */
+  glyph?: string;
 }
 
-const { active, complete = COMPLETE_STEPS, homeHref = '/prototypes/setup-wizard', steps } = Astro.props;
+const { active, complete = COMPLETE_STEPS, homeHref = '/prototypes/setup-wizard', steps, title = 'Setup Wizard', glyph } = Astro.props;
 const trunk = steps ?? SETUP_TRUNK;
 const branches = steps ? [] : SETUP_BRANCHES;
 const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href);
@@ -55,8 +59,8 @@ const pill = (s: SetupStep) => ({
 <div class="bcn-swf">
   <header class="bcn-swf__head">
     <a class="bcn-swf__home" href={linkHref(homeHref)}>
-      <span class="bcn-swf__mark" aria-hidden="true"><EsaIcon name="compass" size="xs" paths={STEP_GLYPH.compass} /></span>
-      <h1 class="bcn-swf__title">Setup Wizard</h1>
+      <span class="bcn-swf__mark" data-square={glyph ? '' : undefined} aria-hidden="true"><EsaIcon name={glyph ? 'setup' : 'compass'} size="xs" paths={glyph ?? STEP_GLYPH.compass} /></span>
+      <h1 class="bcn-swf__title">{title}</h1>
     </a>
     <p class="bcn-swf__sub">From source documents to trackable actions and obligations.</p>
   </header>
@@ -162,6 +166,10 @@ const pill = (s: SetupStep) => ({
     flex-shrink: 0;
     border-radius: var(--radius-full);
     background: var(--bcn-teal-600, var(--color-background-brand));
+  }
+  /* A glyph of its own sits in a rounded square: the green circle is Aldo's. */
+  .bcn-swf__mark[data-square] {
+    border-radius: var(--radius-sm);
     color: var(--color-content-default-knockout);
   }
   .bcn-swf__title {

@@ -11,7 +11,7 @@ import PageLayout from '../../../layouts/PageLayout.astro';
 import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
 import BcnSw3Scan from '../../../components/bcn/BcnSw3Scan.astro';
 import { PROJECT } from '../../../data/project-dashboard';
-import { SW3_STEPS, SW3_BASE } from '../../../data/setup-wizard-3-step';
+import { SW3_STEPS, SW3_BASE, SW3_NAME, SW3_GLYPH } from '../../../data/setup-wizard-3-step';
 ---
 
 <!-- manifest:
@@ -21,9 +21,9 @@ import { SW3_STEPS, SW3_BASE } from '../../../data/setup-wizard-3-step';
     - workspace      -> bcn-sw3-scan             # step header + toolbar | sources and files | live PDF page with editable boxes, or a source's details | Aldo
 -->
 
-<AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard" expandedSections={[]}>
+<AppShell title={SW3_NAME} sectionOverrides={{ 'setup-wizard': { title: SW3_NAME, icon: 'folder-cog', iconPaths: SW3_GLYPH } }} tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard" expandedSections={[]}>
   <PageLayout title="Setup Wizard" hideTitleRow>
-    <BcnSetupWizardFrame steps={SW3_STEPS} active="source-documents" complete={[]} homeHref={SW3_BASE}>
+    <BcnSetupWizardFrame steps={SW3_STEPS} active="source-documents" complete={[]} homeHref={SW3_BASE} title={SW3_NAME} glyph={SW3_GLYPH}>
       <BcnSw3Scan />
     </BcnSetupWizardFrame>
   </PageLayout>

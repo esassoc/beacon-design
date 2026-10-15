@@ -133,16 +133,7 @@ const sources = {
   .bcn-sw3scan[data-library='closed'] .bcn-sw3scan__sources > :global(.bcn-sw3src),
   .bcn-sw3scan__rail { display: none; }
   .bcn-sw3scan[data-library='closed'] .bcn-sw3scan__rail[data-rail='library'] { display: flex; }
-  /* Aldo expanded over the right half: the workspace keeps the left half, beside it and live,
-     so Aldo's page buttons move a page that is in view. The library folds to its rail; Aldo's
-     own column empties (its panel is pinned). The reserve is set by sw3-scan.ts. */
-  .bcn-sw3scan[data-aldo-expanded] {
-    padding-right: var(--_aldo-reserve, 0px);
-    grid-template-columns: 2.75rem minmax(0, 1fr) 0;
-  }
-  .bcn-sw3scan[data-aldo-expanded] .bcn-sw3scan__sources > :global(.bcn-sw3src) { display: none; }
-  .bcn-sw3scan[data-aldo-expanded] .bcn-sw3scan__rail[data-rail='library'] { display: flex; }
-  .bcn-sw3scan[data-aldo-expanded] :global(.bcn-sw3bar) { padding-inline: var(--spacing-300); }
+  /* Aldo expanded is an overlay: the workspace under it does not move. */
   .bcn-sw3scan__rail {
     flex: 1;
     flex-direction: column;

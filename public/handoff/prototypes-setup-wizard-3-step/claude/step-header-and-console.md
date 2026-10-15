@@ -666,6 +666,9 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
 .bcn-scrub {
   --_cell: calc(100% / var(--_n));
   align-items: center;
@@ -940,9 +943,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3tools esa-dropdown-menu {
   flex: none;
 }
-.bcn-sw3scan[data-aldo-expanded] .bcn-sw3bar {
-  padding-inline: var(--spacing-300);
-}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
@@ -1009,6 +1009,7 @@ summary.esa-button--variant-chrome:focus-visible {
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
 - `--bcn-aldo`: #08908b _(component)_
+- `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_

@@ -11,8 +11,8 @@
 // moves in the DOM, so drafts, open forms and the thread are untouched. Events:
 // `aldo:expand-overlay`, `aldo:dock`, `aldo:overlay-resize` (on the host).
 //
-// Needs you and Instructions in effect live in the side region. Docked, it is a tray that
-// drops from the header's indicator ("2 need you"), over the thread, the width of the panel;
+// Open items and Instructions in effect live in the side region. Docked, it is a tray that
+// drops from the header's indicator ("2 open items"), over the thread, the width of the panel;
 // Esc, a click outside or the indicator closes it. Expanded, it is a sidebar beside the
 // conversation, always open. One region, two placements, by CSS.
 //
@@ -61,7 +61,7 @@ const back = rail === 'right' ? 'chevrons-left' : 'chevrons-right';
       <h3 class="bcn-aldo-panel__title">{title}</h3>
       <button type="button" class="bcn-aldo-panel__waiting" data-aldo-side-toggle aria-expanded="false" aria-controls="aldo-side" hidden>
         <span data-waiting-count><EsaBadge variant="warning" size="xs" value="0" /></span>
-        <span data-waiting-label>Needs you</span>
+        <span data-waiting-label>open items</span>
         <EsaIcon name="chevron-down" size="sm" />
       </button>
       {
@@ -87,7 +87,7 @@ const back = rail === 'right' ? 'chevrons-left' : 'chevrons-right';
     </div>
     <!-- What waits on the person and what governs Aldo: a tray from the header when docked,
          a sidebar beside the conversation when expanded. -->
-    <aside class="bcn-aldo-panel__side" id="aldo-side" data-aldo-side aria-label="Needs you and instructions">
+    <aside class="bcn-aldo-panel__side" id="aldo-side" data-aldo-side aria-label="Open items and instructions">
       <slot name="needs" />
       <slot name="instructions" />
     </aside>
@@ -99,7 +99,7 @@ const back = rail === 'right' ? 'chevrons-left' : 'chevrons-right';
         <BcnAldoMark size="sm" />
         <span class="bcn-aldo-panel__railname">{title}</span>
         <span class="bcn-aldo-panel__dot" data-aldo-dot hidden>
-          <EsaBadge dot variant="warning" size="xs" label="Something needs you" />
+          <EsaBadge dot variant="warning" size="xs" label="An open item waits" />
         </span>
       </button>
     )

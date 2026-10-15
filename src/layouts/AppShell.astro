@@ -62,6 +62,8 @@ interface Props {
   /** Per-page replacement of one section's links, keyed by section id — a prototype
    *  trying a new menu without forking the whole navSections list. */
   sectionItems?: Record<string, NavItem[]>;
+  /** Per-page rename of a section (title, glyph): a prototype test-driving a name. */
+  sectionOverrides?: Record<string, Partial<Pick<NavSection, 'title' | 'icon' | 'iconPaths'>>>;
 }
 
 // ── Lucide glyphs not in esa-icon's built-in registry (inner SVG markup only) ──
@@ -103,6 +105,7 @@ const {
   activeNavId,
   expandedSections,
   sectionItems,
+  sectionOverrides,
   // Verbatim nav structure from side-nav-modern.component.ts (standard labels).
   navSections = [
     {
@@ -189,6 +192,10 @@ const {
     },
   ],
 } = Astro.props as Props;
+
+if (sectionOverrides) {
+  for (const section of navSections) Object.assign(section, sectionOverrides[section.id] ?? {});
+}
 
 // Per-page section links — replaces a section's items wholesale when provided.
 if (sectionItems) {

@@ -103,7 +103,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
       else if (a.kind === 'route') location.href = a.path;
     },
   };
-  const press = pressWith(host);
+  const press = pressWith(host, root.querySelector('[data-aldo-panel]') ?? root);
   const parts = aldoParts(root);
   // A commitment's ID or a page in Aldo's text is a reference: it moves the page beside Aldo.
   const REF = /\b(COA \d+(?:\.\d+)*|MM [A-Z]+-\d+[a-z]?)\b|\bpp?\. (\d+)(?:–\d+)?/g;
@@ -125,7 +125,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
     if (last < text.length) out.push(text.slice(last));
     return out;
   };
-  const openRef = (r: ContextRef) => r.anchor && host.go(r.anchor);
+  const openRef = (r: ContextRef) => r.anchor && press({ label: r.label, does: { go: r.anchor } });
   // Edit takes the message back, and what it did, and puts it in the field. Retry asks again.
   const edit = (turnId: string) => {
     const said = takeBack(turnId.split(':').pop()!);
@@ -245,7 +245,7 @@ export function setupSw3Aldo(root: HTMLElement): void {
         badge: c.code,
         title: c.title,
         proposal: { id: code, state: done.includes(code) ? 'confirmed' : 'suggested' },
-        settled: c.fixed ? 'Fixed' : 'Read right',
+        settled: c.fixed ? 'Fixed' : 'Confirmed',
         actions: [],
       };
       if (fixing.has(code))
@@ -427,7 +427,31 @@ export function setupSw3Aldo(root: HTMLElement): void {
   };
 
   // ── Steers: a person's turn and the reply to it ─────────────────────────────
+  /** A steer given with the scan's controls, as a line: what was done and where. */
+  const controlLine = (x: Steer): string => {
+    const where = x.page ? ` on p. ${x.page}` : '';
+    const pace = x.actions.find((a) => a.kind === 'pace' || a.kind === 'go') as { pace?: string } | undefined;
+    if (x.actions.some((a) => a.kind === 'start')) return 'Started the scan';
+    if (x.text.startsWith('Speed:')) return `Set the speed to ${x.text.slice(6).trim()}${where}`;
+    if (x.actions.some((a) => a.kind === 'pause')) return `Paused${where}`;
+    return `Resumed${where}${pace?.pace === 'run' ? ', fast' : ''}`;
+  };
   const steerTurn = (x: Steer): T => {
+    // The scan's controls are recorded like any steer (the model sees the person slow it
+    // down), but the conversation shows one quiet line, and Aldo only answers a start.
+    // Steers saved before the flag existed are recognized by their labels.
+    if (x.controls ?? (x.via === 'button' && (/^(Start|Resume|Pause)$/.test(x.text) || x.text.startsWith('Speed:'))))
+      return {
+        id: `${activeDoc()}:${x.id}`,
+        at: runAt(x.at),
+        time: x.wall ? new Date(x.wall).toISOString() : undefined,
+        by: YOU,
+        via: 'button',
+        kind: 'event',
+        text: controlLine(x),
+        actions: x.actions,
+        reply: x.actions.some((a) => a.kind === 'start') ? { text: x.reply } : undefined,
+      };
     const offer = x.offer;
     const offerOpen = offer && !rereads().some((r) => r.at >= x.at && r.first <= offer.first && r.last >= offer.last);
     // Steers recorded before `unclear` was an action kind carry their readings on the side.
