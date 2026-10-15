@@ -14,13 +14,12 @@
 //   in   sw3i:merge   detail: { ids }   open on these drafts
 //   out  sw3i:merged  detail: { id }    the merged draft
 //
-// bcn-lego-checked: the dialog IS esa-dialog; the title IS esa-textarea (titles run to 510 characters); class chips ARE
-// esa-badge; keys ARE esa-button. Picking a title is a role="radio" on each draft's own
+// bcn-lego-checked: the dialog IS esa-dialog; the title IS esa-textarea (titles run to 510 characters); kind marks ARE
+// bcn-draft-kind (draft-kind.ts, styled by BcnSw3IndexPage); keys ARE esa-button. Picking a title is a role="radio" on each draft's own
 // title: esa-radio-group takes label-only options and cannot hold a draft's record. Checked
 // Beacon: subcategory-review's merge dialog ("Merge N drafts", "Use a draft's title").
 // bcn-sw3-index-merge is its home.
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaBadge from '@esa/ecology/esa-badge.astro';
 ---
 
 <esa-dialog heading="Merge drafts" size="lg" class="bcn-sw3im-dialog" data-sw3-index-merge>
@@ -50,7 +49,6 @@ import EsaBadge from '@esa/ecology/esa-badge.astro';
     <EsaButton variant="primary" size="sm" type="submit" form="sw3-im-form" data-im-submit>Merge</EsaButton>
     <EsaButton variant="secondary" size="sm" data-im-cancel>Cancel</EsaButton>
   </div>
-  <template data-im-tpl="chip"><span class="bcn-sw3im__chip"><EsaBadge variant="secondary" size="sm" value="Adhere" /></span></template>
 </esa-dialog>
 
 <style>
@@ -173,6 +171,7 @@ import EsaBadge from '@esa/ecology/esa-badge.astro';
   import '@esa/ecology/esa-textarea';
   import { initIndex, entry, titleOf, merge, mergeRefusal } from './sw3-index-store';
   import { locatorRef, deadlineText } from './sw3-index';
+  import { draftKind } from './draft-kind';
   import type { IndexEntry, IndexLocator } from '../../data/sw3-index-types';
   import { toast } from '../../lib/snackbar';
 
@@ -196,12 +195,7 @@ import EsaBadge from '@esa/ecology/esa-badge.astro';
       s.setAttribute('aria-label', `Draft ${i + 1}`);
       return s;
     };
-    const chip = (e: IndexEntry) => {
-      const c = ($<HTMLTemplateElement>('[data-im-tpl="chip"]').content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
-      const t = c.querySelector('.esa-badge__text');
-      if (t) t.textContent = e.kind === 'action' ? 'Action' : e.class;
-      return c;
-    };
+    const chip = (e: IndexEntry) => draftKind(e);
     const head = (e: IndexEntry, i?: number) => {
       const h = make('div', 'bcn-sw3im__head');
       if (i !== undefined) h.append(num(i));

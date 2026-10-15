@@ -51,8 +51,10 @@ export default {
     {
       label: 'Index',
       selector: '[data-sw3-index-tree]',
-      intent: 'The sidebar, as develop keeps it. Category and subcategory rows with tools on hover: rename in place, lock or unlock, delete, drag within the parent; + Subcategory on a category; Expand all, Lock all and + Category over the tree. Once drafted, each subcategory lists its drafts under it and carries develop\'s marks: a dot when it has drafts and was never opened, the count to review, a check when every draft is decided (muted when all were discarded). A category gets Approve category.',
+      intent: 'The sidebar, as develop keeps it. Category and subcategory rows with tools on hover: rename in place, lock or unlock, delete, drag within the parent; + Subcategory on a category; Expand all, Lock all and + Category over the tree. Each category has a hue, a dot on its row and its subcategories\' rows. Once drafted, each subcategory carries develop\'s marks: a dot when it has drafts and was never opened, the count to review, a check when every draft is decided (muted when all were discarded). A category gets Approve category. Folded, the index is a rail that reads Index sideways, as the library and Aldo do.',
       decisions: [
+        'Categories and subcategories only. Drafts are read on the subcategory\'s page, not listed in the index.',
+        'Row tools lie over the end of the row on hover, so the row never moves.',
         'Renaming locks the row. Names are unique among siblings.',
         'Locking a category locks its subcategories; unlocking it does not unlock them.',
         'A bin that holds drafts is kept on Re-run; its lock is shown disabled with the reason.',
@@ -61,8 +63,8 @@ export default {
     },
     {
       label: 'Subcategory scrubber',
-      selector: '.bcn-sw3ix__nav',
-      intent: 'Every subcategory in index order, step 2\'s scrubber, a rule and the category\'s name where each category starts. Drafted: amber for drafts never opened, gray for opened with drafts to review, green when every draft is decided. Next to review walks the unopened first.',
+      selector: '[data-ix-nav]',
+      intent: 'The foot of the step\'s panel, as step 1 carries its scan toolbar: header and scrubber are one panel. Every subcategory in index order, step 2\'s scrubber, a rule and the category\'s name where each category starts, a band of the category\'s hue along the foot of its cells and its name marked in the same hue. Drafted: amber for drafts never opened, gray for opened with drafts to review, green when every draft is decided. Next to review walks the unopened first.',
       decisions: ['Opened is not reviewed. Prod sets FirstOpenedDate the first time a bin with drafts is opened.'],
     },
     {
@@ -74,6 +76,7 @@ export default {
         'A draft action with no scope cannot be approved: "This draft has no scope. Set one in Edit before approving it."',
         'Merge takes two or more drafts of one kind and, for obligations, one audience. The merged draft keeps every source.',
         'Rationale is never stored or shown, as in prod.',
+        'Kind marks are develop\'s: an action is the Action icon in the action hue; an obligation is its class chip (Adhere, Monitor, Notify, Roster) tinted from the class hue.',
       ],
       acceptance: ['Ticking two Compliance staff drafts in Take and injury reporting and merging them leaves 20 drafts where there were 21.'],
     },

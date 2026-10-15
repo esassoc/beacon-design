@@ -17,8 +17,8 @@ export default {
     },
     {
       label: 'Commitment scrubber',
-      selector: '.bcn-sw3rev__nav',
-      intent: 'Every commitment of every source file in one run, file after file, one cell each: gray while parsing, darker gray when ready to confirm, amber with something to settle, green once confirmed. A rule through the strip marks where one file ends and the next begins, and the file\'s short name (ITP, MMRP) sits under the strip where its run starts. The strip shows 40 at a time; the double chevrons page the window, which otherwise follows the commitment in view. The thumb is the one in view. Click or drag to land on one; the arrow keys step one at a time; Next to settle jumps to the next amber one, across files. Above the strip: the file, where you are in it, and what is left across all of them ("ITP: 45 of 156. 0 confirmed, 20 to settle.").',
+      selector: '[data-rev-nav]',
+      intent: 'The foot of the step\'s panel, as step 1 carries its scan toolbar: header and scrubber are one panel. Every commitment of every source file in one run, file after file, one cell each: gray while parsing, darker gray when ready to confirm, amber with something to settle, green once confirmed. A rule through the strip marks where one file ends and the next begins, and the file\'s short name (ITP, MMRP) sits under the strip where its run starts. The strip shows 40 at a time; the double chevrons page the window, which otherwise follows the commitment in view. The thumb is the one in view. Click or drag to land on one; the arrow keys step one at a time; Next to settle jumps to the next amber one, across files. Above the strip: the file, where you are in it, and what is left across all of them ("ITP: 45 of 156. 0 confirmed, 20 to settle.").',
       decisions: [
         'One commitment at a time. The continuous scroll and the All / Needs a person filter are gone: Next to settle is the exceptions-first path.',
         'A window of 40, as the source step shows 50 pages: a commitment\'s tick label ("MM AES-1a") is wider than a page number, and 40 keeps a label every tenth cell legible at the 1280 layout.',

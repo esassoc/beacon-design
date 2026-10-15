@@ -16,17 +16,19 @@
 //
 // The controller is the host's (sw3-index.ts): this component is markup, templates and look.
 //
-// bcn-lego-checked: the class chip IS esa-badge; every key IS esa-button; the tick IS
+// bcn-lego-checked: the kind mark IS bcn-draft-kind (develop's obligation-class-chip and Action icon); every key IS esa-button; the tick IS
 // esa-checkbox; the check IS esa-icon; Discarded IS esa-collapsible. Checked Beacon:
 // subcategory-review lists actions then obligations by audience with checkboxes on the
 // rows and the selected draft's fields in a side pane; this keeps its order, grouping and
 // verbs and opens the record in place. bcn-sw3-index-page is its home.
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnDraftKind from './BcnDraftKind.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import { glyphPaths } from './comment-glyphs';
 ---
 
+<BcnDraftKind />
 <article class="bcn-sw3ip" data-sw3-index-page aria-labelledby="sw3ip-title">
   <header class="bcn-sw3ip__head">
     <p class="bcn-sw3ip__cat" data-ip-cat></p>
@@ -81,7 +83,7 @@ import { glyphPaths } from './comment-glyphs';
     <li class="bcn-sw3ip__entry" data-status="draft">
       <div class="bcn-sw3ip__line">
         <span class="bcn-sw3ip__tick" data-e-tick><esa-checkbox size="sm" aria-label="Select for merge"></esa-checkbox></span>
-        <span class="bcn-sw3ip__chip" data-e-chip><EsaBadge variant="secondary" size="sm" value="Adhere" /></span>
+        <span class="bcn-sw3ip__chip" data-e-chip></span>
         <a class="bcn-sw3ip__name" href="#" data-e-toggle></a>
         <span class="bcn-sw3ip__locs" data-e-locs></span>
         <span class="bcn-sw3ip__ok" data-e-ok><EsaIcon name="circle-check" size="sm" label="Approved" /></span>
@@ -180,7 +182,7 @@ import { glyphPaths } from './comment-glyphs';
 
   .bcn-sw3ip :global(.bcn-sw3ip__line) {
     display: grid;
-    grid-template-columns: 1.25rem 5.25rem minmax(0, 1fr) auto 1.25rem;
+    grid-template-columns: 1.25rem 3.75rem minmax(0, 1fr) auto 1.25rem;
     align-items: baseline;
     gap: var(--spacing-200);
     padding: var(--spacing-150) var(--spacing-300);

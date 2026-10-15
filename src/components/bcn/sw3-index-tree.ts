@@ -17,9 +17,6 @@ import {
   move,
   deleteCost,
   remove,
-  entriesIn,
-  titleOf,
-  statusOf,
   pendingIn,
   approvedIn,
   discardedIn,
@@ -30,6 +27,7 @@ import {
   type Sub,
 } from './sw3-index-store';
 import { fillGlyph } from './comment-glyphs';
+import { assignHues, hueOf } from './sw3-index-hues';
 import { toast } from '../../lib/snackbar';
 
 type TextField = HTMLElement & { value: string; errorText?: string; updateComplete?: Promise<unknown>; focus(): void };
@@ -44,7 +42,6 @@ export function setupSw3IndexTree(root: HTMLElement): void {
   const confirmDelete = root.querySelector<HTMLElement & { show(): void; message: string; heading: string }>('[data-it-confirm-delete]')!;
   const closed = new Set<string>();
   let current = '';
-  let currentEntry: string | null = null;
   let renaming: string | null = null;
   let pendingDelete: string | null = null;
 
@@ -68,7 +65,7 @@ export function setupSw3IndexTree(root: HTMLElement): void {
     else setTool(host, 'Unlocked: a re-run may replace this. Click to lock.', 'lock-open');
   };
 
-  const subRow = (sub: Sub, ph: ReturnType<typeof phase>): HTMLElement => {
+  const subRow = (sub: Sub, ph: ReturnType<typeof phase>, catId: string): HTMLElement => {
     const li = tpl('sub');
     li.dataset.itSub = sub.id;
     li.toggleAttribute('data-locked', sub.locked);
@@ -80,7 +77,7 @@ export function setupSw3IndexTree(root: HTMLElement): void {
     lockTool(li.querySelector('[data-it-lock]')!, sub.locked, kept(sub.id));
     for (const g of ['grip-vertical'] as const) fillGlyph(li.querySelector('[data-it-grip]')!, g);
     li.querySelector<HTMLElement>('[data-it-lockmark]')!.hidden = false;
-    const list = li.querySelector<HTMLElement>('[data-it-entries]')!;
+    li.style.setProperty('--_hue', hueOf(catId));
     if (ph === 'drafted') {
       const pending = pendingIn(sub.id);
       const all = homeIn(sub.id).length;
@@ -91,28 +88,14 @@ export function setupSw3IndexTree(root: HTMLElement): void {
       const badge = li.querySelector('[data-it-mark="pending"] .esa-badge__text');
       if (badge) badge.textContent = String(pending);
       li.querySelector<HTMLElement>('[data-it-mark="pending"]')!.title = `${plural(pending, 'draft')} to review`;
-      list.replaceChildren(
-        ...entriesIn(sub.id).map((en) => {
-          const item = document.createElement('li');
-          const a = document.createElement('a');
-          a.href = `#${en.id}`;
-          a.dataset.itEntry = en.id;
-          a.dataset.sub = sub.id;
-          a.dataset.status = statusOf(en.id);
-          a.title = titleOf(en);
-          a.textContent = titleOf(en);
-          a.toggleAttribute('data-current', sub.id === current && en.id === currentEntry);
-          item.append(a);
-          return item;
-        }),
-      );
-    } else list.replaceChildren();
+    }
     return li;
   };
 
   const catRow = (cat: Cat, ph: ReturnType<typeof phase>): HTMLElement => {
     const li = tpl('cat');
     li.dataset.itCat = cat.id;
+    li.style.setProperty('--_hue', hueOf(cat.id));
     li.toggleAttribute('data-locked', cat.locked);
     li.toggleAttribute('data-closed', closed.has(cat.id));
     const name = li.querySelector<HTMLAnchorElement>('[data-it-name]')!;
@@ -127,7 +110,7 @@ export function setupSw3IndexTree(root: HTMLElement): void {
     const approveCat = li.querySelector<HTMLElement>('[data-it-approve-cat]')!;
     approveCat.hidden = ph !== 'drafted' || !pending;
     setTool(approveCat, `Approve category (${pending})`);
-    li.querySelector<HTMLElement>('[data-it-subs]')!.append(...cat.subs.map((s) => subRow(s, ph)));
+    li.querySelector<HTMLElement>('[data-it-subs]')!.append(...cat.subs.map((s) => subRow(s, ph, cat.id)));
     return li;
   };
 
@@ -135,6 +118,7 @@ export function setupSw3IndexTree(root: HTMLElement): void {
     const ph = phase();
     root.hidden = ph === 'empty' || ph === 'building';
     const all = cats();
+    assignHues(all.map((c) => c.id));
     body.replaceChildren(...all.map((c) => catRow(c, ph)));
     const anyUnlocked = all.some((c) => !c.locked || c.subs.some((s) => !s.locked));
     const lockAllBtn = root.querySelector<HTMLElement>('[data-it-lock-all]')!;
@@ -185,12 +169,6 @@ export function setupSw3IndexTree(root: HTMLElement): void {
   // ── Pressing things ──────────────────────────────────────────────────────────
   body.addEventListener('click', (e) => {
     const t = e.target as HTMLElement;
-    const entryA = t.closest<HTMLAnchorElement>('a[data-it-entry]');
-    if (entryA) {
-      e.preventDefault();
-      fire('sw3i:go', { sub: entryA.dataset.sub, entryId: entryA.dataset.itEntry });
-      return;
-    }
     const li = t.closest<HTMLElement>('[data-it-sub], [data-it-cat]');
     if (!li || t.closest('esa-text-field')) return;
     const id = li.dataset.itSub ?? li.dataset.itCat!;
@@ -309,12 +287,10 @@ export function setupSw3IndexTree(root: HTMLElement): void {
   });
 
   document.addEventListener('sw3i:current', (e) => {
-    const d = (e as CustomEvent<{ sub: string; entryId: string | null }>).detail;
+    const d = (e as CustomEvent<{ sub: string }>).detail;
     const moved = d.sub !== current;
     current = d.sub;
-    currentEntry = d.entryId;
     body.querySelectorAll<HTMLElement>('[data-it-sub]').forEach((li) => li.toggleAttribute('data-current', li.dataset.itSub === current));
-    body.querySelectorAll<HTMLElement>('a[data-it-entry]').forEach((a) => a.toggleAttribute('data-current', a.dataset.sub === current && a.dataset.itEntry === currentEntry));
     if (moved) body.querySelector(`[data-it-sub="${CSS.escape(current)}"]`)?.scrollIntoView({ block: 'nearest' });
   });
   document.addEventListener('sw3i:change', () => {

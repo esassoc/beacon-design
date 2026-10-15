@@ -94,6 +94,8 @@ const { label = 'Commitment', size = 40 } = Astro.props;
   }
   .bcn-cscrub__track :global(.bcn-cscrub__cell[data-state='flagged']) { background: var(--color-background-warning, var(--bcn-topic-amber-3)); }
   .bcn-cscrub__track :global(.bcn-cscrub__cell[data-state='confirmed']) { background: var(--color-background-success, var(--color-content-success)); }
+  /* A run with a hue (step 3's categories): a band along the foot of each of its cells. */
+  .bcn-cscrub__track :global(.bcn-cscrub__cell) { box-shadow: inset 0 -4px 0 var(--_hue, transparent); }
 
   /* A file boundary: a rule through the strip, in the gap between two cells. */
   .bcn-cscrub__track :global(.bcn-cscrub__sep) {
@@ -146,7 +148,7 @@ const { label = 'Commitment', size = 40 } = Astro.props;
     top: 0;
     left: calc(100% / var(--_n, 1) * var(--_i, 0));
     padding-left: 4px;
-    border-left: 2px solid var(--color-content-default);
+    border-left: 2px solid var(--_hue, var(--color-content-default));
     font-size: 0.75rem;
     font-weight: 600;
     line-height: 16px;

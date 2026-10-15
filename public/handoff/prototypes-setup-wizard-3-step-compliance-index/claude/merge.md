@@ -73,16 +73,7 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
         <span class="esa-button__label">Cancel</span>
       </button></span
     >
-  </div>
-  <template data-im-tpl="chip"
-    ><span class="bcn-sw3im__chip" data-astro-cid-tk3scbxs=""
-      ><span
-        class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
-        data-astro-cid-sh7ulwla=""
-        ><span class="esa-badge__text" data-astro-cid-sh7ulwla="">Adhere</span></span
-      ></span
-    ></template
-  ></esa-dialog
+  </div></esa-dialog
 >
 ```
 
@@ -108,41 +99,6 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
   font-weight: var(--typography-microcopy-xs-strong-font-weight);
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.bcn-countchip__num .esa-badge {
-  --badge-radius: var(--radius-full);
-  --badge-bg: var(--color-border-default);
-  --badge-text-color: var(--color-content-default-secondary);
-  box-sizing: border-box;
-  font-variant-numeric: tabular-nums;
-  min-width: 19px;
-  height: 19px;
-  box-shadow: 0 0 0 1.5px var(--color-background-elevation-raised);
-  justify-content: center;
-  align-items: center;
-  padding: 0 4px;
-  font-size: 0.8125rem;
-  line-height: 1;
-  display: inline-flex;
-}
-.bcn-ev-attached__mark .esa-badge {
-  --badge-bg: var(--color-background-utility-info-subtle);
-  --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
-  font-weight: var(--typography-font-weight-medium);
-}
-.bcn-ev-row__mark .esa-badge {
-  --badge-bg: var(--color-background-utility-info-subtle);
-  --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
-  font-weight: var(--typography-font-weight-medium);
-}
-.bcn-ev-row__tags .esa-badge {
-  --badge-bg: var(--bcn-gray-100);
-  --badge-text-color: var(--bcn-gray-700);
-  font-weight: var(--typography-font-weight-medium);
 }
 .bcn-console__more .esa-button__native {
   font-family: var(--_mono);
@@ -577,9 +533,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
   color: var(--bcn-aldo-600);
 }
-.bcn-aldo-needs__head .esa-badge {
-  font-variant-numeric: tabular-nums;
-}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
@@ -601,105 +554,12 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
-}
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
-}
-.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
-}
-.esa-badge--success:not(.esa-badge--dot),
-.esa-badge--warning:not(.esa-badge--dot),
-.esa-badge--danger:not(.esa-badge--dot),
-.esa-badge--info:not(.esa-badge--dot) {
-  border: 1px solid var(--_badge-border, transparent);
-}
-.esa-badge--dot {
-  border-radius: var(--radius-pill, 9999px);
-  width: 8px;
-  min-width: 8px;
-  height: 8px;
-  padding: 0;
-}
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
-}
-.esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-}
-.esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
-}
-.esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
-}
-.esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
-}
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  background: canvastext;
-  border: 0;
-  outline: 1px solid canvastext;
-}
 ```
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #005862 _(component)_
-- `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-console-fg`: #ffffffed _(component)_
-- `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-700`: #525252 _(component)_
 - `--border-width-default`: 1px _(semantic)_
 - `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--button-on-warning`: #fff _(component)_
@@ -720,26 +580,17 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-danger-muted`: #feebec _(semantic)_
 - `--color-background-utility-info`: #228be6 _(semantic)_
 - `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
-- `--color-background-utility-info-subtle`: #fbfdff _(semantic)_
 - `--color-background-utility-success`: #2e7571 _(semantic)_
 - `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
 - `--color-background-utility-warning`: #f59e0b _(semantic)_
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
 - `--color-border-brand`: #b9d6d2 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-focus`: #3e9b4f _(component)_
 - `--color-border-subtle`: #efefef _(component)_
-- `--color-border-utility-danger`: #fdbdbe _(semantic)_
-- `--color-border-utility-info`: #acd8fc _(semantic)_
-- `--color-border-utility-success`: #adddc0 _(semantic)_
-- `--color-border-utility-warning`: #f3d673 _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
 - `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
@@ -760,10 +611,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--font-decorative`: "Besley", serif _(component)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
-- `--radius-chip`: .25rem _(semantic)_
 - `--radius-full`: 9999px _(primitive)_
-- `--radius-pill`: 9999px _(semantic)_
-- `--radius-sm`: .25rem _(semantic)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
@@ -774,7 +622,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-font-weight`: 500 _(semantic)_

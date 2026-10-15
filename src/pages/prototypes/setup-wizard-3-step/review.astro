@@ -11,6 +11,7 @@
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
+import BcnSwStepNav from '../../../components/bcn/BcnSwStepNav.astro';
 import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
 import BcnSw3ReviewActions from '../../../components/bcn/BcnSw3ReviewActions.astro';
 import BcnSw3Review from '../../../components/bcn/BcnSw3Review.astro';
@@ -29,7 +30,8 @@ const STEP = SW3_STEPS[1];
     - wizard chrome     -> bcn-setup-wizard-frame   # three steps, straight run, step 2 active
     - step panel        -> bcn-sw-step-panel        # numeral, title; its actions slot holds page actions
     - page actions      -> bcn-sw3-review-actions   # Confirm all (undo), More > Export, Compliance Index
-    - review            -> bcn-sw3-review           # scrubber, marked-up commitment, parsed-data rail, Aldo
+    - scrubber band     -> bcn-sw-step-nav          # the panel's foot: where you are, Next, the commitment scrubber
+    - review            -> bcn-sw3-review           # marked-up commitment, parsed-data rail, Aldo
     - requirement edit  -> bcn-sw3-req-edit         # side panel: the requirement's record
     - source peek       -> bcn-sw3-source-peek      # side panel: the commitment on the PDF
     - commitment edit   -> bcn-sw3-edit-find        # side panel: ID, name, text
@@ -42,6 +44,7 @@ const STEP = SW3_STEPS[1];
         <BcnSwStepPanel n={STEP.n} token={STEP.token} intro="Check what each commitment requires before the Compliance Index makes actions and obligations of it.">
           <Fragment slot="title"><span>Commitments</span></Fragment>
           <Fragment slot="actions"><BcnSw3ReviewActions /></Fragment>
+          <BcnSwStepNav hook="rev" label="Commitment" next="Next to settle" />
         </BcnSwStepPanel>
         <BcnSw3Review />
       </div>

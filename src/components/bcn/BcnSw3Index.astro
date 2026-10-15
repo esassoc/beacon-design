@@ -2,8 +2,8 @@
 // <BcnSw3Index> — step 3's workspace: the Compliance Index, in develop's two phases.
 //
 // No index yet: an empty state with Build index and + Category. Building: the proposal is
-// on its way. Then step 2's shell: the subcategory scrubber across the top (a rule and the
-// category's name where each category starts); under it the index (left, edited by hand,
+// on its way. Then step 2's shell, under the step's panel (whose foot carries the
+// subcategory scrubber, bcn-sw-step-nav hook "ix"): the index (left, edited by hand,
 // folds to a rail), the subcategory in view (center), and Aldo, one conversation per
 // subcategory (right). Before drafting, the center shows what the proposal cited for the
 // subcategory and Aldo takes Re-run guidance; once drafted, the center is the review.
@@ -11,7 +11,7 @@
 // A locator opens the commitment it rests on (bcn-sw3-commitment-panel), so the page carries
 // step 2's payload as well as the plan.
 //
-// Composes: esa-empty-state, esa-loading-spinner, esa-button, bcn-commitment-scrubber,
+// Composes: esa-empty-state, esa-loading-spinner, esa-button,
 // bcn-sw3-index-tree, bcn-sw3-index-page, bcn-sw3-index-aldo.
 //
 // bcn-lego-checked: every key is esa-button; the empty and building states ARE
@@ -21,7 +21,6 @@
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
-import BcnCommitmentScrubber from './BcnCommitmentScrubber.astro';
 import BcnSw3IndexTree from './BcnSw3IndexTree.astro';
 import BcnSw3IndexPage from './BcnSw3IndexPage.astro';
 import BcnSw3IndexAldo from './BcnSw3IndexAldo.astro';
@@ -42,14 +41,6 @@ const plan = PLAN as unknown as Sw3IndexPlan;
   <div class="bcn-sw3ix__start" data-ix-building>
     <EsaLoadingSpinner size="md" label="Building the index" />
     <p class="bcn-sw3ix__building">Building the index</p>
-  </div>
-
-  <div class="bcn-sw3ix__nav">
-    <div class="bcn-sw3ix__where">
-      <span class="bcn-sw3ix__pos" data-ix-pos></span>
-      <span data-ix-next-open><EsaButton variant="secondary" size="xs" iconRight="arrow-right">Next to review</EsaButton></span>
-    </div>
-    <BcnCommitmentScrubber label="Subcategory" />
   </div>
 
   <div class="bcn-sw3ix__tree">
@@ -74,7 +65,7 @@ const plan = PLAN as unknown as Sw3IndexPlan;
   .bcn-sw3ix {
     display: grid;
     grid-template-columns: 17rem minmax(0, 1fr) 22rem;
-    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
     gap: var(--spacing-300);
     height: var(--_fit, calc(100vh - 14rem));
     min-height: 520px;
@@ -105,28 +96,6 @@ const plan = PLAN as unknown as Sw3IndexPlan;
   .bcn-sw3ix[data-phase='building'] > :not(.bcn-sw3ix__start, script) { display: none; }
   .bcn-sw3ix__building { margin: 0; font-size: 0.9375rem; font-weight: 500; color: var(--color-content-default-secondary); }
 
-  .bcn-sw3ix__nav {
-    grid-column: 1 / 3;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-150);
-    padding: var(--spacing-200) var(--spacing-400) var(--spacing-150);
-    background: var(--color-background-elevation-raised);
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-200);
-  }
-  .bcn-sw3ix__where { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); min-height: 28px; }
-  .bcn-sw3ix__where [hidden] { display: none; }
-  .bcn-sw3ix__pos {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--color-content-default-secondary);
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
   .bcn-sw3ix__tree,
   .bcn-sw3ix__page {
     min-height: 0;
@@ -136,7 +105,7 @@ const plan = PLAN as unknown as Sw3IndexPlan;
     border-radius: var(--radius-200);
   }
   .bcn-sw3ix__tree { overflow: hidden; }
-  .bcn-sw3ix__aldo { grid-column: 3; grid-row: 1 / 3; min-height: 0; display: flex; flex-direction: column; }
+  .bcn-sw3ix__aldo { grid-column: 3; grid-row: 1; min-height: 0; display: flex; flex-direction: column; }
   .bcn-sw3ix__aldo > :global(*) { flex: 1; min-height: 0; }
 
   @media (max-width: 1280px) {

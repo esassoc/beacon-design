@@ -421,37 +421,13 @@ summary.esa-button--variant-chrome:focus-visible {
   --color-background-brand-muted: var(--color-background-elevation-raised);
   --color-background-brand-muted-hover: var(--color-background-elevation-sunken);
   --color-content-on-brand-muted: var(--color-content-default);
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   grid-template-columns: minmax(0, 1fr) 19rem 22rem;
   min-height: 520px;
   display: grid;
 }
 .bcn-sw3rev[data-aldo="closed"] {
   grid-template-columns: minmax(0, 1fr) 21rem 2.75rem;
-}
-.bcn-sw3rev__nav {
-  gap: var(--spacing-150);
-  padding: var(--spacing-200) var(--spacing-400) var(--spacing-150);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  flex-direction: column;
-  grid-column: 1/3;
-  display: flex;
-}
-.bcn-sw3rev__where {
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-300);
-  min-height: 28px;
-  display: flex;
-}
-.bcn-sw3rev__pos {
-  color: var(--color-content-default-secondary);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-  font-size: 0.8125rem;
-  font-weight: 500;
 }
 .bcn-sw3rev__doc,
 .bcn-sw3rev__attrs {
@@ -463,7 +439,7 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-sw3rev__aldo {
   flex-direction: column;
-  grid-area: 1/3/3;
+  grid-area: 1/3;
   min-height: 0;
   display: flex;
 }
@@ -613,7 +589,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_

@@ -7,6 +7,7 @@ Before drafting: Cited requirements, up to three, each its requirement ID, name 
 - A draft action with no scope cannot be approved: "This draft has no scope. Set one in Edit before approving it."
 - Merge takes two or more drafts of one kind and, for obligations, one audience. The merged draft keeps every source.
 - Rationale is never stored or shown, as in prod.
+- Kind marks are develop's: an action is the Action icon in the action hue; an obligation is its class chip (Adhere, Monitor, Notify, Roster) tinted from the class hue.
 
 ## Done when
 - Ticking two Compliance staff drafts in Take and injury reporting and merging them leaves 20 drafts where there were 21.
@@ -184,12 +185,7 @@ Before drafting: Cited requirements, up to three, each its requirement ID, name 
             aria-label="Select for merge"
             data-astro-cid-volza5tu="true"
           ></esa-checkbox></span
-        ><span class="bcn-sw3ip__chip" data-e-chip="" data-astro-cid-volza5tu=""
-          ><span
-            class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
-            data-astro-cid-sh7ulwla=""
-            ><span class="esa-badge__text" data-astro-cid-sh7ulwla="">Adhere</span></span
-          ></span
+        ><span class="bcn-sw3ip__chip" data-e-chip="" data-astro-cid-volza5tu=""></span
         ><a
           class="bcn-sw3ip__name"
           href="#"
@@ -691,7 +687,7 @@ Before drafting: Cited requirements, up to three, each its requirement ID, name 
   align-items: baseline;
   gap: var(--spacing-200);
   padding: var(--spacing-150) var(--spacing-300);
-  grid-template-columns: 1.25rem 5.25rem minmax(0, 1fr) auto 1.25rem;
+  grid-template-columns: 1.25rem 3.75rem minmax(0, 1fr) auto 1.25rem;
   font-size: 0.875rem;
   display: grid;
 }

@@ -1,0 +1,58 @@
+---
+// <BcnSwStepNav> — the scrubber band at the foot of a wizard step's panel: where you are
+// (a line the step's controller writes), its Next key, and the scrubber. Step 1 puts its
+// scan toolbar in the same place; steps 2 and 3 put this, so the step's header and the way
+// through it are one panel.
+//
+// Usage, in <BcnSwStepPanel>'s default slot:
+//   <BcnSwStepNav hook="ix" label="Subcategory" next="Next to review" />
+// The controller finds `[data-ix-nav]`, and inside it `[data-ix-pos]`, `[data-ix-next-open]`
+// and the scrubber's `[data-commitment-scrubber]`.
+//
+// bcn-lego-checked: the scrubber IS bcn-commitment-scrubber; the key IS esa-button. The
+// band is step 1's bcn-sw3bar geometry (a hairline under the header, the panel's own
+// gutters). No esa- lego is a panel's footer band. bcn-sw-step-nav is its home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnCommitmentScrubber from './BcnCommitmentScrubber.astro';
+
+interface Props {
+  /** Prefix of the controller's hooks: "ix" gives data-ix-nav, data-ix-pos, data-ix-next-open. */
+  hook: string;
+  /** The scrubber's accessible name: what one cell is. */
+  label: string;
+  /** The Next key's words. */
+  next: string;
+}
+const { hook, label, next } = Astro.props;
+const at = (name: string) => ({ [`data-${hook}-${name}`]: '' });
+---
+
+<div class="bcn-swsn" {...at('nav')}>
+  <div class="bcn-swsn__where">
+    <span class="bcn-swsn__pos" {...at('pos')}></span>
+    <span {...at('next-open')}><EsaButton variant="secondary" size="xs" iconRight="arrow-right">{next}</EsaButton></span>
+  </div>
+  <BcnCommitmentScrubber label={label} />
+</div>
+
+<style>
+  .bcn-swsn {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    padding: var(--spacing-300) var(--spacing-500) var(--spacing-200);
+    border-top: 1px solid var(--color-border-default);
+  }
+  .bcn-swsn[hidden] { display: none; }
+  .bcn-swsn__where { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); min-height: 28px; }
+  .bcn-swsn__where [hidden] { display: none; }
+  .bcn-swsn__pos {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>

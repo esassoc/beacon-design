@@ -66,7 +66,9 @@ export function setupSw3Review(root: HTMLElement): void {
   const fire = (name: string, detail: unknown) => document.dispatchEvent(new CustomEvent(name, { detail }));
   const art = root.querySelector<HTMLElement>('[data-c]')!;
   const body = art.querySelector<HTMLElement>('[data-c-text]')!;
-  const pos = root.querySelector<HTMLElement>('[data-rev-pos]')!;
+  // The scrubber band sits in the step's panel, above this workspace (BcnSwStepNav).
+  const nav = document.querySelector<HTMLElement>('[data-rev-nav]')!;
+  const pos = nav.querySelector<HTMLElement>('[data-rev-pos]')!;
 
   // The commitment in view, in the active file.
   let current: string | null = null;
@@ -121,12 +123,12 @@ export function setupSw3Review(root: HTMLElement): void {
   };
 
   // ── The scrubber ────────────────────────────────────────────────────────────
-  const scrub = setupCommitmentScrubber(root.querySelector('[data-commitment-scrubber]')!, { onPick: (id) => go(id) });
+  const scrub = setupCommitmentScrubber(nav.querySelector('[data-commitment-scrubber]')!, { onPick: (id) => go(id) });
   const stateAt = (key: string) => {
     const { doc, code } = split(key);
     return peek(doc, () => stateOf(code));
   };
-  root.querySelector('[data-rev-next-open]')!.addEventListener('click', () => {
+  nav.querySelector('[data-rev-next-open]')!.addEventListener('click', () => {
     const list = keys();
     const i = list.indexOf(here());
     const order = [...list.slice(i + 1), ...list.slice(0, i + 1)];
@@ -316,7 +318,7 @@ export function setupSw3Review(root: HTMLElement): void {
     scrub.update({ cells, at, groups });
     const file = fs.find((f) => f.doc === activeDoc())!;
     pos.textContent = `${file.short}: ${list.indexOf(code) + 1} of ${list.length}. ${confirmed} confirmed, ${left} to settle.`;
-    const nextBtn = root.querySelector<HTMLElement>('[data-rev-next-open]')!;
+    const nextBtn = nav.querySelector<HTMLElement>('[data-rev-next-open]')!;
     nextBtn.hidden = !left;
 
     // The commitment.

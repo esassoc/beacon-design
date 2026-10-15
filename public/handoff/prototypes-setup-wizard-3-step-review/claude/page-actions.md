@@ -61,7 +61,7 @@ Confirm all for every commitment nothing is flagged on, More with one item (Expo
     class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
     ><a
       class="esa-button__native typography-microcopy-xs"
-      href="/beacon-design/prototypes/setup-wizard-ci"
+      href="/beacon-design/prototypes/setup-wizard-3-step/compliance-index"
       role="button"
       ><span class="esa-button__label">Compliance Index</span
       ><span class="esa-icon esa-icon--sm" aria-hidden="true"

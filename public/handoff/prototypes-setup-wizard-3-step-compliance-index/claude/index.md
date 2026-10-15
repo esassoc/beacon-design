@@ -1,8 +1,10 @@
 # Index
 
-The sidebar, as develop keeps it. Category and subcategory rows with tools on hover: rename in place, lock or unlock, delete, drag within the parent; + Subcategory on a category; Expand all, Lock all and + Category over the tree. Once drafted, each subcategory lists its drafts under it and carries develop's marks: a dot when it has drafts and was never opened, the count to review, a check when every draft is decided (muted when all were discarded). A category gets Approve category.
+The sidebar, as develop keeps it. Category and subcategory rows with tools on hover: rename in place, lock or unlock, delete, drag within the parent; + Subcategory on a category; Expand all, Lock all and + Category over the tree. Each category has a hue, a dot on its row and its subcategories' rows. Once drafted, each subcategory carries develop's marks: a dot when it has drafts and was never opened, the count to review, a check when every draft is decided (muted when all were discarded). A category gets Approve category. Folded, the index is a rail that reads Index sideways, as the library and Aldo do.
 
 ## Key decisions
+- Categories and subcategories only. Drafts are read on the subcategory's page, not listed in the index.
+- Row tools lie over the end of the row on hover, so the row never moves.
 - Renaming locks the row. Names are unique among siblings.
 - Locking a category locks its subcategories; unlocking it does not unlock them.
 - A bin that holds drafts is kept on Re-run; its lock is shown disabled with the reason.
@@ -112,32 +114,29 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
         ></span></button
     ></span>
   </div>
-  <span class="bcn-sw3it__unfold"
-    ><span
-      class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-      ><button
-        class="esa-button__native typography-microcopy-2xs"
-        type="button"
-        aria-label="Open the index"
-        title="Open the index"
-        data-it-unfold="true"
+  <button
+    type="button"
+    class="bcn-sw3it__rail"
+    aria-label="Open the index"
+    title="Open the index"
+    data-it-unfold=""
+  >
+    <span class="esa-icon esa-icon--sm" aria-hidden="true"
+      ><svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        focusable="false"
       >
-        <span class="esa-icon esa-icon--xs" aria-hidden="true"
-          ><svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m6 17 5-5-5-5"></path>
-            <path d="m13 17 5-5-5-5"></path></svg
-        ></span></button></span
-  ></span>
+        <path d="m6 17 5-5-5-5"></path>
+        <path d="m13 17 5-5-5-5"></path></svg></span
+    ><span class="bcn-sw3it__railname">Index</span>
+  </button>
   <ol class="bcn-sw3it__body" data-it-body=""></ol>
   <esa-confirm-dialog
     heading="Delete"
@@ -183,6 +182,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                 >
                   <path d="m6 9 6 6 6-6"></path></svg
               ></span></button></span></span
+        ><span class="bcn-sw3it__hue" aria-hidden="true" data-astro-cid-2k46mond=""></span
         ><a
           class="bcn-sw3it__name"
           href="#"
@@ -407,7 +407,13 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
   ><template data-it-tpl="sub"
     ><li class="bcn-sw3it__sub" data-it-sub="" data-astro-cid-2k46mond="">
       <div class="bcn-sw3it__row" data-it-row="" data-astro-cid-2k46mond="">
-        <a class="bcn-sw3it__name" href="#" data-it-name="" data-astro-cid-2k46mond=""></a
+        <span class="bcn-sw3it__hue" aria-hidden="true" data-astro-cid-2k46mond=""></span
+        ><a
+          class="bcn-sw3it__name"
+          href="#"
+          data-it-name=""
+          data-astro-cid-2k46mond=""
+        ></a
         ><span class="bcn-sw3it__lockmark" data-it-lockmark="" data-astro-cid-2k46mond=""
           ><span
             class="esa-icon esa-icon--xs"
@@ -588,12 +594,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                   ></svg
                 ></span></button></span></span
         ></span>
-      </div>
-      <ol
-        class="bcn-sw3it__entries"
-        data-it-entries=""
-        data-astro-cid-2k46mond=""
-      ></ol></li
+      </div></li
   ></template>
 </nav>
 ```
@@ -772,8 +773,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
   gap: 2px;
   display: inline-flex;
 }
-.bcn-sw3it__unfold {
-  padding: var(--spacing-200);
+.bcn-sw3it__rail {
   display: none;
 }
 .bcn-sw3it__body {
@@ -787,16 +787,13 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
   display: flex;
   overflow-y: auto;
 }
-.bcn-sw3it .bcn-sw3it__subs,
-.bcn-sw3it .bcn-sw3it__entries {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
 .bcn-sw3it .bcn-sw3it__subs {
+  padding: 0;
   padding-left: var(--spacing-500);
   flex-direction: column;
   gap: 1px;
+  margin: 0;
+  list-style: none;
   display: flex;
 }
 .bcn-sw3it .bcn-sw3it__cat[data-closed] .bcn-sw3it__subs {
@@ -813,6 +810,19 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
 }
 .bcn-sw3it .bcn-sw3it__row--cat {
   padding-left: 0;
+}
+.bcn-sw3it .bcn-sw3it__hue {
+  background: var(--_hue);
+  border-radius: 50%;
+  flex: none;
+  width: 8px;
+  height: 8px;
+}
+.bcn-sw3it .bcn-sw3it__sub .bcn-sw3it__hue {
+  opacity: 0.75;
+  width: 6px;
+  height: 6px;
+  margin: 0 1px;
 }
 .bcn-sw3it .bcn-sw3it__row:hover,
 .bcn-sw3it .bcn-sw3it__row:focus-within,
@@ -849,19 +859,29 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
   display: inline-flex;
 }
 .bcn-sw3it .bcn-sw3it__rowtools {
+  padding: 0 var(--spacing-100) 0 var(--spacing-400);
+  border-radius: var(--radius-100);
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-background-elevation-sunken) var(--spacing-400)
+  );
+  visibility: hidden;
+  pointer-events: none;
   align-items: center;
   gap: 0;
-  margin-left: auto;
-  display: none;
+  display: inline-flex;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+.bcn-sw3it .bcn-sw3it__rowtools > * {
+  pointer-events: auto;
 }
 .bcn-sw3it .bcn-sw3it__row:hover .bcn-sw3it__rowtools,
 .bcn-sw3it .bcn-sw3it__row:focus-within .bcn-sw3it__rowtools {
-  display: inline-flex;
-}
-.bcn-sw3it .bcn-sw3it__row:hover .bcn-sw3it__lockmark,
-.bcn-sw3it .bcn-sw3it__row:hover .bcn-sw3it__marks,
-.bcn-sw3it .bcn-sw3it__row:focus-within .bcn-sw3it__marks {
-  display: none;
+  visibility: visible;
 }
 .bcn-sw3it [data-it-grip] {
   cursor: grab;
@@ -892,30 +912,6 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
 .bcn-sw3it [data-mark-done][data-none] [data-it-mark="done"] {
   color: var(--color-content-default-tertiary);
 }
-.bcn-sw3it .bcn-sw3it__entries {
-  padding: 0 0 var(--spacing-100) var(--spacing-300);
-}
-.bcn-sw3it .bcn-sw3it__entries a {
-  color: var(--color-content-default-secondary);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding: 1px 0;
-  text-decoration: none;
-  display: block;
-  overflow: hidden;
-}
-.bcn-sw3it .bcn-sw3it__entries a:hover {
-  color: var(--color-content-default);
-  text-decoration: underline;
-}
-.bcn-sw3it .bcn-sw3it__entries a[data-status="discarded"] {
-  color: var(--color-content-default-tertiary);
-  text-decoration: line-through;
-}
-.bcn-sw3it .bcn-sw3it__entries a[data-current] {
-  color: var(--color-content-default);
-  font-weight: 600;
-}
 .bcn-sw3it [data-drop-before] > .bcn-sw3it__row {
   box-shadow: inset 0 2px 0 var(--color-border-default-focus);
 }
@@ -926,8 +922,34 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
 [data-index="closed"] .bcn-sw3it__body {
   display: none;
 }
-[data-index="closed"] .bcn-sw3it__unfold {
-  display: block;
+[data-index="closed"] .bcn-sw3it__rail {
+  display: flex;
+}
+.bcn-sw3it__rail {
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) 0;
+  color: var(--color-content-default-secondary);
+  font: inherit;
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+  flex-direction: column;
+  flex: 1;
+}
+.bcn-sw3it__rail:hover {
+  color: var(--color-content-default);
+  background: var(--color-background-elevation-sunken);
+}
+.bcn-sw3it__rail:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+  outline-offset: -2px;
+}
+.bcn-sw3it__railname {
+  writing-mode: vertical-rl;
+  color: var(--color-content-default);
+  font-size: 0.8125rem;
+  font-weight: 600;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);

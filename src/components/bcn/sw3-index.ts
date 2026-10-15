@@ -17,6 +17,7 @@ import '@esa/ecology/esa-checkbox';
 import {
   initIndex,
   phase,
+  cats,
   subs,
   subOf,
   addCategory,
@@ -50,6 +51,8 @@ import {
   totals,
 } from './sw3-index-store';
 import { initSw3, docIds, peek, started, startRun, skipToEnd, payload, requirementRef, requirementsOf, commitmentOf } from './sw3-store';
+import { assignHues, hueOf } from './sw3-index-hues';
+import { draftKind } from './draft-kind';
 import { setupCommitmentScrubber, type ScrubCell, type ScrubGroup } from './commitment-scrubber';
 import { fillGlyph } from './comment-glyphs';
 import { requirementIdFor } from '../../data/setup-wizard-3-step';
@@ -99,7 +102,9 @@ export function setupSw3Index(root: HTMLElement): void {
       skipToEnd();
     });
   const fire = (name: string, detail?: unknown) => document.dispatchEvent(new CustomEvent(name, { detail }));
-  const pos = root.querySelector<HTMLElement>('[data-ix-pos]')!;
+  // The scrubber band sits in the step's panel, above this workspace (BcnSwStepNav).
+  const nav = document.querySelector<HTMLElement>('[data-ix-nav]')!;
+  const pos = nav.querySelector<HTMLElement>('[data-ix-pos]')!;
   const page = root.querySelector<HTMLElement>('[data-sw3-index-page]')!;
   const pane = root.querySelector<HTMLElement>('[data-ix-page]')!;
   const groupsEl = page.querySelector<HTMLElement>('[data-ip-groups]')!;
@@ -137,7 +142,7 @@ export function setupSw3Index(root: HTMLElement): void {
   root.querySelector('[data-ix-add-cat]')!.addEventListener('click', () => fire('sw3i:rename', { id: addCategory() }));
 
   // ── The scrubber ─────────────────────────────────────────────────────────────
-  const scrub = setupCommitmentScrubber(root.querySelector('[data-commitment-scrubber]')!, { onPick: (id) => go(id) });
+  const scrub = setupCommitmentScrubber(nav.querySelector('[data-commitment-scrubber]')!, { onPick: (id) => go(id) });
   const cellOf = (id: string, ph: string): { state: ScrubCell['state']; note: string } => {
     if (ph === 'drafting') return { state: 'parsing', note: 'Drafting' };
     if (ph !== 'drafted') {
@@ -152,7 +157,7 @@ export function setupSw3Index(root: HTMLElement): void {
     return { state: 'ready', note: 'Nothing drafted' };
   };
   const toReview = () => subs().filter(({ sub }) => pendingIn(sub.id) > 0);
-  root.querySelector('[data-ix-next-open]')!.addEventListener('click', () => {
+  nav.querySelector('[data-ix-next-open]')!.addEventListener('click', () => {
     const list = subs().map((s) => s.sub.id);
     const i = list.indexOf(current);
     const order = [...list.slice(i + 1), ...list.slice(0, i + 1)];
@@ -226,8 +231,7 @@ export function setupSw3Index(root: HTMLElement): void {
     const tick = li.querySelector<HTMLElement & { checked: boolean }>('esa-checkbox')!;
     tick.checked = ticked.has(en.id);
     tick.setAttribute('aria-label', `Select “${titleOf(en)}” for merge`);
-    const chip = li.querySelector<HTMLElement>('[data-e-chip] .esa-badge__text');
-    if (chip) chip.textContent = en.kind === 'action' ? 'Action' : en.class;
+    li.querySelector<HTMLElement>('[data-e-chip]')!.replaceChildren(draftKind(en));
     const name = li.querySelector<HTMLAnchorElement>('[data-e-toggle]')!;
     name.textContent = titleOf(en);
     name.href = `#${en.id}`;
@@ -437,13 +441,14 @@ export function setupSw3Index(root: HTMLElement): void {
   const render = () => {
     const ph = phase();
     root.dataset.phase = ph;
+    nav.hidden = ph === 'empty' || ph === 'building';
     if (ph === 'empty' || ph === 'building') return;
     const all = subs();
     if (!all.length) {
       // Categories made by hand, no subcategory yet: the index pane is the work.
       scrub.update({ cells: [], at: -1, groups: [] });
       pos.textContent = 'No subcategories yet.';
-      root.querySelector<HTMLElement>('[data-ix-next-open]')!.hidden = true;
+      nav.querySelector<HTMLElement>('[data-ix-next-open]')!.hidden = true;
       page.querySelector<HTMLElement>('[data-ip-cat]')!.textContent = '';
       page.querySelector<HTMLElement>('[data-ip-title]')!.textContent = '';
       page.querySelector<HTMLElement>('[data-ip-acts]')!.hidden = true;
@@ -454,8 +459,9 @@ export function setupSw3Index(root: HTMLElement): void {
     if (!subOf(current)) current = all[0].sub.id;
     const cells: ScrubCell[] = [];
     const groups: ScrubGroup[] = [];
+    assignHues(cats().map((c) => c.id));
     for (const { sub, cat } of all) {
-      if (!groups.length || groups.at(-1)!.label !== cat.name) groups.push({ label: cat.name, start: cells.length });
+      if (!groups.length || groups.at(-1)!.label !== cat.name) groups.push({ label: cat.name, start: cells.length, hue: hueOf(cat.id) });
       const c = cellOf(sub.id, ph);
       cells.push({ id: sub.id, label: sub.name, title: cat.name, state: c.state, note: c.note });
     }
@@ -466,7 +472,7 @@ export function setupSw3Index(root: HTMLElement): void {
       ph === 'drafted'
         ? `${ref.sub.name}: ${ref.i + 1} of ${all.length}. ${left ? `${plural(left, 'subcategory', 'subcategories')} with drafts to review.` : 'Every draft decided.'}`
         : `${ref.sub.name}: ${ref.i + 1} of ${all.length}.`;
-    root.querySelector<HTMLElement>('[data-ix-next-open]')!.hidden = !left;
+    nav.querySelector<HTMLElement>('[data-ix-next-open]')!.hidden = !left;
     paintPage();
     fire('sw3i:current', { sub: current, entryId: open });
   };

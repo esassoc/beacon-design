@@ -177,6 +177,10 @@
   --color-requirement: #a05195;
   --color-action:      #d45087;
   --color-obligation:  #f95d6a;
+  /* Obligation-class chips, develop's _colors.scss: Adhere is --color-obligation and Roster
+     is --color-action. */
+  --color-obligation-monitor: #ff7c43;
+  --color-obligation-notify:  #ffa600;
 
   /* Semantic success ramp Beacon exposes as CSS vars. */
   --color-success-50:  #f0fdf4;
@@ -373,6 +377,29 @@
   --bcn-topic-slate-3:   var(--color-slate-7);
   --bcn-topic-slate-4:   var(--color-slate-8);
   --bcn-topic-slate-ink: var(--color-slate-11);
+
+  /* ===== Compliance Index categories (Setup Wizard step 3) =====
+     The comments topics' idea at the index's size: each category owns one hue family,
+     its dot in the index and its run in the subcategory scrubber. Eighteen families so
+     the index's categories never repeat; step 9 is the family's solid swatch. */
+  --bcn-cat-blue: var(--color-blue-9);
+  --bcn-cat-grass: var(--color-grass-9);
+  --bcn-cat-amber: var(--color-amber-9);
+  --bcn-cat-violet: var(--color-violet-9);
+  --bcn-cat-crimson: var(--color-crimson-9);
+  --bcn-cat-teal: var(--color-teal-9);
+  --bcn-cat-orange: var(--color-orange-9);
+  --bcn-cat-indigo: var(--color-indigo-9);
+  --bcn-cat-lime: var(--color-lime-9);
+  --bcn-cat-plum: var(--color-plum-9);
+  --bcn-cat-cyan: var(--color-cyan-9);
+  --bcn-cat-tomato: var(--color-tomato-9);
+  --bcn-cat-jade: var(--color-jade-9);
+  --bcn-cat-purple: var(--color-purple-9);
+  --bcn-cat-gold: var(--color-gold-9);
+  --bcn-cat-sky: var(--color-sky-9);
+  --bcn-cat-pink: var(--color-pink-9);
+  --bcn-cat-brown: var(--color-brown-9);
 }
 
 /* ===== Smooth in-page scrolling — app-wide, canonical spot =====

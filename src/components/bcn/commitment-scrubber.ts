@@ -19,6 +19,8 @@ export interface ScrubGroup {
   label: string;
   /** Index of its first cell. */
   start: number;
+  /** The run's hue, a CSS color: a band under its cells and its name's marker. */
+  hue?: string;
 }
 
 export interface CommitmentScrubberModel {
@@ -114,6 +116,8 @@ export function setupCommitmentScrubber(root: HTMLElement, { onPick }: { onPick:
     cells.forEach((el, i) => {
       const state = model.cells[start + i]?.state ?? 'none';
       if (el.dataset.state !== state) el.dataset.state = state;
+      const hue = (model.cells[start + i] && groupOf(start + i)?.hue) || '';
+      if (el.style.getPropertyValue('--_hue') !== hue) hue ? el.style.setProperty('--_hue', hue) : el.style.removeProperty('--_hue');
     });
 
     // Where one file ends and the next begins, inside the window.
@@ -142,6 +146,8 @@ export function setupCommitmentScrubber(root: HTMLElement, { onPick }: { onPick:
       const el = document.createElement('span');
       el.className = 'bcn-cscrub__file';
       el.style.setProperty('--_i', String(f.start - start));
+      const hue = groups.find((g) => g.start <= f.start && g.label === f.label)?.hue;
+      if (hue) el.style.setProperty('--_hue', hue);
       el.textContent = f.label;
       place(el, (f.start - start) * slot, f.label.length * 8 + 8);
     }

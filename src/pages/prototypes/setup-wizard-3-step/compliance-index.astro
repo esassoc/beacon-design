@@ -10,6 +10,7 @@
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
+import BcnSwStepNav from '../../../components/bcn/BcnSwStepNav.astro';
 import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
 import BcnSw3IndexActions from '../../../components/bcn/BcnSw3IndexActions.astro';
 import BcnSw3IndexRun from '../../../components/bcn/BcnSw3IndexRun.astro';
@@ -32,7 +33,8 @@ const STEP = SW3_STEPS[2];
     - step panel        -> bcn-sw-step-panel        # numeral, title; its actions slot holds page actions
     - page actions      -> bcn-sw3-index-actions    # Re-run, Draft; then Start over, Draft again, Approve
     - status line       -> bcn-sw3-index-run        # the index in numbers, the run, what is left
-    - index review      -> bcn-sw3-index            # empty state; scrubber, index, subcategory, Aldo
+    - scrubber band     -> bcn-sw-step-nav          # the panel's foot: where you are, Next, the subcategory scrubber
+    - index review      -> bcn-sw3-index            # empty state; index, subcategory, Aldo
     - entry edit        -> bcn-sw3-entry-edit       # side panel: a draft's record
     - merge             -> bcn-sw3-index-merge      # dialog: ticked drafts into one
     - suggest           -> bcn-sw3-index-suggest    # dialog: homes for what fit no subcategory
@@ -48,6 +50,7 @@ const STEP = SW3_STEPS[2];
           <Fragment slot="title"><span>Compliance Index</span></Fragment>
           <Fragment slot="actions"><BcnSw3IndexActions /></Fragment>
           <BcnSw3IndexRun />
+          <BcnSwStepNav hook="ix" label="Subcategory" next="Next to review" />
         </BcnSwStepPanel>
         <BcnSw3Index />
       </div>

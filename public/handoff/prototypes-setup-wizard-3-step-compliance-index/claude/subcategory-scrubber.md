@@ -1,16 +1,16 @@
 # Subcategory scrubber
 
-Every subcategory in index order, step 2's scrubber, a rule and the category's name where each category starts. Drafted: amber for drafts never opened, gray for opened with drafts to review, green when every draft is decided. Next to review walks the unopened first.
+The foot of the step's panel, as step 1 carries its scan toolbar: header and scrubber are one panel. Every subcategory in index order, step 2's scrubber, a rule and the category's name where each category starts, a band of the category's hue along the foot of its cells and its name marked in the same hue. Drafted: amber for drafts never opened, gray for opened with drafts to review, green when every draft is decided. Next to review walks the unopened first.
 
 ## Key decisions
 - Opened is not reviewed. Prod sets FirstOpenedDate the first time a bin with drafts is opened.
 
 ## Markup
 ```html
-<div class="bcn-sw3ix__nav">
-  <div class="bcn-sw3ix__where">
-    <span class="bcn-sw3ix__pos" data-ix-pos=""></span
-    ><span data-ix-next-open=""
+<div class="bcn-swsn" data-ix-nav="" hidden="">
+  <div class="bcn-swsn__where">
+    <span class="bcn-swsn__pos" data-ix-pos=""></span
+    ><span data-ix-next-open="" class="astro-qcf6lh4y"
       ><span
         class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
         ><button class="esa-button__native typography-microcopy-2xs" type="button">
@@ -301,6 +301,9 @@ Every subcategory in index order, step 2's scrubber, a rule and the category's n
 .bcn-cscrub__track .bcn-cscrub__cell[data-state="confirmed"] {
   background: var(--color-background-success, var(--color-content-success));
 }
+.bcn-cscrub__track .bcn-cscrub__cell {
+  box-shadow: inset 0 -4px 0 var(--_hue, transparent);
+}
 .bcn-cscrub__track .bcn-cscrub__sep {
   top: -4px;
   bottom: -4px;
@@ -350,7 +353,7 @@ Every subcategory in index order, step 2's scrubber, a rule and the category's n
 .bcn-cscrub__ticks .bcn-cscrub__file {
   top: 0;
   left: calc(100% / var(--_n, 1) * var(--_i, 0));
-  border-left: 2px solid var(--color-content-default);
+  border-left: 2px solid var(--_hue, var(--color-content-default));
   color: var(--color-content-default);
   white-space: nowrap;
   padding-left: 4px;
@@ -386,6 +389,35 @@ Every subcategory in index order, step 2's scrubber, a rule and the category's n
 .bcn-cscrub__tipstate {
   opacity: 0.8;
 }
+.bcn-swsn {
+  gap: var(--spacing-150);
+  padding: var(--spacing-300) var(--spacing-500) var(--spacing-200);
+  border-top: 1px solid var(--color-border-default);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-swsn[hidden] {
+  display: none;
+}
+.bcn-swsn__where {
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-300);
+  min-height: 28px;
+  display: flex;
+}
+.bcn-swsn__where [hidden] {
+  display: none;
+}
+.bcn-swsn__pos {
+  color: var(--color-content-default-secondary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  overflow: hidden;
+}
 .bcn-console__more .esa-button__native {
   font-family: var(--_mono);
   height: auto;
@@ -397,35 +429,6 @@ Every subcategory in index order, step 2's scrubber, a rule and the category's n
 }
 .bcn-console__more .esa-button__native:hover {
   color: var(--bcn-console-fg);
-}
-.bcn-sw3ix__nav {
-  gap: var(--spacing-150);
-  padding: var(--spacing-200) var(--spacing-400) var(--spacing-150);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  flex-direction: column;
-  grid-column: 1/3;
-  display: flex;
-}
-.bcn-sw3ix__where {
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-300);
-  min-height: 28px;
-  display: flex;
-}
-.bcn-sw3ix__where [hidden] {
-  display: none;
-}
-.bcn-sw3ix__pos {
-  color: var(--color-content-default-secondary);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  overflow: hidden;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -777,7 +780,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
 - `--shadow-300`: 0 6px 24px -6px #00000012 _(component)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
@@ -785,6 +787,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
+- `--spacing-500`: 1.5rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
