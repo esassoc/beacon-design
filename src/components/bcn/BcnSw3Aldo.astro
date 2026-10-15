@@ -26,7 +26,7 @@ interface Props {
 const { review } = Astro.props;
 ---
 
-<BcnAldoPanel collapsible rail="right" data-sw3-aldo data-review={review}>
+<BcnAldoPanel collapsible expandable rail="right" data-sw3-aldo data-review={review}>
   <BcnAldoThread slot="thread" />
   <BcnAldoInstructions slot="instructions" />
   <BcnAldoNeeds slot="needs" />

@@ -100,6 +100,7 @@ export default {
         'A name fixed at the check is the commitment\'s name in step 2.',
         'One structured-output call per message returns actions and a one-line reply; sw3-steer.ts is the schema, with a pattern matcher standing in for the model.',
         'Each file keeps its own conversation; switching files switches the thread.',
+        'Expand (beside the fold chevron) lifts the conversation into an overlay over the right half of the window, the page dimmed behind it, for when talking to Aldo is the work. Dock, Esc or a click on the dimmed page puts it back where it was, mid-sentence drafts included.',
       ],
       acceptance: [
         'At the check, Needs you reads "Check the first 3: 3 left." All look right, then Read the rest: the run goes on at Fast.',
@@ -109,6 +110,7 @@ export default {
         'Fix COA 11.1, change its name, Save: the card reads Fixed, and step 2 shows the new name.',
         'Looks right on the other two, then Resume: the run goes on.',
         'Reload: every file\'s conversation and run are where they were.',
+        'Type half a message, Expand: the overlay takes half the window with the draft in it; Esc: the panel is docked again with the draft.',
       ],
     },
   ],

@@ -16,6 +16,7 @@ The conversation that scopes, checks and steers the scan of the file in view, de
 - A name fixed at the check is the commitment's name in step 2.
 - One structured-output call per message returns actions and a one-line reply; sw3-steer.ts is the schema, with a pattern matcher standing in for the model.
 - Each file keeps its own conversation; switching files switches the thread.
+- Expand (beside the fold chevron) lifts the conversation into an overlay over the right half of the window, the page dimmed behind it, for when talking to Aldo is the work. Dock, Esc or a click on the dimmed page puts it back where it was, mid-sentence drafts included.
 
 ## Done when
 - At the check, Needs you reads "Check the first 3: 3 left." All look right, then Read the rest: the run goes on at Fast.
@@ -25,6 +26,7 @@ The conversation that scopes, checks and steers the scan of the file in view, de
 - Fix COA 11.1, change its name, Save: the card reads Fixed, and step 2 shows the new name.
 - Looks right on the other two, then Resume: the run goes on.
 - Reload: every file's conversation and run are where they were.
+- Type half a message, Expand: the overlay takes half the window with the draft in it; Esc: the panel is docked again with the draft.
 
 ## Markup
 ```html
@@ -56,7 +58,64 @@ The conversation that scopes, checks and steers the scan of the file in view, de
               <circle cx="12" cy="12" r="10"></circle></svg></span></span
       ></span>
       <h3 class="bcn-aldo-panel__title">Aldo</h3>
-      <span class="bcn-aldo-panel__close"
+      <span class="bcn-aldo-panel__expand"
+        ><span
+          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+          ><button
+            class="esa-button__native typography-microcopy-2xs"
+            type="button"
+            aria-label="Expand Aldo"
+            title="Expand Aldo"
+            data-ico="maximize-2"
+            data-aldo-overlay="open"
+          >
+            <span class="esa-icon esa-icon--xs" aria-hidden="true"
+              ><svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+                data-ico="maximize-2"
+              >
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <polyline points="9 21 3 21 3 15"></polyline>
+                <line x1="21" x2="14" y1="3" y2="10"></line>
+                <line x1="3" x2="10" y1="21" y2="14"></line></svg
+            ></span></button></span
+        ><span
+          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+          ><button
+            class="esa-button__native typography-microcopy-2xs"
+            type="button"
+            aria-label="Dock Aldo"
+            title="Dock Aldo"
+            data-ico="minimize-2"
+            data-aldo-overlay="dock"
+          >
+            <span class="esa-icon esa-icon--xs" aria-hidden="true"
+              ><svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+                data-ico="minimize-2"
+              >
+                <polyline points="4 14 10 14 10 20"></polyline>
+                <polyline points="20 10 14 10 14 4"></polyline>
+                <line x1="14" x2="21" y1="10" y2="3"></line>
+                <line x1="3" x2="10" y1="21" y2="14"></line></svg
+            ></span></button></span></span
+      ><span class="bcn-aldo-panel__close"
         ><span
           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
           ><button
@@ -356,8 +415,14 @@ The conversation that scopes, checks and steers the scan of the file in view, de
         class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong esa-badge--dot"
         ><span class="visually-hidden">Something needs you</span></span
       ></span
-    >
-  </button>
+    ></button
+  ><esa-side-dialog
+    class="bcn-aldo-panel__overlay"
+    position="right"
+    show-close-button="false"
+    data-aldo-overlay-dialog="true"
+    size="md"
+  ></esa-side-dialog>
   <div class="bcn-aldo-parts" data-aldo-parts="" hidden="">
     <template data-part="message"
       ><li class="bcn-aldo-msg">
@@ -1297,6 +1362,72 @@ button.bcn-aldo-needs__text:focus-visible {
 }
 .bcn-aldo-composer[data-busy] .bcn-aldo-composer__shell {
   opacity: 0.7;
+}
+.bcn-aldo-panel__overlay {
+  --side-dialog-width: max(50vw, 34rem);
+}
+.bcn-aldo-panel__expand {
+  margin-left: auto;
+  display: inline-flex;
+}
+.bcn-aldo-panel__expand + .bcn-aldo-panel__close {
+  margin-left: 0;
+}
+.bcn-aldo-panel [data-aldo-overlay="dock"],
+.bcn-aldo-panel[data-expanded] [data-aldo-overlay="open"],
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__close {
+  display: none;
+}
+.bcn-aldo-panel[data-expanded] [data-aldo-overlay="dock"] {
+  display: inline-flex;
+}
+.bcn-aldo-panel__head[slot="header"] {
+  border: 0;
+  flex: 1;
+  padding: 0;
+}
+.bcn-aldo-panel__head[slot="header"] .bcn-aldo-panel__title {
+  font-size: 1rem;
+}
+.bcn-aldo-panel__body[data-expanded] {
+  font-size: var(--_aldo-text);
+  font-weight: var(--_aldo-weight-body);
+  max-width: 48rem;
+  height: 100%;
+  box-shadow: none;
+  background: 0 0;
+  border: 0;
+  margin-inline: auto;
+  line-height: 1.4;
+}
+.bcn-aldo-panel__body[data-expanded] .bcn-aldo-thread {
+  padding-inline: 0;
+}
+.bcn-aldo-panel__body[data-expanded] .bcn-aldo-instructions,
+.bcn-aldo-panel__body[data-expanded] .bcn-aldo-needs {
+  margin-inline: 0;
+}
+.bcn-aldo-panel__body[data-expanded] .bcn-aldo-status {
+  padding-inline: 0;
+  padding-bottom: 0;
+}
+.bcn-aldo-panel__body[data-expanded] .bcn-aldo-thread {
+  padding-bottom: 0;
+}
+.bcn-aldo-composer[slot="footer"] {
+  max-width: 48rem;
+  font-size: var(--_aldo-text);
+  font-weight: var(--_aldo-weight-body);
+  margin-inline: auto;
+}
+.bcn-aldo-composer[slot="footer"] .bcn-aldo-composer__suggest {
+  padding-inline: 0;
+}
+.bcn-aldo-composer[slot="footer"] .bcn-aldo-composer__shell {
+  margin: 0;
+}
+.bcn-aldo-panel__body[data-expanded] .bcn-aldo-needs__list {
+  max-height: 20rem;
 }
 .bcn-sw3tools esa-button-group,
 .bcn-sw3tools .esa-button,

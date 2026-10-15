@@ -373,3 +373,46 @@ button.bcn-aldo-needs__text:focus-visible { outline: var(--focus-ring-width, 2px
   padding-bottom: var(--spacing-100);
 }
 .bcn-aldo-composer[data-busy] .bcn-aldo-composer__shell { opacity: 0.7; }
+
+/* ── Expanded: the conversation over the right half of the window ───────── */
+
+/* esa-side-dialog's width, re-pointed: half the window, never narrower than a reading column. */
+.bcn-aldo-panel__overlay { --side-dialog-width: max(50vw, 34rem); }
+.bcn-aldo-panel__expand { display: inline-flex; margin-left: auto; }
+.bcn-aldo-panel__expand + .bcn-aldo-panel__close { margin-left: 0; }
+.bcn-aldo-panel [data-aldo-overlay='dock'],
+.bcn-aldo-panel[data-expanded] [data-aldo-overlay='open'],
+.bcn-aldo-panel[data-expanded] .bcn-aldo-panel__close { display: none; }
+.bcn-aldo-panel[data-expanded] [data-aldo-overlay='dock'] { display: inline-flex; }
+/* The head in the dialog's header slot: the dialog draws the rule and the padding. */
+.bcn-aldo-panel__head[slot='header'] { flex: 1; padding: 0; border: 0; }
+.bcn-aldo-panel__head[slot='header'] .bcn-aldo-panel__title { font-size: 1rem; }
+/* The body in the dialog: one reading column, centered, filling the height. */
+.bcn-aldo-panel__body[data-expanded] {
+  /* Slotted, it inherits from the dialog's body (15px): the kit's density, restated. */
+  font-size: var(--_aldo-text);
+  font-weight: var(--_aldo-weight-body);
+  line-height: 1.4;
+  height: 100%;
+  max-width: 48rem;
+  margin-inline: auto;
+  border: 0;
+  box-shadow: none;
+  background: none;
+}
+.bcn-aldo-panel__body[data-expanded] .bcn-aldo-thread { padding-inline: 0; }
+.bcn-aldo-panel__body[data-expanded] .bcn-aldo-instructions,
+.bcn-aldo-panel__body[data-expanded] .bcn-aldo-needs { margin-inline: 0; }
+.bcn-aldo-panel__body[data-expanded] .bcn-aldo-status { padding-inline: 0; padding-bottom: 0; }
+.bcn-aldo-panel__body[data-expanded] .bcn-aldo-thread { padding-bottom: 0; }
+/* The composer in the dialog's footer: the same reading column. */
+.bcn-aldo-composer[slot='footer'] {
+  max-width: 48rem;
+  margin-inline: auto;
+  font-size: var(--_aldo-text);
+  font-weight: var(--_aldo-weight-body);
+}
+.bcn-aldo-composer[slot='footer'] .bcn-aldo-composer__suggest { padding-inline: 0; }
+.bcn-aldo-composer[slot='footer'] .bcn-aldo-composer__shell { margin: 0; }
+/* Needs you has room to breathe here. */
+.bcn-aldo-panel__body[data-expanded] .bcn-aldo-needs__list { max-height: 20rem; }

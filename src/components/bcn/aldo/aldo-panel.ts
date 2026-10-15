@@ -5,6 +5,7 @@
 
 import type { AldoAction, Instruction, OpenItem, Status } from '../../../data/aldo';
 import type { Parts, Press } from './aldo-parts';
+import { paintIcons } from '../../../lib/lucide-extra';
 
 // ── The panel ───────────────────────────────────────────────────────────────
 
@@ -16,10 +17,83 @@ export function setupAldoPanel(root: HTMLElement): void {
   };
   root.querySelector('[data-aldo-collapse]')?.addEventListener('click', () => set(false));
   root.querySelector('[data-aldo-expand]')?.addEventListener('click', () => set(true));
+  setupOverlay(root);
   const dot = root.querySelector<HTMLElement>('[data-aldo-dot]');
   root.addEventListener('aldo:needs', (e) => {
     if (dot) dot.hidden = !((e as CustomEvent<{ count: number }>).detail.count > 0);
   });
+}
+
+/** The overlay: the panel's head and body move into esa-side-dialog and back. The head
+ *  takes the dialog's header slot; the dialog is labelled by it. */
+function setupOverlay(root: HTMLElement): void {
+  const dialog = root.querySelector<HTMLElement & { open: boolean; show(): void; close(): void }>('[data-aldo-overlay-dialog]');
+  if (!dialog) return;
+  paintIcons(root);
+  const body = root.querySelector<HTMLElement>('.bcn-aldo-panel__body')!;
+  const head = body.querySelector<HTMLElement>('.bcn-aldo-panel__head')!;
+  const thread = (): HTMLElement | null => body.querySelector('[data-aldo-thread]');
+  const composer = body.querySelector<HTMLElement>('[data-aldo-composer]');
+  let home: Comment | null = null;
+  let composerHome: Comment | null = null;
+  const keep = () => {
+    // A move re-lays the thread out; hold the reader's place by distance from the end.
+    const t = thread();
+    return t ? t.scrollHeight - t.scrollTop : 0;
+  };
+  const restore = (fromEnd: number) =>
+    requestAnimationFrame(() => {
+      const t = thread();
+      if (t) t.scrollTop = t.scrollHeight - fromEnd;
+    });
+
+  const open = () => {
+    if (home) return;
+    const at = keep();
+    home = document.createComment('aldo');
+    body.before(home);
+    head.slot = 'header';
+    body.dataset.expanded = '';
+    root.dataset.expanded = '';
+    dialog.append(head, body);
+    // The composer takes the dialog's footer: pinned under the conversation, above its rule.
+    if (composer) {
+      composerHome = document.createComment('aldo-composer');
+      composer.before(composerHome);
+      composer.slot = 'footer';
+      dialog.append(composer);
+    }
+    dialog.show();
+    restore(at);
+    root.dispatchEvent(new CustomEvent('aldo:expand-overlay', { bubbles: true }));
+    requestAnimationFrame(() => composer?.querySelector<HTMLElement>('[data-composer-input]')?.focus());
+  };
+  const dock = () => {
+    if (!home) return;
+    const at = keep();
+    head.removeAttribute('slot');
+    if (composer && composerHome) {
+      composer.removeAttribute('slot');
+      composerHome.replaceWith(composer);
+      composerHome = null;
+    }
+    delete body.dataset.expanded;
+    delete root.dataset.expanded;
+    body.prepend(head);
+    home.replaceWith(body);
+    home = null;
+    restore(at);
+    root.dispatchEvent(new CustomEvent('aldo:dock', { bubbles: true }));
+  };
+  // The head travels with the panel, so its keys are found wherever it is.
+  head.addEventListener('click', (e) => {
+    const key = (e.target as Element).closest<HTMLElement>('[data-aldo-overlay]');
+    if (!key) return;
+    if (key.dataset.aldoOverlay === 'open') open();
+    else dialog.close();
+  });
+  // Esc, a click on the dimmed page, or Dock: the dialog closes, the panel goes home once it has slid out.
+  dialog.addEventListener('close', () => setTimeout(dock, 220));
 }
 
 // ── Status ──────────────────────────────────────────────────────────────────

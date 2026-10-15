@@ -4,12 +4,19 @@
 // surface fills or leaves out. It carries Aldo's glow, renders the parts bin once, and
 // loads the kit's stylesheet. Spec: docs/aldo-kit-spec.md.
 //
+// Expandable: the header's expand key lifts the conversation into an overlay over the right
+// half of the window (esa-side-dialog, its width re-pointed to 50vw), where it is the work in
+// front of the person; the dock key, Esc or a click on the dimmed page puts it back. The same
+// nodes move, so the thread, a half-typed message and an open form survive the move. Events:
+// `aldo:expand-overlay`, `aldo:dock`.
+//
 // Collapsible: the header's chevron folds the panel into a rail (the mark, the name, and a
 // dot while something needs the person); the rail opens it again. The state is
 // `data-aldo="open" | "closed"` on the nearest ancestor that carries it (the host's grid
 // reads it), or on the panel. Events on the panel: `aldo:collapse`, `aldo:expand`.
 //
-// bcn-lego-checked: the mark IS bcn-aldo-mark, collapse IS esa-button chrome, the dot IS
+// bcn-lego-checked: the overlay IS esa-side-dialog, expand and dock ARE esa-button chrome,
+// the mark IS bcn-aldo-mark, collapse IS esa-button chrome, the dot IS
 // esa-badge dot, the chevron IS esa-icon. The rail is a <button> because it is one vertical
 // target holding the mark and a vertical name; esa-button lays out one horizontal label.
 // Checked Beacon (the side nav's collapsed rail is the same shape, hand-built). bcn-aldo-panel
@@ -29,9 +36,11 @@ interface Props {
   rail?: 'left' | 'right';
   /** Aldo's border and shadow. Off inside a dialog that has its own chrome. */
   glow?: boolean;
+  /** Renders the expand key and the overlay it opens. */
+  expandable?: boolean;
   [attr: string]: unknown;
 }
-const { title = 'Aldo', collapsible = false, rail = 'right', glow = true, ...rest } = Astro.props;
+const { title = 'Aldo', collapsible = false, rail = 'right', glow = true, expandable = false, ...rest } = Astro.props;
 const away = rail === 'right' ? 'chevrons-right' : 'chevrons-left';
 const back = rail === 'right' ? 'chevrons-left' : 'chevrons-right';
 ---
@@ -41,6 +50,14 @@ const back = rail === 'right' ? 'chevrons-left' : 'chevrons-right';
     <header class="bcn-aldo-panel__head">
       <BcnAldoMark size="sm" />
       <h3 class="bcn-aldo-panel__title">{title}</h3>
+      {
+        expandable && (
+          <span class="bcn-aldo-panel__expand">
+            <EsaButton variant="chrome" iconOnly icon="plus" data-ico="maximize-2" label={`Expand ${title}`} size="xs" data-aldo-overlay="open" />
+            <EsaButton variant="chrome" iconOnly icon="plus" data-ico="minimize-2" label={`Dock ${title}`} size="xs" data-aldo-overlay="dock" />
+          </span>
+        )
+      }
       {
         collapsible && (
           <span class="bcn-aldo-panel__close">
@@ -67,10 +84,16 @@ const back = rail === 'right' ? 'chevrons-left' : 'chevrons-right';
       </button>
     )
   }
+  {
+    expandable && (
+      <esa-side-dialog class="bcn-aldo-panel__overlay" position="right" show-close-button="false" data-aldo-overlay-dialog></esa-side-dialog>
+    )
+  }
   <BcnAldoParts />
 </div>
 
 <script>
+  import '@esa/ecology/esa-side-dialog';
   import { setupAldoPanel } from './aldo-panel';
   document.querySelectorAll<HTMLElement>('[data-aldo-panel]').forEach(setupAldoPanel);
 </script>
