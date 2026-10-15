@@ -7,7 +7,7 @@
 // esa-snackbar-container via src/lib/snackbar. Checked Beacon (page actions are
 // ui-button + ui-dropdown-menu). bcn-sw3-review-actions is the home.
 import EsaButton from '@esa/ecology/esa-button.astro';
-import { CI_HREF } from '../../data/setup-wizard-3-step';
+import { SW3_INDEX } from '../../data/setup-wizard-3-step';
 import { withBase } from '../../lib/base';
 ---
 
@@ -16,7 +16,7 @@ import { withBase } from '../../lib/base';
   <esa-dropdown-menu position="below-end" width="auto" data-ra-more>
     <EsaButton variant="secondary" size="sm" iconRight="chevron-down">More</EsaButton>
   </esa-dropdown-menu>
-  <EsaButton variant="primary" size="sm" iconRight="arrow-right" href={withBase(CI_HREF)}>Compliance Index</EsaButton>
+  <EsaButton variant="primary" size="sm" iconRight="arrow-right" href={withBase(SW3_INDEX)}>Compliance Index</EsaButton>
 </div>
 
 <style>

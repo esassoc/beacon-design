@@ -1,0 +1,117 @@
+---
+// <BcnSw3CommitmentPanel> — where an index locator leads: the commitment it rests on, as
+// step 2 marked it up, read only, in a side panel. The locator's requirement is the stroke in
+// focus (the others fade), and the entry's excerpt is a heavier pass inside it. The page key
+// opens the PDF (bcn-sw3-source-peek, over this panel); Open in Commitments lands step 2 on
+// the commitment.
+//
+// Contract, on `document`:
+//   in   sw3i:locator  detail: { doc, code, n, excerpt }   open on that requirement
+//   out  sw3:peek      detail: { code, reqId }              the source page
+//
+// bcn-lego-checked: the panel IS esa-side-dialog; the commitment IS bcn-sw3-commitment in
+// its read-only mode, so the text, inks and header are step 2's. Checked Beacon: PR #1520's
+// obligation detail page lists source requirements with excerpts, not the commitment text.
+// bcn-sw3-commitment-panel is the home for "a locator, followed".
+import BcnSw3Commitment from './BcnSw3Commitment.astro';
+---
+
+<esa-side-dialog class="bcn-sw3cp-dialog" heading="Commitment" size="lg" data-sw3-commitment-panel>
+  <BcnSw3Commitment readonly code="" title="" pages={[1]} html="" />
+</esa-side-dialog>
+
+<style>
+  .bcn-sw3cp-dialog { --side-dialog-width-lg: min(760px, 56vw); }
+  .bcn-sw3cp-dialog :global(.bcn-sw3c) { padding: 0; gap: var(--spacing-300); }
+</style>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import { initSw3, commitmentOf, requirementsOf, requirementRef, identified, peek, setActiveDoc, docIds, started, startRun, skipToEnd, payload } from './sw3-store';
+  import { paintAnchored } from './anchored-text-paint';
+  import { requirementIdFor, SW3_REVIEW } from '../../data/setup-wizard-3-step';
+  import { withBase } from '../../lib/base';
+
+  const dialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>('[data-sw3-commitment-panel]');
+  if (dialog) {
+    initSw3();
+    for (const id of docIds())
+      peek(id, () => {
+        if (started()) return;
+        const D = payload();
+        startRun({ first: D.scope.first, last: D.scope.last, instruction: '' });
+        skipToEnd();
+      });
+    const art = dialog.querySelector<HTMLElement>('[data-c]')!;
+    const body = art.querySelector<HTMLElement>('[data-c-text]')!;
+    const short = (code: string) => code.replace(/^COA\s+/, '');
+    const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` : `p. ${p[0]}`);
+    let at: { doc: string; code: string; reqId: string } | null = null;
+
+    /** Where the excerpt sits: inside its requirement's words first, then anywhere. */
+    const litOf = (text: string, excerpt: string, from: number) => {
+      if (!excerpt) return null;
+      let i = text.indexOf(excerpt, Math.max(0, from));
+      if (i < 0) i = text.indexOf(excerpt);
+      if (i >= 0) return { start: i, end: i + excerpt.length };
+      const esc = excerpt.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+');
+      const m = new RegExp(esc).exec(text);
+      return m ? { start: m.index, end: m.index + m[0].length } : null;
+    };
+
+    document.addEventListener('sw3i:locator', (e) => {
+      const { doc, code, n, excerpt } = (e as CustomEvent<{ doc: string; code: string; n: number; excerpt: string }>).detail;
+      const reqId = requirementIdFor(code, n);
+      const shown = peek(doc, () => {
+        const c = commitmentOf(code);
+        if (!c?.text) return null;
+        const reqs = requirementsOf(code);
+        const req = reqs.find((r) => r.id === reqId);
+        const spans = reqs.filter((r) => r.anchor).map((r) => ({ id: r.id, start: r.anchor!.charStart, end: r.anchor!.charEnd, suggested: false, label: `${requirementRef(code, r.id)} ${r.name}` }));
+        return {
+          html: paintAnchored({ text: c.text, spans, gaps: [], activeId: reqId, lit: litOf(c.text, excerpt, req?.anchor?.charStart ?? 0), family: 'amber' }),
+          title: identified(code).title,
+          pages: c.pages,
+          ref: req ? requirementRef(code, reqId) : `${short(code)}:${n}`,
+          name: req?.name ?? '',
+          has: !!req?.anchor,
+        };
+      });
+      if (!shown) return;
+      at = { doc, code, reqId };
+      dialog.heading = shown.name ? `${shown.ref} ${shown.name}` : shown.ref;
+      art.dataset.c = code;
+      const badge = art.querySelector<HTMLElement>('[data-c-badge] .bcn-cbadge');
+      if (badge) badge.textContent = short(code);
+      art.querySelector<HTMLElement>('[data-c-title]')!.textContent = shown.title;
+      const pl = art.querySelector('[data-c-pages] .esa-button__label') ?? art.querySelector('[data-c-pages]');
+      if (pl) pl.textContent = pagesLabel(shown.pages);
+      body.innerHTML = shown.html;
+      body.toggleAttribute('data-focus', shown.has);
+      dialog.open = true;
+      // Scroll the panel only: scrollIntoView would move the page under it too.
+      requestAnimationFrame(() => {
+        const mark = body.querySelector<HTMLElement>('mark.bcn-hl[data-active]');
+        // The lego scrolls its body inside its shadow root.
+        const sc = [...(dialog.shadowRoot?.querySelectorAll<HTMLElement>('*') ?? [])].find((x) => /(auto|scroll)/.test(getComputedStyle(x).overflowY));
+        if (!mark || !sc) return;
+        sc.scrollTop += mark.getBoundingClientRect().top - sc.getBoundingClientRect().top - sc.clientHeight / 3;
+      });
+    });
+
+    art.querySelector('[data-c-peek]')!.addEventListener('click', () => {
+      if (!at) return;
+      setActiveDoc(at.doc);
+      document.dispatchEvent(new CustomEvent('sw3:peek', { detail: { code: at.code, reqId: at.reqId } }));
+    });
+    art.querySelector('[data-c-open]')!.addEventListener('click', () => {
+      if (!at) return;
+      try {
+        localStorage.setItem('sw3:review-at', `${at.doc}|${at.code}`);
+      } catch {
+        /* no storage */
+      }
+      location.href = withBase(SW3_REVIEW);
+    });
+  }
+</script>

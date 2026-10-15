@@ -1,0 +1,27 @@
+---
+// <BcnSw3IndexAldo> — step 3's conversation with Aldo about the subcategory in view: a
+// manifest of the Aldo kit (src/components/bcn/aldo/, docs/aldo-kit-spec.md), as step 2's
+// bcn-sw3-review-aldo is. The adapter, sw3-index-aldo.ts, reads what the person says
+// (approve, merge, move, also file, a monitor's duty, why) and maps the subcategory's flags
+// to Open items.
+//
+// Contract: sw3-index-aldo.ts `setupSw3IndexAldo(root)`. The panel folds into a rail on the
+// host's `data-aldo` (BcnSw3Index's grid reads it).
+import BcnAldoPanel from './aldo/BcnAldoPanel.astro';
+import BcnAldoThread from './aldo/BcnAldoThread.astro';
+import BcnAldoInstructions from './aldo/BcnAldoInstructions.astro';
+import BcnAldoNeeds from './aldo/BcnAldoNeeds.astro';
+import BcnAldoComposer from './aldo/BcnAldoComposer.astro';
+---
+
+<BcnAldoPanel collapsible expandable rail="right" data-sw3-index-aldo>
+  <BcnAldoThread slot="thread" />
+  <BcnAldoInstructions slot="instructions" />
+  <BcnAldoNeeds slot="needs" />
+  <BcnAldoComposer slot="composer" mode="thread" placeholder="Say what to change" attach={false} />
+</BcnAldoPanel>
+
+<script>
+  import { setupSw3IndexAldo } from './sw3-index-aldo';
+  document.querySelectorAll<HTMLElement>('[data-sw3-index-aldo]').forEach(setupSw3IndexAldo);
+</script>

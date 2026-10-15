@@ -1,0 +1,622 @@
+{
+ "prompts": "sample: hand-assembled from v6 requirements until scripts/build-index.mjs runs",
+ "run": "sample",
+ "categories": [
+  {
+   "id": "c-light",
+   "name": "Light and noise",
+   "subcategories": [
+    {
+     "id": "s-night-light",
+     "name": "Nighttime lighting",
+     "entryIds": [
+      "o1",
+      "o2",
+      "o3",
+      "a1"
+     ],
+     "alsoIds": [],
+     "evidence": [
+      {
+       "doc": "itp",
+       "code": "COA 11.8",
+       "n": 1,
+       "excerpt": "Permittee shall not use permanent or temporary, fixed, exterior lighting, including motion-triggered security lighting that casts light on Covered Species habitat beyond the Project construction site between sunset and sunrise."
+      }
+     ]
+    },
+    {
+     "id": "s-night-work",
+     "name": "Night work",
+     "entryIds": [
+      "o4",
+      "o5"
+     ],
+     "alsoIds": [
+      "o1"
+     ],
+     "evidence": [
+      {
+       "doc": "itp",
+       "code": "COA 11.7",
+       "n": 3,
+       "excerpt": "Any vehicle traffic necessary during nighttime hours associated with emergency response, security, or operations and maintenance activities subsequent to construction shall be conducted with extra caution to minimize impacts to nocturnal Covered Species."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c-handling",
+   "name": "Wildlife handling and reporting",
+   "subcategories": [
+    {
+     "id": "s-capture",
+     "name": "Capture and relocation",
+     "entryIds": [
+      "o6",
+      "o7",
+      "o8",
+      "o9"
+     ],
+     "alsoIds": [],
+     "evidence": [
+      {
+       "doc": "itp",
+       "code": "COA 11.3",
+       "n": 1,
+       "excerpt": "The Designated Biologist(s) shall be responsible for and direct efforts to capture and handle Covered Species."
+      }
+     ]
+    },
+    {
+     "id": "s-injury",
+     "name": "Injury and mortality",
+     "entryIds": [
+      "o10",
+      "o11",
+      "o12",
+      "a2"
+     ],
+     "alsoIds": [],
+     "evidence": [
+      {
+       "doc": "itp",
+       "code": "COA 11.2",
+       "n": 1,
+       "excerpt": "If a Covered Species is injured as a result of Covered Activities, the Designated Biologist shall immediately take it to a CDFW-approved wildlife rehabilitation or veterinary facility specific to the injured individual."
+      }
+     ]
+    },
+    {
+     "id": "s-notices",
+     "name": "Notices to CDFW",
+     "entryIds": [
+      "o13",
+      "o14",
+      "o15"
+     ],
+     "alsoIds": [
+      "o11"
+     ],
+     "evidence": [
+      {
+       "doc": "itp",
+       "code": "COA 11.35",
+       "n": 2,
+       "excerpt": "Obligation for the Designated Representative or Designated Fisheries Biologist(s) to notify CDFW at least seven days prior to site-specific dewatering activities that are expected to require fish salvage or prior to an anticipated activity that could result in isolating fish, such as installation of a cofferdam."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c-cts",
+   "name": "California tiger salamander",
+   "subcategories": [
+    {
+     "id": "s-cts-surveys",
+     "name": "Surveys",
+     "entryIds": [
+      "a3",
+      "o16",
+      "o17",
+      "a4"
+     ],
+     "alsoIds": [
+      "o9"
+     ],
+     "evidence": [
+      {
+       "doc": "itp",
+       "code": "COA 11.42",
+       "n": 1,
+       "excerpt": "The Designated Biologist(s) and/or Biological Monitor(s) shall conduct CTS surveys following CDFW- approved protocols (Condition of Approval 11."
+      }
+     ]
+    },
+    {
+     "id": "s-cts-buffers",
+     "name": "Habitat buffers and speed",
+     "entryIds": [
+      "o18",
+      "o19",
+      "o20",
+      "o21"
+     ],
+     "alsoIds": [],
+     "evidence": [
+      {
+       "doc": "itp",
+       "code": "COA 11.40",
+       "n": 1,
+       "excerpt": "If the Designated Biologist(s) and/or Biological Monitor(s) identifies suitable aquatic breeding habitat within the Project Area south of Byron Highway, Permittee shall demarcate a no-activity buffer of at least 300 feet around the suitable aquatic breeding habitat and avoid Covered Activities within the suitable aquatic breeding habitat and no-activity buffer."
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "entries": {
+  "o1": {
+   "id": "o1",
+   "kind": "obligation",
+   "title": "Shield and aim construction lighting down and away from habitat",
+   "class": "Adhere",
+   "audience": "Crews",
+   "trigger": "Work at night",
+   "monitorSigns": [
+    "Fixtures without shields",
+    "Light spilling past the work area"
+   ],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.8",
+     "n": 1,
+     "excerpt": "Permittee shall not use permanent or temporary, fixed, exterior lighting, including motion-triggered security lighting that casts light on Covered Species habitat beyond the Project construction site between sunset and sunrise."
+    }
+   ]
+  },
+  "o2": {
+   "id": "o2",
+   "kind": "obligation",
+   "title": "Use yellow or orange lights within 500 feet of habitat",
+   "class": "Adhere",
+   "audience": "Crews",
+   "trigger": "Lighting within 500 feet of Covered Species habitat",
+   "monitorSigns": [
+    "White or blue lamps near habitat"
+   ],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.8",
+     "n": 2,
+     "excerpt": "All construction lighting used within 500 feet of Covered Species suitable habitat shall be yellow or orange lighting."
+    }
+   ]
+  },
+  "o3": {
+   "id": "o3",
+   "kind": "obligation",
+   "title": "Point intake lighting away from the river",
+   "class": "Adhere",
+   "audience": "Crews",
+   "trigger": "",
+   "monitorSigns": [],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.9",
+     "n": 1,
+     "excerpt": "Permittee shall not permanently mount any lighting on the north Delta intake structure or buildings associated with the north Delta intake structures that will produce lux in the direction of the Sacramento River, to minimize predation effects on juvenile CHNWR and CHNSR from artificial lighting at night."
+    },
+    {
+     "doc": "itp",
+     "code": "COA 11.9",
+     "n": 2,
+     "excerpt": "Temporary lighting on the north Delta intake structure or buildings associated with the north Delta intakes may be utilized for CDFW approved construction phase nighttime Covered Activities."
+    }
+   ]
+  },
+  "a1": {
+   "id": "a1",
+   "kind": "action",
+   "name": "Justify nighttime work in the Construction Phase Authorization Package",
+   "responsibleParty": "",
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.7",
+     "n": 2,
+     "excerpt": "In the appropriate Construction Phase Authorization Package, Permittee shall detail the type of Covered Activity proposed for nighttime work, assess the impact of the Covered Activity specific to Covered Species within the Project construction site where the nighttime work is being proposed, identify measures that will be implemented to reduce impacts to Covered Species, and provide a justification for the need of nighttime work."
+    }
+   ]
+  },
+  "o4": {
+   "id": "o4",
+   "kind": "obligation",
+   "title": "Limit post-construction nighttime traffic and work",
+   "class": "Adhere",
+   "audience": "Crews",
+   "trigger": "After construction",
+   "monitorSigns": [],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.7",
+     "n": 3,
+     "excerpt": "Any vehicle traffic necessary during nighttime hours associated with emergency response, security, or operations and maintenance activities subsequent to construction shall be conducted with extra caution to minimize impacts to nocturnal Covered Species."
+    }
+   ]
+  },
+  "o5": {
+   "id": "o5",
+   "kind": "obligation",
+   "title": "Stop in-water work at night; pile drive 7 a.m. to 7 p.m. only",
+   "class": "Adhere",
+   "audience": "Crews",
+   "trigger": "In-water work",
+   "monitorSigns": [
+    "Pile driving outside 7 a.m. to 7 p.m."
+   ],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.31.2",
+     "n": 7,
+     "excerpt": "Permittee shall terminate all in-water Covered Activities during all Project phases (i."
+    }
+   ]
+  },
+  "o6": {
+   "id": "o6",
+   "kind": "obligation",
+   "title": "Capture and handle Covered Species only per the approved protocols",
+   "class": "Adhere",
+   "audience": "Monitors",
+   "trigger": "A Covered Species is found in the work area",
+   "monitorSigns": [
+    "Handling without gloves",
+    "Untrained handlers"
+   ],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.3",
+     "n": 1,
+     "excerpt": "The Designated Biologist(s) shall be responsible for and direct efforts to capture and handle Covered Species."
+    }
+   ]
+  },
+  "o7": {
+   "id": "o7",
+   "kind": "obligation",
+   "title": "Keep capture and relocation records for each individual",
+   "class": "Roster",
+   "audience": "Monitors",
+   "trigger": "A Covered Species is captured",
+   "monitorSigns": [],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.3",
+     "n": 2,
+     "excerpt": "The Designated Biologist(s) shall maintain monitoring records that include, but are not limited to: (1) the beginning and ending time the capture and relocation effort, (2) a statement identifying the Covered Species encountered, (3) the time of discovery, by whom, and the condition of the Covered Species, (4) the capture and release locations of each Covered Species individual, (5) photographs of each Covered Species individual, (6) measurements of each Covered Species individual if doing so will not cause undue stress or harm, (7) a description of all actions taken, and (8) any other pertinent information."
+    }
+   ]
+  },
+  "o8": {
+   "id": "o8",
+   "kind": "obligation",
+   "title": "Excavate and relocate CTS from refuges",
+   "class": "Adhere",
+   "audience": "Monitors",
+   "trigger": "CTS is in a burrow in the work area",
+   "monitorSigns": [],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.39",
+     "n": 3,
+     "excerpt": "If the Covered Activities cannot avoid the refuge, only the Designated Biologist(s) shall excavate, expose, and relocate the CTS in accordance with Condition of Approval 11."
+    }
+   ]
+  },
+  "o9": {
+   "id": "o9",
+   "kind": "obligation",
+   "title": "Relocate discovered CTS per the relocation plan",
+   "class": "Adhere",
+   "audience": "Monitors",
+   "trigger": "CTS is found during surveys or work",
+   "monitorSigns": [],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.42",
+     "n": 5,
+     "excerpt": "If the Designated Biologist(s), Biological Monitor(s), or any Project personnel discover CTS, the Designated Biologist(s) shall move the animal to a safe location nearby following the CTS Relocation Plan required by Condition of Approval 11."
+    }
+   ]
+  },
+  "o10": {
+   "id": "o10",
+   "kind": "obligation",
+   "title": "Take injured Covered Species to an approved rehabilitation facility",
+   "class": "Adhere",
+   "audience": "Monitors",
+   "trigger": "A Covered Species is injured",
+   "monitorSigns": [],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.2",
+     "n": 1,
+     "excerpt": "If a Covered Species is injured as a result of Covered Activities, the Designated Biologist shall immediately take it to a CDFW-approved wildlife rehabilitation or veterinary facility specific to the injured individual."
+    }
+   ]
+  },
+  "o11": {
+   "id": "o11",
+   "kind": "obligation",
+   "title": "Notify CDFW of any Covered Species injury",
+   "class": "Notify",
+   "audience": "Compliance staff",
+   "trigger": "A Covered Species is injured",
+   "monitorSigns": [],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.2",
+     "n": 3,
+     "excerpt": "The Permittee shall notify CDFW of the injury to the Covered Species immediately by telephone and e-mail followed by a written incident report as described in Condition of Approval 10."
+    }
+   ]
+  },
+  "o12": {
+   "id": "o12",
+   "kind": "obligation",
+   "title": "Preserve dead Covered fish and deliver them to CDFW",
+   "class": "Adhere",
+   "audience": "Monitors",
+   "trigger": "A Covered fish is found dead",
+   "monitorSigns": [],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.35",
+     "n": 6,
+     "excerpt": "The Designated Fisheries Biologist(s) shall place dead Covered Fish Species in sealed plastic bags with labels indicating species, location, date, and time of collection, store them on ice, freeze as soon as possible, and provide the frozen specimens to CDFW."
+    }
+   ]
+  },
+  "a2": {
+   "id": "a2",
+   "kind": "action",
+   "name": "Pay the cost of care for injured Covered Species",
+   "responsibleParty": "Permittee",
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.2",
+     "n": 2,
+     "excerpt": "Permittee shall bear any costs associated with the care or treatment of such injured Covered Species."
+    }
+   ]
+  },
+  "o13": {
+   "id": "o13",
+   "kind": "obligation",
+   "title": "Notify CDFW 7 days before dewatering that needs fish salvage",
+   "class": "Notify",
+   "audience": "Compliance staff",
+   "trigger": "Dewatering needs fish salvage",
+   "monitorSigns": [],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.35",
+     "n": 2,
+     "excerpt": "Obligation for the Designated Representative or Designated Fisheries Biologist(s) to notify CDFW at least seven days prior to site-specific dewatering activities that are expected to require fish salvage or prior to an anticipated activity that could result in isolating fish, such as installation of a cofferdam."
+    }
+   ]
+  },
+  "o14": {
+   "id": "o14",
+   "kind": "obligation",
+   "title": "Notify CDFW when salvage is complete",
+   "class": "Notify",
+   "audience": "Compliance staff",
+   "trigger": "",
+   "monitorSigns": [],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.37",
+     "n": 4,
+     "excerpt": "The Fisheries Biologist(s) shall notify Permittee and CDFW within one business day when the fish salvage has been completed and construction can recommence."
+    }
+   ]
+  },
+  "o15": {
+   "id": "o15",
+   "kind": "obligation",
+   "title": "Notify CDFW 60 days before in-water maintenance",
+   "class": "Notify",
+   "audience": "Compliance staff",
+   "trigger": "In-water maintenance is planned",
+   "monitorSigns": [],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.31.2",
+     "n": 6,
+     "excerpt": "After construction, Permittee shall notify CDFW 60 days before beginning any in-water maintenance activities and provide information including the site location(s), schedules, work activities, anticipated effects to water quality or Covered Species, and communications with other agencies and organizations with site-specific details regarding any temporary partial channel closures, and obtain CDFW’s written approval before proceeding."
+    }
+   ]
+  },
+  "a3": {
+   "id": "a3",
+   "kind": "action",
+   "name": "Conduct preconstruction CTS protocol surveys at each site",
+   "responsibleParty": "Designated Biologist",
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.42",
+     "n": 1,
+     "excerpt": "The Designated Biologist(s) and/or Biological Monitor(s) shall conduct CTS surveys following CDFW- approved protocols (Condition of Approval 11."
+    }
+   ]
+  },
+  "o16": {
+   "id": "o16",
+   "kind": "obligation",
+   "title": "Repeat CTS surveys every year of construction",
+   "class": "Monitor",
+   "audience": "Monitors",
+   "trigger": "",
+   "monitorSigns": [],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.42",
+     "n": 3,
+     "excerpt": "Subsequent survey efforts conducted during the construction phase(s) shall occur each year Covered Activities are expected to occur in CTS habitat or within 75 feet of the habitat, unless otherwise approved by CDFW, and shall be reported to CDFW by the Permittee within the Monthly Compliance Reporting (Condition of Approval 10."
+    }
+   ]
+  },
+  "o17": {
+   "id": "o17",
+   "kind": "obligation",
+   "title": "Walk sites for CTS before clearing and during grading",
+   "class": "Monitor",
+   "audience": "Monitors",
+   "trigger": "Clearing or grading in CTS habitat",
+   "monitorSigns": [],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.42",
+     "n": 4,
+     "excerpt": "The Designated Biologist(s) and/or Biological monitor(s) shall complete walking surveys of the Project construction site for CTS before the start of any vegetation clearing or ground disturbing Covered Activities (e."
+    }
+   ]
+  },
+  "a4": {
+   "id": "a4",
+   "kind": "action",
+   "name": "Submit CTS survey results in the Construction Phase Authorization Package",
+   "responsibleParty": "",
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.42",
+     "n": 2,
+     "excerpt": "Permittee shall submit the CTS preconstruction survey results to CDFW as part of the appropriate Construction Phase Authorization Package for written approval."
+    }
+   ]
+  },
+  "o18": {
+   "id": "o18",
+   "kind": "obligation",
+   "title": "Keep a 300-foot buffer around CTS breeding habitat",
+   "class": "Adhere",
+   "audience": "Crews",
+   "trigger": "",
+   "monitorSigns": [
+    "Equipment inside the flagged buffer"
+   ],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.40",
+     "n": 1,
+     "excerpt": "If the Designated Biologist(s) and/or Biological Monitor(s) identifies suitable aquatic breeding habitat within the Project Area south of Byron Highway, Permittee shall demarcate a no-activity buffer of at least 300 feet around the suitable aquatic breeding habitat and avoid Covered Activities within the suitable aquatic breeding habitat and no-activity buffer."
+    }
+   ]
+  },
+  "o19": {
+   "id": "o19",
+   "kind": "obligation",
+   "title": "Flag CTS breeding habitat and its 300-foot buffer",
+   "class": "Adhere",
+   "audience": "Monitors",
+   "trigger": "",
+   "monitorSigns": [],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.40",
+     "n": 4,
+     "excerpt": "South of Byron Highway, Permittee shall delineate suitable CTS aquatic habitat within areas affected by Covered Activities including preconstruction activities, and SCADA, transmission line, and access road construction and maintenance sites with poly wire or other visible flagging approved by CDFW to demarcate a no-activity buffer."
+    }
+   ]
+  },
+  "o20": {
+   "id": "o20",
+   "kind": "obligation",
+   "title": "Observe and post a 10 mph limit in CTS habitat",
+   "class": "Adhere",
+   "audience": "Crews",
+   "trigger": "Driving in CTS habitat",
+   "monitorSigns": [
+    "Vehicles over 10 mph"
+   ],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.39.1",
+     "n": 1,
+     "excerpt": "Project-related vehicles shall observe a speed limit of 10 miles per hour within suitable CTS habitat prior to ground clearance."
+    }
+   ]
+  },
+  "o21": {
+   "id": "o21",
+   "kind": "obligation",
+   "title": "Observe seasonal 10 mph limits for CTS and GGS",
+   "class": "Adhere",
+   "audience": "Crews",
+   "trigger": "CTS or GGS active season",
+   "monitorSigns": [],
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.11",
+     "n": 3,
+     "excerpt": "Project vehicles shall observe a nighttime speed limit of 10 miles per hour in Project construction sites within the Bethany Complex between October 16 through July 14 (i."
+    }
+   ]
+  }
+ },
+ "unfiled": [
+  {
+   "id": "u1",
+   "statement": "Inspect overnight equipment and materials for wildlife before use",
+   "reason": "No subcategory covers equipment inspection",
+   "locators": [
+    {
+     "doc": "itp",
+     "code": "COA 11.14",
+     "n": 1,
+     "excerpt": "All construction equipment, or construction materials left overnight in areas that may be occupied by wildlife shall be inspected by the Designated Biologist(s) and/or Biological Monitor(s) prior to initiation of any Covered Activity within a Project construction site, to prevent inadvertent entrapment of Covered Species during construction."
+    }
+   ]
+  }
+ ],
+ "merges": [
+  {
+   "id": "m1",
+   "subcategoryId": "s-cts-buffers",
+   "entryIds": [
+    "o20",
+    "o21"
+   ],
+   "title": "Observe and post 10 mph limits in CTS and GGS habitat",
+   "reason": "Both bind crews to the same speed limit in the same habitat"
+  }
+ ]
+}

@@ -1,0 +1,121 @@
+---
+// <BcnSw3EntryEdit> — one index entry's record, edited in a side panel: an obligation's
+// title, class, audience, Applies when and monitor signs (prod's obligation edit dialog), or
+// an action's name and who does it. Its locators are not here: they are the requirements it
+// rests on, and change by telling Aldo (merge, move) or in step 2. Save approves the entry,
+// as any edit confirms a requirement in step 2.
+//
+// Contract, on `document`:
+//   in   sw3i:edit  detail: { id }   open on that entry
+//
+// bcn-lego-checked: the panel IS esa-side-dialog; fields ARE esa-text-field, esa-select and
+// esa-textarea; actions ARE esa-button. Checked Beacon: the obligation upsert (Title,
+// ObligationClass, ObligationAudience, TriggerText, MonitorSigns) and the action editor's
+// Details tab. bcn-sw3-entry-edit is the home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { AUDIENCE_OPTIONS, CLASS_OPTIONS } from '../../data/sw3-index-types';
+---
+
+<esa-side-dialog heading="Edit entry" size="md" data-sw3-entry-edit>
+  <form class="bcn-sw3ee" data-ee-form id="sw3-ee-form">
+    <esa-text-field label="Title" size="sm" required data-ee-title></esa-text-field>
+    <esa-select label="Class" size="sm" data-ee-class data-options={JSON.stringify(CLASS_OPTIONS)} data-ob></esa-select>
+    <esa-select label="Audience" size="sm" data-ee-audience data-options={JSON.stringify(AUDIENCE_OPTIONS)} data-ob></esa-select>
+    <esa-textarea label="Applies when" size="sm" rows="2" auto-resize data-ee-trigger data-ob></esa-textarea>
+    <esa-textarea label="Monitor signs" size="sm" rows="3" auto-resize help-text="One per line" data-ee-signs data-ob></esa-textarea>
+    <esa-text-field label="Responsible party" size="sm" data-ee-party data-ac></esa-text-field>
+  </form>
+  <div slot="footer" class="bcn-sw3ee__foot">
+    <EsaButton variant="ghost" size="sm" icon="x" data-ee-discard>Discard</EsaButton>
+    <span class="bcn-sw3ee__main">
+      <EsaButton variant="primary" size="sm" type="submit" form="sw3-ee-form">Save</EsaButton>
+      <EsaButton variant="secondary" size="sm" data-ee-cancel>Cancel</EsaButton>
+    </span>
+  </div>
+</esa-side-dialog>
+
+<style>
+  .bcn-sw3ee { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-sw3ee [hidden] { display: none; }
+  .bcn-sw3ee__foot { display: flex; align-items: center; gap: var(--spacing-200); width: 100%; }
+  .bcn-sw3ee__main { display: flex; gap: var(--spacing-200); margin-left: auto; }
+</style>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-textarea';
+  import { initIndex, entryAny, editEntry, setStatus, statusOf } from './sw3-index-store';
+  import { toast } from '../../lib/snackbar';
+  import type { IndexAudience, IndexClass } from '../../data/sw3-index-types';
+
+  type Field = HTMLElement & { value: string; label?: string; options?: unknown; updateComplete?: Promise<unknown> };
+  const dialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>('[data-sw3-entry-edit]');
+  if (dialog) {
+    initIndex();
+    const $ = (s: string) => dialog.querySelector<Field>(s)!;
+    const title = $('[data-ee-title]');
+    const cls = $('[data-ee-class]');
+    const audience = $('[data-ee-audience]');
+    const trigger = $('[data-ee-trigger]');
+    const signs = $('[data-ee-signs]');
+    const party = $('[data-ee-party]');
+    let id: string | null = null;
+
+    customElements.whenDefined('esa-select').then(() => {
+      for (const el of [cls, audience]) el.options = JSON.parse(el.dataset.options!);
+    });
+    const close = () => ((dialog.open = false), (id = null));
+
+    document.addEventListener('sw3i:edit', async (e) => {
+      const en = entryAny((e as CustomEvent<{ id: string }>).detail.id);
+      if (!en) return;
+      id = en.id;
+      await customElements.whenDefined('esa-select');
+      const ob = en.kind === 'obligation';
+      dialog.heading = ob ? 'Edit obligation' : 'Edit action';
+      dialog.querySelectorAll<HTMLElement>('[data-ob]').forEach((x) => (x.hidden = !ob));
+      dialog.querySelectorAll<HTMLElement>('[data-ac]').forEach((x) => (x.hidden = ob));
+      title.label = ob ? 'Title' : 'Name';
+      if (ob) {
+        title.value = en.title;
+        cls.value = en.class;
+        audience.value = en.audience;
+        trigger.value = en.trigger;
+        signs.value = en.monitorSigns.join('\n');
+      } else {
+        title.value = en.name;
+        party.value = en.responsibleParty;
+      }
+      dialog.open = true;
+      await title.updateComplete;
+      requestAnimationFrame(() => title.focus());
+    });
+
+    $('[data-ee-form]').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!id) return;
+      const en = entryAny(id)!;
+      const t = title.value.trim();
+      if (en.kind === 'obligation')
+        editEntry(id, {
+          title: t || en.title,
+          class: cls.value as IndexClass,
+          audience: audience.value as IndexAudience,
+          trigger: trigger.value.trim(),
+          monitorSigns: signs.value.split('\n').map((s) => s.trim()).filter(Boolean),
+        });
+      else editEntry(id, { name: t || en.name, responsibleParty: party.value.trim() });
+      if (statusOf(id) === 'draft') setStatus([id], 'approved');
+      close();
+    });
+    $('[data-ee-cancel]').addEventListener('click', close);
+    $('[data-ee-discard]').addEventListener('click', () => {
+      if (!id) return;
+      setStatus([id], 'discarded');
+      close();
+      toast('Discarded. Restore it from the subcategory.', 'success');
+    });
+  }
+</script>

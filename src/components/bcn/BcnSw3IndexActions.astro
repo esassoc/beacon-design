@@ -1,0 +1,66 @@
+---
+// <BcnSw3IndexActions> — step 3's page actions, in the step panel: Start over (PR #1520:
+// once drafting has begun it replaces Re-run, and clears every decision on the index) and
+// Approve Compliance Index, the wizard's end. Both ask first.
+//
+// bcn-lego-checked: the keys ARE esa-button; the guards ARE esa-confirm-dialog. Checked
+// Beacon: compliance-index-step has these two verbs with confirm dialogs.
+// bcn-sw3-index-actions is their home, as bcn-sw3-review-actions is step 2's.
+import EsaButton from '@esa/ecology/esa-button.astro';
+---
+
+<div class="bcn-sw3ia" data-sw3-index-actions>
+  <EsaButton variant="secondary" size="sm" icon="rotate-ccw" data-ia-start-over>Start over</EsaButton>
+  <EsaButton variant="primary" size="sm" icon="circle-check" data-ia-approve>Approve Compliance Index</EsaButton>
+  <esa-confirm-dialog
+    heading="Start over?"
+    message="Every approval, discard, edit, merge and filing on the index is cleared, and Aldo's conversations with them. The drafted index comes back as it was."
+    variant="danger"
+    confirm-label="Start over"
+    cancel-label="Cancel"
+    data-ia-confirm-start></esa-confirm-dialog>
+  <esa-confirm-dialog heading="Approve the Compliance Index?" confirm-label="Approve" cancel-label="Cancel" data-ia-confirm-approve></esa-confirm-dialog>
+</div>
+
+<style>
+  .bcn-sw3ia { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
+</style>
+
+<script>
+  import '@esa/ecology/esa-confirm-dialog';
+  import { initIndex, subs, subState, entriesIn, statusOf, startOver, approveIndex, indexApproved } from './sw3-index-store';
+  import { toast } from '../../lib/snackbar';
+
+  const root = document.querySelector<HTMLElement>('[data-sw3-index-actions]');
+  if (root) {
+    initIndex();
+    type Confirm = HTMLElement & { show(): void; message: string };
+    const startDlg = root.querySelector<Confirm>('[data-ia-confirm-start]')!;
+    const approveDlg = root.querySelector<Confirm>('[data-ia-confirm-approve]')!;
+    root.querySelector('[data-ia-start-over]')!.addEventListener('click', () => startDlg.show());
+    startDlg.addEventListener('confirm', () => {
+      startOver();
+      toast('The index is back as drafted.', 'success');
+    });
+    root.querySelector('[data-ia-approve]')!.addEventListener('click', () => {
+      const all = subs();
+      const left = all.filter(({ sub }) => subState(sub.id) !== 'reviewed').length;
+      const approved = new Set(all.flatMap(({ sub }) => entriesIn(sub.id).filter(({ id }) => statusOf(id) === 'approved').map((x) => x.id))).size;
+      approveDlg.message = left
+        ? `${left} of ${all.length} subcategories are not reviewed. Their drafts stay drafts and stay out of the project's obligations until someone approves them.`
+        : `${approved} approved entries become the project's actions and obligations.`;
+      approveDlg.show();
+    });
+    approveDlg.addEventListener('confirm', () => {
+      approveIndex();
+      toast('Compliance Index approved.', 'success');
+    });
+    const render = () => {
+      const b = root.querySelector('[data-ia-approve]');
+      const l = b?.querySelector('.esa-button__label');
+      if (l) l.textContent = indexApproved() ? 'Compliance Index approved' : 'Approve Compliance Index';
+    };
+    document.addEventListener('sw3i:change', render);
+    render();
+  }
+</script>

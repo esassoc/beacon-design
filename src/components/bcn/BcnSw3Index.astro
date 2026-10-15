@@ -1,0 +1,117 @@
+---
+// <BcnSw3Index> — step 3: the Compliance Index, reviewed one subcategory at a time.
+//
+// Layout, step 2's shell: the subcategory scrubber across the top (every subcategory in
+// index order, a rule and the category's name where each category starts, colored by what
+// is left to do); under it the index (left, three levels, folds to a rail), the subcategory
+// as a page (center), and Aldo, one conversation per subcategory (right). Nothing on the page
+// is a form: an entry's record changes in its side panel (Edit) or by telling Aldo.
+//
+// A locator opens the commitment it rests on (bcn-sw3-commitment-panel), so the page carries
+// step 2's payload as well as the index.
+//
+// Composes: bcn-commitment-scrubber, bcn-sw3-index-tree, bcn-sw3-index-page,
+// bcn-sw3-index-aldo, esa-button.
+//
+// bcn-lego-checked: every key is esa-button; the panes are the review's own grid, as step
+// 2's bcn-sw3-review is. Checked Beacon: compliance-index-step is a bin sidebar and a main
+// pane with no strip of bins. bcn-sw3-index is this step's home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnCommitmentScrubber from './BcnCommitmentScrubber.astro';
+import BcnSw3IndexTree from './BcnSw3IndexTree.astro';
+import BcnSw3IndexPage from './BcnSw3IndexPage.astro';
+import BcnSw3IndexAldo from './BcnSw3IndexAldo.astro';
+import INDEX from '../../data/sw3-index.json';
+import type { Sw3Index } from '../../data/sw3-index-types';
+import { REVIEW_DOCS } from '../../data/sw3-docs';
+
+const index = INDEX as unknown as Sw3Index;
+---
+
+<section class="bcn-sw3ix" data-sw3-ix data-aldo="open" data-index="open">
+  <div class="bcn-sw3ix__nav">
+    <div class="bcn-sw3ix__where">
+      <span class="bcn-sw3ix__pos" data-ix-pos></span>
+      <span data-ix-next-open><EsaButton variant="secondary" size="xs" iconRight="arrow-right">Next to settle</EsaButton></span>
+    </div>
+    <BcnCommitmentScrubber label="Subcategory" />
+  </div>
+
+  <div class="bcn-sw3ix__tree">
+    <BcnSw3IndexTree index={index} />
+  </div>
+
+  <div class="bcn-sw3ix__page" data-ix-page>
+    <BcnSw3IndexPage />
+  </div>
+
+  <div class="bcn-sw3ix__aldo">
+    <BcnSw3IndexAldo />
+  </div>
+
+  <script type="application/json" data-sw3-index set:html={JSON.stringify(index)} />
+  <script type="application/json" data-sw3-payload set:html={JSON.stringify({ docs: REVIEW_DOCS })} />
+</section>
+
+<style>
+  /* The workspace fills the window below the step's panel (sw3-index.ts sets --_fit); only
+     the panes scroll. */
+  .bcn-sw3ix {
+    display: grid;
+    grid-template-columns: 17rem minmax(0, 1fr) 22rem;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: var(--spacing-300);
+    height: var(--_fit, calc(100vh - 14rem));
+    min-height: 520px;
+    --color-background-brand-muted: var(--color-background-elevation-raised);
+    --color-background-brand-muted-hover: var(--color-background-elevation-sunken);
+    --color-content-on-brand-muted: var(--color-content-default);
+  }
+  .bcn-sw3ix[data-index='closed'] { grid-template-columns: 2.75rem minmax(0, 1fr) 22rem; }
+  .bcn-sw3ix[data-aldo='closed'] { grid-template-columns: 17rem minmax(0, 1fr) 2.75rem; }
+  .bcn-sw3ix[data-index='closed'][data-aldo='closed'] { grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem; }
+
+  .bcn-sw3ix__nav {
+    grid-column: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    padding: var(--spacing-200) var(--spacing-400) var(--spacing-150);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+  }
+  .bcn-sw3ix__where { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); min-height: 28px; }
+  .bcn-sw3ix__pos {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .bcn-sw3ix__tree,
+  .bcn-sw3ix__page {
+    min-height: 0;
+    overflow-y: auto;
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+  }
+  .bcn-sw3ix__tree { overflow: hidden; }
+  .bcn-sw3ix__aldo { grid-column: 3; grid-row: 1 / 3; min-height: 0; display: flex; flex-direction: column; }
+  .bcn-sw3ix__aldo > :global(*) { flex: 1; min-height: 0; }
+
+  @media (max-width: 1280px) {
+    .bcn-sw3ix { grid-template-columns: 15rem minmax(0, 1fr) 20rem; }
+    .bcn-sw3ix[data-aldo='closed'] { grid-template-columns: 15rem minmax(0, 1fr) 2.75rem; }
+    .bcn-sw3ix[data-index='closed'] { grid-template-columns: 2.75rem minmax(0, 1fr) 20rem; }
+  }
+</style>
+
+<script>
+  import { setupSw3Index } from './sw3-index';
+  document.querySelectorAll<HTMLElement>("[data-sw3-ix]").forEach(setupSw3Index);
+</script>

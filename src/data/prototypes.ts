@@ -850,7 +850,7 @@ export const prototypeGroups: PrototypeGroup[] = [
     tenant: 'dcp',
     title: 'Setup Wizard — Three Steps',
     description:
-      'Source Documents, Commitments, Compliance Index. Requirements stop being a step: they arrive as highlights inside each commitment. Step 1 scopes and steers each document\'s scan in a conversation with Aldo, with the PDF itself as the visual, boxes drawn as commitments are found and parsed, and every steer kept as a record. Step 2 reviews every commitment against its source, exceptions first, with entity merges made once per project. Step 3 is the shipped Compliance Index.',
+      'Source Documents, Commitments, Compliance Index. Requirements stop being a step: they arrive as highlights inside each commitment. Step 1 scopes and steers each document\'s scan in a conversation with Aldo, with the PDF itself as the visual, boxes drawn as commitments are found and parsed, and every steer kept as a record. Step 2 reviews every commitment against its source, exceptions first, with entity merges made once per project. Step 3 is the Compliance Index as a book\'s index, reviewed a subcategory at a time.',
     pages: [
       {
         slug: 'setup-wizard-3-step-scan',
@@ -867,6 +867,15 @@ export const prototypeGroups: PrototypeGroup[] = [
         description:
           'Every commitment with its requirements as highlights over the words they came from, the selected requirement\'s data beside it with each value anchored to its source words, and a Text / Page toggle for the PDF crop. Needs a person filters to quotes not in the source, uncovered text, duplicate requirements, entity merges and unclear types. Project entities merges milestone and season phrasings once for every commitment; Confirm all takes the clean remainder.',
         route: '/prototypes/setup-wizard-3-step/review',
+        createdAt: '2026-10-14',
+        status: 'in-progress',
+      },
+      {
+        slug: 'setup-wizard-3-step-compliance-index',
+        title: 'Step 3: Compliance Index',
+        description:
+          'The Compliance Index as a book\'s back index, reviewed one subcategory at a time: category the heading, subcategory the subheading, each action and obligation an entry with its locators, the step 2 requirement IDs it rests on. A scrubber of every subcategory, the index folding to a rail, the subcategory as a page with actions first and obligations by audience, each entry opening in place to its passages. A locator opens the commitment as step 2 marked it up, with the PDF one key away. Aldo takes approve, merge, move, also file and why in plain words.',
+        route: '/prototypes/setup-wizard-3-step/compliance-index',
         createdAt: '2026-10-14',
         status: 'in-progress',
       },

@@ -11,6 +11,10 @@
 //
 // The controller is the review's (sw3-review.ts): this component is markup and look.
 //
+// `readonly` (step 3's commitment panel): no Edit or Confirm; the keys are the source page
+// and Open in Commitments, and the text carries one requirement's excerpt as a heavier pass
+// (anchored-text-paint's `lit`).
+//
 // bcn-lego-checked: the code is bcn-commitment-badge, the keys are esa-button; the text
 // follows bcn-submission-text with the highlight grammar of bcn-comment-topics.css
 // (mark.bcn-hl, data-suggested dashed). Checked Beacon: its commitment page shows the full
@@ -26,22 +30,30 @@ interface Props {
   pages: number[];
   /** The painted text (anchored-text-paint.ts), with requirement highlights. */
   html: string;
+  /** Read only, from step 3: the page key and Open in Commitments, nothing to change. */
+  readonly?: boolean;
 }
-const { code, title, pages, html } = Astro.props;
+const { code, title, pages, html, readonly = false } = Astro.props;
 const short = (c: string) => c.replace(/^COA\s+/, '');
 const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` : `p. ${p[0]}`);
 ---
 
-<article class="bcn-sw3c" data-c={code} aria-labelledby="sw3c-title">
+<article class="bcn-sw3c" data-c={code} aria-labelledby={readonly ? 'sw3c-ro-title' : 'sw3c-title'} data-readonly={readonly || undefined}>
   <header class="bcn-sw3c__head">
     <span data-c-badge><BcnCommitmentBadge code={short(code)} /></span>
     <div class="bcn-sw3c__acts">
       <span data-c-peek><EsaButton variant="secondary" size="sm" icon="file-text" data-c-pages>{pagesLabel(pages)}</EsaButton></span>
-      <span data-c-edit><EsaButton variant="chrome" iconOnly icon="pencil" label="Edit commitment" size="sm" /></span>
-      <span data-c-confirm><EsaButton variant="secondary" size="sm" icon="check">Confirm</EsaButton></span>
-      <span data-c-reopen><EsaButton variant="ghost" size="sm" icon="circle-check">Confirmed</EsaButton></span>
+      {readonly ? (
+        <span data-c-open><EsaButton variant="secondary" size="sm" iconRight="arrow-right">Open in Commitments</EsaButton></span>
+      ) : (
+        <Fragment>
+          <span data-c-edit><EsaButton variant="chrome" iconOnly icon="pencil" label="Edit commitment" size="sm" /></span>
+          <span data-c-confirm><EsaButton variant="secondary" size="sm" icon="check">Confirm</EsaButton></span>
+          <span data-c-reopen><EsaButton variant="ghost" size="sm" icon="circle-check">Confirmed</EsaButton></span>
+        </Fragment>
+      )}
     </div>
-    <h2 class="bcn-sw3c__title" id="sw3c-title" data-c-title>{title}</h2>
+    <h2 class="bcn-sw3c__title" id={readonly ? 'sw3c-ro-title' : 'sw3c-title'} data-c-title>{title}</h2>
   </header>
   <p class="bcn-sw3c__parsing" data-c-parsing hidden>Parsing</p>
   <div class="bcn-sw3c__text" data-c-text set:html={html} />
@@ -117,6 +129,10 @@ const pagesLabel = (p: number[]) => (p.length > 1 ? `pp. ${p[0]}–${p.at(-1)}` 
   .bcn-sw3c__text[data-focus] :global(mark.bcn-hl[data-ink='5']:not([data-active]):not([data-hover])) { background-image: var(--bcn-marker-faint-5); }
   .bcn-sw3c__text[data-focus] :global(mark.bcn-hl[data-ink='6']:not([data-active]):not([data-hover])) { background-image: var(--bcn-marker-faint-6); }
   .bcn-sw3c__text :global(mark.bcn-hl[data-dup]) { box-shadow: none; text-decoration: underline wavy var(--color-content-warning); text-underline-offset: 5px; }
+
+  /* Step 3: the words an index entry rests on (its excerpt), a heavier pass inside the stroke. */
+  .bcn-sw3c__text :global(.bcn-at-lit) { font-weight: 600; }
+  .bcn-sw3c[data-readonly] .bcn-sw3c__text :global(mark.bcn-hl) { cursor: default; }
 
   /* What the parse pulled out: underlined where it was read. */
   .bcn-sw3c__text :global(.bcn-at-val) {

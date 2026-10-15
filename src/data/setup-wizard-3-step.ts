@@ -190,6 +190,7 @@ export const SW3_NAV = [
 ];
 export const SW3_REVIEW = `${SW3_BASE}/review`;
 export const CI_HREF = '/prototypes/setup-wizard-ci';
+export const SW3_INDEX = `${SW3_BASE}/compliance-index`;
 
 export const SW3_STEPS: SetupStep[] = [
   {
@@ -218,7 +219,7 @@ export const SW3_STEPS: SetupStep[] = [
     label: 'Compliance Index',
     token: 'obligation',
     line: 'Every action and obligation, filed by topic and reviewed a subcategory at a time.',
-    href: CI_HREF,
+    href: SW3_INDEX,
     iconPaths: STEP_GLYPH['list-tree'],
     iconName: 'list-tree',
   },
@@ -320,6 +321,9 @@ const slug = (s: string) =>
     .replace(/[’']/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
+/** A requirement's ID from its commitment and its place in the v6 answer: coa-11-3-2.
+ *  Step 3's locators carry (code, n) and resolve through this. */
+export const requirementIdFor = (code: string, n: number) => `${slug(code)}-${n}`;
 /** Case and punctuation never make two concepts: they fold by code, before any merge pass. */
 const fold = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '');
 

@@ -1,0 +1,52 @@
+---
+// Setup Wizard in three steps — step 3, Compliance Index: the book's back index compiled
+// from every commitment's requirements, reviewed one subcategory at a time
+// (docs/setup-wizard-3-step-ci-brief.md).
+//
+// Category is the heading, subcategory the subheading, each action and obligation an entry
+// with its locators: the step 2 requirement IDs it rests on. A locator opens the commitment
+// as step 2 marked it up; its page key opens the PDF. Aldo takes corrections in plain words;
+// Edit opens an entry's record in a side panel.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
+import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
+import BcnSw3IndexActions from '../../../components/bcn/BcnSw3IndexActions.astro';
+import BcnSw3Index from '../../../components/bcn/BcnSw3Index.astro';
+import BcnSw3EntryEdit from '../../../components/bcn/BcnSw3EntryEdit.astro';
+import BcnSw3CommitmentPanel from '../../../components/bcn/BcnSw3CommitmentPanel.astro';
+import BcnSw3SourcePeek from '../../../components/bcn/BcnSw3SourcePeek.astro';
+import { PROJECT } from '../../../data/project-dashboard';
+import { SW3_STEPS, SW3_BASE, SW3_NAME, SW3_GLYPH, SW3_NAV } from '../../../data/setup-wizard-3-step';
+
+const STEP = SW3_STEPS[2];
+---
+
+<!-- manifest:
+  layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(md)   # SPINE
+  sections:
+    - wizard chrome     -> bcn-setup-wizard-frame   # three steps, straight run, step 3 active
+    - step panel        -> bcn-sw-step-panel        # numeral, title; its actions slot holds page actions
+    - page actions      -> bcn-sw3-index-actions    # Start over, Approve Compliance Index
+    - index review      -> bcn-sw3-index            # scrubber, index, subcategory page, Aldo
+    - entry edit        -> bcn-sw3-entry-edit       # side panel: the entry's record
+    - commitment        -> bcn-sw3-commitment-panel # side panel: where a locator leads
+    - source peek       -> bcn-sw3-source-peek      # side panel: the commitment on the PDF
+-->
+
+<AppShell title={SW3_NAME} hiddenSections={['setup-wizard']} sectionItems={{ project: SW3_NAV }} tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="sw3-setup" expandedSections={['project']}>
+  <PageLayout title="Setup Wizard" hideTitleRow>
+    <BcnSetupWizardFrame steps={SW3_STEPS} active="compliance-index" complete={['source-documents', 'commitments']} homeHref={SW3_BASE} title={SW3_NAME} glyph={SW3_GLYPH}>
+      <div class="stack" data-gap="md">
+        <BcnSwStepPanel n={STEP.n} token={STEP.token} intro="Settle every action and obligation, a subcategory at a time, before they become the project's.">
+          <Fragment slot="title"><span>Compliance Index</span></Fragment>
+          <Fragment slot="actions"><BcnSw3IndexActions /></Fragment>
+        </BcnSwStepPanel>
+        <BcnSw3Index />
+      </div>
+      <BcnSw3EntryEdit />
+      <BcnSw3CommitmentPanel />
+      <BcnSw3SourcePeek />
+    </BcnSetupWizardFrame>
+  </PageLayout>
+</AppShell>
