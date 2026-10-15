@@ -106,9 +106,10 @@ const { label = 'Commitment', size = 50 } = Astro.props;
     background: color-mix(in srgb, var(--color-content-default) 34%, var(--color-background-elevation-raised));
     --_mark: var(--color-content-default);
   }
-  /* Decided: the step's color, as a read page takes Source Documents' color. */
+  /* Decided: the run's hue where it has one (step 3's categories), else the step's color, as
+     a read page takes Source Documents' color. */
   .bcn-cscrub__track :global(.bcn-cscrub__cell[data-state='confirmed']) {
-    background: var(--_done, var(--color-background-success, var(--color-content-success)));
+    background: var(--_hue, var(--_done, var(--color-background-success, var(--color-content-success))));
     --_mark: var(--color-background-elevation-raised);
   }
   /* What the cell holds: step 1's pip, filled. */

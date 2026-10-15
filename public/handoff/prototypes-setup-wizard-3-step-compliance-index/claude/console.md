@@ -1,6 +1,6 @@
 # Console
 
-The foot of the step's panel, as step 1 carries its scan console: the header carries no keys. A sunken tray across the panel under the header rule, every key neutral: Prev at its left end, Next at its right, the step's keys centered between, by phase. No index yet: Build index and + Category (no Prev or Next). Built: Re-run and Draft actions & obligations. During a run: the run's key, disabled. After it: Start over (the undo glyph), Draft again (its title names what is outstanding), Suggest Subcategories (while something fits no subcategory), View Log (the run's record in the console lightbox) and Approve All. Under the tray, once there is an index, every subcategory in index order, step 2's scrubber, a rule and the category's name where each category starts, a band of the category's hue along the foot of its cells and its name marked in the same hue. Drafted: darker gray for drafts never opened, light gray for opened with drafts to review, the step's color once every draft is decided. A dot at the top of a cell when the subcategory holds actions, and one at its foot when it holds obligations, so a cell carries one or two; each is dim while any of its drafts is left to review. No amber: nothing on the strip reads as alarm.
+The foot of the step's panel, as step 1 carries its scan console: the header carries no keys. A sunken tray across the panel under the header rule, every key neutral: Prev at its left end, Next at its right, the step's keys centered between, by phase. No index yet: Build index and + Category (no Prev or Next). Built: Re-run and Draft actions & obligations. During a run: the run's key, disabled. After it: Start over (the undo glyph), Draft again (its title names what is outstanding), Suggest Subcategories (while something fits no subcategory), View Log (the run's record in the console lightbox) and Approve All. Under the tray, once there is an index, every subcategory in index order, step 2's scrubber, a rule and the category's name where each category starts, a band of the category's hue along the foot of its cells and its name marked in the same hue. Drafted: darker gray for drafts never opened, light gray for opened with drafts to review, its category's hue once every draft is decided, so a finished index reads as the categories' colors. A dot at the top of a cell when the subcategory holds actions, and one at its foot when it holds obligations, so a cell carries one or two; each is dim while any of its drafts is left to review. No amber: nothing on the strip reads as alarm.
 
 ## Key decisions
 - Reset the prototype, under the workspace as on step 1, starts step 3 over after a confirm: no index, no drafts, no talk with Aldo.
@@ -603,7 +603,10 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
   --_mark: var(--color-content-default);
 }
 .bcn-cscrub__track .bcn-cscrub__cell[data-state="confirmed"] {
-  background: var(--_done, var(--color-background-success, var(--color-content-success)));
+  background: var(
+    --_hue,
+    var(--_done, var(--color-background-success, var(--color-content-success)))
+  );
   --_mark: var(--color-background-elevation-raised);
 }
 .bcn-cscrub__track .bcn-cscrub__mark {
