@@ -166,96 +166,6 @@
         --typography-microcopy-xs-subtle-line-height: 1;
       }
 
-      :host {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-100, 4px);
-        --_pad-y: var(--spacing-300, 0.75rem);
-        --_padding-x: var(--spacing-300, 0.75rem);
-        --_radius: var(--radius-md, 0.5rem);
-        --_border-width: var(--form-border-width, 1px);
-        --_border-color: var(--form-border-color, #cecece);
-        --_icon-size: 18px;
-      }
-      .group {
-        display: inline-flex;
-        width: fit-content;
-        max-width: 100%;
-        gap: 2px;
-        padding: 2px;
-        background: var(--color-background-elevation-sunken, #f0f0f0);
-        border: var(--_border-width) solid var(--_border-color);
-        border-radius: var(--_radius);
-      }
-      .option {
-        appearance: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: var(--spacing-150, 6px);
-        /* Was calc(height - 4px) to compensate for the track's 2px padding. With no
-         height token the segment is its own text plus padding, and the track wraps
-         it — the compensation has nothing left to compensate for. */
-        padding: var(--_pad-y) var(--_padding-x);
-        color: var(--color-content-default-secondary, #646464);
-        background: transparent;
-        border: 0;
-        border-radius: calc(var(--_radius) - 2px);
-        cursor: pointer;
-        user-select: none;
-        white-space: nowrap;
-        transition:
-          background-color var(--transition-fast, 150ms ease),
-          color var(--transition-fast, 150ms ease),
-          box-shadow var(--transition-fast, 150ms ease);
-      }
-      .option--selected {
-        background: var(--color-background-elevation-raised, #fcfcfc);
-        color: var(--color-content-brand, #2a7e3b);
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-      }
-      .typography-microcopy-md {
-        font-family: var(--typography-microcopy-md-font-family);
-        font-size: var(--typography-microcopy-md-font-size);
-        font-weight: var(--typography-microcopy-md-font-weight);
-        line-height: var(--typography-microcopy-md-line-height);
-        letter-spacing: var(--typography-microcopy-md-letter-spacing);
-      }
-      .typography-label-md {
-        font-family: var(--typography-label-md-font-family);
-        font-size: var(--typography-label-md-font-size);
-        font-weight: var(--typography-label-md-font-weight);
-        line-height: var(--typography-label-md-line-height);
-        letter-spacing: var(--typography-label-md-letter-spacing);
-      }
-      .typography-microcopy-sm {
-        font-family: var(--typography-microcopy-sm-font-family);
-        font-size: var(--typography-microcopy-sm-font-size);
-        font-weight: var(--typography-microcopy-sm-font-weight);
-        line-height: var(--typography-microcopy-sm-line-height);
-        letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-      }
-      .typography-label-sm-strong {
-        font-family: var(--typography-label-sm-strong-font-family);
-        font-size: var(--typography-label-sm-strong-font-size);
-        font-weight: var(--typography-label-sm-strong-font-weight);
-        line-height: var(--typography-label-sm-strong-line-height);
-        letter-spacing: var(--typography-label-sm-strong-letter-spacing);
-      }
-      .typography-microcopy-xs {
-        font-family: var(--typography-microcopy-xs-font-family);
-        font-size: var(--typography-microcopy-xs-font-size);
-        font-weight: var(--typography-microcopy-xs-font-weight);
-        line-height: var(--typography-microcopy-xs-line-height);
-        letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-      }
-      .typography-microcopy-xs-strong {
-        font-family: var(--typography-microcopy-xs-strong-font-family);
-        font-size: var(--typography-microcopy-xs-strong-font-size);
-        font-weight: var(--typography-microcopy-xs-strong-font-weight);
-        line-height: var(--typography-microcopy-xs-strong-line-height);
-        letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-      }
       .bcn-status-chip {
         align-items: center;
         gap: var(--spacing-150);
@@ -291,6 +201,20 @@
         display: inline-flex;
       }
       :host {
+        --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
+        --_popover-border: var(--color-border-default, #cecece);
+        --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+        --_popover-radius: var(--radius-md, 0.5rem);
+        --_popover-padding: var(--spacing-300, 0.75rem);
+        --_popover-arrow-size: 8px;
+        --_popover-color: var(--color-content-default, #202020);
+        display: inline-block;
+      }
+      .esa-popover-anchor {
+        position: relative;
+        display: inline-block;
+      }
+      :host {
         --_width: var(--side-dialog-width, 400px);
       }
       dialog.panel {
@@ -324,278 +248,6 @@
         right: var(--_inset);
         animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
       }
-      .leaflet-container {
-        overflow: hidden;
-      }
-      .leaflet-container {
-        -webkit-tap-highlight-color: transparent;
-      }
-      .leaflet-container {
-        outline-offset: 1px;
-        background: #ddd;
-      }
-      .leaflet-container {
-        font-family:
-          Helvetica Neue,
-          Arial,
-          Helvetica,
-          sans-serif;
-        font-size: 0.75rem;
-        line-height: 1.5;
-      }
-      .leaflet-grab {
-        cursor: -webkit-grab;
-        cursor: -moz-grab;
-        cursor: grab;
-      }
-      .leaflet-container.leaflet-touch-zoom {
-        -ms-touch-action: pan-x pan-y;
-        touch-action: pan-x pan-y;
-      }
-      .leaflet-container.leaflet-touch-drag {
-        -ms-touch-action: pinch-zoom;
-        touch-action: none;
-        touch-action: pinch-zoom;
-      }
-      .leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
-        -ms-touch-action: none;
-        touch-action: none;
-      }
-      .leaflet-pane,
-      .leaflet-tile,
-      .leaflet-marker-icon,
-      .leaflet-marker-shadow,
-      .leaflet-tile-container,
-      .leaflet-pane > svg,
-      .leaflet-pane > canvas,
-      .leaflet-zoom-box,
-      .leaflet-image-layer,
-      .leaflet-layer {
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
-      .leaflet-pane {
-        z-index: 400;
-      }
-      .leaflet-tile-pane {
-        z-index: 200;
-      }
-      .leaflet-overlay-pane {
-        z-index: 400;
-      }
-      .leaflet-shadow-pane {
-        z-index: 500;
-      }
-      .leaflet-marker-pane {
-        z-index: 600;
-      }
-      .leaflet-tooltip-pane {
-        z-index: 650;
-      }
-      .leaflet-popup-pane {
-        z-index: 700;
-      }
-      .leaflet-popup-pane,
-      .leaflet-control {
-        cursor: auto;
-      }
-      .leaflet-zoom-animated {
-        -webkit-transform-origin: 0 0;
-        -ms-transform-origin: 0 0;
-        transform-origin: 0 0;
-      }
-      .leaflet-top,
-      .leaflet-bottom {
-        z-index: 1000;
-        pointer-events: none;
-        position: absolute;
-      }
-      .leaflet-top {
-        top: 0;
-      }
-      .leaflet-left {
-        left: 0;
-      }
-      .leaflet-control {
-        z-index: 800;
-        pointer-events: visiblePainted;
-        pointer-events: auto;
-        position: relative;
-      }
-      .leaflet-control {
-        float: left;
-        clear: both;
-      }
-      .leaflet-bar {
-        border-radius: 4px;
-        box-shadow: 0 1px 5px #000000a6;
-      }
-      .leaflet-top .leaflet-control {
-        margin-top: 10px;
-      }
-      .leaflet-left .leaflet-control {
-        margin-left: 10px;
-      }
-      .leaflet-touch .leaflet-control-attribution,
-      .leaflet-touch .leaflet-control-layers,
-      .leaflet-touch .leaflet-bar {
-        box-shadow: none;
-      }
-      .leaflet-touch .leaflet-control-layers,
-      .leaflet-touch .leaflet-bar {
-        background-clip: padding-box;
-        border: 2px solid #0003;
-      }
-      .leaflet-control-zoom-in,
-      .leaflet-control-zoom-out {
-        text-indent: 1px;
-        font:
-          700 18px Lucida Console,
-          Monaco,
-          monospace;
-      }
-      .leaflet-container a {
-        -webkit-tap-highlight-color: #33b5e566;
-      }
-      .leaflet-container a {
-        color: #0078a8;
-      }
-      .leaflet-bar a {
-        text-align: center;
-        color: #000;
-        background-color: #fff;
-        border-bottom: 1px solid #ccc;
-        width: 26px;
-        height: 26px;
-        line-height: 26px;
-        text-decoration: none;
-        display: block;
-      }
-      .leaflet-bar a,
-      .leaflet-control-layers-toggle {
-        background-position: 50%;
-        background-repeat: no-repeat;
-        display: block;
-      }
-      .leaflet-touch .leaflet-control-zoom-in,
-      .leaflet-touch .leaflet-control-zoom-out {
-        font-size: 22px;
-      }
-      .leaflet-bar a:first-child {
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-      }
-      .leaflet-touch .leaflet-bar a {
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
-      }
-      .leaflet-touch .leaflet-bar a:first-child {
-        border-top-left-radius: 2px;
-        border-top-right-radius: 2px;
-      }
-      .leaflet-bar a:last-child {
-        border-bottom: none;
-        border-bottom-right-radius: 4px;
-        border-bottom-left-radius: 4px;
-      }
-      .leaflet-touch .leaflet-bar a:last-child {
-        border-bottom-right-radius: 2px;
-        border-bottom-left-radius: 2px;
-      }
-      .leaflet-right {
-        right: 0;
-      }
-      .leaflet-bottom {
-        bottom: 0;
-      }
-      .leaflet-control-attribution,
-      .leaflet-control-scale-line {
-        color: #333;
-        padding: 0 5px;
-        line-height: 1.4;
-      }
-      .leaflet-right .leaflet-control {
-        float: right;
-      }
-      .leaflet-bottom .leaflet-control {
-        margin-bottom: 10px;
-      }
-      .leaflet-right .leaflet-control {
-        margin-right: 10px;
-      }
-      .leaflet-container .leaflet-control-attribution {
-        background: #fffc;
-        margin: 0;
-      }
-      .leaflet-control-attribution a {
-        text-decoration: none;
-      }
-      .leaflet-attribution-flag {
-        width: 1em;
-        height: 0.6669em;
-        vertical-align: baseline !important;
-        display: inline !important;
-      }
-      .leaflet-marker-icon,
-      .leaflet-marker-shadow,
-      .leaflet-image-layer,
-      .leaflet-pane > svg path,
-      .leaflet-tile-container {
-        pointer-events: none;
-      }
-      .leaflet-tile,
-      .leaflet-marker-icon,
-      .leaflet-marker-shadow {
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-        -webkit-user-drag: none;
-      }
-      .leaflet-tile {
-        filter: inherit;
-        visibility: hidden;
-      }
-      .leaflet-container .leaflet-marker-pane img,
-      .leaflet-container .leaflet-shadow-pane img,
-      .leaflet-container .leaflet-tile-pane img,
-      .leaflet-container img.leaflet-image-layer,
-      .leaflet-container .leaflet-tile {
-        width: auto;
-        padding: 0;
-        max-width: none !important;
-        max-height: none !important;
-      }
-      .leaflet-container img.leaflet-tile {
-        mix-blend-mode: plus-lighter;
-      }
-      .leaflet-tile::selection {
-        background: 0 0;
-      }
-      .leaflet-overlay-pane svg {
-        -moz-user-select: none;
-      }
-      .leaflet-map-pane svg {
-        z-index: 200;
-      }
-      svg.leaflet-zoom-animated {
-        will-change: transform;
-      }
-      .leaflet-container .leaflet-overlay-pane svg {
-        max-width: none !important;
-        max-height: none !important;
-      }
-      .leaflet-interactive {
-        cursor: pointer;
-      }
-      .leaflet-marker-icon.leaflet-interactive,
-      .leaflet-image-layer.leaflet-interactive,
-      .leaflet-pane > svg path.leaflet-interactive,
-      svg.leaflet-image-layer.leaflet-interactive path {
-        pointer-events: visiblePainted;
-        pointer-events: auto;
-      }
       :host {
         --_tab-height: var(--tab-layout-height-md, 44px);
         --_tab-color: var(--color-content-default-secondary, #646464);
@@ -616,9 +268,6 @@
         display: flex;
         border-bottom: var(--border-width-default, 1px) solid var(--_tab-border);
         gap: var(--_tab-gap);
-      }
-      .panel {
-        padding-top: var(--spacing-400, 16px);
       }
       .tab {
         display: inline-flex;
@@ -653,12 +302,8 @@
         background: var(--_tab-indicator-color);
         border-radius: var(--_tab-indicator-height);
       }
-      :host {
-        display: inline-block;
-      }
-      .esa-tooltip-anchor {
-        position: relative;
-        display: inline-flex;
+      .panel {
+        padding-top: var(--spacing-400, 16px);
       }
       .print-header {
         display: none;
@@ -1085,6 +730,282 @@
         height: 16px;
         display: block;
       }
+      html,
+      .modern-layout__content {
+        scroll-behavior: smooth;
+      }
+      .leaflet-container {
+        overflow: hidden;
+      }
+      .leaflet-container {
+        -webkit-tap-highlight-color: transparent;
+      }
+      .leaflet-container {
+        outline-offset: 1px;
+        background: #ddd;
+      }
+      .leaflet-container {
+        font-family:
+          Helvetica Neue,
+          Arial,
+          Helvetica,
+          sans-serif;
+        font-size: 0.75rem;
+        line-height: 1.5;
+      }
+      .leaflet-grab {
+        cursor: -webkit-grab;
+        cursor: -moz-grab;
+        cursor: grab;
+      }
+      .leaflet-container.leaflet-touch-zoom {
+        -ms-touch-action: pan-x pan-y;
+        touch-action: pan-x pan-y;
+      }
+      .leaflet-container.leaflet-touch-drag {
+        -ms-touch-action: pinch-zoom;
+        touch-action: none;
+        touch-action: pinch-zoom;
+      }
+      .leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
+        -ms-touch-action: none;
+        touch-action: none;
+      }
+      .leaflet-pane,
+      .leaflet-tile,
+      .leaflet-marker-icon,
+      .leaflet-marker-shadow,
+      .leaflet-tile-container,
+      .leaflet-pane > svg,
+      .leaflet-pane > canvas,
+      .leaflet-zoom-box,
+      .leaflet-image-layer,
+      .leaflet-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .leaflet-pane {
+        z-index: 400;
+      }
+      .leaflet-tile-pane {
+        z-index: 200;
+      }
+      .leaflet-overlay-pane {
+        z-index: 400;
+      }
+      .leaflet-shadow-pane {
+        z-index: 500;
+      }
+      .leaflet-marker-pane {
+        z-index: 600;
+      }
+      .leaflet-tooltip-pane {
+        z-index: 650;
+      }
+      .leaflet-popup-pane {
+        z-index: 700;
+      }
+      .leaflet-popup-pane,
+      .leaflet-control {
+        cursor: auto;
+      }
+      .leaflet-zoom-animated {
+        -webkit-transform-origin: 0 0;
+        -ms-transform-origin: 0 0;
+        transform-origin: 0 0;
+      }
+      .leaflet-top,
+      .leaflet-bottom {
+        z-index: 1000;
+        pointer-events: none;
+        position: absolute;
+      }
+      .leaflet-top {
+        top: 0;
+      }
+      .leaflet-left {
+        left: 0;
+      }
+      .leaflet-control {
+        z-index: 800;
+        pointer-events: visiblePainted;
+        pointer-events: auto;
+        position: relative;
+      }
+      .leaflet-control {
+        float: left;
+        clear: both;
+      }
+      .leaflet-bar {
+        border-radius: 4px;
+        box-shadow: 0 1px 5px #000000a6;
+      }
+      .leaflet-top .leaflet-control {
+        margin-top: 10px;
+      }
+      .leaflet-left .leaflet-control {
+        margin-left: 10px;
+      }
+      .leaflet-touch .leaflet-control-attribution,
+      .leaflet-touch .leaflet-control-layers,
+      .leaflet-touch .leaflet-bar {
+        box-shadow: none;
+      }
+      .leaflet-touch .leaflet-control-layers,
+      .leaflet-touch .leaflet-bar {
+        background-clip: padding-box;
+        border: 2px solid #0003;
+      }
+      .leaflet-control-zoom-in,
+      .leaflet-control-zoom-out {
+        text-indent: 1px;
+        font:
+          700 18px Lucida Console,
+          Monaco,
+          monospace;
+      }
+      .leaflet-container a {
+        -webkit-tap-highlight-color: #33b5e566;
+      }
+      .leaflet-container a {
+        color: #0078a8;
+      }
+      .leaflet-bar a {
+        text-align: center;
+        color: #000;
+        background-color: #fff;
+        border-bottom: 1px solid #ccc;
+        width: 26px;
+        height: 26px;
+        line-height: 26px;
+        text-decoration: none;
+        display: block;
+      }
+      .leaflet-bar a,
+      .leaflet-control-layers-toggle {
+        background-position: 50%;
+        background-repeat: no-repeat;
+        display: block;
+      }
+      .leaflet-touch .leaflet-control-zoom-in,
+      .leaflet-touch .leaflet-control-zoom-out {
+        font-size: 22px;
+      }
+      .leaflet-bar a:first-child {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+      }
+      .leaflet-touch .leaflet-bar a {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+      }
+      .leaflet-touch .leaflet-bar a:first-child {
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+      }
+      .leaflet-bar a:last-child {
+        border-bottom: none;
+        border-bottom-right-radius: 4px;
+        border-bottom-left-radius: 4px;
+      }
+      .leaflet-touch .leaflet-bar a:last-child {
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+      }
+      .leaflet-right {
+        right: 0;
+      }
+      .leaflet-bottom {
+        bottom: 0;
+      }
+      .leaflet-control-attribution,
+      .leaflet-control-scale-line {
+        color: #333;
+        padding: 0 5px;
+        line-height: 1.4;
+      }
+      .leaflet-right .leaflet-control {
+        float: right;
+      }
+      .leaflet-bottom .leaflet-control {
+        margin-bottom: 10px;
+      }
+      .leaflet-right .leaflet-control {
+        margin-right: 10px;
+      }
+      .leaflet-container .leaflet-control-attribution {
+        background: #fffc;
+        margin: 0;
+      }
+      .leaflet-control-attribution a {
+        text-decoration: none;
+      }
+      .leaflet-attribution-flag {
+        width: 1em;
+        height: 0.6669em;
+        vertical-align: baseline !important;
+        display: inline !important;
+      }
+      .leaflet-marker-icon,
+      .leaflet-marker-shadow,
+      .leaflet-image-layer,
+      .leaflet-pane > svg path,
+      .leaflet-tile-container {
+        pointer-events: none;
+      }
+      .leaflet-tile,
+      .leaflet-marker-icon,
+      .leaflet-marker-shadow {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+      .leaflet-tile {
+        filter: inherit;
+        visibility: hidden;
+      }
+      .leaflet-container .leaflet-marker-pane img,
+      .leaflet-container .leaflet-shadow-pane img,
+      .leaflet-container .leaflet-tile-pane img,
+      .leaflet-container img.leaflet-image-layer,
+      .leaflet-container .leaflet-tile {
+        width: auto;
+        padding: 0;
+        max-width: none !important;
+        max-height: none !important;
+      }
+      .leaflet-container img.leaflet-tile {
+        mix-blend-mode: plus-lighter;
+      }
+      .leaflet-tile::selection {
+        background: 0 0;
+      }
+      .leaflet-overlay-pane svg {
+        -moz-user-select: none;
+      }
+      .leaflet-map-pane svg {
+        z-index: 200;
+      }
+      svg.leaflet-zoom-animated {
+        will-change: transform;
+      }
+      .leaflet-container .leaflet-overlay-pane svg {
+        max-width: none !important;
+        max-height: none !important;
+      }
+      .leaflet-interactive {
+        cursor: pointer;
+      }
+      .leaflet-marker-icon.leaflet-interactive,
+      .leaflet-image-layer.leaflet-interactive,
+      .leaflet-pane > svg path.leaflet-interactive,
+      svg.leaflet-image-layer.leaflet-interactive path {
+        pointer-events: visiblePainted;
+        pointer-events: auto;
+      }
       .esa-button {
         --_btn-pad-y: var(--spacing-300, 0.75rem);
         --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -1151,6 +1072,70 @@
         --_btn-pad-y: var(--spacing-250, 0.625rem);
         --_btn-padding-x: var(--spacing-250, 0.625rem);
         --_btn-radius: var(--button-radius-sm, 4px);
+      }
+      :host {
+        display: block;
+        --_field-padding-y: var(--spacing-300, 0.75rem);
+        --_field-padding-x: var(--spacing-300, 0.75rem);
+        --_field-radius: var(--radius-md, 0.5rem);
+        --_field-border-color: var(--form-border-color, #cecece);
+      }
+      :host([size="sm"]) {
+        --_field-padding-y: var(--spacing-250, 0.625rem);
+        --_field-padding-x: var(--spacing-250, 0.625rem);
+        --_field-radius: var(--radius-sm, 0.25rem);
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-100, 4px);
+      }
+      .container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-100, 4px);
+      }
+      .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .input {
+        width: 100%;
+        padding: var(--_field-padding-y) var(--_field-padding-x);
+        padding-inline-end: calc(var(--_field-padding-x) + 24px);
+        /* Leading is load-bearing on a content-sized box — see the long note in
+         esa-select's .input. Single line, so the composite's relaxed leading only
+         adds height. */
+        color: var(--form-text-color, #202020);
+        background: var(--color-background-field, transparent);
+        border: var(--form-border-width, 1px) solid var(--_field-border-color);
+        border-radius: var(--_field-radius);
+        outline: none;
+        box-sizing: border-box;
+        transition:
+          border-color var(--transition-fast, 150ms ease),
+          box-shadow var(--transition-fast, 150ms ease);
+      }
+      .input::placeholder {
+        color: var(--form-placeholder-color, #838383);
+      }
+      .field__error {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-100, 4px);
+        color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
+      }
+      .field__help {
+        color: var(--form-help-color, #838383);
+      }
+      :host {
+        display: inline-block;
+      }
+      .esa-tooltip-anchor {
+        position: relative;
+        display: inline-flex;
       }
       .modern-layout {
         flex-direction: column;
@@ -1977,34 +1962,6 @@
         clip: rect(0 0 0 0);
         clip-path: inset(50%);
       }
-      .typography-label-md {
-        font-family: var(--typography-label-md-font-family);
-        font-size: var(--typography-label-md-font-size);
-        font-weight: var(--typography-label-md-font-weight);
-        line-height: var(--typography-label-md-line-height);
-        letter-spacing: var(--typography-label-md-letter-spacing);
-      }
-      .typography-body-md {
-        font-family: var(--typography-body-md-font-family);
-        font-size: var(--typography-body-md-font-size);
-        font-weight: var(--typography-body-md-font-weight);
-        line-height: var(--typography-body-md-line-height);
-        letter-spacing: var(--typography-body-md-letter-spacing);
-      }
-      .typography-microcopy-xs-subtle {
-        font-family: var(--typography-microcopy-xs-subtle-font-family);
-        font-size: var(--typography-microcopy-xs-subtle-font-size);
-        font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-        line-height: var(--typography-microcopy-xs-subtle-line-height);
-        letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-      }
-      .typography-body-sm {
-        font-family: var(--typography-body-sm-font-family);
-        font-size: var(--typography-body-sm-font-size);
-        font-weight: var(--typography-body-sm-font-weight);
-        line-height: var(--typography-body-sm-line-height);
-        letter-spacing: var(--typography-body-sm-letter-spacing);
-      }
       .typography-microcopy-md {
         font-family: var(--typography-microcopy-md-font-family);
         font-size: var(--typography-microcopy-md-font-size);
@@ -2012,19 +1969,12 @@
         line-height: var(--typography-microcopy-md-line-height);
         letter-spacing: var(--typography-microcopy-md-letter-spacing);
       }
-      .typography-microcopy-md-subtle {
-        font-family: var(--typography-microcopy-md-subtle-font-family);
-        font-size: var(--typography-microcopy-md-subtle-font-size);
-        font-weight: var(--typography-microcopy-md-subtle-font-weight);
-        line-height: var(--typography-microcopy-md-subtle-line-height);
-        letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-      }
-      .typography-microcopy-md-strong {
-        font-family: var(--typography-microcopy-md-strong-font-family);
-        font-size: var(--typography-microcopy-md-strong-font-size);
-        font-weight: var(--typography-microcopy-md-strong-font-weight);
-        line-height: var(--typography-microcopy-md-strong-line-height);
-        letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+      .typography-label-md {
+        font-family: var(--typography-label-md-font-family);
+        font-size: var(--typography-label-md-font-size);
+        font-weight: var(--typography-label-md-font-weight);
+        line-height: var(--typography-label-md-line-height);
+        letter-spacing: var(--typography-label-md-letter-spacing);
       }
       .typography-microcopy-sm {
         font-family: var(--typography-microcopy-sm-font-family);
@@ -2032,6 +1982,27 @@
         font-weight: var(--typography-microcopy-sm-font-weight);
         line-height: var(--typography-microcopy-sm-line-height);
         letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+      }
+      .typography-label-sm-strong {
+        font-family: var(--typography-label-sm-strong-font-family);
+        font-size: var(--typography-label-sm-strong-font-size);
+        font-weight: var(--typography-label-sm-strong-font-weight);
+        line-height: var(--typography-label-sm-strong-line-height);
+        letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+      }
+      .typography-microcopy-xs {
+        font-family: var(--typography-microcopy-xs-font-family);
+        font-size: var(--typography-microcopy-xs-font-size);
+        font-weight: var(--typography-microcopy-xs-font-weight);
+        line-height: var(--typography-microcopy-xs-line-height);
+        letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+      }
+      .typography-microcopy-xs-strong {
+        font-family: var(--typography-microcopy-xs-strong-font-family);
+        font-size: var(--typography-microcopy-xs-strong-font-size);
+        font-weight: var(--typography-microcopy-xs-strong-font-weight);
+        line-height: var(--typography-microcopy-xs-strong-line-height);
+        letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
       }
       :host {
         display: inline-block;
@@ -2096,61 +2067,108 @@
         height: 20px;
       }
       :host {
-        display: block;
-        --_field-padding-y: var(--spacing-300, 0.75rem);
-        --_field-padding-x: var(--spacing-300, 0.75rem);
-        --_field-radius: var(--radius-md, 0.5rem);
-        --_field-border-color: var(--form-border-color, #cecece);
-      }
-      :host([size="sm"]) {
-        --_field-padding-y: var(--spacing-250, 0.625rem);
-        --_field-padding-x: var(--spacing-250, 0.625rem);
-        --_field-radius: var(--radius-sm, 0.25rem);
-      }
-      .field {
         display: flex;
         flex-direction: column;
         gap: var(--spacing-100, 4px);
+        --_pad-y: var(--spacing-300, 0.75rem);
+        --_padding-x: var(--spacing-300, 0.75rem);
+        --_radius: var(--radius-md, 0.5rem);
+        --_border-width: var(--form-border-width, 1px);
+        --_border-color: var(--form-border-color, #cecece);
+        --_icon-size: 18px;
       }
-      .container {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-100, 4px);
+      .group {
+        display: inline-flex;
+        width: fit-content;
+        max-width: 100%;
+        gap: 2px;
+        padding: 2px;
+        background: var(--color-background-elevation-sunken, #f0f0f0);
+        border: var(--_border-width) solid var(--_border-color);
+        border-radius: var(--_radius);
       }
-      .input-wrapper {
-        position: relative;
-        display: flex;
+      .option {
+        appearance: none;
+        display: inline-flex;
         align-items: center;
-      }
-      .input {
-        width: 100%;
-        padding: var(--_field-padding-y) var(--_field-padding-x);
-        padding-inline-end: calc(var(--_field-padding-x) + 24px);
-        /* Leading is load-bearing on a content-sized box — see the long note in
-         esa-select's .input. Single line, so the composite's relaxed leading only
-         adds height. */
-        color: var(--form-text-color, #202020);
-        background: var(--color-background-field, transparent);
-        border: var(--form-border-width, 1px) solid var(--_field-border-color);
-        border-radius: var(--_field-radius);
-        outline: none;
-        box-sizing: border-box;
+        justify-content: center;
+        gap: var(--spacing-150, 6px);
+        /* Was calc(height - 4px) to compensate for the track's 2px padding. With no
+         height token the segment is its own text plus padding, and the track wraps
+         it — the compensation has nothing left to compensate for. */
+        padding: var(--_pad-y) var(--_padding-x);
+        color: var(--color-content-default-secondary, #646464);
+        background: transparent;
+        border: 0;
+        border-radius: calc(var(--_radius) - 2px);
+        cursor: pointer;
+        user-select: none;
+        white-space: nowrap;
         transition:
-          border-color var(--transition-fast, 150ms ease),
+          background-color var(--transition-fast, 150ms ease),
+          color var(--transition-fast, 150ms ease),
           box-shadow var(--transition-fast, 150ms ease);
       }
-      .input::placeholder {
-        color: var(--form-placeholder-color, #838383);
+      .option--selected {
+        background: var(--color-background-elevation-raised, #fcfcfc);
+        color: var(--color-content-brand, #2a7e3b);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
       }
-      .field__error {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-100, 4px);
-        color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
+      .typography-label-md {
+        font-family: var(--typography-label-md-font-family);
+        font-size: var(--typography-label-md-font-size);
+        font-weight: var(--typography-label-md-font-weight);
+        line-height: var(--typography-label-md-line-height);
+        letter-spacing: var(--typography-label-md-letter-spacing);
       }
-      .field__help {
-        color: var(--form-help-color, #838383);
+      .typography-microcopy-md {
+        font-family: var(--typography-microcopy-md-font-family);
+        font-size: var(--typography-microcopy-md-font-size);
+        font-weight: var(--typography-microcopy-md-font-weight);
+        line-height: var(--typography-microcopy-md-line-height);
+        letter-spacing: var(--typography-microcopy-md-letter-spacing);
+      }
+      .typography-microcopy-md-subtle {
+        font-family: var(--typography-microcopy-md-subtle-font-family);
+        font-size: var(--typography-microcopy-md-subtle-font-size);
+        font-weight: var(--typography-microcopy-md-subtle-font-weight);
+        line-height: var(--typography-microcopy-md-subtle-line-height);
+        letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+      }
+      .typography-body-md {
+        font-family: var(--typography-body-md-font-family);
+        font-size: var(--typography-body-md-font-size);
+        font-weight: var(--typography-body-md-font-weight);
+        line-height: var(--typography-body-md-line-height);
+        letter-spacing: var(--typography-body-md-letter-spacing);
+      }
+      .typography-microcopy-md-strong {
+        font-family: var(--typography-microcopy-md-strong-font-family);
+        font-size: var(--typography-microcopy-md-strong-font-size);
+        font-weight: var(--typography-microcopy-md-strong-font-weight);
+        line-height: var(--typography-microcopy-md-strong-line-height);
+        letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+      }
+      .typography-microcopy-xs-subtle {
+        font-family: var(--typography-microcopy-xs-subtle-font-family);
+        font-size: var(--typography-microcopy-xs-subtle-font-size);
+        font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+        line-height: var(--typography-microcopy-xs-subtle-line-height);
+        letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+      }
+      .typography-body-sm {
+        font-family: var(--typography-body-sm-font-family);
+        font-size: var(--typography-body-sm-font-size);
+        font-weight: var(--typography-body-sm-font-weight);
+        line-height: var(--typography-body-sm-line-height);
+        letter-spacing: var(--typography-body-sm-letter-spacing);
+      }
+      .typography-microcopy-sm {
+        font-family: var(--typography-microcopy-sm-font-family);
+        font-size: var(--typography-microcopy-sm-font-size);
+        font-weight: var(--typography-microcopy-sm-font-weight);
+        line-height: var(--typography-microcopy-sm-line-height);
+        letter-spacing: var(--typography-microcopy-sm-letter-spacing);
       }
       *,
       :before,
@@ -2328,24 +2346,6 @@
         margin-left: auto;
         transition: transform 0.15s;
         transform: rotate(-45deg);
-      }
-      :host {
-        --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
-        --_popover-border: var(--color-border-default, #cecece);
-        --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-        --_popover-radius: var(--radius-md, 0.5rem);
-        --_popover-padding: var(--spacing-300, 0.75rem);
-        --_popover-arrow-size: 8px;
-        --_popover-color: var(--color-content-default, #202020);
-        display: inline-block;
-      }
-      .esa-popover-anchor {
-        position: relative;
-        display: inline-block;
-      }
-      html,
-      .modern-layout__content {
-        scroll-behavior: smooth;
       }
       .esa-icon {
         --_icon-size: var(--icon-size-md, 20px);

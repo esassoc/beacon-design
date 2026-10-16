@@ -60,7 +60,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
                 width: 256px;
                 height: 256px;
                 transform: translate3d(424px, 231px, 0px);
-                opacity: 1;
+                opacity: 0.975;
               "
             /><img
               alt=""
@@ -90,7 +90,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
                 width: 256px;
                 height: 256px;
                 transform: translate3d(168px, 487px, 0px);
-                opacity: 0.95;
+                opacity: 0.96;
               "
             /><img
               alt=""
@@ -100,7 +100,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
                 width: 256px;
                 height: 256px;
                 transform: translate3d(424px, 487px, 0px);
-                opacity: 1;
+                opacity: 0.965;
               "
             /><img
               alt=""
@@ -110,7 +110,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
                 width: 256px;
                 height: 256px;
                 transform: translate3d(-88px, 231px, 0px);
-                opacity: 0.975;
+                opacity: 1;
               "
             /><img
               alt=""
@@ -130,7 +130,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
                 width: 256px;
                 height: 256px;
                 transform: translate3d(-88px, -25px, 0px);
-                opacity: 0.92;
+                opacity: 1;
               "
             /><img
               alt=""
@@ -160,7 +160,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
                 width: 256px;
                 height: 256px;
                 transform: translate3d(680px, 487px, 0px);
-                opacity: 0.95;
+                opacity: 0.94;
               "
             />
           </div>
