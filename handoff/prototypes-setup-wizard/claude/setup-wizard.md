@@ -9984,6 +9984,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -10034,19 +10045,26 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-button__label {
   white-space: nowrap;
 }
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+.page-layout {
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+  flex-direction: column;
+  display: flex;
 }
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
+.page-layout__container {
+  flex-direction: column;
+  display: flex;
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+.page-layout__bleed,
+.page-layout section {
+  width: 100%;
 }
 .modern-layout {
   flex-direction: column;
@@ -10834,151 +10852,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   transform: translate(-50%);
   box-shadow: 0 -12px 48px -12px #00000052;
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
-.bcn-swo {
-  gap: var(--spacing-700);
-  max-width: 72rem;
-  padding: var(--spacing-600) 0;
-  flex-direction: column;
-  margin: 0 auto;
-  display: flex;
-}
-.bcn-swo__hero {
-  text-align: center;
-  align-items: center;
-  gap: var(--spacing-300);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-swo__mark {
-  border-radius: var(--radius-full);
-  background: var(--bcn-teal-600, var(--color-background-brand));
-  width: 40px;
-  height: 40px;
-  color: var(--color-content-default-knockout);
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.bcn-swo__headline {
-  font-family: var(--font-decorative, var(--typography-font-family-sans));
-  font-size: var(--font-size-600);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-  margin: 0;
-  line-height: 1.15;
-}
-.bcn-swo__lede {
-  max-width: 44rem;
-  font-size: var(--font-size-200);
-  line-height: var(--line-height-relaxed, 1.6);
-  color: var(--color-content-default-secondary);
-  margin: 0;
-}
-.bcn-swo__overview {
-  gap: var(--spacing-400);
-  padding: var(--spacing-600);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-300);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-swo__title {
-  font-size: var(--font-size-300);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-  margin: 0;
-}
-.bcn-swo__sub {
-  font-size: var(--font-size-150);
-  color: var(--color-content-default-secondary);
-  margin: 0;
-}
-.bcn-swo__flow {
-  padding: var(--spacing-400) 0 0;
-  border-top: 1px solid var(--color-border-default-subtle);
-  grid-template-columns: repeat(var(--_cols), minmax(0, 1fr));
-  gap: var(--spacing-400);
-  margin: 0;
-  list-style: none;
-  display: grid;
-}
-.bcn-swo__step {
-  min-width: 0;
-}
-.bcn-swo__link {
-  gap: var(--spacing-200);
-  height: 100%;
-  padding: var(--spacing-400);
-  border-radius: var(--radius-200);
-  background: var(--color-background-elevation-sunken);
-  border: 1px solid var(--color-border-default);
-  color: inherit;
-  flex-direction: column;
-  text-decoration: none;
-  transition: border-color 0.15s;
-  display: flex;
-}
-.bcn-swo__num {
-  border-radius: var(--radius-full);
-  background: var(--_step);
-  width: 28px;
-  height: 28px;
-  color: var(--color-content-default-knockout);
-  font-size: var(--font-size-100);
-  font-weight: var(--typography-font-weight-semibold);
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.bcn-swo__name {
-  align-items: center;
-  gap: var(--spacing-150);
-  font-size: var(--font-size-200);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-  display: inline-flex;
-}
-.bcn-swo__glyph {
-  color: var(--_step);
-  display: inline-flex;
-}
-.bcn-swo__line {
-  font-size: var(--font-size-100);
-  line-height: var(--line-height-normal, 1.5);
-  color: var(--color-content-default-secondary);
-}
-.bcn-swo__cta {
-  padding-top: var(--spacing-200);
-  justify-content: flex-end;
-  display: flex;
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
 }
 .bcn-swf {
   flex-direction: column;
@@ -11127,26 +11006,147 @@ html,
   flex: 1;
   min-width: 0;
 }
-.page-layout {
-  min-height: calc(100vh - 52px);
+.bcn-swo {
+  gap: var(--spacing-700);
+  max-width: 72rem;
+  padding: var(--spacing-600) 0;
+  flex-direction: column;
+  margin: 0 auto;
+  display: flex;
+}
+.bcn-swo__hero {
+  text-align: center;
+  align-items: center;
+  gap: var(--spacing-300);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-swo__mark {
+  border-radius: var(--radius-full);
+  background: var(--bcn-teal-600, var(--color-background-brand));
+  width: 40px;
+  height: 40px;
+  color: var(--color-content-default-knockout);
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.bcn-swo__headline {
+  font-family: var(--font-decorative, var(--typography-font-family-sans));
+  font-size: var(--font-size-600);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  margin: 0;
+  line-height: 1.15;
+}
+.bcn-swo__lede {
+  max-width: 44rem;
+  font-size: var(--font-size-200);
+  line-height: var(--line-height-relaxed, 1.6);
+  color: var(--color-content-default-secondary);
+  margin: 0;
+}
+.bcn-swo__overview {
+  gap: var(--spacing-400);
   padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-300);
   flex-direction: column;
   display: flex;
 }
-.page-layout__container {
+.bcn-swo__title {
+  font-size: var(--font-size-300);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  margin: 0;
+}
+.bcn-swo__sub {
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
+  margin: 0;
+}
+.bcn-swo__flow {
+  padding: var(--spacing-400) 0 0;
+  border-top: 1px solid var(--color-border-default-subtle);
+  grid-template-columns: repeat(var(--_cols), minmax(0, 1fr));
+  gap: var(--spacing-400);
+  margin: 0;
+  list-style: none;
+  display: grid;
+}
+.bcn-swo__step {
+  min-width: 0;
+}
+.bcn-swo__link {
+  gap: var(--spacing-200);
+  height: 100%;
+  padding: var(--spacing-400);
+  border-radius: var(--radius-200);
+  background: var(--color-background-elevation-sunken);
+  border: 1px solid var(--color-border-default);
+  color: inherit;
   flex-direction: column;
+  text-decoration: none;
+  transition: border-color 0.15s;
   display: flex;
 }
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
+.bcn-swo__num {
+  border-radius: var(--radius-full);
+  background: var(--_step);
+  width: 28px;
+  height: 28px;
+  color: var(--color-content-default-knockout);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
 }
-.page-layout__bleed,
-.page-layout section {
-  width: 100%;
+.bcn-swo__name {
+  align-items: center;
+  gap: var(--spacing-150);
+  font-size: var(--font-size-200);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  display: inline-flex;
+}
+.bcn-swo__glyph {
+  color: var(--_step);
+  display: inline-flex;
+}
+.bcn-swo__line {
+  font-size: var(--font-size-100);
+  line-height: var(--line-height-normal, 1.5);
+  color: var(--color-content-default-secondary);
+}
+.bcn-swo__cta {
+  padding-top: var(--spacing-200);
+  justify-content: flex-end;
+  display: flex;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
 }
 ```
 
