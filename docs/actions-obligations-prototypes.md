@@ -49,7 +49,7 @@ The board, updated rather than rebuilt.
 
 ### 3. Setup Wizard, step 4 and new step 5
 
-Step 4 (Actions) follows the existing shaping in `andy-work/projects/beacon/shaping/setup-wizard-actions.md`: bucket by phase and type, orphan requirements beside actions, drag-drop, the single-shot AI helper, per-action review modal, Approve all, Finish Wizard.
+Step 4 (Actions) follows the existing shaping in `esa/projects/beacon/shaping/setup-wizard-actions.md`: bucket by phase and type, orphan requirements beside actions, drag-drop, the single-shot AI helper, per-action review modal, Approve all, Finish Wizard.
 
 Step 5 (Obligations) is new:
 

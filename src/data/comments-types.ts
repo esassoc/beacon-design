@@ -1,5 +1,5 @@
 // Comments — the Planning module's model. Entities keep Comment Tracker's terms
-// (shaping brief, andy-work projects/beacon/shaping/comments.md, 2026-10-05).
+// (shaping brief, esa projects/beacon/shaping/comments.md, 2026-10-05).
 //
 //   Comment period  owns every submission and response; one response format.
 //   Submitter       a person or organization.

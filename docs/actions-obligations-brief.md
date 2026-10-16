@@ -3,7 +3,7 @@ title: Actions and Obligations
 date: 2026-09-02
 status: proposal, shaped against Delta Conveyance data
 specimen: /Users/andrewlovseth/Dev/andy-work/projects/beacon/reference/2026-09-01-actions-obligations.html
-research: /Users/andrewlovseth/Dev/andy-work/projects/beacon/research/2026-09-01-dcp-obligations-taxonomy.md
+research: /Users/andrewlovseth/Dev/esa/projects/beacon/research/2026-09-01-dcp-obligations-taxonomy.md
 registry: /Users/andrewlovseth/Dev/andy-work/projects/beacon/research/2026-09-02-dcp-obligations-registry.json
 ---
 
@@ -106,5 +106,5 @@ Source conflicts surface for free: speed limit 10 versus 15 mph, rain thresholds
 - Specimen with the model, the registry tree, five worked chains and source conflicts: see `specimen` in the frontmatter.
 - Research note with method, counts and the full category tables: see `research`.
 - Registry data, 402 obligations on three axes: see `registry`. Import it for prototypes rather than inventing rows.
-- Setup Wizard step 4 shaping: `andy-work/projects/beacon/shaping/setup-wizard-actions.md`.
-- Decisions 2026-08-10 (CASP funds the actions rework) and 2026-08-13 (type-specific tracker views; component dashboard scoping): `andy-work/projects/beacon/decisions.md`.
+- Setup Wizard step 4 shaping: `esa/projects/beacon/shaping/setup-wizard-actions.md`.
+- Decisions 2026-08-10 (CASP funds the actions rework) and 2026-08-13 (type-specific tracker views; component dashboard scoping): `esa/projects/beacon/decisions.md`.
