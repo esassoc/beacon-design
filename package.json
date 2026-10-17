@@ -36,6 +36,7 @@
     "pdfjs-dist": "6.3.289"
   },
   "devDependencies": {
+    "@esa/design-layer": "file:../ecology/packages/design-layer",
     "gh-pages": "^6.3.0"
   }
 }

@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import designLayer from '@esa/design-layer/astro';
 
 // Minimal, mirroring the ecology hub and the cb-fish spoke. The spoke ships
 // static HTML/CSS; interactivity comes from the hub's Lit web components
@@ -13,6 +14,9 @@ export default defineConfig({
   site: 'https://esassoc.github.io',
   base,
   server: { port: 4330 },
+  // Dev-only token tuning panel and click-to-comment (@esa/design-layer,
+  // controls in design-layer.config.mjs); absent from builds.
+  integrations: [designLayer()],
   // leaflet (CommonJS, used by the map-dashboard prototype) trips Vite's dev
   // dependency pre-scan, which crawls the .astro entries and chokes parsing the
   // template markup as TS ("Expected > but found title"). `include` lists every
