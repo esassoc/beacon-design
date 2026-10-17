@@ -1,0 +1,203 @@
+---
+// <BcnPlanList> — the body of a project's Plans page, a port of Jamie's plan-list component (Beacon.Web
+// pages/plan-list, BCN-1788 / BCN-1819). Four states, one shown at a time by ./plan-list.ts:
+//   loading — the spinner;
+//   failed  — "Plans couldn't be loaded." + Retry, in the empty-list box with its icon;
+//   plans   — the <ul> of rows: name link stretched over the whole row, a raised count badge, the description;
+//   empty   — "This project has no plans yet." + New plan + Load sample plan, in the empty-list box, no icon.
+// The page owns the utilities "New plan" (a <span data-plan-list-new hidden> around an EsaButton); setupPlanList
+// shows it only once the project has plans, as Jamie's `@if (canCreate() && plans().length)` does.
+//
+// bcn-lego-checked: the spinner IS esa-loading-spinner, every action IS esa-button, the count IS esa-badge (its
+// default neutral variant is Beacon's "raised" surface badge). esa-empty-state does NOT fit Beacon's empty-list:
+// empty-list is a 2px dashed, rounded box that projects free content (here an inline message + actions row, the
+// failed message a role="alert" span), with an optional info glyph; esa-empty-state is a borderless centred column
+// that forces an <h3> title and a description line, so the box below is a faithful port of empty-list's own SCSS
+// (shared/components/empty-list). Checked Ecology for a list of linked rows with a stretched link and found none
+// (esa-card is a card, not a list row; esa-link-column is a nav column). Checked Beacon: this is plan-list's own
+// .plan-list__row treatment (after pages/lists). Rows are cloned from a <template> so scoped CSS reaches them.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
+import '@esa/tokens/a11y.css';
+---
+<div class="bcn-plan-list" data-plan-list>
+  <div class="bcn-plan-list__loading" data-plan-list-state="loading">
+    <EsaLoadingSpinner decorative />
+  </div>
+
+  <div class="bcn-plan-list__box" data-plan-list-state="failed" hidden>
+    <span class="bcn-plan-list__box-icon"><EsaIcon name="info" /></span>
+    <div class="bcn-plan-list__empty">
+      <span role="alert">Plans couldn't be loaded.</span>
+      <EsaButton variant="primary" appearance="outline" size="sm" data-plan-list-retry>Retry</EsaButton>
+    </div>
+  </div>
+
+  <ul class="bcn-plan-list__rows" data-plan-list-state="plans" hidden></ul>
+
+  <div class="bcn-plan-list__box" data-plan-list-state="empty" hidden>
+    <div class="bcn-plan-list__empty">
+      <span>This project has no plans yet.</span>
+      <div class="bcn-plan-list__empty-actions">
+        <EsaButton variant="primary" size="sm" icon="plus" data-plan-list-create>New plan</EsaButton>
+        <span class="bcn-plan-list__busy-pair" data-plan-list-sample>
+          <span data-busy="idle"><EsaButton variant="primary" appearance="outline" size="sm" icon="plus" data-plan-list-sample-button>Load sample plan</EsaButton></span>
+          <span data-busy="busy" hidden><EsaButton variant="primary" appearance="outline" size="sm" icon="plus" loading>Load sample plan</EsaButton></span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <template data-plan-list-tpl="row">
+    <li class="bcn-plan-list__row">
+      <div class="bcn-plan-list__row-head">
+        <a class="bcn-plan-list__name typography-label-sm-strong" href="#" data-plan-list-name></a>
+        <span class="bcn-plan-list__count" data-plan-list-count><EsaBadge size="sm" value="0" /></span>
+      </div>
+      <p class="bcn-plan-list__description typography-body-md" data-plan-list-description></p>
+    </li>
+  </template>
+</div>
+
+<style>
+  /* Jamie's row treatment, token for token (plan-list.component.scss). */
+  .bcn-plan-list {
+    --_row-surface: var(--color-background-elevation-raised, #fcfcfc);
+    --_row-surface-hover: var(--color-background-default-hover, #f0f0f0);
+    --_row-border: var(--color-border-default-subtle, #d9d9d9);
+    --_row-focus: var(--color-background-brand, #46a758);
+    --_text: var(--color-content-default, #202020);
+    --_text-muted: var(--color-content-default-secondary, #646464);
+    --_text-subtle: var(--color-content-default-tertiary, #8d8d8d);
+    --_page-bg: var(--color-background-default, #fcfcfc);
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  .bcn-plan-list__loading {
+    display: flex;
+    justify-content: center;
+    padding: var(--spacing-400, 1rem);
+  }
+
+  .bcn-plan-list__rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100, 0.25rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* The whole row opens the plan: the name link's ::after stretches over it, so the row stays one real link for
+     assistive tech. The description sits under the overlay, so its text can't be drag-selected. */
+  .bcn-plan-list__row {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050, 0.125rem);
+    padding: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);
+    border: 1px solid var(--_row-border);
+    border-radius: var(--spacing-200, 0.5rem);
+    background: var(--_row-surface);
+  }
+
+  .bcn-plan-list__row:hover {
+    background: var(--_row-surface-hover);
+  }
+
+  /* a11y-checked: the keyboard focus ring is NOT removed — it moves from the name link to the whole row it stands
+     for (the :has(:focus-visible) rule below draws a 2px brand outline on the row), Jamie's own treatment. */
+  .bcn-plan-list__row:has(.bcn-plan-list__name:focus-visible) {
+    background: var(--_row-surface-hover);
+    outline: 2px solid var(--_row-focus);
+    outline-offset: -2px;
+  }
+
+  .bcn-plan-list__row-head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100, 0.25rem);
+    min-width: 0;
+  }
+
+  /* Beacon's `truncate` directive: one line, ellipsis. */
+  .bcn-plan-list__name {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--_text);
+    text-decoration: none;
+  }
+
+  .bcn-plan-list__name::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .bcn-plan-list__name:focus-visible {
+    outline: none;
+  }
+
+  .bcn-plan-list__row:hover .bcn-plan-list__name {
+    text-decoration: underline;
+  }
+
+  .bcn-plan-list__count {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  .bcn-plan-list__description {
+    margin: 0;
+    color: var(--_text-muted);
+  }
+
+  /* Beacon's empty-list (shared/components/empty-list): a dashed box, its content centred. */
+  .bcn-plan-list__box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-400, 1rem);
+    padding: var(--spacing-400, 1rem);
+    border: 2px dashed var(--_row-border);
+    border-radius: var(--spacing-200, 0.5rem);
+    background: var(--_page-bg);
+    text-align: center;
+  }
+
+  .bcn-plan-list__box-icon {
+    display: inline-flex;
+    color: var(--_text-subtle);
+  }
+
+  .bcn-plan-list__box-icon :global(svg) {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .bcn-plan-list__empty {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-300, 0.75rem);
+  }
+
+  .bcn-plan-list__empty-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-200, 0.5rem);
+  }
+
+  .bcn-plan-list__busy-pair {
+    display: contents;
+  }
+</style>

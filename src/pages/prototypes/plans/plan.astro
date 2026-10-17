@@ -1,0 +1,77 @@
+---
+// A plan — a faithful replica of Beacon's plan Gantt page (pages/plan-gantt on origin/develop, Jamie Quishenberry,
+// BCN-1788 / 1819 / 1820 / 1805 / 1822 / 1866 / 1867): the plan's Gantt, Plan settings, Move plan with its schedule
+// preview, the element drawer, row actions, edit-mode drag and live refresh. The plan id is the `?id=` query (Beacon's
+// /projects/:projectID/plans/:planID route, which a static build cannot mint). Open a second tab with `&user=Name` to
+// be someone else: its saves show up here as a toast and a redraw, and a stale write gets "This plan has changed".
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnPlanWorkspace from '../../../components/bcn/BcnPlanWorkspace.astro';
+import BcnPlanSettingsDrawer from '../../../components/bcn/BcnPlanSettingsDrawer.astro';
+import BcnPlanElementDrawer from '../../../components/bcn/BcnPlanElementDrawer.astro';
+import BcnPlanLevelPanel from '../../../components/bcn/BcnPlanLevelPanel.astro';
+import BcnPlanSchedulePreview from '../../../components/bcn/BcnPlanSchedulePreview.astro';
+import BcnPlanMoveDialog from '../../../components/bcn/BcnPlanMoveDialog.astro';
+import BcnPlanElementMoveDialog from '../../../components/bcn/BcnPlanElementMoveDialog.astro';
+import { PLAN_ICON_PATHS } from '../../../lib/planning/icons';
+import { withBase } from '../../../lib/base';
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout                       # SPINE
+  sections:
+    - utilities        -> esa-button                  # Plan settings, Move plan, Add
+    - workspace        -> bcn-plan-workspace          # description, Edit mode, instructions, Gantt / empty state
+    - plan settings    -> bcn-plan-settings-drawer    # details, levels, landmarks, delete
+    - element drawer   -> bcn-plan-element-drawer     # create / edit an element, its dependencies
+    - add level        -> bcn-plan-level-panel        # stacked over the element drawer
+    - schedule preview -> bcn-plan-schedule-preview   # what a date change or a shift moves, Confirm saves
+    - move plan        -> bcn-plan-move-dialog        # shift the whole plan
+    - move element     -> bcn-plan-element-move-dialog # Move… a row under another parent
+-->
+
+<AppShell title="Plan" tenantName="DWR" projectName="Delta Conveyance" activeNavId="plans" showPlanning>
+  <PageLayout
+    title="Plan"
+    icon="square-chart-gantt"
+    iconPaths={PLAN_ICON_PATHS['square-chart-gantt']}
+    breadcrumbs={[{ label: 'Plans', href: withBase('/prototypes/plans/') }, { label: 'Plan' }]}
+  >
+    <span slot="utilities" class="cluster" data-gap="sm">
+      <span data-plan-util="settings" hidden><EsaButton variant="ghost" appearance="outline" size="sm" icon="settings">Plan settings</EsaButton></span>
+      <span data-plan-util="move" hidden><EsaButton variant="ghost" appearance="outline" size="sm" icon="calendar">Move plan</EsaButton></span>
+      <span data-plan-util="add" hidden><EsaButton variant="primary" size="sm" icon="plus">Add</EsaButton></span>
+    </span>
+    <BcnPlanWorkspace />
+    <BcnPlanSettingsDrawer />
+    <BcnPlanElementDrawer />
+    <BcnPlanLevelPanel />
+    <BcnPlanSchedulePreview />
+    <BcnPlanMoveDialog />
+    <BcnPlanElementMoveDialog />
+  </PageLayout>
+</AppShell>
+
+<script>
+  import { planApi, planStore, plansHref, pushAlert } from '../../../lib/planning/plan-page';
+  import { setupPlanWorkspace } from '../../../components/bcn/plan-workspace';
+
+  // planResolver: the plan detail, before the page draws. A missing plan goes back to the list.
+  const planID = new URLSearchParams(location.search).get('id');
+  const root = document.querySelector<HTMLElement>('[data-bcn-plan-workspace]');
+  if (!planID || !root) {
+    location.replace(plansHref());
+  } else {
+    planApi
+      .getPlan(planID)
+      .then((plan) => {
+        planStore.set(plan);
+        setupPlanWorkspace(root);
+      })
+      .catch(() => {
+        pushAlert('That plan could not be found.', 'danger');
+        setTimeout(() => location.replace(plansHref()), 1200);
+      });
+  }
+</script>

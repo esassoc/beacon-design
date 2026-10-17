@@ -1,0 +1,205 @@
+---
+// <BcnPlanSchedulePreview> — "Review schedule change", a port of Jamie's
+// plan-schedule-preview-panel (Beacon.Web pages/plan-gantt, BCN-1822): what else a
+// schedule change moves (old dates → new), what it couldn't move and why (Flagged),
+// and the scheduler's rule as a hint. Nothing saves until Confirm.
+//
+// ONE pre-rendered shell per page, found by [data-bcn-plan-schedule-preview] and
+// filled by ./plan-schedule-preview.ts (openPlanSchedulePreview). Rows are cloned
+// from the <template>s below so they keep this component's scoped CSS.
+//
+// bcn-lego-checked: the panel IS esa-side-dialog (header slot carries her title +
+// subtitle lines; the lego's own X stands in for ui-side-dialog-header's close), the
+// buttons ARE esa-button, the icons ARE esa-icon. No esa- lego renders a list of
+// quiet bordered "name / from → to" rows or a warning-bordered flag row with a
+// leading icon and a sentence of bold names: checked esa-card (a whole card with
+// header/body chrome, far heavier than her one-line row), esa-alert-box (a tinted
+// status banner, not a bordered list row), esa-collapsible and BcnFlagRow (a
+// different domain row with its own actions). Checked Beacon: the rows are bespoke
+// in plan-schedule-preview-panel.component.scss itself; the CSS below ports it.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+---
+
+<div class="bcn-plan-preview" data-bcn-plan-schedule-preview>
+  <esa-side-dialog class="bcn-plan-preview__dialog" position="right">
+    <div slot="header" class="bcn-plan-preview__head">
+      <h2 class="bcn-plan-preview__title typography-title" id="plan-schedule-preview-panel-title">Review schedule change</h2>
+      <span class="bcn-plan-preview__subtitle" data-pp-subject hidden></span>
+      <span class="bcn-plan-preview__subtitle" data-pp-detail hidden></span>
+    </div>
+
+    <div class="bcn-plan-preview__body">
+      <section class="bcn-plan-preview__section" aria-labelledby="plan-schedule-preview-changes-heading">
+        <h3 class="bcn-plan-preview__heading" id="plan-schedule-preview-changes-heading" data-pp-heading></h3>
+        <ul class="bcn-plan-preview__rows" data-pp-changes hidden></ul>
+      </section>
+
+      <section class="bcn-plan-preview__section" aria-labelledby="plan-schedule-preview-flags-heading" data-pp-flags-section hidden>
+        <h3 class="bcn-plan-preview__heading" id="plan-schedule-preview-flags-heading">Flagged</h3>
+        <ul class="bcn-plan-preview__rows" data-pp-flags></ul>
+      </section>
+
+      <p class="bcn-plan-preview__hint" data-pp-hint></p>
+    </div>
+
+    <div slot="footer" class="bcn-plan-preview__actions">
+      <EsaButton variant="primary" type="button" data-pp-confirm>Confirm</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" type="button" data-pp-cancel>Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+
+  <!-- Runtime parts, cloned by the controller (clones keep their scoped-CSS ids). -->
+  <template data-pp-tpl="change">
+    <li class="bcn-plan-preview__row bcn-plan-preview__change">
+      <span class="bcn-plan-preview__name" data-pp-name></span>
+      <span class="bcn-plan-preview__dates">
+        <span class="bcn-plan-preview__from" data-pp-from></span>
+        <EsaIcon name="arrow-right" size="sm" />
+        <span class="visually-hidden"> to </span>
+        <span class="bcn-plan-preview__to" data-pp-to></span>
+      </span>
+    </li>
+  </template>
+  <template data-pp-tpl="flag">
+    <li class="bcn-plan-preview__row bcn-plan-preview__flag">
+      <span class="bcn-plan-preview__flag-title">
+        <span class="bcn-plan-preview__flag-icon"><EsaIcon name="triangle-alert" size="sm" /></span>
+        <span class="bcn-plan-preview__sentence" data-pp-sentence></span>
+      </span>
+      <span class="bcn-plan-preview__requested" data-pp-requested hidden></span>
+    </li>
+  </template>
+  <template data-pp-tpl="strong"><strong class="bcn-plan-preview__strong"></strong></template>
+  <!-- Borrowed by the busy state: esa-button's own spinner, carrying its scoped-CSS id. -->
+  <template data-pp-tpl="spinner"><EsaButton variant="primary" loading>Confirm</EsaButton></template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+</script>
+
+<style>
+  /* Beacon's side dialog is 480px at its default size (ui-side-dialog--md); the lego's is 400px. */
+  .bcn-plan-preview__dialog {
+    --side-dialog-width: 480px;
+  }
+  /* The legos set their own display; inside this shell `hidden` must always win. */
+  .bcn-plan-preview :global([hidden]) { display: none !important; }
+
+  /* ── Header: ui-side-dialog-header's main column (title, then subtitle lines) ── */
+  .bcn-plan-preview__head {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-plan-preview__title {
+    margin: 0;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--color-content-default);
+  }
+  .bcn-plan-preview__subtitle {
+    font-size: var(--type-size-200);
+    font-weight: var(--typography-font-weight-regular, 400);
+    color: var(--color-content-default-secondary);
+  }
+
+  /* ── Body: the element drawer's rhythm — stacked sections, one quiet row per item ── */
+  .bcn-plan-preview__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+    color: var(--color-content-default);
+  }
+  .bcn-plan-preview__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  /* Set as the settings drawer's Danger Zone heading, so the plan panels' headers read alike. */
+  .bcn-plan-preview__heading {
+    margin: 0;
+    font-size: var(--type-size-250);
+    font-weight: 600;
+    color: var(--color-content-default);
+  }
+  .bcn-plan-preview__rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .bcn-plan-preview__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    min-width: 0;
+    padding: var(--spacing-200) var(--spacing-300);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--color-background-elevation-raised);
+    font-size: var(--type-size-200);
+  }
+  .bcn-plan-preview__name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .bcn-plan-preview__dates {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-100);
+    font-size: 0.8125rem; /* Beacon $type-size-meta (13px); the spoke has no meta size token */
+  }
+  .bcn-plan-preview__from {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-plan-preview__flag {
+    border-color: var(--color-border-warning);
+  }
+  /* The icon sits on the sentence's first line as the sentence wraps beneath it. */
+  .bcn-plan-preview__flag-title {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+  .bcn-plan-preview__flag-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    color: var(--color-content-warning);
+  }
+  .bcn-plan-preview__sentence {
+    min-width: 0;
+  }
+  .bcn-plan-preview__strong {
+    font-weight: 600;
+  }
+  .bcn-plan-preview__requested {
+    font-size: 0.8125rem; /* Beacon $type-size-meta (13px); the spoke has no meta size token */
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-plan-preview__hint {
+    margin: 0;
+    font-size: var(--type-size-150);
+    color: var(--color-content-default-secondary);
+  }
+
+  /* ── Footer: primary Confirm first, Cancel last ── */
+  .bcn-plan-preview__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+    width: 100%;
+  }
+</style>

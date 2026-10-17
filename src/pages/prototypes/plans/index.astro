@@ -1,0 +1,35 @@
+---
+// Plans — a faithful replica of Beacon's plan list (pages/plan-list on origin/develop, Jamie Quishenberry, BCN-1652 /
+// BCN-1788). The project's plans, New plan, and Load sample plan; each row opens the plan's Gantt. Data is the mock
+// plan API over localStorage (src/lib/planning/plan-server.ts), so plans persist across reloads and tabs.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnPlanList from '../../../components/bcn/BcnPlanList.astro';
+import BcnPlanCreateDialog from '../../../components/bcn/BcnPlanCreateDialog.astro';
+import { PLAN_ICON_PATHS } from '../../../lib/planning/icons';
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout                       # SPINE
+  sections:
+    - utilities -> esa-button                         # New plan, once the project has plans
+    - plans     -> bcn-plan-list                      # loading / failed / empty / rows
+    - create    -> bcn-plan-create-dialog             # New plan: name, description, levels
+-->
+
+<AppShell title="Plans" tenantName="DWR" projectName="Delta Conveyance" activeNavId="plans" showPlanning>
+  <PageLayout title="Plans" icon="square-chart-gantt" iconPaths={PLAN_ICON_PATHS['square-chart-gantt']} breadcrumbs={[{ label: 'Plans' }]}>
+    <span slot="utilities" data-plan-list-new hidden>
+      <EsaButton variant="primary" size="sm" icon="plus">New plan</EsaButton>
+    </span>
+    <BcnPlanList />
+    <BcnPlanCreateDialog />
+  </PageLayout>
+</AppShell>
+
+<script>
+  import { setupPlanList } from '../../../components/bcn/plan-list';
+  const root = document.querySelector<HTMLElement>('[data-plan-list]');
+  if (root) setupPlanList(root);
+</script>

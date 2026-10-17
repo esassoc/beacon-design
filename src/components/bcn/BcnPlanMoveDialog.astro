@@ -1,0 +1,74 @@
+---
+// <BcnPlanMoveDialog> — "Move plan", a port of Jamie's plan-move-dialog (Beacon.Web
+// pages/plan-gantt, BCN-1822): shift every dated element by a number of days, or so
+// the plan starts on a new date. Preview asks the server what would move; a move that
+// would change nothing says so here, anything else closes with the preview for the
+// opener to show. Nothing is saved from this dialog.
+//
+// ONE pre-rendered shell per page, found by [data-bcn-plan-move-dialog] and driven by
+// ./plan-move-dialog.ts (openPlanMoveDialog).
+//
+// bcn-lego-checked: the shell IS esa-dialog (size sm), Mode IS esa-button-toggle, Days
+// IS esa-text-field (type number, "days" suffix), New start date IS esa-date-picker,
+// "Nothing would move." IS esa-alert-box (info, live), the buttons ARE esa-button. The
+// only CSS is the form's stack and the current-start line, ported from
+// plan-move-dialog.component.scss.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+---
+
+<div class="bcn-plan-move" data-bcn-plan-move-dialog>
+  <esa-dialog class="bcn-plan-move__dialog" size="sm" heading="Move plan">
+    <form class="bcn-plan-move__form" novalidate data-pm-form>
+      <p class="bcn-plan-move__current" data-pm-current></p>
+      <esa-button-toggle label="Move the plan" data-pm-mode></esa-button-toggle>
+      <esa-text-field type="number" label="Days" help-text="A negative number moves the plan earlier." suffix="days" name="Days" data-pm-days></esa-text-field>
+      <esa-date-picker label="New start date" help-text="Everything dated moves by as many days as the start does." name="NewStartDate" data-pm-start hidden></esa-date-picker>
+      <div data-pm-nothing hidden>
+        <EsaAlertBox variant="info" live>Nothing would move.</EsaAlertBox>
+      </div>
+    </form>
+
+    <div slot="footer" class="bcn-plan-move__actions">
+      <EsaButton variant="primary" type="button" data-pm-preview>Preview</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" type="button" data-pm-cancel>Cancel</EsaButton>
+    </div>
+  </esa-dialog>
+
+  <!-- Borrowed by the busy state: esa-button's own spinner, carrying its scoped-CSS id. -->
+  <template data-pm-tpl="spinner"><EsaButton variant="primary" loading>Preview</EsaButton></template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-date-picker';
+</script>
+
+<style>
+  /* Beacon's ui-dialog--sm caps at 440px; the lego's sm is 360px. */
+  .bcn-plan-move__dialog {
+    --dialog-width-sm: min(90vw, 440px);
+  }
+  /* The legos set their own display; inside this shell `hidden` must always win. */
+  .bcn-plan-move :global([hidden]) { display: none !important; }
+
+  /* The form's fields stacked in the dialog body's rhythm, the plan's current start leading as context. */
+  .bcn-plan-move__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    margin: 0;
+  }
+  .bcn-plan-move__current {
+    margin: 0;
+    font-size: var(--type-size-200);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-plan-move__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+  }
+</style>

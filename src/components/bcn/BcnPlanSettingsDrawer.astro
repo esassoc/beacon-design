@@ -1,0 +1,277 @@
+---
+// <BcnPlanSettingsDrawer> — Plan settings, a faithful port of Jamie's
+// plan-settings-drawer (Beacon.Web pages/plan-gantt/plan-settings-drawer, BCN-1819 +
+// BCN-1805): the plan's Name and Description (saved in place by their own Save /
+// Cancel), its Levels (rename, add and remove in place), its Landmarks (edit, add and
+// delete in place) and the Danger zone's Delete plan.
+//
+// ONE pre-rendered shell, found by [data-bcn-plan-settings-drawer] and driven by
+// ./plan-settings-drawer.ts (openPlanSettingsDrawer()). Rows are <template>s below,
+// cloned at runtime so every node keeps this component's scoped-CSS attribute.
+//
+// bcn-lego-checked: the shell IS esa-side-dialog (header slot), the fields ARE
+// esa-text-field / esa-textarea / esa-date-picker, every action IS esa-button (icon
+// buttons are its chrome iconOnly mode), every row control's tooltip IS esa-tooltip,
+// and the danger zone IS BcnDangerZone (the spoke's row-appearance danger zone:
+// heading above, title + description beside a right-aligned action — esa-danger-zone
+// only carries Beacon's stacked appearance). Checked Ecology for an inline-editable
+// table row (label | inputs | trailing icon actions on a fixed grid so column heads
+// line up) and found none; checked Beacon: this IS plan-settings-drawer, whose own SCSS
+// is the grid ported below. The CSS is that drawer's own geometry.
+import '@esa/tokens/a11y.css'; // .visually-hidden on the held trash's reason
+import '@esa/tokens/typography.css';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnDangerZone from './BcnDangerZone.astro';
+import { PLAN_NAME_MAX_LENGTH, PLAN_LEVEL_NAME_MAX_LENGTH, PLAN_LANDMARK_NAME_MAX_LENGTH } from '../../lib/planning/plan-form';
+---
+
+<div class="bcn-psd" data-bcn-plan-settings-drawer>
+  <esa-side-dialog class="bcn-psd__dialog">
+    <h2 slot="header" class="bcn-psd__title typography-title" id="plan-settings-drawer-title">Plan settings</h2>
+
+    <div class="bcn-psd__body">
+      <form class="bcn-psd__details" data-psd-details novalidate>
+        <esa-text-field data-psd-field="PlanName" label="Name" size="sm" required maxlength={PLAN_NAME_MAX_LENGTH}></esa-text-field>
+        <esa-textarea data-psd-field="Description" label="Description" placeholder="Optional" size="sm"></esa-textarea>
+        <div class="bcn-psd__details-actions">
+          <EsaButton variant="primary" size="sm" type="submit" data-psd-save>Save</EsaButton>
+          <EsaButton variant="secondary" appearance="outline" size="sm" data-psd-revert>Cancel</EsaButton>
+        </div>
+      </form>
+
+      <section class="bcn-psd__section" aria-labelledby="plan-settings-drawer-levels-heading">
+        <h3 class="bcn-psd__heading" id="plan-settings-drawer-levels-heading">Levels</h3>
+        <div class="bcn-psd__level bcn-psd__level--head" aria-hidden="true">
+          <span></span>
+          <span>Singular</span>
+          <span>Plural</span>
+          <span></span>
+        </div>
+        <ol class="bcn-psd__list" data-psd-levels></ol>
+        <div data-psd-add-level-wrap>
+          <EsaButton variant="ghost" size="sm" icon="plus" data-psd-add-level>Add level</EsaButton>
+        </div>
+      </section>
+
+      <section class="bcn-psd__section" aria-labelledby="plan-settings-drawer-landmarks-heading">
+        <h3 class="bcn-psd__heading" id="plan-settings-drawer-landmarks-heading">Landmarks</h3>
+        <div class="bcn-psd__landmark bcn-psd__landmark--head" aria-hidden="true" data-psd-landmark-head>
+          <span>Name</span>
+          <span>Date</span>
+          <span></span>
+        </div>
+        <ol class="bcn-psd__list" data-psd-landmarks></ol>
+        <p class="bcn-psd__empty" data-psd-landmarks-empty>This plan has no landmarks yet.</p>
+        <div data-psd-new-landmark-slot></div>
+        <div data-psd-add-landmark-wrap>
+          <EsaButton variant="ghost" size="sm" icon="plus" data-psd-add-landmark>Add landmark</EsaButton>
+        </div>
+      </section>
+
+      <div class="bcn-psd__danger" data-psd-danger>
+        <BcnDangerZone
+          title="Delete this plan"
+          description="Deleting this plan also deletes its levels, elements, dependencies and landmarks. This cannot be undone."
+        >
+          <EsaButton variant="danger" appearance="soft" data-psd-delete>Delete plan</EsaButton>
+        </BcnDangerZone>
+      </div>
+    </div>
+  </esa-side-dialog>
+
+  <!-- Runtime rows, cloned by the controller (clones keep their scoped-CSS ids). -->
+
+  <!-- A level as it reads: Level N | singular | plural | rename, remove. -->
+  <template data-psd-tpl="level">
+    <li>
+      <div class="bcn-psd__level">
+        <span class="bcn-psd__cell bcn-psd__label" data-psd-level-label></span>
+        <span class="bcn-psd__cell bcn-psd__name"><span class="bcn-psd__truncate" data-psd-singular></span></span>
+        <span class="bcn-psd__cell bcn-psd__name"><span class="bcn-psd__truncate" data-psd-plural></span></span>
+        <span class="bcn-psd__cell bcn-psd__actions">
+          <esa-tooltip data-psd-rename-tip>
+            <EsaButton variant="chrome" iconOnly icon="pencil" size="sm" aria-label="–" data-psd-rename />
+          </esa-tooltip>
+          <esa-tooltip data-psd-remove-tip align="end">
+            <EsaButton variant="chrome" iconOnly icon="trash-2" size="sm" aria-label="–" data-psd-remove />
+          </esa-tooltip>
+          <span class="visually-hidden" data-psd-remove-reason></span>
+        </span>
+      </div>
+    </li>
+  </template>
+
+  <!-- The one inline level editor: a level's rename, or the add row below the deepest. -->
+  <template data-psd-tpl="level-edit">
+    <li>
+      <form class="bcn-psd__level" novalidate>
+        <span class="bcn-psd__cell bcn-psd__label" data-psd-level-label></span>
+        <esa-text-field data-psd-field="SingularName" size="sm" required maxlength={PLAN_LEVEL_NAME_MAX_LENGTH}></esa-text-field>
+        <esa-text-field data-psd-field="PluralName" size="sm" required maxlength={PLAN_LEVEL_NAME_MAX_LENGTH}></esa-text-field>
+        <span class="bcn-psd__cell bcn-psd__actions">
+          <esa-tooltip data-psd-submit-tip>
+            <EsaButton variant="chrome" iconOnly icon="check" size="sm" type="submit" aria-label="–" data-psd-submit />
+          </esa-tooltip>
+          <esa-tooltip text="Cancel" align="end">
+            <EsaButton variant="chrome" iconOnly icon="x" size="sm" aria-label="Cancel" data-psd-cancel />
+          </esa-tooltip>
+        </span>
+      </form>
+    </li>
+  </template>
+
+  <!-- A landmark as it reads: name | date | edit, delete. -->
+  <template data-psd-tpl="landmark">
+    <li>
+      <div class="bcn-psd__landmark">
+        <span class="bcn-psd__cell bcn-psd__name"><span class="bcn-psd__truncate" data-psd-landmark-name></span></span>
+        <span class="bcn-psd__cell bcn-psd__name bcn-psd__date" data-psd-landmark-date></span>
+        <span class="bcn-psd__cell bcn-psd__actions">
+          <esa-tooltip data-psd-edit-tip>
+            <EsaButton variant="chrome" iconOnly icon="pencil" size="sm" aria-label="–" data-psd-edit />
+          </esa-tooltip>
+          <esa-tooltip data-psd-delete-tip align="end">
+            <EsaButton variant="chrome" iconOnly icon="trash-2" size="sm" aria-label="–" data-psd-delete-landmark />
+          </esa-tooltip>
+        </span>
+      </div>
+    </li>
+  </template>
+
+  <!-- The one inline landmark editor: a landmark's edit, or the add row below the list. -->
+  <template data-psd-tpl="landmark-edit">
+    <form class="bcn-psd__landmark" novalidate>
+      <esa-text-field data-psd-field="PlanLandmarkName" size="sm" required maxlength={PLAN_LANDMARK_NAME_MAX_LENGTH}></esa-text-field>
+      <esa-date-picker data-psd-field="LandmarkDate" size="sm" required></esa-date-picker>
+      <span class="bcn-psd__cell bcn-psd__actions">
+        <esa-tooltip data-psd-submit-tip>
+          <EsaButton variant="chrome" iconOnly icon="check" size="sm" type="submit" aria-label="–" data-psd-submit />
+        </esa-tooltip>
+        <esa-tooltip text="Cancel" align="end">
+          <EsaButton variant="chrome" iconOnly icon="x" size="sm" aria-label="Cancel" data-psd-cancel />
+        </esa-tooltip>
+      </span>
+    </form>
+  </template>
+</div>
+
+<script>
+  import './plan-settings-drawer';
+</script>
+
+<style>
+  /* bcn-lego-checked: the drawer's own geometry, ported from plan-settings-drawer.component.scss —
+     no esa- lego carries an inline-editable row grid; see the header note. */
+  .bcn-psd {
+    /* The inputs' row height ($input-height-md in Beacon): an sm icon-only esa-button is
+       a 16px glyph inside 10px padding a side, and the sm fields match it. */
+    --_psd-control: 2.25rem;
+  }
+  /* The legos set their own display; inside this shell `hidden` must always win. */
+  .bcn-psd :global([hidden]) { display: none !important; }
+
+  .bcn-psd__title { margin: 0; color: var(--color-content-default); }
+
+  .bcn-psd__body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    gap: var(--spacing-500);
+  }
+
+  /* The details save in place, apart from the level, landmark and delete sections below. */
+  .bcn-psd__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    padding-bottom: var(--spacing-500);
+    border-bottom: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-psd__details-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+  }
+
+  .bcn-psd__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+
+  /* Set as the Danger Zone heading is, so the plan panels' headers all read alike. */
+  .bcn-psd__heading {
+    margin: 0;
+    font-size: var(--type-size-250);
+    font-weight: 600;
+    color: var(--color-content-default);
+  }
+  .bcn-psd__heading + * { margin-top: var(--spacing-100); }
+
+  .bcn-psd__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .bcn-psd__level {
+    display: grid;
+    /* The last column fits the row's two icon buttons, fixed so the column heads line up. */
+    grid-template-columns: 4.5rem minmax(0, 1fr) minmax(0, 1fr) calc(var(--_psd-control) * 2);
+    align-items: start;
+    gap: var(--spacing-200);
+  }
+  .bcn-psd__landmark {
+    display: grid;
+    /* Name takes the room; the date column fits a date picker; actions match the levels'. */
+    grid-template-columns: minmax(0, 1fr) 10rem calc(var(--_psd-control) * 2);
+    align-items: start;
+    gap: var(--spacing-200);
+  }
+  .bcn-psd__level--head,
+  .bcn-psd__landmark--head {
+    font-size: var(--type-size-150);
+    color: var(--color-content-default-secondary);
+  }
+
+  /* Centre the label, names and actions on the inputs' row, not on the row plus any error. */
+  .bcn-psd__cell {
+    display: flex;
+    align-items: center;
+    min-height: var(--_psd-control);
+    min-width: 0;
+  }
+  .bcn-psd__name {
+    font-size: var(--type-size-150);
+    color: var(--color-content-default);
+  }
+  .bcn-psd__truncate {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-psd__label {
+    font-size: var(--type-size-150);
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+  .bcn-psd__date {
+    font-size: var(--type-size-150);
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+  .bcn-psd__actions { justify-content: flex-end; }
+  .bcn-psd__actions esa-tooltip { display: inline-flex; }
+
+  .bcn-psd__empty {
+    margin: 0;
+    font-size: var(--type-size-150);
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-psd__danger { margin-top: auto; }
+</style>

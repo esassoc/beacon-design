@@ -1,0 +1,359 @@
+---
+// <BcnPlanElementDrawer> — a faithful port of Jamie Quishenberry's plan element drawer (Beacon.Web
+// pages/plan-gantt/plan-element-drawer/plan-element-drawer.component.{html,ts,scss}, BCN-1820/1821/1822).
+// One element's drawer in two modes over the same fields: edit an element, or create one under a parent or at
+// the top. Name + Level (with the inline "Add level"), then Scheduling (the date pair, a parent's Span read-out,
+// "Apply the new dates to", Date type, Milestone); in edit mode Waits on (inline lag editor, remove, Add
+// predecessor) and Blocks (each row opens that element's drawer). Footer: Save / Cancel, or Close read-only.
+//
+// ONE pre-rendered shell (the page guarantees one drawer at a time), driven by ./plan-element-drawer.ts through
+// openPlanElementDrawer(). The Waits on / Blocks rows are <template>s cloned at runtime so every node keeps this
+// component's scoped-CSS attribute; nothing is built from markup strings.
+//
+// bcn-lego-checked: the shell IS esa-side-dialog; Name / lag inputs ARE esa-text-field; Level IS esa-select; the
+// Predecessor picker IS esa-combobox (type-to-filter with a loading state — Beacon's ui-search-select); the dates
+// ARE esa-date-picker; "Apply the new dates to" and Date type ARE esa-button-toggle; Milestone IS
+// esa-switch-toggle; every button IS esa-button (icon-only ones wrapped in esa-tooltip). Checked Ecology for a
+// dependency-list row ("name · lag" with trailing row actions, or a whole-row link with a chevron) and found
+// none — esa-card is a container, esa-button a single control, BcnLinkRowCard carries a different anatomy — so
+// the rows are authored here from Jamie's SCSS. Checked Beacon: this IS plan-element-drawer; the CSS below is
+// her .plan-element block mapped onto the semantic tokens.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+---
+
+<div class="bcn-ped" data-bcn-plan-element-drawer>
+  <esa-side-dialog class="bcn-ped__dialog" size="md">
+    <div slot="header" class="bcn-ped__head">
+      <h2 class="bcn-ped__title typography-title" id="plan-element-drawer-title" data-ped="title"></h2>
+      <p class="bcn-ped__subtitle typography-body-sm" data-ped="subtitle" hidden></p>
+    </div>
+
+    <div class="plan-element">
+      <form class="plan-element__fields" data-ped="form" novalidate>
+        <section class="plan-element__section">
+          <esa-text-field data-ped="name" label="Name" required maxlength="500"></esa-text-field>
+
+          <div class="bcn-ped__level">
+            <esa-select class="bcn-ped__level-select" data-ped="level" label="Level" placeholder="Select level…"></esa-select>
+            <span class="bcn-ped__level-add" data-ped="add-level-wrap" hidden>
+              <esa-tooltip text="Add level">
+                <EsaButton variant="ghost" size="sm" iconOnly icon="plus" label="Add level" data-ped="add-level" />
+              </esa-tooltip>
+            </span>
+          </div>
+        </section>
+
+        <section class="plan-element__section" aria-labelledby="plan-element-drawer-dates-heading">
+          <h3 class="plan-element__heading" id="plan-element-drawer-dates-heading">Scheduling</h3>
+          <!-- Each picker carries its own label; the group keeps the pair's name for assistive tech. -->
+          <div class="plan-element__dates" role="group" aria-label="Date range" data-ped="dates">
+            <esa-date-picker data-ped="start" label="Start date"></esa-date-picker>
+            <esa-date-picker data-ped="end" label="End date"></esa-date-picker>
+          </div>
+          <div class="plan-element__span" data-ped="span" hidden>
+            <p class="plan-element__span-value">
+              <span class="plan-element__span-label">Span</span>
+              <span data-ped="span-value"></span>
+            </p>
+            <p class="plan-element__hint">Drawn from its child elements. The dates above are its planned window.</p>
+          </div>
+          <esa-button-toggle class="plan-element__schedule-mode" data-ped="mode" label="Apply the new dates to" hidden></esa-button-toggle>
+          <esa-button-toggle data-ped="date-type" label="Date type"></esa-button-toggle>
+          <!-- The reason shows as the toggle's hint, so touch and screen readers get it too. -->
+          <div class="plan-element__milestone">
+            <esa-switch-toggle data-ped="milestone" label="Milestone"></esa-switch-toggle>
+            <p class="plan-element__hint" data-ped="milestone-hint" id="plan-element-drawer-milestone-hint" hidden>An element with child elements can't be a milestone.</p>
+          </div>
+        </section>
+      </form>
+
+      <section class="plan-element__section" aria-labelledby="plan-element-drawer-waits-on-heading" data-ped="waits-on">
+        <h3 class="plan-element__heading" id="plan-element-drawer-waits-on-heading">Waits on</h3>
+        <ul class="plan-element__dependencies" data-ped="pred-list"></ul>
+        <p class="plan-element__hint" data-ped="pred-none">Doesn't wait on any other element.</p>
+
+        <form class="plan-element__add-predecessor" data-ped="add-pred" novalidate hidden>
+          <p class="plan-element__hint" data-ped="cand-failed" hidden>The elements it could wait on couldn't be loaded.</p>
+          <p class="plan-element__hint" data-ped="cand-none" hidden>No other element can be added: the rest already come before it, or would loop back.</p>
+          <div class="plan-element__picker" data-ped="cand-picker">
+            <esa-combobox data-ped="pred-select" label="Predecessor" placeholder="Search…"></esa-combobox>
+            <esa-text-field class="plan-element__lag-input" data-ped="pred-lag" type="number" label="Lag" help-text="Negative for a lead." suffix="days"></esa-text-field>
+          </div>
+          <div class="plan-element__add-actions">
+            <EsaButton variant="primary" size="sm" type="submit" data-ped="pred-add">Add</EsaButton>
+            <EsaButton variant="secondary" appearance="outline" size="sm" data-ped="pred-cancel">Cancel</EsaButton>
+          </div>
+        </form>
+        <div data-ped="add-pred-open-wrap">
+          <EsaButton variant="ghost" size="sm" icon="plus" class="plan-element__add-predecessor-open" data-ped="add-pred-open">Add predecessor</EsaButton>
+        </div>
+      </section>
+
+      <section class="plan-element__section" aria-labelledby="plan-element-drawer-blocks-heading" data-ped="blocks">
+        <h3 class="plan-element__heading" id="plan-element-drawer-blocks-heading">Blocks</h3>
+        <ul class="plan-element__dependencies" data-ped="succ-list"></ul>
+        <p class="plan-element__hint" data-ped="succ-none">No other element waits on this one.</p>
+      </section>
+    </div>
+
+    <div slot="footer" class="plan-element__actions">
+      <EsaButton variant="primary" data-ped="save">Save</EsaButton>
+      <EsaButton variant="secondary" appearance="outline" data-ped="cancel">Cancel</EsaButton>
+      <EsaButton variant="secondary" appearance="outline" data-ped="close">Close</EsaButton>
+    </div>
+  </esa-side-dialog>
+
+  <!-- Runtime parts, cloned by the controller (clones keep this component's scoped-CSS attribute). -->
+  <template data-ped-tpl="pred-row">
+    <li class="plan-element__dependency">
+      <form class="plan-element__lag-edit" data-row="edit" novalidate hidden>
+        <span class="plan-element__dependency-name" data-row="name"></span>
+        <esa-text-field class="plan-element__lag-input" data-row="lag-input" type="number" size="sm" suffix="days"></esa-text-field>
+        <span class="plan-element__row-actions">
+          <esa-tooltip text="" data-row="save-lag-tip">
+            <EsaButton variant="ghost" size="sm" iconOnly icon="check" type="submit" label="Save lag" data-row="save-lag" />
+          </esa-tooltip>
+          <esa-tooltip text="Cancel">
+            <EsaButton variant="ghost" size="sm" iconOnly icon="x" label="Cancel" data-row="cancel-lag" />
+          </esa-tooltip>
+        </span>
+      </form>
+      <span class="plan-element__dependency-view" data-row="view">
+        <span class="plan-element__dependency-name" data-row="name"></span>
+        <span class="plan-element__dependency-lag" data-row="lag"></span>
+        <span class="plan-element__row-actions" data-row="actions">
+          <esa-tooltip text="" data-row="edit-lag-tip">
+            <EsaButton variant="ghost" size="sm" iconOnly icon="pencil" label="Edit lag" class="plan-element__edit-lag" data-row="edit-lag" />
+          </esa-tooltip>
+          <esa-tooltip text="" data-row="remove-tip">
+            <EsaButton variant="ghost" size="sm" iconOnly icon="trash-2" label="Remove link" class="plan-element__remove-predecessor" data-row="remove" />
+          </esa-tooltip>
+        </span>
+      </span>
+    </li>
+  </template>
+  <template data-ped-tpl="succ-row">
+    <li>
+      <!-- Held while a link action is out: opening another element closes this drawer (see canClose). -->
+      <!-- bcn-lego-checked: a whole-row link in a dependency list, Jamie's .plan-element__dependency--link; esa-button is a pressable control, not a list row; no esa- list-row lego exists -->
+      <button type="button" class="plan-element__dependency plan-element__dependency--link" data-row="open">
+        <span class="plan-element__dependency-name" data-row="name"></span>
+        <span class="plan-element__dependency-lag" data-row="lag"></span>
+        <span class="plan-element__dependency-open"><EsaIcon name="chevron-right" size="sm" /></span>
+      </button>
+    </li>
+  </template>
+  <!-- The esa-button spinner, lifted onto a pressed button while its request is out (Beacon's loadingButton). -->
+  <template data-ped-tpl="spinner"><EsaButton loading size="sm">Saving</EsaButton></template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-combobox';
+  import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-tooltip';
+  import './plan-element-drawer';
+</script>
+
+<style>
+  /* bcn-lego-checked: Jamie's .plan-element SCSS block (plan-element-drawer.component.scss), mapped onto the
+     semantic tokens; the dependency rows have no esa- lego (see the frontmatter note). */
+  /* The legos set their own display; inside this shell `hidden` must always win. */
+  .bcn-ped :global([hidden]) { display: none !important; }
+
+  /* ── Header: title over subtitle (ui-side-dialog-header) ── */
+  .bcn-ped__head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050);
+    flex: 1;
+    min-width: 0;
+  }
+  .bcn-ped__title { margin: 0; color: var(--color-content-default); overflow-wrap: anywhere; }
+  .bcn-ped__subtitle { margin: 0; color: var(--color-content-default-secondary); }
+
+  /* ── The level picker with its inline Add level beside it (Beacon slots it as the select's suffix) ── */
+  .bcn-ped__level { display: flex; align-items: flex-end; gap: var(--spacing-100); }
+  .bcn-ped__level-select { flex: 1; min-width: 0; }
+  .bcn-ped__level-add { flex-shrink: 0; padding-bottom: var(--spacing-100); }
+
+  /* ── .plan-element (Jamie's rhythm: stacked sections, a heading over each, the date pair side by side) ── */
+  .plan-element {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+  }
+  .plan-element__fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+    margin: 0;
+  }
+  .plan-element__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .plan-element__heading {
+    margin: 0;
+    font-size: var(--font-size-250);
+    font-weight: 600;
+    color: var(--color-content-default);
+  }
+  .plan-element__dates {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--spacing-200) var(--spacing-300);
+    align-items: start;
+  }
+  .plan-element__span {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
+  .plan-element__span-value {
+    display: flex;
+    gap: var(--spacing-200);
+    margin: 0;
+    font-size: var(--font-size-200);
+    color: var(--color-content-default);
+  }
+  .plan-element__span-label { color: var(--color-content-default-secondary); }
+  .plan-element__hint {
+    margin: 0;
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
+  }
+
+  /* Waits on / Blocks: one quiet row per dependency, "name · lag". */
+  .plan-element__dependencies {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .plan-element__dependencies:empty { display: none; }
+  .plan-element__dependency {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    width: 100%;
+    min-width: 0;
+    padding: var(--spacing-200) var(--spacing-300);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--color-background-elevation-raised);
+    color: var(--color-content-default);
+    font: inherit;
+    font-size: var(--font-size-200);
+    text-align: left;
+  }
+  .plan-element__dependency-view {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+  /* A Blocks row opens that element's drawer: it answers hover with a background shift and an underlined name. */
+  .plan-element__dependency--link {
+    cursor: pointer;
+    transition:
+      background 0.12s ease,
+      border-color 0.12s ease;
+  }
+  .plan-element__dependency--link:hover:not(:disabled) {
+    background: var(--color-background-default-hover);
+    border-color: var(--color-border-default);
+  }
+  .plan-element__dependency--link:hover:not(:disabled) .plan-element__dependency-name { text-decoration: underline; }
+  .plan-element__dependency--link:focus-visible {
+    outline: 2px solid var(--color-border-brand);
+    outline-offset: 2px;
+  }
+  /* Held while a link action is out (see the drawer's canClose). */
+  .plan-element__dependency--link:disabled { cursor: not-allowed; }
+
+  /* Beacon's truncate directive: one line, ellipsis. */
+  .plan-element__dependency-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .plan-element__dependency-lag {
+    flex-shrink: 0;
+    white-space: nowrap;
+    color: var(--color-content-default-secondary);
+  }
+
+  /* A Waits on row's edit-lag and remove, muted and paired (Plan settings' level row actions). */
+  .plan-element__row-actions {
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--spacing-100);
+    margin-left: auto;
+  }
+
+  /* The edit-lag row fills the dependency row: name, then the days input and its save / cancel. */
+  .plan-element__lag-edit {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-width: 0;
+    margin: 0;
+  }
+  .plan-element__lag-input {
+    flex-shrink: 0;
+    width: 8rem;
+  }
+
+  /* Add predecessor: the picker over the lag, then Add / Cancel — inline in the drawer, not another dialog. */
+  .plan-element__add-predecessor {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    margin: 0;
+    padding: var(--spacing-300);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-lg);
+  }
+  .plan-element__picker {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .plan-element__add-actions {
+    display: flex;
+    gap: var(--spacing-200);
+  }
+
+  .plan-element__dependency-open {
+    display: inline-flex;
+    flex-shrink: 0;
+    margin-left: auto;
+    color: var(--color-content-default-secondary);
+  }
+
+  .plan-element__milestone {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-100);
+  }
+
+  .plan-element__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+    width: 100%;
+  }
+</style>

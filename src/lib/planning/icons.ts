@@ -23,3 +23,14 @@ export const PLAN_ICON_PATHS: Record<string, string> = {
 export function planIcon(name: string, size = 16): string {
   return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${PLAN_ICON_PATHS[name] ?? ''}</svg>`;
 }
+
+/**
+ * esa-icon's built-in registry lacks some Lucide glyphs her buttons use (undo-2, ellipsis-vertical), and EsaButton
+ * takes no paths: a cloned button marked `data-fill-icon="name"` gets its empty glyph filled from PLAN_ICON_PATHS.
+ */
+export function fillIcons(root: ParentNode): void {
+  root.querySelectorAll<HTMLElement>('[data-fill-icon]').forEach((el) => {
+    const svg = el.querySelector('svg');
+    if (svg && !svg.innerHTML.trim()) svg.innerHTML = PLAN_ICON_PATHS[el.dataset.fillIcon!] ?? '';
+  });
+}

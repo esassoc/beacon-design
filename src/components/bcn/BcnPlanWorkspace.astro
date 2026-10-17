@@ -1,0 +1,116 @@
+---
+// <BcnPlanWorkspace> — the body of a plan's page: Beacon's PlanGanttComponent template (pages/plan-gantt/
+// plan-gantt.component.html + .scss on origin/develop, Jamie Quishenberry, BCN-1788 / 1866 / 1867). In her order:
+// the plan's description, the Edit mode switch at the chart's top right, edit mode's four instructions (dismissible,
+// back every time edit mode is turned on), the Gantt — or, with no elements, the empty-list box with Add — and the
+// row actions stamped on every Gantt row (+ Add child, and the ellipsis menu: Move up, Move down, Move…, Delete).
+// The page utilities (Plan settings, Move plan, Add) are the page's own EsaButtons, found by data-plan-* hooks.
+//
+// Runtime: plan-workspace.ts (setupPlanWorkspace), which owns the orchestration her component class does.
+//
+// bcn-lego-checked: the empty state is Beacon's empty-list box (2px dashed, free content: message + Add on one
+// line), the same port BcnPlanList carries — esa-empty-state is a borderless centred column with a forced h3 and
+// does not fit; checked Beacon (shared/components/empty-list). Her ui-notification is esa-alert-box (info), its
+// trailing dismiss an EsaButton; her ui-input-toggle is esa-switch-toggle; her ui-dropdown is esa-dropdown-menu.
+// bcn-plan-workspace is the reusable home for the composition.
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnPlanGantt from './BcnPlanGantt.astro';
+---
+
+<div class="bcn-plan-workspace" data-bcn-plan-workspace>
+  <p class="bcn-plan-workspace__description typography-body-md" data-pw-description hidden></p>
+
+  <div class="bcn-plan-workspace__toolbar" data-pw-toolbar hidden>
+    <esa-switch-toggle size="sm" label="Edit mode" data-pw-edit-mode></esa-switch-toggle>
+  </div>
+
+  <div data-pw-instructions hidden>
+    <EsaAlertBox variant="info">
+      <div class="bcn-plan-workspace__instructions">
+        <ul class="bcn-plan-workspace__instructions-list typography-body-sm">
+          <li>Drag the middle of a bar to move it, or drag either end to change its start or end date.</li>
+          <li>A parent's dashed outline is its planned window; drag it like a bar.</li>
+          <li>Shift + click to select multiple items and move them together. Press esc to clear the selection.</li>
+          <li>Shift + click on a parent item to select all of its children.</li>
+        </ul>
+        <span data-pw-dismiss><EsaButton variant="ghost" iconOnly icon="x" label="Dismiss instructions" size="sm" /></span>
+      </div>
+    </EsaAlertBox>
+  </div>
+
+  <div class="bcn-plan-workspace__chart">
+    <BcnPlanGantt label="Plan schedule" />
+  </div>
+
+  <div class="bcn-plan-workspace__box" data-pw-empty hidden>
+    <div class="bcn-plan-workspace__empty typography-body-md">
+      <span>This plan has no elements yet.</span>
+      <span data-pw-empty-add><EsaButton variant="primary" size="sm" icon="plus">Add</EsaButton></span>
+    </div>
+  </div>
+
+  <template data-pw-tpl="add-child"><EsaButton variant="ghost" iconOnly icon="plus" label="Add child" size="xs" /></template>
+  <template data-pw-tpl="menu">
+    <esa-dropdown-menu position="below-end">
+      <EsaButton variant="ghost" iconOnly icon="ellipsis-vertical" label="Actions" size="xs" data-fill-icon="ellipsis-vertical" />
+    </esa-dropdown-menu>
+  </template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-dropdown-menu';
+</script>
+
+<style>
+  .bcn-plan-workspace {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-plan-workspace [hidden] { display: none; }
+  .bcn-plan-workspace__description {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  /* Edit mode's switch, at the chart's top right. */
+  .bcn-plan-workspace__toolbar {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .bcn-plan-workspace__instructions {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-200);
+  }
+  .bcn-plan-workspace__instructions-list {
+    flex: 1 1 auto;
+    margin: 0;
+    padding-inline-start: var(--spacing-400);
+  }
+  /* Bounds the Gantt's frame to the viewport so it scrolls inside itself and its axis header stays stuck to the
+     top. 16rem is the app header, breadcrumbs and page title above it. */
+  .bcn-plan-workspace__chart {
+    --bcn-plan-gantt-max-height: max(20rem, calc(100vh - 16rem));
+  }
+  /* Beacon's empty-list: a dashed box, its content centred. */
+  .bcn-plan-workspace__box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-400);
+    padding: var(--spacing-400);
+    border: 2px dashed var(--color-border-default);
+    border-radius: var(--spacing-200);
+    background: var(--color-background-default);
+    text-align: center;
+  }
+  /* The message, then its action on the same line. */
+  .bcn-plan-workspace__empty {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+</style>

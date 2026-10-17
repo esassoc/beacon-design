@@ -174,6 +174,15 @@ export const prototypeGroups: PrototypeGroup[] = [
         status: 'in-progress',
       },
       {
+        slug: 'plans',
+        title: 'Plans (Jamie replica)',
+        description:
+          "A faithful replica of Jamie's Planning feature on Beacon develop (BCN-1652): the plan list, a plan's Gantt with planned windows, cut-offs, landmarks and dependencies, Plan settings, the element drawer, Move plan with its schedule preview, row actions, edit-mode drag and live refresh across tabs. Replicated as built, not redesigned.",
+        route: '/prototypes/plans/',
+        createdAt: '2026-10-17',
+        status: 'in-progress',
+      },
+      {
         slug: 'obligation-feed',
         title: 'Obligations (feed)',
         description:

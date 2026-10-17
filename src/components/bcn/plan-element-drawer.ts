@@ -1,0 +1,992 @@
+// Controller for <BcnPlanElementDrawer> — Jamie's PlanElementDrawerComponent (Beacon.Web
+// pages/plan-gantt/plan-element-drawer/plan-element-drawer.component.ts), ported onto the spoke's one pre-rendered
+// shell. Each openPlanElementDrawer() call is one "component instance": its own form, version pin, link state and
+// planStore subscription, all dropped when the drawer closes. Angular's signals become a render() pass that runs on
+// every form change, link-state change and plan change, so the derived parts (title, level options, Waits on /
+// Blocks) stay live against the page's plan the way her computed() values do.
+//
+// Variable-length rows are cloned from the .astro's <template>s; nothing here builds markup from strings.
+
+import '@esa/ecology/esa-side-dialog';
+import '@esa/ecology/esa-text-field';
+import '@esa/ecology/esa-select';
+import '@esa/ecology/esa-combobox';
+import '@esa/ecology/esa-date-picker';
+import '@esa/ecology/esa-button-toggle';
+import '@esa/ecology/esa-switch-toggle';
+import '@esa/ecology/esa-tooltip';
+
+import { controlErrorMessage, formatDate, FormControl, HttpErrorResponse, type AbstractControl, type FormGroup } from '../../lib/planning/ng-shim';
+import type { PlanDetailDto, PlanElementDto, PlanElementScheduleChangeDto, PlanScheduleChangeModeEnum as PlanScheduleChangeModeType } from '../../lib/planning/model';
+import { PlanScheduleChangeModeEnum } from '../../lib/planning/model';
+import {
+  canAddPlanLevelInline,
+  createPlanElementForm,
+  deepestPlanLevelDepth,
+  findPlanElement,
+  newPlanElementFormValue,
+  nextPlanElementSortOrder,
+  PLAN_DATE_TYPE_HINTS,
+  PLAN_DATE_TYPE_OPTIONS,
+  planElementFormValue,
+  planLevelBounds,
+  refreshPlanElementDateValidity,
+  toPlanElementCreateDto,
+  toPlanElementUpdateDto,
+  validPlanLevels,
+  type PlanElementDrawerTarget,
+  type PlanElementFormGroup,
+  type PlanElementRights,
+} from '../../lib/planning/plan-element';
+import {
+  createPlanLagForm,
+  createPlanPredecessorForm,
+  PLAN_DEFAULT_LAG_DAYS,
+  planDependencyRemoveConfirmText,
+  planElementPredecessorRows,
+  planElementSuccessorRows,
+  planPredecessorOptions,
+  toPlanElementDependencyCreateDto,
+  toPlanElementDependencyUpdateDto,
+  type PlanDependencyRow,
+  type PlanPredecessorOption,
+} from '../../lib/planning/plan-dependencies';
+import {
+  PLAN_SCHEDULE_CHANGE_MODE_OPTIONS,
+  planElementDatesChanged,
+  planScheduleChangeMode,
+  planScheduleChangeModeHint,
+  toPlanElementScheduleChangeDto,
+} from '../../lib/planning/plan-element-schedule';
+import { planDateRange } from '../../lib/planning/plan-form';
+import { isPlanScheduleChangeSetEmpty, PlanScheduleChangeKind } from '../../lib/planning/plan-schedule-preview';
+import {
+  alertWriteFailure,
+  applyPlanChange,
+  confirm,
+  fieldErrors,
+  forceClose,
+  guardSideDialog,
+  pinPlanVersion,
+  planApi,
+  planStore,
+  planWrite,
+  PLAN_RIGHTS,
+  PLAN_RULES,
+  pushAlert,
+  requestClose,
+  type PlanVersionPin,
+  type SideDialogEl,
+} from '../../lib/planning/plan-page';
+import { openPlanSchedulePreview } from './plan-schedule-preview';
+import { openPlanLevelPanel } from './plan-level-panel';
+
+export interface PlanElementDrawerHandle {
+  target: PlanElementDrawerTarget;
+  /** Ask the drawer to close through its discard guard; resolves whether it closed. */
+  requestClose(): Promise<boolean>;
+  /** Close without asking (the element it shows was deleted). */
+  forceClose(): void;
+  /** Resolves once the drawer has closed (any path). */
+  closed: Promise<void>;
+}
+
+/** The link action in flight, so the pressed button spins and every other link control only greys. */
+type PlanLinkVerb = 'lag' | 'remove' | 'add';
+interface PlanPendingLink {
+  verb: PlanLinkVerb;
+  /** The Waits on row acted on; null for an add. */
+  planElementDependencyID: string | null;
+}
+
+/** The Add predecessor picker's options: fetched each time the row opens and after every link change. */
+type PlanPredecessorCandidates = { status: 'loading' } | { status: 'loaded'; options: PlanPredecessorOption[] } | { status: 'failed' };
+
+type ValueEl = HTMLElement & { value: string; errorText: string; disabled: boolean; required: boolean; label: string; min: string; max: string };
+type OptionsEl = ValueEl & { options: { label: string; value: string }[]; helpText: string; loading?: boolean };
+type SwitchEl = HTMLElement & { checked: boolean; disabled: boolean };
+
+const MILESTONE_BLOCKED_REASON = "An element with child elements can't be a milestone.";
+
+// ── The shell ───────────────────────────────────────────────────────────────────────────────────────────────────────
+
+interface Shell {
+  root: HTMLElement;
+  dialog: SideDialogEl;
+  q<T extends Element = HTMLElement>(key: string): T;
+  clone(name: string): HTMLElement;
+  spinner(): HTMLElement;
+}
+
+let shell: Shell | null = null;
+/** The open drawer's guard; the shell's close paths (Esc, X, backdrop) all ask it. */
+let activeCanClose: () => boolean | Promise<boolean> = () => true;
+
+function getShell(): Shell {
+  if (shell) return shell;
+  const root = document.querySelector<HTMLElement>('[data-bcn-plan-element-drawer]');
+  if (!root) throw new Error('BcnPlanElementDrawer is not on the page.');
+  const dialog = root.querySelector<SideDialogEl>('esa-side-dialog')!;
+  const tpl = (name: string) => root.querySelector<HTMLTemplateElement>(`template[data-ped-tpl="${name}"]`)!.content;
+  shell = {
+    root,
+    dialog,
+    q: <T extends Element = HTMLElement>(key: string) => root.querySelector<T>(`[data-ped="${key}"]`)!,
+    clone: (name) => tpl(name).firstElementChild!.cloneNode(true) as HTMLElement,
+    spinner: () => tpl('spinner').querySelector('.esa-button__spinner')!.cloneNode(true) as HTMLElement,
+  };
+  void guardSideDialog(dialog, () => activeCanClose());
+  return shell;
+}
+
+// ── esa-button at runtime (the .astro lego is compile-time; its rendered nodes are toggled here) ──────────────────
+
+/** An esa-button's wrapper, found from the native control the data-* hook landed on. */
+function wrapOf(native: HTMLElement): HTMLElement {
+  return native.closest<HTMLElement>('.esa-button') ?? native;
+}
+
+/** Beacon's [disabled] on a ui-button. */
+function setButtonDisabled(native: HTMLElement, disabled: boolean): void {
+  const wrap = wrapOf(native);
+  const loading = wrap.classList.contains('esa-button--loading');
+  (native as HTMLButtonElement).disabled = disabled || loading;
+  wrap.classList.toggle('esa-button--disabled', disabled);
+}
+
+/** Beacon's [loadingButton]: the spinner replaces the label / icon, and the button holds. */
+function setButtonLoading(native: HTMLElement, loading: boolean, spinner: () => HTMLElement): void {
+  const wrap = wrapOf(native);
+  if (wrap.classList.contains('esa-button--loading') === loading) return;
+  wrap.classList.toggle('esa-button--loading', loading);
+  native.toggleAttribute('aria-busy', loading);
+  if (loading) {
+    (native as HTMLButtonElement).disabled = true;
+    native.prepend(spinner());
+  } else {
+    native.querySelector(':scope > .esa-button__spinner')?.remove();
+    (native as HTMLButtonElement).disabled = wrap.classList.contains('esa-button--disabled');
+  }
+  native.querySelector(':scope > .esa-button__label')?.classList.toggle('esa-button__label--hidden', loading);
+  native.querySelectorAll<HTMLElement | SVGElement>(':scope > :not(.esa-button__label):not(.esa-button__spinner)').forEach((icon) => {
+    (icon as HTMLElement).style.display = loading ? 'none' : '';
+  });
+}
+
+/** Names an icon-only button, and its tooltip; the native title would double the esa-tooltip bubble. */
+function nameIconButton(native: HTMLElement, label: string): void {
+  native.setAttribute('aria-label', label);
+  native.removeAttribute('title');
+  const tip = native.closest('esa-tooltip') as (HTMLElement & { text: string }) | null;
+  if (tip) tip.text = label;
+}
+
+function show(el: Element, visible: boolean): void {
+  (el as HTMLElement).hidden = !visible;
+}
+
+/** A field shows its error once touched, as ui-field-error does. */
+function errorOf(control: AbstractControl): string {
+  return control.touched && control.invalid ? controlErrorMessage(control) ?? '' : '';
+}
+
+/** A 400's field messages land on their inputs; what is left (form-level) is alerted, as the HTTP interceptor does. */
+function applyServerErrorsAndAlert(form: FormGroup<any>, error: unknown, fallback: string): void {
+  if (error instanceof HttpErrorResponse && error.status === 400) {
+    const leftover: string[] = [];
+    for (const [key, messages] of Object.entries(fieldErrors(error))) {
+      const control = (form.controls as Record<string, AbstractControl | undefined>)[key];
+      if (control && messages.length) {
+        control.errors = { server: { message: messages.join(' ') } };
+        control.markAsTouched();
+      } else leftover.push(...messages);
+    }
+    if (leftover.length) pushAlert(leftover.join(' '), 'danger');
+    return;
+  }
+  alertWriteFailure(error, fallback);
+}
+
+/** Moves focus once the swap that brings `target` in has drawn (afterNextRender). */
+function focusAfterRender(target: () => HTMLElement | null | undefined): void {
+  requestAnimationFrame(() => requestAnimationFrame(() => target()?.focus()));
+}
+
+// ── One drawer ──────────────────────────────────────────────────────────────────────────────────────────────────────
+
+export function openPlanElementDrawer(args: { target: PlanElementDrawerTarget; onOpenElement: (planElementID: string) => void }): PlanElementDrawerHandle {
+  const s = getShell();
+  const { dialog, q } = s;
+  const target = args.target;
+  const rights: PlanElementRights = { canUpdate: PLAN_RIGHTS.canUpdate, canCreate: PLAN_RIGHTS.canCreate, canDelete: PLAN_RIGHTS.canDelete };
+  const isCreate = target.kind === 'create';
+  /** Create needs the Create right to open at all; edit without Update shows the element read-only. */
+  const canSave = isCreate || rights.canUpdate;
+
+  // ── Derived from the page's plan (her computed() values) ──
+  const plan = () => planStore.plan;
+  const element = (): PlanElementDto | null =>
+    target.kind === 'edit' ? findPlanElement(plan().Elements, target.planElementID)?.element ?? null : null;
+  const parent = (): PlanElementDto | null => {
+    if (target.kind === 'edit') return findPlanElement(plan().Elements, target.planElementID)?.parent ?? null;
+    return target.parentPlanElementID ? findPlanElement(plan().Elements, target.parentPlanElementID)?.element ?? null : null;
+  };
+  const predecessorRows = () => (target.kind === 'edit' ? planElementPredecessorRows(plan(), target.planElementID) : []);
+  const successorRows = () => (target.kind === 'edit' ? planElementSuccessorRows(plan(), target.planElementID) : []);
+  const hasChildren = () => (element()?.Children?.length ?? 0) > 0;
+  const levelBounds = () => planLevelBounds(parent(), element()?.Children);
+  const levelOptions = () => validPlanLevels(plan().Levels, levelBounds());
+  const canAddLevel = () => canSave && canAddPlanLevelInline(plan().Levels, levelBounds(), rights.canCreate, PLAN_RULES.MaxLevels);
+  const dateRange = () => planDateRange(PLAN_RULES);
+
+  /** The version this drawer's form loaded: its saves are checked against it, however the page refreshes meanwhile. */
+  const versionPin: PlanVersionPin = pinPlanVersion();
+  const initialElement = element();
+  const form: PlanElementFormGroup = createPlanElementForm(
+    target.kind === 'edit' && initialElement ? planElementFormValue(initialElement) : newPlanElementFormValue(levelOptions()),
+    () => dateRange()
+  );
+  const formValue = () => form.getRawValue();
+  const isMilestone = () => formValue().IsMilestone;
+  const startDate = () => formValue().StartDate || null;
+  const dateTypeHint = () => PLAN_DATE_TYPE_HINTS[formValue().PlanDateType];
+  const selectedLevel = () => levelOptions().find((level) => level.Depth === formValue().LevelDepth) ?? null;
+  const title = () => (isCreate ? `New ${selectedLevel()?.SingularName ?? 'element'}` : element()?.PlanElementName ?? '');
+  const subtitle = () => {
+    if (!isCreate) return element()?.LevelSingularName ?? '';
+    const p = parent();
+    return p ? `Under ${p.PlanElementName}` : 'Top level';
+  };
+
+  let isSaving = false;
+
+  // The scheduler (BCN-1822): a date edit is previewed before it saves, since it can push other elements.
+  /** A parent's choice of what its new dates apply to. Outside the element form: it is how to save, not a field saved. */
+  const scheduleModeControl = new FormControl<PlanScheduleChangeModeType>(PlanScheduleChangeModeEnum.ThisItemOnly, { nonNullable: true });
+  const scheduleModeHint = () => planScheduleChangeModeHint(scheduleModeControl.value);
+  const datesChanged = () => planElementDatesChanged(element(), formValue());
+  /** The mode choice shows only on a parent whose dates changed; a leaf has nothing under it to choose about. */
+  const showScheduleMode = () => canSave && hasChildren() && datesChanged();
+
+  // Waits on's link actions (BCN-1821): they apply immediately, each handing its returned plan to the page.
+  let lagEditorID: string | null = null;
+  const lagForm = createPlanLagForm();
+  let pendingLink: PlanPendingLink | null = null;
+  const isLinkBusy = () => pendingLink !== null;
+
+  let isAddingPredecessor = false;
+  const predecessorForm = createPlanPredecessorForm();
+  let predecessorCandidates: PlanPredecessorCandidates = { status: 'loading' };
+  const candidatesStatus = () => predecessorCandidates.status;
+  const predecessorOptions = () => (predecessorCandidates.status === 'loaded' ? predecessorCandidates.options : []);
+  const noPredecessorCandidates = () => predecessorCandidates.status === 'loaded' && !predecessorCandidates.options.length;
+  const showPredecessorPicker = () => candidatesStatus() !== 'failed' && !noPredecessorCandidates();
+  /** Bumped to drop a candidates fetch still in flight (her candidatesSubscription.unsubscribe()). */
+  let candidatesRequest = 0;
+
+  let isOpen = true;
+  let resolveClosed!: () => void;
+  const closed = new Promise<void>((resolve) => (resolveClosed = resolve));
+
+  // ── Fields ──
+  const nameField = q<ValueEl>('name');
+  const levelField = q<OptionsEl>('level');
+  const addLevelWrap = q('add-level-wrap');
+  const addLevelButton = q('add-level');
+  const datesGroup = q('dates');
+  const startField = q<ValueEl>('start');
+  const endField = q<ValueEl>('end');
+  const spanBox = q('span');
+  const spanValue = q('span-value');
+  const modeField = q<OptionsEl>('mode');
+  const dateTypeField = q<OptionsEl>('date-type');
+  const milestoneField = q<SwitchEl>('milestone');
+  const milestoneHint = q('milestone-hint');
+  const predList = q('pred-list');
+  const succList = q('succ-list');
+  const addPredForm = q<HTMLFormElement>('add-pred');
+  const addPredOpenWrap = q('add-pred-open-wrap');
+  const addPredOpenButton = q('add-pred-open');
+  const predSelect = q<OptionsEl>('pred-select');
+  const predLag = q<ValueEl>('pred-lag');
+  const predAddButton = q('pred-add');
+  const predCancelButton = q('pred-cancel');
+  const saveButton = q('save');
+  const cancelButton = q('cancel');
+  const closeButton = q('close');
+
+  modeField.options = PLAN_SCHEDULE_CHANGE_MODE_OPTIONS.map((o) => ({ label: o.displayValue, value: o.value }));
+  dateTypeField.options = PLAN_DATE_TYPE_OPTIONS.map((o) => ({ label: o.displayValue, value: o.value }));
+  nameIconButton(addLevelButton, 'Add level');
+
+  /** Writes the form into the legos: on open, and when the drawer itself sets a value (a level just added). */
+  const syncFields = () => {
+    const v = formValue();
+    nameField.value = v.PlanElementName;
+    levelField.value = v.LevelDepth === null ? '' : String(v.LevelDepth);
+    startField.value = v.StartDate;
+    endField.value = v.EndDate;
+    dateTypeField.value = v.PlanDateType;
+    milestoneField.checked = v.IsMilestone;
+    modeField.value = scheduleModeControl.value;
+  };
+
+  if (!canSave) {
+    form.disable();
+  } else if (hasChildren()) {
+    // An element with children can't be a milestone; the toggle says why in its hint.
+    form.controls.IsMilestone.disable();
+  }
+  const fieldsDisabled = !canSave;
+  for (const el of [nameField, levelField, startField, endField, dateTypeField] as ValueEl[]) el.disabled = fieldsDisabled;
+  milestoneField.disabled = form.controls.IsMilestone.disabled;
+  milestoneField.removeAttribute('aria-describedby');
+
+  // ── render(): everything her template binds ──
+  const render = () => {
+    if (!isOpen) return;
+    const range = dateRange();
+    const t = title();
+    q('title').textContent = t;
+    const sub = subtitle();
+    q('subtitle').textContent = sub;
+    show(q('subtitle'), !!sub);
+    (dialog as unknown as { requestUpdate?: () => void }).requestUpdate?.();
+
+    // Name + Level
+    nameField.errorText = errorOf(form.controls.PlanElementName);
+    const levels = levelOptions();
+    const levelOpts = levels.map((level) => ({ label: level.SingularName ?? '', value: String(level.Depth) }));
+    if (JSON.stringify(levelField.options) !== JSON.stringify(levelOpts)) levelField.options = levelOpts;
+    levelField.errorText = errorOf(form.controls.LevelDepth);
+    show(addLevelWrap, canAddLevel());
+
+    // Scheduling
+    const milestone = isMilestone();
+    datesGroup.setAttribute('aria-label', milestone ? 'Date' : 'Date range');
+    startField.label = milestone ? 'Date' : 'Start date';
+    startField.required = milestone;
+    startField.min = range?.min ?? '';
+    startField.max = range?.max ?? '';
+    startField.errorText = errorOf(form.controls.StartDate);
+    show(endField, !milestone);
+    endField.min = startDate() ?? range?.min ?? '';
+    endField.max = range?.max ?? '';
+    endField.errorText = errorOf(form.controls.EndDate);
+
+    const children = hasChildren();
+    show(spanBox, children);
+    if (children) {
+      const el = element();
+      spanValue.textContent =
+        el?.SpanStartDate && el?.SpanEndDate ? `${formatDate(el.SpanStartDate, 'MMM d, y')} – ${formatDate(el.SpanEndDate, 'MMM d, y')}` : 'Not yet scheduled';
+    }
+    show(modeField, showScheduleMode());
+    modeField.helpText = scheduleModeHint();
+    dateTypeField.helpText = dateTypeHint();
+    show(milestoneHint, children);
+
+    // Waits on / Blocks (edit only)
+    show(q('waits-on'), !isCreate);
+    show(q('blocks'), !isCreate);
+    if (!isCreate) {
+      renderPredecessors();
+      renderAddPredecessor();
+      renderSuccessors();
+    }
+
+    // Footer
+    show(saveButton.closest('.esa-button')!, canSave);
+    show(cancelButton.closest('.esa-button')!, canSave);
+    show(closeButton.closest('.esa-button')!, !canSave);
+    // Held while a link action is out: closing would drop the plan it returns (see canClose).
+    setButtonLoading(saveButton, isSaving, s.spinner);
+    setButtonDisabled(saveButton, isLinkBusy());
+    setButtonDisabled(cancelButton, isSaving || isLinkBusy());
+    setButtonDisabled(closeButton, isLinkBusy());
+  };
+
+  // ── Waits on rows (keyed, so an open lag editor survives a plan refresh) ──
+  const predRowEls = new Map<string, HTMLElement>();
+  const renderPredecessors = () => {
+    const rows = predecessorRows();
+    const seen = new Set<string>();
+    rows.forEach((row) => {
+      seen.add(row.planElementDependencyID);
+      let li = predRowEls.get(row.planElementDependencyID);
+      if (!li) {
+        li = buildPredecessorRow(row.planElementDependencyID);
+        predRowEls.set(row.planElementDependencyID, li);
+      }
+      paintPredecessorRow(li, row);
+      predList.append(li); // re-appending keeps Gantt row order
+    });
+    for (const [id, li] of predRowEls) {
+      if (!seen.has(id)) {
+        li.remove();
+        predRowEls.delete(id);
+      }
+    }
+    show(q('pred-none'), !rows.length);
+  };
+
+  const rowByID = (planElementDependencyID: string) => predecessorRows().find((r) => r.planElementDependencyID === planElementDependencyID);
+
+  const buildPredecessorRow = (planElementDependencyID: string): HTMLElement => {
+    const li = s.clone('pred-row');
+    const part = (key: string) => li.querySelector<HTMLElement>(`[data-row="${key}"]`)!;
+    const editForm = part('edit') as HTMLFormElement;
+    const lagInput = part('lag-input') as ValueEl;
+    lagInput.addEventListener('change', (e) => {
+      const raw = String((e as CustomEvent<{ value: string }>).detail?.value ?? lagInput.value);
+      lagForm.controls.LagDays.setValue(raw === '' ? null : Number(raw));
+      lagForm.controls.LagDays.markAsDirty();
+      paintPredecessorRow(li, rowByID(planElementDependencyID));
+    });
+    lagInput.addEventListener('focusout', () => {
+      lagForm.controls.LagDays.markAsTouched();
+      paintPredecessorRow(li, rowByID(planElementDependencyID));
+    });
+    const submitLag = (e: Event) => {
+      e.preventDefault();
+      const row = rowByID(planElementDependencyID);
+      if (row) saveLag(row);
+    };
+    editForm.addEventListener('submit', submitLag);
+    editForm.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Enter') submitLag(e);
+    });
+    part('save-lag').addEventListener('click', submitLag);
+    part('cancel-lag').addEventListener('click', () => cancelLagEdit());
+    part('edit-lag').addEventListener('click', () => {
+      const row = rowByID(planElementDependencyID);
+      if (row) editLag(row);
+    });
+    part('remove').addEventListener('click', () => {
+      const row = rowByID(planElementDependencyID);
+      if (row) void removePredecessor(row);
+    });
+    return li;
+  };
+
+  const paintPredecessorRow = (li: HTMLElement, row: PlanDependencyRow | undefined) => {
+    if (!row) return;
+    const part = (key: string) => li.querySelector<HTMLElement>(`[data-row="${key}"]`)!;
+    const editing = lagEditorID === row.planElementDependencyID;
+    const editForm = part('edit');
+    const view = part('view');
+    const wasEditing = !editForm.hidden;
+    show(editForm, editing);
+    show(view, !editing);
+    li.querySelectorAll<HTMLElement>('[data-row="name"]').forEach((n) => (n.textContent = row.planElementName));
+    part('lag').textContent = `· ${row.lagLabel}`;
+
+    const busy = isLinkBusy();
+    const lagInput = part('lag-input') as ValueEl;
+    if (editing) {
+      lagInput.setAttribute('aria-label', `Lag after ${row.planElementName}, in days`);
+      if (!wasEditing) {
+        const v = lagForm.controls.LagDays.value;
+        lagInput.value = v === null ? '' : String(v);
+        // autoFocus
+        focusAfterRender(() => lagInput);
+      }
+      lagInput.errorText = errorOf(lagForm.controls.LagDays);
+      const saveLagButton = part('save-lag');
+      nameIconButton(saveLagButton, `Save lag after ${row.planElementName}`);
+      setButtonLoading(saveLagButton, pendingLink?.verb === 'lag' && pendingLink.planElementDependencyID === row.planElementDependencyID, s.spinner);
+      setButtonDisabled(saveLagButton, busy);
+      const cancelLagButton = part('cancel-lag');
+      nameIconButton(cancelLagButton, 'Cancel');
+      setButtonDisabled(cancelLagButton, busy);
+    } else {
+      show(part('actions'), rights.canUpdate || rights.canDelete);
+      const editLagButton = part('edit-lag');
+      show(editLagButton.closest('esa-tooltip')!, rights.canUpdate);
+      nameIconButton(editLagButton, `Edit lag after ${row.planElementName}`);
+      setButtonDisabled(editLagButton, busy);
+      const removeButton = part('remove');
+      show(removeButton.closest('esa-tooltip')!, rights.canDelete);
+      nameIconButton(removeButton, `Remove link to ${row.planElementName}`);
+      setButtonLoading(removeButton, pendingLink?.verb === 'remove' && pendingLink.planElementDependencyID === row.planElementDependencyID, s.spinner);
+      setButtonDisabled(removeButton, busy);
+    }
+  };
+
+  // ── Add predecessor ──
+  const renderAddPredecessor = () => {
+    const canCreate = rights.canCreate;
+    show(addPredForm, canCreate && isAddingPredecessor);
+    show(addPredOpenWrap, canCreate && !isAddingPredecessor);
+    setButtonDisabled(addPredOpenButton, isLinkBusy());
+    if (!isAddingPredecessor) return;
+    const status = candidatesStatus();
+    show(q('cand-failed'), status === 'failed');
+    show(q('cand-none'), status !== 'failed' && noPredecessorCandidates());
+    show(q('cand-picker'), showPredecessorPicker());
+    const opts = predecessorOptions().map((option) => ({ label: predecessorOptionLabel(option), value: option.planElementID }));
+    if (JSON.stringify(predSelect.options) !== JSON.stringify(opts)) predSelect.options = opts;
+    predSelect.loading = status === 'loading';
+    predSelect.errorText = errorOf(predecessorForm.controls.PredecessorPlanElementID);
+    predLag.errorText = errorOf(predecessorForm.controls.LagDays);
+    show(predAddButton.closest('.esa-button')!, showPredecessorPicker());
+    setButtonLoading(predAddButton, pendingLink?.verb === 'add', s.spinner);
+    setButtonDisabled(predAddButton, isLinkBusy());
+    setButtonDisabled(predCancelButton, isLinkBusy());
+  };
+
+  /** Writes the predecessor form into its legos (open, and the reset after an add). */
+  const syncPredecessorFields = () => {
+    const v = predecessorForm.getRawValue();
+    predSelect.value = v.PredecessorPlanElementID ?? '';
+    predLag.value = v.LagDays === null ? '' : String(v.LagDays);
+  };
+
+  // ── Blocks rows ──
+  const renderSuccessors = () => {
+    const rows = successorRows();
+    succList.replaceChildren(
+      ...rows.map((row) => {
+        const li = s.clone('succ-row');
+        const button = li.querySelector<HTMLButtonElement>('[data-row="open"]')!;
+        li.querySelector('[data-row="name"]')!.textContent = row.planElementName;
+        li.querySelector('[data-row="lag"]')!.textContent = `· ${row.lagLabel}`;
+        button.disabled = isLinkBusy();
+        button.addEventListener('click', () => openElement(row.planElementID));
+        return li;
+      })
+    );
+    show(q('succ-none'), !rows.length);
+  };
+
+  // ── Actions (her methods, in her order) ──
+
+  /** Opens the inline Add level panel over this drawer; the new level is applied to the page and selected here. */
+  const openAddLevel = async () => {
+    const updated = await openPlanLevelPanel({ over: dialog, pin: versionPin });
+    if (!updated || !isOpen) return;
+    applyPlanChange(updated);
+    // The level just added is the plan's new deepest.
+    form.controls.LevelDepth.setValue(deepestPlanLevelDepth(updated.Levels));
+    // setValue doesn't mark the form dirty, and the discard guard keys off dirty.
+    form.markAsDirty();
+    render();
+    levelField.value = String(form.controls.LevelDepth.value ?? '');
+  };
+
+  const close = () => forceClose(dialog);
+
+  /** The footer's Save: creates or updates, hands the returned plan to the page and closes. An untouched edit just closes. */
+  const save = () => {
+    // Save closes the drawer; held while a link action is out, for the reason canClose gives.
+    if (isLinkBusy()) return;
+    if (!isCreate && !form.dirty) {
+      close();
+      return;
+    }
+    form.markAllAsTouched();
+    refreshPlanElementDateValidity(form);
+    render();
+    if (form.invalid || isSaving) return;
+    isSaving = true;
+    render();
+
+    const value = form.getRawValue();
+    if (target.kind === 'edit' && datesChanged()) {
+      void saveSchedule(target.planElementID, toPlanElementScheduleChangeDto(value, planScheduleChangeMode(hasChildren(), scheduleModeControl.value)));
+      return;
+    }
+    const current = plan();
+    const planID = current.PlanID!;
+    const request =
+      target.kind === 'edit'
+        ? planWrite((token) => planApi.updateElement(planID, target.planElementID, toPlanElementUpdateDto(value), token), versionPin)
+        : planWrite(
+            (token) =>
+              planApi.createElement(
+                planID,
+                toPlanElementCreateDto(value, target.parentPlanElementID, nextPlanElementSortOrder(parent()?.Children ?? current.Elements)),
+                token
+              ),
+            versionPin
+          );
+    const name = value.PlanElementName.trim();
+
+    void (request as Promise<PlanDetailDto>)
+      .then((updated) => applySaved(updated, name))
+      .catch((error) => handleSaveError(error))
+      .finally(() => {
+        isSaving = false;
+        render();
+      });
+  };
+
+  /**
+   * A date edit: previews it, and when it moves nothing else and flags nothing, saves it straight away; otherwise the
+   * stacked preview shows what it does and only its Confirm saves. Going back from the preview leaves the form as it
+   * was, still dirty, so Save previews again.
+   */
+  const saveSchedule = async (planElementID: string, change: PlanElementScheduleChangeDto) => {
+    isSaving = true;
+    render();
+    const planID = plan().PlanID!;
+    const confirmSave = () => planWrite((token) => planApi.updateElementSchedule(planID, planElementID, change, token), versionPin) as Promise<PlanDetailDto>;
+    try {
+      const changeSet = await planApi.previewElementSchedule(planID, planElementID, change);
+      let updated: PlanDetailDto | null;
+      if (isPlanScheduleChangeSetEmpty(changeSet)) {
+        updated = await confirmSave();
+      } else {
+        // Save stops spinning once the preview is up: the preview's Confirm carries its own.
+        isSaving = false;
+        render();
+        updated = await openPlanSchedulePreview({
+          subject: change.PlanElementName ?? '',
+          kind: PlanScheduleChangeKind.ElementEdit,
+          changeSet,
+          confirm: confirmSave,
+          over: dialog,
+        });
+      }
+      if (updated) applySaved(updated, change.PlanElementName ?? '');
+    } catch (error) {
+      handleSaveError(error);
+    } finally {
+      isSaving = false;
+      render();
+    }
+  };
+
+  /** A saved element: the page redraws from the returned plan and the drawer closes. */
+  const applySaved = (updated: PlanDetailDto, name: string) => {
+    applyPlanChange(updated);
+    close();
+    // pushAlertAfterClose
+    pushAlert(isCreate ? `'${name}' added.` : `'${name}' saved.`, 'success');
+  };
+
+  const handleSaveError = (error: unknown) => {
+    // A field 400 sits on its input; a form-level one is alerted.
+    applyServerErrorsAndAlert(form, error, `Failed to ${isCreate ? 'add' : 'save'} the element. Please try again.`);
+    render();
+  };
+
+  const editLag = (row: PlanDependencyRow) => {
+    lagForm.reset({ LagDays: row.lagDays });
+    lagEditorID = row.planElementDependencyID;
+    render();
+  };
+
+  const cancelLagEdit = () => {
+    const planElementDependencyID = lagEditorID;
+    lagEditorID = null;
+    render();
+    if (planElementDependencyID) focusEditLag(planElementDependencyID);
+  };
+
+  /** Saves the open edit-lag row (PUT) and applies the returned plan; the row then reads the new lag. */
+  const saveLag = (row: PlanDependencyRow) => {
+    lagForm.markAllAsTouched();
+    if (lagForm.invalid || !beginLink('lag', row.planElementDependencyID)) {
+      render();
+      return;
+    }
+    const planID = plan().PlanID!;
+    void (planWrite(
+      (token) => planApi.updateDependency(planID, row.planElementDependencyID, toPlanElementDependencyUpdateDto(lagForm).LagDays!, token),
+      versionPin
+    ) as Promise<PlanDetailDto>)
+      .then((updated) => {
+        pendingLink = null;
+        lagEditorID = null;
+        applyPlanChange(updated);
+        focusEditLag(row.planElementDependencyID);
+      })
+      .catch((error) => applyServerErrorsAndAlert(lagForm, error, 'Failed to change the lag. Please try again.'))
+      .finally(() => {
+        pendingLink = null;
+        render();
+      });
+  };
+
+  /** Removes a predecessor link (DELETE), after a confirm. */
+  const removePredecessor = async (row: PlanDependencyRow) => {
+    if (isLinkBusy()) return;
+    const index = predecessorRows().findIndex((candidate) => candidate.planElementDependencyID === row.planElementDependencyID);
+    const confirmed = await confirm({
+      color: 'warn',
+      header: 'Remove dependency',
+      text: planDependencyRemoveConfirmText(element()?.PlanElementName ?? '', row),
+      confirmButtonLabel: 'Remove',
+    });
+    if (!confirmed || !isOpen || !beginLink('remove', row.planElementDependencyID)) return;
+    const planID = plan().PlanID!;
+    try {
+      const updated = (await planWrite((token) => planApi.deleteDependency(planID, row.planElementDependencyID, token), versionPin)) as PlanDetailDto;
+      pendingLink = null;
+      if (lagEditorID === row.planElementDependencyID) lagEditorID = null;
+      applyPlanChange(updated);
+      // The removed predecessor may be offered again.
+      if (isAddingPredecessor) reloadCandidates();
+      focusAfterRemove(index);
+    } catch (error) {
+      // A 400 is form-level: its messages are alerted.
+      alertWriteFailure(error, 'Failed to remove the dependency. Please try again.');
+    } finally {
+      pendingLink = null;
+      render();
+    }
+  };
+
+  /** Opens the inline Add predecessor row and fetches what the element may wait on. Its picker takes focus. */
+  const openAddPredecessor = () => {
+    predecessorForm.reset({ PredecessorPlanElementID: null, LagDays: PLAN_DEFAULT_LAG_DAYS });
+    syncPredecessorFields();
+    isAddingPredecessor = true;
+    reloadCandidates();
+    focusAfterRender(() => predSelect);
+  };
+
+  const cancelAddPredecessor = () => {
+    candidatesRequest += 1;
+    isAddingPredecessor = false;
+    render();
+    focusAfterRender(() => addPredOpenButton);
+  };
+
+  /**
+   * Links the chosen predecessor (POST), applies the returned plan and resets the row for another, holding the row
+   * busy until the refreshed candidates arrive so the just-linked element can't be picked twice.
+   */
+  const addPredecessor = async () => {
+    predecessorForm.markAllAsTouched();
+    if (target.kind !== 'edit' || predecessorForm.invalid || !beginLink('add', null)) {
+      render();
+      return;
+    }
+    candidatesRequest += 1;
+    const planID = plan().PlanID!;
+    try {
+      const updated = (await planWrite(
+        (token) => planApi.createDependency(planID, toPlanElementDependencyCreateDto(predecessorForm, target.planElementID), token),
+        versionPin
+      )) as PlanDetailDto;
+      applyPlanChange(updated);
+      predecessorForm.reset({ PredecessorPlanElementID: null, LagDays: PLAN_DEFAULT_LAG_DAYS });
+      syncPredecessorFields();
+      // The link is committed once the POST resolves; a failed refresh only shows on the picker.
+      await loadCandidates();
+    } catch (error) {
+      applyServerErrorsAndAlert(predecessorForm, error, 'Failed to add the dependency. Please try again.');
+      // The candidates fetch was dropped for the POST; without a refetch the picker would sit loading.
+      reloadCandidates();
+    } finally {
+      pendingLink = null;
+      render();
+    }
+  };
+
+  /** A Blocks row: the page swaps this drawer for that element's, prompting first if this one has unsaved edits. */
+  const openElement = (planElementID: string) => args.onOpenElement(planElementID);
+
+  const cancel = () => void requestClose(dialog, canClose);
+
+  /** Marks the drawer's links busy with `verb`; false when a link action is already in flight, so the press is dropped. */
+  const beginLink = (verb: PlanLinkVerb, planElementDependencyID: string | null): boolean => {
+    if (isLinkBusy()) return false;
+    pendingLink = { verb, planElementDependencyID };
+    render();
+    return true;
+  };
+
+  /** Refetches the Add predecessor candidates, dropping any fetch still in flight. */
+  const reloadCandidates = () => void loadCandidates();
+
+  /** The server is the single source of truth for what may be linked; the drawer offers exactly what it returns. */
+  const loadCandidates = async (): Promise<void> => {
+    if (target.kind !== 'edit') return;
+    const request = ++candidatesRequest;
+    predecessorCandidates = { status: 'loading' };
+    render();
+    try {
+      const candidates = await planApi.predecessorCandidates(plan().PlanID!, target.planElementID);
+      if (request !== candidatesRequest || !isOpen) return;
+      predecessorCandidates = { status: 'loaded', options: planPredecessorOptions(candidates) };
+    } catch {
+      if (request !== candidatesRequest || !isOpen) return;
+      predecessorCandidates = { status: 'failed' };
+    }
+    render();
+  };
+
+  /** Focuses the row's Edit lag pencil once it is back in place of the lag editor. */
+  const focusEditLag = (planElementDependencyID: string) =>
+    focusAfterRender(() => predRowEls.get(planElementDependencyID)?.querySelector<HTMLElement>('[data-row="edit-lag"]'));
+
+  /** After a remove: the row that took the removed one's place, else Add predecessor, else the row above. */
+  const focusAfterRemove = (index: number) =>
+    focusAfterRender(() => {
+      const rows = Array.from(predList.children) as HTMLElement[];
+      const rowControl = (row: HTMLElement | undefined) => row?.querySelector<HTMLElement>('button');
+      return rowControl(rows[index]) ?? (addPredOpenWrap.hidden ? null : addPredOpenButton) ?? rowControl(rows[index - 1]);
+    });
+
+  /**
+   * Unsaved fields, or a lag or predecessor typed into an open link row, prompt before the drawer closes. A link
+   * action in flight holds the drawer open: the server commits it either way, and closing would drop the plan it
+   * returns before it reaches the page.
+   */
+  const canClose = (): boolean | Promise<boolean> => {
+    if (isLinkBusy()) return false;
+    const editingLink = (lagEditorID !== null && lagForm.dirty) || (isAddingPredecessor && predecessorForm.dirty);
+    if (!form.dirty && !editingLink) return true;
+    return confirm({
+      header: 'Discard unsaved changes?',
+      text: 'You have unsaved changes to this element. Closing now will discard them.',
+      confirmButtonLabel: 'Discard changes',
+      color: 'warn',
+    });
+  };
+
+  // ── Wiring (removed on close) ──
+  const ac = new AbortController();
+  const on = (el: EventTarget, type: string, handler: (e: Event) => void) => el.addEventListener(type, handler, { signal: ac.signal });
+  const detailValue = (e: Event, el: { value: unknown }) => String((e as CustomEvent<{ value: unknown }>).detail?.value ?? el.value ?? '');
+  const touch = (control: AbstractControl) => () => {
+    control.markAsTouched();
+    render();
+  };
+  const edit = <K extends keyof PlanElementFormGroup['controls']>(key: K, value: PlanElementFormGroup['controls'][K]['value']) => {
+    const control = form.controls[key] as unknown as FormControl<typeof value>;
+    control.setValue(value);
+    control.markAsDirty();
+  };
+
+  // Her constructor: the date rules re-run after any change to the form.
+  const formSub = form.valueChanges.subscribe(() => {
+    refreshPlanElementDateValidity(form);
+    render();
+  });
+
+  on(nameField, 'change', (e) => edit('PlanElementName', detailValue(e, nameField)));
+  on(nameField, 'focusout', touch(form.controls.PlanElementName));
+  on(levelField, 'change', (e) => {
+    const v = detailValue(e, levelField);
+    edit('LevelDepth', v === '' ? null : Number(v));
+  });
+  on(levelField, 'focusout', touch(form.controls.LevelDepth));
+  on(addLevelButton, 'click', (e) => {
+    e.stopPropagation();
+    void openAddLevel();
+  });
+  on(startField, 'change', (e) => edit('StartDate', detailValue(e, startField)));
+  on(startField, 'focusout', touch(form.controls.StartDate));
+  on(endField, 'change', (e) => edit('EndDate', detailValue(e, endField)));
+  on(endField, 'focusout', touch(form.controls.EndDate));
+  on(modeField, 'change', (e) => {
+    scheduleModeControl.setValue(detailValue(e, modeField) as PlanScheduleChangeModeType);
+    render();
+  });
+  on(dateTypeField, 'change', (e) => edit('PlanDateType', detailValue(e, dateTypeField) as PlanElementFormGroup['controls']['PlanDateType']['value']));
+  on(milestoneField, 'change', (e) => edit('IsMilestone', !!((e as CustomEvent<{ checked: boolean }>).detail?.checked ?? milestoneField.checked)));
+
+  // The element's fields are one form: Enter in a field saves, as her (ngSubmit) does.
+  const fieldsForm = q<HTMLFormElement>('form');
+  on(fieldsForm, 'submit', (e) => {
+    e.preventDefault();
+    save();
+  });
+  on(fieldsForm, 'keydown', (e) => {
+    const ke = e as KeyboardEvent;
+    const host = (ke.target as HTMLElement | null)?.closest?.('esa-text-field, esa-date-picker');
+    if (ke.key === 'Enter' && host) {
+      ke.preventDefault();
+      save();
+    }
+  });
+
+  on(addPredOpenButton, 'click', () => openAddPredecessor());
+  on(predCancelButton, 'click', () => cancelAddPredecessor());
+  on(addPredForm, 'submit', (e) => {
+    e.preventDefault();
+    void addPredecessor();
+  });
+  on(predAddButton, 'click', (e) => {
+    e.preventDefault();
+    void addPredecessor();
+  });
+  on(predSelect, 'change', (e) => {
+    const v = detailValue(e, predSelect);
+    predecessorForm.controls.PredecessorPlanElementID.setValue(v === '' ? null : v);
+    predecessorForm.controls.PredecessorPlanElementID.markAsDirty();
+    render();
+  });
+  on(predSelect, 'focusout', touch(predecessorForm.controls.PredecessorPlanElementID));
+  on(predLag, 'change', (e) => {
+    const raw = detailValue(e, predLag);
+    predecessorForm.controls.LagDays.setValue(raw === '' ? null : Number(raw));
+    predecessorForm.controls.LagDays.markAsDirty();
+    render();
+  });
+  on(predLag, 'focusout', touch(predecessorForm.controls.LagDays));
+  on(predLag, 'keydown', (e) => {
+    if ((e as KeyboardEvent).key === 'Enter') {
+      e.preventDefault();
+      void addPredecessor();
+    }
+  });
+
+  on(saveButton, 'click', () => save());
+  on(cancelButton, 'click', () => cancel());
+  on(closeButton, 'click', () => cancel());
+
+  // Her signals over the page's plan: every plan change redraws what derives from it.
+  const unsubscribe = planStore.subscribe(() => render());
+
+  const teardown = () => {
+    if (!isOpen) return;
+    isOpen = false;
+    ac.abort();
+    formSub.unsubscribe();
+    unsubscribe();
+    versionPin.release();
+    candidatesRequest += 1;
+    predRowEls.clear();
+    predList.replaceChildren();
+    succList.replaceChildren();
+    if (activeCanClose === canClose) activeCanClose = () => true;
+    resolveClosed();
+  };
+  dialog.addEventListener(
+    'close',
+    function onClose(e) {
+      if (e.target !== dialog) return;
+      dialog.removeEventListener('close', onClose);
+      teardown();
+    }
+  );
+
+  // ── Open ──
+  activeCanClose = canClose;
+  isAddingPredecessor = false;
+  syncFields();
+  syncPredecessorFields();
+  for (const el of [nameField, levelField, startField, endField, predSelect, predLag] as ValueEl[]) el.errorText = '';
+  render();
+  dialog.show();
+
+  return {
+    target,
+    requestClose: () => (isOpen ? requestClose(dialog, canClose) : Promise.resolve(true)),
+    forceClose: () => {
+      if (isOpen) close();
+    },
+    closed,
+  };
+}
+
+/** A candidate as one option label: its level as a quiet tag before the name, its path after (her option template). */
+function predecessorOptionLabel(option: PlanPredecessorOption): string {
+  const name = option.levelName ? `${option.levelName} · ${option.name}` : option.name;
+  return option.path ? `${name} — ${option.path}` : name;
+}

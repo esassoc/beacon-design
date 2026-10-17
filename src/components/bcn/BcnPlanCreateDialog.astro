@@ -1,0 +1,154 @@
+---
+// <BcnPlanCreateDialog> — "New plan", a port of Jamie's plan-create-dialog (Beacon.Web
+// pages/plan-list/plan-create-dialog, BCN-1819): a name, an optional description, and the plan's one to four levels
+// in depth order, prefilled with the sample plan's levels. Footer: Create plan, Cancel. Closing a dirty form asks
+// "Discard this plan?". ./plan-create-dialog.ts drives it; openPlanCreateDialog() resolves the created plan or null.
+//
+// bcn-lego-checked: the shell IS esa-dialog (native <dialog>, top layer), Name IS esa-text-field, Description IS
+// esa-textarea, each level's two names ARE esa-text-field, every action (close, remove level, Add level, Create
+// plan, Cancel) IS esa-button. Checked Ecology for a repeating row editor with fixed column heads (ui-form-array
+// style) and found none — esa-input-tag / esa-chip-group collect flat values, not paired fields per row. Checked
+// Beacon: this is plan-create-dialog's own .plan-create-dialog__level grid. The CSS below is that grid, the
+// fieldset reset and the header row; level rows are cloned from a <template> so scoped CSS reaches them.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { PLAN_LEVEL_NAME_MAX_LENGTH, PLAN_NAME_MAX_LENGTH } from '../../lib/planning/plan-form';
+---
+<div class="bcn-plan-create" data-plan-create>
+  <esa-dialog class="bcn-plan-create__dialog" size="md" show-close-button="false" data-plan-create-dialog>
+    <div slot="header" class="bcn-plan-create__head">
+      <h2 id="plan-create-dialog-title" class="bcn-plan-create__title typography-title">New plan</h2>
+      <EsaButton variant="ghost" size="sm" iconOnly icon="x" label="Close dialog" data-plan-create-close />
+    </div>
+
+    <form class="bcn-plan-create__form" novalidate data-plan-create-form>
+      <esa-text-field label="Name" size="sm" required maxlength={PLAN_NAME_MAX_LENGTH} data-control="PlanName"></esa-text-field>
+      <esa-textarea label="Description" size="sm" placeholder="Optional" data-control="Description"></esa-textarea>
+
+      <fieldset class="bcn-plan-create__levels">
+        <legend class="bcn-plan-create__levels-legend typography-label-sm">Levels</legend>
+        <p class="bcn-plan-create__hint typography-body-sm" data-plan-create-hint>From the top of the plan down.</p>
+        <!-- Visual column heads only; each input carries its own aria-label. -->
+        <div class="bcn-plan-create__level bcn-plan-create__level--head typography-label-sm" aria-hidden="true">
+          <span></span>
+          <span>Singular</span>
+          <span>Plural</span>
+          <span></span>
+        </div>
+        <div class="bcn-plan-create__level-rows" data-plan-create-levels></div>
+        <div data-plan-create-add hidden>
+          <EsaButton variant="ghost" size="sm" icon="plus" data-plan-create-add-button>Add level</EsaButton>
+        </div>
+      </fieldset>
+    </form>
+
+    <div slot="footer" class="bcn-plan-create__foot">
+      <span data-busy="idle"><EsaButton variant="primary" data-plan-create-submit>Create plan</EsaButton></span>
+      <span data-busy="busy" hidden><EsaButton variant="primary" loading>Create plan</EsaButton></span>
+      <EsaButton variant="secondary" appearance="outline" data-plan-create-cancel>Cancel</EsaButton>
+    </div>
+  </esa-dialog>
+
+  <template data-plan-create-tpl="level">
+    <div class="bcn-plan-create__level">
+      <span class="bcn-plan-create__level-label typography-label-sm" data-level-label>Level 1</span>
+      <esa-text-field size="sm" required maxlength={PLAN_LEVEL_NAME_MAX_LENGTH} aria-label="Level 1 singular name" data-level-control="SingularName"></esa-text-field>
+      <esa-text-field size="sm" required maxlength={PLAN_LEVEL_NAME_MAX_LENGTH} aria-label="Level 1 plural name" data-level-control="PluralName"></esa-text-field>
+      <span class="bcn-plan-create__level-remove">
+        <EsaButton variant="ghost" size="sm" iconOnly icon="x" label="Remove level 1" data-level-remove />
+      </span>
+    </div>
+  </template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+</script>
+
+<style>
+  .bcn-plan-create {
+    /* The level grid's last column is the remove button's width, fixed so the column heads line up with the rows;
+       the label and remove cells are as tall as an sm input so they centre on it, not on it plus its error. */
+    --_level-input-height: 2.125rem;
+    --_text-muted: var(--color-content-default-secondary, #646464);
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  .bcn-plan-create__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300, 0.75rem);
+    width: 100%;
+  }
+
+  .bcn-plan-create__title {
+    margin: 0;
+  }
+
+  .bcn-plan-create__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400, 1rem);
+  }
+
+  .bcn-plan-create__levels {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200, 0.5rem);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+
+  /* Reads as the field label above it (matches esa-text-field's sm label). */
+  .bcn-plan-create__levels-legend {
+    padding: 0;
+    margin-bottom: var(--spacing-100, 0.25rem);
+    color: var(--form-label-color, #646464);
+  }
+
+  .bcn-plan-create__hint {
+    margin: 0;
+    color: var(--_text-muted);
+  }
+
+  .bcn-plan-create__level-rows {
+    display: contents;
+  }
+
+  .bcn-plan-create__level {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr 1fr var(--_level-input-height);
+    align-items: start;
+    gap: var(--spacing-200, 0.5rem);
+  }
+
+  .bcn-plan-create__level--head {
+    color: var(--_text-muted);
+  }
+
+  .bcn-plan-create__level-label,
+  .bcn-plan-create__level-remove {
+    align-self: start;
+    display: flex;
+    align-items: center;
+    min-height: var(--_level-input-height);
+  }
+
+  .bcn-plan-create__level-label {
+    color: var(--_text-muted);
+    white-space: nowrap;
+  }
+
+  .bcn-plan-create__foot {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-200, 0.5rem);
+  }
+</style>

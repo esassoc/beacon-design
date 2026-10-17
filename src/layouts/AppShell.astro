@@ -66,6 +66,9 @@ interface Props {
   sectionOverrides?: Record<string, Partial<Pick<NavSection, 'title' | 'icon' | 'iconPaths'>>>;
   /** Sections a prototype leaves out of the nav. */
   hiddenSections?: string[];
+  /** Beacon's Planning section (BCN-1788, behind its feature flag in prod): "Plans", after Reporting, which then
+   *  hands it the divider that closes the project sections off from the Data Catalog. */
+  showPlanning?: boolean;
 }
 
 // ── Lucide glyphs not in esa-icon's built-in registry (inner SVG markup only) ──
@@ -109,6 +112,7 @@ const {
   sectionItems,
   sectionOverrides,
   hiddenSections,
+  showPlanning = false,
   // Verbatim nav structure from side-nav-modern.component.ts (standard labels).
   navSections = [
     {
@@ -197,6 +201,19 @@ const {
 } = Astro.props as Props;
 
 // Per-page removal of whole sections (spliced: the destructured list is const).
+if (showPlanning) {
+  const reporting = navSections.findIndex((section) => section.id === 'reporting');
+  if (reporting >= 0) navSections[reporting] = { ...navSections[reporting], dividerAfter: false };
+  navSections.splice(reporting + 1, 0, {
+    id: 'planning',
+    title: 'Planning',
+    icon: 'square-chart-gantt',
+    iconPaths: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 8h7"/><path d="M8 12h6"/><path d="M11 16h5"/>',
+    expanded: true,
+    dividerAfter: true,
+    items: [{ id: 'plans', label: 'Plans', href: withBase('/prototypes/plans/') }],
+  });
+}
 if (hiddenSections) {
   for (let i = navSections.length - 1; i >= 0; i--) if (hiddenSections.includes(navSections[i].id)) navSections.splice(i, 1);
 }

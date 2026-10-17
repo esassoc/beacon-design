@@ -1,0 +1,403 @@
+---
+// <BcnPlanGantt> — the plan's Gantt chart: a port of Beacon's `ui-viz-gantt` (shared/ui/components/ui-viz-gantt on
+// origin/develop, Jamie Quishenberry, BCN-1652). An indented outline of rows beside a timeline plot of bars, roll-up
+// brackets and milestone diamonds, with dependency arrows, planned-window bands, scheduled cut-off rules, landmark
+// lines with header tags, a today line, a pointer readout, collapse, selection and edit-mode drag. Domain-free like
+// hers: it takes pre-flattened rows / links / landmarks; the page maps a plan onto them (planGanttView).
+//
+// The runtime is plan-gantt-chart.ts (PlanGanttChart). This file is the persistent frame, the EsaButton shells the
+// runtime clones (EsaButton is compile-time, so the caret and the drop's Apply / Revert are pre-rendered here), and
+// the stylesheet — Jamie's ui-viz-gantt.component.scss, token for token. Her SCSS tokens map to the spoke's
+// semantic layer as: surface → elevation-raised, text / text-muted / text-subtle → content-default / -secondary /
+// -tertiary, border-subtle / border / border-strong → border-default-subtle / -default / -strong, brand-solid(-hover)
+// → background-brand(-hover), brand-surface → background-brand-subtle, brand-border / brand-text → border-brand /
+// content-brand, warning-solid(-hover) / danger-solid(-hover) → background-utility-warning / -danger(-hover),
+// warning-text → content-utility-warning, surface-hover → background-default-hover, $shadow-150 → --shadow-100.
+// APPROXIMATION: accent-surface (her shift+click selection tint) has no spoke token; it is mixed from
+// --color-background-accent over the surface.
+//
+// The markup is built at runtime (innerHTML), so every rule below is :global() under the host class.
+//
+// bcn-lego-checked: no esa- lego draws a Gantt / timeline plot (checked the catalog: no chart, no timeline, no
+// tree-grid); checked Beacon (ui-viz-gantt — this is its port; the spoke's BcnWorkBreakdown is the fish prototype
+// it was adapted FROM and has a different, CSS-grid geometry). The caret, Apply and Revert are EsaButtons; the
+// readout panel is ui-viz-tip's chrome. bcn-plan-gantt is the reusable home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+
+interface Props {
+  /** The accessible-name prefix for the plot's role="img". */
+  label: string;
+  /** A hook the page's controller finds this instance by. */
+  id?: string;
+}
+
+const { label, id } = Astro.props;
+---
+
+<div class="bcn-plan-gantt-host" id={id} data-bcn-plan-gantt data-label={label}>
+  <div class="bcn-plan-gantt" hidden></div>
+  <template data-gantt-tpl="caret"><EsaButton variant="ghost" iconOnly icon="chevron-down" label="Collapse" size="xs" /></template>
+  <template data-gantt-tpl="apply"><EsaButton variant="primary" iconOnly icon="check" label="Apply change" size="sm" /></template>
+  <template data-gantt-tpl="revert"><EsaButton variant="ghost" iconOnly icon="undo-2" label="Revert change" size="sm" data-fill-icon="undo-2" /></template>
+</div>
+
+<style>
+  .bcn-plan-gantt-host {
+    /* `contain: inline-size` requires a block container, so the explicit display matters. */
+    display: block;
+    min-inline-size: 0;
+    contain: inline-size;
+    --_s: var(--color-background-elevation-raised);
+    --_text: var(--color-content-default);
+    --_muted: var(--color-content-default-secondary);
+    --_subtle: var(--color-content-default-tertiary);
+    --_b-subtle: var(--color-border-default-subtle);
+    --_b: var(--color-border-default);
+    --_b-strong: var(--color-border-default-strong);
+    --_brand: var(--color-background-brand);
+    --_brand-hover: var(--color-background-brand-hover);
+    --_brand-surface: var(--color-background-brand-subtle);
+    --_brand-border: var(--color-border-brand);
+    --_brand-text: var(--color-content-brand);
+    --_warn: var(--color-background-utility-warning);
+    --_warn-hover: var(--color-background-utility-warning-hover);
+    --_warn-text: var(--color-content-utility-warning);
+    --_danger: var(--color-background-utility-danger);
+    --_danger-hover: var(--color-background-utility-danger-hover);
+    --_accent: var(--color-background-accent);
+    --_accent-surface: color-mix(in srgb, var(--color-background-accent) 14%, var(--_s));
+    /* Beacon's $type-size-meta (0.8125rem); the spoke's font sizes are fluid, Beacon's are fixed. */
+    --_meta: 0.8125rem;
+    --_indent: var(--spacing-400);
+  }
+
+  /* THE FRAME: the one scroller. --bcn-plan-gantt-max-height is the consumer hook (ui-viz-gantt's
+     --ui-viz-gantt-max-height): set it and the frame scrolls vertically too, so the axis sticks. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt) {
+    overflow: auto;
+    max-block-size: var(--bcn-plan-gantt-max-height, none);
+    border: 1px solid var(--_b);
+    border-radius: var(--radius-md);
+    background: var(--_s);
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt[hidden]) { display: none; }
+
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__canvas) {
+    position: relative;
+    display: grid;
+    inline-size: max-content;
+    min-inline-size: 100%;
+  }
+
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__corner),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__axis) {
+    position: sticky;
+    inset-block-start: 0;
+    background: var(--_s);
+    border-block-end: 1px solid var(--_b);
+    box-sizing: border-box;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__corner) {
+    inset-inline-start: 0;
+    z-index: 3;
+    display: flex;
+    align-items: flex-end;
+    padding: var(--spacing-200) var(--spacing-300);
+    border-inline-end: 1px solid var(--_b);
+    font-size: var(--font-size-100);
+    font-weight: 600;
+    color: var(--_subtle);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__axis) { z-index: 2; overflow: hidden; }
+
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__year) {
+    position: absolute;
+    inset-block: 0;
+    display: flex;
+    align-items: flex-end;
+    padding-block-end: var(--spacing-100);
+    box-shadow: inset 1px 0 0 var(--_b-subtle);
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__year--emphasis) { box-shadow: inset 1px 0 0 var(--_b-strong); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__year-label) {
+    padding-inline-start: var(--spacing-100);
+    font-size: var(--_meta);
+    font-variant-numeric: tabular-nums;
+    color: var(--_subtle);
+    line-height: 1;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__year--emphasis .bcn-plan-gantt__year-label) { color: var(--_muted); font-weight: 600; }
+
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__today) {
+    position: absolute;
+    inset-block: 0;
+    background: var(--_warn);
+    pointer-events: none;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__today-flag) {
+    position: absolute;
+    inset-block-start: var(--spacing-050);
+    inset-inline-start: var(--spacing-100);
+    font-size: var(--font-size-100);
+    font-weight: 600;
+    color: var(--_warn-text);
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__landmarks) { position: absolute; inset-inline: 0; inset-block-end: 0; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__landmark-tag) {
+    position: absolute;
+    box-sizing: border-box;
+    transform: translateX(-50%);
+    padding: 1px var(--spacing-100);
+    border: 1px solid var(--_brand-border);
+    border-radius: var(--radius-sm);
+    background: var(--_s);
+    font-size: var(--_meta);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--_brand-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ── The outline ── */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__outline) {
+    position: sticky;
+    inset-inline-start: 0;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: var(--_s);
+    border-inline-end: 1px solid var(--_b);
+    min-inline-size: 0;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__item) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    box-sizing: border-box;
+    padding-inline: calc(var(--spacing-200) + var(--bcn-plan-gantt-depth, 0) * var(--_indent)) var(--spacing-200);
+    border-block-end: 1px solid var(--_b-subtle);
+    min-inline-size: 0;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__item--tier-0) { background: color-mix(in srgb, var(--_text) 3%, var(--_s)); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__item--tier-1) { background: color-mix(in srgb, var(--_text) 1.5%, var(--_s)); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__item:hover) { background: var(--color-background-default-hover); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__item--selected),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__item--selected:hover) { background: var(--_brand-surface); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__item--picked),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__item--picked:hover) { background: var(--_accent-surface); }
+
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__caret) { flex-shrink: 0; }
+  /* Points down when expanded, rotates to point right when collapsed. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__caret svg) { transition: transform 120ms ease; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__caret[aria-expanded='false'] svg) { transform: rotate(-90deg); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__caret-spacer) { flex-shrink: 0; inline-size: var(--_indent); }
+
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__schedule-summary) {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* The row's selection control, reset to read exactly as the plain text it replaced. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__select) {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    gap: var(--spacing-150);
+    align-self: stretch;
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__select:hover .bcn-plan-gantt__name) { text-decoration: underline; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__select:focus-visible) {
+    /* Inset, so the ring stays inside the 28px row rather than under its neighbours. */
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: calc(-1 * var(--focus-ring-width));
+  }
+
+  /* The caller's row controls: revealed by OPACITY only, so they never leave the tab order. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__actions) {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--spacing-100);
+    opacity: 0;
+    transition: opacity 120ms ease;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__actions:has([aria-expanded='true'])),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__actions:has([open])),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__item:hover .bcn-plan-gantt__actions),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__item:focus-within .bcn-plan-gantt__actions),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__item--selected .bcn-plan-gantt__actions) { opacity: 1; }
+  @media (hover: none) {
+    .bcn-plan-gantt-host :global(.bcn-plan-gantt__actions) { opacity: 1; }
+  }
+
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__tag) {
+    flex-shrink: 0;
+    font-size: var(--_meta);
+    font-weight: 400;
+    color: var(--_muted);
+    white-space: nowrap;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__name) {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--font-size-150);
+    color: var(--_text);
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__item--tier-0 .bcn-plan-gantt__name),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__item--tier-1 .bcn-plan-gantt__name) { font-weight: 600; }
+
+  /* ── The plot ── */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__plot) { display: block; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__band--tier-0) { fill: color-mix(in srgb, var(--_text) 3%, transparent); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__band--tier-1) { fill: color-mix(in srgb, var(--_text) 1.5%, transparent); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__selected) { fill: var(--_brand-surface); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__grid) { stroke: var(--_b-subtle); stroke-width: 1; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__grid--emphasis) { stroke: var(--_b); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__rule) { stroke: var(--_b-subtle); stroke-width: 1; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__landmark) {
+    stroke: color-mix(in srgb, var(--_brand) 35%, transparent);
+    stroke-width: 1;
+    stroke-dasharray: 4 4;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__landmark-hit) { fill: transparent; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__today-line) { fill: var(--_warn); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__bar) { fill: var(--_brand); stroke: var(--_brand-hover); stroke-width: 1; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary--tier-0) {
+    fill: color-mix(in srgb, var(--_text) 24%, transparent);
+    stroke: var(--_subtle);
+    stroke-width: 1;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary--tier-1) {
+    fill: color-mix(in srgb, var(--_text) 15%, transparent);
+    stroke: var(--_b-strong);
+    stroke-width: 1;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary--tier-2) { fill: color-mix(in srgb, var(--_text) 10%, transparent); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__summary-tick) { fill: var(--_subtle); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__milestone) { fill: var(--_brand); stroke: var(--_brand-hover); stroke-width: 1; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__window) {
+    fill: color-mix(in srgb, var(--_text) 6%, transparent);
+    stroke: var(--_b);
+    stroke-width: 1;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__overrun) { fill: var(--_warn); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__overrun--scheduled) { fill: var(--_danger); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__milestone--overrun) { fill: var(--_warn); stroke: var(--_warn-hover); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__milestone--overrun-scheduled) { fill: var(--_danger); stroke: var(--_danger-hover); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__cutoff) { fill: var(--_muted); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__link) { pointer-events: none; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__link-line) { fill: none; stroke: var(--_subtle); stroke-width: 1; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__link-head) { fill: var(--_subtle); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__hit) { fill: transparent; cursor: pointer; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--hovered) { filter: brightness(1.08); }
+
+  /* ── Edit mode ── */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__picked) { fill: var(--_accent-surface); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--picked .bcn-plan-gantt__bar),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--picked .bcn-plan-gantt__summary),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--picked .bcn-plan-gantt__milestone) { stroke: var(--_accent); stroke-width: 2; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__mark--previewed) { opacity: 0.4; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__window-edit) { pointer-events: none; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__window-edit-band) { fill: none; stroke: var(--_brand); stroke-width: 1; stroke-dasharray: 3 2; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__window-handle) { fill: var(--_brand); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__ghost) {
+    fill: color-mix(in srgb, var(--_brand) 35%, transparent);
+    stroke: var(--_brand);
+    stroke-width: 1;
+    stroke-dasharray: 3 2;
+    pointer-events: none;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__hit--editable) { touch-action: none; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__hit--grab) { cursor: grab; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__hit--grabbing),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__plot--grabbing),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__plot--grabbing .bcn-plan-gantt__hit) { cursor: grabbing; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__hit--resize),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__plot--resizing),
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__plot--resizing .bcn-plan-gantt__hit) { cursor: ew-resize; }
+
+  /* The drag popup: chrome mirrors the readout panel. */
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__drag-popup) {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin-block-start: var(--spacing-100);
+    padding: var(--spacing-150) var(--spacing-200);
+    background: var(--_s);
+    border: 1px solid var(--_b);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-100);
+    font-size: var(--_meta);
+    color: var(--_text);
+    white-space: nowrap;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__drag-popup[hidden]) { display: none; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__drag-popup--above) {
+    margin-block-start: 0;
+    transform: translateY(calc(-100% - var(--spacing-100)));
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__drag-readout) { display: flex; flex-direction: column; gap: var(--spacing-050); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__drag-dates) { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__drag-changes) { color: var(--_muted); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__drop-notes) {
+    max-width: 24rem;
+    margin: 0;
+    padding-inline-start: var(--spacing-300);
+    color: var(--_muted);
+    white-space: normal;
+  }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__drop-notes strong) { font-weight: 600; color: var(--_text); }
+  .bcn-plan-gantt-host :global(.bcn-plan-gantt__drag-actions) { display: flex; gap: var(--spacing-100); }
+
+  /* The hover readout (ui-viz-tip's panel). It lives on <body> in the top layer, so it is fully global. */
+  :global(.bcn-plan-gantt-tip) {
+    position: fixed;
+    inset: auto;
+    margin: 0;
+    padding: var(--spacing-200) var(--spacing-250);
+    z-index: 50;
+    background-color: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-100);
+    pointer-events: none;
+    text-align: start;
+    font-size: 0.8125rem;
+    color: var(--color-content-default);
+  }
+  :global(.bcn-plan-gantt-tip__panel) { display: flex; flex-direction: column; gap: var(--spacing-050); white-space: nowrap; }
+  :global(.bcn-plan-gantt-tip__title) { font-weight: 600; }
+  :global(.bcn-plan-gantt-tip__row) { display: flex; align-items: center; gap: var(--spacing-100); }
+  :global(.bcn-plan-gantt-tip__label) { color: var(--color-content-default-secondary); }
+  :global(.bcn-plan-gantt-tip__value) { color: var(--color-content-default); font-variant-numeric: tabular-nums; font-weight: 600; }
+  :global(.bcn-plan-gantt-tip__note) { color: var(--color-content-default-secondary); font-variant-numeric: tabular-nums; }
+</style>

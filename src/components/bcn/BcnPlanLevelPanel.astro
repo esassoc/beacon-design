@@ -1,0 +1,70 @@
+---
+// <BcnPlanLevelPanel> — a faithful port of Jamie Quishenberry's inline "Add level" panel (Beacon.Web
+// shared/components/inline-create-panels/plan-level-create-panel, UX Decree 1): the plan element drawer's level
+// picker opens it, stacked over the drawer, to add a level below the deepest without leaving the element. Header
+// "Add level" over "Level N"; Singular name / Plural name; Save / Cancel.
+//
+// ONE pre-rendered shell, driven by ./plan-level-panel.ts through openPlanLevelPanel().
+//
+// bcn-lego-checked: the shell IS esa-side-dialog, the two names ARE esa-text-field, Save / Cancel ARE esa-button.
+// The CSS below is Jamie's .inline-create-panel block (the form's stack and the footer row) on the semantic tokens.
+import EsaButton from '@esa/ecology/esa-button.astro';
+---
+
+<div class="bcn-plp" data-bcn-plan-level-panel>
+  <esa-side-dialog class="bcn-plp__dialog" size="md">
+    <div slot="header" class="bcn-plp__head">
+      <h2 class="bcn-plp__title typography-title" id="plan-level-create-panel-title">Add level</h2>
+      <p class="bcn-plp__subtitle typography-body-sm" data-plp="subtitle"></p>
+    </div>
+
+    <form class="inline-create-panel__form" data-plp="form" novalidate>
+      <esa-text-field data-plp="singular" label="Singular name" placeholder="e.g. Task" required maxlength="100"></esa-text-field>
+      <esa-text-field data-plp="plural" label="Plural name" placeholder="e.g. Tasks" required maxlength="100"></esa-text-field>
+    </form>
+
+    <div slot="footer" class="inline-create-panel__actions">
+      <EsaButton variant="primary" data-plp="save">Save</EsaButton>
+      <EsaButton variant="secondary" appearance="outline" data-plp="cancel">Cancel</EsaButton>
+    </div>
+  </esa-side-dialog>
+
+  <!-- The esa-button spinner, lifted onto Save while its request is out (Beacon's loadingButton). -->
+  <template data-plp-tpl="spinner"><EsaButton loading size="sm">Saving</EsaButton></template>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import './plan-level-panel';
+</script>
+
+<style>
+  .bcn-plp :global([hidden]) { display: none !important; }
+
+  .bcn-plp__head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050);
+    flex: 1;
+    min-width: 0;
+  }
+  .bcn-plp__title { margin: 0; color: var(--color-content-default); }
+  .bcn-plp__subtitle { margin: 0; color: var(--color-content-default-secondary); }
+
+  .inline-create-panel__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    margin: 0;
+  }
+
+  /* Pinned footer row: primary Save first, Cancel last (standard dialog footer order). */
+  .inline-create-panel__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+    width: 100%;
+  }
+</style>
