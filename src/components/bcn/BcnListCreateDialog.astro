@@ -39,7 +39,7 @@
 // aria-live is the size-honest version.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import {
-  LIST_GROUP_ORDER,
+  LIST_CREATE_TYPES,
   LIST_TYPE_BASIS,
   LIST_TYPE_LABEL,
   addListLabel,
@@ -47,9 +47,9 @@ import {
 } from '../../data/lists';
 
 // Labels and basis strings are read off the data module. Nothing here is typed by hand,
-// and the segments run in LIST_GROUP_ORDER so the three types sit in the same order here
-// as they do on the index behind the dialog.
-const TYPES = LIST_GROUP_ORDER.map((value) => ({ label: LIST_TYPE_LABEL[value], value }));
+// and the segments run in LIST_CREATE_TYPES, the index's order without the Compliance
+// Index, so the three types sit in the same order here as they do behind the dialog.
+const TYPES = LIST_CREATE_TYPES.map((value) => ({ label: LIST_TYPE_LABEL[value], value }));
 const DEFAULT_TYPE: ListType = TYPES[0].value;
 
 // The heading is the verb that was pressed, so the dialog names the thing it is about to

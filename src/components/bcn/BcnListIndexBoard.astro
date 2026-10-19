@@ -1,7 +1,8 @@
 ---
 // <BcnListIndexBoard> — the Lists index: every list a project keeps, filed under the
-// registry it draws from. A keyword search across all of them, then three groups, in
-// the order setup fills them: Commitments, Actions, Obligations.
+// registry it draws from. A keyword search across all of them, then the groups, in the
+// order setup fills them: Commitments, Actions, Obligations, then the project's
+// Compliance Index (2026-10-19), which is one row and has no Add button.
 //
 // WHAT THIS SECTION SACRIFICED. Completeness of arrangement. There is one axis and it
 // is the registry, so the index cannot be read by recency across all nineteen lists any
@@ -70,6 +71,7 @@ import BcnSwCountBadge from './BcnSwCountBadge.astro';
 import BcnSwFilterRow from './BcnSwFilterRow.astro';
 import {
   LIST_GROUP_LABEL,
+  LIST_CREATE_TYPES,
   LIST_GROUP_ORDER,
   LIST_TYPE_LABEL,
   addListLabel,
@@ -90,6 +92,8 @@ const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
   // search changes the number it reports.
   noun: LIST_TYPE_LABEL[type].toLowerCase(),
   lists: listsOfType(type),
+  // The Compliance Index is one per project: it has a row and no Add button.
+  creatable: LIST_CREATE_TYPES.includes(type),
 }));
 ---
 
@@ -118,15 +122,17 @@ const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
                 data-total={group.lists.length}
               />
             </div>
-            <EsaButton
-              variant="ghost"
-              appearance="outline"
-              size="sm"
-              icon="plus"
-              data-list-create={group.type}
-            >
-              {addListLabel(group.type)}
-            </EsaButton>
+            {group.creatable && (
+              <EsaButton
+                variant="ghost"
+                appearance="outline"
+                size="sm"
+                icon="plus"
+                data-list-create={group.type}
+              >
+                {addListLabel(group.type)}
+              </EsaButton>
+            )}
           </div>
 
           <div class="stack" data-gap="xs">

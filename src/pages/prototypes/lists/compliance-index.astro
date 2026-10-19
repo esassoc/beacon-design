@@ -1,0 +1,62 @@
+---
+// The project's Compliance Index, as the Lists page carries it (Andy, 2026-10-19: Lists
+// should have a Compliance Index list type). The same page chrome as a list (title,
+// Details and Export in the rail, the tree as the body), so its PDF is exported where
+// every other list's is.
+//
+// It is not a list anyone makes, so it has no title-row verbs, no add drawer and no
+// Danger Zone: there is one index per project, and its filing is edited in the setup
+// wizard. Every value is read from COMPLIANCE_INDEX_LIST (src/data/lists.ts) and
+// complianceIndexTree() (src/data/list-export-documents.ts).
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import BcnSwCountBadge from '../../../components/bcn/BcnSwCountBadge.astro';
+import BcnListDetailsRail from '../../../components/bcn/BcnListDetailsRail.astro';
+import BcnListExportPanel from '../../../components/bcn/BcnListExportPanel.astro';
+import BcnListIndexTree from '../../../components/bcn/BcnListIndexTree.astro';
+import { PROJECT } from '../../../data/project-dashboard';
+import { COMPLIANCE_INDEX_LIST as list, memberCountLabel } from '../../../data/lists';
+import { withBase } from '../../../lib/base';
+---
+
+<!-- manifest:
+  layout: PageLayout > sidebar(end)                        # SPINE — tree is the content column, rail the aside
+  sections:
+    - title badge  -> bcn-sw-count-badge                   # every action plus every obligation
+    - details rail -> bcn-list-details-rail                # name, description, type, created, last updated, item count
+    - export panel -> bcn-list-export-panel                # PDF, CSV, Excel, Word (coming later)
+    - index tree   -> bcn-list-index-tree                  # category > subcategory > action and obligation cards, Unfiled last
+-->
+
+<AppShell
+  title={list.name}
+  tenantName={PROJECT.tenant}
+  projectName="Delta Conveyance"
+  activeNavId="lists"
+  expandedSections={['project']}
+>
+  <PageLayout
+    title={list.name}
+    icon="notepad-text"
+    iconColor="var(--color-content-brand)"
+    breadcrumbs={[
+      { label: 'Project', href: '#project' },
+      { label: 'Lists', href: withBase('/prototypes/lists') },
+      { label: list.name },
+    ]}
+  >
+    <Fragment slot="title-badge">
+      <BcnSwCountBadge value={list.memberCount} label={memberCountLabel(list.type, list.memberCount)} />
+    </Fragment>
+
+    {/* Same arrangement as a list's page: the rail first in the DOM and on the right,
+        the tree wrapped so its own script sits inside the flex item. */}
+    <div class="sidebar" data-side="end" data-gap="lg" style="--sidebar-width: 22rem; --sidebar-content-min: 55%;">
+      <div class="stack" data-gap="md">
+        <BcnListDetailsRail list={list} />
+        <BcnListExportPanel list={list} />
+      </div>
+      <div><BcnListIndexTree /></div>
+    </div>
+  </PageLayout>
+</AppShell>

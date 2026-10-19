@@ -1,10 +1,10 @@
 ---
 // <BcnListExportPanel> — the ways a list leaves Beacon, as a block in the detail
 // page's rail. The order and the format names are prod's (BCN-1909: CSV, then Excel),
-// with the PDF ahead of them (2026-10-19, list-export-documents): PDF on obligation and
-// action lists, then CSV and Excel on every list, then Word, which prod has not built,
-// as a row whose state says so. Only an
-// obligation list gets the JSON endpoint: Andy, 2026-09-23, "Actions and commitments
+// with the PDF ahead of them (2026-10-19, list-export-documents): PDF on every list and
+// on the Compliance Index, then CSV and Excel, then Word, which prod has not built, as a
+// row whose state says so. Only an obligation list gets the JSON endpoint: Andy,
+// 2026-09-23, "Actions and commitments
 // need export options (but not the API option)". The endpoint serves the form spec,
 // which only an obligation list has, so the section is gated on the list's type. It
 // replaces the Export dropdown that sat on the page's title row: a menu hid the fact
@@ -73,7 +73,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import BcnKeyValue from './BcnKeyValue.astro';
-import { endpointUrl, formFields, type ActionList, type CommitmentList, type ObligationList } from '../../data/lists';
+import { endpointUrl, formFields, type ObligationList, type ProjectList } from '../../data/lists';
 import { documentHref, exportDocumentById } from '../../data/list-export-documents';
 import { withBase } from '../../lib/base';
 // The Astro half of the typography-composite mechanism, the way esa-button imports it.
@@ -81,13 +81,13 @@ import '@esa/tokens/typography.css';
 
 interface Props {
   /** The list being exported. Every value below is read off it or derived from it. */
-  list: ObligationList | ActionList | CommitmentList;
+  list: ProjectList;
 }
 const { list } = Astro.props;
-// PDF first (Andy, 2026-10-19), on obligation and action lists. A commitment list has no
-// document yet, so it has no row. The prototype opens the document as its print route
-// renders it; prod downloads the file PdfService makes from that route.
-const pdfHref = list.type !== 'commitment' && exportDocumentById(list.id) ? withBase(documentHref(list.id)) : '';
+// PDF first (Andy, 2026-10-19), on every list and on the Compliance Index. The prototype
+// opens the document as its print route renders it; prod downloads the file PdfService
+// makes from that route.
+const pdfHref = exportDocumentById(list.id) ? withBase(documentHref(list.id)) : '';
 const api = list.type === 'obligation' ? (list as ObligationList) : null;
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

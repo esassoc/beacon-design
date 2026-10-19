@@ -43,14 +43,21 @@ import { implementationsOf, type ListImplementation } from './list-implementatio
 
 /* ── Types ──────────────────────────────────────────────────────────────── */
 
-/** The three registries a list can be drawn from. There is no fourth. */
-export type ListType = 'action' | 'obligation' | 'commitment';
+/**
+ * The three registries a list can be drawn from, and the project's Compliance Index,
+ * which the Lists page carries as a fourth type (Andy, 2026-10-19). The index is not
+ * made from a registry: there is one per project, it holds every action and obligation,
+ * and nobody creates or deletes it here, so it has no Add button and no create-dialog
+ * segment (LIST_CREATE_TYPES).
+ */
+export type ListType = 'action' | 'obligation' | 'commitment' | 'compliance-index';
 
 /** What the type is called in the index and the create dialog. */
 export const LIST_TYPE_LABEL: Record<ListType, string> = {
   action: 'Action list',
   obligation: 'Obligation list',
   commitment: 'Commitment list',
+  'compliance-index': 'Compliance index',
 };
 
 /**
@@ -65,6 +72,7 @@ export const LIST_TYPE_BASIS: Record<ListType, string> = {
   action: 'Actions tracked together on the Tracker pages.',
   obligation: 'Standing duties exported as a document, a spreadsheet or form fields.',
   commitment: 'Permit commitments grouped for review and reporting.',
+  'compliance-index': 'Every action and obligation on the project, by category and subcategory.',
 };
 
 /** The noun a member count takes: [singular, plural]. */
@@ -72,6 +80,7 @@ export const LIST_MEMBER_NOUN: Record<ListType, readonly [string, string]> = {
   action: ['action', 'actions'],
   obligation: ['obligation', 'obligations'],
   commitment: ['commitment', 'commitments'],
+  'compliance-index': ['item', 'items'],
 };
 
 /** "8 obligations" / "1 action" — the count with the right noun for its type. */
@@ -586,7 +595,21 @@ export const compareCodes = (a: string, b: string): number => {
 };
 
 /** Every list on the project, the way the index reads it: newest change first. */
-export const PROJECT_LISTS: ProjectList[] = [...ACTION_LISTS, ...OBLIGATION_LISTS, ...COMMITMENT_LISTS].sort(
+/**
+ * The project's Compliance Index as the Lists page carries it. Its count is every action
+ * plus every obligation the registry files, the same set its PDF prints.
+ */
+export const COMPLIANCE_INDEX_LIST: ProjectList = {
+  id: 'compliance-index',
+  type: 'compliance-index',
+  name: 'Compliance Index',
+  description: 'Every action and obligation on the project, filed by category and subcategory.',
+  createdAt: '2026-02-19',
+  updatedAt: '2026-10-15',
+  memberCount: ITP.actions.length + OBLIGATION_TREE.reduce((n, c) => n + c.subcategories.reduce((m, s) => m + s.obligations.length, 0), 0),
+};
+
+export const PROJECT_LISTS: ProjectList[] = [...ACTION_LISTS, ...OBLIGATION_LISTS, ...COMMITMENT_LISTS, COMPLIANCE_INDEX_LIST].sort(
   (a, b) => b.updatedAt.localeCompare(a.updatedAt) || a.name.localeCompare(b.name),
 );
 
@@ -594,6 +617,7 @@ export const LIST_TYPE_COUNTS: Record<ListType, number> = {
   action: ACTION_LISTS.length,
   obligation: OBLIGATION_LISTS.length,
   commitment: COMMITMENT_LISTS.length,
+  'compliance-index': 1,
 };
 
 export const obligationListById = (id: string): ObligationList | undefined =>
@@ -606,7 +630,10 @@ export const obligationListById = (id: string): ObligationList | undefined =>
  * setup wizard fills them, so a reader who came through setup meets them again in
  * the sequence they built them.
  */
-export const LIST_GROUP_ORDER: readonly ListType[] = ['commitment', 'action', 'obligation'];
+export const LIST_GROUP_ORDER: readonly ListType[] = ['commitment', 'action', 'obligation', 'compliance-index'];
+
+/** The types a person can make a list of: the three registries, never the index. */
+export const LIST_CREATE_TYPES: readonly ListType[] = ['commitment', 'action', 'obligation'];
 
 // Every list type IS one of the setup wizard's entities, so its plural name, its glyph
 // and its accent are read off the wizard's own step rather than restated here. Change a
@@ -632,6 +659,8 @@ export const LIST_GROUP_LABEL: Record<ListType, string> = {
   commitment: `${titleCase(LIST_TYPE_LABEL.commitment)}s`,
   action: `${titleCase(LIST_TYPE_LABEL.action)}s`,
   obligation: `${titleCase(LIST_TYPE_LABEL.obligation)}s`,
+  // One index per project, so the heading names it, not a plural of it.
+  'compliance-index': 'Compliance Index',
 };
 
 /** The entity mark a list row carries. */
@@ -653,6 +682,13 @@ export const LIST_TYPE_MARK: Record<ListType, ListTypeMark> = {
   commitment: markFor('commitment'),
   action: markFor('action'),
   obligation: markFor('obligation'),
+  // No setup step owns the index. It files requirements, so it takes the requirement
+  // accent, with Lucide's list-tree for its category › subcategory shape.
+  'compliance-index': {
+    token: 'requirement',
+    iconName: 'list-tree',
+    iconPaths: '<path d="M21 12h-8"/><path d="M21 6H8"/><path d="M21 18h-8"/><path d="M3 6v4c0 1.1.9 2 2 2h3"/><path d="M3 10v6c0 1.1.9 2 2 2h3"/>',
+  },
 };
 
 /**
@@ -853,6 +889,8 @@ export const LIST_FACETS: Record<ListType, [FacetKey, string][]> = {
   commitment: [['source', 'Source Document']],
   action: [['phase', 'Phase'], ['species', 'Species'], ['type', 'Type'], ['frequency', 'Frequency']],
   obligation: [['phase', 'Phase'], ['species', 'Species'], ['category', 'Category'], ['class', 'Class']],
+  // Nothing is added to the index from a drawer.
+  'compliance-index': [],
 };
 
 /* ── Form-field export ──────────────────────────────────────────────────── */

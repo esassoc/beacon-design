@@ -11,6 +11,8 @@
 //   Action      Type (in the index, where the group does not already say it),
 //               Frequency, Timing, then where it stands per component
 //               (<BcnDocOccurrences>).
+//   Commitment  Its code at the margin, its title, then each requirement it holds:
+//               the requirement's name, then its text in the permit's words.
 //
 // The entry draws no rule of its own. The list it sits in owns the divider between
 // entries (<BcnDocGroups>), so the first entry under a heading needs no exception.
@@ -35,7 +37,9 @@ const Title = `h${level}` as 'h3' | 'h4' | 'h5';
 
 const title = entry.kind === 'action' ? entry.name : entry.title;
 const facts =
-  entry.kind === 'obligation'
+  entry.kind === 'commitment'
+    ? []
+    : entry.kind === 'obligation'
     ? [
         { label: 'Class', value: entry.classLabel },
         { label: 'Audience', value: entry.audience },
@@ -62,6 +66,16 @@ const facts =
     </div>
   )}
   {entry.kind === 'action' && <BcnDocOccurrences occurrences={entry.occurrences} />}
+  {entry.kind === 'commitment' && entry.requirements.length > 0 && (
+    <ol class="bcn-doc-entry__reqs">
+      {entry.requirements.map((r) => (
+        <li class="bcn-doc-entry__req">
+          <p class="bcn-doc-entry__req-name">{r.name}</p>
+          <p class="bcn-doc-entry__req-text">{r.text}</p>
+        </li>
+      ))}
+    </ol>
+  )}
 </article>
 
 <style>
@@ -98,5 +112,22 @@ const facts =
 
   .bcn-doc-entry__facts {
     margin-block-start: var(--spacing-150);
+  }
+
+  .bcn-doc-entry__reqs {
+    margin: var(--spacing-150) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .bcn-doc-entry__req + .bcn-doc-entry__req {
+    margin-block-start: var(--spacing-150);
+  }
+  .bcn-doc-entry__req-name {
+    margin: 0;
+    font-weight: var(--typography-font-weight-medium);
+  }
+  .bcn-doc-entry__req-text {
+    margin: var(--spacing-050) 0 0;
+    max-inline-size: 46em;
   }
 </style>

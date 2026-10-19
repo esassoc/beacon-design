@@ -965,8 +965,26 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'list-export-compliance-index-pdf',
         title: 'Compliance Index PDF',
         description:
-          'Every action and obligation on the project in one PDF, from the Export action on the Lists page: a summary table, then the detail by category › subcategory, Unfiled last.',
+          'Every action and obligation on the project in one PDF, from the Compliance Index’s Export card on Lists: a summary table, then the detail by category › subcategory, Unfiled last.',
         route: '/prototypes/list-export-documents/compliance-index',
+        createdAt: '2026-10-19',
+        status: 'in-progress',
+      },
+      {
+        slug: 'list-export-commitment-pdf',
+        title: 'Commitment list PDF',
+        description:
+          'A commitment list as a PDF on Letter, by permit section in code order: a summary table, then each commitment with its requirements in the permit’s words.',
+        route: '/prototypes/list-export-documents/quarterly-agency-briefing',
+        createdAt: '2026-10-19',
+        status: 'in-progress',
+      },
+      {
+        slug: 'lists-compliance-index',
+        title: 'Compliance Index on Lists',
+        description:
+          'The project’s Compliance Index as a list type on Lists: every action and obligation by category › subcategory, Unfiled last, with the Details and Export rail every list has.',
+        route: '/prototypes/lists/compliance-index',
         createdAt: '2026-10-19',
         status: 'in-progress',
       },

@@ -27,17 +27,17 @@
 export default {
   sections: [
     {
-      label: 'Export Compliance Index',
-      selector: '.page-layout__utilities',
+      label: 'Compliance Index group',
+      selector: '[data-list-group="compliance-index"]',
       intent:
-        'One action in the page header that downloads the project\'s whole Compliance Index as a PDF: every action and obligation, category › subcategory, Unfiled last (see the list-export-compliance-index-pdf spec).',
+        'The project\'s Compliance Index as the last group on Lists: one row, opening its own page with the Details and Export rail every list has (see the lists-compliance-index spec).',
       decisions: [
-        'It sits on the Lists page, not on the Compliance Index page, because it is an export of the project\'s items alongside the lists drawn from them.',
-        'An outline button with a download icon, in the header\'s action area; no menu, since there is one format.',
-        'Prod: calls `GET projects/{projectID}/compliance-index/generate-pdf` and saves the file. The prototype opens the print route in a new tab.',
+        'Andy, 2026-10-19: Lists has a Compliance Index list type. It replaced an Export Compliance Index button on the page header; the index\'s PDF is now exported from its Export card, like every list\'s.',
+        'One index per project, so the group has no Add button and the create dialog offers only the three registry types.',
+        'The row\'s count is every action plus every obligation on the project.',
+        'Its mark is Lucide list-tree in the requirement accent: no setup step owns the index, and it files requirements.',
       ],
-      gotchas: ['A full index takes a while to render (about 137 pages); show the button\'s loading state while the file is made, as the list Export card does.'],
-      acceptance: ['The Lists header shows one Export Compliance Index button; pressing it returns the index PDF.'],
+      acceptance: ['Lists ends with a Compliance Index group holding one row and no Add button; the row opens the index page.'],
     },
     {
       label: 'Lists search',
@@ -54,7 +54,7 @@ export default {
         'HTML-escape the row text before re-inserting it with marks; the <mark> wrappers are the only injected markup.',
       ],
       acceptance: [
-        'Typing narrows rows in all three groups at once, marks the matches in name and description, and clearing restores every row with no stale marks.',
+        'Typing narrows rows in every group at once, marks the matches in name and description, and clearing restores every row with no stale marks.',
       ],
     },
     {
@@ -63,7 +63,7 @@ export default {
       intent:
         'Every list, filed under the registry it draws from, in setup order: Commitments, Actions, Obligations. Each row (bcn-list-card) carries the list\'s name, description, member count and last change, and opens the list\'s detail page.',
       decisions: [
-        'The type is STRUCTURAL: each group heading carries its own "Add <type> list" button, so the new list\'s type is chosen by which button was pressed.',
+        'The type is STRUCTURAL: each registry group heading carries its own "Add <type> list" button, so the new list\'s type is chosen by which button was pressed. The Compliance Index group has none.',
         'Within a group, rows sort newest change first; the board never re-sorts.',
         'A heading\'s badge counts LISTS in the group (and counts HITS while searching); a row\'s badge counts that list\'s MEMBERS. Accessible names tell them apart ("4 commitment lists" vs "64 commitments").',
         'A group with no hits keeps its heading and its add button and shows a dashed "No lists match" box. Hiding the whole group would hide the add verb at the exact moment the reader learned the list they want does not exist.',
@@ -75,7 +75,7 @@ export default {
         'Counts are derived from the data (group length / member predicates), never hard-coded, so a new seed list moves the heading without edits.',
       ],
       acceptance: [
-        'Three groups in order Commitments → Actions → Obligations; each heading has a count and an add button; searching "report" leaves the headings in place, updates each count to its hits, and shows "No lists match" in any group with none.',
+        'Four groups in order Commitments → Actions → Obligations → Compliance Index; each heading has a count, and each registry heading an add button; searching "report" leaves the headings in place, updates each count to its hits, and shows "No lists match" in any group with none.',
       ],
     },
     {

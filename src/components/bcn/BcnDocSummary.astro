@@ -11,6 +11,7 @@
 //
 //   obligation list   Obligation, Class, Audience, Commitments
 //   action list       Action, Frequency, Commitments
+//   commitment list   Commitment (its code), Title, Requirements (how many it holds)
 //   compliance index  Item, Type (an action's type, an obligation's class), Commitments;
 //                     actions and obligations in separate runs inside each subcategory
 //
@@ -34,6 +35,7 @@ interface Column {
 }
 
 const title = (e: DocEntry) => (e.kind === 'action' ? e.name : e.title);
+const hasEntries = outline.some((g) => g.sections.some((s) => s.runs.some((r) => r.entries.length)));
 const codes = (e: DocEntry) => e.codes.join(', ');
 
 const COLUMNS: Record<ExportDocument['kind'], Column[]> = {
@@ -50,15 +52,20 @@ const COLUMNS: Record<ExportDocument['kind'], Column[]> = {
   ],
   'compliance-index': [
     { label: 'Item', cell: title, width: '56%' },
-    { label: 'Type', cell: (e) => (e.kind === 'action' ? e.typeLabel : e.classLabel), width: '24%' },
+    { label: 'Type', cell: (e) => (e.kind === 'action' ? e.typeLabel : e.kind === 'obligation' ? e.classLabel : ''), width: '24%' },
     { label: `${L.commitment}s`, cell: codes },
+  ],
+  'commitment-list': [
+    { label: L.commitment, cell: (e) => (e.kind === 'commitment' ? e.code : ''), width: '18%' },
+    { label: 'Title', cell: title },
+    { label: 'Requirements', cell: (e) => (e.kind === 'commitment' ? String(e.requirements.length) : ''), width: '16%' },
   ],
 };
 const columns = COLUMNS[doc.kind];
 const span = columns.length;
 ---
 
-<table class="bcn-doc-summary">
+{hasEntries && <table class="bcn-doc-summary">
   <colgroup>
     {columns.map((c) => <col style={c.width ? `width: ${c.width}` : undefined} />)}
   </colgroup>
@@ -99,7 +106,7 @@ const span = columns.length;
       </tbody>
     )),
   )}
-</table>
+</table>}
 
 <style>
   .bcn-doc-summary {

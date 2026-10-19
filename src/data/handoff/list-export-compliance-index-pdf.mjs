@@ -1,5 +1,6 @@
 // Handoff spec for /prototypes/list-export-documents/compliance-index: every action and
-// obligation on the project in one PDF, from the Export action on the Lists page.
+// obligation on the project in one PDF, from the Export card on the Compliance Index's
+// page on Lists (lists-compliance-index).
 // Written for Beacon's prototype-implement and pdf-template skills: an Angular print
 // route under Beacon.Web's src/app/print, captured by PdfService.GeneratePdfFromAngularRoute.
 //

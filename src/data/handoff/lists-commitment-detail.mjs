@@ -56,11 +56,11 @@ export default {
       ],
     },
     {
-      label: 'Export — CSV, Excel',
+      label: 'Export — PDF, CSV, Excel',
       selector: '.bcn-lxp',
-      intent: 'Prod\'s CSV and Excel downloads in the rail, then Word as a row that is not built yet.',
+      intent: 'PDF, then prod\'s CSV and Excel downloads in the rail, then Word as a row that is not built yet.',
       decisions: [
-        'No PDF row: a commitment list has no export document yet (round 1 designed obligation and action lists only).',
+        'PDF downloads the commitment list document (see the list-export-commitment-pdf spec): `GET commitment-lists/{commitmentListID}/generate-pdf`. Every list has one, an empty list included (Andy, 2026-10-19).',
         'Word carries a "Coming Later" badge where its button would be, as on the other list types.',
         'No JSON/API section; that is obligation-only.',
       ],

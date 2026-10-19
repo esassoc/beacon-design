@@ -1,8 +1,9 @@
 /**
  * Export documents: the PDFs a project hands out of Beacon.
  *
- * Three documents, one shape. An obligation list and an action list export the list as
- * it stands, whole (like the CSV, not the page's filters). The compliance index export
+ * Four documents, one shape. An obligation, action or commitment list exports the list
+ * as it stands, whole (like the CSV, not the page's filters); every list has a PDF, an
+ * empty one included (Andy, 2026-10-19). The compliance index export
  * holds every action and obligation on the project, filed category › subcategory, with
  * the actions that have no home in an Unfiled group last.
  *
@@ -13,7 +14,8 @@
  * Every document is a tree of GROUPS holding ENTRIES, which is all a print template
  * needs to know: the obligation list groups category › subcategory (the list's own
  * names and wording), the action list groups by type (its tree's default view), the
- * compliance index groups category › subcategory over both kinds. Prod's print route
+ * commitment list groups by permit section in code order, the compliance index groups
+ * category › subcategory over both kinds. Prod's print route
  * reads one DTO of this shape per document.
  *
  * What an entry carries is what the CSV export already carries (prod
@@ -27,6 +29,7 @@
  * its id and component, so every build prints the same pages.
  */
 import {
+  COMMITMENT_CHAIN,
   ITP,
   OBLIGATION_CLASS_LABEL,
   OBLIGATION_TREE,
@@ -43,7 +46,11 @@ import {
   compareCodes,
   indexOf,
   listTree,
+  COMMITMENT_LISTS,
+  COMMITMENT_TITLES,
+  sectionOf,
   type ActionList,
+  type CommitmentList,
   type ObligationList,
 } from './lists';
 import { implementationsOf, type ImplStatus } from './list-implementations';
@@ -51,7 +58,7 @@ import { PROJECT } from './project-dashboard';
 
 /* ── Types ──────────────────────────────────────────────────────────────── */
 
-export type DocumentKind = 'obligation-list' | 'action-list' | 'compliance-index';
+export type DocumentKind = 'obligation-list' | 'action-list' | 'commitment-list' | 'compliance-index';
 
 /** Prod's ObligationAudience. */
 export type DocAudience = 'Crews' | 'Monitors' | 'Compliance staff';
@@ -108,7 +115,18 @@ export interface DocAction {
   occurrences: DocOccurrence[];
 }
 
-export type DocEntry = DocObligation | DocAction;
+/** A permit commitment and the requirements it holds, in the permit's own words. */
+export interface DocCommitment {
+  kind: 'commitment';
+  key: string;
+  code: string;
+  title: string;
+  /** Always `[code]`, so every entry carries its codes the same way. */
+  codes: string[];
+  requirements: { id: string; name: string; text: string }[];
+}
+
+export type DocEntry = DocObligation | DocAction | DocCommitment;
 
 export interface DocGroup {
   id: string;
@@ -152,7 +170,7 @@ export interface ExportDocument {
   /** YYYY-MM-DD. The day the file was made. */
   exportedOn: string;
   labels: DocLabels;
-  counts: { actions: number; obligations: number };
+  counts: { actions: number; obligations: number; commitments: number };
   groups: DocGroup[];
 }
 
@@ -278,6 +296,7 @@ const countKinds = (groups: DocGroup[]) => {
   return {
     actions: all.filter((e) => e.kind === 'action').length,
     obligations: all.filter((e) => e.kind === 'obligation').length,
+    commitments: all.filter((e) => e.kind === 'commitment').length,
   };
 };
 
@@ -341,36 +360,71 @@ export function actionListDocument(list: ActionList): ExportDocument {
   };
 }
 
+/** One subcategory of the index: its actions and its obligations, each A–Z. */
+export interface IndexSubcategory {
+  id: string;
+  name: string;
+  actions: WizardAction[];
+  obligations: ObligationNode[];
+}
+export interface IndexCategory {
+  id: string;
+  name: string;
+  subcategories: IndexSubcategory[];
+}
+
+/**
+ * The project's Compliance Index: every obligation where the registry files it, every
+ * action under its home (homeOf), categories and subcategories A–Z, Unfiled last. The
+ * Lists page's index tree and the index PDF both read this, so they hold the same items
+ * in the same order.
+ */
+export function complianceIndexTree(): IndexCategory[] {
+  const cats = new Map<string, Map<string, IndexSubcategory>>();
+  const sub = (category: string, subcategory: string): IndexSubcategory => {
+    const subs = cats.get(category) ?? new Map<string, IndexSubcategory>();
+    cats.set(category, subs);
+    const s = subs.get(subcategory) ?? { id: slug(`${category}-${subcategory}`), name: subcategory, actions: [], obligations: [] };
+    subs.set(subcategory, s);
+    return s;
+  };
+  for (const cat of OBLIGATION_TREE)
+    for (const s of cat.subcategories) for (const o of s.obligations) sub(cat.name, s.name).obligations.push(o);
+  for (const a of ITP.actions) {
+    const home = homeOf(a);
+    sub(home.category, home.subcategory).actions.push(a);
+  }
+  return [...cats.entries()]
+    .map(([name, subs]) => ({
+      id: slug(name),
+      name,
+      subcategories: [...subs.values()]
+        .map((s) => ({
+          ...s,
+          actions: [...s.actions].sort((x, y) => x.name.localeCompare(y.name)),
+          obligations: [...s.obligations].sort((x, y) => x.title.localeCompare(y.title)),
+        }))
+        .sort(byName),
+    }))
+    .sort((x, y) => (x.name === UNFILED.category ? 1 : y.name === UNFILED.category ? -1 : byName(x, y)));
+}
+
 /**
  * Every action and obligation on the project, category › subcategory, A–Z at both
  * levels, actions before obligations inside a subcategory. Unfiled comes last.
  */
 export function complianceIndexDocument(): ExportDocument {
-  const cats = new Map<string, Map<string, DocEntry[]>>();
-  const put = (category: string, subcategory: string, e: DocEntry) => {
-    const subs = cats.get(category) ?? new Map<string, DocEntry[]>();
-    cats.set(category, subs);
-    subs.set(subcategory, [...(subs.get(subcategory) ?? []), e]);
-  };
-  for (const cat of OBLIGATION_TREE)
-    for (const sub of cat.subcategories) for (const o of sub.obligations) put(cat.name, sub.name, obligationEntry(o, o.id));
-  for (const a of ITP.actions) {
-    const home = homeOf(a);
-    put(home.category, home.subcategory, actionEntry(a));
-  }
-  const entryName = (e: DocEntry) => (e.kind === 'action' ? e.name : e.title);
-  const ordered = (es: DocEntry[]) =>
-    [...es].sort((x, y) => (x.kind === y.kind ? entryName(x).localeCompare(entryName(y)) : x.kind === 'action' ? -1 : 1));
-  const groups: DocGroup[] = [...cats.entries()]
-    .map(([name, subs]) => ({
-      id: slug(name),
-      name,
-      entries: [],
-      groups: [...subs.entries()]
-        .map(([subName, es]) => ({ id: slug(`${name}-${subName}`), name: subName, groups: [], entries: ordered(es) }))
-        .sort(byName),
-    }))
-    .sort((x, y) => (x.name === UNFILED.category ? 1 : y.name === UNFILED.category ? -1 : byName(x, y)));
+  const groups: DocGroup[] = complianceIndexTree().map((cat) => ({
+    id: cat.id,
+    name: cat.name,
+    entries: [],
+    groups: cat.subcategories.map((sub) => ({
+      id: sub.id,
+      name: sub.name,
+      groups: [],
+      entries: [...sub.actions.map(actionEntry), ...sub.obligations.map((o) => obligationEntry(o, o.id))],
+    })),
+  }));
   return {
     ...base,
     id: 'compliance-index',
@@ -378,6 +432,41 @@ export function complianceIndexDocument(): ExportDocument {
     title: 'Compliance Index',
     kindLabel: 'Compliance Index',
     description: '',
+    counts: countKinds(groups),
+    groups,
+  };
+}
+
+const CHAIN_BY_CODE = new Map(COMMITMENT_CHAIN.map((c) => [c.code, c]));
+
+/**
+ * A commitment list, grouped by permit section ("COA 10") in code order, the way its
+ * tree groups it. Each commitment prints its requirements in the permit's words.
+ */
+export function commitmentListDocument(list: CommitmentList): ExportDocument {
+  const bySection = new Map<string, DocGroup>();
+  for (const code of [...list.codes].sort(compareCodes)) {
+    const c = CHAIN_BY_CODE.get(code);
+    const section = sectionOf(code);
+    const g = bySection.get(section) ?? { id: slug(section), name: section, groups: [], entries: [] };
+    g.entries.push({
+      kind: 'commitment',
+      key: code,
+      code,
+      title: c?.title ?? COMMITMENT_TITLES[code] ?? '',
+      codes: [code],
+      requirements: (c?.requirements ?? []).map((r) => ({ id: r.id, name: r.name, text: r.text })),
+    });
+    bySection.set(section, g);
+  }
+  const groups = [...bySection.values()];
+  return {
+    ...base,
+    id: list.id,
+    kind: 'commitment-list',
+    title: list.name,
+    kindLabel: 'Commitment List',
+    description: list.description,
     counts: countKinds(groups),
     groups,
   };
@@ -412,7 +501,8 @@ export function docOutline(doc: ExportDocument): DocOutlineGroup[] {
 export const EXPORT_DOCUMENTS: ExportDocument[] = [
   complianceIndexDocument(),
   ...OBLIGATION_LISTS.map(obligationListDocument),
-  ...ACTION_LISTS.filter((l) => l.actionIds.length > 0).map(actionListDocument),
+  ...ACTION_LISTS.map(actionListDocument),
+  ...COMMITMENT_LISTS.map(commitmentListDocument),
 ];
 
 export const exportDocumentById = (id: string): ExportDocument | undefined =>

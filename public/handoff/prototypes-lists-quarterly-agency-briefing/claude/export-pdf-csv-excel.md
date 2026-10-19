@@ -1,9 +1,9 @@
-# Export — CSV, Excel
+# Export — PDF, CSV, Excel
 
-Prod's CSV and Excel downloads in the rail, then Word as a row that is not built yet.
+PDF, then prod's CSV and Excel downloads in the rail, then Word as a row that is not built yet.
 
 ## Key decisions
-- No PDF row: a commitment list has no export document yet (round 1 designed obligation and action lists only).
+- PDF downloads the commitment list document (see the list-export-commitment-pdf spec): `GET commitment-lists/{commitmentListID}/generate-pdf`. Every list has one, an empty list included (Andy, 2026-10-19).
 - Word carries a "Coming Later" badge where its button would be, as on the other list types.
 - No JSON/API section; that is obligation-only.
 
@@ -20,6 +20,49 @@ Prod's CSV and Excel downloads in the rail, then Word as a row that is not built
     </div>
     <div class="esa-card__body typography-body-md">
       <div class="stack" data-gap="md">
+        <div class="repel" data-gap="sm" data-list-export="pdf">
+          <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
+            <svg
+              class="bcn-lxp__mark"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <g
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M14 2.8H6.5A1.7 1.7 0 0 0 4.8 4.5v15a1.7 1.7 0 0 0 1.7 1.7h11a1.7 1.7 0 0 0 1.7-1.7V8Z"
+                ></path>
+                <path d="M13.8 2.8V8h5.4"></path>
+              </g>
+              <text
+                x="12"
+                y="18"
+                text-anchor="middle"
+                font-size="6"
+                letter-spacing="-0.3"
+              >
+                PDF
+              </text></svg
+            >PDF
+          </h4>
+          <span
+            class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+            ><a
+              class="esa-button__native typography-microcopy-xs"
+              href="/beacon-design/prototypes/list-export-documents/quarterly-agency-briefing"
+              target="_blank"
+              rel="noreferrer"
+              role="button"
+              ><span class="esa-button__label">Download</span></a
+            ></span
+          >
+        </div>
+        <hr class="bcn-lxp__rule" />
         <div class="repel" data-gap="sm" data-list-export="csv">
           <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
             <svg
@@ -188,84 +231,6 @@ Prod's CSV and Excel downloads in the rail, then Word as a row that is not built
   font-weight: var(--typography-title-sm-strong-font-weight);
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
-}
-.bcn-lxp__format,
-.bcn-lxp .bcn-key-value__key,
-.bcn-lxp .bcn-key-value__val {
-  font-size: 0.875rem;
-  line-height: 1.45;
-}
-.bcn-lxp__format {
-  color: var(--color-content-default);
-  margin: 0;
-}
-.bcn-lxp .bcn-key-value {
-  gap: var(--spacing-100);
-}
-.bcn-lxp__mark {
-  block-size: 1.5em;
-  inline-size: 1.5em;
-  color: var(--color-content-default-secondary);
-  flex: none;
-}
-.bcn-lxp__mark text {
-  fill: currentColor;
-  font-family: var(--typography-font-family-sans);
-  font-weight: var(--typography-font-weight-semibold);
-}
-.bcn-lxp__rule {
-  border: 0;
-  border-block-start: 1px solid var(--color-border-default-subtle);
-  margin: 0;
-}
-.bcn-lxp__field-row {
-  flex-wrap: nowrap;
-}
-.bcn-lxp__field {
-  min-inline-size: 0;
-  padding: var(--spacing-100) var(--spacing-200);
-  background: var(--color-background-elevation-sunken);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-sm);
-  color: var(--color-content-default);
-  font-family: var(--typography-font-family-mono);
-  font-size: 0.75rem;
-  line-height: var(--line-height-normal);
-  overflow-wrap: anywhere;
-  flex: auto;
-}
-.bcn-lxp [data-list-export-copy][data-copied] {
-  color: var(--color-content-utility-success);
-}
-.bcn-lxp__preview {
-  padding: var(--spacing-300);
-  background: var(--color-background-elevation-sunken);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-md);
-  color: var(--color-content-default);
-  font-family: var(--typography-font-family-mono);
-  font-size: 0.75rem;
-  line-height: var(--line-height-normal);
-  white-space: pre-wrap;
-  tab-size: 2;
-  max-block-size: 18rem;
-  margin: 0;
-  overflow: auto;
-}
-.bcn-lxp__preview:focus-visible {
-  outline: 2px solid var(--color-background-brand);
-  outline-offset: 2px;
-}
-.bcn-lxp__status {
-  white-space: nowrap;
-  clip-path: inset(50%);
-  border: 0;
-  block-size: 1px;
-  inline-size: 1px;
-  margin: -1px;
-  padding: 0;
-  position: absolute;
-  overflow: hidden;
 }
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -845,6 +810,84 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
+}
+.bcn-lxp__format,
+.bcn-lxp .bcn-key-value__key,
+.bcn-lxp .bcn-key-value__val {
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+.bcn-lxp__format {
+  color: var(--color-content-default);
+  margin: 0;
+}
+.bcn-lxp .bcn-key-value {
+  gap: var(--spacing-100);
+}
+.bcn-lxp__mark {
+  block-size: 1.5em;
+  inline-size: 1.5em;
+  color: var(--color-content-default-secondary);
+  flex: none;
+}
+.bcn-lxp__mark text {
+  fill: currentColor;
+  font-family: var(--typography-font-family-sans);
+  font-weight: var(--typography-font-weight-semibold);
+}
+.bcn-lxp__rule {
+  border: 0;
+  border-block-start: 1px solid var(--color-border-default-subtle);
+  margin: 0;
+}
+.bcn-lxp__field-row {
+  flex-wrap: nowrap;
+}
+.bcn-lxp__field {
+  min-inline-size: 0;
+  padding: var(--spacing-100) var(--spacing-200);
+  background: var(--color-background-elevation-sunken);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  color: var(--color-content-default);
+  font-family: var(--typography-font-family-mono);
+  font-size: 0.75rem;
+  line-height: var(--line-height-normal);
+  overflow-wrap: anywhere;
+  flex: auto;
+}
+.bcn-lxp [data-list-export-copy][data-copied] {
+  color: var(--color-content-utility-success);
+}
+.bcn-lxp__preview {
+  padding: var(--spacing-300);
+  background: var(--color-background-elevation-sunken);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  color: var(--color-content-default);
+  font-family: var(--typography-font-family-mono);
+  font-size: 0.75rem;
+  line-height: var(--line-height-normal);
+  white-space: pre-wrap;
+  tab-size: 2;
+  max-block-size: 18rem;
+  margin: 0;
+  overflow: auto;
+}
+.bcn-lxp__preview:focus-visible {
+  outline: 2px solid var(--color-background-brand);
+  outline-offset: 2px;
+}
+.bcn-lxp__status {
+  white-space: nowrap;
+  clip-path: inset(50%);
+  border: 0;
+  block-size: 1px;
+  inline-size: 1px;
+  margin: -1px;
+  padding: 0;
+  position: absolute;
+  overflow: hidden;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);

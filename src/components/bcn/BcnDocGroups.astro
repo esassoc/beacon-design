@@ -22,13 +22,13 @@ interface Props {
   doc: ExportDocument;
 }
 const { doc } = Astro.props;
-const outline = docOutline(doc);
+const outline = docOutline(doc).filter((g) => g.sections.some((s) => s.runs.some((r) => r.entries.length)));
 // The type is the action list's group, so its entries need not repeat it.
 const showType = doc.kind !== 'action-list';
 const level = doc.kind === 'compliance-index' ? 5 : doc.groups.some((g) => g.groups.length) ? 4 : 3;
 ---
 
-<div class="bcn-doc-groups">
+{outline.length > 0 && <div class="bcn-doc-groups">
   {outline.map((group) => (
     <section class="bcn-doc-groups__group">
       <h2 class="bcn-doc-groups__h2">{group.name}</h2>
@@ -49,7 +49,7 @@ const level = doc.kind === 'compliance-index' ? 5 : doc.groups.some((g) => g.gro
       ))}
     </section>
   ))}
-</div>
+</div>}
 
 <style>
   .bcn-doc-groups {

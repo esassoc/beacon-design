@@ -1,0 +1,88 @@
+---
+// <BcnListIndexTree> — the body of the Compliance Index's page on Lists: every action
+// and obligation on the project, category › subcategory, Unfiled last. The sibling of
+// <BcnListObligationTree> and <BcnListMemberTree>, on the same row anatomy
+// (bcn-tree.css) and the same cards, so the index reads as one more list.
+//
+// It reads complianceIndexTree(), the outline the index PDF prints, so the page and the
+// PDF hold the same items in the same order. Categories load open, subcategories folded;
+// inside a subcategory the actions come first, then the obligations.
+//
+// What it leaves out, on purpose: the index is not a subset anyone curates here, so the
+// cards' list verbs (remove, duplicate, move or retitle) are hidden and there is no add
+// drawer, no rename and no filter row. Filing and refiling belong to the setup wizard's
+// Compliance Index step.
+//
+// bcn-lego-checked: the rows ARE bcn-tree.css (the obligation tree's one row
+// definition), the cards ARE bcn-list-member-card (actions) and bcn-list-obligation-card
+// (obligations), the counts ARE bcn-sw-count-badge. Checked Ecology for a tree lego
+// (esa-collapsible is one titled section; there is no tree view) and Beacon
+// (compliance-index-step renders the index as a nested list with drag, read here
+// without it).
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import BcnListMemberCard from './BcnListMemberCard.astro';
+import BcnListObligationCard from './BcnListObligationCard.astro';
+import '../../styles/bcn-tree.css';
+import { actionRow, type ListObligation } from '../../data/lists';
+import { complianceIndexTree } from '../../data/list-export-documents';
+import type { ObligationNode } from '../../data/setup-wizard';
+
+const tree = complianceIndexTree();
+const countOf = (sub: { actions: unknown[]; obligations: unknown[] }) => sub.actions.length + sub.obligations.length;
+const items = (n: number) => `${n} ${n === 1 ? 'item' : 'items'}`;
+// The obligation card takes a list member; the index holds every obligation once, in
+// the registry's own wording.
+const member = (o: ObligationNode): ListObligation => ({
+  ...o,
+  memberId: o.id,
+  occurrence: 1,
+  copies: 1,
+  listDescription: o.description,
+  descriptionOverridden: false,
+});
+---
+
+<section class="bcn-lot bcn-lit" aria-label="Compliance Index">
+  <div class="bcn-lot__body">
+    {tree.map((cat) => {
+      const n = cat.subcategories.reduce((sum, s) => sum + countOf(s), 0);
+      return (
+        <details class="bcn-lot__cat" data-index-cat={cat.id} open>
+          <summary class="bcn-lot__row bcn-lot__row--cat">
+            <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+            <span class="bcn-lot__name">{cat.name}</span>
+            <BcnSwCountBadge value={n} label={items(n)} />
+          </summary>
+          <div class="bcn-lot__subs">
+            {cat.subcategories.map((sub) => (
+              <details class="bcn-lot__sub" data-index-sub={sub.id}>
+                <summary class="bcn-lot__row bcn-lot__row--sub">
+                  <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+                  <span class="bcn-lot__name">{sub.name}</span>
+                  <BcnSwCountBadge value={countOf(sub)} label={items(countOf(sub))} />
+                </summary>
+                <ul class="bcn-lot__cards">
+                  {sub.actions.map((a) => <BcnListMemberCard row={actionRow(a)} />)}
+                  {sub.obligations.map((o) => <BcnListObligationCard obligation={member(o)} />)}
+                </ul>
+              </details>
+            ))}
+          </div>
+        </details>
+      );
+    })}
+  </div>
+</section>
+
+<style>
+  /* The cards' verbs edit a LIST (remove, duplicate, move or retitle for this list);
+     nothing on this page edits the index. */
+  .bcn-lit :global(esa-tooltip:has([data-list-remove], [data-list-duplicate], .bcn-loc__verb[data-list-edit])) {
+    display: none;
+  }
+</style>
+
+<script>
+  import '@esa/ecology/esa-tooltip';
+</script>

@@ -33,8 +33,12 @@ const facts = [
   ...(doc.kind === 'compliance-index' ? [] : [{ label: 'Type', value: doc.kindLabel }]),
   { label: doc.labels.project, value: doc.project },
   { label: 'Exported', value: doc.exportedOn },
-  ...(doc.counts.actions ? [{ label: `${doc.labels.action}s`, value: String(doc.counts.actions) }] : []),
-  ...(doc.counts.obligations ? [{ label: `${doc.labels.obligation}s`, value: String(doc.counts.obligations) }] : []),
+  // Each list counts what it holds, zero included; the index counts both kinds.
+  ...(doc.kind === 'action-list' || doc.kind === 'compliance-index'
+    ? [{ label: `${doc.labels.action}s`, value: String(doc.counts.actions) }] : []),
+  ...(doc.kind === 'obligation-list' || doc.kind === 'compliance-index'
+    ? [{ label: `${doc.labels.obligation}s`, value: String(doc.counts.obligations) }] : []),
+  ...(doc.kind === 'commitment-list' ? [{ label: `${doc.labels.commitment}s`, value: String(doc.counts.commitments) }] : []),
 ];
 ---
 

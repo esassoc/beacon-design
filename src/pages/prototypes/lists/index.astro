@@ -13,6 +13,9 @@
 // that makes a list of its own type.
 //
 // Every row opens its list at /prototypes/lists/<id>; one route serves all three types.
+// Last comes the project's Compliance Index (2026-10-19), one row with no Add verb,
+// whose page carries the same Details and Export rail. Its PDF is exported from there,
+// which replaced an Export button on this page's title row.
 //
 // Every row is read from PROJECT_LISTS in src/data/lists.ts. The action lists and their
 // counts are the twelve on the live project.
@@ -20,17 +23,13 @@ import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import BcnListIndexBoard from '../../../components/bcn/BcnListIndexBoard.astro';
 import BcnListCreateDialog from '../../../components/bcn/BcnListCreateDialog.astro';
-import EsaButton from '@esa/ecology/esa-button.astro';
 import { PROJECT } from '../../../data/project-dashboard';
-import { documentHref } from '../../../data/list-export-documents';
-import { withBase } from '../../../lib/base';
 ---
 
 <!-- manifest:
   layout: PageLayout > stack(md)                      # SPINE
   sections:
-    - export action -> esa-button                     # title row: the compliance index as one PDF, every action and obligation
-    - lists index -> bcn-list-index-board             # keyword search, then three groups, one per registry, each heading carrying its own add verb
+    - lists index -> bcn-list-index-board             # keyword search, then a group per registry with its add verb, then the Compliance Index
     - add list    -> bcn-list-create-dialog           # name and description, preset to the type of the heading that opened it
 -->
 
@@ -47,17 +46,6 @@ import { withBase } from '../../../lib/base';
     iconColor="var(--color-content-brand)"
     breadcrumbs={[{ label: 'Project', href: '#project' }, { label: 'Lists' }]}
   >
-    <EsaButton
-      slot="utilities"
-      variant="ghost"
-      appearance="outline"
-      size="sm"
-      icon="download"
-      href={withBase(documentHref('compliance-index'))}
-      target="_blank"
-    >
-      Export Compliance Index
-    </EsaButton>
     <BcnListIndexBoard />
     <BcnListCreateDialog />
   </PageLayout>
