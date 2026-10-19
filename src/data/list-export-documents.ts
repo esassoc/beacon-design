@@ -6,6 +6,10 @@
  * holds every action and obligation on the project, filed category › subcategory, with
  * the actions that have no home in an Unfiled group last.
  *
+ * Every document prints the same way (Andy, round 1, 2026-10-19): on Letter, under the
+ * tenant's logo, a one-line-per-item summary table first and the full detail after it
+ * from a new page; an action shows one line per component, never one row per occurrence.
+ *
  * Every document is a tree of GROUPS holding ENTRIES, which is all a print template
  * needs to know: the obligation list groups category › subcategory (the list's own
  * names and wording), the action list groups by type (its tree's default view), the
@@ -14,12 +18,12 @@
  *
  * What an entry carries is what the CSV export already carries (prod
  * list-export.ts): an obligation's Category, Subcategory, Title, Description, Class,
- * Audience, Applies when and Commitment codes; an action's Action, Type, Frequency,
- * Commitment codes and, per occurrence, Component, Occurrence #, Status, Due date,
- * Completed date, Assigned to, Evidence count and Comment count.
+ * Audience, Applies when and Commitment codes; an action's Action, Type, Frequency and
+ * Commitment codes, and per component the occurrence open now: its Status and Due date.
+ * Evidence counts stay off obligations (round 1).
  *
  * INVENTED and DETERMINISTIC where the fixture has nothing: an obligation's audience
- * follows its class; an action's occurrences, due dates and assignees are hashed from
+ * follows its class; an action's occurrences and due dates are hashed from
  * its id and component, so every build prints the same pages.
  */
 import {
@@ -89,11 +93,6 @@ export interface DocOccurrence {
   statusLabel: string;
   /** YYYY-MM-DD. Empty on an action with no deadline. */
   due: string;
-  /** YYYY-MM-DD. Set only when the occurrence is completed. */
-  completed: string;
-  assignedTo: string;
-  evidence: number;
-  comments: number;
 }
 
 export interface DocAction {
@@ -117,6 +116,25 @@ export interface DocGroup {
   /** Second level (subcategories). A one-level document leaves it empty. */
   groups: DocGroup[];
   entries: DocEntry[];
+}
+
+/** A run of one kind inside a section. `label` is empty when the section holds one kind. */
+export interface DocRun {
+  label: string;
+  entries: DocEntry[];
+}
+
+/** A subcategory, or the whole group when the document has one level (`name` empty). */
+export interface DocSection {
+  id: string;
+  name: string;
+  runs: DocRun[];
+}
+
+export interface DocOutlineGroup {
+  id: string;
+  name: string;
+  sections: DocSection[];
 }
 
 export interface ExportDocument {
@@ -161,9 +179,6 @@ const AUDIENCE_OF: Record<ObligationClass, DocAudience> = {
   notify: 'Compliance staff',
   roster: 'Compliance staff',
 };
-
-/** Invented, for the Assigned to column. */
-const ASSIGNEES = ['Maya Ortiz', 'Daniel Reyes', 'Priya Natarajan', 'Tom Lindqvist', 'Grace Okafor', 'Sam Whitaker'];
 
 export const UNFILED = { category: 'Unfiled', subcategory: 'Needs a home' } as const;
 
@@ -215,7 +230,6 @@ const occurrencesOf = (a: WizardAction): DocOccurrence[] => {
     const k = hash(impl.id);
     const count = recurring ? 3 : 1;
     const first = addDays('2026-03-02', k % 300);
-    const assignedTo = ASSIGNEES[(k >>> 5) % ASSIGNEES.length];
     return Array.from({ length: count }, (_, i): DocOccurrence => {
       const status: ImplStatus = !recurring ? impl.status : i === 0 ? 'completed' : i === 1 ? impl.status : 'not-started';
       const due = a.timing?.frequency === 'AsNeeded' ? '' : addDays(first, i * 91);
@@ -226,10 +240,6 @@ const occurrencesOf = (a: WizardAction): DocOccurrence[] => {
         status,
         statusLabel: label,
         due,
-        completed: status === 'completed' && due ? addDays(due, -((k >>> 9) % 12)) : '',
-        assignedTo,
-        evidence: status === 'not-started' ? 0 : status === 'completed' ? Math.max(1, impl.evidence) : impl.evidence,
-        comments: i === count - 1 ? impl.comments : 0,
       };
     });
   });
@@ -373,6 +383,31 @@ export function complianceIndexDocument(): ExportDocument {
   };
 }
 
+/**
+ * The document as both of its bodies print it: group › section › run. The summary table
+ * and the detail render this one outline, so the two halves of one PDF cannot disagree
+ * on order. Inside an index subcategory, actions run before obligations, each under its
+ * own label; a list document has one unlabelled run per section.
+ */
+export function docOutline(doc: ExportDocument): DocOutlineGroup[] {
+  const runs = (entries: DocEntry[]): DocRun[] =>
+    doc.kind === 'compliance-index'
+      ? [
+          { label: `${doc.labels.action}s`, entries: entries.filter((e) => e.kind === 'action') },
+          { label: `${doc.labels.obligation}s`, entries: entries.filter((e) => e.kind === 'obligation') },
+        ].filter((r) => r.entries.length > 0)
+      : [{ label: '', entries }];
+  return doc.groups.map((g) => ({
+    id: g.id,
+    name: g.name,
+    sections: (g.groups.length ? g.groups : [{ ...g, name: '' }]).map((sub) => ({
+      id: sub.id,
+      name: sub.name,
+      runs: runs(sub.entries),
+    })),
+  }));
+}
+
 /** Every document the prototype prints, by route segment. */
 export const EXPORT_DOCUMENTS: ExportDocument[] = [
   complianceIndexDocument(),
@@ -385,63 +420,3 @@ export const exportDocumentById = (id: string): ExportDocument | undefined =>
 
 /** The specimen route for a document. */
 export const documentHref = (id: string): string => `/prototypes/list-export-documents/${id}`;
-
-/* ── The open questions, as choices on the specimen ─────────────────────── */
-
-/**
- * The brief's open questions that split the design. Each is a switch on the specimen
- * rather than an answer: the document carries every variant and a data attribute picks
- * one. `default` is the cheapest to change later, not a decision.
- */
-export type DocOptionKey = 'layout' | 'paper' | 'brand' | 'rows';
-
-export interface DocOptionSet {
-  key: DocOptionKey;
-  label: string;
-  options: { label: string; value: string }[];
-  default: string;
-  /** Only on documents that hold actions. */
-  actionsOnly?: boolean;
-}
-
-export const DOC_OPTIONS: DocOptionSet[] = [
-  {
-    key: 'layout',
-    label: 'Layout',
-    options: [
-      { label: 'Reading', value: 'reading' },
-      { label: 'Table', value: 'table' },
-      { label: 'Summary + Detail', value: 'both' },
-    ],
-    default: 'reading',
-  },
-  {
-    key: 'rows',
-    label: 'Action Rows',
-    options: [
-      { label: 'Per Action', value: 'action' },
-      { label: 'Per Occurrence', value: 'occurrence' },
-    ],
-    default: 'action',
-    actionsOnly: true,
-  },
-  {
-    key: 'brand',
-    label: 'Brand',
-    options: [
-      { label: 'Tenant', value: 'tenant' },
-      { label: 'Beacon', value: 'beacon' },
-      { label: 'ESA', value: 'esa' },
-    ],
-    default: 'tenant',
-  },
-  {
-    key: 'paper',
-    label: 'Paper',
-    options: [
-      { label: 'Letter', value: 'letter' },
-      { label: 'A4', value: 'a4' },
-    ],
-    default: 'letter',
-  },
-];

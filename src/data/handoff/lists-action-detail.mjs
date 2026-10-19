@@ -100,10 +100,17 @@ export default {
       acceptance: ['Save bumps the matching implementation rows\' evidence counts live.'],
     },
     {
-      label: 'Export — Word, CSV',
+      label: 'Export — PDF, CSV, Excel',
       selector: '.bcn-lxp',
-      intent: 'Word and CSV downloads in the rail.',
-      decisions: ['NO JSON/API section on action lists (Andy: "but not the API option"); that endpoint exists for obligation lists only.'],
+      intent:
+        'The ways the list leaves Beacon, in the rail: PDF, then prod\'s CSV and Excel, then Word as a row that is not built yet.',
+      decisions: [
+        'Order is prod\'s card (CSV, then Excel, under those names) with PDF added first.',
+        'PDF downloads the action list document (see the list-export-action-pdf spec): `GET action-lists/{actionListID}/generate-pdf`. The prototype opens the print route in a new tab instead.',
+        'Word stays as a row with a "Coming Later" badge where its button would be. Not a disabled button: a disabled control reads as broken, not as not built.',
+        'NO JSON/API section on action lists (Andy: "but not the API option"); that endpoint exists for obligation lists only.',
+      ],
+      acceptance: ['Four rows in order PDF, CSV, Excel, Word; Word has no button.'],
     },
     {
       label: 'Danger Zone',

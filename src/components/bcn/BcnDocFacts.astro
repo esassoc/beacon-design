@@ -1,0 +1,63 @@
+---
+// <BcnDocFacts> — a row of label and value pairs on a printed page, label in the
+// secondary ink, value beside it in medium weight, wrapping as a row. The document's
+// title block uses it (Type, Project, Exported, counts) and so does every entry (Class,
+// Audience, Applies When; Type, Frequency, Timing). A long value wraps under itself,
+// never under its label.
+//
+// bcn-lego-checked: BcnKeyValue and BcnDetailFacts stack the label OVER the value, which
+// costs a printed line per fact; no esa- lego is an inline facts row. Checked Beacon: the
+// print templates write these as runs of text; this is the one component the print
+// route needs for both places.
+interface Props {
+  facts: { label: string; value: string }[];
+  /** `title`: the title block's row, at entry size with room between pairs.
+      `entry`: under an entry, at meta size. */
+  size?: 'title' | 'entry';
+}
+const { facts, size = 'entry' } = Astro.props;
+---
+
+{facts.length > 0 && (
+  <dl class:list={['bcn-doc-facts', `bcn-doc-facts--${size}`]}>
+    {facts.map((f) => (
+      <div class="bcn-doc-facts__pair">
+        <dt>{f.label}</dt>
+        <dd>{f.value}</dd>
+      </div>
+    ))}
+  </dl>
+)}
+
+<style>
+  .bcn-doc-facts {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+  }
+  .bcn-doc-facts--title {
+    gap: var(--spacing-100) var(--spacing-500);
+    font-size: var(--bcn-print-font-size-body);
+  }
+  .bcn-doc-facts--entry {
+    gap: var(--spacing-050) var(--spacing-500);
+    font-size: var(--bcn-print-font-size-meta);
+  }
+
+  .bcn-doc-facts__pair {
+    display: flex;
+    gap: var(--spacing-150);
+    min-inline-size: 0;
+  }
+  .bcn-doc-facts dt {
+    flex: none;
+    white-space: nowrap;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-doc-facts dd {
+    min-inline-size: 0;
+    margin: 0;
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
+  }
+</style>

@@ -1,58 +1,48 @@
 ---
-// <BcnDocGroups> — an export document's reading layout: its groups as headings, its
-// entries under them (<BcnDocEntry>).
+// <BcnDocGroups> — an export document's detail: its groups as headings, its entries
+// under them (<BcnDocEntry>). It follows the summary table from a new page.
 //
-// Two levels for the obligation list and the index (category › subcategory), one for
-// the action list (type). Inside an index subcategory the two kinds run separately,
-// actions first, each under its own small heading: the index is structured as Actions
-// and Obligations, and a reader looking for what must be DONE should not have to pick
-// them out of the standing duties.
+// It renders docOutline(doc), the same outline <BcnDocSummary> renders, so the summary
+// and the detail of one PDF cannot disagree on order: two levels for the obligation list
+// and the index (category › subcategory), one for the action list (type), and inside an
+// index subcategory the actions first, then the obligations, each under a small label.
 //
-// Headings never end a page: `break-after: avoid` keeps each one with its first entry.
+// This component owns the rule between entries (`run > * + *`): a parent styling its
+// children's hosts, which a Shadow DOM print route allows. The entries draw none.
+// Headings never end a page: `break-after: avoid` keeps each with its first entry.
 //
 // bcn-lego-checked: the headings are document headings, not esa-collapsible or a tree
 // (a printed page cannot collapse, and BcnListObligationTree's rows carry screen
 // controls). Checked Beacon: the coversheet's source heading over its requirement items
 // is the precedent.
 import BcnDocEntry from './BcnDocEntry.astro';
-import type { DocEntry, DocGroup, ExportDocument } from '../../data/list-export-documents';
+import { docOutline, type ExportDocument } from '../../data/list-export-documents';
 
 interface Props {
   doc: ExportDocument;
-  /** The layouts this body belongs to (see <BcnDocSheet>). */
-  show: string;
 }
-const { doc, show } = Astro.props;
-const isIndex = doc.kind === 'compliance-index';
+const { doc } = Astro.props;
+const outline = docOutline(doc);
 // The type is the action list's group, so its entries need not repeat it.
 const showType = doc.kind !== 'action-list';
-
-const runs = (entries: DocEntry[]) =>
-  isIndex
-    ? [
-        { label: `${doc.labels.action}s`, entries: entries.filter((e) => e.kind === 'action') },
-        { label: `${doc.labels.obligation}s`, entries: entries.filter((e) => e.kind === 'obligation') },
-      ].filter((r) => r.entries.length)
-    : [{ label: '', entries }];
-
-const level = isIndex ? 5 : doc.groups.some((g) => g.groups.length) ? 4 : 3;
-
-const sections = (g: DocGroup) => (g.groups.length ? g.groups : [{ ...g, name: '' }]);
+const level = doc.kind === 'compliance-index' ? 5 : doc.groups.some((g) => g.groups.length) ? 4 : 3;
 ---
 
-<div class="bcn-doc-groups" data-doc-show={show}>
-  {doc.groups.map((group) => (
+<div class="bcn-doc-groups">
+  {outline.map((group) => (
     <section class="bcn-doc-groups__group">
       <h2 class="bcn-doc-groups__h2">{group.name}</h2>
-      {sections(group).map((sub) => (
-        <section class="bcn-doc-groups__sub">
-          {sub.name && <h3 class="bcn-doc-groups__h3">{sub.name}</h3>}
-          {runs(sub.entries).map((run) => (
+      {group.sections.map((section) => (
+        <section class="bcn-doc-groups__section">
+          {section.name && <h3 class="bcn-doc-groups__h3">{section.name}</h3>}
+          {section.runs.map((run) => (
             <div class="bcn-doc-groups__run">
               {run.label && <h4 class="bcn-doc-groups__h4">{run.label}</h4>}
-              {run.entries.map((entry) => (
-                <BcnDocEntry entry={entry} labels={doc.labels} showType={showType} level={level} />
-              ))}
+              <div class="bcn-doc-groups__entries">
+                {run.entries.map((entry) => (
+                  <BcnDocEntry entry={entry} labels={doc.labels} showType={showType} level={level} />
+                ))}
+              </div>
             </div>
           ))}
         </section>
@@ -62,6 +52,10 @@ const sections = (g: DocGroup) => (g.groups.length ? g.groups : [{ ...g, name: '
 </div>
 
 <style>
+  .bcn-doc-groups {
+    break-before: page;
+  }
+
   .bcn-doc-groups__group + .bcn-doc-groups__group {
     margin-block-start: var(--spacing-600);
   }
@@ -77,7 +71,7 @@ const sections = (g: DocGroup) => (g.groups.length ? g.groups : [{ ...g, name: '
     break-after: avoid;
   }
 
-  .bcn-doc-groups__sub {
+  .bcn-doc-groups__section {
     margin-block-start: var(--spacing-400);
   }
   .bcn-doc-groups__h3 {
@@ -100,12 +94,8 @@ const sections = (g: DocGroup) => (g.groups.length ? g.groups : [{ ...g, name: '
     break-after: avoid;
   }
 
-  /* A one-level document's first entry sits on its heading's rule, not under a second. */
-  .bcn-doc-groups__h2 + .bcn-doc-groups__sub > .bcn-doc-groups__run:first-child > :global(.bcn-doc-entry:first-of-type) {
-    border-block-start: 0;
-  }
-  .bcn-doc-groups__h4 + :global(.bcn-doc-entry),
-  .bcn-doc-groups__h3 + .bcn-doc-groups__run > :global(.bcn-doc-entry:first-child) {
-    border-block-start: 0;
+  /* The divider between entries: on the entry's host, drawn by the list that holds it. */
+  .bcn-doc-groups__entries > :global(* + *) {
+    border-block-start: 1px solid var(--color-border-default-subtle);
   }
 </style>

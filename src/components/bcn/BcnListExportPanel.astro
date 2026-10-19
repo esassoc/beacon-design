@@ -1,17 +1,20 @@
 ---
 // <BcnListExportPanel> — the ways a list leaves Beacon, as a block in the detail
-// page's rail. Every list type gets the two file pulls, Word and CSV; obligation and
-// action lists get a PDF above them (2026-10-19, list-export-documents). Only an
+// page's rail. The order and the format names are prod's (BCN-1909: CSV, then Excel),
+// with the PDF ahead of them (2026-10-19, list-export-documents): PDF on obligation and
+// action lists, then CSV and Excel on every list, then Word, which prod has not built,
+// as a row whose state says so. Only an
 // obligation list gets the JSON endpoint: Andy, 2026-09-23, "Actions and commitments
 // need export options (but not the API option)". The endpoint serves the form spec,
-// which only an obligation list has, so the section is gated on the list's type. It replaces the Export dropdown that sat on the page's
-// title row: a menu hid the fact that one of the three formats is not a download at
-// all but a configured integration, and a menu row has nowhere to put a key.
+// which only an obligation list has, so the section is gated on the list's type. It
+// replaces the Export dropdown that sat on the page's title row: a menu hid the fact
+// that one of the formats is not a download at all but a configured integration, and a
+// menu row has nowhere to put a key.
 //
 // PARTI (the shaping decision, recorded here and NOT stated on the page).
 //   Job        — hand this list to a downstream system in the shape that system reads.
 //   Rivalry    — completeness against hierarchy.
-//   Winner     — hierarchy. The three formats are not peers. Word and CSV are one-click
+//   Winner     — hierarchy. The formats are not peers. PDF, CSV and Excel are one-click
 //                file pulls and take one line each. JSON is an endpoint a contractor
 //                configures once, so it carries the key that authenticates it, the URL
 //                it is read from, and the payload it returns.
@@ -22,9 +25,10 @@
 //                because it is not a file and nothing is fetched by pressing it. The
 //                missing mark is the first signal that the third one is different.
 //
-// Word and CSV are prototype stubs: each button announces `list:export` with its format
-// and stops, which is all it can honestly do here. They are NOT greyed out — a disabled
-// row reads as "this broke", not "not built yet". Roll Key and Revoke carry no handler
+// CSV and Excel are prototype stubs: each button announces `list:export` with its format
+// and stops, which is all it can honestly do here. Word carries an esa-badge where its
+// button would be, NOT a disabled button: a disabled row reads as "this broke", not
+// "not built yet". Roll Key and Revoke carry no handler
 // at all: this prototype has no store to roll a key in, and the only event this file is
 // allowed to emit is `list:export`, which is not what they mean.
 //
@@ -62,11 +66,12 @@
 //     esa-alert-box / esa-empty-state are all prose surfaces on the raised ramp, not a
 //     sunken monospaced scroller. (The export modal this panel replaces reached the same
 //     conclusion; it was deleted with the dropdown.)
-//   · The two format marks are inline SVG because they are brand/format marks, not UI icons,
+//   · The format marks are inline SVG because they are brand/format marks, not UI icons,
 //     and the registry holds no file-type glyph.
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
 import BcnKeyValue from './BcnKeyValue.astro';
 import { endpointUrl, formFields, type ActionList, type CommitmentList, type ObligationList } from '../../data/lists';
 import { documentHref, exportDocumentById } from '../../data/list-export-documents';
@@ -110,6 +115,7 @@ const generated = api ? `Generated ${fmtDateTime(api.apiKeyGeneratedAt)}` : '';
     <div class="stack" data-gap="md">
       {pdfHref && <div class="repel" data-gap="sm" data-list-export="pdf">
         <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
+          {/* The row's text names the format, so the mark is decorative. */}
           <svg class="bcn-lxp__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
               <path d="M14 2.8H6.5A1.7 1.7 0 0 0 4.8 4.5v15a1.7 1.7 0 0 0 1.7 1.7h11a1.7 1.7 0 0 0 1.7-1.7V8Z" />
@@ -125,25 +131,6 @@ const generated = api ? `Generated ${fmtDateTime(api.apiKeyGeneratedAt)}` : '';
       </div>}
 
       {pdfHref && <hr class="bcn-lxp__rule" />}
-
-      <div class="repel" data-gap="sm" data-list-export="word">
-        <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
-          {/* The row's text names the format, so the mark is decorative. */}
-          <svg class="bcn-lxp__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
-              <path d="M14 2.8H6.5A1.7 1.7 0 0 0 4.8 4.5v15a1.7 1.7 0 0 0 1.7 1.7h11a1.7 1.7 0 0 0 1.7-1.7V8Z" />
-              <path d="M13.8 2.8V8h5.4" />
-            </g>
-            <text x="12" y="18" text-anchor="middle" font-size="7.5">W</text>
-          </svg>
-          Microsoft Word
-        </h4>
-        <EsaButton variant="ghost" appearance="outline" size="sm" type="button" data-list-export-download>
-          Download
-        </EsaButton>
-      </div>
-
-      <hr class="bcn-lxp__rule" />
 
       <div class="repel" data-gap="sm" data-list-export="csv">
         <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
@@ -161,6 +148,41 @@ const generated = api ? `Generated ${fmtDateTime(api.apiKeyGeneratedAt)}` : '';
         <EsaButton variant="ghost" appearance="outline" size="sm" type="button" data-list-export-download>
           Download
         </EsaButton>
+      </div>
+
+      <hr class="bcn-lxp__rule" />
+
+      <div class="repel" data-gap="sm" data-list-export="excel">
+        <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
+          <svg class="bcn-lxp__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+              <path d="M14 2.8H6.5A1.7 1.7 0 0 0 4.8 4.5v15a1.7 1.7 0 0 0 1.7 1.7h11a1.7 1.7 0 0 0 1.7-1.7V8Z" />
+              <path d="M13.8 2.8V8h5.4" />
+            </g>
+            <text x="12" y="18" text-anchor="middle" font-size="7.5">X</text>
+          </svg>
+          Excel
+        </h4>
+        <EsaButton variant="ghost" appearance="outline" size="sm" type="button" data-list-export-download>
+          Download
+        </EsaButton>
+      </div>
+
+      <hr class="bcn-lxp__rule" />
+
+      {/* Word is not built in prod. The row stays, with its state where the button would be. */}
+      <div class="repel" data-gap="sm" data-list-export="word">
+        <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
+          <svg class="bcn-lxp__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+              <path d="M14 2.8H6.5A1.7 1.7 0 0 0 4.8 4.5v15a1.7 1.7 0 0 0 1.7 1.7h11a1.7 1.7 0 0 0 1.7-1.7V8Z" />
+              <path d="M13.8 2.8V8h5.4" />
+            </g>
+            <text x="12" y="18" text-anchor="middle" font-size="7.5">W</text>
+          </svg>
+          Word
+        </h4>
+        <EsaBadge value="Coming Later" variant="neutral" size="sm" />
       </div>
 
       {api && <hr class="bcn-lxp__rule" />}
@@ -233,9 +255,9 @@ const generated = api ? `Generated ${fmtDateTime(api.apiKeyGeneratedAt)}` : '';
   const root = document.querySelector<HTMLElement>('[data-list-export-panel]');
 
   if (root) {
-    /* ── The two file rows. Each announces its format on `document` and stops. The
-          sibling that owns a surface for that format answers; nothing listens for
-          'word' or 'csv' yet, which is the honest state of those two exports. ── */
+    /* ── The CSV and Excel rows. Each announces its format on `document` and stops.
+          The sibling that owns a surface for that format answers; nothing listens for
+          'excel' or 'csv' yet, which is the honest state of those two exports. ── */
     root.querySelectorAll<HTMLElement>('[data-list-export]').forEach((row) => {
       const format = row.dataset.listExport;
       if (!format) return;
@@ -300,7 +322,7 @@ const generated = api ? `Generated ${fmtDateTime(api.apiKeyGeneratedAt)}` : '';
      surface — Andy's 2026-09-16 call, and inside his record-panel carve-out from the
      16px floor. Hard-coded for the same reason that file gives: the label roles are
      fluid clamps that would shrink this rail on a narrow viewport, and a record wants
-     one size at every width. Format names move with the labels so "Microsoft Word"
+     one size at every width. Format names move with the labels so "Word"
      and "API Key" stay the same tier. */
   .bcn-lxp__format,
   .bcn-lxp :global(.bcn-key-value__key),
@@ -339,7 +361,7 @@ const generated = api ? `Generated ${fmtDateTime(api.apiKeyGeneratedAt)}` : '';
     font-weight: var(--typography-font-weight-semibold);
   }
 
-  /* ── Rules between the three formats ─────────────────────────────────────── */
+  /* ── Rules between the formats ───────────────────────────────────────────── */
   .bcn-lxp__rule {
     margin: 0;
     border: 0;

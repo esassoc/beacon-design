@@ -56,10 +56,14 @@ export default {
       ],
     },
     {
-      label: 'Export — Word, CSV',
+      label: 'Export — CSV, Excel',
       selector: '.bcn-lxp',
-      intent: 'Word and CSV downloads in the rail.',
-      decisions: ['No JSON/API section; that is obligation-only.'],
+      intent: 'Prod\'s CSV and Excel downloads in the rail, then Word as a row that is not built yet.',
+      decisions: [
+        'No PDF row: a commitment list has no export document yet (round 1 designed obligation and action lists only).',
+        'Word carries a "Coming Later" badge where its button would be, as on the other list types.',
+        'No JSON/API section; that is obligation-only.',
+      ],
     },
     {
       label: 'Danger Zone',

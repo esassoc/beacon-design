@@ -27,6 +27,19 @@
 export default {
   sections: [
     {
+      label: 'Export Compliance Index',
+      selector: '.page-layout__utilities',
+      intent:
+        'One action in the page header that downloads the project\'s whole Compliance Index as a PDF: every action and obligation, category › subcategory, Unfiled last (see the list-export-compliance-index-pdf spec).',
+      decisions: [
+        'It sits on the Lists page, not on the Compliance Index page, because it is an export of the project\'s items alongside the lists drawn from them.',
+        'An outline button with a download icon, in the header\'s action area; no menu, since there is one format.',
+        'Prod: calls `GET projects/{projectID}/compliance-index/generate-pdf` and saves the file. The prototype opens the print route in a new tab.',
+      ],
+      gotchas: ['A full index takes a while to render (about 137 pages); show the button\'s loading state while the file is made, as the list Export card does.'],
+      acceptance: ['The Lists header shows one Export Compliance Index button; pressing it returns the index PDF.'],
+    },
+    {
       label: 'Lists search',
       selector: '.bcn-swfr',
       intent:

@@ -1,20 +1,24 @@
 ---
-// <BcnDocEntry> — one action or obligation in an export document's reading layout.
+// <BcnDocEntry> — one action or obligation in an export document's detail.
 //
 // The title line carries the commitment codes at its right, the way a citation sits at
 // the margin, so a contractor can find the permit language without a column for it.
-// Below: the description in the list's own wording, then one line of facts.
+// Below: the description in the list's own wording, then one row of facts.
 //
-//   Obligation  Class, Audience, Applies When (prod's label for the trigger). No status:
-//               an obligation has no lifecycle (Andy, 2026-09-23).
+//   Obligation  Class, Audience, Applies When (prod's label for the trigger). No status
+//               and no evidence count: an obligation has no lifecycle (Andy,
+//               2026-09-23), and round 1 left evidence off.
 //   Action      Type (in the index, where the group does not already say it),
 //               Frequency, Timing, then where it stands per component
 //               (<BcnDocOccurrences>).
 //
+// The entry draws no rule of its own. The list it sits in owns the divider between
+// entries (<BcnDocGroups>), so the first entry under a heading needs no exception.
+//
 // bcn-lego-checked: no esa- lego is a printed entry (esa-card and the list cards are
-// screen surfaces with padding, radius and hover); BcnKeyValue stacks label over value,
-// which costs a printed line per fact. Checked Beacon: the component coversheet's
-// requirement item (code, name, type, then evidence lines) is the precedent ported.
+// screen surfaces with padding, radius and hover). Checked Beacon: the component
+// coversheet's requirement item (code, name, type, then evidence lines) is the precedent.
+import BcnDocFacts from './BcnDocFacts.astro';
 import BcnDocOccurrences from './BcnDocOccurrences.astro';
 import type { DocEntry, DocLabels } from '../../data/list-export-documents';
 
@@ -30,7 +34,7 @@ const { entry, labels, showType = false, level = 4 } = Astro.props;
 const Title = `h${level}` as 'h3' | 'h4' | 'h5';
 
 const title = entry.kind === 'action' ? entry.name : entry.title;
-const facts: { label: string; value: string }[] =
+const facts =
   entry.kind === 'obligation'
     ? [
         { label: 'Class', value: entry.classLabel },
@@ -53,22 +57,16 @@ const facts: { label: string; value: string }[] =
   </div>
   {entry.description && <p class="bcn-doc-entry__desc">{entry.description}</p>}
   {facts.length > 0 && (
-    <dl class="bcn-doc-entry__facts">
-      {facts.map((f) => (
-        <div class="bcn-doc-entry__fact">
-          <dt>{f.label}</dt>
-          <dd>{f.value}</dd>
-        </div>
-      ))}
-    </dl>
+    <div class="bcn-doc-entry__facts">
+      <BcnDocFacts facts={facts} />
+    </div>
   )}
-  {entry.kind === 'action' && <BcnDocOccurrences occurrences={entry.occurrences} labels={labels} />}
+  {entry.kind === 'action' && <BcnDocOccurrences occurrences={entry.occurrences} />}
 </article>
 
 <style>
   .bcn-doc-entry {
     padding-block: var(--spacing-250);
-    border-block-start: 1px solid var(--color-border-default-subtle);
     break-inside: avoid;
   }
 
@@ -99,25 +97,6 @@ const facts: { label: string; value: string }[] =
   }
 
   .bcn-doc-entry__facts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-050) var(--spacing-500);
-    margin: var(--spacing-150) 0 0;
-    font-size: var(--bcn-print-font-size-meta);
-  }
-  .bcn-doc-entry__fact {
-    display: flex;
-    gap: var(--spacing-150);
-    min-inline-size: 0;
-  }
-  .bcn-doc-entry__fact dt {
-    flex: none;
-    white-space: nowrap;
-    color: var(--color-content-default-secondary);
-  }
-  .bcn-doc-entry__fact dd {
-    min-inline-size: 0;
-    margin: 0;
-    font-weight: var(--typography-font-weight-medium);
+    margin-block-start: var(--spacing-150);
   }
 </style>

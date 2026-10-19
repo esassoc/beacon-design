@@ -1,0 +1,170 @@
+---
+// <BcnDocSummary> — the summary table every export document opens with: one line per
+// item, ahead of the detail (<BcnDocGroups>), which starts on a new page. Round 1 (Andy,
+// 2026-10-19): Summary + Detail.
+//
+// ONE table for the whole document, groups as full-width rows, so the column header
+// repeats at the top of every printed page (Chromium repeats a <thead> by itself) and a
+// group never restarts the columns. It renders docOutline(doc), the outline the detail
+// renders, so the two agree on order. No descriptions and no long-prose column (Applies
+// When, Timing): with them, the index's summary ran 53 Letter pages.
+//
+//   obligation list   Obligation, Class, Audience, Commitments
+//   action list       Action, Frequency, Commitments
+//   compliance index  Item, Type (an action's type, an obligation's class), Commitments;
+//                     actions and obligations in separate runs inside each subcategory
+//
+// bcn-lego-checked: the data tables in this spoke are AG Grid (BcnGrid), a screen widget
+// that does not paginate or print; no esa- lego is a print table. Checked Beacon: the
+// component coversheet prints a plain <table> (source-table) with local styles, which
+// is what a print route can carry.
+import { docOutline, type DocEntry, type ExportDocument } from '../../data/list-export-documents';
+
+interface Props {
+  doc: ExportDocument;
+}
+const { doc } = Astro.props;
+const L = doc.labels;
+const outline = docOutline(doc);
+
+interface Column {
+  label: string;
+  cell: (e: DocEntry) => string;
+  width?: string;
+}
+
+const title = (e: DocEntry) => (e.kind === 'action' ? e.name : e.title);
+const codes = (e: DocEntry) => e.codes.join(', ');
+
+const COLUMNS: Record<ExportDocument['kind'], Column[]> = {
+  'obligation-list': [
+    { label: L.obligation, cell: title, width: '56%' },
+    { label: 'Class', cell: (e) => (e.kind === 'obligation' ? e.classLabel : '') },
+    { label: 'Audience', cell: (e) => (e.kind === 'obligation' ? e.audience : '') },
+    { label: `${L.commitment}s`, cell: codes, width: '20%' },
+  ],
+  'action-list': [
+    { label: L.action, cell: title, width: '62%' },
+    { label: 'Frequency', cell: (e) => (e.kind === 'action' ? e.frequencyLabel : '') },
+    { label: `${L.commitment}s`, cell: codes, width: '22%' },
+  ],
+  'compliance-index': [
+    { label: 'Item', cell: title, width: '56%' },
+    { label: 'Type', cell: (e) => (e.kind === 'action' ? e.typeLabel : e.classLabel), width: '24%' },
+    { label: `${L.commitment}s`, cell: codes },
+  ],
+};
+const columns = COLUMNS[doc.kind];
+const span = columns.length;
+---
+
+<table class="bcn-doc-summary">
+  <colgroup>
+    {columns.map((c) => <col style={c.width ? `width: ${c.width}` : undefined} />)}
+  </colgroup>
+  <thead>
+    <tr>
+      {columns.map((c) => <th scope="col">{c.label}</th>)}
+    </tr>
+  </thead>
+  {outline.map((group) =>
+    group.sections.map((section, i) => (
+      <tbody>
+        {i === 0 && (
+          <tr class="bcn-doc-summary__group">
+            <th scope="colgroup" colspan={span}>{group.name}</th>
+          </tr>
+        )}
+        {section.name && (
+          <tr class="bcn-doc-summary__section">
+            <th scope="colgroup" colspan={span}>{section.name}</th>
+          </tr>
+        )}
+        {section.runs.map((run) => (
+          <>
+            {run.label && (
+              <tr class="bcn-doc-summary__run">
+                <th scope="colgroup" colspan={span}>{run.label}</th>
+              </tr>
+            )}
+            {run.entries.map((entry) => (
+              <tr class="bcn-doc-summary__row">
+                {columns.map((c, ci) =>
+                  ci === 0 ? <th scope="row">{c.cell(entry)}</th> : <td>{c.cell(entry)}</td>,
+                )}
+              </tr>
+            ))}
+          </>
+        ))}
+      </tbody>
+    )),
+  )}
+</table>
+
+<style>
+  .bcn-doc-summary {
+    inline-size: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: var(--bcn-print-font-size-body);
+  }
+
+  .bcn-doc-summary thead th {
+    padding: var(--spacing-100) var(--spacing-200) var(--spacing-100) 0;
+    text-align: start;
+    vertical-align: bottom;
+    font-size: var(--bcn-print-font-size-meta);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
+    border-block-end: 1px solid var(--color-content-default);
+  }
+
+  /* Group rows: the category on its own rule, the subcategory, then the kind's label. */
+  .bcn-doc-summary__group th {
+    padding: var(--spacing-400) 0 var(--spacing-100);
+    text-align: start;
+    font-size: var(--bcn-print-font-size-subgroup);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+    border-block-end: 1px solid var(--color-border-default-strong);
+  }
+  .bcn-doc-summary__section th {
+    padding: var(--spacing-250) 0 var(--spacing-100);
+    text-align: start;
+    font-size: var(--bcn-print-font-size-entry);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  .bcn-doc-summary__run th {
+    padding: var(--spacing-150) 0 var(--spacing-050);
+    text-align: start;
+    font-size: var(--bcn-print-font-size-meta);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-doc-summary__group,
+  .bcn-doc-summary__section,
+  .bcn-doc-summary__run {
+    break-after: avoid;
+  }
+
+  .bcn-doc-summary__row > * {
+    padding: var(--spacing-100) var(--spacing-200) var(--spacing-100) 0;
+    text-align: start;
+    vertical-align: top;
+    font-weight: var(--typography-font-weight-regular);
+    border-block-start: 1px solid var(--color-border-default-subtle);
+    overflow-wrap: anywhere;
+  }
+  .bcn-doc-summary__row > th {
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-doc-summary__row {
+    break-inside: avoid;
+  }
+  .bcn-doc-summary__section + .bcn-doc-summary__row > *,
+  .bcn-doc-summary__run + .bcn-doc-summary__row > *,
+  .bcn-doc-summary__group + .bcn-doc-summary__row > * {
+    border-block-start: 0;
+  }
+</style>

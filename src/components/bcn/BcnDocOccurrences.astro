@@ -1,27 +1,22 @@
 ---
-// <BcnDocOccurrences> — where an action stands, in an export document. Two answers to the
-// brief's open question, both rendered, one shown by <BcnDocSheet>'s `data-doc-rows`:
+// <BcnDocOccurrences> — where an action stands, in an export document: one line per
+// component (or the project, when the action is done once for it), naming the occurrence
+// that is open now, its status and when it is due. A recurring action's finished
+// occurrences fold into the count beside it ("1 of 3 done"). Round 1 (2026-10-19): one
+// line per component, not one row per occurrence; the CSV keeps the per-occurrence rows.
 //
-//   action      one line per component (or the project): the occurrence that is open
-//               now, its status and when it is due. A recurring action's finished
-//               occurrences fold into the count beside it.
-//   occurrence  every occurrence, one row each, in the CSV's columns: Component,
-//               Occurrence #, Status, Due Date, Completed, Assigned To, Evidence,
-//               Comments.
-//
-// Status is plain text. A printed page cannot rely on color and the prod coversheet
-// only tints the word; ink alone reads the same on a office printer.
+// Status is plain text. A printed page cannot rely on color and the prod coversheet only
+// tints the word; ink alone reads the same on an office printer.
 //
 // bcn-lego-checked: esa-badge is a screen chip (4px radius, tinted fill) and would print as
-// a gray box around every status; there is no print table lego. Checked Beacon: the
-// component coversheet prints status as a word beside the requirement, which is ported.
-import type { DocLabels, DocOccurrence } from '../../data/list-export-documents';
+// a gray box around every status. Checked Beacon: the component coversheet prints status
+// as a word beside the requirement, which is ported.
+import type { DocOccurrence } from '../../data/list-export-documents';
 
 interface Props {
   occurrences: DocOccurrence[];
-  labels: DocLabels;
 }
-const { occurrences, labels } = Astro.props;
+const { occurrences } = Astro.props;
 
 /** One line per scope: the first occurrence not yet done, or the last one when all are. */
 const byScope = [...new Set(occurrences.map((o) => o.scope))].map((scope) => {
@@ -32,64 +27,28 @@ const byScope = [...new Set(occurrences.map((o) => o.scope))].map((scope) => {
 });
 ---
 
-{occurrences.length > 0 && (
-  <div class="bcn-doc-occ">
-    <dl class="bcn-doc-occ__summary" data-doc-rows-show="action">
-      {byScope.map(({ scope, open, done, total }) => (
-        <div class="bcn-doc-occ__line">
-          <dt>{scope}</dt>
-          <dd>
-            {open.statusLabel}
-            {open.status !== 'completed' && open.due && <span class="bcn-doc-occ__due">Due {open.due}</span>}
-            {total > 1 && <span class="bcn-doc-occ__due">{done} of {total} done</span>}
-          </dd>
-        </div>
-      ))}
-    </dl>
-
-    <table class="bcn-doc-occ__table" data-doc-rows-show="occurrence">
-      <thead>
-        <tr>
-          <th scope="col">{labels.component}</th>
-          <th scope="col" class="bcn-doc-occ__num">#</th>
-          <th scope="col">Status</th>
-          <th scope="col">Due Date</th>
-          <th scope="col">Completed</th>
-          <th scope="col">Assigned To</th>
-          <th scope="col" class="bcn-doc-occ__num">Evidence</th>
-          <th scope="col" class="bcn-doc-occ__num">Comments</th>
-        </tr>
-      </thead>
-      <tbody>
-        {occurrences.map((o) => (
-          <tr>
-            <td>{o.scope}</td>
-            <td class="bcn-doc-occ__num">{o.n}</td>
-            <td>{o.statusLabel}</td>
-            <td>{o.due}</td>
-            <td>{o.completed}</td>
-            <td>{o.assignedTo}</td>
-            <td class="bcn-doc-occ__num">{o.evidence}</td>
-            <td class="bcn-doc-occ__num">{o.comments}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
+{byScope.length > 0 && (
+  <dl class="bcn-doc-occ">
+    {byScope.map(({ scope, open, done, total }) => (
+      <div class="bcn-doc-occ__line">
+        <dt>{scope}</dt>
+        <dd>
+          {open.statusLabel}
+          {open.status !== 'completed' && open.due && <span class="bcn-doc-occ__aside">Due {open.due}</span>}
+          {total > 1 && <span class="bcn-doc-occ__aside">{done} of {total} done</span>}
+        </dd>
+      </div>
+    ))}
+  </dl>
 )}
 
 <style>
   .bcn-doc-occ {
-    margin-block-start: var(--spacing-200);
-    font-size: var(--bcn-print-font-size-meta);
-  }
-
-  /* ── Per action: one line per component ───────────────────────────────────── */
-  .bcn-doc-occ__summary {
     display: grid;
     grid-template-columns: max-content 1fr;
     gap: var(--spacing-050) var(--spacing-400);
-    margin: 0;
+    margin: var(--spacing-200) 0 0;
+    font-size: var(--bcn-print-font-size-meta);
   }
   .bcn-doc-occ__line {
     display: contents;
@@ -101,37 +60,9 @@ const byScope = [...new Set(occurrences.map((o) => o.scope))].map((scope) => {
     margin: 0;
     font-weight: var(--typography-font-weight-medium);
   }
-  .bcn-doc-occ__due {
+  .bcn-doc-occ__aside {
     margin-inline-start: var(--spacing-300);
     font-weight: var(--typography-font-weight-regular);
     color: var(--color-content-default-secondary);
-  }
-
-  /* ── Per occurrence: the CSV's columns ────────────────────────────────────── */
-  .bcn-doc-occ__table {
-    inline-size: 100%;
-    border-collapse: collapse;
-  }
-  .bcn-doc-occ__table th {
-    padding: var(--spacing-050) var(--spacing-200) var(--spacing-050) 0;
-    text-align: start;
-    font-weight: var(--typography-font-weight-medium);
-    color: var(--color-content-default-secondary);
-    border-block-end: 1px solid var(--color-border-default);
-  }
-  .bcn-doc-occ__table td {
-    padding: var(--spacing-050) var(--spacing-200) var(--spacing-050) 0;
-    border-block-end: 1px solid var(--color-border-default-subtle);
-    vertical-align: top;
-  }
-  .bcn-doc-occ__table tr {
-    break-inside: avoid;
-  }
-  .bcn-doc-occ__num {
-    text-align: end;
-    font-variant-numeric: tabular-nums;
-  }
-  .bcn-doc-occ__table th.bcn-doc-occ__num {
-    text-align: end;
   }
 </style>

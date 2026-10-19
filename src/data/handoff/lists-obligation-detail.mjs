@@ -173,17 +173,19 @@ export default {
       label: 'Export',
       selector: '.bcn-lxp',
       intent:
-        'The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the JSON endpoint that feeds a Fulcrum form, with its key, URL and a payload preview.',
+        'The ways the list leaves Beacon, in the rail: PDF, CSV and Excel file pulls, Word as a row not built yet, then the JSON endpoint that feeds a Fulcrum form, with its key, URL and a payload preview.',
       decisions: [
-        'The formats are not peers. Word and CSV are one-line rows with a format mark and a verb. JSON is an integration: it has no file mark and nothing downloads, and it carries the key, the endpoint and the payload.',
-        'The JSON endpoint exists ONLY on obligation lists. The form spec it serves is built from obligations; action and commitment lists get Word + CSV only (Andy: "but not the API option").',
+        'Order is prod\'s card (CSV, then Excel, under those names) with PDF added first. PDF downloads the obligation list document (see the list-export-obligation-pdf spec): `GET obligation-lists/{obligationListID}/generate-pdf`. The prototype opens the print route in a new tab instead.',
+        'Word carries a "Coming Later" badge where its button would be. Not a disabled button: a disabled control reads as broken, not as not built.',
+        'The formats are not peers. The file rows are one line each, a format mark and a verb. JSON is an integration: it has no file mark and nothing downloads, and it carries the key, the endpoint and the payload.',
+        'The JSON endpoint exists ONLY on obligation lists. The form spec it serves is built from obligations; action and commitment lists get the file rows only (Andy: "but not the API option").',
         'Replaces a title-row Export menu, which hid that one format is a configured integration and had nowhere to show a key.',
       ],
       gotchas: [
         'Never render a real key or list GUID from a running environment into the fixture or the page.',
         'The JSON form spec carries Beacon ids so a form answer can be written back to the right obligation.',
       ],
-      acceptance: ['Word + CSV rows plus the JSON section with key, endpoint and payload, on obligation lists only.'],
+      acceptance: ['PDF, CSV, Excel and Word rows in that order, then the JSON section with key, endpoint and payload, on obligation lists only.'],
     },
     {
       label: 'Danger zone',

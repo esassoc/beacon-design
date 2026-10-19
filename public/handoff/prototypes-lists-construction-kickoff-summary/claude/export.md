@@ -1,10 +1,12 @@
 # Export
 
-The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the JSON endpoint that feeds a Fulcrum form, with its key, URL and a payload preview.
+The ways the list leaves Beacon, in the rail: PDF, CSV and Excel file pulls, Word as a row not built yet, then the JSON endpoint that feeds a Fulcrum form, with its key, URL and a payload preview.
 
 ## Key decisions
-- The formats are not peers. Word and CSV are one-line rows with a format mark and a verb. JSON is an integration: it has no file mark and nothing downloads, and it carries the key, the endpoint and the payload.
-- The JSON endpoint exists ONLY on obligation lists. The form spec it serves is built from obligations; action and commitment lists get Word + CSV only (Andy: "but not the API option").
+- Order is prod's card (CSV, then Excel, under those names) with PDF added first. PDF downloads the obligation list document (see the list-export-obligation-pdf spec): `GET obligation-lists/{obligationListID}/generate-pdf`. The prototype opens the print route in a new tab instead.
+- Word carries a "Coming Later" badge where its button would be. Not a disabled button: a disabled control reads as broken, not as not built.
+- The formats are not peers. The file rows are one line each, a format mark and a verb. JSON is an integration: it has no file mark and nothing downloads, and it carries the key, the endpoint and the payload.
+- The JSON endpoint exists ONLY on obligation lists. The form spec it serves is built from obligations; action and commitment lists get the file rows only (Andy: "but not the API option").
 - Replaces a title-row Export menu, which hid that one format is a configured integration and had nowhere to show a key.
 
 ## Gotchas
@@ -12,7 +14,7 @@ The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the 
 - The JSON form spec carries Beacon ids so a form answer can be written back to the right obligation.
 
 ## Done when
-- Word + CSV rows plus the JSON section with key, endpoint and payload, on obligation lists only.
+- PDF, CSV, Excel and Word rows in that order, then the JSON section with key, endpoint and payload, on obligation lists only.
 
 ## Markup
 ```html
@@ -27,7 +29,7 @@ The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the 
     </div>
     <div class="esa-card__body typography-body-md">
       <div class="stack" data-gap="md">
-        <div class="repel" data-gap="sm" data-list-export="word">
+        <div class="repel" data-gap="sm" data-list-export="pdf">
           <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
             <svg
               class="bcn-lxp__mark"
@@ -46,18 +48,27 @@ The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the 
                 ></path>
                 <path d="M13.8 2.8V8h5.4"></path>
               </g>
-              <text x="12" y="18" text-anchor="middle" font-size="7.5">W</text></svg
-            >Microsoft Word
+              <text
+                x="12"
+                y="18"
+                text-anchor="middle"
+                font-size="6"
+                letter-spacing="-0.3"
+              >
+                PDF
+              </text></svg
+            >PDF
           </h4>
           <span
             class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
-            ><button
+            ><a
               class="esa-button__native typography-microcopy-xs"
-              type="button"
-              data-list-export-download="true"
-            >
-              <span class="esa-button__label">Download</span>
-            </button></span
+              href="/beacon-design/prototypes/list-export-documents/construction-kickoff-summary"
+              target="_blank"
+              rel="noreferrer"
+              role="button"
+              ><span class="esa-button__label">Download</span></a
+            ></span
           >
         </div>
         <hr class="bcn-lxp__rule" />
@@ -103,10 +114,72 @@ The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the 
           >
         </div>
         <hr class="bcn-lxp__rule" />
+        <div class="repel" data-gap="sm" data-list-export="excel">
+          <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
+            <svg
+              class="bcn-lxp__mark"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <g
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M14 2.8H6.5A1.7 1.7 0 0 0 4.8 4.5v15a1.7 1.7 0 0 0 1.7 1.7h11a1.7 1.7 0 0 0 1.7-1.7V8Z"
+                ></path>
+                <path d="M13.8 2.8V8h5.4"></path>
+              </g>
+              <text x="12" y="18" text-anchor="middle" font-size="7.5">X</text></svg
+            >Excel
+          </h4>
+          <span
+            class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-list-export-download="true"
+            >
+              <span class="esa-button__label">Download</span>
+            </button></span
+          >
+        </div>
+        <hr class="bcn-lxp__rule" />
+        <div class="repel" data-gap="sm" data-list-export="word">
+          <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
+            <svg
+              class="bcn-lxp__mark"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <g
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M14 2.8H6.5A1.7 1.7 0 0 0 4.8 4.5v15a1.7 1.7 0 0 0 1.7 1.7h11a1.7 1.7 0 0 0 1.7-1.7V8Z"
+                ></path>
+                <path d="M13.8 2.8V8h5.4"></path>
+              </g>
+              <text x="12" y="18" text-anchor="middle" font-size="7.5">W</text></svg
+            >Word
+          </h4>
+          <span
+            class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+            ><span class="esa-badge__text">Coming Later</span></span
+          >
+        </div>
+        <hr class="bcn-lxp__rule" />
         <div class="stack" data-gap="md">
           <h4 class="bcn-lxp__format typography-label-md-strong">JSON</h4>
           <div class="stack" data-gap="sm">
-            <div class="bcn-key-value">
+            <div class="bcn-key-value" data-size="md" data-layout="stack">
               <span class="bcn-key-value__key">API Key</span>
               <div
                 class="cluster bcn-lxp__field-row"
@@ -170,7 +243,7 @@ The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the 
               >
             </div>
           </div>
-          <div class="bcn-key-value">
+          <div class="bcn-key-value" data-size="md" data-layout="stack">
             <span class="bcn-key-value__key">Endpoint URL</span>
             <div
               class="cluster bcn-lxp__field-row"
@@ -212,7 +285,7 @@ The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the 
               ></span>
             </div>
           </div>
-          <div class="bcn-key-value">
+          <div class="bcn-key-value" data-size="md" data-layout="stack">
             <span class="bcn-key-value__key">JSON Preview</span>
             <pre class="bcn-lxp__preview" tabindex="0">
 {
@@ -1334,6 +1407,22 @@ The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the 
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+.bcn-countchip__num .esa-badge {
+  --badge-radius: var(--radius-full);
+  --badge-bg: var(--color-border-default);
+  --badge-text-color: var(--color-content-default-secondary);
+  box-sizing: border-box;
+  font-variant-numeric: tabular-nums;
+  min-width: 19px;
+  height: 19px;
+  box-shadow: 0 0 0 1.5px var(--color-background-elevation-raised);
+  justify-content: center;
+  align-items: center;
+  padding: 0 4px;
+  font-size: 0.8125rem;
+  line-height: 1;
+  display: inline-flex;
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -1352,8 +1441,27 @@ The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the 
 .bcn-ev-targets__item[data-blocked] .esa-card {
   opacity: 0.45;
 }
+.bcn-ev-attached__mark .esa-badge {
+  --badge-bg: var(--color-background-utility-info-subtle);
+  --badge-text-color: var(--color-content-default);
+  border: 1px solid
+    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+  font-weight: var(--typography-font-weight-medium);
+}
 .bcn-ev-targets__item .esa-card {
   overflow: visible;
+}
+.bcn-ev-row__mark .esa-badge {
+  --badge-bg: var(--color-background-utility-info-subtle);
+  --badge-text-color: var(--color-content-default);
+  border: 1px solid
+    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+  font-weight: var(--typography-font-weight-medium);
+}
+.bcn-ev-row__tags .esa-badge {
+  --badge-bg: var(--bcn-gray-100);
+  --badge-text-color: var(--bcn-gray-700);
+  font-weight: var(--typography-font-weight-medium);
 }
 .topbar__right .esa-icon-button {
   color: var(--color-content-default-secondary);
@@ -1391,6 +1499,104 @@ The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the 
 .side-nav.collapsed .nav-section__title,
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
+  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-badge--xs {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-100, 0.25rem);
+}
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-badge--lg {
+  --_badge-padding-y: var(--spacing-250, 0.625rem);
+  --_badge-padding-x: var(--spacing-300, 0.75rem);
+}
+.esa-badge--primary {
+  --_badge-bg: var(--color-background-brand, #46a758);
+  --_badge-text: var(--color-content-default-knockout, #fcfcfc);
+}
+.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+}
+.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
+  --_badge-text: var(--color-content-utility-success, #218358);
+  --_badge-border: var(--color-border-utility-success, #adddc0);
+}
+.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
+  --_badge-text: var(--color-content-utility-warning, #ab6400);
+  --_badge-border: var(--color-border-utility-warning, #f3d673);
+}
+.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
+  --_badge-text: var(--color-content-utility-danger, #ce2c31);
+  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
+}
+.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
+  --_badge-text: var(--color-content-utility-info, #0d74ce);
+  --_badge-border: var(--color-border-utility-info, #acd8fc);
+}
+.esa-badge--neutral:not(.esa-badge--dot),
+.esa-badge--success:not(.esa-badge--dot),
+.esa-badge--warning:not(.esa-badge--dot),
+.esa-badge--danger:not(.esa-badge--dot),
+.esa-badge--info:not(.esa-badge--dot) {
+  border: 1px solid var(--_badge-border, transparent);
+}
+.esa-badge--dot {
+  border-radius: var(--radius-pill, 9999px);
+  width: 8px;
+  min-width: 8px;
+  height: 8px;
+  padding: 0;
+}
+.esa-badge--dot.esa-badge--neutral {
+  --_badge-bg: var(--color-content-default-secondary, #646464);
+}
+.esa-badge--dot.esa-badge--primary {
+  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
+}
+.esa-badge--dot.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand, #46a758);
+}
+.esa-badge--dot.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
+}
+.esa-badge--dot.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
+}
+.esa-badge--dot.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
+}
+.esa-badge--dot.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
+}
+.esa-badge--dot {
+  background: canvastext;
+  border: 0;
+  outline: 1px solid canvastext;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -1639,6 +1845,12 @@ summary.esa-button--variant-chrome:focus-visible {
   gap: 2px;
   display: flex;
 }
+.bcn-key-value[data-layout="row"] {
+  align-items: baseline;
+  column-gap: var(--spacing-300);
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  display: grid;
+}
 .bcn-key-value__key {
   font-size: var(--typography-label-md-font-size);
   font-weight: var(--typography-font-weight-medium);
@@ -1652,6 +1864,23 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-key-value__hint {
   color: var(--color-content-default-tertiary);
   font-size: 0.75rem;
+}
+.bcn-key-value__key {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__key {
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  color: var(--color-content-secondary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__val {
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -1721,9 +1950,14 @@ summary.esa-button--variant-chrome:focus-visible {
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
+- `--badge-bg`: #fcfcfc _(component)_
+- `--badge-border-color`: #dcdcdc _(component)_
+- `--badge-text-color`: #525252 _(component)_
+- `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
+- `--bcn-gray-700`: #525252 _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
@@ -1748,15 +1982,24 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-background-utility-danger-hover`: #641723 _(semantic)_
+- `--color-background-utility-danger-muted`: #feebec _(semantic)_
 - `--color-background-utility-info`: #228be6 _(semantic)_
 - `--color-background-utility-info-hover`: #113264 _(semantic)_
+- `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
+- `--color-background-utility-info-subtle`: #fbfdff _(semantic)_
 - `--color-background-utility-success`: #2e7571 _(semantic)_
 - `--color-background-utility-success-hover`: #193b2d _(semantic)_
+- `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
 - `--color-background-utility-warning`: #f59e0b _(semantic)_
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
+- `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
+- `--color-border-utility-danger`: #fdbdbe _(semantic)_
+- `--color-border-utility-info`: #acd8fc _(semantic)_
+- `--color-border-utility-success`: #adddc0 _(semantic)_
+- `--color-border-utility-warning`: #f3d673 _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
 - `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
@@ -1767,6 +2010,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-on-utility-success`: #fcfcfc _(semantic)_
 - `--color-content-on-utility-warning`: #4f3422 _(semantic)_
+- `--color-content-secondary`: #525252 _(component)_
 - `--color-content-utility-danger`: #ce2c31 _(semantic)_
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
@@ -1784,10 +2028,14 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--line-height-normal`: 1.6 _(primitive)_
+- `--radius-chip`: .25rem _(semantic)_
+- `--radius-full`: 9999px _(primitive)_
 - `--radius-md`: .25rem _(semantic)_
+- `--radius-pill`: 9999px _(semantic)_
 - `--radius-sm`: .25rem _(semantic)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
+- `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
@@ -1797,7 +2045,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
@@ -1811,6 +2059,9 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
 - `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
 - `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-font-weight`: 500 _(semantic)_
+- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
@@ -1823,7 +2074,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
