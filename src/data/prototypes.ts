@@ -997,6 +997,15 @@ export const prototypeGroups: PrototypeGroup[] = [
         createdAt: '2026-10-19',
         status: 'in-progress',
       },
+      {
+        slug: 'lists-new-list',
+        title: 'New list with Aldo',
+        description:
+          'Where Create list lands: the new, empty list with Aldo open beside it. Say what the list is for, and Aldo proposes what fits; Add fills it.',
+        route: '/prototypes/lists/new-obligation-list',
+        createdAt: '2026-10-19',
+        status: 'in-progress',
+      },
     ],
   },
 ];

@@ -1,0 +1,111 @@
+---
+// <BcnListAldo> — Aldo on a list page (Andy, 2026-10-19): a button in the rail, above
+// Details, that opens the conversation the setup wizard has, in place. The person says what
+// the list is for, in their own words; Aldo answers with the records that fit and a key to
+// add them, and the list fills when the key is pressed. It also takes things off ("take out
+// the reporting ones"), and on a Compliance Index list it keeps or takes out whole
+// subcategories, since a version arranges the index's subcategories, never single items.
+//
+// A new list (the create dialog lands on one) opens with the conversation already open:
+// starting a list and explaining what it is for are one motion.
+//
+// A manifest of the Aldo kit (src/components/bcn/aldo/, docs/aldo-kit-spec.md): the panel,
+// thread and composer, expandable over the page like the setup wizard's. The adapter,
+// list-aldo.ts, decides what is said and drives the page through the events the Add drawers
+// and trees already answer:
+//   out  list:add-ids        detail: { ids }   the Add drawer adds those rows, its own path
+//   out  list:drop-members   detail: { ids }   the tree takes those members off
+//   out  list:index-keep     detail: { ids }   a Compliance Index tree keeps only these subcategories
+//   out  list:index-drop     detail: { ids }   … or takes these out
+//
+// bcn-lego-checked: the conversation IS the Aldo kit (bcn-aldo-panel, -thread, -composer);
+// the mark IS bcn-aldo-mark. The launcher is the closed bar of bcn-aldo-prompt (the comments
+// prototype's "Give Aldo guidance" bar), restated here because that component's bar opens
+// its own one-shot composer card, not a conversation, and its styles are scoped to it. If a
+// third surface wants this launcher, it becomes bcn-aldo-launcher.
+import BcnAldoMark from './aldo/BcnAldoMark.astro';
+import BcnAldoPanel from './aldo/BcnAldoPanel.astro';
+import BcnAldoThread from './aldo/BcnAldoThread.astro';
+import BcnAldoComposer from './aldo/BcnAldoComposer.astro';
+import { LIST_MEMBER_NOUN, complianceIndexTree, type ProjectList } from '../../data/lists';
+import { ALDO_STARTERS, aldoCandidates, isNewList } from '../../data/list-aldo';
+
+interface Props {
+  list: ProjectList;
+}
+const { list } = Astro.props;
+const index = list.type === 'compliance-index';
+const fresh = isNewList(list);
+const launch = index ? 'Ask Aldo to shape this index' : 'Ask Aldo to fill this list';
+const placeholder = index ? 'Who is this index for?' : 'What should this list hold?';
+const data = {
+  type: list.type,
+  name: list.name,
+  description: list.description,
+  fresh,
+  noun: index ? ['subcategory', 'subcategories'] : LIST_MEMBER_NOUN[list.type],
+  starters: ALDO_STARTERS[list.type],
+  candidates: aldoCandidates(list),
+  // The canonical index's subcategories, which every version draws from.
+  indexTotal: complianceIndexTree().reduce((n, c) => n + c.subcategories.length, 0),
+};
+---
+
+<div class="bcn-lal" data-list-aldo data-aldo={fresh ? 'open' : 'closed'}>
+  <button type="button" class="bcn-lal__open" data-lal-open aria-expanded={fresh ? 'true' : 'false'}>
+    <BcnAldoMark size="sm" />
+    <span class="bcn-lal__label typography-label-md-strong">{launch}</span>
+  </button>
+
+  <BcnAldoPanel collapsible expandable collapseIcon="chevron-up" data-lal-panel>
+    <BcnAldoThread slot="thread" />
+    <BcnAldoComposer slot="composer" mode="thread" placeholder={placeholder} attach={false} />
+  </BcnAldoPanel>
+
+  <script type="application/json" data-lal-data set:html={JSON.stringify(data)} />
+</div>
+
+<script>
+  import { setupListAldo } from './list-aldo';
+  document.querySelectorAll<HTMLElement>('[data-list-aldo]').forEach(setupListAldo);
+</script>
+
+<style>
+  /* Closed: the launcher, in Aldo's wash, the bar bcn-aldo-prompt draws. */
+  .bcn-lal__open {
+    all: unset;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250, 0.625rem);
+    inline-size: 100%;
+    min-block-size: 44px;
+    padding: 0 var(--spacing-400) 0 var(--spacing-250, 0.625rem);
+    background: var(--bcn-aldo-prompt-wash);
+    border: 1px solid var(--bcn-aldo-100);
+    border-radius: 999px;
+    color: var(--bcn-aldo-600);
+    cursor: pointer;
+  }
+  .bcn-lal__open:hover .bcn-lal__label { color: var(--color-content-default); }
+  .bcn-lal__open:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+  .bcn-lal__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 150ms ease;
+  }
+
+  /* One or the other: the launcher closed, the conversation open. The kit's side rail is
+     never shown here; collapsing folds the panel back into the launcher. */
+  .bcn-lal[data-aldo='open'] .bcn-lal__open { display: none; }
+  .bcn-lal[data-aldo='closed'] :global(.bcn-aldo-panel) { display: none; }
+  .bcn-lal :global(.bcn-aldo-panel__rail) { display: none; }
+
+  /* Docked in the rail: a fixed height, so the thread scrolls and the Details card below
+     stays put as the conversation grows. Expanded, the kit pins it over the page. */
+  .bcn-lal :global(.bcn-aldo-panel:not([data-expanded])) { block-size: 32rem; }
+</style>

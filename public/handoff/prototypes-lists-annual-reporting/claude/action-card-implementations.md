@@ -192,6 +192,14 @@ One action: type chip, title (opens the action panel), implementation count. Chi
 .bcn-loc[data-class="commitment"] .bcn-loc__req .bcn-cbadge {
   display: none;
 }
+.bcn-lit
+  esa-tooltip:has(
+    [data-list-remove],
+    [data-list-duplicate],
+    .bcn-loc__verb[data-list-edit]
+  ) {
+  display: none;
+}
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -348,7 +356,8 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc__class,
 .bcn-loc__class,
-.bcn-lob__class {
+.bcn-lob__class,
+.bcn-ci-chip {
   padding: 1px var(--spacing-200);
   border-radius: var(--radius-100);
   background: color-mix(in srgb, var(--_hue) 14%, white);
@@ -362,24 +371,29 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc[data-class="adhere"],
 .bcn-loc[data-class="adhere"],
-.bcn-lob[data-class="adhere"] {
+.bcn-lob[data-class="adhere"],
+.bcn-ci-chip[data-class="adhere"] {
   --_hue: var(--color-obligation);
 }
 .bcn-swoc[data-class="monitor"],
 .bcn-loc[data-class="monitor"],
-.bcn-lob[data-class="monitor"] {
+.bcn-lob[data-class="monitor"],
+.bcn-ci-chip[data-class="monitor"] {
   --_hue: #ff7c43;
 }
 .bcn-swoc[data-class="notify"],
 .bcn-loc[data-class="notify"],
-.bcn-lob[data-class="notify"] {
+.bcn-lob[data-class="notify"],
+.bcn-ci-chip[data-class="notify"] {
   --_hue: #ffa600;
 }
 .bcn-swoc[data-class="roster"],
 .bcn-loc[data-class="roster"],
 .bcn-lob[data-class="roster"],
+.bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
-.bcn-lac[data-class="action"] {
+.bcn-lac[data-class="action"],
+.bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
 .bcn-swoc__title,
@@ -454,7 +468,8 @@ details[open] > summary .bcn-loc__chevron {
   color: var(--color-background-utility-danger);
 }
 .bcn-swoc__reqs,
-.bcn-loc__reqs {
+.bcn-loc__reqs,
+.bcn-ciitem__reqs {
   padding: 0 var(--spacing-300) var(--spacing-150)
     calc(var(--spacing-300) + var(--_req-indent));
   flex-direction: column;
@@ -463,7 +478,8 @@ details[open] > summary .bcn-loc__chevron {
   display: flex;
 }
 .bcn-swoc__req,
-.bcn-loc__req {
+.bcn-loc__req,
+.bcn-ciitem__req {
   align-items: center;
   gap: var(--spacing-200);
   min-height: 28px;
@@ -477,7 +493,8 @@ details[open] > summary .bcn-loc__chevron {
   background: var(--color-background-default);
 }
 .bcn-swoc__req-name,
-.bcn-loc__req-name {
+.bcn-loc__req-name,
+.bcn-ciitem__req-name {
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
@@ -543,26 +560,8 @@ details[open] > summary .bcn-loc__chevron {
   color: var(--color-content-default-tertiary);
   font-weight: 400;
 }
-.bcn-swcb {
-  min-width: 22px;
-  padding: 2px var(--spacing-150);
-  border-radius: var(--radius-100);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default-subtle);
+.bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
-  font-family: var(--typography-font-family-sans);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  line-height: 1;
-  display: inline-flex;
-}
-.bcn-swcb--sm {
-  min-width: 18px;
-  padding: 2px var(--spacing-100);
-  font-size: var(--font-size-050);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -592,6 +591,27 @@ details[open] > summary .bcn-loc__chevron {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.bcn-swcb {
+  min-width: 22px;
+  padding: 2px var(--spacing-150);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default-subtle);
+  color: var(--color-content-default-tertiary);
+  font-family: var(--typography-font-family-sans);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1;
+  display: inline-flex;
+}
+.bcn-swcb--sm {
+  min-width: 18px;
+  padding: 2px var(--spacing-100);
+  font-size: var(--font-size-050);
 }
 .bcn-status-chip {
   align-items: center;

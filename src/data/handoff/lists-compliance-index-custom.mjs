@@ -26,6 +26,18 @@
 export default {
   sections: [
     {
+      label: 'Aldo',
+      selector: '[data-list-aldo] [data-aldo-panel]',
+      apply: [{ click: '[data-lal-open]' }],
+      intent: 'Aldo above Details ("Ask Aldo to shape this index"): say who the version is for or what it covers and Aldo keeps the subcategories that fit and takes out the rest; "take out fire prevention" takes those out. One key each: Keep N, Take Out N.',
+      decisions: [
+        'A version arranges subcategories, so Aldo proposes subcategories, never single items. It reads each one by its name, its category and the titles of what it holds.',
+        'Kept and taken-out subcategories go through the tree (`list:index-keep`, `list:index-drop`); a category left empty goes too, and every count is read again.',
+        'Open: merging and renaming through Aldo ("put dust under Every day on site") belongs with the outline editor, which is not built.',
+      ],
+      acceptance: ['"Take out fire prevention and dust control" then Take Out drops those two subcategories and the title badge by the items they held.'],
+    },
+    {
       label: 'Index tree',
       selector: '.bcn-lit .bcn-lot__sub',
       apply: [{ click: '[data-index-sub] summary' }],

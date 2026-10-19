@@ -194,7 +194,8 @@ Read-only side panel: type, action text, frequency, deliverable, species, timing
 }
 .bcn-swoc__class,
 .bcn-loc__class,
-.bcn-lob__class {
+.bcn-lob__class,
+.bcn-ci-chip {
   padding: 1px var(--spacing-200);
   border-radius: var(--radius-100);
   background: color-mix(in srgb, var(--_hue) 14%, white);
@@ -209,8 +210,10 @@ Read-only side panel: type, action text, frequency, deliverable, species, timing
 .bcn-swoc[data-class="roster"],
 .bcn-loc[data-class="roster"],
 .bcn-lob[data-class="roster"],
+.bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
-.bcn-lac[data-class="action"] {
+.bcn-lac[data-class="action"],
+.bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
 .bcn-swo-edit {

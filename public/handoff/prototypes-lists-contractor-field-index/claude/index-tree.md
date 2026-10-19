@@ -19,7 +19,12 @@ The list's own outline over the index's items: its categories and subcategories,
 
 ## Markup
 ```html
-<details class="bcn-lot__sub" data-index-sub="worker-awareness-training" open="">
+<details
+  class="bcn-lot__sub"
+  data-index-sub="worker-awareness-training"
+  data-n="2"
+  open=""
+>
   <summary class="bcn-lot__row bcn-lot__row--sub">
     <span class="bcn-lot__chevron" aria-hidden="true"
       ><span class="esa-icon esa-icon--sm" aria-hidden="true"

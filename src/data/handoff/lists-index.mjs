@@ -94,7 +94,7 @@ export default {
       ],
       gotchas: [
         'esa-radio-group has no per-option description field, which is why this is a toggle plus one cue line rather than described radios.',
-        'Prototype honesty: "Create list" validates Name and closes; it writes no row and navigates nowhere. In the app it creates the list and lands on its detail page.',
+        '"Create list" validates Name, then lands on the new, empty list with Aldo open (lists-new-list), named as typed. The prototype writes no row: the name and description ride in the URL. In the app it creates the list and lands on its detail page the same way.',
       ],
       acceptance: [
         'Each heading\'s add button opens the dialog preset to that type; changing the toggle updates heading and cue; Create is refused with an empty Name.',

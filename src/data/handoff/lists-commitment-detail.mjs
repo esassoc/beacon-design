@@ -21,6 +21,13 @@
 export default {
   sections: [
     {
+      label: 'Aldo',
+      selector: '[data-list-aldo] [data-aldo-panel]',
+      apply: [{ click: '[data-lal-open]' }],
+      intent: 'Aldo above Details, as on an obligation list (see lists-obligation-detail): say what the list is for and Aldo proposes the commitments that fit; Add fills the list through the Add drawer\'s own path.',
+      decisions: ['Candidates are every commitment on the project; the reply groups them by permit section.'],
+    },
+    {
       label: 'Filter row',
       selector: '.bcn-swfr',
       intent: 'Search plus a Source picker ("All source documents"). No view tabs: commitment lists are flat, per Andy.',

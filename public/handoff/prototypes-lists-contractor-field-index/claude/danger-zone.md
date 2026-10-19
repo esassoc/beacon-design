@@ -59,6 +59,9 @@ Delete this Compliance Index List, behind the danger confirm every list uses. Th
   line-height: var(--typography-microcopy-md-strong-line-height);
   letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
 }
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -327,6 +330,7 @@ summary.esa-button--variant-chrome:focus-visible {
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
+- `--bcn-aldo-600`: #06736f _(component)_
 - `--border-width-default`: 1px _(semantic)_
 - `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--button-on-warning`: #fff _(component)_

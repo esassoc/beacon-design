@@ -31,6 +31,29 @@ const SEARCH = 'esa-text-field[name="list-search"] input';
 export default {
   sections: [
     {
+      label: 'Aldo',
+      selector: '[data-list-aldo] [data-aldo-panel]',
+      apply: [{ click: '[data-lal-open]' }],
+      intent:
+        'Aldo on the list, above Details: a launcher in Aldo\'s wash ("Ask Aldo to fill this list") that opens the same conversation the setup wizard has, in place. The person says what the list is for in their own words; Aldo names how many records fit and where they file, and offers one key. The list fills when the key is pressed. Andy, 2026-10-19: "I should be able to start a list and then explain what I want and have that populate."',
+      decisions: [
+        'Built from the Aldo kit (bcn-aldo-panel, -thread, -composer; docs/aldo-kit-spec.md), docked in the rail at a fixed 32rem height so Details stays put, expandable over the page like the setup wizard\'s. Collapsing folds it back into the launcher.',
+        'What it reads a message as: add (the default), remove ("take out", "remove", "drop", "leave out"), or a question ("what\'s on here?", "is dust covered?"), which changes nothing.',
+        'Nothing changes until the key is pressed: "Add 14" (success tone) or "Remove 4" (danger tone), with Dismiss beside it. Pressed, the change goes through the page\'s own paths: the Add drawer\'s rows (`list:add-ids`) and the tree\'s own remove (`list:drop-members`), so counts, filing and the drawer stay as a manual add leaves them. The press is said as one quiet event line ("Added 14 obligations").',
+        'Records already on the list are not offered again; the reply says how many were.',
+        'Prod: one structured-output call per message (AIController, the kit\'s { actions, reply } contract) given the list, its members and the registry of its type, returning `{ actions: [{ kind: "add" | "remove", ids }], reply }`. The ids must be checked against the registry server-side before the key is offered.',
+        'Not on the canonical Compliance Index: it is the project\'s own and is not edited here.',
+      ],
+      gotchas: [
+        'The prototype runs no model. It matches words per clause ("dust, spills or refueling" is three asks, "annual reports to CDFW" one), with the phrases records file under and a short synonym list (list-aldo-match.ts). Do not port it; it only stands in for the call.',
+        'A remove from Aldo skips the per-card confirm: the key in the conversation is the confirmation.',
+      ],
+      acceptance: [
+        'Typing "anything about dust, spills or refueling" and pressing Add puts those obligations in the tree under their subcategories, and the title badge moves by the number added.',
+        'Dismiss leaves the list as it was and says so.',
+      ],
+    },
+    {
       label: 'Title-row verbs',
       selector: '.bcn-list-actions',
       intent:

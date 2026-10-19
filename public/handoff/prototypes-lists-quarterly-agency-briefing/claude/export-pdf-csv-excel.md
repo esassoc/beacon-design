@@ -232,6 +232,84 @@ PDF, then prod's CSV and Excel downloads in the rail, then Word as a row that is
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
+.bcn-lxp__format,
+.bcn-lxp .bcn-key-value__key,
+.bcn-lxp .bcn-key-value__val {
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+.bcn-lxp__format {
+  color: var(--color-content-default);
+  margin: 0;
+}
+.bcn-lxp .bcn-key-value {
+  gap: var(--spacing-100);
+}
+.bcn-lxp__mark {
+  block-size: 1.5em;
+  inline-size: 1.5em;
+  color: var(--color-content-default-secondary);
+  flex: none;
+}
+.bcn-lxp__mark text {
+  fill: currentColor;
+  font-family: var(--typography-font-family-sans);
+  font-weight: var(--typography-font-weight-semibold);
+}
+.bcn-lxp__rule {
+  border: 0;
+  border-block-start: 1px solid var(--color-border-default-subtle);
+  margin: 0;
+}
+.bcn-lxp__field-row {
+  flex-wrap: nowrap;
+}
+.bcn-lxp__field {
+  min-inline-size: 0;
+  padding: var(--spacing-100) var(--spacing-200);
+  background: var(--color-background-elevation-sunken);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  color: var(--color-content-default);
+  font-family: var(--typography-font-family-mono);
+  font-size: 0.75rem;
+  line-height: var(--line-height-normal);
+  overflow-wrap: anywhere;
+  flex: auto;
+}
+.bcn-lxp [data-list-export-copy][data-copied] {
+  color: var(--color-content-utility-success);
+}
+.bcn-lxp__preview {
+  padding: var(--spacing-300);
+  background: var(--color-background-elevation-sunken);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  color: var(--color-content-default);
+  font-family: var(--typography-font-family-mono);
+  font-size: 0.75rem;
+  line-height: var(--line-height-normal);
+  white-space: pre-wrap;
+  tab-size: 2;
+  max-block-size: 18rem;
+  margin: 0;
+  overflow: auto;
+}
+.bcn-lxp__preview:focus-visible {
+  outline: 2px solid var(--color-background-brand);
+  outline-offset: 2px;
+}
+.bcn-lxp__status {
+  white-space: nowrap;
+  clip-path: inset(50%);
+  border: 0;
+  block-size: 1px;
+  inline-size: 1px;
+  margin: -1px;
+  padding: 0;
+  position: absolute;
+  overflow: hidden;
+}
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -467,6 +545,12 @@ PDF, then prod's CSV and Excel downloads in the rail, then Word as a row that is
 .side-nav.collapsed .nav-section__title,
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
+.bcn-aldo-needs__head .esa-badge {
+  font-variant-numeric: tabular-nums;
 }
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
@@ -811,84 +895,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
 }
-.bcn-lxp__format,
-.bcn-lxp .bcn-key-value__key,
-.bcn-lxp .bcn-key-value__val {
-  font-size: 0.875rem;
-  line-height: 1.45;
-}
-.bcn-lxp__format {
-  color: var(--color-content-default);
-  margin: 0;
-}
-.bcn-lxp .bcn-key-value {
-  gap: var(--spacing-100);
-}
-.bcn-lxp__mark {
-  block-size: 1.5em;
-  inline-size: 1.5em;
-  color: var(--color-content-default-secondary);
-  flex: none;
-}
-.bcn-lxp__mark text {
-  fill: currentColor;
-  font-family: var(--typography-font-family-sans);
-  font-weight: var(--typography-font-weight-semibold);
-}
-.bcn-lxp__rule {
-  border: 0;
-  border-block-start: 1px solid var(--color-border-default-subtle);
-  margin: 0;
-}
-.bcn-lxp__field-row {
-  flex-wrap: nowrap;
-}
-.bcn-lxp__field {
-  min-inline-size: 0;
-  padding: var(--spacing-100) var(--spacing-200);
-  background: var(--color-background-elevation-sunken);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-sm);
-  color: var(--color-content-default);
-  font-family: var(--typography-font-family-mono);
-  font-size: 0.75rem;
-  line-height: var(--line-height-normal);
-  overflow-wrap: anywhere;
-  flex: auto;
-}
-.bcn-lxp [data-list-export-copy][data-copied] {
-  color: var(--color-content-utility-success);
-}
-.bcn-lxp__preview {
-  padding: var(--spacing-300);
-  background: var(--color-background-elevation-sunken);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-md);
-  color: var(--color-content-default);
-  font-family: var(--typography-font-family-mono);
-  font-size: 0.75rem;
-  line-height: var(--line-height-normal);
-  white-space: pre-wrap;
-  tab-size: 2;
-  max-block-size: 18rem;
-  margin: 0;
-  overflow: auto;
-}
-.bcn-lxp__preview:focus-visible {
-  outline: 2px solid var(--color-background-brand);
-  outline-offset: 2px;
-}
-.bcn-lxp__status {
-  white-space: nowrap;
-  clip-path: inset(50%);
-  border: 0;
-  block-size: 1px;
-  inline-size: 1px;
-  margin: -1px;
-  padding: 0;
-  position: absolute;
-  overflow: hidden;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -960,6 +966,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--badge-bg`: #fcfcfc _(component)_
 - `--badge-border-color`: #dcdcdc _(component)_
 - `--badge-text-color`: #525252 _(component)_
+- `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_

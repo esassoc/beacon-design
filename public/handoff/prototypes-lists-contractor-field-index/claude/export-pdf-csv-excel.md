@@ -544,6 +544,12 @@ PDF prints this list's outline (list-export-compliance-index-pdf, over the versi
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
+.bcn-aldo-needs__head .esa-badge {
+  font-variant-numeric: tabular-nums;
+}
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
   --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
@@ -958,6 +964,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--badge-bg`: #fcfcfc _(component)_
 - `--badge-border-color`: #dcdcdc _(component)_
 - `--badge-text-color`: #525252 _(component)_
+- `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_

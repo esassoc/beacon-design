@@ -16,6 +16,7 @@
 // Contract, on `document`:
 //   in   list:add-members      (no detail) opens it
 //   out  list:members-added    detail: { items: ListMemberRow[] }, read off the ticked rows
+//   in   list:add-ids          detail: { ids } adds those rows the same way (Aldo's Add key)
 //
 // bcn-lego-checked: the frame IS esa-side-dialog, the search IS esa-text-field, each
 // option IS esa-checkbox (label beside it in light DOM — the lego has no label slot, so a <mark> cannot reach its shadow label), the footer verbs ARE esa-button, the counts ARE
@@ -213,15 +214,22 @@ const facets = buildFacets(
     });
     cancelBtn?.addEventListener('click', () => { drawer.open = false; });
 
-    addBtn?.addEventListener('click', () => {
-      const picked = checkedRows();
+    const addRows = (picked: HTMLElement[]) => {
       const items = picked.map((row) => JSON.parse(row.dataset.item || '{}'));
       if (!items.length) return;
       document.dispatchEvent(new CustomEvent('list:members-added', { detail: { items }, bubbles: true }));
       picked.forEach((row) => row.remove());
       retally();
+    };
+    addBtn?.addEventListener('click', () => {
+      addRows(checkedRows());
       reset();
       drawer.open = false;
+    });
+    // Aldo adds by id, down the same path a tick and Add take (BcnListAldo).
+    document.addEventListener('list:add-ids', (e) => {
+      const ids = new Set((e as CustomEvent<{ ids: string[] }>).detail?.ids ?? []);
+      addRows(rows().filter((row) => ids.has((JSON.parse(row.dataset.item || '{}') as { id?: string }).id ?? '')));
     });
   }
 </script>

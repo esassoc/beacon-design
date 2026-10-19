@@ -11,7 +11,7 @@ The "Add list" modal, in the order the decision is made: which kind of list it i
 
 ## Gotchas
 - esa-radio-group has no per-option description field, which is why this is a toggle plus one cue line rather than described radios.
-- Prototype honesty: "Create list" validates Name and closes; it writes no row and navigates nowhere. In the app it creates the list and lands on its detail page.
+- "Create list" validates Name, then lands on the new, empty list with Aldo open (lists-new-list), named as typed. The prototype writes no row: the name and description ride in the URL. In the app it creates the list and lands on its detail page the same way.
 
 ## Done when
 - Each heading's add button opens the dialog preset to that type; changing the toggle updates heading and cue; Create is refused with an empty Name.
@@ -20,6 +20,7 @@ The "Add list" modal, in the order the decision is made: which kind of list it i
 ```html
 <esa-dialog
   data-list-create-dialog="true"
+  data-new-hrefs='{"commitment":"/beacon-design/prototypes/lists/new-commitment-list","action":"/beacon-design/prototypes/lists/new-action-list","obligation":"/beacon-design/prototypes/lists/new-obligation-list","compliance-index":"/beacon-design/prototypes/lists/new-compliance-index-list"}'
   heading="Add Action List"
   size="lg"
   show-close-button="true"

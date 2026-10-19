@@ -1915,6 +1915,46 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-title-strong-line-height);
   letter-spacing: var(--typography-title-strong-letter-spacing);
 }
+.bcn-swfr {
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-500);
+  border-top: 1px solid var(--color-border-default-subtle);
+  color: var(--color-content-default);
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+  display: flex;
+}
+.bcn-swfr--inset {
+  border-top: none;
+}
+.bcn-swfr--panel {
+  padding: var(--spacing-250) var(--spacing-400);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-200);
+  background: var(--color-background-elevation-sunken);
+}
+.bcn-swfr--panel .bcn-swfr__search,
+.bcn-swfr--panel .bcn-swfr__picker {
+  --color-background-field: var(--color-background-elevation-raised);
+}
+.bcn-swfr__search {
+  flex: 180px;
+  max-width: 360px;
+}
+.bcn-swfr__picker {
+  flex: 0 180px;
+  min-width: 140px;
+}
+.bcn-swfr__verbs {
+  align-items: center;
+  gap: var(--spacing-200);
+  margin-left: auto;
+  display: inline-flex;
+}
+.bcn-swfr__verbs:empty {
+  display: none;
+}
 .bcn-lc__row {
   padding: var(--spacing-200) var(--spacing-300);
 }
@@ -1976,46 +2016,6 @@ summary.esa-button--variant-chrome:focus-visible {
   display: grid;
 }
 .bcn-lib__empty[hidden] {
-  display: none;
-}
-.bcn-swfr {
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-500);
-  border-top: 1px solid var(--color-border-default-subtle);
-  color: var(--color-content-default);
-  flex-wrap: wrap;
-  font-size: 0.8125rem;
-  display: flex;
-}
-.bcn-swfr--inset {
-  border-top: none;
-}
-.bcn-swfr--panel {
-  padding: var(--spacing-250) var(--spacing-400);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  background: var(--color-background-elevation-sunken);
-}
-.bcn-swfr--panel .bcn-swfr__search,
-.bcn-swfr--panel .bcn-swfr__picker {
-  --color-background-field: var(--color-background-elevation-raised);
-}
-.bcn-swfr__search {
-  flex: 180px;
-  max-width: 360px;
-}
-.bcn-swfr__picker {
-  flex: 0 180px;
-  min-width: 140px;
-}
-.bcn-swfr__verbs {
-  align-items: center;
-  gap: var(--spacing-200);
-  margin-left: auto;
-  display: inline-flex;
-}
-.bcn-swfr__verbs:empty {
   display: none;
 }
 .bcn-swcb {

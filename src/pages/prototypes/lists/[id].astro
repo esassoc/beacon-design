@@ -43,6 +43,8 @@ import BcnListMemberTree from '../../../components/bcn/BcnListMemberTree.astro';
 import BcnListActionPanel from '../../../components/bcn/BcnListActionPanel.astro';
 import BcnListAddMembers from '../../../components/bcn/BcnListAddMembers.astro';
 import BcnListIndexTree from '../../../components/bcn/BcnListIndexTree.astro';
+import BcnListAldo from '../../../components/bcn/BcnListAldo.astro';
+import { NEW_LISTS, isNewList } from '../../../data/list-aldo';
 import BcnDangerZone from '../../../components/bcn/BcnDangerZone.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import { ITP } from '../../../data/setup-wizard';
@@ -62,11 +64,13 @@ import {
 import { withBase } from '../../../lib/base';
 
 export function getStaticPaths() {
-  return [...OBLIGATION_LISTS, ...ACTION_LISTS, ...COMMITMENT_LISTS, ...COMPLIANCE_INDEX_LISTS].map((list) => ({ params: { id: list.id }, props: { list } }));
+  return [...OBLIGATION_LISTS, ...ACTION_LISTS, ...COMMITMENT_LISTS, ...COMPLIANCE_INDEX_LISTS, ...NEW_LISTS].map((list) => ({ params: { id: list.id }, props: { list } }));
 }
 
 const { list } = Astro.props as { list: ObligationList | ActionList | CommitmentList | ComplianceIndexList };
 const index = list.type === 'compliance-index' ? list : null;
+// A list the create dialog just made: named from the URL, with Aldo open (BcnListAldo).
+const fresh = isNewList(list);
 const members = list.type === 'action' || list.type === 'commitment' ? list : null;
 // The requirement panel carries only what this page can reach: an action page, every
 // requirement any action answers to (the drawer can add any action); a commitment page,
@@ -84,6 +88,7 @@ const typeMany = LIST_MEMBER_NOUN[list.type][1];
   sections:
     - title actions   -> bcn-list-actions                  # Edit details, Add obligations — both neutral outline
     - obligation tree -> bcn-list-obligation-tree          # category > subcategory > bcn-list-obligation-card; rename for this list, remove from list, per-list description
+    - aldo            -> bcn-list-aldo                     # above Details on every list but the canonical index: a launcher that opens the Aldo conversation in place; say what the list is for, Aldo proposes, Add fills it
     - details rail    -> bcn-list-details-rail             # the list record: name, description, type, created, last updated, member count
     - export panel    -> bcn-list-export-panel             # Word and CSV on every list; the JSON endpoint (key, URL, formFields preview) on obligation lists only
     - add members     -> bcn-list-add-obligations          # right drawer over candidateTree(list), checkboxes, emits list:members-added
@@ -140,9 +145,10 @@ const typeMany = LIST_MEMBER_NOUN[list.type][1];
         grows is the tree. data-side="end" keeps the rail on the right while it stays
         first in the DOM. The rail column is a .stack of two cards — the list record,
         then the ways it leaves Beacon — so the aside stays ONE sidebar child. */}
-    <div class="stack" data-gap="xl">
+    <div class="stack" data-gap="xl" data-new-list={fresh ? list.name : undefined}>
     <div class="sidebar" data-side="end" data-gap="lg" style="--sidebar-width: 22rem; --sidebar-content-min: 55%;">
       <div class="stack" data-gap="md">
+        {!index?.canonical && <BcnListAldo list={list} />}
         <BcnListDetailsRail list={list} />
         <BcnListExportPanel list={list} />
       </div>
@@ -179,6 +185,28 @@ const typeMany = LIST_MEMBER_NOUN[list.type][1];
 
 <script>
   import '@esa/ecology/esa-confirm-dialog';
+  // A new list carries the name and description the create dialog was given, in its URL.
+  // They land everywhere the record shows: the title, the crumb, Details and Edit details.
+  const page = document.querySelector<HTMLElement>('[data-new-list]');
+  const q = new URLSearchParams(location.search);
+  if (page && q.get('name')) {
+    const name = q.get('name')!;
+    const description = q.get('description') ?? '';
+    const was = page.dataset.newList ?? '';
+    document.title = document.title.replace(was, name);
+    document.querySelectorAll<HTMLElement>('h1, .breadcrumbs li:last-child, .breadcrumbs [aria-current]').forEach((el) => {
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      for (let n = walker.nextNode(); n; n = walker.nextNode()) if (n.textContent?.includes(was)) n.textContent = n.textContent.replace(was, name);
+    });
+    document.querySelectorAll<HTMLElement>('.bcn-ldr .bcn-key-value').forEach((kv) => {
+      const key = kv.querySelector('.bcn-key-value__key')?.textContent?.trim();
+      const val = kv.querySelector<HTMLElement>('.bcn-key-value__val');
+      if (val && key === 'Name') val.textContent = name;
+      if (val && key === 'Description' && description) val.textContent = description;
+    });
+    document.querySelector('[data-list-edit-name]')?.setAttribute('value', name);
+    if (description) document.querySelector('[data-list-edit-description]')?.setAttribute('value', description);
+  }
   // The prototype deletes nothing; confirming goes back to the index the way a real
   // delete would land.
   const confirm = document.querySelector<HTMLElement & { open: boolean }>('[data-list-delete-confirm]');

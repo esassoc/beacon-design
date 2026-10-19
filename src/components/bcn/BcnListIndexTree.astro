@@ -11,6 +11,10 @@
 // PDF hold the same items in the same order. Categories load open, subcategories folded;
 // inside a subcategory the actions come first, then the obligations.
 //
+// Aldo shapes a version here (BcnListAldo): `list:index-keep` { ids } keeps only those
+// subcategories, `list:index-drop` { ids } takes those out. A category left with nothing
+// goes too, and every count, the title badge's included, is read again off what is left.
+//
 // What it leaves out, on purpose: the cards' list verbs (remove, duplicate, move or
 // retitle) are hidden and there is no add drawer and no filter row. Filing the canonical
 // index belongs to the setup wizard's Compliance Index step.
@@ -57,11 +61,11 @@ const member = (o: ObligationNode): ListObligation => ({
           <summary class="bcn-lot__row bcn-lot__row--cat">
             <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
             <span class="bcn-lot__name">{cat.name}</span>
-            <BcnSwCountBadge value={n} label={items(n)} />
+            <BcnSwCountBadge value={n} label={items(n)} data-index-count />
           </summary>
           <div class="bcn-lot__subs">
             {cat.subcategories.map((sub) => (
-              <details class="bcn-lot__sub" data-index-sub={sub.id}>
+              <details class="bcn-lot__sub" data-index-sub={sub.id} data-n={countOf(sub)}>
                 <summary class="bcn-lot__row bcn-lot__row--sub">
                   <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
                   <span class="bcn-lot__name">{sub.name}</span>
@@ -90,4 +94,42 @@ const member = (o: ObligationNode): ListObligation => ({
 
 <script>
   import '@esa/ecology/esa-tooltip';
+
+  const root = document.querySelector<HTMLElement>('.bcn-lit');
+  if (root) {
+    const subs = () => [...root.querySelectorAll<HTMLElement>('[data-index-sub]')];
+    const items = (n: number) => `${n} ${n === 1 ? 'item' : 'items'}`;
+    const setBadge = (el: Element | null, n: number) => {
+      if (!el) return;
+      el.textContent = String(n);
+      el.setAttribute('aria-label', items(n));
+    };
+    const recount = () => {
+      let total = 0;
+      root.querySelectorAll<HTMLElement>('[data-index-cat]').forEach((cat) => {
+        const n = [...cat.querySelectorAll<HTMLElement>('[data-index-sub]:not([data-list-removed])')].reduce((sum, s) => sum + Number(s.dataset.n), 0);
+        cat.hidden = n === 0;
+        setBadge(cat.querySelector('[data-index-count]'), n);
+        total += n;
+      });
+      setBadge(document.querySelector('[data-list-count="title"] .bcn-swcb'), total);
+    };
+    const remove = (keep: (id: string) => boolean) => {
+      for (const s of subs()) {
+        if (keep(s.dataset.indexSub ?? '')) continue;
+        s.setAttribute('data-list-removed', '');
+        s.hidden = true;
+      }
+      recount();
+    };
+    const idsOf = (e: Event) => new Set((e as CustomEvent<{ ids: string[] }>).detail?.ids ?? []);
+    document.addEventListener('list:index-keep', (e) => {
+      const ids = idsOf(e);
+      remove((id) => ids.has(id));
+    });
+    document.addEventListener('list:index-drop', (e) => {
+      const ids = idsOf(e);
+      remove((id) => !ids.has(id));
+    });
+  }
 </script>

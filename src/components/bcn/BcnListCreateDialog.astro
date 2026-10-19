@@ -25,9 +25,10 @@
 // than defaulted. A trigger with no value opens on the first type. Nothing is passed in
 // as a prop and nothing is dispatched out, so the page carries no script for it.
 //
-// PROTOTYPE HONESTY: "Create list" checks that Name has something in it and then closes.
-// It writes no row, it navigates nowhere, and it shows no success message, because none
-// of that happened.
+// "Create list" checks that Name has something in it, then lands on the new list: an
+// empty list of the type chosen (a Compliance Index list, a copy of the canonical index),
+// named as typed, with Aldo open beside it so the person can say what it is for and have it
+// filled (Andy, 2026-10-19). The prototype writes no row: the new list lives in the URL.
 //
 // bcn-lego-checked: the frame IS esa-dialog (its own Esc, light dismiss, close button and
 // scrim, none of it re-implemented or disabled), the type control IS esa-button-toggle,
@@ -38,6 +39,8 @@
 // exposes no CSS part to restyle it through. A light-DOM line at typography-body-md with
 // aria-live is the size-honest version.
 import EsaButton from '@esa/ecology/esa-button.astro';
+import { newListHref } from '../../data/list-aldo';
+import { withBase } from '../../lib/base';
 import {
   LIST_GROUP_ORDER,
   LIST_TYPE_BASIS,
@@ -63,6 +66,7 @@ const HEADINGS = Object.fromEntries(
 
 <esa-dialog
   data-list-create-dialog
+  data-new-hrefs={JSON.stringify(Object.fromEntries(LIST_GROUP_ORDER.map((t) => [t, withBase(newListHref(t))])))}
   heading={HEADINGS[DEFAULT_TYPE]}
   size="lg"
   show-close-button
@@ -182,7 +186,12 @@ const HEADINGS = Object.fromEntries(
         (name as unknown as HTMLElement).focus();
         return;
       }
-      dialog.close();
+      const hrefs = JSON.parse(dialog.dataset.newHrefs ?? '{}') as Record<string, string>;
+      const href = hrefs[toggle?.value ?? openedType];
+      if (!href) return dialog.close();
+      const q = new URLSearchParams({ name: name.value.trim() });
+      if (description?.value.trim()) q.set('description', description.value.trim());
+      location.href = `${href}/?${q}`;
     });
   }
 </script>
