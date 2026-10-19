@@ -983,8 +983,17 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'lists-compliance-index',
         title: 'Compliance Index on Lists',
         description:
-          'The project’s Compliance Index as a list type on Lists: every action and obligation by category › subcategory, Unfiled last, with the Details and Export rail every list has.',
+          'The project’s canonical Compliance Index, the first Compliance Index list: every action and obligation by category › subcategory, Unfiled last, with the Details and Export rail every list has.',
         route: '/prototypes/lists/compliance-index',
+        createdAt: '2026-10-19',
+        status: 'in-progress',
+      },
+      {
+        slug: 'lists-compliance-index-custom',
+        title: 'Custom Compliance Index list',
+        description:
+          'A Compliance Index list made from the canonical index: its own categories and subcategories over the index’s items, regrouped for a contractor’s field crews, with Edit details and a Danger Zone.',
+        route: '/prototypes/lists/contractor-field-index',
         createdAt: '2026-10-19',
         status: 'in-progress',
       },

@@ -5,7 +5,7 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
 ## Key decisions
 - Same rows and cards as the list pages: the action card (type chip, title, implementation count) and the obligation card (class chip, title, implementation count), each opening to its implementations.
 - The cards' list verbs (remove, duplicate, move or retitle for this list) are hidden: nothing on this page edits the index. Filing is the setup wizard's Compliance Index step.
-- No filter row, add drawer, title-row verbs or Danger Zone: there is one index per project and nobody makes or deletes it here.
+- No filter row, add drawer, title-row verbs or Danger Zone: the canonical index is the project's own, and every version starts from it. It cannot be renamed or deleted here.
 - Prod data: the same export-data read the index PDF uses (see list-export-compliance-index-pdf), so the page and the PDF hold the same items.
 
 ## Gotchas
@@ -2822,6 +2822,49 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
 
 ## Styles
 ```css
+.bcn-loc__edited {
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-loc__edited[hidden] {
+  display: none;
+}
+.bcn-loc__dot {
+  place-items: center;
+  block-size: 1rem;
+  inline-size: 1rem;
+  display: inline-grid;
+}
+.bcn-loc__dot:before {
+  content: "";
+  background: var(--color-content-brand);
+  border-radius: 50%;
+  block-size: 6px;
+  inline-size: 6px;
+}
+.bcn-lot__cat[data-list-empty],
+.bcn-lot__sub[data-list-empty] {
+  display: none;
+}
+.bcn-lot__row:focus-visible {
+  outline: 2px solid var(--color-obligation);
+  outline-offset: -2px;
+}
+.bcn-loc[data-class="commitment"] .bcn-loc__req .bcn-cbadge {
+  display: none;
+}
+.bcn-lot__row:focus-visible {
+  outline: 2px solid var(--color-action);
+  outline-offset: -2px;
+}
+.bcn-lit
+  esa-tooltip:has(
+    [data-list-remove],
+    [data-list-duplicate],
+    .bcn-loc__verb[data-list-edit]
+  ) {
+  display: none;
+}
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -3286,77 +3329,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
 }
-.bcn-loc__edited {
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-loc__edited[hidden] {
-  display: none;
-}
-.bcn-loc__dot {
-  place-items: center;
-  block-size: 1rem;
-  inline-size: 1rem;
-  display: inline-grid;
-}
-.bcn-loc__dot:before {
-  content: "";
-  background: var(--color-content-brand);
-  border-radius: 50%;
-  block-size: 6px;
-  inline-size: 6px;
-}
-.bcn-loc[data-class="commitment"] .bcn-loc__req .bcn-cbadge {
-  display: none;
-}
-.bcn-swcb {
-  min-width: 22px;
-  padding: 2px var(--spacing-150);
-  border-radius: var(--radius-100);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default-subtle);
-  color: var(--color-content-default-tertiary);
-  font-family: var(--typography-font-family-sans);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  line-height: 1;
-  display: inline-flex;
-}
-.bcn-swcb--sm {
-  min-width: 18px;
-  padding: 2px var(--spacing-100);
-  font-size: var(--font-size-050);
-}
-.bcn-lit
-  esa-tooltip:has(
-    [data-list-remove],
-    [data-list-duplicate],
-    .bcn-loc__verb[data-list-edit]
-  ) {
-  display: none;
-}
-.bcn-status-chip {
-  align-items: center;
-  gap: var(--spacing-150);
-  padding: 2px var(--spacing-250);
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-100);
-  font-weight: var(--typography-font-weight-semibold);
-  white-space: nowrap;
-  background: color-mix(in srgb, var(--_chip) 16%, transparent);
-  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
-  display: inline-flex;
-}
-.bcn-status-chip__dot {
-  border-radius: var(--radius-full);
-  background: var(--_chip);
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -3385,6 +3357,46 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.bcn-swcb {
+  min-width: 22px;
+  padding: 2px var(--spacing-150);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default-subtle);
+  color: var(--color-content-default-tertiary);
+  font-family: var(--typography-font-family-sans);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1;
+  display: inline-flex;
+}
+.bcn-swcb--sm {
+  min-width: 18px;
+  padding: 2px var(--spacing-100);
+  font-size: var(--font-size-050);
+}
+.bcn-status-chip {
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  display: inline-flex;
+}
+.bcn-status-chip__dot {
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

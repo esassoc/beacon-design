@@ -1,6 +1,7 @@
 // Handoff spec for /prototypes/list-export-documents/compliance-index: every action and
 // obligation on the project in one PDF, from the Export card on the Compliance Index's
-// page on Lists (lists-compliance-index).
+// page on Lists (lists-compliance-index). Every Compliance Index list prints the same
+// document over its own outline (e.g. /prototypes/list-export-documents/contractor-field-index).
 // Written for Beacon's prototype-implement and pdf-template skills: an Angular print
 // route under Beacon.Web's src/app/print, captured by PdfService.GeneratePdfFromAngularRoute.
 //
@@ -30,11 +31,12 @@ export default {
       intent:
         'The project\'s whole Compliance Index as one document: every category › subcategory, and inside each subcategory its actions, then its obligations. Items with no subcategory print last under Unfiled.',
       decisions: [
-        'Print route: `compliance-index/:projectID` in print.routes.ts, a child of PrintLayoutComponent, guarded by printAuthGuard.',
+        'Print route: `compliance-index-list/:complianceIndexListID` in print.routes.ts, a child of PrintLayoutComponent, guarded by printAuthGuard.',
         'Data: a NEW read, `GET /projects/{projectID}/compliance-index/export-data`, on ComplianceIndexController. The existing `GET /projects/{projectID}/compliance-index` returns the categories and subcategories without the obligations, so it cannot feed this document.',
         'The new DTO: categories in their SortOrder, each with subcategories in theirs, each with Actions (by Action.ComplianceIndexSubcategoryID: Name, Text, RequirementType, FrequencyName, commitment codes, implementations) and Obligations (by their subcategory: title, description, ObligationClass, audience, TriggerText, commitment codes). Plus the project name and the two totals.',
         'Inside a subcategory: actions first, then obligations, each run under a small label ("Actions", "Obligations" in the tenant\'s terms), each A–Z.',
-        'Download: `GET projects/{projectID}/compliance-index/generate-pdf`, file named `Compliance Index.pdf` (or with the project name), Letter via the PdfService paper option.',
+        'Download: `GET compliance-index-lists/{complianceIndexListID}/generate-pdf`, file named `{list.Name}.pdf`, Letter via the PdfService paper option. The canonical index is a list like the rest, so it needs no project-keyed route.',
+        'A version prints its own categories and subcategories in its own order, each subcategory holding the items of the canonical subcategories it draws from. Its title block adds Type "Compliance Index List" and prints its description; the canonical index\'s title already names its type.',
         'Summary columns: Item 56%, Type 24% (an action\'s RequirementType, an obligation\'s class), Commitments.',
       ],
       gotchas: [
@@ -43,7 +45,7 @@ export default {
         'Entry titles here sit under three headings (category, subcategory, the kind label), so they are one level deeper than in the list PDFs.',
       ],
       acceptance: [
-        'Every action and every obligation on the project appears exactly once in the summary and once in the detail.',
+        'On the canonical index, every action and every obligation on the project appears exactly once in the summary and once in the detail. On a version, every item of every subcategory it draws from appears once, even where two of those subcategories are merged.',
         'The title block\'s Actions and Obligations counts equal the rows printed of each kind.',
       ],
     },

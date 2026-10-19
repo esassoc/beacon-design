@@ -27,10 +27,10 @@ interface Props {
 }
 const { doc } = Astro.props;
 
-// The title block's one row of facts. A list says which kind of list it is; the index's
-// title already does.
+// The title block's one row of facts. A list says which kind of list it is; the
+// canonical index's title already does.
 const facts = [
-  ...(doc.kind === 'compliance-index' ? [] : [{ label: 'Type', value: doc.kindLabel }]),
+  ...(doc.kindLabel === doc.title ? [] : [{ label: 'Type', value: doc.kindLabel }]),
   { label: doc.labels.project, value: doc.project },
   { label: 'Exported', value: doc.exportedOn },
   // Each list counts what it holds, zero included; the index counts both kinds.

@@ -12,7 +12,7 @@ One keyword search across every list on the project, in the page-level filter pa
 - HTML-escape the row text before re-inserting it with marks; the <mark> wrappers are the only injected markup.
 
 ## Done when
-- Typing narrows rows in all three groups at once, marks the matches in name and description, and clearing restores every row with no stale marks.
+- Typing narrows rows in every group at once, marks the matches in name and description, and clearing restores every row with no stale marks.
 
 ## Markup
 ```html

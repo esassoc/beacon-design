@@ -71,7 +71,6 @@ import BcnSwCountBadge from './BcnSwCountBadge.astro';
 import BcnSwFilterRow from './BcnSwFilterRow.astro';
 import {
   LIST_GROUP_LABEL,
-  LIST_CREATE_TYPES,
   LIST_GROUP_ORDER,
   LIST_TYPE_LABEL,
   addListLabel,
@@ -92,8 +91,6 @@ const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
   // search changes the number it reports.
   noun: LIST_TYPE_LABEL[type].toLowerCase(),
   lists: listsOfType(type),
-  // The Compliance Index is one per project: it has a row and no Add button.
-  creatable: LIST_CREATE_TYPES.includes(type),
 }));
 ---
 
@@ -122,17 +119,15 @@ const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
                 data-total={group.lists.length}
               />
             </div>
-            {group.creatable && (
-              <EsaButton
-                variant="ghost"
-                appearance="outline"
-                size="sm"
-                icon="plus"
-                data-list-create={group.type}
-              >
-                {addListLabel(group.type)}
-              </EsaButton>
-            )}
+            <EsaButton
+              variant="ghost"
+              appearance="outline"
+              size="sm"
+              icon="plus"
+              data-list-create={group.type}
+            >
+              {addListLabel(group.type)}
+            </EsaButton>
           </div>
 
           <div class="stack" data-gap="xs">

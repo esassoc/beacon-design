@@ -1,6 +1,6 @@
 # Details rail
 
-The index as a record: name, description, type (Compliance index), created, last updated, item count. The same card every list carries.
+The index as a record: name, description, type (Compliance index list), created, last updated, item count. The same card every list carries.
 
 ## Markup
 ```html
@@ -28,7 +28,7 @@ The index as a record: name, description, type (Compliance index), created, last
         </div>
         <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Type</span
-          ><span class="bcn-key-value__val">Compliance index</span>
+          ><span class="bcn-key-value__val">Compliance index list</span>
         </div>
         <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Created</span
@@ -63,6 +63,23 @@ The index as a record: name, description, type (Compliance index), created, last
   font-weight: var(--typography-title-sm-strong-font-weight);
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
+}
+.bcn-ldr .bcn-key-value__key,
+.bcn-ldr .bcn-key-value__val {
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+.bcn-ldr .bcn-key-value__val {
+  overflow-wrap: anywhere;
+}
+.bcn-lxp__format,
+.bcn-lxp .bcn-key-value__key,
+.bcn-lxp .bcn-key-value__val {
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+.bcn-lxp .bcn-key-value {
+  gap: var(--spacing-100);
 }
 .esa-card {
   --_card-bg: var(--card-bg, var(--color-background-elevation-raised, #fcfcfc));
@@ -249,23 +266,6 @@ The index as a record: name, description, type (Compliance index), created, last
 .bcn-key-value[data-size="sm"] .bcn-key-value__val {
   font-size: var(--typography-label-sm-strong-font-size);
   font-weight: var(--typography-label-sm-strong-font-weight);
-}
-.bcn-ldr .bcn-key-value__key,
-.bcn-ldr .bcn-key-value__val {
-  font-size: 0.875rem;
-  line-height: 1.45;
-}
-.bcn-ldr .bcn-key-value__val {
-  overflow-wrap: anywhere;
-}
-.bcn-lxp__format,
-.bcn-lxp .bcn-key-value__key,
-.bcn-lxp .bcn-key-value__val {
-  font-size: 0.875rem;
-  line-height: 1.45;
-}
-.bcn-lxp .bcn-key-value {
-  gap: var(--spacing-100);
 }
 .stack {
   --gap: var(--spacing-400, 1rem);

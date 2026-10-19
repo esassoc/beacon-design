@@ -1,12 +1,12 @@
 ---
 // <BcnListCreateDialog> is the "Add list" surface for the Lists index. One small modal
-// holding three answers, in the order the decision is actually made: which registry the
-// list draws from, what it is called, and what it is for.
+// holding three answers, in the order the decision is actually made: which kind of list
+// it is, what it is called, and what it is for.
 //
 // THE TYPE IS THE POINT, SO IT IS THE FIRST THING AND IT IS ALL VISIBLE. A list is a
 // subset of ONE registry and can never change which, so the type is the only choice in
-// here that is irreversible. It is a segmented control with all three options on screen
-// at once rather than a picker that hides two of them behind a click, and the line under
+// here that is irreversible. It is a segmented control with all four options on screen
+// at once rather than a picker that hides three of them behind a click, and the line under
 // it names what the selected type holds.
 //
 // WHY A SEGMENTED CONTROL AND NOT RADIOS: esa-radio-group would let each option carry
@@ -39,7 +39,7 @@
 // aria-live is the size-honest version.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import {
-  LIST_CREATE_TYPES,
+  LIST_GROUP_ORDER,
   LIST_TYPE_BASIS,
   LIST_TYPE_LABEL,
   addListLabel,
@@ -47,9 +47,10 @@ import {
 } from '../../data/lists';
 
 // Labels and basis strings are read off the data module. Nothing here is typed by hand,
-// and the segments run in LIST_CREATE_TYPES, the index's order without the Compliance
-// Index, so the three types sit in the same order here as they do behind the dialog.
-const TYPES = LIST_CREATE_TYPES.map((value) => ({ label: LIST_TYPE_LABEL[value], value }));
+// and the segments run in LIST_GROUP_ORDER, so the types sit in the same order here as
+// they do behind the dialog. A new Compliance Index list starts as a copy of the
+// canonical index.
+const TYPES = LIST_GROUP_ORDER.map((value) => ({ label: LIST_TYPE_LABEL[value], value }));
 const DEFAULT_TYPE: ListType = TYPES[0].value;
 
 // The heading is the verb that was pressed, so the dialog names the thing it is about to
@@ -63,7 +64,7 @@ const HEADINGS = Object.fromEntries(
 <esa-dialog
   data-list-create-dialog
   heading={HEADINGS[DEFAULT_TYPE]}
-  size="sm"
+  size="lg"
   show-close-button
   data-headings={JSON.stringify(HEADINGS)}
 >

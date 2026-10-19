@@ -48,6 +48,9 @@ import {
   listTree,
   COMMITMENT_LISTS,
   COMMITMENT_TITLES,
+  COMPLIANCE_INDEX_LISTS,
+  indexListTree,
+  type ComplianceIndexList,
   sectionOf,
   type ActionList,
   type CommitmentList,
@@ -198,8 +201,6 @@ const AUDIENCE_OF: Record<ObligationClass, DocAudience> = {
   roster: 'Compliance staff',
 };
 
-export const UNFILED = { category: 'Unfiled', subcategory: 'Needs a home' } as const;
-
 /* ── Derivations ────────────────────────────────────────────────────────── */
 
 const REQ_BY_ID = new Map(ITP.requirements.map((r) => [r.id, r]));
@@ -275,20 +276,6 @@ const actionEntry = (a: WizardAction): DocAction => ({
   occurrences: occurrencesOf(a),
 });
 
-/**
- * Where an action files in the index: the subcategory most of its requirements file
- * in. When no subcategory holds more than half of them, the action has no clear home
- * and goes to Unfiled › Needs a home, the bin prod keeps for exactly this.
- */
-const homeOf = (a: WizardAction): { category: string; subcategory: string } => {
-  const tally = new Map<string, number>();
-  for (const id of a.requirementIds) for (const m of indexOf(id)) tally.set(m, (tally.get(m) ?? 0) + 1);
-  const [best, n] = [...tally.entries()].sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0]))[0] ?? ['', 0];
-  if (!best || n * 2 <= a.requirementIds.length) return { ...UNFILED };
-  const [category, subcategory] = best.split('::');
-  return { category, subcategory };
-};
-
 const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 const byName = (x: { name: string }, y: { name: string }) => x.name.localeCompare(y.name);
 const countKinds = (groups: DocGroup[]) => {
@@ -360,61 +347,14 @@ export function actionListDocument(list: ActionList): ExportDocument {
   };
 }
 
-/** One subcategory of the index: its actions and its obligations, each A–Z. */
-export interface IndexSubcategory {
-  id: string;
-  name: string;
-  actions: WizardAction[];
-  obligations: ObligationNode[];
-}
-export interface IndexCategory {
-  id: string;
-  name: string;
-  subcategories: IndexSubcategory[];
-}
-
 /**
- * The project's Compliance Index: every obligation where the registry files it, every
- * action under its home (homeOf), categories and subcategories A–Z, Unfiled last. The
- * Lists page's index tree and the index PDF both read this, so they hold the same items
- * in the same order.
+ * A Compliance Index list. The canonical one holds every action and obligation on the
+ * project, category › subcategory, A–Z at both levels, Unfiled last; a custom version
+ * prints its own outline in its own order. Either way, actions run before obligations
+ * inside a subcategory.
  */
-export function complianceIndexTree(): IndexCategory[] {
-  const cats = new Map<string, Map<string, IndexSubcategory>>();
-  const sub = (category: string, subcategory: string): IndexSubcategory => {
-    const subs = cats.get(category) ?? new Map<string, IndexSubcategory>();
-    cats.set(category, subs);
-    const s = subs.get(subcategory) ?? { id: slug(`${category}-${subcategory}`), name: subcategory, actions: [], obligations: [] };
-    subs.set(subcategory, s);
-    return s;
-  };
-  for (const cat of OBLIGATION_TREE)
-    for (const s of cat.subcategories) for (const o of s.obligations) sub(cat.name, s.name).obligations.push(o);
-  for (const a of ITP.actions) {
-    const home = homeOf(a);
-    sub(home.category, home.subcategory).actions.push(a);
-  }
-  return [...cats.entries()]
-    .map(([name, subs]) => ({
-      id: slug(name),
-      name,
-      subcategories: [...subs.values()]
-        .map((s) => ({
-          ...s,
-          actions: [...s.actions].sort((x, y) => x.name.localeCompare(y.name)),
-          obligations: [...s.obligations].sort((x, y) => x.title.localeCompare(y.title)),
-        }))
-        .sort(byName),
-    }))
-    .sort((x, y) => (x.name === UNFILED.category ? 1 : y.name === UNFILED.category ? -1 : byName(x, y)));
-}
-
-/**
- * Every action and obligation on the project, category › subcategory, A–Z at both
- * levels, actions before obligations inside a subcategory. Unfiled comes last.
- */
-export function complianceIndexDocument(): ExportDocument {
-  const groups: DocGroup[] = complianceIndexTree().map((cat) => ({
+export function complianceIndexDocument(list: ComplianceIndexList): ExportDocument {
+  const groups: DocGroup[] = indexListTree(list).map((cat) => ({
     id: cat.id,
     name: cat.name,
     entries: [],
@@ -427,11 +367,11 @@ export function complianceIndexDocument(): ExportDocument {
   }));
   return {
     ...base,
-    id: 'compliance-index',
+    id: list.id,
     kind: 'compliance-index',
-    title: 'Compliance Index',
-    kindLabel: 'Compliance Index',
-    description: '',
+    title: list.name,
+    kindLabel: list.canonical ? 'Compliance Index' : 'Compliance Index List',
+    description: list.canonical ? '' : list.description,
     counts: countKinds(groups),
     groups,
   };
@@ -499,7 +439,7 @@ export function docOutline(doc: ExportDocument): DocOutlineGroup[] {
 
 /** Every document the prototype prints, by route segment. */
 export const EXPORT_DOCUMENTS: ExportDocument[] = [
-  complianceIndexDocument(),
+  ...COMPLIANCE_INDEX_LISTS.map(complianceIndexDocument),
   ...OBLIGATION_LISTS.map(obligationListDocument),
   ...ACTION_LISTS.map(actionListDocument),
   ...COMMITMENT_LISTS.map(commitmentListDocument),

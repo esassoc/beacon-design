@@ -1,7 +1,10 @@
 ---
 // One list, of any type. The obligation list is the rich one (below); action and
 // commitment lists (2026-09-23) are sets of pointers on the same page chrome — the
-// same header, rail and add drawer — with <BcnListMemberTree> as their body.
+// same header, rail and add drawer — with <BcnListMemberTree> as their body. A
+// Compliance Index list (2026-10-19) has <BcnListIndexTree> as its body and no add
+// drawer: it arranges the index's items and adds none. The canonical index has no
+// title-row verbs and no Danger Zone; its filing is edited in the setup wizard.
 //
 // One obligation list.
 //
@@ -39,6 +42,7 @@ import BcnListRequirementPanel from '../../../components/bcn/BcnListRequirementP
 import BcnListMemberTree from '../../../components/bcn/BcnListMemberTree.astro';
 import BcnListActionPanel from '../../../components/bcn/BcnListActionPanel.astro';
 import BcnListAddMembers from '../../../components/bcn/BcnListAddMembers.astro';
+import BcnListIndexTree from '../../../components/bcn/BcnListIndexTree.astro';
 import BcnDangerZone from '../../../components/bcn/BcnDangerZone.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import { ITP } from '../../../data/setup-wizard';
@@ -46,21 +50,24 @@ import { PROJECT } from '../../../data/project-dashboard';
 import {
   ACTION_LISTS,
   COMMITMENT_LISTS,
+  COMPLIANCE_INDEX_LISTS,
   LIST_MEMBER_NOUN,
   OBLIGATION_LISTS,
   memberCountLabel,
   type ActionList,
   type CommitmentList,
+  type ComplianceIndexList,
   type ObligationList,
 } from '../../../data/lists';
 import { withBase } from '../../../lib/base';
 
 export function getStaticPaths() {
-  return [...OBLIGATION_LISTS, ...ACTION_LISTS, ...COMMITMENT_LISTS].map((list) => ({ params: { id: list.id }, props: { list } }));
+  return [...OBLIGATION_LISTS, ...ACTION_LISTS, ...COMMITMENT_LISTS, ...COMPLIANCE_INDEX_LISTS].map((list) => ({ params: { id: list.id }, props: { list } }));
 }
 
-const { list } = Astro.props as { list: ObligationList | ActionList | CommitmentList };
-const members = list.type === 'obligation' ? null : list;
+const { list } = Astro.props as { list: ObligationList | ActionList | CommitmentList | ComplianceIndexList };
+const index = list.type === 'compliance-index' ? list : null;
+const members = list.type === 'action' || list.type === 'commitment' ? list : null;
 // The requirement panel carries only what this page can reach: an action page, every
 // requirement any action answers to (the drawer can add any action); a commitment page,
 // every requirement. An obligation page keeps the panel's own default.
@@ -68,7 +75,7 @@ const reqIds = list.type === 'action'
   ? [...new Set(ITP.actions.flatMap((a) => a.requirementIds))]
   : list.type === 'commitment' ? ITP.requirements.map((r) => r.id) : undefined;
 // Prod's wording, with the list's type in it: "Delete this Action List".
-const typeTitle = { obligation: 'Obligation', action: 'Action', commitment: 'Commitment' }[list.type];
+const typeTitle = { obligation: 'Obligation', action: 'Action', commitment: 'Commitment', 'compliance-index': 'Compliance Index' }[list.type];
 const typeMany = LIST_MEMBER_NOUN[list.type][1];
 ---
 
@@ -83,6 +90,7 @@ const typeMany = LIST_MEMBER_NOUN[list.type][1];
     - edit details    -> bcn-list-edit-details-panel       # right panel, name and description
     - obligation panel-> bcn-list-obligation-panel         # right panel over one member; registry fields read-only, list description the one live control
     - member tree     -> bcn-list-member-tree              # action / commitment lists: By type / By commitment / A–Z (actions), flat (commitments); bcn-list-member-card leaves
+    - index tree      -> bcn-list-index-tree               # Compliance Index lists: the list's own category > subcategory outline over the index's actions and obligations
     - action panel    -> bcn-list-action-panel             # right panel over one action; read only, footer links to the action page
     - add members     -> bcn-list-add-members              # action / commitment drawer over memberCandidates(list), emits list:members-added
     - view tabs       -> bcn-list-view-tabs                # esa-tab-layout as a bare switch; ?view= keeps the choice
@@ -115,7 +123,9 @@ const typeMany = LIST_MEMBER_NOUN[list.type][1];
       </span>
     </Fragment>
     <Fragment slot="utilities">
-      {members
+      {index
+        ? !index.canonical && <BcnListActions addLabel="" />
+        : members
         ? <BcnListActions addLabel={`Add ${LIST_MEMBER_NOUN[list.type][1]}`} addEvent="list:add-members" evidence={list.type === 'action' ? LIST_MEMBER_NOUN.action : undefined} />
         : <BcnListActions evidence={LIST_MEMBER_NOUN.obligation} />}
     </Fragment>
@@ -136,22 +146,23 @@ const typeMany = LIST_MEMBER_NOUN[list.type][1];
         <BcnListDetailsRail list={list} />
         <BcnListExportPanel list={list} />
       </div>
-      <div>{members ? <BcnListMemberTree list={members} /> : <BcnListObligationTree list={list as ObligationList} />}</div>
+      <div>{index ? <BcnListIndexTree list={index} /> : members ? <BcnListMemberTree list={members} /> : <BcnListObligationTree list={list as ObligationList} />}</div>
     </div>
 
-    <BcnDangerZone
+    {!index?.canonical && <BcnDangerZone
       title={`Delete this ${typeTitle} List`}
       description={`Once you delete this list, it will delete all of its metadata and relationships to associated ${typeMany}. There is no going back. Please be certain.`}
     >
       <span data-list-delete><EsaButton variant="danger" appearance="soft">Delete</EsaButton></span>
-    </BcnDangerZone>
+    </BcnDangerZone>}
     </div>
 
-    {members ? <BcnListAddMembers list={members} /> : <BcnListAddObligations list={list as ObligationList} />}
-    <BcnListEditDetailsDialog list={list} />
-    {!members && <BcnListObligationPanel list={list as ObligationList} />}
+    {members && <BcnListAddMembers list={members} />}
+    {list.type === 'obligation' && <BcnListAddObligations list={list} />}
+    {!index?.canonical && <BcnListEditDetailsDialog list={list} />}
+    {list.type === 'obligation' && <BcnListObligationPanel list={list} />}
     {list.type === 'action' && <BcnListActionPanel />}
-    <BcnListRequirementPanel ids={reqIds} />
+    {!index && <BcnListRequirementPanel ids={reqIds} />}
 
     <esa-confirm-dialog
       data-list-delete-confirm

@@ -1,17 +1,19 @@
 ---
-// <BcnListIndexTree> — the body of the Compliance Index's page on Lists: every action
-// and obligation on the project, category › subcategory, Unfiled last. The sibling of
+// <BcnListIndexTree> — the body of a Compliance Index list's page: the list's outline,
+// category › subcategory, over the index's actions and obligations. On the canonical
+// index that is every item on the project, Unfiled last; on a version someone made, it
+// is their own categories, names and order, holding the items of the canonical
+// subcategories they drew from. The sibling of
 // <BcnListObligationTree> and <BcnListMemberTree>, on the same row anatomy
 // (bcn-tree.css) and the same cards, so the index reads as one more list.
 //
-// It reads complianceIndexTree(), the outline the index PDF prints, so the page and the
+// It reads indexListTree(list), the outline the list's PDF prints, so the page and the
 // PDF hold the same items in the same order. Categories load open, subcategories folded;
 // inside a subcategory the actions come first, then the obligations.
 //
-// What it leaves out, on purpose: the index is not a subset anyone curates here, so the
-// cards' list verbs (remove, duplicate, move or retitle) are hidden and there is no add
-// drawer, no rename and no filter row. Filing and refiling belong to the setup wizard's
-// Compliance Index step.
+// What it leaves out, on purpose: the cards' list verbs (remove, duplicate, move or
+// retitle) are hidden and there is no add drawer and no filter row. Filing the canonical
+// index belongs to the setup wizard's Compliance Index step.
 //
 // bcn-lego-checked: the rows ARE bcn-tree.css (the obligation tree's one row
 // definition), the cards ARE bcn-list-member-card (actions) and bcn-list-obligation-card
@@ -24,11 +26,14 @@ import BcnSwCountBadge from './BcnSwCountBadge.astro';
 import BcnListMemberCard from './BcnListMemberCard.astro';
 import BcnListObligationCard from './BcnListObligationCard.astro';
 import '../../styles/bcn-tree.css';
-import { actionRow, type ListObligation } from '../../data/lists';
-import { complianceIndexTree } from '../../data/list-export-documents';
+import { actionRow, indexListTree, type ComplianceIndexList, type ListObligation } from '../../data/lists';
 import type { ObligationNode } from '../../data/setup-wizard';
 
-const tree = complianceIndexTree();
+interface Props {
+  list: ComplianceIndexList;
+}
+const { list } = Astro.props;
+const tree = indexListTree(list);
 const countOf = (sub: { actions: unknown[]; obligations: unknown[] }) => sub.actions.length + sub.obligations.length;
 const items = (n: number) => `${n} ${n === 1 ? 'item' : 'items'}`;
 // The obligation card takes a list member; the index holds every obligation once, in
@@ -43,7 +48,7 @@ const member = (o: ObligationNode): ListObligation => ({
 });
 ---
 
-<section class="bcn-lot bcn-lit" aria-label="Compliance Index">
+<section class="bcn-lot bcn-lit" aria-label={list.name}>
   <div class="bcn-lot__body">
     {tree.map((cat) => {
       const n = cat.subcategories.reduce((sum, s) => sum + countOf(s), 0);
@@ -76,8 +81,8 @@ const member = (o: ObligationNode): ListObligation => ({
 </section>
 
 <style>
-  /* The cards' verbs edit a LIST (remove, duplicate, move or retitle for this list);
-     nothing on this page edits the index. */
+  /* The cards' verbs edit an obligation or action LIST (remove, duplicate, move or
+     retitle for this list); an index list arranges subcategories, not single items. */
   .bcn-lit :global(esa-tooltip:has([data-list-remove], [data-list-duplicate], .bcn-loc__verb[data-list-edit])) {
     display: none;
   }

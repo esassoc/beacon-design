@@ -27,17 +27,18 @@
 export default {
   sections: [
     {
-      label: 'Compliance Index group',
+      label: 'Compliance Index lists',
       selector: '[data-list-group="compliance-index"]',
       intent:
-        'The project\'s Compliance Index as the last group on Lists: one row, opening its own page with the Details and Export rail every list has (see the lists-compliance-index spec).',
+        'The last group on Lists: the project\'s canonical Compliance Index, pinned first, then the versions people made from it (a contractor\'s field index, the annual report\'s outline, an operations subset). Each opens its own page with the Details and Export rail every list has.',
       decisions: [
-        'Andy, 2026-10-19: Lists has a Compliance Index list type. It replaced an Export Compliance Index button on the page header; the index\'s PDF is now exported from its Export card, like every list\'s.',
-        'One index per project, so the group has no Add button and the create dialog offers only the three registry types.',
-        'The row\'s count is every action plus every obligation on the project.',
+        'Andy, 2026-10-19: "You should be able to make your own version of a compliance index. Like obviously, there\'s the canonical one that you start from." So the index is a list type with versions, not one row.',
+        'The canonical index is pinned first whatever its date; the versions sort newest change first under it.',
+        'The group has an "Add Compliance Index List" button like every group; the new list starts as a copy of the canonical index (see lists-compliance-index-custom).',
+        'A row\'s count is the items the list holds: every action and obligation for the canonical index, fewer for a version that trims.',
         'Its mark is Lucide list-tree in the requirement accent: no setup step owns the index, and it files requirements.',
       ],
-      acceptance: ['Lists ends with a Compliance Index group holding one row and no Add button; the row opens the index page.'],
+      acceptance: ['Lists ends with a Compliance Index Lists group, canonical index first, with an Add button; every row opens its list page.'],
     },
     {
       label: 'Lists search',
@@ -63,19 +64,19 @@ export default {
       intent:
         'Every list, filed under the registry it draws from, in setup order: Commitments, Actions, Obligations. Each row (bcn-list-card) carries the list\'s name, description, member count and last change, and opens the list\'s detail page.',
       decisions: [
-        'The type is STRUCTURAL: each registry group heading carries its own "Add <type> list" button, so the new list\'s type is chosen by which button was pressed. The Compliance Index group has none.',
+        'The type is STRUCTURAL: each group heading carries its own "Add <type> list" button, so the new list\'s type is chosen by which button was pressed.',
         'Within a group, rows sort newest change first; the board never re-sorts.',
         'A heading\'s badge counts LISTS in the group (and counts HITS while searching); a row\'s badge counts that list\'s MEMBERS. Accessible names tell them apart ("4 commitment lists" vs "64 commitments").',
         'A group with no hits keeps its heading and its add button and shows a dashed "No lists match" box. Hiding the whole group would hide the add verb at the exact moment the reader learned the list they want does not exist.',
         'A group that holds no lists at all reads "No commitment lists" (settled at build time), not "No lists match".',
-        'All three types open the same detail route: /lists/<id>.',
+        'All four types open the same detail route: /lists/<id>.',
       ],
       gotchas: [
         'The dashed empty box sets display:grid, which outranks [hidden]; re-assert display:none on the hidden state or the box never goes away.',
         'Counts are derived from the data (group length / member predicates), never hard-coded, so a new seed list moves the heading without edits.',
       ],
       acceptance: [
-        'Four groups in order Commitments → Actions → Obligations → Compliance Index; each heading has a count, and each registry heading an add button; searching "report" leaves the headings in place, updates each count to its hits, and shows "No lists match" in any group with none.',
+        'Four groups in order Commitments → Actions → Obligations → Compliance Index Lists; each heading has a count and an add button; searching "report" leaves the headings in place, updates each count to its hits, and shows "No lists match" in any group with none.',
       ],
     },
     {
@@ -83,9 +84,10 @@ export default {
       selector: '[data-list-create-dialog]',
       apply: [{ clickText: ['[data-list-group]', 'Add Action List'] }],
       intent:
-        'The "Add list" modal, in the order the decision is made: which registry the list draws from, what it is called, what it is for.',
+        'The "Add list" modal, in the order the decision is made: which kind of list it is, what it is called, what it is for.',
       decisions: [
-        'The type comes first and all three options stay on screen as a segmented control (esa-button-toggle), because the type is the one irreversible choice: a list is a subset of ONE registry forever.',
+        'The type comes first and all four options stay on screen as a segmented control (esa-button-toggle), because the type is the one irreversible choice: a list is a subset of ONE registry forever, and a Compliance Index list is always a version of the index.',
+        'A Compliance Index list starts as a copy of the canonical index\'s outline; its cue line says so. The dialog is the large size so the four segments fit on one row.',
         'The trigger presets it: data-list-create="<type>" on the heading\'s button opens the dialog already on that type, with a matching heading ("Add Action List"). The toggle stays changeable.',
         'A cue line under the toggle names what the selected type holds; it swaps on change.',
         'Name is required; description is optional.',

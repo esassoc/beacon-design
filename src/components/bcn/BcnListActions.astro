@@ -25,7 +25,8 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 
 interface Props {
   /** The add verb's label and the event it announces. An obligation list adds
-      obligations; an action or commitment list adds its own kind of member. */
+      obligations; an action or commitment list adds its own kind of member. A Compliance
+      Index list passes '': it arranges the index's items and adds none. */
   addLabel?: string;
   addEvent?: string;
   /** Offer bulk evidence for the list's members, named by this [one, many] noun. A
@@ -42,7 +43,7 @@ const { addLabel = 'Add obligations', addEvent = 'list:add-obligations', evidenc
       BcnWorkAreaBoard). The icon carries the verb, so neither needs to be filled to read
       as the way in. */}
   <EsaButton variant="ghost" appearance="outline" size="sm" icon="pencil" type="button" data-list-edit-details>Edit details</EsaButton>
-  <EsaButton variant="ghost" appearance="outline" size="sm" icon="plus" type="button" data-list-add-obligations data-list-add-event={addEvent}>{addLabel}</EsaButton>
+  {addLabel && <EsaButton variant="ghost" appearance="outline" size="sm" icon="plus" type="button" data-list-add-obligations data-list-add-event={addEvent}>{addLabel}</EsaButton>}
   {evidence && <EsaButton variant="ghost" appearance="outline" size="sm" icon="upload" type="button" data-list-add-evidence data-one={evidence[0]} data-many={evidence[1]}>Add evidence</EsaButton>}
 </div>
 

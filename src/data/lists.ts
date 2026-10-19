@@ -44,11 +44,10 @@ import { implementationsOf, type ListImplementation } from './list-implementatio
 /* ── Types ──────────────────────────────────────────────────────────────── */
 
 /**
- * The three registries a list can be drawn from, and the project's Compliance Index,
- * which the Lists page carries as a fourth type (Andy, 2026-10-19). The index is not
- * made from a registry: there is one per project, it holds every action and obligation,
- * and nobody creates or deletes it here, so it has no Add button and no create-dialog
- * segment (LIST_CREATE_TYPES).
+ * The three registries a list can be drawn from, and Compliance Index lists, the fourth
+ * type on the Lists page (Andy, 2026-10-19). The project's canonical index is one of
+ * them and the one every other starts from; the rest are versions people made from it,
+ * regrouped, renamed and trimmed (ComplianceIndexList).
  */
 export type ListType = 'action' | 'obligation' | 'commitment' | 'compliance-index';
 
@@ -57,7 +56,7 @@ export const LIST_TYPE_LABEL: Record<ListType, string> = {
   action: 'Action list',
   obligation: 'Obligation list',
   commitment: 'Commitment list',
-  'compliance-index': 'Compliance index',
+  'compliance-index': 'Compliance index list',
 };
 
 /**
@@ -72,7 +71,7 @@ export const LIST_TYPE_BASIS: Record<ListType, string> = {
   action: 'Actions tracked together on the Tracker pages.',
   obligation: 'Standing duties exported as a document, a spreadsheet or form fields.',
   commitment: 'Permit commitments grouped for review and reporting.',
-  'compliance-index': 'Every action and obligation on the project, by category and subcategory.',
+  'compliance-index': 'A copy of the project Compliance Index to regroup, rename and trim.',
 };
 
 /** The noun a member count takes: [singular, plural]. */
@@ -594,22 +593,239 @@ export const compareCodes = (a: string, b: string): number => {
   return a.localeCompare(b);
 };
 
-/** Every list on the project, the way the index reads it: newest change first. */
+
+/* ── Compliance Index lists ─────────────────────────────────────────────── */
+
+/** The bin an item with no subcategory files in, the one prod keeps. */
+export const UNFILED = { category: 'Unfiled', subcategory: 'Needs a home' } as const;
+
+
 /**
- * The project's Compliance Index as the Lists page carries it. Its count is every action
- * plus every obligation the registry files, the same set its PDF prints.
+ * Where an action files in the index: the subcategory most of its requirements file
+ * in. When no subcategory holds more than half of them, the action has no clear home
+ * and goes to Unfiled › Needs a home, the bin prod keeps for exactly this.
  */
-export const COMPLIANCE_INDEX_LIST: ProjectList = {
-  id: 'compliance-index',
-  type: 'compliance-index',
-  name: 'Compliance Index',
-  description: 'Every action and obligation on the project, filed by category and subcategory.',
-  createdAt: '2026-02-19',
-  updatedAt: '2026-10-15',
-  memberCount: ITP.actions.length + OBLIGATION_TREE.reduce((n, c) => n + c.subcategories.reduce((m, s) => m + s.obligations.length, 0), 0),
+const homeOf = (a: WizardAction): { category: string; subcategory: string } => {
+  const tally = new Map<string, number>();
+  for (const id of a.requirementIds) for (const m of indexOf(id)) tally.set(m, (tally.get(m) ?? 0) + 1);
+  const [best, n] = [...tally.entries()].sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0]))[0] ?? ['', 0];
+  if (!best || n * 2 <= a.requirementIds.length) return { ...UNFILED };
+  const [category, subcategory] = best.split('::');
+  return { category, subcategory };
 };
 
-export const PROJECT_LISTS: ProjectList[] = [...ACTION_LISTS, ...OBLIGATION_LISTS, ...COMMITMENT_LISTS, COMPLIANCE_INDEX_LIST].sort(
+
+const ciSlug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+const ciByName = (x: { name: string }, y: { name: string }) => x.name.localeCompare(y.name);
+
+/** One subcategory of the index: its actions and its obligations, each A–Z. */
+export interface IndexSubcategory {
+  id: string;
+  name: string;
+  actions: WizardAction[];
+  obligations: ObligationNode[];
+}
+export interface IndexCategory {
+  id: string;
+  name: string;
+  subcategories: IndexSubcategory[];
+}
+
+/**
+ * The project's Compliance Index: every obligation where the registry files it, every
+ * action under its home (homeOf), categories and subcategories A–Z, Unfiled last. The
+ * Lists page's index tree and the index PDF both read this, so they hold the same items
+ * in the same order.
+ */
+export function complianceIndexTree(): IndexCategory[] {
+  const cats = new Map<string, Map<string, IndexSubcategory>>();
+  const sub = (category: string, subcategory: string): IndexSubcategory => {
+    const subs = cats.get(category) ?? new Map<string, IndexSubcategory>();
+    cats.set(category, subs);
+    const s = subs.get(subcategory) ?? { id: ciSlug(`${category}-${subcategory}`), name: subcategory, actions: [], obligations: [] };
+    subs.set(subcategory, s);
+    return s;
+  };
+  for (const cat of OBLIGATION_TREE)
+    for (const s of cat.subcategories) for (const o of s.obligations) sub(cat.name, s.name).obligations.push(o);
+  for (const a of ITP.actions) {
+    const home = homeOf(a);
+    sub(home.category, home.subcategory).actions.push(a);
+  }
+  return [...cats.entries()]
+    .map(([name, subs]) => ({
+      id: ciSlug(name),
+      name,
+      subcategories: [...subs.values()]
+        .map((s) => ({
+          ...s,
+          actions: [...s.actions].sort((x, y) => x.name.localeCompare(y.name)),
+          obligations: [...s.obligations].sort((x, y) => x.title.localeCompare(y.title)),
+        }))
+        .sort(ciByName),
+    }))
+    .sort((x, y) => (x.name === UNFILED.category ? 1 : y.name === UNFILED.category ? -1 : ciByName(x, y)));
+}
+
+
+/**
+ * A subcategory of a custom index: its own name over one or more of the canonical
+ * index's subcategories (by id), whose items it holds. Two ids merge two subcategories.
+ */
+export interface IndexListSubcategory {
+  id: string;
+  name: string;
+  from: string[];
+}
+export interface IndexListCategory {
+  id: string;
+  name: string;
+  subcategories: IndexListSubcategory[];
+}
+
+/**
+ * A version of the project's Compliance Index (Andy, 2026-10-19: "you should be able to
+ * make your own version of a compliance index"). The canonical one is the index setup
+ * builds; every other starts as a copy of it and is regrouped, renamed and trimmed for
+ * whoever reads it. A version only arranges the canonical index's items: it never adds
+ * an action or obligation the index does not hold.
+ */
+export interface ComplianceIndexList extends ProjectList {
+  type: 'compliance-index';
+  /** The project's own index, as setup filed it. Not editable or deletable here. */
+  canonical: boolean;
+  /** A custom version's outline, in its own order. The canonical index has none. */
+  categories?: IndexListCategory[];
+}
+
+/** A list's index tree: the canonical tree, or a version's outline filled from it. */
+export function indexListTree(list: ComplianceIndexList): IndexCategory[] {
+  const canonical = complianceIndexTree();
+  if (list.canonical || !list.categories) return canonical;
+  const subById = new Map(canonical.flatMap((c) => c.subcategories).map((s) => [s.id, s]));
+  return list.categories.map((cat) => ({
+    id: cat.id,
+    name: cat.name,
+    subcategories: cat.subcategories.map((sub) => {
+      const parts = sub.from.map((id) => subById.get(id)).filter((s): s is IndexSubcategory => !!s);
+      const uniqueBy = <T extends { id: string }>(xs: T[]) => [...new Map(xs.map((x) => [x.id, x])).values()];
+      return {
+        id: sub.id,
+        name: sub.name,
+        actions: uniqueBy(parts.flatMap((p) => p.actions)).sort((x, y) => x.name.localeCompare(y.name)),
+        obligations: uniqueBy(parts.flatMap((p) => p.obligations)).sort((x, y) => x.title.localeCompare(y.title)),
+      };
+    }),
+  }));
+}
+
+const indexCount = (tree: IndexCategory[]): number =>
+  tree.reduce((n, c) => n + c.subcategories.reduce((m, s) => m + s.actions.length + s.obligations.length, 0), 0);
+
+const indexList = (l: Omit<ComplianceIndexList, 'type' | 'memberCount'>): ComplianceIndexList => {
+  const list: ComplianceIndexList = { ...l, type: 'compliance-index', memberCount: 0 };
+  return { ...list, memberCount: indexCount(indexListTree(list)) };
+};
+const sub = (name: string, ...from: string[]): IndexListSubcategory => ({ id: ciSlug(name), name, from });
+const cat = (name: string, ...subcategories: IndexListSubcategory[]): IndexListCategory => ({ id: ciSlug(name), name, subcategories });
+
+/**
+ * The canonical index, then three versions people made from it. Their outlines name
+ * the canonical subcategories they draw from by id (`<category>-<subcategory>`).
+ */
+export const COMPLIANCE_INDEX_LISTS: ComplianceIndexList[] = [
+  indexList({
+    id: 'compliance-index',
+    canonical: true,
+    name: 'Compliance Index',
+    description: 'Every action and obligation on the project, filed by category and subcategory.',
+    createdAt: '2026-02-19',
+    updatedAt: '2026-10-15',
+  }),
+  indexList({
+    id: 'contractor-field-index',
+    canonical: false,
+    name: 'Contractor Field Index',
+    description: 'Issued with the construction kickoff package. Grouped by when crews meet each duty; agency reporting and funding left out.',
+    createdAt: '2026-09-29',
+    updatedAt: '2026-10-17',
+    categories: [
+      cat('Before ground disturbance',
+        sub('Worker awareness training', 'people-and-qualifications-worker-training'),
+        sub('Biologists on site', 'people-and-qualifications-designated-biologists-and-monitors'),
+        sub('Fencing and exclusion areas', 'habitat-protection-exclusion-fencing-and-esas'),
+        sub('Clearing and grubbing', 'habitat-protection-vegetation-removal', 'birds-nesting-birds')),
+      cat('Every day on site',
+        sub('Speed, access and parking', 'site-conduct-speed-limits', 'site-conduct-access-routes-and-parking'),
+        sub('Work hours and lighting', 'site-conduct-work-hours', 'lighting-lighting-near-habitat-and-waters'),
+        sub('Trash, pets and firearms', 'site-conduct-trash-and-food-waste', 'site-conduct-pets-firearms-and-campfires'),
+        sub('Dust control', 'air-quality-fugitive-dust')),
+      cat('Fuel, spills and hazmat',
+        sub('Refueling and equipment', 'hazards-refueling-and-equipment-servicing'),
+        sub('Spills', 'hazards-spill-prevention-and-response'),
+        sub('Hazardous materials', 'hazards-hazardous-materials'),
+        sub('Fire prevention', 'hazards-fire-prevention')),
+      cat('Working in or near water',
+        sub('In-water work and dewatering', 'water-in-water-work', 'water-dewatering'),
+        sub('Erosion, sediment and stormwater', 'water-erosion-and-sediment-control', 'water-stormwater-and-discharges'),
+        sub('Pile driving', 'noise-and-vibration-pile-driving-and-underwater-sound')),
+      cat('Wildlife on site',
+        sub('Encounters and handling', 'habitat-protection-wildlife-encounters-and-handling'),
+        sub('Trenches and entrapment', 'habitat-protection-wildlife-entrapment'),
+        sub('Giant garter snake', 'amphibians-and-reptiles-giant-garter-snake')),
+    ],
+  }),
+  indexList({
+    id: 'annual-report-structure',
+    canonical: false,
+    name: 'Annual Report Structure',
+    description: 'The appendix outline of the annual compliance report. Field duties left out.',
+    createdAt: '2026-08-11',
+    updatedAt: '2026-10-08',
+    categories: [
+      cat('Reporting to CDFW',
+        sub('Monthly and annual reports', 'agency-reporting-and-approvals-periodic-compliance-reports'),
+        sub('Take, injury and non-compliance', 'agency-reporting-and-approvals-take-and-injury-reporting', 'agency-reporting-and-approvals-non-compliance-reporting'),
+        sub('Species sightings', 'agency-reporting-and-approvals-species-sightings-and-cnddb-reporting')),
+      cat('Approvals and notices',
+        sub('Agency approvals', 'agency-reporting-and-approvals-agency-approvals'),
+        sub('Schedule notices', 'agency-reporting-and-approvals-schedule-notices')),
+      cat('Mitigation lands and funding',
+        sub('Mitigation lands', 'mitigation-and-restoration-mitigation-lands'),
+        sub('Funding and endowment', 'mitigation-and-restoration-mitigation-funding', 'mitigation-and-restoration-mitigation-funding-contributions', 'mitigation-and-restoration-conservation-endowment'),
+        sub('Security and assurances', 'mitigation-and-restoration-security-and-funding-assurances')),
+      cat('Habitat accounting',
+        sub('Disturbance tracking', 'habitat-protection-habitat-impact-tracking'),
+        sub('Restoration', 'mitigation-and-restoration-restoration')),
+    ],
+  }),
+  indexList({
+    id: 'fish-and-water-operations',
+    canonical: false,
+    name: 'Fish and Water Operations',
+    description: 'For the operations team: the fish and water operations categories only.',
+    createdAt: '2026-07-22',
+    updatedAt: '2026-09-30',
+    categories: [
+      cat('Fish',
+        sub('Chinook salmon', 'fish-chinook-salmon'),
+        sub('Delta smelt and longfin smelt', 'fish-delta-smelt-and-longfin-smelt'),
+        sub('White sturgeon', 'fish-white-sturgeon'),
+        sub('Fish rescue and salvage', 'fish-fish-rescue-and-salvage')),
+      cat('Intakes and diversions',
+        sub('Fish screens and guidance', 'water-operations-fish-screens', 'water-operations-fish-guidance-systems'),
+        sub('Diversion limits and bypass flows', 'water-operations-diversion-limits-and-bypass-flows'),
+        sub('Performance criteria', 'water-operations-biological-performance-criteria')),
+      cat('Operations monitoring',
+        sub('Monitoring and studies', 'water-operations-operations-monitoring-and-studies'),
+        sub('Coordination and data', 'water-operations-operations-coordination-and-data'),
+        sub('Models', 'water-operations-hydraulic-and-sediment-models')),
+    ],
+  }),
+];
+
+/** Every list on the project, the way the index reads it: newest change first. */
+export const PROJECT_LISTS: ProjectList[] = [...ACTION_LISTS, ...OBLIGATION_LISTS, ...COMMITMENT_LISTS, ...COMPLIANCE_INDEX_LISTS].sort(
   (a, b) => b.updatedAt.localeCompare(a.updatedAt) || a.name.localeCompare(b.name),
 );
 
@@ -617,7 +833,7 @@ export const LIST_TYPE_COUNTS: Record<ListType, number> = {
   action: ACTION_LISTS.length,
   obligation: OBLIGATION_LISTS.length,
   commitment: COMMITMENT_LISTS.length,
-  'compliance-index': 1,
+  'compliance-index': COMPLIANCE_INDEX_LISTS.length,
 };
 
 export const obligationListById = (id: string): ObligationList | undefined =>
@@ -631,9 +847,6 @@ export const obligationListById = (id: string): ObligationList | undefined =>
  * the sequence they built them.
  */
 export const LIST_GROUP_ORDER: readonly ListType[] = ['commitment', 'action', 'obligation', 'compliance-index'];
-
-/** The types a person can make a list of: the three registries, never the index. */
-export const LIST_CREATE_TYPES: readonly ListType[] = ['commitment', 'action', 'obligation'];
 
 // Every list type IS one of the setup wizard's entities, so its plural name, its glyph
 // and its accent are read off the wizard's own step rather than restated here. Change a
@@ -659,8 +872,7 @@ export const LIST_GROUP_LABEL: Record<ListType, string> = {
   commitment: `${titleCase(LIST_TYPE_LABEL.commitment)}s`,
   action: `${titleCase(LIST_TYPE_LABEL.action)}s`,
   obligation: `${titleCase(LIST_TYPE_LABEL.obligation)}s`,
-  // One index per project, so the heading names it, not a plural of it.
-  'compliance-index': 'Compliance Index',
+  'compliance-index': `${titleCase(LIST_TYPE_LABEL['compliance-index'])}s`,
 };
 
 /** The entity mark a list row carries. */
@@ -711,9 +923,12 @@ export const addListLabel = (type: ListType): string => `Add ${titleCase(LIST_TY
 export const listCountLabel = (type: ListType, n: number): string =>
   `${n} ${LIST_TYPE_LABEL[type].toLowerCase()}${n === 1 ? '' : 's'}`;
 
-/** Every list of one type, still in the index's order: newest change first. */
-export const listsOfType = (type: ListType): ProjectList[] =>
-  PROJECT_LISTS.filter((l) => l.type === type);
+/** Every list of one type, still in the index's order, with the canonical index pinned first. */
+export const listsOfType = (type: ListType): ProjectList[] => {
+  const lists = PROJECT_LISTS.filter((l) => l.type === type);
+  const canonical = lists.filter((l) => (l as ComplianceIndexList).canonical);
+  return [...canonical, ...lists.filter((l) => !canonical.includes(l))];
+};
 
 /* ── Derivations ────────────────────────────────────────────────────────── */
 

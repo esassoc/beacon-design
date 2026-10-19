@@ -1,11 +1,13 @@
-// Handoff spec for /prototypes/lists/compliance-index: the project's Compliance Index as
-// a list type on Lists (Andy, 2026-10-19). The authored counterpart to the capture.
+// Handoff spec for /prototypes/lists/compliance-index: the project's CANONICAL Compliance
+// Index, the first of the Compliance Index lists on Lists (Andy, 2026-10-19). Versions
+// people make from it are lists-compliance-index-custom. The authored counterpart to the
+// capture.
 //
 // Consumed only by scripts/gen-handoff.mjs, never by the browser.
 //
-// Context: the same page chrome as a list's detail page (lists-obligation-detail), so
-// the index's PDF is exported where every list's is. The tree and the PDF both read
-// complianceIndexTree() in src/data/list-export-documents.ts.
+// Context: the same route and page chrome as every list's detail page
+// (lists-obligation-detail), so the index's PDF is exported where every list's is. The
+// tree and the PDF both read indexListTree(list) in src/data/lists.ts.
 
 /**
  * @typedef {Object} HandoffSection
@@ -30,7 +32,7 @@ export default {
       decisions: [
         'Same rows and cards as the list pages: the action card (type chip, title, implementation count) and the obligation card (class chip, title, implementation count), each opening to its implementations.',
         'The cards\' list verbs (remove, duplicate, move or retitle for this list) are hidden: nothing on this page edits the index. Filing is the setup wizard\'s Compliance Index step.',
-        'No filter row, add drawer, title-row verbs or Danger Zone: there is one index per project and nobody makes or deletes it here.',
+        'No filter row, add drawer, title-row verbs or Danger Zone: the canonical index is the project\'s own, and every version starts from it. It cannot be renamed or deleted here.',
         'Prod data: the same export-data read the index PDF uses (see list-export-compliance-index-pdf), so the page and the PDF hold the same items.',
       ],
       gotchas: [
@@ -41,7 +43,7 @@ export default {
     {
       label: 'Details rail',
       selector: '.bcn-ldr',
-      intent: 'The index as a record: name, description, type (Compliance index), created, last updated, item count. The same card every list carries.',
+      intent: 'The index as a record: name, description, type (Compliance index list), created, last updated, item count. The same card every list carries.',
     },
     {
       label: 'Export — PDF, CSV, Excel',
