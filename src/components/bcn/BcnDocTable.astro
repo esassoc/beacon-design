@@ -1,0 +1,252 @@
+---
+// <BcnDocTable> — an export document as one table: the table side of the brief's
+// "table or reading layout" question, and the summary half of "both".
+//
+// ONE table for the whole document, groups as full-width rows, so the column header
+// repeats at the top of every printed page (Chromium repeats a <thead> by itself) and a
+// group never restarts the columns. Columns follow the CSV export of the same document,
+// minus what the group rows already say:
+//
+//   obligation list   Obligation, Class, Audience, Applies When, Commitments
+//   action list       Action, Frequency, Timing, Commitments; then where it stands per
+//                     component on the row beneath (<BcnDocOccurrences>)
+//   compliance index  Item, Type (an action's type, an obligation's class), When (an
+//                     action's timing, an obligation's trigger), Commitments; actions
+//                     and obligations in separate runs inside each subcategory
+//
+// `titlesOnly` drops descriptions, occurrences and the long-prose column (Applies When,
+// Timing, When): one line per item, set ahead of the reading layout's detail in the
+// "both" layout. With the prose column in, the index's summary ran 53 Letter pages.
+//
+// bcn-lego-checked: the data tables in this spoke are AG Grid (BcnGrid), a screen widget
+// that does not paginate or print; no esa- lego is a print table. Checked Beacon: the
+// component coversheet prints a plain <table> (source-table) with local styles, which
+// is what a print route can carry. bcn-doc-table is that table for every export document.
+import BcnDocOccurrences from './BcnDocOccurrences.astro';
+import type { DocEntry, DocGroup, ExportDocument } from '../../data/list-export-documents';
+
+interface Props {
+  doc: ExportDocument;
+  /** The layouts this body belongs to (see <BcnDocSheet>). */
+  show: string;
+  /** One line per item: no descriptions, no occurrences, no prose column. */
+  titlesOnly?: boolean;
+}
+const { doc, show, titlesOnly: summary = false } = Astro.props;
+const L = doc.labels;
+
+interface Column {
+  label: string;
+  cell: (e: DocEntry) => { main: string; sub?: string };
+  width?: string;
+  /** Long prose (a trigger, a stated schedule): left out of the one-line summary. */
+  detailOnly?: boolean;
+  /** The column's width once the summary has dropped the prose column. */
+  summaryWidth?: string;
+}
+
+const codes = (e: DocEntry) => ({ main: e.codes.join(', ') });
+const title = (e: DocEntry) => ({
+  main: e.kind === 'action' ? e.name : e.title,
+  sub: summary ? undefined : e.description,
+});
+
+const COLUMNS: Record<ExportDocument['kind'], Column[]> = {
+  'obligation-list': [
+    { label: L.obligation, cell: title, width: '46%', summaryWidth: '58%' },
+    { label: 'Class', cell: (e) => ({ main: e.kind === 'obligation' ? e.classLabel : '' }) },
+    { label: 'Audience', cell: (e) => ({ main: e.kind === 'obligation' ? e.audience : '' }) },
+    { label: 'Applies When', cell: (e) => ({ main: e.kind === 'obligation' ? e.appliesWhen : '' }), width: '22%', detailOnly: true },
+    { label: `${L.commitment}s`, cell: codes },
+  ],
+  'action-list': [
+    { label: L.action, cell: title, width: '50%', summaryWidth: '62%' },
+    { label: 'Frequency', cell: (e) => ({ main: e.kind === 'action' ? e.frequencyLabel : '' }) },
+    { label: 'Timing', cell: (e) => ({ main: e.kind === 'action' ? e.timing : '' }), width: '20%', detailOnly: true },
+    { label: `${L.commitment}s`, cell: codes },
+  ],
+  'compliance-index': [
+    { label: 'Item', cell: title, width: '42%', summaryWidth: '56%' },
+    {
+      label: 'Type',
+      cell: (e) => ({ main: e.kind === 'action' ? e.typeLabel : e.classLabel }),
+      width: '19%',
+      summaryWidth: '26%',
+    },
+    { label: 'When', cell: (e) => ({ main: e.kind === 'action' ? e.timing : e.appliesWhen }), width: '22%', detailOnly: true },
+    { label: `${L.commitment}s`, cell: codes },
+  ],
+};
+const columns = COLUMNS[doc.kind].filter((c) => !(summary && c.detailOnly));
+const span = columns.length;
+
+const sections = (g: DocGroup) => (g.groups.length ? g.groups : [{ ...g, name: '' }]);
+
+// The index runs its two kinds separately inside a subcategory, actions first, as the
+// reading layout does; the Type column then says an action's type or an obligation's
+// class without a Kind column to tell them apart.
+const runs = (entries: DocEntry[]) =>
+  doc.kind === 'compliance-index'
+    ? [
+        { label: `${L.action}s`, entries: entries.filter((e) => e.kind === 'action') },
+        { label: `${L.obligation}s`, entries: entries.filter((e) => e.kind === 'obligation') },
+      ].filter((r) => r.entries.length)
+    : [{ label: '', entries }];
+---
+
+<table class:list={['bcn-doc-table', summary && 'bcn-doc-table--summary']} data-doc-show={show}>
+  <colgroup>
+    {columns.map((c) => {
+      const w = (summary && c.summaryWidth) || c.width;
+      return <col style={w ? `width: ${w}` : undefined} />;
+    })}
+  </colgroup>
+  <thead>
+    <tr>
+      {columns.map((c) => <th scope="col">{c.label}</th>)}
+    </tr>
+  </thead>
+  {doc.groups.map((group) => (
+    sections(group).map((sub, i) => (
+      <tbody class="bcn-doc-table__section">
+        {i === 0 && (
+          <tr class="bcn-doc-table__group">
+            <th scope="colgroup" colspan={span}>{group.name}</th>
+          </tr>
+        )}
+        {sub.name && (
+          <tr class="bcn-doc-table__sub">
+            <th scope="colgroup" colspan={span}>{sub.name}</th>
+          </tr>
+        )}
+        {runs(sub.entries).map((run) => (
+          <>
+          {run.label && (
+            <tr class="bcn-doc-table__run">
+              <th scope="colgroup" colspan={span}>{run.label}</th>
+            </tr>
+          )}
+          {run.entries.map((entry) => (
+          <>
+            <tr class="bcn-doc-table__row">
+              {columns.map((c, ci) => {
+                const v = c.cell(entry);
+                return ci === 0 ? (
+                  <th scope="row" class="bcn-doc-table__item">
+                    <span class="bcn-doc-table__main">{v.main}</span>
+                    {v.sub && <span class="bcn-doc-table__sub-text">{v.sub}</span>}
+                  </th>
+                ) : (
+                  <td>
+                    {v.main}
+                    {v.sub && <span class="bcn-doc-table__sub-text">{v.sub}</span>}
+                  </td>
+                );
+              })}
+            </tr>
+            {!summary && entry.kind === 'action' && entry.occurrences.length > 0 && (
+              <tr class="bcn-doc-table__occ">
+                <td colspan={span}>
+                  <BcnDocOccurrences occurrences={entry.occurrences} labels={L} />
+                </td>
+              </tr>
+            )}
+          </>
+          ))}
+          </>
+        ))}
+      </tbody>
+    ))
+  ))}
+</table>
+
+<style>
+  .bcn-doc-table {
+    inline-size: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: var(--bcn-print-font-size-body);
+  }
+
+  .bcn-doc-table thead th {
+    padding: var(--spacing-100) var(--spacing-200) var(--spacing-100) 0;
+    text-align: start;
+    vertical-align: bottom;
+    font-size: var(--bcn-print-font-size-meta);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
+    border-block-end: 1px solid var(--color-content-default);
+  }
+
+  /* Group rows: the category on its own rule, the subcategory under it. */
+  .bcn-doc-table__group th {
+    padding: var(--spacing-400) 0 var(--spacing-100);
+    text-align: start;
+    font-size: var(--bcn-print-font-size-subgroup);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+    border-block-end: 1px solid var(--color-border-default-strong);
+  }
+  .bcn-doc-table__sub th {
+    padding: var(--spacing-250) 0 var(--spacing-100);
+    text-align: start;
+    font-size: var(--bcn-print-font-size-entry);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  .bcn-doc-table__run th {
+    padding: var(--spacing-150) 0 var(--spacing-050);
+    text-align: start;
+    font-size: var(--bcn-print-font-size-meta);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-doc-table__group,
+  .bcn-doc-table__sub,
+  .bcn-doc-table__run {
+    break-after: avoid;
+  }
+
+  .bcn-doc-table__row > * {
+    padding: var(--spacing-150) var(--spacing-200) var(--spacing-150) 0;
+    text-align: start;
+    vertical-align: top;
+    font-weight: var(--typography-font-weight-regular);
+    border-block-start: 1px solid var(--color-border-default-subtle);
+    overflow-wrap: anywhere;
+  }
+  .bcn-doc-table__row {
+    break-inside: avoid;
+  }
+  .bcn-doc-table__sub + .bcn-doc-table__row > *,
+  .bcn-doc-table__run + .bcn-doc-table__row > *,
+  .bcn-doc-table__group + .bcn-doc-table__row > * {
+    border-block-start: 0;
+  }
+
+  .bcn-doc-table__main {
+    display: block;
+  }
+  .bcn-doc-table__item .bcn-doc-table__main {
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-doc-table__sub-text {
+    display: block;
+    margin-block-start: var(--spacing-050);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-doc-table__item .bcn-doc-table__sub-text {
+    color: var(--color-content-default);
+  }
+
+  /* An action's occurrences ride the row beneath it, indented under the action. */
+  .bcn-doc-table__occ td {
+    padding: 0 0 var(--spacing-200) var(--spacing-400);
+    break-inside: avoid;
+  }
+
+  /* The summary is one line per item: tighter rows. */
+  .bcn-doc-table--summary .bcn-doc-table__row > * {
+    padding-block: var(--spacing-100);
+  }
+</style>

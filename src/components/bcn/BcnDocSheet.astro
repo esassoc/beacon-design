@@ -1,0 +1,207 @@
+---
+// <BcnDocSheet> — one export document as paper: the desk it sits on in the browser, the
+// sheet, and the title block every export document opens with. The document's body is
+// the slot (<BcnDocTable>, <BcnDocGroups>).
+//
+// This is prod's print layout (Beacon.Web/src/app/print/print-layout): on screen, a
+// sheet at the paper's width on a gray desk; in print, the desk and the sheet's chrome
+// fall away and Chromium paginates the content inside @page margins. The running
+// footer (title left, page of pages right) is not drawn here. PdfService draws it from
+// its FooterTemplate on every page, and the specimen's PDF script does the same.
+//
+// The `options` slot sits on the desk above the sheet (<BcnDocOptions>).
+//
+// The four open questions of the brief ride on the root as data attributes, set by
+// <BcnDocOptions>, so a choice changes CSS and nothing re-renders:
+//   data-doc-paper  letter | a4                 the sheet's width and @page size
+//   data-doc-brand  tenant | beacon | esa       which mark heads the title block
+//   data-doc-layout reading | table | both      which body components show
+//   data-doc-rows   action | occurrence         an action's occurrences summed or listed
+// A body component says where it belongs with `data-doc-show` (a list of layouts) or
+// `data-doc-rows-show` (one row mode); the rules below hide whatever does not belong.
+//
+// bcn-lego-checked: no esa- lego renders a printed page (no paper, title block or print
+// pagination in the catalog; esa-card is a screen container with its own padding and
+// radius). Checked Beacon: print-layout.component.scss is ported here (desk, sheet,
+// page-break utilities) and the Report template's cover (tenant logo over the title) is
+// the brand precedent. BcnReportPreview simulates paper inside a dialog for one report;
+// this is the stand-alone print route every export document shares.
+import { withBase } from '../../lib/base';
+import type { ExportDocument } from '../../data/list-export-documents';
+
+interface Props {
+  doc: ExportDocument;
+}
+const { doc } = Astro.props;
+
+// The title block's one row of facts. A list says which kind of list it is; the index's
+// title already does.
+const facts: { label: string; value: string }[] = [
+  ...(doc.kind === 'compliance-index' ? [] : [{ label: 'Type', value: doc.kindLabel }]),
+  { label: doc.labels.project, value: doc.project },
+  { label: 'Exported', value: doc.exportedOn },
+  ...(doc.counts.actions ? [{ label: `${doc.labels.action}s`, value: String(doc.counts.actions) }] : []),
+  ...(doc.counts.obligations ? [{ label: `${doc.labels.obligation}s`, value: String(doc.counts.obligations) }] : []),
+];
+---
+
+<div class="bcn-doc-desk">
+  <slot name="options" />
+  <article
+    class="bcn-doc"
+    data-doc
+    data-doc-kind={doc.kind}
+    data-doc-paper="letter"
+    data-doc-brand="tenant"
+    data-doc-layout="reading"
+    data-doc-rows="action"
+  >
+    <header class="bcn-doc__head">
+      <div class="bcn-doc__mark">
+        <img class="bcn-doc__logo" data-brand="tenant" src={withBase(doc.tenantLogo)} alt={doc.tenant} />
+        <img class="bcn-doc__logo" data-brand="beacon" src={withBase('/images/print/beacon-logo-prod.svg')} alt="Beacon" />
+        <img class="bcn-doc__logo" data-brand="esa" src={withBase('/images/print/esa-logo.svg')} alt="Environmental Science Associates" />
+      </div>
+      <h1 class="bcn-doc__title">{doc.title}</h1>
+      {doc.description && <p class="bcn-doc__desc">{doc.description}</p>}
+      <dl class="bcn-doc__facts">
+        {facts.map((f) => (
+          <div class="bcn-doc__fact">
+            <dt>{f.label}</dt>
+            <dd>{f.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </header>
+
+    <div class="bcn-doc__body">
+      <slot />
+    </div>
+  </article>
+</div>
+
+<style>
+  /* ── The desk and the sheet (screen) ───────────────────────────────────────── */
+  .bcn-doc-desk {
+    background: var(--bcn-print-desk);
+    padding: var(--spacing-600) var(--spacing-400);
+    min-block-size: 100vh;
+  }
+
+  .bcn-doc {
+    --_paper-width: var(--bcn-print-letter-width, 8.5in);
+    --_paper-height: var(--bcn-print-letter-height, 11in);
+    inline-size: var(--_paper-width, 8.5in);
+    min-block-size: var(--_paper-height, 11in);
+    margin-inline: auto;
+    padding: var(--bcn-print-margin);
+    background: var(--bcn-print-paper);
+    border: 1px solid var(--color-border-default);
+    box-shadow: var(--shadow-200);
+    color: var(--color-content-default);
+    font-family: var(--typography-font-family-sans);
+    font-size: var(--bcn-print-font-size-body);
+    line-height: var(--bcn-print-line-height);
+  }
+  .bcn-doc[data-doc-paper='a4'] {
+    --_paper-width: var(--bcn-print-a4-width, 210mm);
+    --_paper-height: var(--bcn-print-a4-height, 297mm);
+  }
+
+  /* ── Title block ───────────────────────────────────────────────────────────── */
+  .bcn-doc__head {
+    padding-block-end: var(--spacing-400);
+    margin-block-end: var(--spacing-500);
+    border-block-end: 2px solid var(--color-content-default);
+  }
+
+  .bcn-doc__mark {
+    margin-block-end: var(--spacing-500);
+  }
+  .bcn-doc__logo {
+    display: none;
+    block-size: var(--bcn-print-logo-height);
+    inline-size: auto;
+  }
+  .bcn-doc[data-doc-brand='tenant'] .bcn-doc__logo[data-brand='tenant'],
+  .bcn-doc[data-doc-brand='beacon'] .bcn-doc__logo[data-brand='beacon'],
+  .bcn-doc[data-doc-brand='esa'] .bcn-doc__logo[data-brand='esa'] {
+    display: block;
+  }
+  /* The tenant's seal is square and reads small beside a wordmark of the same height. */
+  .bcn-doc__logo[data-brand='tenant'] {
+    block-size: calc(var(--bcn-print-logo-height) * 1.6);
+  }
+
+  .bcn-doc__title {
+    margin: 0;
+    font-size: var(--bcn-print-font-size-title);
+    font-weight: var(--typography-font-weight-semibold);
+    line-height: var(--line-height-tight);
+    color: var(--color-content-default);
+  }
+
+  .bcn-doc__desc {
+    margin: var(--spacing-200) 0 0;
+    max-inline-size: 42em;
+    font-size: var(--bcn-print-font-size-entry);
+  }
+
+  .bcn-doc__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-100) var(--spacing-500);
+    margin: var(--spacing-400) 0 0;
+  }
+  .bcn-doc__fact {
+    display: flex;
+    gap: var(--spacing-150);
+  }
+  .bcn-doc__fact dt {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-doc__fact dd {
+    margin: 0;
+    font-weight: var(--typography-font-weight-medium);
+  }
+
+  /* ── Which body shows, per the open questions ─────────────────────────────── */
+  .bcn-doc[data-doc-layout='reading'] :global([data-doc-show]:not([data-doc-show~='reading'])),
+  .bcn-doc[data-doc-layout='table'] :global([data-doc-show]:not([data-doc-show~='table'])),
+  .bcn-doc[data-doc-layout='both'] :global([data-doc-show]:not([data-doc-show~='both'])) {
+    display: none;
+  }
+  .bcn-doc[data-doc-rows='action'] :global([data-doc-rows-show='occurrence']),
+  .bcn-doc[data-doc-rows='occurrence'] :global([data-doc-rows-show='action']) {
+    display: none;
+  }
+  /* "Both": the summary table, then the detail from a fresh page. */
+  .bcn-doc[data-doc-layout='both'] :global([data-doc-show~='both'] + [data-doc-show~='both']) {
+    break-before: page;
+  }
+
+  /* ── Print: the desk and the sheet's chrome fall away ─────────────────────── */
+  @media print {
+    :global(body) {
+      background: none;
+    }
+    :global(.handoff-inspector),
+    :global([data-handoff-inspector]) {
+      display: none !important;
+    }
+    .bcn-doc-desk {
+      padding: 0;
+      background: none;
+      min-block-size: 0;
+    }
+    .bcn-doc {
+      inline-size: auto;
+      min-block-size: 0;
+      padding: 0;
+      border: 0;
+      box-shadow: none;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+  }
+</style>

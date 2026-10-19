@@ -1,6 +1,7 @@
 ---
 // <BcnListExportPanel> — the ways a list leaves Beacon, as a block in the detail
-// page's rail. Every list type gets the two file pulls, Word and CSV. Only an
+// page's rail. Every list type gets the two file pulls, Word and CSV; obligation and
+// action lists get a PDF above them (2026-10-19, list-export-documents). Only an
 // obligation list gets the JSON endpoint: Andy, 2026-09-23, "Actions and commitments
 // need export options (but not the API option)". The endpoint serves the form spec,
 // which only an obligation list has, so the section is gated on the list's type. It replaces the Export dropdown that sat on the page's
@@ -68,6 +69,8 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnKeyValue from './BcnKeyValue.astro';
 import { endpointUrl, formFields, type ActionList, type CommitmentList, type ObligationList } from '../../data/lists';
+import { documentHref, exportDocumentById } from '../../data/list-export-documents';
+import { withBase } from '../../lib/base';
 // The Astro half of the typography-composite mechanism, the way esa-button imports it.
 import '@esa/tokens/typography.css';
 
@@ -76,6 +79,10 @@ interface Props {
   list: ObligationList | ActionList | CommitmentList;
 }
 const { list } = Astro.props;
+// PDF first (Andy, 2026-10-19), on obligation and action lists. A commitment list has no
+// document yet, so it has no row. The prototype opens the document as its print route
+// renders it; prod downloads the file PdfService makes from that route.
+const pdfHref = list.type !== 'commitment' && exportDocumentById(list.id) ? withBase(documentHref(list.id)) : '';
 const api = list.type === 'obligation' ? (list as ObligationList) : null;
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -101,6 +108,24 @@ const generated = api ? `Generated ${fmtDateTime(api.apiKeyGeneratedAt)}` : '';
 <section class="bcn-lxp" data-list-export-panel>
   <EsaCard title="Export" variant="outlined">
     <div class="stack" data-gap="md">
+      {pdfHref && <div class="repel" data-gap="sm" data-list-export="pdf">
+        <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
+          <svg class="bcn-lxp__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+              <path d="M14 2.8H6.5A1.7 1.7 0 0 0 4.8 4.5v15a1.7 1.7 0 0 0 1.7 1.7h11a1.7 1.7 0 0 0 1.7-1.7V8Z" />
+              <path d="M13.8 2.8V8h5.4" />
+            </g>
+            <text x="12" y="18" text-anchor="middle" font-size="6" letter-spacing="-0.3">PDF</text>
+          </svg>
+          PDF
+        </h4>
+        <EsaButton variant="ghost" appearance="outline" size="sm" href={pdfHref} target="_blank">
+          Download
+        </EsaButton>
+      </div>}
+
+      {pdfHref && <hr class="bcn-lxp__rule" />}
+
       <div class="repel" data-gap="sm" data-list-export="word">
         <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
           {/* The row's text names the format, so the mark is decorative. */}

@@ -1,0 +1,43 @@
+---
+// One export document, as Beacon's print route renders it: the PDF a list or the
+// compliance index downloads as. Prod: /print/list/:listID and
+// /print/compliance-index/:projectID, captured by PdfService.
+//
+// The page is the document and nothing else (no app shell, as in prod's print layout),
+// with the brief's open questions as switches on the desk above it. Every value is read
+// from src/data/list-export-documents.ts.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BcnDocSheet from '../../../components/bcn/BcnDocSheet.astro';
+import BcnDocOptions from '../../../components/bcn/BcnDocOptions.astro';
+import BcnDocTable from '../../../components/bcn/BcnDocTable.astro';
+import BcnDocGroups from '../../../components/bcn/BcnDocGroups.astro';
+import { EXPORT_DOCUMENTS, type ExportDocument } from '../../../data/list-export-documents';
+
+export function getStaticPaths() {
+  return EXPORT_DOCUMENTS.map((doc) => ({ params: { id: doc.id }, props: { doc } }));
+}
+
+interface Props {
+  doc: ExportDocument;
+}
+const { doc } = Astro.props;
+---
+
+<!-- manifest:
+  layout: BaseLayout                                   # SPINE: no app shell, as prod's print layout
+  sections:
+    - document       -> bcn-doc-sheet                  # the desk, the sheet, the title block; the rest sit inside it
+    - open questions -> bcn-doc-options                # Layout, Action Rows, Brand, Paper
+    - summary table  -> bcn-doc-table                  # "Summary + Detail" only: one line per item
+    - table          -> bcn-doc-table                  # "Table": the whole document as one table
+    - detail         -> bcn-doc-groups                 # "Reading", and the detail after the summary
+-->
+
+<BaseLayout title={`${doc.title} · ${doc.project}`}>
+  <BcnDocSheet doc={doc}>
+    <BcnDocOptions slot="options" hasActions={doc.counts.actions > 0} />
+    <BcnDocTable doc={doc} show="both" titlesOnly />
+    <BcnDocTable doc={doc} show="table" />
+    <BcnDocGroups doc={doc} show="reading both" />
+  </BcnDocSheet>
+</BaseLayout>

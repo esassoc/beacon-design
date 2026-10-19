@@ -943,6 +943,33 @@ export const prototypeGroups: PrototypeGroup[] = [
         createdAt: '2026-09-23',
         status: 'in-progress',
       },
+      {
+        slug: 'list-export-obligation-pdf',
+        title: 'Obligation list PDF',
+        description:
+          'An obligation list as the PDF its Export card downloads: title block, category › subcategory in the list’s own names and wording, then class, audience, applies when and commitments per obligation.',
+        route: '/prototypes/list-export-documents/construction-kickoff-summary',
+        createdAt: '2026-10-19',
+        status: 'in-progress',
+      },
+      {
+        slug: 'list-export-action-pdf',
+        title: 'Action list PDF',
+        description:
+          'An action list as a PDF, grouped by type: frequency, timing and commitments per action, and where it stands per component, summed or one row per occurrence.',
+        route: '/prototypes/list-export-documents/annual-reporting',
+        createdAt: '2026-10-19',
+        status: 'in-progress',
+      },
+      {
+        slug: 'list-export-compliance-index-pdf',
+        title: 'Compliance Index PDF',
+        description:
+          'Every action and obligation on the project in one PDF, category › subcategory with Unfiled last, from the Export action on the Lists page. Reading, table, or a summary table ahead of the detail.',
+        route: '/prototypes/list-export-documents/compliance-index',
+        createdAt: '2026-10-19',
+        status: 'in-progress',
+      },
     ],
   },
 ];

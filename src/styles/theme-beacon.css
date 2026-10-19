@@ -402,6 +402,30 @@
   --bcn-cat-sky: var(--color-sky-9);
   --bcn-cat-pink: var(--color-pink-9);
   --bcn-cat-brown: var(--color-brown-9);
+
+  /* ===== Export documents (the PDFs: /print/* routes in prod) =====
+     A printed page is measured in points, not the screen's fluid clamps, and it has
+     one size at every width. Prod's print layout sets DM Sans and lays out inside
+     20mm margins; the paper itself is the open Letter-or-A4 question, so both live
+     here and the document picks one. */
+  --bcn-print-font-size-title: 20pt;
+  --bcn-print-font-size-group: 13pt;
+  --bcn-print-font-size-subgroup: 10.5pt;
+  --bcn-print-font-size-entry: 9.5pt;
+  --bcn-print-font-size-body: 9pt;
+  --bcn-print-font-size-meta: 8pt;
+  --bcn-print-line-height: 1.4;
+  --bcn-print-margin: 20mm;
+  --bcn-print-letter-width: 8.5in;
+  --bcn-print-letter-height: 11in;
+  --bcn-print-a4-width: 210mm;
+  --bcn-print-a4-height: 297mm;
+  /* The logo's cap height on the title block. */
+  --bcn-print-logo-height: 34px;
+  /* Paper is white, whatever the screen's surfaces are tinted. */
+  --bcn-print-paper: var(--bcn-gray-0);
+  /* The gray the screen preview sets the paper on (prod: #e0e0e0). */
+  --bcn-print-desk: var(--bcn-gray-200);
 }
 
 /* ===== Smooth in-page scrolling — app-wide, canonical spot =====
