@@ -5344,7 +5344,7 @@ The Kanban. All actions is the merged board: one column per backbone category (N
           ><span
             class="esa-icon esa-icon--xs"
             aria-hidden="true"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
             ><svg
               width="14"
               height="14"
@@ -5355,7 +5355,7 @@ The Kanban. All actions is the merged board: one column per backbone category (N
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
             >
               <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
               <line x1="4" x2="4" y1="22" y2="15"></line></svg></span
@@ -5394,7 +5394,7 @@ The Kanban. All actions is the merged board: one column per backbone category (N
           ><span
             class="esa-icon esa-icon--xs"
             aria-hidden="true"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
             ><svg
               width="14"
               height="14"
@@ -5405,7 +5405,7 @@ The Kanban. All actions is the merged board: one column per backbone category (N
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
             >
               <path d="M8 2v4"></path>
               <path d="M16 2v4"></path>
@@ -5421,7 +5421,7 @@ The Kanban. All actions is the merged board: one column per backbone category (N
             ><span
               class="esa-icon esa-icon--xs"
               aria-hidden="true"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
               ><svg
                 width="14"
                 height="14"
@@ -5432,7 +5432,7 @@ The Kanban. All actions is the merged board: one column per backbone category (N
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 focusable="false"
-                data-astro-cid-c7ivvrtd=""
+                data-astro-cid-wcwfib5m=""
               >
                 <path
                   d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
@@ -5446,7 +5446,7 @@ The Kanban. All actions is the merged board: one column per backbone category (N
             ><span
               class="esa-icon esa-icon--xs"
               aria-hidden="true"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
               ><svg
                 width="14"
                 height="14"
@@ -5457,7 +5457,7 @@ The Kanban. All actions is the merged board: one column per backbone category (N
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 focusable="false"
-                data-astro-cid-c7ivvrtd=""
+                data-astro-cid-wcwfib5m=""
               >
                 <path
                   d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
@@ -5476,8 +5476,8 @@ The Kanban. All actions is the merged board: one column per backbone category (N
       ><span
         class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
         style="--_avatar-hue: 56"
-        data-astro-cid-cgicqi4o=""
-        ><span class="esa-avatar__initials" data-astro-cid-cgicqi4o="">MC</span></span
+        data-astro-cid-uz7u6efw=""
+        ><span class="esa-avatar__initials" data-astro-cid-uz7u6efw="">MC</span></span
       ></span
     ></template
   ><template data-acard-avatar="James Okafor"
@@ -5485,8 +5485,8 @@ The Kanban. All actions is the merged board: one column per backbone category (N
       ><span
         class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
         style="--_avatar-hue: 8"
-        data-astro-cid-cgicqi4o=""
-        ><span class="esa-avatar__initials" data-astro-cid-cgicqi4o="">JO</span></span
+        data-astro-cid-uz7u6efw=""
+        ><span class="esa-avatar__initials" data-astro-cid-uz7u6efw="">JO</span></span
       ></span
     ></template
   ><template data-acard-avatar="Priya Patel"
@@ -5494,8 +5494,8 @@ The Kanban. All actions is the merged board: one column per backbone category (N
       ><span
         class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
         style="--_avatar-hue: 65"
-        data-astro-cid-cgicqi4o=""
-        ><span class="esa-avatar__initials" data-astro-cid-cgicqi4o="">PP</span></span
+        data-astro-cid-uz7u6efw=""
+        ><span class="esa-avatar__initials" data-astro-cid-uz7u6efw="">PP</span></span
       ></span
     ></template
   ><template data-acard-avatar="Dana Whitfield"
@@ -5503,8 +5503,8 @@ The Kanban. All actions is the merged board: one column per backbone category (N
       ><span
         class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
         style="--_avatar-hue: 266"
-        data-astro-cid-cgicqi4o=""
-        ><span class="esa-avatar__initials" data-astro-cid-cgicqi4o="">DW</span></span
+        data-astro-cid-uz7u6efw=""
+        ><span class="esa-avatar__initials" data-astro-cid-uz7u6efw="">DW</span></span
       ></span
     ></template
   ><template data-acard-avatar="Luis Ortega"
@@ -5512,8 +5512,8 @@ The Kanban. All actions is the merged board: one column per backbone category (N
       ><span
         class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
         style="--_avatar-hue: 91"
-        data-astro-cid-cgicqi4o=""
-        ><span class="esa-avatar__initials" data-astro-cid-cgicqi4o="">LO</span></span
+        data-astro-cid-uz7u6efw=""
+        ><span class="esa-avatar__initials" data-astro-cid-uz7u6efw="">LO</span></span
       ></span
     ></template
   ><template data-acard-avatar="Hannah Brooks"
@@ -5521,8 +5521,8 @@ The Kanban. All actions is the merged board: one column per backbone category (N
       ><span
         class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
         style="--_avatar-hue: 64"
-        data-astro-cid-cgicqi4o=""
-        ><span class="esa-avatar__initials" data-astro-cid-cgicqi4o="">HB</span></span
+        data-astro-cid-uz7u6efw=""
+        ><span class="esa-avatar__initials" data-astro-cid-uz7u6efw="">HB</span></span
       ></span
     ></template
   >
@@ -5888,21 +5888,6 @@ The Kanban. All actions is the merged board: one column per backbone category (N
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
-.bcn-disc__head .esa-icon {
-  color: var(--color-content-default-secondary);
-  flex-shrink: 0;
-}
-.bcn-disc__node .esa-avatar {
-  --_avatar-bg: var(--_node-color, var(--color-background-brand-muted));
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
 .typography-body-sm {
   font-family: var(--typography-body-sm-font-family);
   font-size: var(--typography-body-sm-font-size);
@@ -5927,6 +5912,37 @@ The Kanban. All actions is the merged board: one column per backbone category (N
 .bcn-component-picker__trigger > .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
+}
+.bcn-disc__head .esa-icon {
+  color: var(--color-content-default-secondary);
+  flex-shrink: 0;
+}
+.bcn-disc__node .esa-avatar {
+  --_avatar-bg: var(--_node-color, var(--color-background-brand-muted));
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
+.bcn-evidence-card__lead .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
+  transform: rotate(90deg);
+}
+.bcn-evidence-card__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-evidence-card__actions .esa-icon {
+  width: 15px;
+  height: 15px;
 }
 .esa-avatar {
   --_avatar-size: var(--avatar-size-md, 40px);
@@ -6042,22 +6058,6 @@ The Kanban. All actions is the merged board: one column per backbone category (N
   color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
-.bcn-evidence-card__lead .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  transition: transform 0.15s;
-}
-.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
-  transform: rotate(90deg);
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-evidence-card__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
 ```
 
 ## Tokens
@@ -6122,7 +6122,7 @@ The Kanban. All actions is the merged board: one column per backbone category (N
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-font-weight`: 400 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_

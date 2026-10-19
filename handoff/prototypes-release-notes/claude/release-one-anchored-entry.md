@@ -893,6 +893,7 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
 - `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
+- `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
@@ -902,6 +903,7 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--color-content-link`: #005862 _(semantic)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-width`: 2px _(component)_
 - `--font-decorative`: "Besley", serif _(component)_

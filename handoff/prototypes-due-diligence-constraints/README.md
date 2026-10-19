@@ -11,5 +11,5 @@ snapshot of one page for a developer (or an AI agent) to re-implement on any sta
 - **`components.md`** — the component blocks composing the page + their source.
 - **`manifest.json`** — per-section data powering the live dev-mode overlay.
 
-Source URL: http://localhost:4410/beacon-design/prototypes/due-diligence-constraints/
-Rules shipped: 331 · Tokens referenced: 188
+Source URL: http://localhost:4399/beacon-design/prototypes/due-diligence-constraints/
+Rules shipped: 305 · Tokens referenced: 188

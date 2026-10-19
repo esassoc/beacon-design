@@ -1,13 +1,21 @@
 # Rail
 
-Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a card footer of Accept Response (primary) and Save (secondary soft: a light fill and strong border, so it reads as a button on the sunken footer; always enabled, Saved says whether there is anything to save). Below, every comment the response answers, grouped by submission, by passage number, swatch, subtopic and state.
+Details (Stage, Assigned To, Drafted By once handed on, Topic, Comments, Submissions, Saved) as label-left rows, with a card footer that follows the stage: Send to Final Review (Draft), Accept Response (Final Review) or Reopen (Accepted), and Save (secondary soft: a light fill and strong border, so it reads as a button on the sunken footer; always enabled, Saved says whether there is anything to save). Below, every comment the response answers, grouped by submission, by passage number, swatch, subtopic and state.
 
 ## Key decisions
 - Accepting plans every linked comment at once, with one-step Undo. Whole-response accept only.
+- The response is the unit of assigned work, not the comment: one expert drafts R-004 and its accept plans all 21 comments. A comment with no open response belongs, by derivation, to its topic's expert.
+- Accept happens only at Final Review. In Draft the primary action is Send to Final Review: <BcnHandOffDialog> (esa-dialog + esa-radio-group over the team, not a select, whose menu the dialog body clips; the period lead by default) moves it to Final Review with the person chosen and records who drafted it.
+- Assigned To shows the holder (esa-avatar + name). While it is Aldo's routing to the topic expert the avatar has a dashed ring and a Confirm (check) verb; Reassign (pencil) opens the same dialog to change the holder at the same stage.
+- Drafted By carries Return to Drafter (arrow-left) in Final Review: back to Draft, held by the drafter again.
+- Reopen (Accepted) returns it to Final Review with the person who accepted it; its comments are no longer planned unless another accepted response answers them. It replaces Undo once the page is reloaded.
+- A response with no comments yet (New Response) shows esa-empty-state in the Comments card.
 - A comment row does not leave the page: it opens the comment panel.
 
 ## Done when
-- Accept on r-04 marks its 21 comments planned; Undo restores them.
+- Accept on r-04 marks its 21 comments planned; Undo restores them. After a reload, Reopen does the same.
+- Return to Drafter on r-04 puts it in Draft with Ravi Anand and the primary action becomes Send to Final Review.
+- On R-012 (Draft, routed by Aldo to Ravi Anand) Send to Final Review with Dana Whitcomb moves it to Final Review, shows Drafted By Ravi Anand, and swaps the primary action to Accept Response.
 
 ## Markup
 ```html
@@ -28,9 +36,9 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
     <div class="esa-card__body typography-body-md">
       <div class="bcn-rr__facts">
         <div class="bcn-key-value" data-size="sm" data-layout="row">
-          <span class="bcn-key-value__key typography-label-sm">Status</span
+          <span class="bcn-key-value__key typography-label-sm">Stage</span
           ><span class="bcn-rr__val" data-rr-status=""
-            ><span class="bcn-rr__state" data-state="draft"
+            ><span class="bcn-rr__state" data-state="review"
               ><svg
                 width="14"
                 height="14"
@@ -42,16 +50,123 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 stroke-linejoin="round"
                 aria-hidden="true"
               >
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
                 <path
-                  d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
+                  d="M4.268 21a2 2 0 0 0 1.727 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"
                 ></path>
-                <path
-                  d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                ></path>
-                <path d="M8 18h1"></path></svg
-              >Draft</span
+                <path d="m9 18-1.5-1.5"></path>
+                <circle cx="5" cy="14" r="3"></circle></svg
+              >Final Review</span
             ></span
           >
+        </div>
+        <div class="bcn-key-value" data-size="sm" data-layout="row">
+          <span class="bcn-key-value__key typography-label-sm">Assigned To</span
+          ><span class="bcn-rr__who"
+            ><span class="bcn-rr__val" data-rr-assignee=""
+              ><span class="bcn-person"
+                ><span class="bcn-proposal-ring" title="Dana Whitcomb"
+                  ><span
+                    class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                    style="--_avatar-hue: 219"
+                    ><span class="esa-avatar__initials">DW</span></span
+                  ></span
+                ><span class="bcn-person__name">Dana Whitcomb</span></span
+              ></span
+            ><span class="bcn-rr__who-verbs" data-rr-who-verbs=""
+              ><span data-rr-confirm-wrap="" hidden=""
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                  ><button
+                    class="esa-button__native typography-microcopy-2xs"
+                    type="button"
+                    aria-label="Confirm Assignment"
+                    title="Confirm Assignment"
+                    data-rr-confirm="true"
+                  >
+                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                      ><svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path d="M20 6 9 17l-5-5"></path></svg
+                    ></span></button></span></span
+              ><span
+                class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                ><button
+                  class="esa-button__native typography-microcopy-2xs"
+                  type="button"
+                  aria-label="Reassign"
+                  title="Reassign"
+                  data-rr-reassign="true"
+                >
+                  <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                      ></path>
+                      <path d="m15 5 4 4"></path></svg
+                  ></span></button></span></span
+          ></span>
+        </div>
+        <div data-rr-drafted-wrap="">
+          <div class="bcn-key-value" data-size="sm" data-layout="row">
+            <span class="bcn-key-value__key typography-label-sm">Drafted By</span
+            ><span class="bcn-rr__who"
+              ><span class="bcn-rr__val" data-rr-drafted=""
+                ><span class="bcn-person"
+                  ><span class="bcn-proposal-ring" title="Ravi Anand"
+                    ><span
+                      class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                      style="--_avatar-hue: 308"
+                      ><span class="esa-avatar__initials">RA</span></span
+                    ></span
+                  ><span class="bcn-person__name">Ravi Anand</span></span
+                ></span
+              ><span class="bcn-rr__who-verbs" data-rr-return-wrap=""
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                  ><button
+                    class="esa-button__native typography-microcopy-2xs"
+                    type="button"
+                    aria-label="Return to Drafter"
+                    title="Return to Drafter"
+                    data-rr-return="true"
+                  >
+                    <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                      ><svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path d="m12 19-7-7 7-7"></path>
+                        <path d="M19 12H5"></path></svg
+                    ></span></button></span></span
+            ></span>
+          </div>
         </div>
         <div class="bcn-key-value" data-size="sm" data-layout="row">
           <span class="bcn-key-value__key typography-label-sm">Topic</span
@@ -80,7 +195,32 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
     </div>
     <div class="esa-card__footer typography-meta">
       <div class="bcn-rr__actions" data-rr-actions="">
-        <span data-rr-accept-wrap=""
+        <span data-rr-handoff-wrap="" hidden=""
+          ><span
+            class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-rr-handoff="true"
+            >
+              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path></svg></span
+              ><span class="esa-button__label">Send to Final Review</span>
+            </button></span
+          ></span
+        ><span data-rr-accept-wrap=""
           ><span
             class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
             ><button
@@ -127,6 +267,31 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                   <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
                   <path d="M3 3v5h5"></path></svg></span
               ><span class="esa-button__label">Undo</span>
+            </button></span
+          ></span
+        ><span data-rr-reopen-wrap="" hidden=""
+          ><span
+            class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-rr-reopen="true"
+            >
+              <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                  <path d="M3 3v5h5"></path></svg></span
+              ><span class="esa-button__label">Reopen</span>
             </button></span
           ></span
         ><span
@@ -181,7 +346,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="There is a new pattern of planes all night, at about 1:30, 2 and 4 a.m. and then steadily after that, sometimes only seconds apart."
               >
                 <span class="bcn-rr__note">C-018.001</span
-                ><span class="bcn-topic-dot" data-family="violet" data-shade="2"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="violet"
+                  data-shade="2"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Overnight flights</span
                 ><span
                   class="bcn-rr__glyph"
@@ -218,7 +388,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="My sleep has been broken for months, and I've had illness, anxiety, stress, headaches and trouble getting through the day"
               >
                 <span class="bcn-rr__note">C-018.002</span
-                ><span class="bcn-topic-dot" data-family="crimson" data-shade="1"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="crimson"
+                  data-shade="1"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Sleep disruption</span
                 ><span
                   class="bcn-rr__glyph"
@@ -255,7 +430,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="Someone should recognize that the program is not working and make it mandatory."
               >
                 <span class="bcn-rr__note">C-018.003</span
-                ><span class="bcn-topic-dot" data-family="violet" data-shade="1"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="violet"
+                  data-shade="1"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Late Night Noise Limitation Program</span
                 ><span
                   class="bcn-rr__glyph"
@@ -297,7 +477,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="Planes through the night have brought me worsening migraines, constant anxiety and a short temper."
               >
                 <span class="bcn-rr__note">C-019.001</span
-                ><span class="bcn-topic-dot" data-family="crimson" data-shade="1"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="crimson"
+                  data-shade="1"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Sleep disruption</span
                 ><span
                   class="bcn-rr__glyph"
@@ -334,7 +519,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="overnight flights in particular have to come down sharply."
               >
                 <span class="bcn-rr__note">C-019.002</span
-                ><span class="bcn-topic-dot" data-family="violet" data-shade="2"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="violet"
+                  data-shade="2"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Overnight flights</span
                 ><span
                   class="bcn-rr__glyph"
@@ -376,7 +566,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="Planes flying all night are now routine, which means little or no sleep and real damage to our health and ability to function."
               >
                 <span class="bcn-rr__note">C-020.001</span
-                ><span class="bcn-topic-dot" data-family="crimson" data-shade="1"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="crimson"
+                  data-shade="1"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Sleep disruption</span
                 ><span
                   class="bcn-rr__glyph"
@@ -418,7 +613,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="There is reliably a flight at 2 a.m., and at 3 and at 1, and from 4 a.m. on it never stops."
               >
                 <span class="bcn-rr__note">C-021.002</span
-                ><span class="bcn-topic-dot" data-family="violet" data-shade="2"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="violet"
+                  data-shade="2"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Overnight flights</span
                 ><span
                   class="bcn-rr__glyph"
@@ -455,7 +655,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="Five hours is laughable to begin with, and I was told airlines comply only if they choose to, which is absurd."
               >
                 <span class="bcn-rr__note">C-021.003</span
-                ><span class="bcn-topic-dot" data-family="violet" data-shade="1"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="violet"
+                  data-shade="1"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Late Night Noise Limitation Program</span
                 ><span
                   class="bcn-rr__glyph"
@@ -499,7 +704,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="Study whether the nighttime north-flow departure turn could remain active through 7:00 a.m. instead of switching off at 6:00 a.m."
               >
                 <span class="bcn-rr__note">C-022.002</span
-                ><span class="bcn-topic-dot" data-family="violet" data-shade="1"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="violet"
+                  data-shade="1"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Late Night Noise Limitation Program</span
                 ><span
                   class="bcn-rr__glyph"
@@ -541,7 +751,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="Sea-Tac tells us there's a late night noise limitation program. Where is it, and who enforces it?"
               >
                 <span class="bcn-rr__note">C-023.002</span
-                ><span class="bcn-topic-dot" data-family="violet" data-shade="1"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="violet"
+                  data-shade="1"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Late Night Noise Limitation Program</span
                 ><span
                   class="bcn-rr__glyph"
@@ -578,7 +793,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="Last night, for example, we barely slept: loud planes with landing gear down at midnight, 1, 2, three in a row at 3:20, then 4 a.m. and nonstop since."
               >
                 <span class="bcn-rr__note">C-023.003</span
-                ><span class="bcn-topic-dot" data-family="violet" data-shade="2"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="violet"
+                  data-shade="2"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Overnight flights</span
                 ><span
                   class="bcn-rr__glyph"
@@ -620,7 +840,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="I work 65 hours a week and hardly sleep because of the loud planes all night."
               >
                 <span class="bcn-rr__note">C-024.001</span
-                ><span class="bcn-topic-dot" data-family="crimson" data-shade="1"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="crimson"
+                  data-shade="1"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Sleep disruption</span
                 ><span
                   class="bcn-rr__glyph"
@@ -657,7 +882,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="Whatever has drifted away from the late night noise program (which, absurdly, is voluntary) has to be reversed now."
               >
                 <span class="bcn-rr__note">C-024.002</span
-                ><span class="bcn-topic-dot" data-family="violet" data-shade="1"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="violet"
+                  data-shade="1"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Late Night Noise Limitation Program</span
                 ><span
                   class="bcn-rr__glyph"
@@ -699,7 +929,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="Sea-Tac promotes its Late Night Noise program, which looks like lip service meant to show it is doing something about noise."
               >
                 <span class="bcn-rr__note">C-025.001</span
-                ><span class="bcn-topic-dot" data-family="violet" data-shade="1"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="violet"
+                  data-shade="1"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Late Night Noise Limitation Program</span
                 ><span
                   class="bcn-rr__glyph"
@@ -736,7 +971,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="we are now woken several times every night by loud planes, around 12:30, 1:30, 2, 3:30 and 4, and then continuously after 4."
               >
                 <span class="bcn-rr__note">C-025.002</span
-                ><span class="bcn-topic-dot" data-family="violet" data-shade="2"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="violet"
+                  data-shade="2"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Overnight flights</span
                 ><span
                   class="bcn-rr__glyph"
@@ -778,7 +1018,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="I can't remember the last time any of us living in the neighborhoods on the hill east of downtown got a full night's sleep without being jolted awake by loud planes."
               >
                 <span class="bcn-rr__note">C-026.001</span
-                ><span class="bcn-topic-dot" data-family="crimson" data-shade="1"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="crimson"
+                  data-shade="1"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Sleep disruption</span
                 ><span
                   class="bcn-rr__glyph"
@@ -820,7 +1065,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="the flights around 1:45 to 2 a.m. wake everyone here, on top of the other overnight planes that now come every single night"
               >
                 <span class="bcn-rr__note">C-027.001</span
-                ><span class="bcn-topic-dot" data-family="violet" data-shade="2"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="violet"
+                  data-shade="2"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Overnight flights</span
                 ><span
                   class="bcn-rr__glyph"
@@ -857,7 +1107,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="A voluntary program is absurd, and it needs enforcement."
               >
                 <span class="bcn-rr__note">C-027.002</span
-                ><span class="bcn-topic-dot" data-family="violet" data-shade="1"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="violet"
+                  data-shade="1"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Late Night Noise Limitation Program</span
                 ><span
                   class="bcn-rr__glyph"
@@ -899,7 +1154,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="The voluntary late night noise program is clearly a joke and clearly not working"
               >
                 <span class="bcn-rr__note">C-028.001</span
-                ><span class="bcn-topic-dot" data-family="violet" data-shade="1"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="violet"
+                  data-shade="1"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Late Night Noise Limitation Program</span
                 ><span
                   class="bcn-rr__glyph"
@@ -941,7 +1201,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="Late night noise limits plainly aren't working, and how could they when they're voluntary?"
               >
                 <span class="bcn-rr__note">C-029.002</span
-                ><span class="bcn-topic-dot" data-family="violet" data-shade="1"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="violet"
+                  data-shade="1"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Late Night Noise Limitation Program</span
                 ><span
                   class="bcn-rr__glyph"
@@ -978,7 +1243,12 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
                 title="while thousands of people suffer mentally and physically and lose sleep night after night."
               >
                 <span class="bcn-rr__note">C-029.004</span
-                ><span class="bcn-topic-dot" data-family="crimson" data-shade="1"></span
+                ><span
+                  class="bcn-topic-dot"
+                  data-family="crimson"
+                  data-shade="1"
+                  data-suggested=""
+                ></span
                 ><span class="bcn-rr__name">Sleep disruption</span
                 ><span
                   class="bcn-rr__glyph"
@@ -1009,8 +1279,114 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
           </ul>
         </section>
       </div>
+      <div data-rr-none="" hidden="">
+        <div class="esa-empty-state esa-empty-state--xs">
+          <h3 class="esa-empty-state__title typography-label-xs-strong">
+            No comments yet
+          </h3>
+          <p class="esa-empty-state__description typography-body-xs">
+            Link comments from a submission.
+          </p>
+          <div class="esa-empty-state__actions typography-label-md"></div>
+        </div>
+      </div>
     </div>
   </div>
+  <esa-dialog heading="Send to Final Review" size="sm" data-hand-off="true"
+    ><esa-radio-group
+      size="sm"
+      label="Reviewer"
+      required="true"
+      data-ho-person="true"
+      orientation="vertical"
+    ></esa-radio-group>
+    <div slot="footer" class="cluster" data-gap="xs">
+      <span
+        class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          data-ho-ok="true"
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path></svg></span
+          ><span class="esa-button__label">Send</span>
+        </button></span
+      ><span
+        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          data-ho-cancel="true"
+        >
+          <span class="esa-button__label">Cancel</span>
+        </button></span
+      >
+    </div></esa-dialog
+  >
+  <script
+    type="module"
+    src="/beacon-design/_astro/BcnHandOffDialog.astro_astro_type_script_index_0_lang.DLpd1QtW.js"
+  ></script>
+  <esa-dialog
+    heading="New Response"
+    size="sm"
+    data-new-response="true"
+    data-href="/beacon-design/prototypes/comments/response"
+    ><div class="stack" data-gap="md">
+      <esa-text-field
+        size="sm"
+        label="Title"
+        placeholder="e.g. Helicopter and Seaplane Noise"
+        required=""
+        data-nr-title="true"
+      ></esa-text-field
+      ><esa-radio-group
+        size="sm"
+        label="Topic"
+        required="true"
+        data-nr-topic="true"
+        orientation="vertical"
+      ></esa-radio-group>
+    </div>
+    <div slot="footer" class="cluster" data-gap="xs">
+      <span
+        class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          data-nr-create="true"
+        >
+          <span class="esa-button__label">Create</span>
+        </button></span
+      ><span
+        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          data-nr-cancel="true"
+        >
+          <span class="esa-button__label">Cancel</span>
+        </button></span
+      >
+    </div></esa-dialog
+  >
+  <script
+    type="module"
+    src="/beacon-design/_astro/BcnNewResponseDialog.astro_astro_type_script_index_0_lang.BWhe8bWe.js"
+  ></script>
   <esa-side-dialog
     position="right"
     show-close-button="true"
@@ -1099,6 +1475,29 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
             ></span></button></span></span
       ><span class="bcn-rr__foot-group"
         ><span
+          class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            data-rr-unlink="true"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M18 6 6 18"></path>
+                <path d="m6 6 12 12"></path></svg></span
+            ><span class="esa-button__label">Unlink</span>
+          </button></span
+        ><span
           class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
           ><button
             class="esa-button__native typography-microcopy-xs"
@@ -1144,12 +1543,40 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
   line-height: var(--typography-body-md-line-height);
   letter-spacing: var(--typography-body-md-letter-spacing);
 }
+.typography-body-xs {
+  font-family: var(--typography-body-xs-font-family);
+  font-size: var(--typography-body-xs-font-size);
+  font-weight: var(--typography-body-xs-font-weight);
+  line-height: var(--typography-body-xs-line-height);
+  letter-spacing: var(--typography-body-xs-letter-spacing);
+}
 .typography-label-sm {
   font-family: var(--typography-label-sm-font-family);
   font-size: var(--typography-label-sm-font-size);
   font-weight: var(--typography-label-sm-font-weight);
   line-height: var(--typography-label-sm-line-height);
   letter-spacing: var(--typography-label-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-label-2xs-strong {
+  font-family: var(--typography-label-2xs-strong-font-family);
+  font-size: var(--typography-label-2xs-strong-font-size);
+  font-weight: var(--typography-label-2xs-strong-font-weight);
+  line-height: var(--typography-label-2xs-strong-line-height);
+  letter-spacing: var(--typography-label-2xs-strong-letter-spacing);
+}
+.typography-label-xs-strong {
+  font-family: var(--typography-label-xs-strong-font-family);
+  font-size: var(--typography-label-xs-strong-font-size);
+  font-weight: var(--typography-label-xs-strong-font-weight);
+  line-height: var(--typography-label-xs-strong-line-height);
+  letter-spacing: var(--typography-label-xs-strong-letter-spacing);
 }
 .typography-label-sm-strong {
   font-family: var(--typography-label-sm-strong-font-family);
@@ -1165,6 +1592,13 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
   line-height: var(--typography-label-md-strong-line-height);
   letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
+.typography-microcopy-2xs {
+  font-family: var(--typography-microcopy-2xs-font-family);
+  font-size: var(--typography-microcopy-2xs-font-size);
+  font-weight: var(--typography-microcopy-2xs-font-weight);
+  line-height: var(--typography-microcopy-2xs-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
+}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
@@ -1172,12 +1606,26 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
+.typography-microcopy-2xs-subtle {
+  font-family: var(--typography-microcopy-2xs-subtle-font-family);
+  font-size: var(--typography-microcopy-2xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-2xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-2xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
+}
 .typography-microcopy-xs-subtle {
   font-family: var(--typography-microcopy-xs-subtle-font-family);
   font-size: var(--typography-microcopy-xs-subtle-font-size);
   font-weight: var(--typography-microcopy-xs-subtle-font-weight);
   line-height: var(--typography-microcopy-xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
+.typography-microcopy-2xs-strong {
+  font-family: var(--typography-microcopy-2xs-strong-font-family);
+  font-size: var(--typography-microcopy-2xs-strong-font-size);
+  font-weight: var(--typography-microcopy-2xs-strong-font-weight);
+  line-height: var(--typography-microcopy-2xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
 }
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
@@ -1448,6 +1896,36 @@ Details (Status, Topic, Comments, Submissions, Saved) as label-left rows, with a
   box-shadow: none;
   border: 1.5px dashed var(--_ink);
   background: 0 0;
+}
+.bcn-topic-dot[data-suggested] {
+  background: color-mix(
+    in srgb,
+    var(--_ink) 22%,
+    var(--color-background-elevation-raised)
+  );
+  box-shadow: none;
+  border: 1.5px dashed var(--_ink);
+  box-sizing: border-box;
+}
+.bcn-proposal-ring {
+  border: 1.5px solid #0000;
+  border-radius: 50%;
+  padding: 1px;
+  display: inline-flex;
+}
+.bcn-proposal-ring[data-suggested] {
+  border: 1.5px dashed var(--color-content-default-tertiary);
+}
+.bcn-person {
+  align-items: center;
+  gap: var(--spacing-150, 0.375rem);
+  min-width: 0;
+  display: inline-flex;
+}
+.bcn-person__name {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 :is(mark.bcn-hl, .bcn-topic-dot)[data-family="amber"][data-shade="1"] {
   --_hl: var(--bcn-topic-amber-1);
@@ -1748,10 +2226,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-rn .bcn-rn__item:is([data-collapsed], [data-composing]) .esa-card__footer {
   display: none;
 }
-.bcn-rr {
-  top: var(--spacing-400);
-  position: sticky;
-}
 .bcn-rr__facts {
   gap: var(--spacing-200);
   flex-direction: column;
@@ -1779,6 +2253,16 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-rr .bcn-rr__state[data-state="accepted"] {
   color: var(--color-content-success, var(--color-content-default));
+}
+.bcn-rr__who {
+  align-items: center;
+  gap: var(--spacing-100);
+  min-width: 0;
+  display: inline-flex;
+}
+.bcn-rr__who-verbs {
+  align-items: center;
+  display: inline-flex;
 }
 .bcn-rr__groups {
   gap: var(--spacing-300);
@@ -1910,12 +2394,40 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-body-md-line-height);
   letter-spacing: var(--typography-body-md-letter-spacing);
 }
+.typography-body-xs {
+  font-family: var(--typography-body-xs-font-family);
+  font-size: var(--typography-body-xs-font-size);
+  font-weight: var(--typography-body-xs-font-weight);
+  line-height: var(--typography-body-xs-line-height);
+  letter-spacing: var(--typography-body-xs-letter-spacing);
+}
 .typography-label-sm {
   font-family: var(--typography-label-sm-font-family);
   font-size: var(--typography-label-sm-font-size);
   font-weight: var(--typography-label-sm-font-weight);
   line-height: var(--typography-label-sm-line-height);
   letter-spacing: var(--typography-label-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-label-2xs-strong {
+  font-family: var(--typography-label-2xs-strong-font-family);
+  font-size: var(--typography-label-2xs-strong-font-size);
+  font-weight: var(--typography-label-2xs-strong-font-weight);
+  line-height: var(--typography-label-2xs-strong-line-height);
+  letter-spacing: var(--typography-label-2xs-strong-letter-spacing);
+}
+.typography-label-xs-strong {
+  font-family: var(--typography-label-xs-strong-font-family);
+  font-size: var(--typography-label-xs-strong-font-size);
+  font-weight: var(--typography-label-xs-strong-font-weight);
+  line-height: var(--typography-label-xs-strong-line-height);
+  letter-spacing: var(--typography-label-xs-strong-letter-spacing);
 }
 .typography-label-sm-strong {
   font-family: var(--typography-label-sm-strong-font-family);
@@ -1931,6 +2443,13 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-label-md-strong-line-height);
   letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
+.typography-microcopy-2xs {
+  font-family: var(--typography-microcopy-2xs-font-family);
+  font-size: var(--typography-microcopy-2xs-font-size);
+  font-weight: var(--typography-microcopy-2xs-font-weight);
+  line-height: var(--typography-microcopy-2xs-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
+}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
@@ -1938,12 +2457,26 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
+.typography-microcopy-2xs-subtle {
+  font-family: var(--typography-microcopy-2xs-subtle-font-family);
+  font-size: var(--typography-microcopy-2xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-2xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-2xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
+}
 .typography-microcopy-xs-subtle {
   font-family: var(--typography-microcopy-xs-subtle-font-family);
   font-size: var(--typography-microcopy-xs-subtle-font-size);
   font-weight: var(--typography-microcopy-xs-subtle-font-weight);
   line-height: var(--typography-microcopy-xs-subtle-line-height);
   letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
+.typography-microcopy-2xs-strong {
+  font-family: var(--typography-microcopy-2xs-strong-font-family);
+  font-size: var(--typography-microcopy-2xs-strong-font-size);
+  font-weight: var(--typography-microcopy-2xs-strong-font-weight);
+  line-height: var(--typography-microcopy-2xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
 }
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
@@ -1972,6 +2505,58 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-meta-font-weight);
   line-height: var(--typography-meta-line-height);
   letter-spacing: var(--typography-meta-letter-spacing);
+}
+.esa-avatar {
+  --_avatar-size: var(--avatar-size-md, 40px);
+  --_avatar-font-size: var(
+    --avatar-font-size-md,
+    var(--typography-label-md-strong-font-size, var(--font-size-200, 0.9375rem))
+  );
+  --_avatar-radius: var(--radius-pill, 9999px);
+  --_avatar-bg: var(--avatar-bg, hsl(var(--_avatar-hue, 200) 45% 65%));
+  --_avatar-text: var(--color-content-default-knockout, #fcfcfc);
+  width: var(--_avatar-size);
+  height: var(--_avatar-size);
+  border-radius: var(--_avatar-radius);
+  background: var(--_avatar-bg);
+  color: var(--_avatar-text);
+  font-size: var(--_avatar-font-size);
+  user-select: none;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+  overflow: hidden;
+}
+.esa-avatar--xs {
+  --_avatar-size: var(--avatar-size-xs, 20px);
+  --_avatar-font-size: var(
+    --avatar-font-size-xs,
+    var(--typography-label-2xs-strong-font-size, var(--font-size-050, 0.625rem))
+  );
+}
+.esa-avatar--sm {
+  --_avatar-size: var(--avatar-size-sm, 28px);
+  --_avatar-font-size: var(
+    --avatar-font-size-sm,
+    var(--typography-label-xs-strong-font-size, var(--font-size-100, 0.75rem))
+  );
+}
+.esa-avatar--lg {
+  --_avatar-size: var(--avatar-size-lg, 56px);
+  --_avatar-font-size: var(
+    --avatar-font-size-lg,
+    var(--typography-title-font-size, var(--font-size-400, 1.25rem))
+  );
+}
+.esa-avatar--square {
+  --_avatar-radius: var(--radius-md, 0.5rem);
+}
+.esa-avatar__image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 .bcn-key-value {
   flex-direction: column;
@@ -2014,6 +2599,53 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-key-value[data-size="sm"] .bcn-key-value__val {
   font-size: var(--typography-label-sm-strong-font-size);
   font-weight: var(--typography-label-sm-strong-font-weight);
+}
+.esa-empty-state {
+  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
+  --_empty-gap: var(--spacing-200, 0.5rem);
+  text-align: center;
+  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
+  justify-content: center;
+  align-items: center;
+  gap: var(--_empty-gap);
+  flex-direction: column;
+  display: flex;
+}
+.esa-empty-state--xs {
+  --_empty-icon-size: var(--empty-state-icon-size-xs, 24px);
+  padding: var(--spacing-300, 0.75rem) var(--spacing-200, 0.5rem);
+}
+.esa-empty-state--sm {
+  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
+  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
+}
+.esa-empty-state--lg {
+  --_empty-icon-size: var(--empty-state-icon-size-lg, 64px);
+  padding: var(--spacing-800, 4rem) var(--spacing-400, 1rem);
+}
+.esa-empty-state__icon {
+  color: var(--color-content-default-secondary, #646464);
+  margin-bottom: var(--spacing-100, 0.25rem);
+  display: inline-flex;
+}
+.esa-empty-state__icon svg {
+  width: var(--_empty-icon-size);
+  height: var(--_empty-icon-size);
+}
+.esa-empty-state__title {
+  color: var(--color-content-default, #202020);
+  margin: 0;
+}
+.esa-empty-state__description {
+  color: var(--color-content-default-secondary, #646464);
+  max-width: 360px;
+  margin: 0;
+}
+.esa-empty-state__actions {
+  margin-top: var(--spacing-200, 0.5rem);
+}
+.esa-empty-state__actions:empty {
+  display: none;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -2060,10 +2692,29 @@ summary.esa-button--variant-chrome:focus-visible {
 .stack[data-split] > [data-split] {
   margin-block-end: auto;
 }
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
+  flex-wrap: wrap;
+  display: flex;
+}
 ```
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
+- `--avatar-bg`: hsl(200 45% 65%) _(component)_
+- `--avatar-font-size-lg`: clamp(1rem, .88rem + .6vw, 1.25rem) _(component)_
+- `--avatar-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
+- `--avatar-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
+- `--avatar-font-size-xs`: clamp(.5rem, .44rem + .3vw, .625rem) _(component)_
+- `--avatar-size-lg`: 56px _(component)_
+- `--avatar-size-md`: 40px _(component)_
+- `--avatar-size-sm`: 28px _(component)_
+- `--avatar-size-xs`: 20px _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
@@ -2153,10 +2804,18 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-utility-success`: #218358 _(semantic)_
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
 - `--elevation-2`: 0 2px 12px 0 #0000000a _(semantic)_
+- `--empty-state-icon-size-lg`: 64px _(component)_
+- `--empty-state-icon-size-md`: 48px _(component)_
+- `--empty-state-icon-size-sm`: 32px _(component)_
+- `--empty-state-icon-size-xs`: 24px _(component)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
 - `--font-decorative`: "Besley", serif _(component)_
+- `--font-size-050`: clamp(.5rem, .44rem + .3vw, .625rem) _(primitive)_
+- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
+- `--font-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
 - `--font-weight-medium`: 500 _(component)_
 - `--form-label-color`: #525252 _(component)_
 - `--gap`: 1rem _(component)_
@@ -2167,6 +2826,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-md`: .25rem _(semantic)_
+- `--radius-pill`: 9999px _(semantic)_
 - `--radius-sm`: .25rem _(semantic)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
@@ -2176,17 +2836,33 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
+- `--spacing-600`: 2rem _(primitive)_
 - `--spacing-700`: 3rem _(primitive)_
+- `--spacing-800`: 4rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
+- `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-body-xs-font-weight`: 400 _(semantic)_
+- `--typography-body-xs-letter-spacing`: .01em _(semantic)_
+- `--typography-body-xs-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
+- `--typography-label-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-2xs-strong-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-label-2xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-2xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-2xs-strong-line-height`: 1.6 _(semantic)_
+- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-md-font-weight`: 500 _(semantic)_
+- `--typography-label-md-letter-spacing`: .01em _(semantic)_
+- `--typography-label-md-line-height`: 1.6 _(semantic)_
 - `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-label-md-strong-font-weight`: 550 _(semantic)_
@@ -2202,11 +2878,31 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
 - `--typography-label-sm-strong-letter-spacing`: .01em _(semantic)_
 - `--typography-label-sm-strong-line-height`: 1.6 _(semantic)_
+- `--typography-label-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-label-xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-xs-strong-line-height`: 1.6 _(semantic)_
 - `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-meta-font-weight`: 350 _(semantic)_
+- `--typography-meta-font-weight`: 400 _(semantic)_
 - `--typography-meta-letter-spacing`: .01em _(semantic)_
 - `--typography-meta-line-height`: 1.6 _(semantic)_
+- `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-microcopy-2xs-font-weight`: 500 _(semantic)_
+- `--typography-microcopy-2xs-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-2xs-line-height`: 1 _(semantic)_
+- `--typography-microcopy-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-2xs-strong-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-microcopy-2xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-microcopy-2xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
@@ -2219,7 +2915,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-title-font-family`: "DM Sans", sans-serif _(semantic)_

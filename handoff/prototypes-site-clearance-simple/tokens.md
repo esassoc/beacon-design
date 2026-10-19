@@ -1,6 +1,6 @@
 # Token contract — prototypes-site-clearance-simple
 
-The 96 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 97 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -33,7 +33,7 @@ The 96 design tokens this page actually uses, resolved to their final values for
 | `--typography-font-family-sans` | `"DM Sans", sans-serif` |
 | `--typography-font-weight-bold` | `650` |
 | `--typography-font-weight-medium` | `500` |
-| `--typography-font-weight-regular` | `350` |
+| `--typography-font-weight-regular` | `400` |
 | `--typography-font-weight-semibold` | `550` |
 | `--typography-label-md-font-family` | `"DM Sans", sans-serif` |
 | `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
@@ -55,8 +55,9 @@ The 96 design tokens this page actually uses, resolved to their final values for
 
 | Token | Value |
 |---|---|
-| `--badge-bg` | `#005862` |
-| `--badge-text-color` | `#fcfcfc` |
+| `--badge-bg` | `#fcfcfc` |
+| `--badge-border-color` | `#dcdcdc` |
+| `--badge-text-color` | `#525252` |
 | `--bcn-aldo` | `#08908b` |
 | `--bcn-aldo-100` | `#cfeceb` |
 | `--bcn-aldo-50` | `#e8f6f5` |

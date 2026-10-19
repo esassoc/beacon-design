@@ -189,7 +189,7 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
             class="esa-icon esa-icon--sm"
             role="img"
             aria-label="Approved"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
             ><svg
               width="16"
               height="16"
@@ -200,7 +200,7 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
             >
               <circle cx="12" cy="12" r="10"></circle>
               <path d="m9 12 2 2 4-4"></path></svg></span

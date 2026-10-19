@@ -36,13 +36,13 @@ Build index and the Draft run, each as a session. Build index is two tool calls:
     <template data-console-more=""
       ><span
         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs"
-        data-astro-cid-4xhmycw5=""
+        data-astro-cid-5nhxdd72=""
         ><button
           class="esa-button__native typography-microcopy-2xs"
           type="button"
-          data-astro-cid-4xhmycw5=""
+          data-astro-cid-5nhxdd72=""
         >
-          <span class="esa-button__label" data-astro-cid-4xhmycw5="">More</span>
+          <span class="esa-button__label" data-astro-cid-5nhxdd72="">More</span>
         </button></span
       ></template
     >

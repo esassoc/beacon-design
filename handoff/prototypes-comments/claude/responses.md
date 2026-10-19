@@ -1,25 +1,38 @@
 # Responses
 
-The third tab: every response in the period as a slim row, Drafts first, then Accepted. A row reads state glyph, number (R-004), title, and its topic, and opens the response page.
+The third tab: every response in the period as a slim row, Final Review first, then Drafts, then Accepted. A row reads state glyph, number (R-004), title, its topic and who holds it, and opens the response page.
 
 ## Key decisions
+- Grouped by review stage: Final Review, then Drafts, then Accepted. Each row ends in who holds it (avatar and name; a dashed ring while that is Aldo's routing). Accepted rows drop the holder.
+- New Response (primary, top right) opens <BcnNewResponseDialog>: an esa-dialog with Title (esa-text-field) and Topic (esa-radio-group: seven topics show at once, and an esa-select menu is clipped by the dialog body). A response from scratch starts with no comments, in Draft, held by the person who made it; comments are linked from a submission, as with any response.
+- The All / Mine switch is shared with the Inbox (comments:mine): Mine keeps the responses the person at the keyboard holds and has not finished.
 - Same row anatomy as the inbox: one line, no excerpt, no actions in the row.
 - No comment or submission counts on the row (Andy, 2026-10-06); the response page's rail carries them.
 - Response titles are title case, as every label in the module is.
 - ?view=responses opens the tab directly (the response page's breadcrumb uses it).
 
 ## Done when
-- R-004 Late Night Noise Limitation Program and Overnight Flights is listed under Drafts.
+- R-004 Late Night Noise Limitation Program and Overnight Flights is listed under Final Review, held by Dana Whitcomb.
+- Mine shows R-004, R-005 (Final Review) and R-011 (Draft).
+- New Response with a title and topic opens the new response in Draft, held by its writer.
 
 ## Markup
 ```html
-<div class="bcn-ri" data-response-index="" data-base="/beacon-design/prototypes/comments">
+<div
+  class="bcn-ri__groups"
+  data-response-index=""
+  data-base="/beacon-design/prototypes/comments"
+>
   <section class="bcn-ri__group">
-    <h3 class="bcn-ri__label typography-label-sm-strong">Drafts</h3>
+    <h3 class="bcn-ri__label typography-label-sm-strong">Final Review</h3>
     <ul class="bcn-ri__list" role="list">
       <li>
         <a class="bcn-ri__row" href="/beacon-design/prototypes/comments/response?id=r-04"
-          ><span class="bcn-ri__state" data-state="draft" role="img" aria-label="Draft"
+          ><span
+            class="bcn-ri__state"
+            data-state="review"
+            role="img"
+            aria-label="Final Review"
             ><svg
               width="16"
               height="16"
@@ -31,22 +44,77 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
               stroke-linejoin="round"
               aria-hidden="true"
             >
+              <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
               <path
-                d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
+                d="M4.268 21a2 2 0 0 0 1.727 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"
               ></path>
-              <path
-                d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-              ></path>
-              <path d="M8 18h1"></path></svg></span
+              <path d="m9 18-1.5-1.5"></path>
+              <circle cx="5" cy="14" r="3"></circle></svg></span
           ><span class="bcn-ri__no typography-body-sm">R-004</span
           ><span class="bcn-ri__title typography-body-md"
             >Late Night Noise Limitation Program and Overnight Flights</span
           ><span class="bcn-ri__topic typography-body-sm"
             ><span class="bcn-topic-dot" data-family="violet"></span>Nighttime
             operations</span
+          ><span class="bcn-ri__who typography-body-sm"
+            ><span class="bcn-person"
+              ><span class="bcn-proposal-ring" title="Dana Whitcomb"
+                ><span
+                  class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                  style="--_avatar-hue: 219"
+                  ><span class="esa-avatar__initials">DW</span></span
+                ></span
+              ><span class="bcn-person__name">Dana Whitcomb</span></span
+            ></span
           ></a
         >
       </li>
+      <li>
+        <a class="bcn-ri__row" href="/beacon-design/prototypes/comments/response?id=r-05"
+          ><span
+            class="bcn-ri__state"
+            data-state="review"
+            role="img"
+            aria-label="Final Review"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+              <path
+                d="M4.268 21a2 2 0 0 0 1.727 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"
+              ></path>
+              <path d="m9 18-1.5-1.5"></path>
+              <circle cx="5" cy="14" r="3"></circle></svg></span
+          ><span class="bcn-ri__no typography-body-sm">R-005</span
+          ><span class="bcn-ri__title typography-body-md">Elliott Bay Arrival Route</span
+          ><span class="bcn-ri__topic typography-body-sm"
+            ><span class="bcn-topic-dot" data-family="blue"></span>Flight paths</span
+          ><span class="bcn-ri__who typography-body-sm"
+            ><span class="bcn-person"
+              ><span class="bcn-proposal-ring" title="Dana Whitcomb"
+                ><span
+                  class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                  style="--_avatar-hue: 219"
+                  ><span class="esa-avatar__initials">DW</span></span
+                ></span
+              ><span class="bcn-person__name">Dana Whitcomb</span></span
+            ></span
+          ></a
+        >
+      </li>
+    </ul>
+  </section>
+  <section class="bcn-ri__group">
+    <h3 class="bcn-ri__label typography-label-sm-strong">Drafts</h3>
+    <ul class="bcn-ri__list" role="list">
       <li>
         <a class="bcn-ri__row" href="/beacon-design/prototypes/comments/response?id=r-12"
           ><span class="bcn-ri__state" data-state="draft" role="img" aria-label="Draft"
@@ -73,6 +141,19 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
             >Growth in Operations and Overflight Frequency</span
           ><span class="bcn-ri__topic typography-body-sm"
             ><span class="bcn-topic-dot" data-family="amber"></span>Aircraft noise</span
+          ><span class="bcn-ri__who typography-body-sm"
+            ><span class="bcn-person"
+              ><span
+                class="bcn-proposal-ring"
+                data-suggested=""
+                title="Ravi Anand (suggested by Aldo)"
+                ><span
+                  class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                  style="--_avatar-hue: 308"
+                  ><span class="esa-avatar__initials">RA</span></span
+                ></span
+              ><span class="bcn-person__name">Ravi Anand</span></span
+            ></span
           ></a
         >
       </li>
@@ -102,34 +183,16 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
             >Distributing Arrivals and Approach Altitude</span
           ><span class="bcn-ri__topic typography-body-sm"
             ><span class="bcn-topic-dot" data-family="blue"></span>Flight paths</span
-          ></a
-        >
-      </li>
-      <li>
-        <a class="bcn-ri__row" href="/beacon-design/prototypes/comments/response?id=r-05"
-          ><span class="bcn-ri__state" data-state="draft" role="img" aria-label="Draft"
-            ><svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path
-                d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
-              ></path>
-              <path
-                d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-              ></path>
-              <path d="M8 18h1"></path></svg></span
-          ><span class="bcn-ri__no typography-body-sm">R-005</span
-          ><span class="bcn-ri__title typography-body-md">Elliott Bay Arrival Route</span
-          ><span class="bcn-ri__topic typography-body-sm"
-            ><span class="bcn-topic-dot" data-family="blue"></span>Flight paths</span
+          ><span class="bcn-ri__who typography-body-sm"
+            ><span class="bcn-person"
+              ><span class="bcn-proposal-ring" title="Mei Tanaka"
+                ><span
+                  class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                  style="--_avatar-hue: 323"
+                  ><span class="esa-avatar__initials">MT</span></span
+                ></span
+              ><span class="bcn-person__name">Mei Tanaka</span></span
+            ></span
           ></a
         >
       </li>
@@ -160,6 +223,16 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
           ><span class="bcn-ri__topic typography-body-sm"
             ><span class="bcn-topic-dot" data-family="slate"></span>Process and
             outreach</span
+          ><span class="bcn-ri__who typography-body-sm"
+            ><span class="bcn-person"
+              ><span class="bcn-proposal-ring" title="Dana Whitcomb"
+                ><span
+                  class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                  style="--_avatar-hue: 219"
+                  ><span class="esa-avatar__initials">DW</span></span
+                ></span
+              ><span class="bcn-person__name">Dana Whitcomb</span></span
+            ></span
           ></a
         >
       </li>
@@ -189,6 +262,19 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
             >Departure Procedures and Turn Points</span
           ><span class="bcn-ri__topic typography-body-sm"
             ><span class="bcn-topic-dot" data-family="blue"></span>Flight paths</span
+          ><span class="bcn-ri__who typography-body-sm"
+            ><span class="bcn-person"
+              ><span
+                class="bcn-proposal-ring"
+                data-suggested=""
+                title="Mei Tanaka (suggested by Aldo)"
+                ><span
+                  class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                  style="--_avatar-hue: 323"
+                  ><span class="esa-avatar__initials">MT</span></span
+                ></span
+              ><span class="bcn-person__name">Mei Tanaka</span></span
+            ></span
           ></a
         >
       </li>
@@ -218,6 +304,19 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
             >Health Effects of Noise and Air Quality</span
           ><span class="bcn-ri__topic typography-body-sm"
             ><span class="bcn-topic-dot" data-family="crimson"></span>Health</span
+          ><span class="bcn-ri__who typography-body-sm"
+            ><span class="bcn-person"
+              ><span
+                class="bcn-proposal-ring"
+                data-suggested=""
+                title="Nadia Osei (suggested by Aldo)"
+                ><span
+                  class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                  style="--_avatar-hue: 41"
+                  ><span class="esa-avatar__initials">NO</span></span
+                ></span
+              ><span class="bcn-person__name">Nadia Osei</span></span
+            ></span
           ></a
         >
       </li>
@@ -248,6 +347,19 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
           ><span class="bcn-ri__topic typography-body-sm"
             ><span class="bcn-topic-dot" data-family="grass"></span>Noise
             measurement</span
+          ><span class="bcn-ri__who typography-body-sm"
+            ><span class="bcn-person"
+              ><span
+                class="bcn-proposal-ring"
+                data-suggested=""
+                title="Jordan Ellis (suggested by Aldo)"
+                ><span
+                  class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                  style="--_avatar-hue: 37"
+                  ><span class="esa-avatar__initials">JE</span></span
+                ></span
+              ><span class="bcn-person__name">Jordan Ellis</span></span
+            ></span
           ></a
         >
       </li>
@@ -278,6 +390,16 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
           ><span class="bcn-ri__topic typography-body-sm"
             ><span class="bcn-topic-dot" data-family="orange"></span>Sound
             insulation</span
+          ><span class="bcn-ri__who typography-body-sm"
+            ><span class="bcn-person"
+              ><span class="bcn-proposal-ring" title="Tom Brecht"
+                ><span
+                  class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+                  style="--_avatar-hue: 112"
+                  ><span class="esa-avatar__initials">TB</span></span
+                ></span
+              ><span class="bcn-person__name">Tom Brecht</span></span
+            ></span
           ></a
         >
       </li>
@@ -288,11 +410,7 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
     <ul class="bcn-ri__list" role="list">
       <li>
         <a class="bcn-ri__row" href="/beacon-design/prototypes/comments/response?id=r-01"
-          ><span
-            class="bcn-ri__state"
-            data-state="accepted"
-            role="img"
-            aria-label="Accepted"
+          ><span class="bcn-ri__state" data-state="done" role="img" aria-label="Accepted"
             ><svg
               width="16"
               height="16"
@@ -313,16 +431,12 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
           ><span class="bcn-ri__topic typography-body-sm"
             ><span class="bcn-topic-dot" data-family="slate"></span>Process and
             outreach</span
-          ></a
-        >
+          ><span class="bcn-ri__who typography-body-sm"></span
+        ></a>
       </li>
       <li>
         <a class="bcn-ri__row" href="/beacon-design/prototypes/comments/response?id=r-02"
-          ><span
-            class="bcn-ri__state"
-            data-state="accepted"
-            role="img"
-            aria-label="Accepted"
+          ><span class="bcn-ri__state" data-state="done" role="img" aria-label="Accepted"
             ><svg
               width="16"
               height="16"
@@ -343,16 +457,12 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
           ><span class="bcn-ri__topic typography-body-sm"
             ><span class="bcn-topic-dot" data-family="orange"></span>Sound
             insulation</span
-          ></a
-        >
+          ><span class="bcn-ri__who typography-body-sm"></span
+        ></a>
       </li>
       <li>
         <a class="bcn-ri__row" href="/beacon-design/prototypes/comments/response?id=r-03"
-          ><span
-            class="bcn-ri__state"
-            data-state="accepted"
-            role="img"
-            aria-label="Accepted"
+          ><span class="bcn-ri__state" data-state="done" role="img" aria-label="Accepted"
             ><svg
               width="16"
               height="16"
@@ -372,8 +482,8 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
           ><span class="bcn-ri__topic typography-body-sm"
             ><span class="bcn-topic-dot" data-family="grass"></span>Noise
             measurement</span
-          ></a
-        >
+          ><span class="bcn-ri__who typography-body-sm"></span
+        ></a>
       </li>
     </ul>
   </section>
@@ -391,6 +501,22 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
 .error {
   margin: 0;
 }
+/* Type comes from .typography-body-sm — help and error are one size at every
+       control step, so they name the composite directly rather than mapping. */
+/* Both nodes are ALWAYS in the DOM (see render()), so the gap is opt-IN rather
+       than collapsed away. Deliberately not display:none when empty — that removes
+       the node from the accessibility tree, and a live region that is not in the tree
+       cannot announce anything. An empty <p> with no margin occupies no space.
+
+       .is-shown rather than :empty: Lit's template whitespace leaves a text node
+       inside the element, and browsers still disagree about whether :empty ignores
+       whitespace-only children (Selectors L4 says yes, L3 says no). A class is
+       deterministic; :empty here would silently leave 4px of dead space under every
+       clean field in some engines and not others. */
+.help,
+.error {
+  margin: 0;
+}
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
   font-size: var(--typography-body-md-font-size);
@@ -404,6 +530,13 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
   font-weight: var(--typography-body-sm-font-weight);
   line-height: var(--typography-body-sm-line-height);
   letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-2xs-strong {
+  font-family: var(--typography-label-2xs-strong-font-family);
+  font-size: var(--typography-label-2xs-strong-font-size);
+  font-weight: var(--typography-label-2xs-strong-font-weight);
+  line-height: var(--typography-label-2xs-strong-line-height);
+  letter-spacing: var(--typography-label-2xs-strong-letter-spacing);
 }
 .typography-label-sm-strong {
   font-family: var(--typography-label-sm-strong-font-family);
@@ -452,6 +585,36 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
   box-shadow: none;
   border: 1.5px dashed var(--_ink);
   background: 0 0;
+}
+.bcn-topic-dot[data-suggested] {
+  background: color-mix(
+    in srgb,
+    var(--_ink) 22%,
+    var(--color-background-elevation-raised)
+  );
+  box-shadow: none;
+  border: 1.5px dashed var(--_ink);
+  box-sizing: border-box;
+}
+.bcn-proposal-ring {
+  border: 1.5px solid #0000;
+  border-radius: 50%;
+  padding: 1px;
+  display: inline-flex;
+}
+.bcn-proposal-ring[data-suggested] {
+  border: 1.5px dashed var(--color-content-default-tertiary);
+}
+.bcn-person {
+  align-items: center;
+  gap: var(--spacing-150, 0.375rem);
+  min-width: 0;
+  display: inline-flex;
+}
+.bcn-person__name {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 :is(mark.bcn-hl, .bcn-topic-dot)[data-family="amber"][data-shade="1"] {
   --_hl: var(--bcn-topic-amber-1);
@@ -537,7 +700,7 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
 :is(mark.bcn-hl, .bcn-topic-dot)[data-family="slate"][data-shade="4"] {
   --_hl: var(--bcn-topic-slate-4);
 }
-.bcn-ri {
+.bcn-ri__groups {
   gap: var(--spacing-500);
   flex-direction: column;
   display: flex;
@@ -564,7 +727,7 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
   gap: var(--spacing-300);
   padding: var(--spacing-200) var(--spacing-400);
   color: var(--color-content-default);
-  grid-template-columns: 1rem 3.75rem minmax(0, 1fr) 13rem;
+  grid-template-columns: 1rem 3.75rem minmax(0, 1fr) 13rem 10rem;
   text-decoration: none;
   display: grid;
 }
@@ -582,7 +745,7 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
   color: var(--color-content-secondary);
   display: inline-flex;
 }
-.bcn-ri .bcn-ri__state[data-state="accepted"] {
+.bcn-ri .bcn-ri__state[data-state="done"] {
   color: var(--color-content-success, var(--color-content-default));
 }
 .bcn-ri .bcn-ri__title {
@@ -591,7 +754,8 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.bcn-ri .bcn-ri__topic {
+.bcn-ri .bcn-ri__topic,
+.bcn-ri .bcn-ri__who {
   align-items: center;
   gap: var(--spacing-150, 0.375rem);
   min-width: 0;
@@ -627,6 +791,13 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
   line-height: var(--typography-body-sm-line-height);
   letter-spacing: var(--typography-body-sm-letter-spacing);
 }
+.typography-label-2xs-strong {
+  font-family: var(--typography-label-2xs-strong-font-family);
+  font-size: var(--typography-label-2xs-strong-font-size);
+  font-weight: var(--typography-label-2xs-strong-font-weight);
+  line-height: var(--typography-label-2xs-strong-line-height);
+  letter-spacing: var(--typography-label-2xs-strong-letter-spacing);
+}
 .typography-label-sm-strong {
   font-family: var(--typography-label-sm-strong-font-family);
   font-size: var(--typography-label-sm-strong-font-size);
@@ -634,9 +805,70 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
   line-height: var(--typography-label-sm-strong-line-height);
   letter-spacing: var(--typography-label-sm-strong-letter-spacing);
 }
+.esa-avatar {
+  --_avatar-size: var(--avatar-size-md, 40px);
+  --_avatar-font-size: var(
+    --avatar-font-size-md,
+    var(--typography-label-md-strong-font-size, var(--font-size-200, 0.9375rem))
+  );
+  --_avatar-radius: var(--radius-pill, 9999px);
+  --_avatar-bg: var(--avatar-bg, hsl(var(--_avatar-hue, 200) 45% 65%));
+  --_avatar-text: var(--color-content-default-knockout, #fcfcfc);
+  width: var(--_avatar-size);
+  height: var(--_avatar-size);
+  border-radius: var(--_avatar-radius);
+  background: var(--_avatar-bg);
+  color: var(--_avatar-text);
+  font-size: var(--_avatar-font-size);
+  user-select: none;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+  overflow: hidden;
+}
+.esa-avatar--xs {
+  --_avatar-size: var(--avatar-size-xs, 20px);
+  --_avatar-font-size: var(
+    --avatar-font-size-xs,
+    var(--typography-label-2xs-strong-font-size, var(--font-size-050, 0.625rem))
+  );
+}
+.esa-avatar--sm {
+  --_avatar-size: var(--avatar-size-sm, 28px);
+  --_avatar-font-size: var(
+    --avatar-font-size-sm,
+    var(--typography-label-xs-strong-font-size, var(--font-size-100, 0.75rem))
+  );
+}
+.esa-avatar--lg {
+  --_avatar-size: var(--avatar-size-lg, 56px);
+  --_avatar-font-size: var(
+    --avatar-font-size-lg,
+    var(--typography-title-font-size, var(--font-size-400, 1.25rem))
+  );
+}
+.esa-avatar--square {
+  --_avatar-radius: var(--radius-md, 0.5rem);
+}
+.esa-avatar__image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
 ```
 
 ## Tokens
+- `--avatar-bg`: hsl(200 45% 65%) _(component)_
+- `--avatar-font-size-lg`: clamp(1rem, .88rem + .6vw, 1.25rem) _(component)_
+- `--avatar-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
+- `--avatar-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
+- `--avatar-font-size-xs`: clamp(.5rem, .44rem + .3vw, .625rem) _(component)_
+- `--avatar-size-lg`: 56px _(component)_
+- `--avatar-size-md`: 40px _(component)_
+- `--avatar-size-sm`: 28px _(component)_
+- `--avatar-size-xs`: 20px _(component)_
 - `--bcn-topic-amber-1`: #ffee9c _(component)_
 - `--bcn-topic-amber-2`: #f3d673 _(component)_
 - `--bcn-topic-amber-3`: #e9c162 _(component)_
@@ -679,12 +911,18 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-subtle`: #efefef _(component)_
 - `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--color-content-secondary`: #525252 _(component)_
 - `--color-content-success`: #218358 _(component)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-width`: 2px _(component)_
+- `--font-size-050`: clamp(.5rem, .44rem + .3vw, .625rem) _(primitive)_
+- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
+- `--font-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
 - `--radius-md`: .25rem _(semantic)_
+- `--radius-pill`: 9999px _(semantic)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
@@ -692,17 +930,25 @@ The third tab: every response in the period as a slim row, Drafts first, then Ac
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-font-weight`: 400 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
+- `--typography-label-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-2xs-strong-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-label-2xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-2xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-2xs-strong-line-height`: 1.6 _(semantic)_
+- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-label-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
 - `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
 - `--typography-label-sm-strong-letter-spacing`: .01em _(semantic)_
 - `--typography-label-sm-strong-line-height`: 1.6 _(semantic)_
+- `--typography-label-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-title-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_

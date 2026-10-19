@@ -1,6 +1,6 @@
 # Token contract — prototypes-work-area-drawer-specimen
 
-The 83 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 84 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -32,13 +32,13 @@ The 83 design tokens this page actually uses, resolved to their final values for
 | `--transition-fast` | `.15s ease` |
 | `--typography-body-md-font-family` | `"DM Sans", sans-serif` |
 | `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
-| `--typography-body-md-font-weight` | `350` |
+| `--typography-body-md-font-weight` | `400` |
 | `--typography-body-md-letter-spacing` | `.01em` |
 | `--typography-body-md-line-height` | `1.6` |
 | `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` |
 | `--typography-font-family-sans` | `"DM Sans", sans-serif` |
 | `--typography-font-weight-medium` | `500` |
-| `--typography-font-weight-regular` | `350` |
+| `--typography-font-weight-regular` | `400` |
 | `--typography-font-weight-semibold` | `550` |
 | `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
 | `--typography-label-sm-strong-font-family` | `"DM Sans", sans-serif` |
@@ -66,8 +66,9 @@ The 83 design tokens this page actually uses, resolved to their final values for
 
 | Token | Value |
 |---|---|
-| `--badge-bg` | `#005862` |
-| `--badge-text-color` | `#fcfcfc` |
+| `--badge-bg` | `#fcfcfc` |
+| `--badge-border-color` | `#dcdcdc` |
+| `--badge-text-color` | `#525252` |
 | `--button-radius-md` | `.25rem` |
 | `--button-radius-sm` | `.25rem` |
 | `--font-decorative` | `"Besley", serif` |

@@ -268,6 +268,9 @@ The quiet utility rail: four links that open component-data side panels via the 
   height: var(--_icon-size);
   display: block;
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -286,6 +289,8 @@ The quiet utility rail: four links that open component-data side panels via the 
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
 - `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_

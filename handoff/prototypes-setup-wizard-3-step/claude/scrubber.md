@@ -554,7 +554,7 @@ summary.esa-button--variant-chrome:focus-visible {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding-top: 4px;
+  padding-top: 6px;
   transition: background-color 0.16s;
   display: flex;
   position: relative;
@@ -577,12 +577,12 @@ summary.esa-button--variant-chrome:focus-visible {
   display: flex;
 }
 .bcn-scrub__track .bcn-scrub__pip {
-  border: 1.5px solid var(--color-background-elevation-raised);
+  border: 1.25px solid var(--color-background-elevation-raised);
   cursor: pointer;
   background: 0 0;
   border-radius: 50%;
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   animation: 0.22s ease-out bcn-scrub-pop;
   display: block;
 }

@@ -1,6 +1,6 @@
 # Token contract — prototypes-due-diligence-overview
 
-The 153 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 154 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -47,18 +47,18 @@ The 153 design tokens this page actually uses, resolved to their final values fo
 | `--transition-fast` | `.15s ease` |
 | `--typography-body-md-font-family` | `"DM Sans", sans-serif` |
 | `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
-| `--typography-body-md-font-weight` | `350` |
+| `--typography-body-md-font-weight` | `400` |
 | `--typography-body-md-letter-spacing` | `.01em` |
 | `--typography-body-md-line-height` | `1.6` |
 | `--typography-body-sm-font-family` | `"DM Sans", sans-serif` |
 | `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
-| `--typography-body-sm-font-weight` | `350` |
+| `--typography-body-sm-font-weight` | `400` |
 | `--typography-body-sm-letter-spacing` | `.01em` |
 | `--typography-body-sm-line-height` | `1.6` |
 | `--typography-font-family-sans` | `"DM Sans", sans-serif` |
 | `--typography-font-weight-bold` | `650` |
 | `--typography-font-weight-medium` | `500` |
-| `--typography-font-weight-regular` | `350` |
+| `--typography-font-weight-regular` | `400` |
 | `--typography-font-weight-semibold` | `550` |
 | `--typography-label-md-font-family` | `"DM Sans", sans-serif` |
 | `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
@@ -107,8 +107,9 @@ The 153 design tokens this page actually uses, resolved to their final values fo
 | `--avatar-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--avatar-size-md` | `40px` |
 | `--avatar-size-sm` | `28px` |
-| `--badge-bg` | `#005862` |
-| `--badge-text-color` | `#fcfcfc` |
+| `--badge-bg` | `#fcfcfc` |
+| `--badge-border-color` | `#dcdcdc` |
+| `--badge-text-color` | `#525252` |
 | `--bcn-aldo` | `#08908b` |
 | `--bcn-aldo-100` | `#cfeceb` |
 | `--bcn-aldo-50` | `#e8f6f5` |

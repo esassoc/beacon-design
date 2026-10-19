@@ -276,72 +276,6 @@ The component's identity band: a full-width white bar carrying its mark, its nam
 .bcn-mod__link .esa-icon {
   color: var(--bcn-content-muted);
 }
-.bcn-entity-logo {
-  background: color-mix(in srgb, var(--_c) 12%, transparent);
-  color: var(--_c);
-  border: 1px solid color-mix(in srgb, var(--_c) 30%, transparent);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  line-height: 0;
-  display: inline-flex;
-  overflow: hidden;
-}
-.bcn-entity-logo[data-style="fill"] {
-  background: var(--_c);
-  color: var(--color-content-default-knockout);
-  border-color: #0000;
-}
-.bcn-entity-logo[data-style="image"] {
-  background: var(--color-background-elevation-sunken);
-  border-color: var(--color-border-default-subtle);
-}
-.bcn-entity-logo__img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-.bcn-entity-logo[data-size="sm"] {
-  width: 24px;
-  height: 24px;
-}
-.bcn-entity-logo[data-size="md"] {
-  --icon-size-sm: 18px;
-  width: 32px;
-  height: 32px;
-}
-.bcn-entity-logo[data-size="lg"] {
-  width: 48px;
-  height: 48px;
-}
-.bcn-entity-logo[data-size="xl"] {
-  --icon-size-xl: 36px;
-  width: 72px;
-  height: 72px;
-}
-.bcn-entity-logo[data-size="2xl"] {
-  --icon-size-xl: 44px;
-  width: 92px;
-  height: 92px;
-}
-.bcn-entity-logo[data-shape="rounded"][data-size="sm"],
-.bcn-entity-logo[data-shape="rounded"][data-size="md"] {
-  border-radius: var(--radius-200);
-}
-.bcn-entity-logo[data-shape="rounded"][data-size="lg"],
-.bcn-entity-logo[data-shape="rounded"][data-size="xl"],
-.bcn-entity-logo[data-shape="rounded"][data-size="2xl"] {
-  border-radius: var(--radius-400);
-}
-.bcn-entity-logo[data-shape="circle"] {
-  border-radius: var(--radius-full);
-}
-.bcn-entity-logo[data-variant="seal"] {
-  border: var(--bcn-seal-ring-width) solid var(--bcn-seal-ring-color);
-  box-shadow: var(--bcn-seal-shadow);
-  box-sizing: content-box;
-}
 .bcn-chd {
   gap: var(--spacing-300);
   padding: var(--spacing-200) var(--spacing-600);
@@ -681,6 +615,72 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-md-strong-line-height);
   letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
 }
+.bcn-entity-logo {
+  background: color-mix(in srgb, var(--_c) 12%, transparent);
+  color: var(--_c);
+  border: 1px solid color-mix(in srgb, var(--_c) 30%, transparent);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+  display: inline-flex;
+  overflow: hidden;
+}
+.bcn-entity-logo[data-style="fill"] {
+  background: var(--_c);
+  color: var(--color-content-default-knockout);
+  border-color: #0000;
+}
+.bcn-entity-logo[data-style="image"] {
+  background: var(--color-background-elevation-sunken);
+  border-color: var(--color-border-default-subtle);
+}
+.bcn-entity-logo__img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.bcn-entity-logo[data-size="sm"] {
+  width: 24px;
+  height: 24px;
+}
+.bcn-entity-logo[data-size="md"] {
+  --icon-size-sm: 18px;
+  width: 32px;
+  height: 32px;
+}
+.bcn-entity-logo[data-size="lg"] {
+  width: 48px;
+  height: 48px;
+}
+.bcn-entity-logo[data-size="xl"] {
+  --icon-size-xl: 36px;
+  width: 72px;
+  height: 72px;
+}
+.bcn-entity-logo[data-size="2xl"] {
+  --icon-size-xl: 44px;
+  width: 92px;
+  height: 92px;
+}
+.bcn-entity-logo[data-shape="rounded"][data-size="sm"],
+.bcn-entity-logo[data-shape="rounded"][data-size="md"] {
+  border-radius: var(--radius-200);
+}
+.bcn-entity-logo[data-shape="rounded"][data-size="lg"],
+.bcn-entity-logo[data-shape="rounded"][data-size="xl"],
+.bcn-entity-logo[data-shape="rounded"][data-size="2xl"] {
+  border-radius: var(--radius-400);
+}
+.bcn-entity-logo[data-shape="circle"] {
+  border-radius: var(--radius-full);
+}
+.bcn-entity-logo[data-variant="seal"] {
+  border: var(--bcn-seal-ring-width) solid var(--bcn-seal-ring-color);
+  box-shadow: var(--bcn-seal-shadow);
+  box-sizing: content-box;
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -709,6 +709,9 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
@@ -760,6 +763,8 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--button-radius-xs`: .25rem _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
@@ -776,6 +781,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
@@ -827,7 +833,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -842,6 +848,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

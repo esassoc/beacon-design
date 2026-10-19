@@ -8791,7 +8791,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
             ><svg
               width="16"
               height="16"
@@ -8802,7 +8802,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-cbadge bcn-cbadge--sm" data-astro-cid-cqxc3yz3="">COA</span
@@ -8828,7 +8828,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
             ><svg
               width="16"
               height="16"
@@ -8839,7 +8839,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-cbadge bcn-cbadge--sm" data-astro-cid-cqxc3yz3="">COA</span
@@ -8867,7 +8867,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
             ><svg
               width="16"
               height="16"
@@ -8878,7 +8878,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-lot__name" data-list-name="" data-astro-cid-s4gldfhz=""></span
@@ -8901,7 +8901,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-c7ivvrtd=""
+                data-astro-cid-wcwfib5m=""
                 ><svg
                   width="14"
                   height="14"
@@ -8912,7 +8912,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                 >
                   <path
                     d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
@@ -8935,7 +8935,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
             ><svg
               width="16"
               height="16"
@@ -8946,7 +8946,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-lot__name" data-list-name="" data-astro-cid-s4gldfhz=""></span
@@ -8969,7 +8969,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-c7ivvrtd=""
+                data-astro-cid-wcwfib5m=""
                 ><svg
                   width="14"
                   height="14"
@@ -8980,7 +8980,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                 >
                   <path
                     d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
@@ -9000,7 +9000,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-c7ivvrtd=""
+                data-astro-cid-wcwfib5m=""
                 ><svg
                   width="14"
                   height="14"
@@ -9011,7 +9011,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                 >
                   <path d="m7 15 5 5 5-5"></path>
                   <path d="m7 9 5-5 5 5"></path></svg
@@ -9027,7 +9027,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-c7ivvrtd=""
+                data-astro-cid-wcwfib5m=""
                 ><svg
                   width="14"
                   height="14"
@@ -9038,7 +9038,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                 >
                   <path d="m7 20 5-5 5 5"></path>
                   <path d="m7 4 5 5 5-5"></path></svg
@@ -9068,7 +9068,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
             ><span
               class="esa-icon esa-icon--sm"
               aria-hidden="true"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
               ><svg
                 width="16"
                 height="16"
@@ -9079,7 +9079,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 focusable="false"
-                data-astro-cid-c7ivvrtd=""
+                data-astro-cid-wcwfib5m=""
               >
                 <path d="m9 18 6-6-6-6"></path></svg></span></span
           ><span class="bcn-loc__class" data-list-class-tag="" data-astro-cid-qmhiihvj=""
@@ -9126,7 +9126,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-c7ivvrtd=""
+                data-astro-cid-wcwfib5m=""
                 ><svg
                   width="14"
                   height="14"
@@ -9137,7 +9137,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                 >
                   <path
                     d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
@@ -9157,7 +9157,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-c7ivvrtd=""
+                data-astro-cid-wcwfib5m=""
                 ><svg
                   width="14"
                   height="14"
@@ -9168,7 +9168,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                 >
                   <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
                   <path
@@ -9189,7 +9189,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-c7ivvrtd=""
+                data-astro-cid-wcwfib5m=""
                 ><svg
                   width="14"
                   height="14"
@@ -9200,7 +9200,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-c7ivvrtd=""
+                  data-astro-cid-wcwfib5m=""
                 >
                   <path d="M18 6 6 18"></path>
                   <path d="m6 6 12 12"></path></svg
@@ -9483,7 +9483,8 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc__class,
 .bcn-loc__class,
-.bcn-lob__class {
+.bcn-lob__class,
+.bcn-ci-chip {
   padding: 1px var(--spacing-200);
   border-radius: var(--radius-100);
   background: color-mix(in srgb, var(--_hue) 14%, white);
@@ -9497,24 +9498,29 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc[data-class="adhere"],
 .bcn-loc[data-class="adhere"],
-.bcn-lob[data-class="adhere"] {
+.bcn-lob[data-class="adhere"],
+.bcn-ci-chip[data-class="adhere"] {
   --_hue: var(--color-obligation);
 }
 .bcn-swoc[data-class="monitor"],
 .bcn-loc[data-class="monitor"],
-.bcn-lob[data-class="monitor"] {
+.bcn-lob[data-class="monitor"],
+.bcn-ci-chip[data-class="monitor"] {
   --_hue: #ff7c43;
 }
 .bcn-swoc[data-class="notify"],
 .bcn-loc[data-class="notify"],
-.bcn-lob[data-class="notify"] {
+.bcn-lob[data-class="notify"],
+.bcn-ci-chip[data-class="notify"] {
   --_hue: #ffa600;
 }
 .bcn-swoc[data-class="roster"],
 .bcn-loc[data-class="roster"],
 .bcn-lob[data-class="roster"],
+.bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
-.bcn-lac[data-class="action"] {
+.bcn-lac[data-class="action"],
+.bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
 .bcn-swoc__title,
@@ -9589,7 +9595,8 @@ details[open] > summary .bcn-loc__chevron {
   color: var(--color-background-utility-danger);
 }
 .bcn-swoc__reqs,
-.bcn-loc__reqs {
+.bcn-loc__reqs,
+.bcn-ciitem__reqs {
   padding: 0 var(--spacing-300) var(--spacing-150)
     calc(var(--spacing-300) + var(--_req-indent));
   flex-direction: column;
@@ -9598,7 +9605,8 @@ details[open] > summary .bcn-loc__chevron {
   display: flex;
 }
 .bcn-swoc__req,
-.bcn-loc__req {
+.bcn-loc__req,
+.bcn-ciitem__req {
   align-items: center;
   gap: var(--spacing-200);
   min-height: 28px;
@@ -9612,7 +9620,8 @@ details[open] > summary .bcn-loc__chevron {
   background: var(--color-background-default);
 }
 .bcn-swoc__req-name,
-.bcn-loc__req-name {
+.bcn-loc__req-name,
+.bcn-ciitem__req-name {
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
@@ -9705,11 +9714,13 @@ details[open] > summary .bcn-loc__chevron {
   border-bottom: 1px solid var(--color-border-default);
 }
 .bcn-swot__cat:nth-of-type(2n),
-.bcn-lot__cat:nth-of-type(2n) {
+.bcn-lot__cat:nth-of-type(2n),
+.bcn-ciidx__cat:nth-of-type(2n) {
   background: color-mix(in srgb, var(--bcn-gray-100) 50%, white);
 }
 .bcn-swot__cat:nth-of-type(2n) .bcn-swot__row:hover,
-.bcn-lot__cat:nth-of-type(2n) .bcn-lot__row:hover {
+.bcn-lot__cat:nth-of-type(2n) .bcn-lot__row:hover,
+.bcn-ciidx__cat:nth-of-type(2n) .bcn-ciidx__row:hover {
   background: var(--bcn-gray-100);
 }
 .bcn-swot__sub + .bcn-swot__sub,
@@ -9895,6 +9906,9 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   min-width: 18px;
   padding: 2px var(--spacing-100);
   font-size: var(--font-size-050);
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);

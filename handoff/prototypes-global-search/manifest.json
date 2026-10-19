@@ -1,6 +1,6 @@
 {
   "name": "global-search",
-  "url": "http://localhost:4410/beacon-design/prototypes/global-search/",
+  "url": "http://localhost:4399/beacon-design/prototypes/global-search/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [
@@ -553,7 +553,7 @@
         },
         {
           "name": "--typography-body-sm-font-weight",
-          "value": "350",
+          "value": "400",
           "tier": "semantic"
         },
         {

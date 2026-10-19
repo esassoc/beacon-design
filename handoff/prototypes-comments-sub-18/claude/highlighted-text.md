@@ -4,6 +4,7 @@ The submission in Beacon's document voice (Besley, body-lg) with each passage pa
 
 ## Key decisions
 - Highlight, not brackets, is the metaphor (brief). box-decoration-break: clone keeps each wrapped line a clean stroke.
+- Aldo's proposed passages keep their fill and gain a 1.5px DASHED rule in the family ink; a confirmed passage has none. The tooltip adds "(suggested by Aldo)". Resizing a passage confirms it.
 - Offsets are derived from the comment's quote, never stored; a resized or added comment keeps a start hint only when its quote occurs twice.
 - Resize snaps to whole words and stops at a paragraph break or the next passage. A new selection is trimmed to the free text the same way. Passages never overlap.
 - Highlights are focusable; Enter opens the panel. J / K step through them in text order.
@@ -29,9 +30,10 @@ The submission in Beacon's document voice (Besley, body-lg) with each passage pa
         data-cid="c-045"
         data-family="violet"
         data-shade="2"
+        data-suggested=""
         tabindex="0"
-        title="Nighttime operations: Overnight flights"
-        aria-label="Nighttime operations: Overnight flights"
+        title="Nighttime operations: Overnight flights (suggested by Aldo)"
+        aria-label="Nighttime operations: Overnight flights (suggested by Aldo)"
         >There is a new pattern of planes all night, at about 1:30, 2 and 4 a.m. and then
         steadily after that, sometimes only seconds apart.</mark
       >
@@ -40,9 +42,10 @@ The submission in Beacon's document voice (Besley, body-lg) with each passage pa
         data-cid="c-046"
         data-family="crimson"
         data-shade="1"
+        data-suggested=""
         tabindex="0"
-        title="Health: Sleep disruption"
-        aria-label="Health: Sleep disruption"
+        title="Health: Sleep disruption (suggested by Aldo)"
+        aria-label="Health: Sleep disruption (suggested by Aldo)"
         >My sleep has been broken for months, and I've had illness, anxiety, stress,
         headaches and trouble getting through the day</mark
       >, plus the long-term health risks of loud noise and lost sleep, all because of
@@ -58,9 +61,10 @@ The submission in Beacon's document voice (Besley, body-lg) with each passage pa
         data-cid="c-047"
         data-family="violet"
         data-shade="1"
+        data-suggested=""
         tabindex="0"
-        title="Nighttime operations: Late Night Noise Limitation Program"
-        aria-label="Nighttime operations: Late Night Noise Limitation Program"
+        title="Nighttime operations: Late Night Noise Limitation Program (suggested by Aldo)"
+        aria-label="Nighttime operations: Late Night Noise Limitation Program (suggested by Aldo)"
         >Someone should recognize that the program is not working and make it
         mandatory.</mark
       >
@@ -69,9 +73,10 @@ The submission in Beacon's document voice (Besley, body-lg) with each passage pa
         data-cid="c-048"
         data-family="blue"
         data-shade="1"
+        data-suggested=""
         tabindex="0"
-        title="Flight paths: Elliott Bay route"
-        aria-label="Flight paths: Elliott Bay route"
+        title="Flight paths: Elliott Bay route (suggested by Aldo)"
+        aria-label="Flight paths: Elliott Bay route (suggested by Aldo)"
         >We are surrounded by water, so why aren't planes flying over it, where fewer
         people would be bothered?</mark
       >
@@ -82,9 +87,10 @@ The submission in Beacon's document voice (Besley, body-lg) with each passage pa
         data-cid="c-049"
         data-family="slate"
         data-shade="1"
+        data-suggested=""
         tabindex="0"
-        title="Process and outreach: Unanswered complaints"
-        aria-label="Process and outreach: Unanswered complaints"
+        title="Process and outreach: Unanswered complaints (suggested by Aldo)"
+        aria-label="Process and outreach: Unanswered complaints (suggested by Aldo)"
         >being told that summer winds make it quieter is just another excuse meant to
         placate us.</mark
       >
@@ -215,6 +221,10 @@ mark.bcn-hl {
 }
 :is(mark.bcn-hl, .bcn-topic-dot, [data-topic-ink])[data-family="none"] {
   --_ink: var(--color-content-default-tertiary);
+}
+mark.bcn-hl[data-suggested] {
+  outline: 1.5px dashed var(--_ink);
+  outline-offset: 0;
 }
 mark.bcn-hl[data-family="none"] {
   --_hl: transparent;
@@ -361,7 +371,7 @@ mark.bcn-hl[data-family="none"] {
 - `--spacing-400`: 1rem _(primitive)_
 - `--typography-body-lg-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-lg-font-size`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(semantic)_
-- `--typography-body-lg-font-weight`: 350 _(semantic)_
+- `--typography-body-lg-font-weight`: 400 _(semantic)_
 - `--typography-body-lg-letter-spacing`: .01em _(semantic)_
 - `--typography-body-lg-line-height`: 1.8 _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_

@@ -625,6 +625,7 @@ The results dropdown anchored under the search field: matching articles as two-l
 ```
 
 ## Tokens
+- `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
@@ -632,6 +633,7 @@ The results dropdown anchored under the search field: matching articles as two-l
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--color-content-link`: #005862 _(semantic)_
 - `--elevation-3`: 0 4px 20px -4px #0000000f _(semantic)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_

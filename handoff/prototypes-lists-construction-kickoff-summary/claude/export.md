@@ -106,7 +106,7 @@ The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the 
         <div class="stack" data-gap="md">
           <h4 class="bcn-lxp__format typography-label-md-strong">JSON</h4>
           <div class="stack" data-gap="sm">
-            <div class="bcn-key-value">
+            <div class="bcn-key-value" data-size="md" data-layout="stack">
               <span class="bcn-key-value__key">API Key</span>
               <div
                 class="cluster bcn-lxp__field-row"
@@ -170,7 +170,7 @@ The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the 
               >
             </div>
           </div>
-          <div class="bcn-key-value">
+          <div class="bcn-key-value" data-size="md" data-layout="stack">
             <span class="bcn-key-value__key">Endpoint URL</span>
             <div
               class="cluster bcn-lxp__field-row"
@@ -212,7 +212,7 @@ The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the 
               ></span>
             </div>
           </div>
-          <div class="bcn-key-value">
+          <div class="bcn-key-value" data-size="md" data-layout="stack">
             <span class="bcn-key-value__key">JSON Preview</span>
             <pre class="bcn-lxp__preview" tabindex="0">
 {
@@ -1043,7 +1043,7 @@ The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the 
     </div>
   </div>
   <template data-list-export-copied=""
-    ><span class="esa-icon esa-icon--sm" aria-hidden="true" data-astro-cid-c7ivvrtd=""
+    ><span class="esa-icon esa-icon--sm" aria-hidden="true" data-astro-cid-wcwfib5m=""
       ><svg
         width="16"
         height="16"
@@ -1054,7 +1054,7 @@ The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the 
         stroke-linecap="round"
         stroke-linejoin="round"
         focusable="false"
-        data-astro-cid-c7ivvrtd=""
+        data-astro-cid-wcwfib5m=""
       >
         <path d="M20 6 9 17l-5-5"></path></svg></span
   ></template>
@@ -1639,6 +1639,12 @@ summary.esa-button--variant-chrome:focus-visible {
   gap: 2px;
   display: flex;
 }
+.bcn-key-value[data-layout="row"] {
+  align-items: baseline;
+  column-gap: var(--spacing-300);
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  display: grid;
+}
 .bcn-key-value__key {
   font-size: var(--typography-label-md-font-size);
   font-weight: var(--typography-font-weight-medium);
@@ -1652,6 +1658,23 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-key-value__hint {
   color: var(--color-content-default-tertiary);
   font-size: 0.75rem;
+}
+.bcn-key-value__key {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__key {
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  color: var(--color-content-secondary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__val {
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -1767,6 +1790,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-on-utility-success`: #fcfcfc _(semantic)_
 - `--color-content-on-utility-warning`: #4f3422 _(semantic)_
+- `--color-content-secondary`: #525252 _(component)_
 - `--color-content-utility-danger`: #ce2c31 _(semantic)_
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
@@ -1797,7 +1821,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
@@ -1811,6 +1835,9 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
 - `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
 - `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-font-weight`: 500 _(semantic)_
+- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
@@ -1823,7 +1850,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_

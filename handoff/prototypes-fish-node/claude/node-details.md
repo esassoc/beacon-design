@@ -617,19 +617,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Fisheries Evaluation Studies</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">COA-10.19</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19</span>
                         </div>
@@ -641,7 +641,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Jul 2026 – Oct 2032</span
                           ><span class="bcn-key-value__hint"
@@ -650,7 +650,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2026–WY2033</span>
                         </div>
@@ -661,7 +661,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$8.5M · WY2026–2033</span>
                       </div>
@@ -869,25 +869,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Migration &amp; Survival Study</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">STY-014</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.1</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Fisheries Evaluation Studies</span>
                         </div>
@@ -899,7 +899,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Jul 2026 – Oct 2031</span
                           ><span class="bcn-key-value__hint"
@@ -908,7 +908,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2026–WY2032</span>
                         </div>
@@ -919,7 +919,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$5.3M · WY2026–2032</span>
                       </div>
@@ -1106,7 +1106,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Near-field intake behavior &amp; survival</span
@@ -1114,19 +1114,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">SUB-021</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.1a</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Migration &amp; Survival Study</span>
                         </div>
@@ -1138,7 +1138,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Jul 2026 – Dec 2029</span
                           ><span class="bcn-key-value__hint"
@@ -1147,7 +1147,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2026–WY2030</span>
                         </div>
@@ -1158,7 +1158,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$2.4M · WY2026–2030</span>
                       </div>
@@ -1320,25 +1320,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Detailed baseline study plan</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-029</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.1a.0</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Near-field intake behavior &amp; survival</span
@@ -1352,13 +1352,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Jul 2026 – Mar 2027</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -1366,7 +1366,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2026–WY2027</span>
                         </div>
@@ -1377,7 +1377,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$180k · WY2026–2027</span>
                       </div>
@@ -1441,7 +1441,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Acoustic tag &amp; receiver procurement</span
@@ -1449,19 +1449,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-030</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.1a.0b</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Near-field intake behavior &amp; survival</span
@@ -1475,13 +1475,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2027 – Mar 2028</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -1489,7 +1489,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2027–WY2028</span>
                         </div>
@@ -1500,7 +1500,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$640k · WY2027–2028</span>
                       </div>
@@ -1567,7 +1567,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Fabricate &amp; install acoustic receiver array</span
@@ -1575,19 +1575,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-001</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.1a.1</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Near-field intake behavior &amp; survival</span
@@ -1601,19 +1601,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2028 – Sep 2028</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Dry season (Apr–Sep)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2028</span>
                         </div>
@@ -1624,7 +1624,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$620k · WY2028–2028</span>
                       </div>
@@ -1684,7 +1684,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Winter-freshet acoustic tagging season</span
@@ -1692,19 +1692,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-002</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.1a.2</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Near-field intake behavior &amp; survival</span
@@ -1718,19 +1718,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Oct 2028 – Mar 2029</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Winter freshet (Oct–Mar)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2029</span>
                         </div>
@@ -1741,7 +1741,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$540k · WY2029–2029</span>
                       </div>
@@ -1801,7 +1801,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Receiver retrieval &amp; detection QA</span
@@ -1809,19 +1809,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-003</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.1a.3</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Near-field intake behavior &amp; survival</span
@@ -1835,19 +1835,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2029 – Aug 2029</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Dry season (Apr–Sep)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2029</span>
                         </div>
@@ -1858,7 +1858,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$210k · WY2029–2029</span>
                       </div>
@@ -1918,25 +1918,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Draft near-field survival memo</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-004</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.1a.4</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Near-field intake behavior &amp; survival</span
@@ -1950,13 +1950,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Sep 2029 – Dec 2029</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -1964,7 +1964,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2029–WY2030</span>
                         </div>
@@ -1975,7 +1975,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$160k · WY2029–2030</span>
                       </div>
@@ -2039,7 +2039,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Far-field through-Delta survival &amp; routing</span
@@ -2047,19 +2047,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">SUB-022</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.1b</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Migration &amp; Survival Study</span>
                         </div>
@@ -2071,7 +2071,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Oct 2026 – Oct 2031</span
                           ><span class="bcn-key-value__hint"
@@ -2080,7 +2080,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2027–WY2032</span>
                         </div>
@@ -2091,7 +2091,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$3.0M · WY2027–2032</span>
                       </div>
@@ -2271,7 +2271,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Receiver-site encroachment permits</span
@@ -2279,19 +2279,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-031</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.1b.0</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Far-field through-Delta survival &amp; routing</span
@@ -2305,13 +2305,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Oct 2026 – Sep 2027</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Winter freshet (Oct–Mar) → Dry season (Apr–Sep)</span
@@ -2319,7 +2319,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2027</span>
                         </div>
@@ -2330,7 +2330,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$120k · WY2027–2027</span>
                       </div>
@@ -2393,7 +2393,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Regional receiver network build-out</span
@@ -2401,19 +2401,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-005</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.1b.1</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Far-field through-Delta survival &amp; routing</span
@@ -2427,13 +2427,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">May 2028 – Oct 2028</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -2441,7 +2441,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2028–WY2029</span>
                         </div>
@@ -2452,7 +2452,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$880k · WY2028–2029</span>
                       </div>
@@ -2519,7 +2519,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Multi-year tag release &amp; tracking</span
@@ -2527,19 +2527,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-006</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.1b.2</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Far-field through-Delta survival &amp; routing</span
@@ -2553,19 +2553,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Nov 2028 – Mar 2031</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Winter freshet (Oct–Mar)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2029–WY2031</span>
                         </div>
@@ -2576,7 +2576,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$1.6M · WY2029–2031</span>
                       </div>
@@ -2644,25 +2644,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Through-Delta survival model fit</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-007</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.1b.3</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Far-field through-Delta survival &amp; routing</span
@@ -2676,13 +2676,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2031 – Oct 2031</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -2690,7 +2690,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2031–WY2032</span>
                         </div>
@@ -2701,7 +2701,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$320k · WY2031–2032</span>
                       </div>
@@ -2765,25 +2765,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Predation Study</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">STY-015</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.2</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Fisheries Evaluation Studies</span>
                         </div>
@@ -2795,7 +2795,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Jan 2027 – Jun 2031</span
                           ><span class="bcn-key-value__hint"
@@ -2804,7 +2804,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2027–WY2031</span>
                         </div>
@@ -2815,7 +2815,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$1.3M · WY2027–2031</span>
                       </div>
@@ -2967,7 +2967,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Predator density &amp; distribution surveys</span
@@ -2975,19 +2975,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">SUB-023</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.2a</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Predation Study</span>
                         </div>
@@ -2999,7 +2999,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Jan 2027 – Mar 2030</span
                           ><span class="bcn-key-value__hint"
@@ -3008,7 +3008,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2027–WY2030</span>
                         </div>
@@ -3019,7 +3019,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$700k · WY2027–2030</span>
                       </div>
@@ -3161,7 +3161,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Predation study plan &amp; permitting</span
@@ -3169,19 +3169,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-032</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.2a.0</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Predator density &amp; distribution surveys</span
@@ -3195,13 +3195,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Jan 2027 – Sep 2027</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Winter freshet (Oct–Mar) → Dry season (Apr–Sep)</span
@@ -3209,7 +3209,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2027</span>
                         </div>
@@ -3220,7 +3220,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$140k · WY2027–2027</span>
                       </div>
@@ -3280,7 +3280,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Baseline predator hydroacoustic survey</span
@@ -3288,19 +3288,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-008</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.2a.1</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Predator density &amp; distribution surveys</span
@@ -3314,19 +3314,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2029 – Sep 2029</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Dry season (Apr–Sep)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2029</span>
                         </div>
@@ -3337,7 +3337,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$300k · WY2029–2029</span>
                       </div>
@@ -3397,25 +3397,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Predation hotspot mapping</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-009</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.2a.2</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Predator density &amp; distribution surveys</span
@@ -3429,19 +3429,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Oct 2029 – Mar 2030</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Winter freshet (Oct–Mar)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2030</span>
                         </div>
@@ -3452,7 +3452,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$260k · WY2030–2030</span>
                       </div>
@@ -3518,25 +3518,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Predation exposure modeling</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">SUB-024</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.2b</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Predation Study</span>
                         </div>
@@ -3548,7 +3548,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Apr 2030 – Jun 2031</span
                           ><span class="bcn-key-value__hint"
@@ -3557,7 +3557,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2030–WY2031</span>
                         </div>
@@ -3568,7 +3568,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$620k · WY2030–2031</span>
                       </div>
@@ -3700,25 +3700,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Diet &amp; eDNA sampling</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-010</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.2b.1</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Predation exposure modeling</span>
                         </div>
@@ -3730,19 +3730,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2030 – Sep 2030</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Dry season (Apr–Sep)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2030</span>
                         </div>
@@ -3753,7 +3753,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$240k · WY2030–2030</span>
                       </div>
@@ -3813,25 +3813,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Predation exposure model build</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-011</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.2b.2</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Predation exposure modeling</span>
                         </div>
@@ -3843,13 +3843,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Oct 2030 – Jun 2031</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Winter freshet (Oct–Mar) → Dry season (Apr–Sep)</span
@@ -3857,7 +3857,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2031</span>
                         </div>
@@ -3868,7 +3868,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$380k · WY2031–2031</span>
                       </div>
@@ -3928,7 +3928,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Abundance &amp; Distribution Study</span
@@ -3936,19 +3936,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">STY-016</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.3</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Fisheries Evaluation Studies</span>
                         </div>
@@ -3960,7 +3960,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Apr 2027 – Oct 2032</span
                           ><span class="bcn-key-value__hint"
@@ -3969,7 +3969,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2027–WY2033</span>
                         </div>
@@ -3980,7 +3980,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$1.9M · WY2027–2033</span>
                       </div>
@@ -4162,7 +4162,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Juvenile abundance &amp; distribution monitoring</span
@@ -4170,19 +4170,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">SUB-025</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.3a</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Abundance &amp; Distribution Study</span
@@ -4196,7 +4196,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Apr 2027 – Oct 2032</span
                           ><span class="bcn-key-value__hint"
@@ -4205,7 +4205,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2027–WY2033</span>
                         </div>
@@ -4216,7 +4216,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$1.9M · WY2027–2033</span>
                       </div>
@@ -4398,25 +4398,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Abundance-methods pilot design</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-033</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.3a.0</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Juvenile abundance &amp; distribution monitoring</span
@@ -4430,13 +4430,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2027 – Mar 2028</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -4444,7 +4444,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2027–WY2028</span>
                         </div>
@@ -4455,7 +4455,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$200k · WY2027–2028</span>
                       </div>
@@ -4519,7 +4519,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Monitoring-array installation &amp; calibration</span
@@ -4527,19 +4527,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-012</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.3a.1</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Juvenile abundance &amp; distribution monitoring</span
@@ -4553,13 +4553,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Aug 2028 – Nov 2028</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -4567,7 +4567,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2028–WY2029</span>
                         </div>
@@ -4578,7 +4578,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$180k · WY2028–2029</span>
                       </div>
@@ -4642,7 +4642,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Abundance &amp; distribution field seasons</span
@@ -4650,19 +4650,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-013</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.3a.2</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Juvenile abundance &amp; distribution monitoring</span
@@ -4676,19 +4676,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Dec 2028 – Mar 2032</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Winter freshet (Oct–Mar)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2029–WY2032</span>
                         </div>
@@ -4699,7 +4699,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$1.2M · WY2029–2032</span>
                       </div>
@@ -4771,7 +4771,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Abundance &amp; distribution analysis</span
@@ -4779,19 +4779,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-014</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.19.3a.3</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Juvenile abundance &amp; distribution monitoring</span
@@ -4805,13 +4805,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2032 – Oct 2032</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -4819,7 +4819,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2032–WY2033</span>
                         </div>
@@ -4830,7 +4830,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$280k · WY2032–2033</span>
                       </div>
@@ -4894,19 +4894,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Water Quality Evaluation Studies</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">COA-10.20</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.20</span>
                         </div>
@@ -4918,7 +4918,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Aug 2026 – Sep 2030</span
                           ><span class="bcn-key-value__hint"
@@ -4927,7 +4927,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2026–WY2030</span>
                         </div>
@@ -4938,7 +4938,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$2.1M · WY2026–2030</span>
                       </div>
@@ -5103,7 +5103,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Installation of New Real-time Monitoring Station</span
@@ -5111,19 +5111,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">STY-017</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.20.1</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Water Quality Evaluation Studies</span>
                         </div>
@@ -5135,7 +5135,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Aug 2026 – Mar 2029</span
                           ><span class="bcn-key-value__hint"
@@ -5144,7 +5144,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2026–WY2029</span>
                         </div>
@@ -5155,7 +5155,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$1.4M · WY2026–2029</span>
                       </div>
@@ -5307,25 +5307,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Real-time station build-out</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">SUB-026</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.20.1a</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Installation of New Real-time Monitoring Station</span
@@ -5339,7 +5339,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Aug 2026 – Jan 2029</span
                           ><span class="bcn-key-value__hint"
@@ -5348,7 +5348,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2026–WY2029</span>
                         </div>
@@ -5359,7 +5359,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$1.1M · WY2026–2029</span>
                       </div>
@@ -5511,7 +5511,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Station design &amp; permitting scoping</span
@@ -5519,19 +5519,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-034</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.20.1a.0</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Real-time station build-out</span>
                         </div>
@@ -5543,13 +5543,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Aug 2026 – Mar 2027</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -5557,7 +5557,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2026–WY2027</span>
                         </div>
@@ -5568,7 +5568,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$90k · WY2026–2027</span>
                       </div>
@@ -5632,7 +5632,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Station siting &amp; regulatory clearance</span
@@ -5640,19 +5640,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-015</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.20.1a.1</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Real-time station build-out</span>
                         </div>
@@ -5664,13 +5664,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2027 – Dec 2027</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -5678,7 +5678,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2027–WY2028</span>
                         </div>
@@ -5689,7 +5689,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$220k · WY2027–2028</span>
                       </div>
@@ -5756,7 +5756,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Sensor procurement &amp; installation</span
@@ -5764,19 +5764,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-016</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.20.1a.2</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Real-time station build-out</span>
                         </div>
@@ -5788,13 +5788,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Jan 2028 – Aug 2028</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Winter freshet (Oct–Mar) → Dry season (Apr–Sep)</span
@@ -5802,7 +5802,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2028</span>
                         </div>
@@ -5813,7 +5813,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$640k · WY2028–2028</span>
                       </div>
@@ -5873,25 +5873,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Telemetry commissioning</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-017</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.20.1a.3</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Real-time station build-out</span>
                         </div>
@@ -5903,13 +5903,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Sep 2028 – Jan 2029</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -5917,7 +5917,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2028–WY2029</span>
                         </div>
@@ -5928,7 +5928,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$180k · WY2028–2029</span>
                       </div>
@@ -5992,25 +5992,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Data QA/QC &amp; pipeline</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">SUB-027</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.20.1b</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Installation of New Real-time Monitoring Station</span
@@ -6024,7 +6024,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Apr 2028 – Mar 2029</span
                           ><span class="bcn-key-value__hint"
@@ -6033,7 +6033,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2028–WY2029</span>
                         </div>
@@ -6044,7 +6044,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$320k · WY2028–2029</span>
                       </div>
@@ -6176,25 +6176,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">QA/QC protocol authoring</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-018</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.20.1b.1</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Data QA/QC &amp; pipeline</span>
                         </div>
@@ -6206,19 +6206,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2028 – Aug 2028</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Dry season (Apr–Sep)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2028</span>
                         </div>
@@ -6229,7 +6229,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$120k · WY2028–2028</span>
                       </div>
@@ -6289,7 +6289,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >CDEC / Beacon data-pipeline integration</span
@@ -6297,19 +6297,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-019</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.20.1b.2</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Data QA/QC &amp; pipeline</span>
                         </div>
@@ -6321,13 +6321,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Sep 2028 – Mar 2029</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -6335,7 +6335,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2028–WY2029</span>
                         </div>
@@ -6346,7 +6346,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$200k · WY2028–2029</span>
                       </div>
@@ -6410,7 +6410,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Sediment &amp; Turbidity Monitoring</span
@@ -6418,19 +6418,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">STY-018</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.20.2</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Water Quality Evaluation Studies</span>
                         </div>
@@ -6442,7 +6442,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Apr 2029 – Sep 2030</span
                           ><span class="bcn-key-value__hint"
@@ -6451,7 +6451,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2029–WY2030</span>
                         </div>
@@ -6462,7 +6462,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$640k · WY2029–2030</span>
                       </div>
@@ -6594,7 +6594,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Sediment &amp; turbidity sampling program</span
@@ -6602,19 +6602,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">SUB-028</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.20.2a</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Sediment &amp; Turbidity Monitoring</span
@@ -6628,7 +6628,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Apr 2029 – Sep 2030</span
                           ><span class="bcn-key-value__hint"
@@ -6637,7 +6637,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2029–WY2030</span>
                         </div>
@@ -6648,7 +6648,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$640k · WY2029–2030</span>
                       </div>
@@ -6780,25 +6780,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Sampling design &amp; QAPP</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-020</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.20.2a.1</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Sediment &amp; turbidity sampling program</span
@@ -6812,19 +6812,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2029 – Aug 2029</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Dry season (Apr–Sep)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2029</span>
                         </div>
@@ -6835,7 +6835,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$140k · WY2029–2029</span>
                       </div>
@@ -6895,7 +6895,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Turbidity &amp; SSC field season 1</span
@@ -6903,19 +6903,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-021</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.20.2a.2</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Sediment &amp; turbidity sampling program</span
@@ -6929,13 +6929,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Sep 2029 – Mar 2030</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -6943,7 +6943,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2029–WY2030</span>
                         </div>
@@ -6954,7 +6954,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$310k · WY2029–2030</span>
                       </div>
@@ -7018,7 +7018,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Sediment-flux lab analysis &amp; reporting</span
@@ -7026,19 +7026,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-022</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.20.2a.3</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Sediment &amp; turbidity sampling program</span
@@ -7052,19 +7052,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2030 – Sep 2030</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Dry season (Apr–Sep)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2030</span>
                         </div>
@@ -7075,7 +7075,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$190k · WY2030–2030</span>
                       </div>
@@ -7135,7 +7135,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Ecological Response Evaluation Studies</span
@@ -7143,13 +7143,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">COA-10.21</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.21</span>
                         </div>
@@ -7161,7 +7161,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Apr 2033 – Sep 2042</span
                           ><span class="bcn-key-value__hint"
@@ -7170,7 +7170,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2033–WY2042</span>
                         </div>
@@ -7181,7 +7181,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$5.0M · WY2033–2042</span>
                       </div>
@@ -7398,7 +7398,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Hydrodynamics at Georgiana Slough Monitoring</span
@@ -7406,19 +7406,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">STY-019</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.21.1</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Ecological Response Evaluation Studies</span
@@ -7432,7 +7432,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Apr 2033 – Sep 2041</span
                           ><span class="bcn-key-value__hint"
@@ -7441,7 +7441,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2033–WY2041</span>
                         </div>
@@ -7452,7 +7452,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$4.2M · WY2033–2041</span>
                       </div>
@@ -7654,7 +7654,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Continuous hydrodynamic monitoring</span
@@ -7662,19 +7662,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">SUB-029</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.21.1a</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Hydrodynamics at Georgiana Slough Monitoring</span
@@ -7688,7 +7688,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Oct 2034 – Mar 2039</span
                           ><span class="bcn-key-value__hint"
@@ -7697,7 +7697,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2035–WY2039</span>
                         </div>
@@ -7708,7 +7708,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$2.8M · WY2035–2039</span>
                       </div>
@@ -7870,7 +7870,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >ADCP array deployment &amp; data collection</span
@@ -7878,19 +7878,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-023</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.21.1a.1</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Continuous hydrodynamic monitoring</span
@@ -7904,19 +7904,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Oct 2034 – Mar 2038</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Winter freshet (Oct–Mar)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2035–WY2038</span>
                         </div>
@@ -7927,7 +7927,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$2.4M · WY2035–2038</span>
                       </div>
@@ -7999,25 +7999,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Multi-year flow-split synthesis</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-024</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.21.1a.2</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Continuous hydrodynamic monitoring</span
@@ -8031,13 +8031,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2038 – Mar 2039</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -8045,7 +8045,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2038–WY2039</span>
                         </div>
@@ -8056,7 +8056,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$420k · WY2038–2039</span>
                       </div>
@@ -8120,7 +8120,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Routing &amp; flow-reversal analysis</span
@@ -8128,19 +8128,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">SUB-030</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.21.1b</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Hydrodynamics at Georgiana Slough Monitoring</span
@@ -8154,7 +8154,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Apr 2033 – Sep 2041</span
                           ><span class="bcn-key-value__hint"
@@ -8163,7 +8163,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2033–WY2041</span>
                         </div>
@@ -8174,7 +8174,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$1.4M · WY2033–2041</span>
                       </div>
@@ -8378,25 +8378,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Hydrodynamic model calibration</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-025</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.21.1b.1</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Routing &amp; flow-reversal analysis</span
@@ -8410,13 +8410,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2033 – Dec 2033</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -8424,7 +8424,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2033–WY2034</span>
                         </div>
@@ -8435,7 +8435,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$260k · WY2033–2034</span>
                       </div>
@@ -8499,25 +8499,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Annual hydrodynamic monitoring</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-026</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.21.1b.2</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Routing &amp; flow-reversal analysis</span
@@ -8531,19 +8531,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2034 – Sep 2041</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Dry season (Apr–Sep)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2034–WY2041</span>
                         </div>
@@ -8554,7 +8554,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$1.1M · WY2034–2041</span>
                       </div>
@@ -8642,7 +8642,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Covered Fish Species Life Cycle Models</span
@@ -8650,19 +8650,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">STY-020</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.21.2</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Ecological Response Evaluation Studies</span
@@ -8676,7 +8676,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Oct 2037 – Sep 2042</span
                           ><span class="bcn-key-value__hint"
@@ -8685,7 +8685,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2038–WY2042</span>
                         </div>
@@ -8696,7 +8696,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$840k · WY2038–2042</span>
                       </div>
@@ -8828,25 +8828,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Life-cycle model refinement</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">SUB-033</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.21.2a</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Covered Fish Species Life Cycle Models</span
@@ -8860,7 +8860,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Oct 2037 – Sep 2042</span
                           ><span class="bcn-key-value__hint"
@@ -8869,7 +8869,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2038–WY2042</span>
                         </div>
@@ -8880,7 +8880,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$840k · WY2038–2042</span>
                       </div>
@@ -9012,7 +9012,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Model refinement with monitoring data</span
@@ -9020,19 +9020,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-027</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.21.2a.1</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Life-cycle model refinement</span>
                         </div>
@@ -9044,13 +9044,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Oct 2037 – Sep 2038</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Winter freshet (Oct–Mar) → Dry season (Apr–Sep)</span
@@ -9058,7 +9058,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2038</span>
                         </div>
@@ -9069,7 +9069,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$380k · WY2038–2038</span>
                       </div>
@@ -9129,7 +9129,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Decadal model validation &amp; CDFW report-out</span
@@ -9137,19 +9137,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-028</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.21.2a.2</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Life-cycle model refinement</span>
                         </div>
@@ -9161,13 +9161,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Oct 2041 – Sep 2042</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Winter freshet (Oct–Mar) → Dry season (Apr–Sep)</span
@@ -9175,7 +9175,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2042</span>
                         </div>
@@ -9186,7 +9186,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$460k · WY2042–2042</span>
                       </div>
@@ -9246,7 +9246,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Incorporation of Fish Guidance System into the North Delta Intake
@@ -9255,13 +9255,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">COA-10.26</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.26</span>
                         </div>
@@ -9273,7 +9273,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Apr 2026 – Dec 2028</span
                           ><span class="bcn-key-value__hint"
@@ -9282,7 +9282,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2026–WY2029</span>
                         </div>
@@ -9293,7 +9293,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$3.0M · WY2026–2029</span>
                       </div>
@@ -9458,25 +9458,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Fish Guidance System Study</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">STY-021</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.26</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val"
                             >Incorporation of Fish Guidance System into the North Delta Intake
@@ -9491,7 +9491,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Apr 2026 – Dec 2028</span
                           ><span class="bcn-key-value__hint"
@@ -9500,7 +9500,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2026–WY2029</span>
                         </div>
@@ -9511,7 +9511,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$3.0M · WY2026–2029</span>
                       </div>
@@ -9685,25 +9685,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Study design &amp; procurement</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">SUB-031</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.26a</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Fish Guidance System Study</span>
                         </div>
@@ -9715,7 +9715,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Apr 2026 – Dec 2026</span
                           ><span class="bcn-key-value__hint"
@@ -9724,7 +9724,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2026–WY2027</span>
                         </div>
@@ -9735,7 +9735,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$750k · WY2026–2027</span>
                       </div>
@@ -9880,7 +9880,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Detailed study plan &amp; tracking-array design</span
@@ -9888,19 +9888,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-035</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.26a.1</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Study design &amp; procurement</span>
                         </div>
@@ -9912,19 +9912,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2026 – Sep 2026</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Dry season (Apr–Sep)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2026</span>
                         </div>
@@ -9935,7 +9935,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$160k · WY2026–2026</span>
                       </div>
@@ -9995,7 +9995,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Telemetry equipment &amp; tagged-fish orders</span
@@ -10003,19 +10003,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-036</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.26a.2</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Study design &amp; procurement</span>
                         </div>
@@ -10027,13 +10027,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Jun 2026 – Dec 2026</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -10041,7 +10041,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2026–WY2027</span>
                         </div>
@@ -10052,7 +10052,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$480k · WY2026–2027</span>
                       </div>
@@ -10119,7 +10119,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Pile &amp; science-deployment permitting</span
@@ -10127,19 +10127,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-037</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.26a.3</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Study design &amp; procurement</span>
                         </div>
@@ -10151,13 +10151,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Jul 2026 – Dec 2026</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -10165,7 +10165,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2026–WY2027</span>
                         </div>
@@ -10176,7 +10176,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$110k · WY2026–2027</span>
                       </div>
@@ -10240,25 +10240,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val">Field seasons &amp; analysis</span>
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">SUB-032</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.26b</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Fish Guidance System Study</span>
                         </div>
@@ -10270,7 +10270,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="span">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Rolled-up span</span
                           ><span class="bcn-key-value__val">Oct 2026 – Dec 2028</span
                           ><span class="bcn-key-value__hint"
@@ -10279,7 +10279,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2027–WY2029</span>
                         </div>
@@ -10290,7 +10290,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$2.3M · WY2027–2029</span>
                       </div>
@@ -10432,7 +10432,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Winter 26/27 tracking field season</span
@@ -10440,19 +10440,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-038</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.26b.1</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Field seasons &amp; analysis</span>
                         </div>
@@ -10464,19 +10464,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Oct 2026 – Mar 2027</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Winter freshet (Oct–Mar)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2027</span>
                         </div>
@@ -10487,7 +10487,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$820k · WY2027–2027</span>
                       </div>
@@ -10547,7 +10547,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Season-1 analysis &amp; STAIRS calibration</span
@@ -10555,19 +10555,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-039</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.26b.2</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Field seasons &amp; analysis</span>
                         </div>
@@ -10579,19 +10579,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2027 – Sep 2027</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Dry season (Apr–Sep)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2027</span>
                         </div>
@@ -10602,7 +10602,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$310k · WY2027–2027</span>
                       </div>
@@ -10662,7 +10662,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >Winter 27/28 tracking field season</span
@@ -10670,19 +10670,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-040</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.26b.3</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Field seasons &amp; analysis</span>
                         </div>
@@ -10694,19 +10694,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Oct 2027 – Mar 2028</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val">Winter freshet (Oct–Mar)</span>
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2028</span>
                         </div>
@@ -10717,7 +10717,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$780k · WY2028–2028</span>
                       </div>
@@ -10777,7 +10777,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Identity</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="name">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Name</span
                           ><span class="bcn-key-value__val"
                             >FGS modeling, analysis &amp; reporting</span
@@ -10785,19 +10785,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="idrow">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">ID</span
                           ><span class="bcn-key-value__val">TSK-041</span>
                         </div>
                       </div>
                       <div data-live="coa">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">COA reference</span
                           ><span class="bcn-key-value__val">10.26b.4</span>
                         </div>
                       </div>
                       <div data-live="parent">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Parent</span
                           ><span class="bcn-key-value__val">Field seasons &amp; analysis</span>
                         </div>
@@ -10809,13 +10809,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <h3 class="bcn-detail__title">Timing</h3>
                     <div class="bcn-detail__rows">
                       <div data-live="sched">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Schedule</span
                           ><span class="bcn-key-value__val">Apr 2028 – Dec 2028</span>
                         </div>
                       </div>
                       <div data-live="season">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Field seasons</span
                           ><span class="bcn-key-value__val"
                             >Dry season (Apr–Sep) → Winter freshet (Oct–Mar)</span
@@ -10823,7 +10823,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                       <div data-live="wy">
-                        <div class="bcn-key-value">
+                        <div class="bcn-key-value" data-size="md" data-layout="stack">
                           <span class="bcn-key-value__key">Water years</span
                           ><span class="bcn-key-value__val">WY2028–WY2029</span>
                         </div>
@@ -10834,7 +10834,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <section class="bcn-detail__section">
                     <h3 class="bcn-detail__title">Funding plan</h3>
                     <div data-live="funding">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned</span
                         ><span class="bcn-key-value__val">$350k · WY2028–2029</span>
                       </div>
@@ -10971,7 +10971,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.B0-2TFz8.js"
+    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.BWpiHCjJ.js"
   ></script>
   <!-- Aldo — help & guidance, app-wide like the palette above: the floating
          bottom-center utility bar and the route-aware guidance drawer it opens.
@@ -10990,23 +10990,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       aria-haspopup="dialog"
     >
       <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-        ><span class="bcn-aldo-mark__glyph"
-          ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-            ><svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path
-                d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-              ></path>
-              <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+        ><svg
+          class="bcn-aldo-mark__glyph"
+          viewBox="0 0 64 64"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+          <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+          <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+          <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg></span
       ><span class="bcn-help-bar__guidance-label">Guidance</span></button
     ><span class="bcn-help-bar__divider" aria-hidden="true"></span
     ><!-- Attach Evidence of Compliance — icon-only; the tooltip host carries the drawer's open hook.
@@ -11023,6 +11019,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       text="Attach Evidence of Compliance"
       position="above"
       data-evidence-trigger="true"
+      align="center"
       ><span
         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
         ><button
@@ -11141,7 +11138,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.rnozUMkB.js"
+    src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.BrGmwhrs.js"
   ></script>
   <!-- ── Drawer (parent) ── --><esa-side-dialog
     class="bcn-gd"
@@ -11151,46 +11148,38 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     size="md"
     ><div slot="header" class="bcn-gd__header">
       <span class="bcn-aldo-mark" data-size="md" aria-hidden="true"
-        ><span class="bcn-aldo-mark__glyph"
-          ><span class="esa-icon esa-icon--md" aria-hidden="true"
-            ><svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path
-                d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-              ></path>
-              <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+        ><svg
+          class="bcn-aldo-mark__glyph"
+          viewBox="0 0 64 64"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+          <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+          <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+          <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg></span
       ><span class="bcn-gd__title">Help &amp; Guidance</span>
     </div>
     <div class="bcn-gd__stream">
       <div class="bcn-gd-msg bcn-gd-msg--aldo" data-gd-intro="">
         <div class="bcn-gd-msg__avatar">
           <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-            ><span class="bcn-aldo-mark__glyph"
-              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                ><svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path
-                    d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                  ></path>
-                  <circle cx="12" cy="12" r="10"></circle></svg></span></span
+            ><svg
+              class="bcn-aldo-mark__glyph"
+              viewBox="0 0 64 64"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+              <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+              <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+              <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg
           ></span>
         </div>
         <div class="bcn-gd-msg__group">
@@ -12158,25 +12147,28 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       </div></div></esa-side-dialog
   ><!-- Aldo avatar cloned into each reply message (reuses the real mark). --><template
     data-gd-aldo-avatar=""
-    ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-breadewf=""
-      ><span class="bcn-aldo-mark__glyph" data-astro-cid-breadewf=""
-        ><span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-i4i7akh4=""
-          ><svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-            data-astro-cid-i4i7akh4=""
-          >
-            <path
-              d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-            ></path>
-            <circle cx="12" cy="12" r="10"></circle></svg></span></span></span></template
+    ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-lgb5fntv=""
+      ><svg
+        class="bcn-aldo-mark__glyph"
+        viewBox="0 0 64 64"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        data-astro-cid-lgb5fntv=""
+      >
+        <path d="M47.59 23A18 18 0 1 1 31.37 14.01" data-astro-cid-lgb5fntv=""></path>
+        <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41" data-astro-cid-lgb5fntv=""></path>
+        <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8" data-astro-cid-lgb5fntv=""></path>
+        <circle
+          cx="33.2"
+          cy="31.1"
+          r="2"
+          fill="currentColor"
+          stroke="none"
+          data-astro-cid-lgb5fntv=""
+        ></circle></svg></span></template
   ><!-- ── Article reader (child, stacked above the drawer) ── --><esa-side-dialog
     class="bcn-gd-article"
     data-gd-article="true"
@@ -12350,7 +12342,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span></span
                 ><span class="bcn-help-article__video-duration"
                   ><span
-                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                     ><span class="esa-badge__text">4:32</span></span
                   ></span
                 >
@@ -12605,7 +12597,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span></span
                 ><span class="bcn-help-article__video-duration"
                   ><span
-                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                     ><span class="esa-badge__text">2:47</span></span
                   ></span
                 >
@@ -13881,8 +13873,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ><li data-astro-cid-qzg7vnux="">
                     <span
                       class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                      data-astro-cid-uydgtvqr=""
-                      ><span class="esa-pill__label" data-astro-cid-uydgtvqr=""></span
+                      data-astro-cid-xtwxlazl=""
+                      ><span class="esa-pill__label" data-astro-cid-xtwxlazl=""></span
                     ></span></li></template
                 ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template data-draft-file-row=""
@@ -13892,19 +13884,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-wz6b6gp5=""
+                        data-astro-cid-5nhxdd72=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this file from the evidence"
                           title="Remove this file from the evidence"
                           data-astro-cid-qzg7vnux="true"
-                          data-astro-cid-wz6b6gp5=""
+                          data-astro-cid-5nhxdd72=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-i4i7akh4=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="16"
                               height="16"
@@ -13915,7 +13907,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-i4i7akh4=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -14020,6 +14012,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -14044,7 +14037,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -14202,6 +14195,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -14226,7 +14220,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -14367,6 +14361,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -14391,7 +14386,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -14533,6 +14528,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -14557,7 +14553,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -14715,6 +14711,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -14739,7 +14736,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -14880,6 +14877,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -14904,7 +14902,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -15046,6 +15044,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -15070,7 +15069,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -15211,6 +15210,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -15235,7 +15235,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -15376,6 +15376,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -15400,7 +15401,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -15541,6 +15542,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -15565,7 +15567,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -15713,6 +15715,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -15737,7 +15740,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -15864,6 +15867,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -15888,7 +15892,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -16015,6 +16019,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -16039,7 +16044,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -16166,6 +16171,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -16190,7 +16196,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -16316,7 +16322,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
                       <circle cx="12" cy="12" r="2"></circle>
                       <path d="m13.41 10.59 5.66-5.66"></path></svg></span
-                  >Actions<span
+                  ><span data-targets-title-text="">Actions</span
+                  ><span
                     class="bcn-ev-targets__count"
                     data-targets-count=""
                     aria-hidden="true"
@@ -16330,7 +16337,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
        else. Component and Phase are the dimensions the Setup Wizard's Actions step filters
        on; all three are guarded while associations are unsaved (see evidence-drawer.ts). -->
               <div class="bcn-ev-targets__filters">
-                <span class="bcn-ev-targets__filter"
+                <span class="bcn-ev-targets__filter" data-targets-component-filter=""
                   ><span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-component">Component</span
                   ><esa-select
                     data-evidence-component="true"
@@ -16338,14 +16345,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     searchable="true"
                     aria-labelledby="bcn-ev-flabel-component"
                   ></esa-select></span
-                ><span class="bcn-ev-targets__filter"
+                ><span class="bcn-ev-targets__filter" data-targets-scope-only=""
                   ><span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-phase">Phase</span
                   ><esa-select
                     data-targets-phase="true"
                     size="sm"
                     aria-labelledby="bcn-ev-flabel-phase"
                   ></esa-select></span
-                ><span class="bcn-ev-targets__filter"
+                ><span class="bcn-ev-targets__filter" data-targets-scope-only=""
                   ><span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-type">Type</span
                   ><esa-select
                     data-targets-type="true"
@@ -16354,7 +16361,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ></esa-select
                 ></span>
               </div>
-              <div class="bcn-ev-targets__search">
+              <div class="bcn-ev-targets__search" data-targets-scope-only="">
                 <div class="bcn-ev-search">
                   <span class="bcn-ev-search__icon" aria-hidden="true"
                     ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -16459,6 +16466,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -16478,7 +16486,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -16489,10 +16497,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -16600,6 +16608,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -16619,7 +16628,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -16630,10 +16639,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -16741,6 +16750,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -16760,7 +16770,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -16771,10 +16781,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -16882,6 +16892,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -16901,7 +16912,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -16912,10 +16923,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text"
                                       >Implementation Planning</span
                                     ></span
@@ -17052,6 +17063,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -17071,7 +17083,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -17082,10 +17094,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -17223,6 +17235,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -17242,7 +17255,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -17253,10 +17266,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -17394,6 +17407,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -17413,7 +17427,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -17424,10 +17438,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Reporting</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -17535,6 +17549,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -17554,7 +17569,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -17565,10 +17580,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -17676,6 +17691,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -17695,7 +17711,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -17706,10 +17722,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -17841,6 +17857,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -17860,7 +17877,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -17871,10 +17888,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -17982,6 +17999,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -18001,7 +18019,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -18012,10 +18030,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -18123,6 +18141,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -18142,7 +18161,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -18153,10 +18172,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text"
                                       >Implementation Planning</span
                                     ></span
@@ -18266,6 +18285,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -18285,7 +18305,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -18296,10 +18316,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -18407,6 +18427,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -18426,7 +18447,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -18437,10 +18458,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -18575,6 +18596,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -18594,7 +18616,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -18605,10 +18627,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -18716,6 +18738,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -18735,7 +18758,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -18746,10 +18769,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -18857,6 +18880,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -18876,7 +18900,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -18887,10 +18911,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Reporting</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -18998,6 +19022,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -19017,7 +19042,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -19028,10 +19053,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -19139,6 +19164,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -19158,7 +19184,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -19169,10 +19195,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -19280,6 +19306,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -19299,7 +19326,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -19310,10 +19337,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text"
                                       >Implementation Planning</span
                                     ></span
@@ -19423,6 +19450,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -19442,7 +19470,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -19453,10 +19481,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -19564,6 +19592,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -19583,7 +19612,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -19594,10 +19623,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -19660,28 +19689,28 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <span class="bcn-ev-attached__name" data-astro-cid-6zu5gb4v=""></span
                     ><span class="bcn-ev-attached__mark" hidden="" data-astro-cid-6zu5gb4v=""
                       ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        data-astro-cid-bnhbuysz=""
-                        ><span class="esa-badge__text" data-astro-cid-bnhbuysz=""
+                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                        data-astro-cid-yahmuvtj=""
+                        ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
                           >Suggested</span
                         ></span
                       ></span
                     ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-wz6b6gp5=""
+                        data-astro-cid-5nhxdd72=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this evidence from the action"
                           title="Remove this evidence from the action"
                           data-astro-cid-6zu5gb4v="true"
-                          data-astro-cid-wz6b6gp5=""
+                          data-astro-cid-5nhxdd72=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-i4i7akh4=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="16"
                               height="16"
@@ -19692,13 +19721,32 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-i4i7akh4=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span
                     ></span></li></template
-                ><!-- Nothing on the list yet. -->
+                ><!-- LIST MODE (a list page's "Add evidence", see evidence-drawer.ts): the column
+         holds that list's members instead of a component's actions. Every member is a
+         target by default; the x leaves one out of this attach, and Restore brings the
+         left-out back. Each row is the list page's OWN slim card (.bcn-loc, from
+         bcn-obligation-card.css) cloned off its master tree and pared to chip, title and
+         the remove verb, so the drawer shows the member exactly as the page does. -->
+                <div class="bcn-ev-targets__listmode" data-targets-listmode="" hidden="">
+                  <p
+                    class="bcn-ev-targets__leftout typography-body-sm"
+                    data-listmode-leftout=""
+                    hidden=""
+                  >
+                    <span data-listmode-leftout-text=""></span
+                    ><button type="button" class="bcn-ev-targets__restore" data-listmode-restore="">
+                      Restore
+                    </button>
+                  </p>
+                  <ul class="bcn-ev-targets__list" data-listmode-rows=""></ul>
+                </div>
+                <!-- Nothing on the list yet. -->
                 <div class="bcn-ev-targets__empty" data-targets-empty="">
                   <div class="esa-empty-state esa-empty-state--sm">
                     <h3 class="esa-empty-state__title typography-label-sm-strong">
@@ -19762,6 +19810,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       </div>
       <footer class="bcn-bottom-drawer__foot">
         <div class="bcn-ev__foot">
+          <!-- List mode only: what Save is still waiting on, or what it will write. -->
+          <p
+            class="bcn-ev__status typography-body-sm"
+            data-evidence-status=""
+            role="status"
+            hidden=""
+          ></p>
           <div class="bcn-ev__actions">
             <span data-evidence-save=""
               ><span
@@ -19789,39 +19844,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   >
   <script
     type="module"
-    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DSCvyJLV.js"
+    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.CgAsKejG.js"
   ></script>
 </div>
 ```
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
 .bcn-node-page__badge {
   font-family: var(--typography-font-family-mono);
   font-size: var(--font-size-100);
@@ -19842,9 +19871,128 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .bcn-node-page__empty[hidden] {
   display: none;
 }
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
 html,
 .modern-layout__content {
   scroll-behavior: smooth;
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-label-md-strong {
+  font-family: var(--typography-label-md-strong-font-family);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height);
+  letter-spacing: var(--typography-label-md-strong-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.page-layout {
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+  flex-direction: column;
+  display: flex;
+}
+.page-layout__bleed,
+.page-layout section {
+  width: 100%;
+}
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-400);
+  display: flex;
+}
+.breadcrumbs__items {
+  gap: var(--spacing-100);
+  flex-wrap: wrap;
+  align-items: center;
+  display: flex;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
+  text-decoration: none;
+}
+.page-layout__container {
+  flex-direction: column;
+  display: flex;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  box-sizing: border-box;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+.page-layout__title-main {
+  align-items: center;
+  gap: var(--spacing-400);
+  min-width: 0;
+  display: flex;
+}
+.page-layout__title h1 {
+  align-items: center;
+  gap: var(--spacing-300);
+  font-family: var(--font-decorative);
+  font-weight: var(--typography-font-weight-bold);
+  font-size: var(--font-size-500);
+  color: var(--bcn-gray-1000);
+  margin: 0;
+  display: flex;
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
+  flex-shrink: 0;
+}
+.page-layout__utilities {
+  gap: var(--spacing-200);
+  display: flex;
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
 }
 .modern-layout {
   flex-direction: column;
@@ -20282,15 +20430,13 @@ html,
   display: inline-flex;
 }
 .bcn-aldo-mark[data-size="sm"] {
-  --icon-size-xs: 12px;
   width: 20px;
   height: 20px;
 }
 .bcn-aldo-mark__glyph {
-  justify-content: center;
-  align-items: center;
-  line-height: 0;
-  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .bcn-help-bar__guidance-label {
   white-space: nowrap;
@@ -20634,148 +20780,6 @@ html,
   transform: translate(-50%);
   box-shadow: 0 -12px 48px -12px #00000052;
 }
-.esa-empty-state {
-  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
-  --_empty-gap: var(--spacing-200, 0.5rem);
-  text-align: center;
-  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
-  justify-content: center;
-  align-items: center;
-  gap: var(--_empty-gap);
-  flex-direction: column;
-  display: flex;
-}
-.esa-empty-state__title {
-  color: var(--color-content-default, #202020);
-  margin: 0;
-}
-.esa-empty-state__description {
-  color: var(--color-content-default-secondary, #646464);
-  max-width: 360px;
-  margin: 0;
-}
-.esa-empty-state__actions {
-  margin-top: var(--spacing-200, 0.5rem);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.page-layout {
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-  flex-direction: column;
-  display: flex;
-}
-.page-layout__bleed,
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-400);
-  display: flex;
-}
-.breadcrumbs__items {
-  gap: var(--spacing-100);
-  flex-wrap: wrap;
-  align-items: center;
-  display: flex;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__container {
-  flex-direction: column;
-  display: flex;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  box-sizing: border-box;
-  justify-content: space-between;
-  align-items: center;
-  display: flex;
-}
-.page-layout__title-main {
-  align-items: center;
-  gap: var(--spacing-400);
-  min-width: 0;
-  display: flex;
-}
-.page-layout__title h1 {
-  align-items: center;
-  gap: var(--spacing-300);
-  font-family: var(--font-decorative);
-  font-weight: var(--typography-font-weight-bold);
-  font-size: var(--font-size-500);
-  color: var(--bcn-gray-1000);
-  margin: 0;
-  display: flex;
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
-  flex-shrink: 0;
-}
-.page-layout__utilities {
-  gap: var(--spacing-200);
-  display: flex;
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -20846,6 +20850,55 @@ a.breadcrumb-item {
 .esa-button--variant-primary {
   --_accent-text: var(--color-content-brand);
 }
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-empty-state {
+  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
+  --_empty-gap: var(--spacing-200, 0.5rem);
+  text-align: center;
+  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
+  justify-content: center;
+  align-items: center;
+  gap: var(--_empty-gap);
+  flex-direction: column;
+  display: flex;
+}
+.esa-empty-state__title {
+  color: var(--color-content-default, #202020);
+  margin: 0;
+}
+.esa-empty-state__description {
+  color: var(--color-content-default-secondary, #646464);
+  max-width: 360px;
+  margin: 0;
+}
+.esa-empty-state__actions {
+  margin-top: var(--spacing-200, 0.5rem);
+}
 ```
 
 ## Tokens
@@ -20873,15 +20926,19 @@ a.breadcrumb-item {
 | `--button-radius-md` | `.25rem` | component |
 | `--button-radius-sm` | `.25rem` | component |
 | `--color-background-accent` | `#f76b15` | semantic |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
 | `--color-background-elevation-raised` | `#fcfcfc` | semantic |
 | `--color-background-elevation-sunken` | `#efefef` | semantic |
 | `--color-background-overlay-backdrop` | `#00000080` | semantic |
 | `--color-border-default` | `#dcdcdc` | semantic |
 | `--color-commitment` | `#58508d` | component |
+| `--color-content-brand` | `#005862` | semantic |
 | `--color-content-default` | `#3d3d3d` | semantic |
 | `--color-content-default-knockout` | `#fcfcfc` | semantic |
 | `--color-content-default-secondary` | `#525252` | semantic |
 | `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-link` | `#005862` | semantic |
 | `--empty-state-icon-size-md` | `48px` | component |
 | `--font-decorative` | `"Besley", serif` | component |
 | `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
@@ -20913,13 +20970,13 @@ a.breadcrumb-item {
 | `--transition-fast` | `.15s ease` | semantic |
 | `--typography-body-sm-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
-| `--typography-body-sm-font-weight` | `350` | semantic |
+| `--typography-body-sm-font-weight` | `400` | semantic |
 | `--typography-body-sm-letter-spacing` | `.01em` | semantic |
 | `--typography-body-sm-line-height` | `1.6` | semantic |
 | `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` | semantic |
 | `--typography-font-weight-bold` | `650` | semantic |
 | `--typography-font-weight-medium` | `500` | semantic |
-| `--typography-font-weight-regular` | `350` | semantic |
+| `--typography-font-weight-regular` | `400` | semantic |
 | `--typography-font-weight-semibold` | `550` | semantic |
 | `--typography-label-md-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |

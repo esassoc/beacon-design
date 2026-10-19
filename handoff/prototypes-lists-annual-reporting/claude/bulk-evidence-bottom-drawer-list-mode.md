@@ -189,8 +189,8 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                 ><li data-astro-cid-qzg7vnux="">
                   <span
                     class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                    data-astro-cid-65ixjgm5=""
-                    ><span class="esa-pill__label" data-astro-cid-65ixjgm5=""></span
+                    data-astro-cid-xtwxlazl=""
+                    ><span class="esa-pill__label" data-astro-cid-xtwxlazl=""></span
                   ></span></li></template
               ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template
@@ -201,19 +201,19 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                   ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                     ><span
                       class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                      data-astro-cid-4xhmycw5=""
+                      data-astro-cid-5nhxdd72=""
                       ><button
                         class="esa-button__native typography-microcopy-xs"
                         type="button"
                         aria-label="Remove this file from the evidence"
                         title="Remove this file from the evidence"
                         data-astro-cid-qzg7vnux="true"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-c7ivvrtd=""
+                          data-astro-cid-wcwfib5m=""
                           ><svg
                             width="16"
                             height="16"
@@ -224,7 +224,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                           >
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path></svg
@@ -356,7 +356,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                       ></path></svg></span></span
                                 ><span class="bcn-countchip__num" aria-hidden="true"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                     >0</span
                                   ></span
                                 ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -541,7 +541,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                       ></path></svg></span></span
                                 ><span class="bcn-countchip__num" aria-hidden="true"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                     >0</span
                                   ></span
                                 ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -709,7 +709,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                       ></path></svg></span></span
                                 ><span class="bcn-countchip__num" aria-hidden="true"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                     >0</span
                                   ></span
                                 ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -878,7 +878,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                       ></path></svg></span></span
                                 ><span class="bcn-countchip__num" aria-hidden="true"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                     >0</span
                                   ></span
                                 ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -1071,7 +1071,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                       ></path></svg></span></span
                                 ><span class="bcn-countchip__num" aria-hidden="true"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                     >0</span
                                   ></span
                                 ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -1240,7 +1240,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                       ></path></svg></span></span
                                 ><span class="bcn-countchip__num" aria-hidden="true"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                     >0</span
                                   ></span
                                 ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -1409,7 +1409,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                       ></path></svg></span></span
                                 ><span class="bcn-countchip__num" aria-hidden="true"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                     >0</span
                                   ></span
                                 ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -1578,7 +1578,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                       ></path></svg></span></span
                                 ><span class="bcn-countchip__num" aria-hidden="true"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                     >0</span
                                   ></span
                                 ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -1746,7 +1746,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                       ></path></svg></span></span
                                 ><span class="bcn-countchip__num" aria-hidden="true"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                     >0</span
                                   ></span
                                 ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -1915,7 +1915,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                       ></path></svg></span></span
                                 ><span class="bcn-countchip__num" aria-hidden="true"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                     >0</span
                                   ></span
                                 ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -2091,7 +2091,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                       ></path></svg></span></span
                                 ><span class="bcn-countchip__num" aria-hidden="true"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                     >0</span
                                   ></span
                                 ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -2247,7 +2247,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                       ></path></svg></span></span
                                 ><span class="bcn-countchip__num" aria-hidden="true"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                     >0</span
                                   ></span
                                 ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -2403,7 +2403,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                       ></path></svg></span></span
                                 ><span class="bcn-countchip__num" aria-hidden="true"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                     >0</span
                                   ></span
                                 ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -2559,7 +2559,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                       ></path></svg></span></span
                                 ><span class="bcn-countchip__num" aria-hidden="true"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                     >0</span
                                   ></span
                                 ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -2861,7 +2861,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -2872,10 +2872,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Monitoring</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text"
                                     >Pre-Construction</span
                                   ></span
@@ -3010,7 +3010,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -3021,10 +3021,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Monitoring</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Construction</span></span
                                 ></span
                               >
@@ -3157,7 +3157,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -3168,10 +3168,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Monitoring</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text"
                                     >Pre-Construction</span
                                   ></span
@@ -3306,7 +3306,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -3317,10 +3317,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Tracking</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text"
                                     >Implementation Planning</span
                                   ></span
@@ -3489,7 +3489,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -3500,10 +3500,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Tracking</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text"
                                     >Pre-Construction</span
                                   ></span
@@ -3678,7 +3678,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -3689,10 +3689,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Monitoring</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Construction</span></span
                                 ></span
                               >
@@ -3864,7 +3864,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -3875,10 +3875,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Reporting</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Construction</span></span
                                 ></span
                               >
@@ -4012,7 +4012,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -4023,10 +4023,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Monitoring</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Construction</span></span
                                 ></span
                               >
@@ -4159,7 +4159,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -4170,10 +4170,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Monitoring</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Construction</span></span
                                 ></span
                               >
@@ -4335,7 +4335,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -4346,10 +4346,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Monitoring</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Construction</span></span
                                 ></span
                               >
@@ -4482,7 +4482,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -4493,10 +4493,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Monitoring</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Construction</span></span
                                 ></span
                               >
@@ -4629,7 +4629,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -4640,10 +4640,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Tracking</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text"
                                     >Implementation Planning</span
                                   ></span
@@ -4778,7 +4778,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -4789,10 +4789,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Monitoring</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Construction</span></span
                                 ></span
                               >
@@ -4925,7 +4925,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -4936,10 +4936,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Tracking</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Construction</span></span
                                 ></span
                               >
@@ -5106,7 +5106,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -5117,10 +5117,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Monitoring</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Construction</span></span
                                 ></span
                               >
@@ -5253,7 +5253,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -5264,10 +5264,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Tracking</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text"
                                     >Pre-Construction</span
                                   ></span
@@ -5402,7 +5402,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -5413,10 +5413,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Reporting</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Construction</span></span
                                 ></span
                               >
@@ -5549,7 +5549,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -5560,10 +5560,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Monitoring</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Construction</span></span
                                 ></span
                               >
@@ -5696,7 +5696,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -5707,10 +5707,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Monitoring</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Construction</span></span
                                 ></span
                               >
@@ -5843,7 +5843,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -5854,10 +5854,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Tracking</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text"
                                     >Implementation Planning</span
                                   ></span
@@ -5992,7 +5992,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -6003,10 +6003,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Tracking</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text"
                                     >Pre-Construction</span
                                   ></span
@@ -6141,7 +6141,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                                           ></path></svg></span></span
                                     ><span class="bcn-countchip__num" aria-hidden="true"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                         ><span class="esa-badge__text">0</span></span
                                       ></span
                                     ><span class="bcn-countchip__sr"
@@ -6152,10 +6152,10 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                               ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                               ><span class="bcn-ev-row__tags"
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Monitoring</span></span
                                 ><span
-                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text"
                                     >Pre-Construction</span
                                   ></span
@@ -6226,28 +6226,28 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                     hidden=""
                     data-astro-cid-6zu5gb4v=""
                     ><span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      data-astro-cid-sh7ulwla=""
-                      ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
+                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                      data-astro-cid-yahmuvtj=""
+                      ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
                         >Suggested</span
                       ></span
                     ></span
                   ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                     ><span
                       class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                      data-astro-cid-4xhmycw5=""
+                      data-astro-cid-5nhxdd72=""
                       ><button
                         class="esa-button__native typography-microcopy-xs"
                         type="button"
                         aria-label="Remove this evidence from the action"
                         title="Remove this evidence from the action"
                         data-astro-cid-6zu5gb4v="true"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-c7ivvrtd=""
+                          data-astro-cid-wcwfib5m=""
                           ><svg
                             width="16"
                             height="16"
@@ -6258,7 +6258,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                           >
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path></svg
@@ -8397,7 +8397,8 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc__class,
 .bcn-loc__class,
-.bcn-lob__class {
+.bcn-lob__class,
+.bcn-ci-chip {
   padding: 1px var(--spacing-200);
   border-radius: var(--radius-100);
   background: color-mix(in srgb, var(--_hue) 14%, white);
@@ -8411,24 +8412,29 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc[data-class="adhere"],
 .bcn-loc[data-class="adhere"],
-.bcn-lob[data-class="adhere"] {
+.bcn-lob[data-class="adhere"],
+.bcn-ci-chip[data-class="adhere"] {
   --_hue: var(--color-obligation);
 }
 .bcn-swoc[data-class="monitor"],
 .bcn-loc[data-class="monitor"],
-.bcn-lob[data-class="monitor"] {
+.bcn-lob[data-class="monitor"],
+.bcn-ci-chip[data-class="monitor"] {
   --_hue: #ff7c43;
 }
 .bcn-swoc[data-class="notify"],
 .bcn-loc[data-class="notify"],
-.bcn-lob[data-class="notify"] {
+.bcn-lob[data-class="notify"],
+.bcn-ci-chip[data-class="notify"] {
   --_hue: #ffa600;
 }
 .bcn-swoc[data-class="roster"],
 .bcn-loc[data-class="roster"],
 .bcn-lob[data-class="roster"],
+.bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
-.bcn-lac[data-class="action"] {
+.bcn-lac[data-class="action"],
+.bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
 .bcn-swoc__title,
@@ -8503,7 +8509,8 @@ details[open] > summary .bcn-loc__chevron {
   color: var(--color-background-utility-danger);
 }
 .bcn-swoc__reqs,
-.bcn-loc__reqs {
+.bcn-loc__reqs,
+.bcn-ciitem__reqs {
   padding: 0 var(--spacing-300) var(--spacing-150)
     calc(var(--spacing-300) + var(--_req-indent));
   flex-direction: column;
@@ -8512,7 +8519,8 @@ details[open] > summary .bcn-loc__chevron {
   display: flex;
 }
 .bcn-swoc__req,
-.bcn-loc__req {
+.bcn-loc__req,
+.bcn-ciitem__req {
   align-items: center;
   gap: var(--spacing-200);
   min-height: 28px;
@@ -8526,7 +8534,8 @@ details[open] > summary .bcn-loc__chevron {
   background: var(--color-background-default);
 }
 .bcn-swoc__req-name,
-.bcn-loc__req-name {
+.bcn-loc__req-name,
+.bcn-ciitem__req-name {
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
@@ -8591,6 +8600,104 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-loc__evidence[data-none] {
   color: var(--color-content-default-tertiary);
   font-weight: 400;
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
+  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-badge--xs {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-100, 0.25rem);
+}
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-badge--lg {
+  --_badge-padding-y: var(--spacing-250, 0.625rem);
+  --_badge-padding-x: var(--spacing-300, 0.75rem);
+}
+.esa-badge--primary {
+  --_badge-bg: var(--color-background-brand, #46a758);
+  --_badge-text: var(--color-content-default-knockout, #fcfcfc);
+}
+.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+}
+.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
+  --_badge-text: var(--color-content-utility-success, #218358);
+  --_badge-border: var(--color-border-utility-success, #adddc0);
+}
+.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
+  --_badge-text: var(--color-content-utility-warning, #ab6400);
+  --_badge-border: var(--color-border-utility-warning, #f3d673);
+}
+.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
+  --_badge-text: var(--color-content-utility-danger, #ce2c31);
+  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
+}
+.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
+  --_badge-text: var(--color-content-utility-info, #0d74ce);
+  --_badge-border: var(--color-border-utility-info, #acd8fc);
+}
+.esa-badge--neutral:not(.esa-badge--dot),
+.esa-badge--success:not(.esa-badge--dot),
+.esa-badge--warning:not(.esa-badge--dot),
+.esa-badge--danger:not(.esa-badge--dot),
+.esa-badge--info:not(.esa-badge--dot) {
+  border: 1px solid var(--_badge-border, transparent);
+}
+.esa-badge--dot {
+  border-radius: var(--radius-pill, 9999px);
+  width: 8px;
+  min-width: 8px;
+  height: 8px;
+  padding: 0;
+}
+.esa-badge--dot.esa-badge--neutral {
+  --_badge-bg: var(--color-content-default-secondary, #646464);
+}
+.esa-badge--dot.esa-badge--primary {
+  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
+}
+.esa-badge--dot.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand, #46a758);
+}
+.esa-badge--dot.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
+}
+.esa-badge--dot.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
+}
+.esa-badge--dot.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
+}
+.esa-badge--dot.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
+}
+.esa-badge--dot {
+  background: canvastext;
+  border: 0;
+  outline: 1px solid canvastext;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -9030,6 +9137,9 @@ summary.esa-button--variant-chrome:focus-visible {
 .esa-empty-state__actions:empty {
   display: none;
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -9058,95 +9168,6 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
-}
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
-}
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
-}
-.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
-}
-.esa-badge--success:not(.esa-badge--dot),
-.esa-badge--warning:not(.esa-badge--dot),
-.esa-badge--danger:not(.esa-badge--dot),
-.esa-badge--info:not(.esa-badge--dot) {
-  border: 1px solid var(--_badge-border, transparent);
-}
-.esa-badge--dot {
-  border-radius: var(--radius-pill, 9999px);
-  width: 8px;
-  min-width: 8px;
-  height: 8px;
-  padding: 0;
-}
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
-}
-.esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-}
-.esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
-}
-.esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
-}
-.esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
-}
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  background: canvastext;
-  border: 0;
-  outline: 1px solid canvastext;
 }
 .esa-alert-box {
   --_alert-bg: var(--color-background-utility-info-subtle, #fbfdff);
@@ -9235,8 +9256,9 @@ summary.esa-button--variant-chrome:focus-visible {
 ## Tokens
 - `--alert-box-text-color`: #525252 _(component)_
 - `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #005862 _(component)_
-- `--badge-text-color`: #fcfcfc _(component)_
+- `--badge-bg`: #fcfcfc _(component)_
+- `--badge-border-color`: #dcdcdc _(component)_
+- `--badge-text-color`: #525252 _(component)_
 - `--bcn-bottom-drawer-height`: 92vh _(component)_
 - `--bcn-bottom-drawer-width`: 96vw _(component)_
 - `--bcn-bottom-drawer-z`: 1400 _(component)_
@@ -9369,23 +9391,23 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-font-weight`: 400 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-body-xs-font-weight`: 350 _(semantic)_
+- `--typography-body-xs-font-weight`: 400 _(semantic)_
 - `--typography-body-xs-letter-spacing`: .01em _(semantic)_
 - `--typography-body-xs-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-regular`: 350 _(semantic)_
+- `--typography-font-weight-regular`: 400 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
@@ -9405,7 +9427,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-label-sm-strong-line-height`: 1.6 _(semantic)_
 - `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-meta-font-weight`: 350 _(semantic)_
+- `--typography-meta-font-weight`: 400 _(semantic)_
 - `--typography-meta-letter-spacing`: .01em _(semantic)_
 - `--typography-meta-line-height`: 1.6 _(semantic)_
 - `--typography-microcopy-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -9425,7 +9447,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -9440,6 +9462,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

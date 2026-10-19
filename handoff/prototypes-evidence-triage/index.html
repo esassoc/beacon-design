@@ -14,8 +14,9 @@
       :root,
       [data-theme="beacon"] {
         --animation-overlay-enter: 0.25s ease-out;
-        --badge-bg: #005862;
-        --badge-text-color: #fcfcfc;
+        --badge-bg: #fcfcfc;
+        --badge-border-color: #dcdcdc;
+        --badge-text-color: #525252;
         --bcn-aldo: #08908b;
         --bcn-aldo-100: #cfeceb;
         --bcn-aldo-50: #e8f6f5;
@@ -104,13 +105,13 @@
         --transition-fast: 0.15s ease;
         --typography-body-sm-font-family: "DM Sans", sans-serif;
         --typography-body-sm-font-size: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
-        --typography-body-sm-font-weight: 350;
+        --typography-body-sm-font-weight: 400;
         --typography-body-sm-letter-spacing: 0.01em;
         --typography-body-sm-line-height: 1.6;
         --typography-font-family-sans: "DM Sans", sans-serif;
         --typography-font-weight-bold: 650;
         --typography-font-weight-medium: 500;
-        --typography-font-weight-regular: 350;
+        --typography-font-weight-regular: 400;
         --typography-font-weight-semibold: 550;
         --typography-label-md-font-family: "DM Sans", sans-serif;
         --typography-label-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
@@ -124,7 +125,7 @@
         --typography-microcopy-md-line-height: 1;
         --typography-microcopy-md-subtle-font-family: "DM Sans", sans-serif;
         --typography-microcopy-md-subtle-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-        --typography-microcopy-md-subtle-font-weight: 350;
+        --typography-microcopy-md-subtle-font-weight: 400;
         --typography-microcopy-md-subtle-letter-spacing: 0.01em;
         --typography-microcopy-md-subtle-line-height: 1;
         --typography-microcopy-sm-font-family: "DM Sans", sans-serif;
@@ -149,163 +150,17 @@
         --typography-microcopy-xs-strong-line-height: 1;
       }
 
-      :host {
-        display: block;
-        --_field-padding-y: var(--spacing-300, 0.75rem);
-        --_field-padding-x: var(--spacing-300, 0.75rem);
-        --_field-radius: var(--radius-md, 0.5rem);
-        --_field-border-color: var(--form-border-color, #cecece);
-      }
-      .field {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-100, 4px);
-      }
-      .container {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-100, 4px);
-      }
-      .input-wrapper {
-        position: relative;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-      }
-      .input {
-        width: 100%;
-        padding: var(--_field-padding-y) var(--_field-padding-x);
-        padding-inline-end: calc(var(--_field-padding-x) + 24px);
-        /* The box is content + padding since heights were removed (2026-08-14), so
-         LEADING IS NOW LOAD-BEARING — it is the term that decides how tall a field
-         is. On a single-line control leading has no typographic job: there is one
-         line, and the space above and below it is invisible. Letting the body-*
-         composite's relaxed leading through added 12px here at md and made this
-         field 7px taller than esa-text-field on the same step, breaking the row
-         alignment component-tokens.css promises.
-         CHOSEN, NOT RESTATED, and not compensated for with a smaller padding rung.
-         The tight leading comes from FIELD_TYPE picking a microcopy-*-subtle rung,
-         whose composite declares the line-height for us — there is deliberately no
-         line-height declaration in this rule, because one here would outrank the
-         composite rather than agree with it. (.input--trigger below does restate
-         it as normal, for the button-versus-input reason given there.) A static padding offset was the other option and
-         is wrong: leading scales with the fluid type (27px at 1600, 22px at 375) and
-         is re-pointable by a theme, so an offset would cancel it at exactly one
-         viewport. esa-textarea stays on a body-* composite on purpose — it is
-         genuinely multi-line, so its leading has a typographic job. */
-        color: var(--form-text-color, #202020);
-        background: var(--color-background-field, transparent);
-        border: var(--form-border-width, 1px) solid var(--_field-border-color);
-        border-radius: var(--_field-radius);
-        outline: none;
-        cursor: pointer;
-        box-sizing: border-box;
-        transition:
-          border-color var(--transition-fast, 150ms ease),
-          box-shadow var(--transition-fast, 150ms ease);
-      }
-      .input--trigger {
-        display: block;
-        text-align: start;
-        /* Only the family is restated. The composite class on this same element
-         already sets size, weight and tracking; the font shorthand that used to
-         sit here came later in the sheet and reset all of them to the host's,
-         which made the trigger a step larger than esa-text-field at the same size
-         and broke the filter-row alignment the two are meant to share. */
-        font-family: inherit;
-        /* Leading is the one composite term a BUTTON and an INPUT read differently.
-         The composite's line-height 1 is honoured by this button, but a native
-         single-line input never lays its text out shorter than the font's normal
-         line box (Chrome, WebKit), so esa-text-field's box is font-normal plus
-         padding whatever the composite says. Measured 2026-09-14: 3.5px shorter
-         at sm, 4.5px at md, 5.5px at lg. normal here puts the trigger on the
-         same floor the input is already on — same font, same normal, same box —
-         at every size and in every browser, with no px offset to drift. */
-        line-height: normal;
-        min-width: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        -webkit-appearance: none;
-        appearance: none;
-      }
-      .arrow {
+      .visually-hidden {
         position: absolute;
-        right: var(--_field-padding-x);
-        top: 50%;
-        transform: translateY(-50%);
-        display: inline-flex;
-        color: var(--color-content-default-secondary, #646464);
-        pointer-events: none;
-        transition: transform var(--transition-fast, 150ms ease);
-      }
-      .arrow svg {
-        width: var(--icon-size-md, 20px);
-        height: var(--icon-size-md, 20px);
-      }
-      .field__error {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-100, 4px);
-        color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
-      }
-      .field__help {
-        color: var(--form-help-color, #838383);
-      }
-      .typography-microcopy-md {
-        font-family: var(--typography-microcopy-md-font-family);
-        font-size: var(--typography-microcopy-md-font-size);
-        font-weight: var(--typography-microcopy-md-font-weight);
-        line-height: var(--typography-microcopy-md-line-height);
-        letter-spacing: var(--typography-microcopy-md-letter-spacing);
-      }
-      .typography-microcopy-sm-strong {
-        font-family: var(--typography-microcopy-sm-strong-font-family);
-        font-size: var(--typography-microcopy-sm-strong-font-size);
-        font-weight: var(--typography-microcopy-sm-strong-font-weight);
-        line-height: var(--typography-microcopy-sm-strong-line-height);
-        letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
-      }
-      .typography-label-md {
-        font-family: var(--typography-label-md-font-family);
-        font-size: var(--typography-label-md-font-size);
-        font-weight: var(--typography-label-md-font-weight);
-        line-height: var(--typography-label-md-line-height);
-        letter-spacing: var(--typography-label-md-letter-spacing);
-      }
-      .typography-microcopy-sm {
-        font-family: var(--typography-microcopy-sm-font-family);
-        font-size: var(--typography-microcopy-sm-font-size);
-        font-weight: var(--typography-microcopy-sm-font-weight);
-        line-height: var(--typography-microcopy-sm-line-height);
-        letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-      }
-      .esa-icon {
-        --_icon-size: var(--icon-size-md, 20px);
-        width: var(--_icon-size);
-        height: var(--_icon-size);
-        color: inherit;
-        justify-content: center;
-        align-items: center;
-        display: inline-flex;
-      }
-      .esa-icon--xs {
-        --_icon-size: var(--icon-size-xs, 14px);
-      }
-      .esa-icon svg {
-        width: var(--_icon-size);
-        height: var(--_icon-size);
-        display: block;
-      }
-      .esa-icon--sm {
-        --_icon-size: var(--icon-size-sm, 16px);
-      }
-      .esa-icon--md {
-        --_icon-size: var(--icon-size-md, 20px);
-      }
-      .esa-icon--lg {
-        --_icon-size: var(--icon-size-lg, 24px);
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        border: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
       }
       .esa-filter-clear-button {
         --_clear-text: var(--color-content-default-secondary, #646464);
@@ -337,689 +192,9 @@
       .esa-filter-clear-button__label {
         white-space: nowrap;
       }
-      :host {
-        display: inline-block;
-
-        --_filter-height: 40px;
-        --_filter-padding-x: var(--spacing-400, 1rem);
-        --_filter-radius: var(--radius-md, 0.5rem);
-        --_filter-bg: var(--color-background-elevation-raised, #fcfcfc);
-        --_filter-bg-active: var(--color-background-brand-subtle, #fbfefb);
-        --_filter-text: var(--color-content-default, #202020);
-        --_filter-text-active: var(--color-background-brand, #46a758);
-        --_filter-border: var(--color-border-default, #cecece);
-        --_filter-border-active: var(--color-background-brand, #46a758);
-      }
-      :host([size="sm"]) {
-        --_filter-height: 32px;
-        --_filter-padding-x: var(--spacing-300, 0.75rem);
-        --_filter-radius: var(--radius-sm, 0.25rem);
-      }
-      .esa-filter-dropdown {
-        position: relative;
-        display: inline-flex;
-      }
-      .esa-filter-dropdown__trigger {
-        display: inline-flex;
-        align-items: center;
-        gap: var(--spacing-100, 0.25rem);
-        height: var(--_filter-height);
-        padding-inline: var(--_filter-padding-x);
-        border: var(--border-width-default, 1px) solid var(--_filter-border);
-        border-radius: var(--_filter-radius);
-        background: var(--_filter-bg);
-        color: var(--_filter-text);
-        cursor: pointer;
-        white-space: nowrap;
-        transition:
-          background var(--transition-fast, 150ms ease),
-          border-color var(--transition-fast, 150ms ease),
-          color var(--transition-fast, 150ms ease);
-        -webkit-appearance: none;
-        appearance: none;
-      }
-      .esa-filter-dropdown__label {
-        /* clip/visible, not "overflow: hidden" — the trigger sets a microcopy composite,
-         whose line-height "none" (1) leaves the line box 1em against DM Sans's 1.30em
-         glyph box, so hiding the Y axis clips the descenders in a label like
-         "Category" or "Region type". Same fix as esa-file-list's .file__name, where
-         the arithmetic is written out. */
-        overflow-x: clip;
-        overflow-y: visible;
-        text-overflow: ellipsis;
-        max-width: 200px;
-      }
-      .esa-filter-dropdown__arrow {
-        display: inline-flex;
-        width: 20px;
-        height: 20px;
-        transition: transform var(--transition-fast, 150ms ease);
-      }
-      .esa-filter-dropdown__arrow svg {
-        width: 20px;
-        height: 20px;
-      }
-      .bcn-triage-counts {
-        --gap: var(--spacing-250);
-      }
-      .bcn-triage-counts__chip {
-        align-items: center;
-        display: inline-flex;
-      }
-      .bcn-triage-counts__chip .esa-badge {
-        --badge-height-md: 24px;
-        font-weight: var(--typography-font-weight-medium);
-        --badge-bg: var(--color-background-elevation-sunken);
-        --badge-text-color: var(--color-content-default-secondary);
-      }
-      .bcn-triage-counts__showing {
-        color: var(--color-content-default-secondary);
-        font-size: 0.8125rem;
-      }
-      .bcn-triage-counts__showing[hidden] {
-        display: none;
-      }
-      .bcn-triage-workspace__panes {
-        --sidebar-width: 31rem;
-        --sidebar-content-min: 42%;
-        align-items: stretch;
-        height: clamp(32rem, 70vh, 58rem);
-      }
-      .bcn-triage-workspace__queue {
-        height: 100%;
-        min-height: 0;
-      }
-      .bcn-triage-queue {
-        background: var(--color-background-elevation-raised);
-        border: 1px solid var(--color-border-default);
-        border-radius: var(--radius-100);
-        flex-direction: column;
-        height: 100%;
-        min-height: 0;
-        display: flex;
-        overflow: hidden;
-      }
-      .bcn-triage-queue__scroll {
-        min-height: 0;
-        padding-bottom: var(--spacing-500);
-        flex: 1;
-        overflow-y: auto;
-      }
-      .bcn-triage-queue__day {
-        z-index: 1;
-        padding: var(--spacing-100) var(--spacing-300);
-        background: var(--color-background-elevation-sunken);
-        border-block: 1px solid var(--color-border-default-subtle);
-        font-size: 0.875rem;
-        font-weight: var(--typography-font-weight-medium);
-        color: var(--color-content-default);
-        margin: 0;
-        line-height: 1.4;
-        position: sticky;
-        top: 0;
-      }
-      .bcn-triage-queue__group:first-child .bcn-triage-queue__day {
-        border-top: 0;
-      }
-      .bcn-triage-queue__list {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-      }
-      .bcn-triage-row {
-        gap: var(--spacing-150);
-        padding: var(--spacing-300);
-        border-bottom: 1px solid var(--color-border-default-subtle);
-        background: var(--color-background-elevation-raised);
-        flex-direction: column;
-        display: flex;
-      }
-      .bcn-triage-row__body {
-        gap: var(--spacing-150);
-        min-width: 0;
-        font: inherit;
-        color: inherit;
-        text-align: left;
-        cursor: pointer;
-        background: 0 0;
-        border: 0;
-        flex-direction: column;
-        padding: 0;
-        display: flex;
-      }
-      .bcn-triage-row__line {
-        justify-content: space-between;
-        align-items: baseline;
-        gap: var(--spacing-250);
-        min-width: 0;
-        display: flex;
-      }
-      .bcn-triage-row__title {
-        min-width: 0;
-        color: var(--color-content-default);
-        font-size: 0.875rem;
-        font-weight: 600;
-        line-height: 1.35;
-      }
-      .bcn-triage-row__date {
-        color: var(--color-content-default-secondary);
-        flex: none;
-        font-size: 0.8125rem;
-      }
-      .bcn-triage-row__meta {
-        color: var(--color-content-default-secondary);
-        font-size: 0.8125rem;
-      }
-      .bcn-triage-row__foot {
-        align-items: center;
-        min-width: 0;
-        display: flex;
-      }
-      .bcn-triage-row__match {
-        align-items: center;
-        gap: var(--spacing-200);
-        min-width: 0;
-        display: flex;
-      }
-      .bcn-triage-row__sug .esa-badge {
-        --badge-bg: var(--color-background-utility-info-subtle);
-        --badge-text-color: var(--color-content-default);
-        --badge-height-md: 24px;
-        border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
-        font-weight: var(--typography-font-weight-medium);
-      }
-      .bcn-triage-row:last-child {
-        border-bottom: 0;
-      }
-      .bcn-triage-queue__group + .bcn-triage-queue__group {
-        margin-top: 0;
-      }
-      .bcn-triage-row__foot[hidden] {
-        display: none;
-      }
-      .bcn-triage-queue__list[hidden] {
-        display: none;
-      }
-      .bcn-triage-queue__empty {
-        padding: var(--spacing-700) var(--spacing-400);
-      }
-      .bcn-triage-queue__empty[hidden] {
-        display: none;
-      }
-      .bcn-triage-workspace__review {
-        align-self: start;
-        min-height: 0;
-        max-height: 100%;
-      }
-      .bcn-triage-review {
-        background: var(--color-background-elevation-raised);
-        border: 1px solid var(--color-border-default);
-        border-radius: var(--radius-100);
-        flex-direction: column;
-        min-height: 0;
-        max-height: 100%;
-        display: flex;
-        overflow-y: auto;
-      }
-      .bcn-triage-review:has([data-triage-prompt]:not([hidden])) {
-        background: 0 0;
-        border: 0;
-      }
-      .bcn-triage-review__prompt {
-        flex: 1;
-        align-items: stretch;
-        min-height: 22rem;
-        display: flex;
-      }
-      .bcn-triage-review__invite {
-        padding: var(--spacing-500);
-        border: 1px dashed var(--color-border-default);
-        border-radius: var(--radius-200);
-        color: var(--color-content-default-secondary);
-        background: 0 0;
-        flex: 1;
-        justify-content: center;
-        align-items: center;
-        margin: 0;
-        font-size: 0.8125rem;
-        font-style: italic;
-        display: flex;
-      }
-      .bcn-triage-review__panel {
-        flex-direction: column;
-        display: flex;
-      }
-      .bcn-triage-review__panel[hidden] {
-        display: none;
-      }
-      .bcn-file-preview {
-        min-height: 26rem;
-        padding: var(--spacing-400) 0;
-        background: var(--color-background-elevation-sunken);
-        border-radius: var(--radius-100);
-        justify-content: center;
-        display: flex;
-      }
-      .bcn-file-preview__page {
-        justify-content: center;
-        align-items: center;
-        gap: var(--spacing-200);
-        width: min(20rem, 100%);
-        padding: var(--spacing-500);
-        text-align: center;
-        background: var(--color-background-elevation-raised);
-        border: 1px solid var(--color-border-default);
-        border-radius: var(--radius-100);
-        flex-direction: column;
-        display: flex;
-      }
-      .bcn-file-preview__page .esa-icon {
-        color: var(--color-content-default-secondary);
-      }
-      .bcn-file-preview__name {
-        font-weight: var(--typography-font-weight-semibold);
-        color: var(--color-content-default);
-        overflow-wrap: anywhere;
-        margin: 0;
-      }
-      .bcn-file-preview__note {
-        color: var(--color-content-default-secondary);
-        margin: 0;
-        font-size: 0.875rem;
-      }
-      .bcn-triage-add {
-        gap: var(--spacing-300);
-        flex-direction: column;
-        min-height: 20rem;
-        display: flex;
-      }
-      .bcn-triage-add__scope {
-        color: var(--color-content-default-secondary);
-        margin: 0;
-        font-size: 0.8125rem;
-      }
-      .bcn-triage-add__staged {
-        gap: var(--spacing-200);
-        padding-top: var(--spacing-300);
-        border-top: 1px solid var(--color-border-default);
-        flex-direction: column;
-        display: flex;
-      }
-      .bcn-triage-add__staged[hidden] {
-        display: none;
-      }
-      .bcn-triage-add__actions {
-        justify-content: flex-end;
-        gap: var(--spacing-250);
-        display: flex;
-      }
-      .visually-hidden {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        margin: -1px;
-        padding: 0;
-        border: 0;
-        overflow: hidden;
-        white-space: nowrap;
-        clip: rect(0 0 0 0);
-        clip-path: inset(50%);
-      }
-      .esa-button {
-        --_btn-pad-y: var(--spacing-300, 0.75rem);
-        --_btn-padding-x: var(--spacing-300, 0.75rem);
-        --_btn-radius: var(--button-radius-md, 0.5rem);
-        --_accent: var(--color-background-brand, #46a758);
-        --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-        --_on: var(--color-content-default-knockout, #fcfcfc);
-        --_accent-text: var(--_accent);
-        --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-        --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-        display: inline-block;
-      }
-      .esa-button__native {
-        justify-content: center;
-        align-items: center;
-        gap: var(--spacing-200, 8px);
-        width: 100%;
-        padding-block: var(--_btn-pad-y);
-        padding-inline: var(--_btn-padding-x);
-        border: var(--border-width-default, 1px) solid transparent;
-        border-radius: var(--_btn-radius);
-        cursor: pointer;
-        transition:
-          background var(--transition-fast, 0.15s ease),
-          border-color var(--transition-fast, 0.15s ease);
-        -webkit-appearance: none;
-        appearance: none;
-        text-decoration: none;
-        display: inline-flex;
-      }
-      .esa-button--appearance-fill .esa-button__native {
-        background: var(--_accent);
-        color: var(--_on);
-        border-color: var(--_accent-border, transparent);
-      }
-      .esa-button--variant-chrome .esa-button__native {
-        color: inherit;
-        background: 0 0;
-        border-color: #0000;
-      }
-      .esa-button--icon-only .esa-button__native {
-        padding-inline: var(--_btn-pad-y);
-        aspect-ratio: 1;
-      }
-      .esa-button--variant-primary {
-        --_accent-text: var(--color-content-brand);
-      }
-      .esa-button--disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        pointer-events: none;
-      }
-      .esa-button__label {
-        white-space: nowrap;
-      }
-      .esa-button--variant-ghost .esa-button__native {
-        color: var(--color-content-default, #202020);
-        background: 0 0;
-        border-color: #0000;
-      }
       html,
       .modern-layout__content {
         scroll-behavior: smooth;
-      }
-      :host {
-        --_width: var(--side-dialog-width, 400px);
-      }
-      dialog.panel {
-        --_inset: var(--side-dialog-inset, 16px);
-        position: fixed;
-        top: var(--_inset);
-        bottom: var(--_inset);
-        inset-inline: auto;
-        height: auto;
-        margin: 0;
-        border: none;
-        padding: 0;
-        width: min(var(--_width), calc(100vw - var(--_inset) * 2));
-        max-width: none;
-        max-height: none;
-        background: var(--color-background-elevation-raised, #fcfcfc);
-        color: var(--color-content-default, #202020);
-        border-radius: var(--radius-md, 0.5rem);
-        box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
-        outline: none;
-        overflow: hidden;
-        /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
-         second dialog on top) — ease the reposition instead of jumping. */
-        transition:
-          top 220ms ease,
-          right 220ms ease,
-          bottom 220ms ease,
-          left 220ms ease;
-      }
-      :host([position="right"]) dialog.panel {
-        right: var(--_inset);
-        animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
-      }
-      :host {
-        --_dialog-bg: var(--color-background-elevation-floating, #fcfcfc);
-        --_dialog-border-radius: var(--radius-lg, 0.75rem);
-        --_dialog-padding: var(--spacing-500, 1.5rem);
-        --_dialog-header-border: var(--color-border-default-subtle, #d9d9d9);
-        /* Header/footer surface tints. These were --dialog-header-bg /
-         --dialog-footer-bg, declared in no token file — a hook offered on the
-         strength of a fallback nobody had asked to override. Folded to their
-         literal default 2026-08-16; --dialog-* is a live namespace, so they come
-         back as declarations the day a spoke actually wants to frame the body. */
-        --_dialog-header-bg: transparent;
-        --_dialog-footer-bg: transparent;
-        --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
-        --_dialog-width: var(--dialog-width, 480px);
-        --_dialog-max-height: 85vh;
-      }
-      :host([size="lg"]) {
-        --_dialog-width: var(--dialog-width-lg, 640px);
-      }
-      dialog.esa-dialog {
-        /* UA reset. The UA sheet gives <dialog> a solid border, 1em padding and
-         'max-width/max-height: calc(100% - 6px - 2em)'; without clearing those the
-         panel renders inside a second, smaller box. */
-        border: none;
-        padding: 0;
-        margin: auto;
-        background: var(--_dialog-bg);
-        color: var(--color-content-default, #202020);
-        border-radius: var(--_dialog-border-radius);
-        box-shadow: var(--_dialog-shadow);
-        width: var(--_dialog-width);
-        max-width: 100vw;
-        max-height: var(--_dialog-max-height);
-        overflow: hidden;
-        font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
-      }
-      :host {
-        --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
-        --_popover-border: var(--color-border-default, #cecece);
-        --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-        --_popover-radius: var(--radius-md, 0.5rem);
-        --_popover-padding: var(--spacing-300, 0.75rem);
-        --_popover-arrow-size: 8px;
-        --_popover-color: var(--color-content-default, #202020);
-        display: inline-block;
-      }
-      .esa-popover-anchor {
-        position: relative;
-        display: inline-block;
-      }
-      :host {
-        all: initial;
-      }
-      .host-root {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        z-index: 2147483000;
-        font-family: system-ui, sans-serif;
-      }
-      .host-root > * {
-        pointer-events: auto;
-      }
-      .launch {
-        position: fixed;
-        bottom: 22px;
-        left: 22px;
-        display: inline-flex;
-        align-items: center;
-        gap: 9px;
-        padding: 13px 19px;
-        border-radius: 999px;
-        color: #fff;
-        cursor: pointer;
-        font-size: 15px;
-        font-weight: 600;
-        letter-spacing: 0.01em;
-        border: 1px solid #3d6fd6;
-        background: linear-gradient(180deg, #1f6feb, #1551c4);
-        box-shadow:
-          0 10px 28px -8px rgba(31, 111, 235, 0.65),
-          inset 0 1px 0 rgba(255, 255, 255, 0.18);
-        transition:
-          transform 0.15s ease,
-          box-shadow 0.15s ease,
-          filter 0.15s ease;
-      }
-      .launch svg {
-        flex: none;
-      }
-      .panel {
-        position: fixed;
-        top: 18px;
-        right: 18px;
-        bottom: 18px;
-        width: min(720px, 94vw);
-        display: flex;
-        flex-direction: column;
-        color: #ffffff;
-        border-radius: 16px;
-        background: linear-gradient(155deg, rgba(26, 31, 40, 0.74), rgba(11, 15, 21, 0.86));
-        backdrop-filter: blur(26px) saturate(150%);
-        -webkit-backdrop-filter: blur(26px) saturate(150%);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        box-shadow:
-          0 28px 70px -18px rgba(0, 0, 0, 0.62),
-          inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        font-size: 12.5px;
-        overflow: hidden;
-        /* slide in from the right */
-        transform: translateX(calc(100% + 32px));
-        opacity: 0;
-        visibility: hidden;
-        transition:
-          transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-          opacity 0.22s ease,
-          visibility 0s linear 0.3s;
-      }
-      .head {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 13px 16px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-      }
-      .head strong {
-        font-size: 14px;
-      }
-      .head .sub {
-        flex: 1;
-        color: #ccd5e0;
-        font-size: 12px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      .x {
-        border: 0;
-        background: none;
-        color: #c4cdd8;
-        font-size: 20px;
-        line-height: 1;
-        cursor: pointer;
-      }
-      .picker {
-        padding: 12px 16px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-      }
-      .chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-      }
-      .chip {
-        padding: 5px 12px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        background: rgba(255, 255, 255, 0.04);
-        color: #eef2f6;
-        font: inherit;
-        font-size: 12.5px;
-        cursor: pointer;
-        white-space: nowrap;
-        transition:
-          border-color 0.12s ease,
-          background 0.12s ease,
-          color 0.12s ease;
-      }
-      .chip.on {
-        background: rgba(31, 111, 235, 0.28);
-        border-color: #4493f8;
-        color: #fff;
-        font-weight: 600;
-      }
-      .tabs {
-        display: flex;
-        gap: 4px;
-        padding: 9px 14px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-      }
-      .tabs button {
-        padding: 5px 12px;
-        border: 0;
-        border-radius: 6px;
-        background: none;
-        color: #ccd5e0;
-        font: inherit;
-        font-size: 12.5px;
-        cursor: pointer;
-      }
-      .tabs button.on {
-        background: rgba(255, 255, 255, 0.12);
-        color: #fff;
-      }
-      .body {
-        overflow: auto;
-        padding: 13px 16px;
-        flex: 1;
-      }
-      .hint {
-        margin: 0;
-        color: #c4cdd8;
-        line-height: 1.6;
-      }
-      .footer {
-        position: relative;
-        display: flex;
-        justify-content: flex-end;
-        gap: 8px;
-        padding: 11px 16px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(0, 0, 0, 0.18);
-      }
-      [hidden] {
-        display: none !important;
-      }
-      .cpreview {
-        position: absolute;
-        left: 16px;
-        right: 16px;
-        bottom: calc(100% + 8px);
-        background: rgba(13, 17, 23, 0.96);
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        border-radius: 12px;
-        box-shadow: 0 18px 50px -14px rgba(0, 0, 0, 0.7);
-        padding: 12px 14px;
-        max-height: 50vh;
-        overflow: auto;
-      }
-      .copy {
-        color: #eef2f6;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        background: rgba(255, 255, 255, 0.05);
-      }
-      .footer button {
-        flex: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-        padding: 8px 14px;
-        border-radius: 8px;
-        font: inherit;
-        font-size: 12.5px;
-        font-weight: 600;
-        cursor: pointer;
-      }
-      .claude {
-        color: #fff;
-        border: 1px solid #d97757;
-        background: linear-gradient(180deg, #e0805f, #c25e3c);
-        box-shadow:
-          0 6px 18px -6px rgba(217, 119, 87, 0.6),
-          inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      }
-      .claude svg {
-        flex: none;
       }
       :host {
         --_field-padding-y: var(--spacing-300, 0.75rem);
@@ -1087,6 +262,127 @@
       }
       .help {
         color: var(--form-help-color, #838383);
+      }
+      .esa-badge {
+        --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
+        --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
+        --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
+        --_badge-padding-y: var(--spacing-150, 0.375rem);
+        --_badge-padding-x: var(--spacing-200, 0.5rem);
+        min-width: calc(1lh + 2 * var(--_badge-padding-y));
+        padding-block: var(--_badge-padding-y);
+        padding-inline: var(--_badge-padding-x);
+        border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+        background: var(--_badge-bg);
+        color: var(--_badge-text);
+        white-space: nowrap;
+        box-sizing: border-box;
+        justify-content: center;
+        align-items: center;
+        display: inline-flex;
+      }
+      .esa-badge--neutral:not(.esa-badge--dot),
+      .esa-badge--success:not(.esa-badge--dot),
+      .esa-badge--warning:not(.esa-badge--dot),
+      .esa-badge--danger:not(.esa-badge--dot),
+      .esa-badge--info:not(.esa-badge--dot) {
+        border: 1px solid var(--_badge-border, transparent);
+      }
+      :host {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-100, 4px);
+        --_pad-y: var(--spacing-300, 0.75rem);
+        --_padding-x: var(--spacing-300, 0.75rem);
+        --_radius: var(--radius-md, 0.5rem);
+        --_border-width: var(--form-border-width, 1px);
+        --_border-color: var(--form-border-color, #cecece);
+        --_icon-size: 18px;
+      }
+      :host([size="sm"]) {
+        --_pad-y: var(--spacing-250, 0.625rem);
+        --_padding-x: var(--spacing-250, 0.625rem);
+        --_radius: var(--radius-sm, 0.25rem);
+        --_icon-size: 16px;
+      }
+      .group {
+        display: inline-flex;
+        width: fit-content;
+        max-width: 100%;
+        gap: 2px;
+        padding: 2px;
+        background: var(--color-background-elevation-sunken, #f0f0f0);
+        border: var(--_border-width) solid var(--_border-color);
+        border-radius: var(--_radius);
+      }
+      .option {
+        appearance: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-150, 6px);
+        /* Was calc(height - 4px) to compensate for the track's 2px padding. With no
+         height token the segment is its own text plus padding, and the track wraps
+         it — the compensation has nothing left to compensate for. */
+        padding: var(--_pad-y) var(--_padding-x);
+        color: var(--color-content-default-secondary, #646464);
+        background: transparent;
+        border: 0;
+        border-radius: calc(var(--_radius) - 2px);
+        cursor: pointer;
+        user-select: none;
+        white-space: nowrap;
+        transition:
+          background-color var(--transition-fast, 150ms ease),
+          color var(--transition-fast, 150ms ease),
+          box-shadow var(--transition-fast, 150ms ease);
+      }
+      .option--selected {
+        background: var(--color-background-elevation-raised, #fcfcfc);
+        color: var(--color-content-brand, #2a7e3b);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+      }
+      .typography-microcopy-xs-strong {
+        font-family: var(--typography-microcopy-xs-strong-font-family);
+        font-size: var(--typography-microcopy-xs-strong-font-size);
+        font-weight: var(--typography-microcopy-xs-strong-font-weight);
+        line-height: var(--typography-microcopy-xs-strong-line-height);
+        letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+      }
+      .typography-microcopy-xs {
+        font-family: var(--typography-microcopy-xs-font-family);
+        font-size: var(--typography-microcopy-xs-font-size);
+        font-weight: var(--typography-microcopy-xs-font-weight);
+        line-height: var(--typography-microcopy-xs-line-height);
+        letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+      }
+      .typography-microcopy-md-subtle {
+        font-family: var(--typography-microcopy-md-subtle-font-family);
+        font-size: var(--typography-microcopy-md-subtle-font-size);
+        font-weight: var(--typography-microcopy-md-subtle-font-weight);
+        line-height: var(--typography-microcopy-md-subtle-line-height);
+        letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+      }
+      .typography-body-sm {
+        font-family: var(--typography-body-sm-font-family);
+        font-size: var(--typography-body-sm-font-size);
+        font-weight: var(--typography-body-sm-font-weight);
+        line-height: var(--typography-body-sm-line-height);
+        letter-spacing: var(--typography-body-sm-letter-spacing);
+      }
+      .typography-microcopy-sm {
+        font-family: var(--typography-microcopy-sm-font-family);
+        font-size: var(--typography-microcopy-sm-font-size);
+        font-weight: var(--typography-microcopy-sm-font-weight);
+        line-height: var(--typography-microcopy-sm-line-height);
+        letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+      }
+      .typography-label-md {
+        font-family: var(--typography-label-md-font-family);
+        font-size: var(--typography-label-md-font-size);
+        font-weight: var(--typography-label-md-font-weight);
+        line-height: var(--typography-label-md-line-height);
+        letter-spacing: var(--typography-label-md-letter-spacing);
       }
       .modern-layout {
         flex-direction: column;
@@ -1528,15 +824,13 @@
         display: inline-flex;
       }
       .bcn-aldo-mark[data-size="sm"] {
-        --icon-size-xs: 12px;
         width: 20px;
         height: 20px;
       }
       .bcn-aldo-mark__glyph {
-        justify-content: center;
-        align-items: center;
-        line-height: 0;
-        display: inline-flex;
+        width: 100%;
+        height: 100%;
+        display: block;
       }
       .bcn-help-bar__guidance-label {
         white-space: nowrap;
@@ -1904,93 +1198,80 @@
         box-shadow: 0 -12px 48px -12px #00000052;
       }
       :host {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-100, 4px);
-        --_pad-y: var(--spacing-300, 0.75rem);
-        --_padding-x: var(--spacing-300, 0.75rem);
-        --_radius: var(--radius-md, 0.5rem);
-        --_border-width: var(--form-border-width, 1px);
-        --_border-color: var(--form-border-color, #cecece);
-        --_icon-size: 18px;
+        display: inline-block;
+
+        --_filter-height: 40px;
+        --_filter-padding-x: var(--spacing-400, 1rem);
+        --_filter-radius: var(--radius-md, 0.5rem);
+        --_filter-bg: var(--color-background-elevation-raised, #fcfcfc);
+        --_filter-bg-active: var(--color-background-brand-subtle, #fbfefb);
+        --_filter-text: var(--color-content-default, #202020);
+        --_filter-text-active: var(--color-background-brand, #46a758);
+        --_filter-border: var(--color-border-default, #cecece);
+        --_filter-border-active: var(--color-background-brand, #46a758);
       }
       :host([size="sm"]) {
-        --_pad-y: var(--spacing-250, 0.625rem);
-        --_padding-x: var(--spacing-250, 0.625rem);
-        --_radius: var(--radius-sm, 0.25rem);
-        --_icon-size: 16px;
+        --_filter-height: 32px;
+        --_filter-padding-x: var(--spacing-300, 0.75rem);
+        --_filter-radius: var(--radius-sm, 0.25rem);
       }
-      .group {
+      .esa-filter-dropdown {
+        position: relative;
         display: inline-flex;
-        width: fit-content;
-        max-width: 100%;
-        gap: 2px;
-        padding: 2px;
-        background: var(--color-background-elevation-sunken, #f0f0f0);
-        border: var(--_border-width) solid var(--_border-color);
-        border-radius: var(--_radius);
       }
-      .option {
-        appearance: none;
+      .esa-filter-dropdown__trigger {
         display: inline-flex;
         align-items: center;
-        justify-content: center;
-        gap: var(--spacing-150, 6px);
-        /* Was calc(height - 4px) to compensate for the track's 2px padding. With no
-         height token the segment is its own text plus padding, and the track wraps
-         it — the compensation has nothing left to compensate for. */
-        padding: var(--_pad-y) var(--_padding-x);
-        color: var(--color-content-default-secondary, #646464);
-        background: transparent;
-        border: 0;
-        border-radius: calc(var(--_radius) - 2px);
+        gap: var(--spacing-100, 0.25rem);
+        height: var(--_filter-height);
+        padding-inline: var(--_filter-padding-x);
+        border: var(--border-width-default, 1px) solid var(--_filter-border);
+        border-radius: var(--_filter-radius);
+        background: var(--_filter-bg);
+        color: var(--_filter-text);
         cursor: pointer;
-        user-select: none;
         white-space: nowrap;
         transition:
-          background-color var(--transition-fast, 150ms ease),
-          color var(--transition-fast, 150ms ease),
-          box-shadow var(--transition-fast, 150ms ease);
+          background var(--transition-fast, 150ms ease),
+          border-color var(--transition-fast, 150ms ease),
+          color var(--transition-fast, 150ms ease);
+        -webkit-appearance: none;
+        appearance: none;
       }
-      .option--selected {
-        background: var(--color-background-elevation-raised, #fcfcfc);
-        color: var(--color-content-brand, #2a7e3b);
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+      .esa-filter-dropdown__label {
+        /* clip/visible, not "overflow: hidden" — the trigger sets a microcopy composite,
+         whose line-height "none" (1) leaves the line box 1em against DM Sans's 1.30em
+         glyph box, so hiding the Y axis clips the descenders in a label like
+         "Category" or "Region type". Same fix as esa-file-list's .file__name, where
+         the arithmetic is written out. */
+        overflow-x: clip;
+        overflow-y: visible;
+        text-overflow: ellipsis;
+        max-width: 200px;
       }
-      .typography-microcopy-xs-strong {
-        font-family: var(--typography-microcopy-xs-strong-font-family);
-        font-size: var(--typography-microcopy-xs-strong-font-size);
-        font-weight: var(--typography-microcopy-xs-strong-font-weight);
-        line-height: var(--typography-microcopy-xs-strong-line-height);
-        letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+      .esa-filter-dropdown__arrow {
+        display: inline-flex;
+        width: 20px;
+        height: 20px;
+        transition: transform var(--transition-fast, 150ms ease);
       }
-      .typography-microcopy-xs {
-        font-family: var(--typography-microcopy-xs-font-family);
-        font-size: var(--typography-microcopy-xs-font-size);
-        font-weight: var(--typography-microcopy-xs-font-weight);
-        line-height: var(--typography-microcopy-xs-line-height);
-        letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+      .esa-filter-dropdown__arrow svg {
+        width: 20px;
+        height: 20px;
       }
-      .typography-microcopy-md-subtle {
-        font-family: var(--typography-microcopy-md-subtle-font-family);
-        font-size: var(--typography-microcopy-md-subtle-font-size);
-        font-weight: var(--typography-microcopy-md-subtle-font-weight);
-        line-height: var(--typography-microcopy-md-subtle-line-height);
-        letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+      .typography-microcopy-md {
+        font-family: var(--typography-microcopy-md-font-family);
+        font-size: var(--typography-microcopy-md-font-size);
+        font-weight: var(--typography-microcopy-md-font-weight);
+        line-height: var(--typography-microcopy-md-line-height);
+        letter-spacing: var(--typography-microcopy-md-letter-spacing);
       }
-      .typography-body-sm {
-        font-family: var(--typography-body-sm-font-family);
-        font-size: var(--typography-body-sm-font-size);
-        font-weight: var(--typography-body-sm-font-weight);
-        line-height: var(--typography-body-sm-line-height);
-        letter-spacing: var(--typography-body-sm-letter-spacing);
-      }
-      .typography-microcopy-sm {
-        font-family: var(--typography-microcopy-sm-font-family);
-        font-size: var(--typography-microcopy-sm-font-size);
-        font-weight: var(--typography-microcopy-sm-font-weight);
-        line-height: var(--typography-microcopy-sm-line-height);
-        letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+      .typography-microcopy-sm-strong {
+        font-family: var(--typography-microcopy-sm-strong-font-family);
+        font-size: var(--typography-microcopy-sm-strong-font-size);
+        font-weight: var(--typography-microcopy-sm-strong-font-weight);
+        line-height: var(--typography-microcopy-sm-strong-line-height);
+        letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
       }
       .typography-label-md {
         font-family: var(--typography-label-md-font-family);
@@ -1999,12 +1280,55 @@
         line-height: var(--typography-label-md-line-height);
         letter-spacing: var(--typography-label-md-letter-spacing);
       }
+      .typography-microcopy-sm {
+        font-family: var(--typography-microcopy-sm-font-family);
+        font-size: var(--typography-microcopy-sm-font-size);
+        font-weight: var(--typography-microcopy-sm-font-weight);
+        line-height: var(--typography-microcopy-sm-line-height);
+        letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+      }
       :host {
         display: inline-block;
       }
       .esa-tooltip-anchor {
         position: relative;
         display: inline-flex;
+      }
+      :host {
+        --_dialog-bg: var(--color-background-elevation-floating, #fcfcfc);
+        --_dialog-border-radius: var(--radius-lg, 0.75rem);
+        --_dialog-padding: var(--spacing-500, 1.5rem);
+        --_dialog-header-border: var(--color-border-default-subtle, #d9d9d9);
+        /* Header/footer surface tints. These were --dialog-header-bg /
+         --dialog-footer-bg, declared in no token file — a hook offered on the
+         strength of a fallback nobody had asked to override. Folded to their
+         literal default 2026-08-16; --dialog-* is a live namespace, so they come
+         back as declarations the day a spoke actually wants to frame the body. */
+        --_dialog-header-bg: transparent;
+        --_dialog-footer-bg: transparent;
+        --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+        --_dialog-width: var(--dialog-width, 480px);
+        --_dialog-max-height: 85vh;
+      }
+      :host([size="lg"]) {
+        --_dialog-width: var(--dialog-width-lg, 640px);
+      }
+      dialog.esa-dialog {
+        /* UA reset. The UA sheet gives <dialog> a solid border, 1em padding and
+         'max-width/max-height: calc(100% - 6px - 2em)'; without clearing those the
+         panel renders inside a second, smaller box. */
+        border: none;
+        padding: 0;
+        margin: auto;
+        background: var(--_dialog-bg);
+        color: var(--color-content-default, #202020);
+        border-radius: var(--_dialog-border-radius);
+        box-shadow: var(--_dialog-shadow);
+        width: var(--_dialog-width);
+        max-width: 100vw;
+        max-height: var(--_dialog-max-height);
+        overflow: hidden;
+        font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
       }
       *,
       :before,
@@ -2159,10 +1483,10 @@
       }
       .bcn-filterbar__sort {
         margin-left: var(--spacing-600);
-        --form-height-md: 32px;
         --typography-label-md-font-size: 14px;
       }
       .bcn-filterbar__sort esa-select {
+        --_field-padding-y: calc((32px - 1lh) / 2 - var(--form-border-width, 1px));
         width: 9rem;
       }
       .bcn-filterbar__clear {
@@ -2185,22 +1509,420 @@
         flex-grow: 999;
         flex-basis: 0;
       }
-      .esa-badge {
-        --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-        --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-        --_badge-padding-y: var(--spacing-150, 0.375rem);
-        --_badge-padding-x: var(--spacing-200, 0.5rem);
-        min-width: calc(1lh + 2 * var(--_badge-padding-y));
-        padding-block: var(--_badge-padding-y);
-        padding-inline: var(--_badge-padding-x);
-        border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-        background: var(--_badge-bg);
-        color: var(--_badge-text);
-        white-space: nowrap;
-        box-sizing: border-box;
+      :host {
+        --_width: var(--side-dialog-width, 400px);
+      }
+      dialog.panel {
+        --_inset: var(--side-dialog-inset, 16px);
+        position: fixed;
+        top: var(--_inset);
+        bottom: var(--_inset);
+        inset-inline: auto;
+        height: auto;
+        margin: 0;
+        border: none;
+        padding: 0;
+        width: min(var(--_width), calc(100vw - var(--_inset) * 2));
+        max-width: none;
+        max-height: none;
+        background: var(--color-background-elevation-raised, #fcfcfc);
+        color: var(--color-content-default, #202020);
+        border-radius: var(--radius-md, 0.5rem);
+        box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
+        outline: none;
+        overflow: hidden;
+        /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
+         second dialog on top) — ease the reposition instead of jumping. */
+        transition:
+          top 220ms ease,
+          right 220ms ease,
+          bottom 220ms ease,
+          left 220ms ease;
+      }
+      :host([position="right"]) dialog.panel {
+        right: var(--_inset);
+        animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
+      }
+      .bcn-triage-counts {
+        --gap: var(--spacing-250);
+      }
+      .bcn-triage-counts__chip {
+        align-items: center;
+        display: inline-flex;
+      }
+      .bcn-triage-counts__chip .esa-badge {
+        --badge-height-md: 24px;
+        font-weight: var(--typography-font-weight-medium);
+        --badge-bg: var(--color-background-elevation-sunken);
+        --badge-text-color: var(--color-content-default-secondary);
+      }
+      .bcn-triage-counts__showing {
+        color: var(--color-content-default-secondary);
+        font-size: 0.8125rem;
+      }
+      .bcn-triage-counts__showing[hidden] {
+        display: none;
+      }
+      .bcn-triage-workspace__panes {
+        --sidebar-width: 31rem;
+        --sidebar-content-min: 42%;
+        align-items: stretch;
+        height: clamp(32rem, 70vh, 58rem);
+      }
+      .bcn-triage-workspace__queue {
+        height: 100%;
+        min-height: 0;
+      }
+      .bcn-triage-queue {
+        background: var(--color-background-elevation-raised);
+        border: 1px solid var(--color-border-default);
+        border-radius: var(--radius-100);
+        flex-direction: column;
+        height: 100%;
+        min-height: 0;
+        display: flex;
+        overflow: hidden;
+      }
+      .bcn-triage-queue__scroll {
+        min-height: 0;
+        padding-bottom: var(--spacing-500);
+        flex: 1;
+        overflow-y: auto;
+      }
+      .bcn-triage-queue__day {
+        z-index: 1;
+        padding: var(--spacing-100) var(--spacing-300);
+        background: var(--color-background-elevation-sunken);
+        border-block: 1px solid var(--color-border-default-subtle);
+        font-size: 0.875rem;
+        font-weight: var(--typography-font-weight-medium);
+        color: var(--color-content-default);
+        margin: 0;
+        line-height: 1.4;
+        position: sticky;
+        top: 0;
+      }
+      .bcn-triage-queue__group:first-child .bcn-triage-queue__day {
+        border-top: 0;
+      }
+      .bcn-triage-queue__list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .bcn-triage-row {
+        gap: var(--spacing-150);
+        padding: var(--spacing-300);
+        border-bottom: 1px solid var(--color-border-default-subtle);
+        background: var(--color-background-elevation-raised);
+        flex-direction: column;
+        display: flex;
+      }
+      .bcn-triage-row__body {
+        gap: var(--spacing-150);
+        min-width: 0;
+        font: inherit;
+        color: inherit;
+        text-align: left;
+        cursor: pointer;
+        background: 0 0;
+        border: 0;
+        flex-direction: column;
+        padding: 0;
+        display: flex;
+      }
+      .bcn-triage-row__line {
+        justify-content: space-between;
+        align-items: baseline;
+        gap: var(--spacing-250);
+        min-width: 0;
+        display: flex;
+      }
+      .bcn-triage-row__title {
+        min-width: 0;
+        color: var(--color-content-default);
+        font-size: 0.875rem;
+        font-weight: 600;
+        line-height: 1.35;
+      }
+      .bcn-triage-row__date {
+        color: var(--color-content-default-secondary);
+        flex: none;
+        font-size: 0.8125rem;
+      }
+      .bcn-triage-row__meta {
+        color: var(--color-content-default-secondary);
+        font-size: 0.8125rem;
+      }
+      .bcn-triage-row__foot {
+        align-items: center;
+        min-width: 0;
+        display: flex;
+      }
+      .bcn-triage-row__match {
+        align-items: center;
+        gap: var(--spacing-200);
+        min-width: 0;
+        display: flex;
+      }
+      .bcn-triage-row__sug .esa-badge {
+        --badge-bg: var(--color-background-utility-info-subtle);
+        --badge-text-color: var(--color-content-default);
+        --badge-height-md: 24px;
+        border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+        font-weight: var(--typography-font-weight-medium);
+      }
+      .bcn-triage-row:last-child {
+        border-bottom: 0;
+      }
+      .bcn-triage-queue__group + .bcn-triage-queue__group {
+        margin-top: 0;
+      }
+      .bcn-triage-row__foot[hidden] {
+        display: none;
+      }
+      .bcn-triage-queue__list[hidden] {
+        display: none;
+      }
+      .bcn-triage-queue__empty {
+        padding: var(--spacing-700) var(--spacing-400);
+      }
+      .bcn-triage-queue__empty[hidden] {
+        display: none;
+      }
+      .bcn-triage-workspace__review {
+        align-self: start;
+        min-height: 0;
+        max-height: 100%;
+      }
+      .bcn-triage-review {
+        background: var(--color-background-elevation-raised);
+        border: 1px solid var(--color-border-default);
+        border-radius: var(--radius-100);
+        flex-direction: column;
+        min-height: 0;
+        max-height: 100%;
+        display: flex;
+        overflow-y: auto;
+      }
+      .bcn-triage-review:has([data-triage-prompt]:not([hidden])) {
+        background: 0 0;
+        border: 0;
+      }
+      .bcn-triage-review__prompt {
+        flex: 1;
+        align-items: stretch;
+        min-height: 22rem;
+        display: flex;
+      }
+      .bcn-triage-review__invite {
+        padding: var(--spacing-500);
+        border: 1px dashed var(--color-border-default);
+        border-radius: var(--radius-200);
+        color: var(--color-content-default-secondary);
+        background: 0 0;
+        flex: 1;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        font-size: 0.8125rem;
+        font-style: italic;
+        display: flex;
+      }
+      .bcn-triage-review__panel {
+        flex-direction: column;
+        display: flex;
+      }
+      .bcn-triage-review__panel[hidden] {
+        display: none;
+      }
+      .esa-icon {
+        --_icon-size: var(--icon-size-md, 20px);
+        width: var(--_icon-size);
+        height: var(--_icon-size);
+        color: inherit;
         justify-content: center;
         align-items: center;
         display: inline-flex;
+      }
+      .esa-icon--xs {
+        --_icon-size: var(--icon-size-xs, 14px);
+      }
+      .esa-icon svg {
+        width: var(--_icon-size);
+        height: var(--_icon-size);
+        display: block;
+      }
+      .esa-icon--sm {
+        --_icon-size: var(--icon-size-sm, 16px);
+      }
+      .esa-icon--md {
+        --_icon-size: var(--icon-size-md, 20px);
+      }
+      .esa-icon--lg {
+        --_icon-size: var(--icon-size-lg, 24px);
+      }
+      :host {
+        display: block;
+        --_field-padding-y: var(--spacing-300, 0.75rem);
+        --_field-padding-x: var(--spacing-300, 0.75rem);
+        --_field-radius: var(--radius-md, 0.5rem);
+        --_field-border-color: var(--form-border-color, #cecece);
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-100, 4px);
+      }
+      .container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-100, 4px);
+      }
+      .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+      .input {
+        width: 100%;
+        padding: var(--_field-padding-y) var(--_field-padding-x);
+        padding-inline-end: calc(var(--_field-padding-x) + 24px);
+        /* The box is content + padding since heights were removed (2026-08-14), so
+         LEADING IS NOW LOAD-BEARING — it is the term that decides how tall a field
+         is. On a single-line control leading has no typographic job: there is one
+         line, and the space above and below it is invisible. Letting the body-*
+         composite's relaxed leading through added 12px here at md and made this
+         field 7px taller than esa-text-field on the same step, breaking the row
+         alignment component-tokens.css promises.
+         CHOSEN, NOT RESTATED, and not compensated for with a smaller padding rung.
+         The tight leading comes from FIELD_TYPE picking a microcopy-*-subtle rung,
+         whose composite declares the line-height for us — there is deliberately no
+         line-height declaration in this rule, because one here would outrank the
+         composite rather than agree with it. (.input--trigger below does restate
+         it as normal, for the button-versus-input reason given there.) A static padding offset was the other option and
+         is wrong: leading scales with the fluid type (27px at 1600, 22px at 375) and
+         is re-pointable by a theme, so an offset would cancel it at exactly one
+         viewport. esa-textarea stays on a body-* composite on purpose — it is
+         genuinely multi-line, so its leading has a typographic job. */
+        color: var(--form-text-color, #202020);
+        background: var(--color-background-field, transparent);
+        border: var(--form-border-width, 1px) solid var(--_field-border-color);
+        border-radius: var(--_field-radius);
+        outline: none;
+        cursor: pointer;
+        box-sizing: border-box;
+        transition:
+          border-color var(--transition-fast, 150ms ease),
+          box-shadow var(--transition-fast, 150ms ease);
+      }
+      .input--trigger {
+        display: block;
+        text-align: start;
+        /* Only the family is restated. The composite class on this same element
+         already sets size, weight and tracking; the font shorthand that used to
+         sit here came later in the sheet and reset all of them to the host's,
+         which made the trigger a step larger than esa-text-field at the same size
+         and broke the filter-row alignment the two are meant to share. */
+        font-family: inherit;
+        /* Leading is the one composite term a BUTTON and an INPUT read differently.
+         The composite's line-height 1 is honoured by this button, but a native
+         single-line input never lays its text out shorter than the font's normal
+         line box (Chrome, WebKit), so esa-text-field's box is font-normal plus
+         padding whatever the composite says. Measured 2026-09-14: 3.5px shorter
+         at sm, 4.5px at md, 5.5px at lg. normal here puts the trigger on the
+         same floor the input is already on — same font, same normal, same box —
+         at every size and in every browser, with no px offset to drift. */
+        line-height: normal;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+      .arrow {
+        position: absolute;
+        right: var(--_field-padding-x);
+        top: 50%;
+        transform: translateY(-50%);
+        display: inline-flex;
+        color: var(--color-content-default-secondary, #646464);
+        pointer-events: none;
+        transition: transform var(--transition-fast, 150ms ease);
+      }
+      .arrow svg {
+        width: var(--icon-size-md, 20px);
+        height: var(--icon-size-md, 20px);
+      }
+      .field__error {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-100, 4px);
+        color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
+      }
+      .field__help {
+        color: var(--form-help-color, #838383);
+      }
+      :host {
+        --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
+        --_popover-border: var(--color-border-default, #cecece);
+        --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+        --_popover-radius: var(--radius-md, 0.5rem);
+        --_popover-padding: var(--spacing-300, 0.75rem);
+        --_popover-arrow-size: 8px;
+        --_popover-color: var(--color-content-default, #202020);
+        display: inline-block;
+      }
+      .esa-popover-anchor {
+        position: relative;
+        display: inline-block;
+      }
+      .esa-button {
+        --_btn-pad-y: var(--spacing-300, 0.75rem);
+        --_btn-padding-x: var(--spacing-300, 0.75rem);
+        --_btn-radius: var(--button-radius-md, 0.5rem);
+        --_accent: var(--color-background-brand, #46a758);
+        --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+        --_on: var(--color-content-default-knockout, #fcfcfc);
+        --_accent-text: var(--_accent);
+        --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+        --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+        display: inline-block;
+      }
+      .esa-button__native {
+        justify-content: center;
+        align-items: center;
+        gap: var(--spacing-200, 8px);
+        width: 100%;
+        padding-block: var(--_btn-pad-y);
+        padding-inline: var(--_btn-padding-x);
+        border: var(--border-width-default, 1px) solid transparent;
+        border-radius: var(--_btn-radius);
+        cursor: pointer;
+        transition:
+          background var(--transition-fast, 0.15s ease),
+          border-color var(--transition-fast, 0.15s ease);
+        -webkit-appearance: none;
+        appearance: none;
+        text-decoration: none;
+        display: inline-flex;
+      }
+      .esa-button--appearance-fill .esa-button__native {
+        background: var(--_accent);
+        color: var(--_on);
+        border-color: var(--_accent-border, transparent);
+      }
+      .esa-button--variant-chrome .esa-button__native {
+        color: inherit;
+        background: 0 0;
+        border-color: #0000;
+      }
+      .esa-button--icon-only .esa-button__native {
+        padding-inline: var(--_btn-pad-y);
+        aspect-ratio: 1;
       }
     </style>
   </head>
@@ -2820,7 +2542,7 @@
                   <span class="bcn-triage-counts cluster" data-gap="sm"
                     ><span class="bcn-triage-counts__chip" data-triage-count=""
                       ><span
-                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                         ><span class="esa-badge__text">16 suggestions</span></span
                       ></span
                     ><!-- Only when a filter is narrowing the list: the chips count the INBOX, not the view, and
@@ -2957,7 +2679,7 @@
                                   <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                     <span class="bcn-triage-row__match bcn-triage-row__sug"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                         ><span class="esa-badge__text"
                                           >1 suggested action</span
                                         ></span
@@ -2992,7 +2714,7 @@
                                   <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                     <span class="bcn-triage-row__match bcn-triage-row__sug"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                         ><span class="esa-badge__text"
                                           >1 suggested action</span
                                         ></span
@@ -3025,7 +2747,7 @@
                                   <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                     <span class="bcn-triage-row__match bcn-triage-row__sug"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                         ><span class="esa-badge__text"
                                           >1 suggested action</span
                                         ></span
@@ -3064,7 +2786,7 @@
                                   <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                     <span class="bcn-triage-row__match bcn-triage-row__sug"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                         ><span class="esa-badge__text"
                                           >1 suggested action</span
                                         ></span
@@ -3099,7 +2821,7 @@
                                   <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                     <span class="bcn-triage-row__match bcn-triage-row__sug"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                         ><span class="esa-badge__text"
                                           >1 suggested action</span
                                         ></span
@@ -3132,7 +2854,7 @@
                                   <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                     <span class="bcn-triage-row__match bcn-triage-row__sug"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                         ><span class="esa-badge__text"
                                           >1 suggested action</span
                                         ></span
@@ -3171,7 +2893,7 @@
                                   <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                     <span class="bcn-triage-row__match bcn-triage-row__sug"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                         ><span class="esa-badge__text"
                                           >1 suggested action</span
                                         ></span
@@ -3205,7 +2927,7 @@
                                   <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                     <span class="bcn-triage-row__match bcn-triage-row__sug"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                         ><span class="esa-badge__text"
                                           >1 suggested action</span
                                         ></span
@@ -3242,7 +2964,7 @@
                                   >
                                     <span class="bcn-triage-row__match bcn-triage-row__sug"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                         ><span class="esa-badge__text"
                                           >0 suggested actions</span
                                         ></span
@@ -3276,7 +2998,7 @@
                                   <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                     <span class="bcn-triage-row__match bcn-triage-row__sug"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                         ><span class="esa-badge__text"
                                           >1 suggested action</span
                                         ></span
@@ -3311,7 +3033,7 @@
                                   <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                     <span class="bcn-triage-row__match bcn-triage-row__sug"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                         ><span class="esa-badge__text"
                                           >2 suggested actions</span
                                         ></span
@@ -3345,7 +3067,7 @@
                                   <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                     <span class="bcn-triage-row__match bcn-triage-row__sug"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                         ><span class="esa-badge__text"
                                           >1 suggested action</span
                                         ></span
@@ -3383,7 +3105,7 @@
                                   <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                     <span class="bcn-triage-row__match bcn-triage-row__sug"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                         ><span class="esa-badge__text"
                                           >1 suggested action</span
                                         ></span
@@ -3416,7 +3138,7 @@
                                   <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                     <span class="bcn-triage-row__match bcn-triage-row__sug"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                         ><span class="esa-badge__text"
                                           >1 suggested action</span
                                         ></span
@@ -3453,7 +3175,7 @@
                                   >
                                     <span class="bcn-triage-row__match bcn-triage-row__sug"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                         ><span class="esa-badge__text"
                                           >0 suggested actions</span
                                         ></span
@@ -3490,7 +3212,7 @@
                                   >
                                     <span class="bcn-triage-row__match bcn-triage-row__sug"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                         ><span class="esa-badge__text"
                                           >0 suggested actions</span
                                         ></span
@@ -4036,7 +3758,7 @@
                                     <path d="m13.41 10.59 5.66-5.66"></path></svg></span
                                 >Suggested actions<span class="bcn-triage-review__legendcount"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                     ><span class="esa-badge__text">1</span></span
                                   ></span
                                 ><span
@@ -4086,10 +3808,10 @@
                                           ></span
                                           ><span class="bcn-ev-row__tags"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text">Monitoring</span></span
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Construction</span
                                               ></span
@@ -4137,7 +3859,7 @@
                                             ></span
                                           ><span data-triage-sug-completemark="" hidden=""
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Marked complete</span
                                               ></span
@@ -4370,7 +4092,7 @@
                                     <path d="m13.41 10.59 5.66-5.66"></path></svg></span
                                 >Suggested actions<span class="bcn-triage-review__legendcount"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                     ><span class="esa-badge__text">1</span></span
                                   ></span
                                 ><span
@@ -4421,10 +4143,10 @@
                                           ></span
                                           ><span class="bcn-ev-row__tags"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text">Monitoring</span></span
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Construction</span
                                               ></span
@@ -4472,7 +4194,7 @@
                                             ></span
                                           ><span data-triage-sug-completemark="" hidden=""
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Marked complete</span
                                               ></span
@@ -4799,7 +4521,7 @@
                                     <path d="m13.41 10.59 5.66-5.66"></path></svg></span
                                 >Suggested actions<span class="bcn-triage-review__legendcount"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                     ><span class="esa-badge__text">1</span></span
                                   ></span
                                 ><span
@@ -4849,10 +4571,10 @@
                                           ></span
                                           ><span class="bcn-ev-row__tags"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text">Monitoring</span></span
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Construction</span
                                               ></span
@@ -4900,7 +4622,7 @@
                                             ></span
                                           ><span data-triage-sug-completemark="" hidden=""
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Marked complete</span
                                               ></span
@@ -5133,7 +4855,7 @@
                                     <path d="m13.41 10.59 5.66-5.66"></path></svg></span
                                 >Suggested actions<span class="bcn-triage-review__legendcount"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                     ><span class="esa-badge__text">1</span></span
                                   ></span
                                 ><span
@@ -5183,10 +4905,10 @@
                                           ></span
                                           ><span class="bcn-ev-row__tags"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text">Monitoring</span></span
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Construction</span
                                               ></span
@@ -5234,7 +4956,7 @@
                                             ></span
                                           ><span data-triage-sug-completemark="" hidden=""
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Marked complete</span
                                               ></span
@@ -5467,7 +5189,7 @@
                                     <path d="m13.41 10.59 5.66-5.66"></path></svg></span
                                 >Suggested actions<span class="bcn-triage-review__legendcount"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                     ><span class="esa-badge__text">1</span></span
                                   ></span
                                 ><span
@@ -5518,10 +5240,10 @@
                                           ></span
                                           ><span class="bcn-ev-row__tags"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text">Monitoring</span></span
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Construction</span
                                               ></span
@@ -5569,7 +5291,7 @@
                                             ></span
                                           ><span data-triage-sug-completemark="" hidden=""
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Marked complete</span
                                               ></span
@@ -5894,7 +5616,7 @@
                                     <path d="m13.41 10.59 5.66-5.66"></path></svg></span
                                 >Suggested actions<span class="bcn-triage-review__legendcount"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                     ><span class="esa-badge__text">1</span></span
                                   ></span
                                 ><span
@@ -5944,10 +5666,10 @@
                                           ></span
                                           ><span class="bcn-ev-row__tags"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text">Monitoring</span></span
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Construction</span
                                               ></span
@@ -5995,7 +5717,7 @@
                                             ></span
                                           ><span data-triage-sug-completemark="" hidden=""
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Marked complete</span
                                               ></span
@@ -6320,7 +6042,7 @@
                                     <path d="m13.41 10.59 5.66-5.66"></path></svg></span
                                 >Suggested actions<span class="bcn-triage-review__legendcount"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                     ><span class="esa-badge__text">1</span></span
                                   ></span
                                 ><span
@@ -6370,10 +6092,10 @@
                                           ></span
                                           ><span class="bcn-ev-row__tags"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text">Monitoring</span></span
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Construction</span
                                               ></span
@@ -6421,7 +6143,7 @@
                                             ></span
                                           ><span data-triage-sug-completemark="" hidden=""
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Marked complete</span
                                               ></span
@@ -6654,7 +6376,7 @@
                                     <path d="m13.41 10.59 5.66-5.66"></path></svg></span
                                 >Suggested actions<span class="bcn-triage-review__legendcount"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                     ><span class="esa-badge__text">1</span></span
                                   ></span
                                 ><span
@@ -6705,10 +6427,10 @@
                                           ></span
                                           ><span class="bcn-ev-row__tags"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text">Monitoring</span></span
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Construction</span
                                               ></span
@@ -6756,7 +6478,7 @@
                                             ></span
                                           ><span data-triage-sug-completemark="" hidden=""
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Marked complete</span
                                               ></span
@@ -7231,7 +6953,7 @@
                                     <path d="m13.41 10.59 5.66-5.66"></path></svg></span
                                 >Suggested actions<span class="bcn-triage-review__legendcount"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                     ><span class="esa-badge__text">1</span></span
                                   ></span
                                 ><span
@@ -7281,10 +7003,10 @@
                                           ></span
                                           ><span class="bcn-ev-row__tags"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text">Reporting</span></span
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Construction</span
                                               ></span
@@ -7332,7 +7054,7 @@
                                             ></span
                                           ><span data-triage-sug-completemark="" hidden=""
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Marked complete</span
                                               ></span
@@ -7659,7 +7381,7 @@
                                     <path d="m13.41 10.59 5.66-5.66"></path></svg></span
                                 >Suggested actions<span class="bcn-triage-review__legendcount"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                     ><span class="esa-badge__text">2</span></span
                                   ></span
                                 ><span
@@ -7710,10 +7432,10 @@
                                           ></span
                                           ><span class="bcn-ev-row__tags"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text">Monitoring</span></span
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Construction</span
                                               ></span
@@ -7761,7 +7483,7 @@
                                             ></span
                                           ><span data-triage-sug-completemark="" hidden=""
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Marked complete</span
                                               ></span
@@ -7799,10 +7521,10 @@
                                           ></span
                                           ><span class="bcn-ev-row__tags"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text">Monitoring</span></span
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Pre-Construction</span
                                               ></span
@@ -7850,7 +7572,7 @@
                                             ></span
                                           ><span data-triage-sug-completemark="" hidden=""
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Marked complete</span
                                               ></span
@@ -8083,7 +7805,7 @@
                                     <path d="m13.41 10.59 5.66-5.66"></path></svg></span
                                 >Suggested actions<span class="bcn-triage-review__legendcount"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                     ><span class="esa-badge__text">1</span></span
                                   ></span
                                 ><span
@@ -8133,10 +7855,10 @@
                                           ></span
                                           ><span class="bcn-ev-row__tags"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text">Monitoring</span></span
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Construction</span
                                               ></span
@@ -8184,7 +7906,7 @@
                                             ></span
                                           ><span data-triage-sug-completemark="" hidden=""
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Marked complete</span
                                               ></span
@@ -8415,7 +8137,7 @@
                                     <path d="m13.41 10.59 5.66-5.66"></path></svg></span
                                 >Suggested actions<span class="bcn-triage-review__legendcount"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                     ><span class="esa-badge__text">1</span></span
                                   ></span
                                 ><span
@@ -8465,10 +8187,10 @@
                                           ></span
                                           ><span class="bcn-ev-row__tags"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text">Monitoring</span></span
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Construction</span
                                               ></span
@@ -8516,7 +8238,7 @@
                                             ></span
                                           ><span data-triage-sug-completemark="" hidden=""
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Marked complete</span
                                               ></span
@@ -8747,7 +8469,7 @@
                                     <path d="m13.41 10.59 5.66-5.66"></path></svg></span
                                 >Suggested actions<span class="bcn-triage-review__legendcount"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--md typography-microcopy-sm-strong"
                                     ><span class="esa-badge__text">1</span></span
                                   ></span
                                 ><span
@@ -8797,10 +8519,10 @@
                                           ></span
                                           ><span class="bcn-ev-row__tags"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text">Monitoring</span></span
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Pre-Construction</span
                                               ></span
@@ -8848,7 +8570,7 @@
                                             ></span
                                           ><span data-triage-sug-completemark="" hidden=""
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                               ><span class="esa-badge__text"
                                                 >Marked complete</span
                                               ></span
@@ -9453,19 +9175,19 @@
                               ><span data-tpl-remove="" data-astro-cid-hxtgpcch=""
                                 ><span
                                   class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                                  data-astro-cid-4xhmycw5=""
+                                  data-astro-cid-5nhxdd72=""
                                   ><button
                                     class="esa-button__native typography-microcopy-xs"
                                     type="button"
                                     aria-label="Remove from selection"
                                     title="Remove from selection"
                                     data-astro-cid-hxtgpcch="true"
-                                    data-astro-cid-4xhmycw5=""
+                                    data-astro-cid-5nhxdd72=""
                                   >
                                     <span
                                       class="esa-icon esa-icon--sm"
                                       aria-hidden="true"
-                                      data-astro-cid-c7ivvrtd=""
+                                      data-astro-cid-wcwfib5m=""
                                       ><svg
                                         width="16"
                                         height="16"
@@ -9476,7 +9198,7 @@
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
                                         focusable="false"
-                                        data-astro-cid-c7ivvrtd=""
+                                        data-astro-cid-wcwfib5m=""
                                       >
                                         <path d="M18 6 6 18"></path>
                                         <path d="m6 6 12 12"></path></svg
@@ -9488,10 +9210,10 @@
                               data-tier="manual"
                               data-astro-cid-hxtgpcch=""
                             >
-                              <div class="esa-card" data-astro-cid-t2d274gq="">
+                              <div class="esa-card" data-astro-cid-gctb7h5d="">
                                 <div
                                   class="esa-card__body typography-body-md"
-                                  data-astro-cid-t2d274gq=""
+                                  data-astro-cid-gctb7h5d=""
                                 >
                                   <div class="bcn-ev-row" data-astro-cid-hxtgpcch="">
                                     <div class="bcn-ev-row__titlerow" data-astro-cid-hxtgpcch="">
@@ -9515,18 +9237,18 @@
                                         data-tpl-tags=""
                                         data-astro-cid-hxtgpcch=""
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                          data-astro-cid-sh7ulwla=""
+                                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                                          data-astro-cid-yahmuvtj=""
                                           ><span
                                             class="esa-badge__text"
-                                            data-astro-cid-sh7ulwla=""
+                                            data-astro-cid-yahmuvtj=""
                                           ></span></span
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                          data-astro-cid-sh7ulwla=""
+                                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                                          data-astro-cid-yahmuvtj=""
                                           ><span
                                             class="esa-badge__text"
-                                            data-astro-cid-sh7ulwla=""
+                                            data-astro-cid-yahmuvtj=""
                                           ></span></span
                                       ></span>
                                     </div>
@@ -9548,29 +9270,29 @@
                                         ></esa-button-toggle></span
                                       ><span
                                         class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
-                                        data-astro-cid-4xhmycw5=""
+                                        data-astro-cid-5nhxdd72=""
                                         ><button
                                           class="esa-button__native typography-microcopy-xs"
                                           type="button"
                                           data-triage-sug-approve="true"
                                           data-astro-cid-hxtgpcch="true"
-                                          data-astro-cid-4xhmycw5=""
+                                          data-astro-cid-5nhxdd72=""
                                         >
-                                          <span class="esa-button__label" data-astro-cid-4xhmycw5=""
+                                          <span class="esa-button__label" data-astro-cid-5nhxdd72=""
                                             >Approve</span
                                           >
                                         </button></span
                                       ><span
                                         class="esa-button esa-button--variant-danger esa-button--appearance-outline esa-button--sm"
-                                        data-astro-cid-4xhmycw5=""
+                                        data-astro-cid-5nhxdd72=""
                                         ><button
                                           class="esa-button__native typography-microcopy-xs"
                                           type="button"
                                           data-triage-sug-dismiss="true"
                                           data-astro-cid-hxtgpcch="true"
-                                          data-astro-cid-4xhmycw5=""
+                                          data-astro-cid-5nhxdd72=""
                                         >
-                                          <span class="esa-button__label" data-astro-cid-4xhmycw5=""
+                                          <span class="esa-button__label" data-astro-cid-5nhxdd72=""
                                             >Dismiss</span
                                           >
                                         </button></span
@@ -9585,8 +9307,8 @@
                                       <span data-triage-sug-verdict="" data-astro-cid-hxtgpcch=""
                                         ><span
                                           class="esa-badge esa-badge--success esa-badge--sm typography-microcopy-xs-strong"
-                                          data-astro-cid-sh7ulwla=""
-                                          ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
+                                          data-astro-cid-yahmuvtj=""
+                                          ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
                                             >Attached</span
                                           ></span
                                         ></span
@@ -9595,23 +9317,23 @@
                                         hidden=""
                                         data-astro-cid-hxtgpcch=""
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                          data-astro-cid-sh7ulwla=""
-                                          ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
+                                          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                                          data-astro-cid-yahmuvtj=""
+                                          ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
                                             >Marked complete</span
                                           ></span
                                         ></span
                                       ><span
                                         class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
-                                        data-astro-cid-4xhmycw5=""
+                                        data-astro-cid-5nhxdd72=""
                                         ><button
                                           class="esa-button__native typography-microcopy-xs"
                                           type="button"
                                           data-triage-sug-undo="true"
                                           data-astro-cid-hxtgpcch="true"
-                                          data-astro-cid-4xhmycw5=""
+                                          data-astro-cid-5nhxdd72=""
                                         >
-                                          <span class="esa-button__label" data-astro-cid-4xhmycw5=""
+                                          <span class="esa-button__label" data-astro-cid-5nhxdd72=""
                                             >Undo</span
                                           >
                                         </button></span
@@ -9722,7 +9444,7 @@
       </div>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.B0-2TFz8.js"
+        src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.BWpiHCjJ.js"
       ></script>
       <!-- Aldo — help & guidance, app-wide like the palette above: the floating
          bottom-center utility bar and the route-aware guidance drawer it opens.
@@ -9741,23 +9463,25 @@
           aria-haspopup="dialog"
         >
           <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-            ><span class="bcn-aldo-mark__glyph"
-              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                ><svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path
-                    d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                  ></path>
-                  <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+            ><svg
+              class="bcn-aldo-mark__glyph"
+              viewBox="0 0 64 64"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+              <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+              <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+              <circle
+                cx="33.2"
+                cy="31.1"
+                r="2"
+                fill="currentColor"
+                stroke="none"
+              ></circle></svg></span
           ><span class="bcn-help-bar__guidance-label">Guidance</span></button
         ><span class="bcn-help-bar__divider" aria-hidden="true"></span
         ><!-- Attach Evidence of Compliance — icon-only; the tooltip host carries the drawer's open hook.
@@ -9894,7 +9618,7 @@
       </div>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.Be-ivh8E.js"
+        src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.BrGmwhrs.js"
       ></script>
       <!-- ── Drawer (parent) ── --><esa-side-dialog
         class="bcn-gd"
@@ -9904,46 +9628,44 @@
         size="md"
         ><div slot="header" class="bcn-gd__header">
           <span class="bcn-aldo-mark" data-size="md" aria-hidden="true"
-            ><span class="bcn-aldo-mark__glyph"
-              ><span class="esa-icon esa-icon--md" aria-hidden="true"
-                ><svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path
-                    d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                  ></path>
-                  <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+            ><svg
+              class="bcn-aldo-mark__glyph"
+              viewBox="0 0 64 64"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+              <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+              <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+              <circle
+                cx="33.2"
+                cy="31.1"
+                r="2"
+                fill="currentColor"
+                stroke="none"
+              ></circle></svg></span
           ><span class="bcn-gd__title">Help &amp; Guidance</span>
         </div>
         <div class="bcn-gd__stream">
           <div class="bcn-gd-msg bcn-gd-msg--aldo" data-gd-intro="">
             <div class="bcn-gd-msg__avatar">
               <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-                ><span class="bcn-aldo-mark__glyph"
-                  ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                    ><svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      focusable="false"
-                    >
-                      <path
-                        d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                      ></path>
-                      <circle cx="12" cy="12" r="10"></circle></svg></span></span
+                ><svg
+                  class="bcn-aldo-mark__glyph"
+                  viewBox="0 0 64 64"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+                  <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+                  <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+                  <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg
               ></span>
             </div>
             <div class="bcn-gd-msg__group">
@@ -10917,25 +10639,28 @@
           </div></div></esa-side-dialog
       ><!-- Aldo avatar cloned into each reply message (reuses the real mark). --><template
         data-gd-aldo-avatar=""
-        ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-breadewf=""
-          ><span class="bcn-aldo-mark__glyph" data-astro-cid-breadewf=""
-            ><span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-c7ivvrtd=""
-              ><svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-                data-astro-cid-c7ivvrtd=""
-              >
-                <path
-                  d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                ></path>
-                <circle cx="12" cy="12" r="10"></circle></svg></span></span></span></template
+        ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-lgb5fntv=""
+          ><svg
+            class="bcn-aldo-mark__glyph"
+            viewBox="0 0 64 64"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            data-astro-cid-lgb5fntv=""
+          >
+            <path d="M47.59 23A18 18 0 1 1 31.37 14.01" data-astro-cid-lgb5fntv=""></path>
+            <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41" data-astro-cid-lgb5fntv=""></path>
+            <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8" data-astro-cid-lgb5fntv=""></path>
+            <circle
+              cx="33.2"
+              cy="31.1"
+              r="2"
+              fill="currentColor"
+              stroke="none"
+              data-astro-cid-lgb5fntv=""
+            ></circle></svg></span></template
       ><!-- ── Article reader (child, stacked above the drawer) ── --><esa-side-dialog
         class="bcn-gd-article"
         data-gd-article="true"
@@ -11113,7 +10838,7 @@
                           <polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span></span
                     ><span class="bcn-help-article__video-duration"
                       ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                         ><span class="esa-badge__text">4:32</span></span
                       ></span
                     >
@@ -11370,7 +11095,7 @@
                           <polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span></span
                     ><span class="bcn-help-article__video-duration"
                       ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                         ><span class="esa-badge__text">2:47</span></span
                       ></span
                     >
@@ -12660,8 +12385,8 @@
                       ><li data-astro-cid-qzg7vnux="">
                         <span
                           class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                          data-astro-cid-65ixjgm5=""
-                          ><span class="esa-pill__label" data-astro-cid-65ixjgm5=""></span
+                          data-astro-cid-xtwxlazl=""
+                          ><span class="esa-pill__label" data-astro-cid-xtwxlazl=""></span
                         ></span></li></template
                     ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template data-draft-file-row=""
@@ -12671,19 +12396,19 @@
                         ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                           ><span
                             class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                            data-astro-cid-4xhmycw5=""
+                            data-astro-cid-5nhxdd72=""
                             ><button
                               class="esa-button__native typography-microcopy-xs"
                               type="button"
                               aria-label="Remove this file from the evidence"
                               title="Remove this file from the evidence"
                               data-astro-cid-qzg7vnux="true"
-                              data-astro-cid-4xhmycw5=""
+                              data-astro-cid-5nhxdd72=""
                             >
                               <span
                                 class="esa-icon esa-icon--sm"
                                 aria-hidden="true"
-                                data-astro-cid-c7ivvrtd=""
+                                data-astro-cid-wcwfib5m=""
                                 ><svg
                                   width="16"
                                   height="16"
@@ -12694,7 +12419,7 @@
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
                                   focusable="false"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                 >
                                   <path d="M18 6 6 18"></path>
                                   <path d="m6 6 12 12"></path></svg
@@ -12826,7 +12551,7 @@
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           >0</span
                                         ></span
                                       ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -13011,7 +12736,7 @@
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           >0</span
                                         ></span
                                       ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -13179,7 +12904,7 @@
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           >0</span
                                         ></span
                                       ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -13348,7 +13073,7 @@
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           >0</span
                                         ></span
                                       ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -13539,7 +13264,7 @@
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           >0</span
                                         ></span
                                       ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -13708,7 +13433,7 @@
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           >0</span
                                         ></span
                                       ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -13877,7 +13602,7 @@
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           >0</span
                                         ></span
                                       ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -14046,7 +13771,7 @@
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           >0</span
                                         ></span
                                       ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -14214,7 +13939,7 @@
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           >0</span
                                         ></span
                                       ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -14383,7 +14108,7 @@
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           >0</span
                                         ></span
                                       ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -14559,7 +14284,7 @@
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           >0</span
                                         ></span
                                       ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -14713,7 +14438,7 @@
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           >0</span
                                         ></span
                                       ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -14867,7 +14592,7 @@
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           >0</span
                                         ></span
                                       ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -15021,7 +14746,7 @@
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           >0</span
                                         ></span
                                       ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -15312,7 +15037,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -15323,10 +15048,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Monitoring</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Pre-Construction</span></span
                                       ></span
                                     >
@@ -15457,7 +15182,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -15468,10 +15193,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Monitoring</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Construction</span></span
                                       ></span
                                     >
@@ -15602,7 +15327,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -15613,10 +15338,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Monitoring</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Pre-Construction</span></span
                                       ></span
                                     >
@@ -15747,7 +15472,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -15758,10 +15483,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Tracking</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text"
                                           >Implementation Planning</span
                                         ></span
@@ -15922,7 +15647,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -15933,10 +15658,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Tracking</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Pre-Construction</span></span
                                       ></span
                                     >
@@ -16098,7 +15823,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -16109,10 +15834,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Monitoring</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Construction</span></span
                                       ></span
                                     >
@@ -16274,7 +15999,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -16285,10 +16010,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Reporting</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Construction</span></span
                                       ></span
                                     >
@@ -16420,7 +16145,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -16431,10 +16156,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Monitoring</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Construction</span></span
                                       ></span
                                     >
@@ -16565,7 +16290,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -16576,10 +16301,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Monitoring</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Construction</span></span
                                       ></span
                                     >
@@ -16735,7 +16460,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -16746,10 +16471,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Monitoring</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Construction</span></span
                                       ></span
                                     >
@@ -16880,7 +16605,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -16891,10 +16616,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Monitoring</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Construction</span></span
                                       ></span
                                     >
@@ -17025,7 +16750,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -17036,10 +16761,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Tracking</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text"
                                           >Implementation Planning</span
                                         ></span
@@ -17172,7 +16897,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -17183,10 +16908,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Monitoring</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Construction</span></span
                                       ></span
                                     >
@@ -17317,7 +17042,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -17328,10 +17053,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Tracking</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Construction</span></span
                                       ></span
                                     >
@@ -17490,7 +17215,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -17501,10 +17226,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Monitoring</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Construction</span></span
                                       ></span
                                     >
@@ -17635,7 +17360,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -17646,10 +17371,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Tracking</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Pre-Construction</span></span
                                       ></span
                                     >
@@ -17780,7 +17505,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -17791,10 +17516,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Reporting</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Construction</span></span
                                       ></span
                                     >
@@ -17925,7 +17650,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -17936,10 +17661,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Monitoring</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Construction</span></span
                                       ></span
                                     >
@@ -18070,7 +17795,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -18081,10 +17806,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Monitoring</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Construction</span></span
                                       ></span
                                     >
@@ -18215,7 +17940,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -18226,10 +17951,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Tracking</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text"
                                           >Implementation Planning</span
                                         ></span
@@ -18362,7 +18087,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -18373,10 +18098,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Tracking</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Pre-Construction</span></span
                                       ></span
                                     >
@@ -18507,7 +18232,7 @@
                                                 ></path></svg></span></span
                                           ><span class="bcn-countchip__num" aria-hidden="true"
                                             ><span
-                                              class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                              class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                               ><span class="esa-badge__text">0</span></span
                                             ></span
                                           ><span class="bcn-countchip__sr"
@@ -18518,10 +18243,10 @@
                                     ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                     ><span class="bcn-ev-row__tags"
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Monitoring</span></span
                                       ><span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Pre-Construction</span></span
                                       ></span
                                     >
@@ -18587,28 +18312,28 @@
                         <span class="bcn-ev-attached__name" data-astro-cid-6zu5gb4v=""></span
                         ><span class="bcn-ev-attached__mark" hidden="" data-astro-cid-6zu5gb4v=""
                           ><span
-                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                            data-astro-cid-sh7ulwla=""
-                            ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
+                            class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                            data-astro-cid-yahmuvtj=""
+                            ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
                               >Suggested</span
                             ></span
                           ></span
                         ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                           ><span
                             class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                            data-astro-cid-4xhmycw5=""
+                            data-astro-cid-5nhxdd72=""
                             ><button
                               class="esa-button__native typography-microcopy-xs"
                               type="button"
                               aria-label="Remove this evidence from the action"
                               title="Remove this evidence from the action"
                               data-astro-cid-6zu5gb4v="true"
-                              data-astro-cid-4xhmycw5=""
+                              data-astro-cid-5nhxdd72=""
                             >
                               <span
                                 class="esa-icon esa-icon--sm"
                                 aria-hidden="true"
-                                data-astro-cid-c7ivvrtd=""
+                                data-astro-cid-wcwfib5m=""
                                 ><svg
                                   width="16"
                                   height="16"
@@ -18619,7 +18344,7 @@
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
                                   focusable="false"
-                                  data-astro-cid-c7ivvrtd=""
+                                  data-astro-cid-wcwfib5m=""
                                 >
                                   <path d="M18 6 6 18"></path>
                                   <path d="m6 6 12 12"></path></svg
@@ -18746,7 +18471,7 @@
       >
       <script
         type="module"
-        src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.Hgg7e4-S.js"
+        src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.CgAsKejG.js"
       ></script>
     </div>
   </body>

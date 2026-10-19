@@ -1,8 +1,10 @@
 # Comment panel
 
-One passage in the standard slide-in side panel (esa-side-dialog), titled with its number: "Comment C-018.001". The passage in its highlight, then two groups of slim read-only cards. Topics: every "Topic › Subtopic" it is filed under, each with a remove; + opens a stacked picker. Responses: every response it is linked to, its state as a glyph (accepted = file-check, draft = file-pen-line), the title linking to the response, each with a remove; + offers Link a Response (the picker) or New Response. Footer: Previous / Next far left, Remove (danger outline) right, behind a confirm.
+One passage in the standard slide-in side panel (esa-side-dialog), titled with its number: "Comment C-018.001". The passage in its highlight, then two groups of slim read-only cards. Topics: every "Topic › Subtopic" it is filed under, each with a remove; + opens a stacked picker. Responses: every response it is linked to, its state as a glyph (accepted = file-check, draft = file-pen-line), the title linking to the response, each with a remove; + offers Link a Response (the picker) or New Response. Footer: Previous / Next far left, Remove (danger outline) right, behind a confirm, and Confirm (primary) while the passage is still Aldo's proposal.
 
 ## Key decisions
+- A proposed passage draws dashed in the panel too: its highlight, its topic cards' edges and dots. Confirm accepts it as is; any edit (topic added or removed) confirms it.
+- Each linked response card shows its stage glyph (draft, final review = file-search, accepted) and who holds it (esa-avatar, dashed ring while that is Aldo's routing).
 - Several topics and several responses per passage (Andy, 2026-10-05). A topic filing is a comment over the same passage, the copy the topic index's Duplicate to makes, so the topic index and burn-down count it there; responses are shared by every filing of the passage.
 - The picker is a second esa-side-dialog stacked over the panel; the panel steps back 30px (its --side-dialog-inset) while it is open. Search over a checklist, multi-select, Add. What the passage already has is checked and fixed.
 - Removing the last topic files the passage under Unfiled; it stays on the record.
@@ -31,7 +33,12 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
   open=""
   ><div class="stack" data-gap="lg" data-cp="record">
     <blockquote class="bcn-cp__quote typography-body-md">
-      <mark class="bcn-hl" data-cp-quote="" data-family="violet" data-shade="2"
+      <mark
+        class="bcn-hl"
+        data-cp-quote=""
+        data-family="violet"
+        data-shade="2"
+        data-suggested=""
         >There is a new pattern of planes all night, at about 1:30, 2 and 4 a.m. and then
         steadily after that, sometimes only seconds apart.</mark
       >
@@ -66,8 +73,13 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
         ></span>
       </div>
       <ul class="bcn-cp__cards" role="list" data-cp-topics="">
-        <li class="bcn-cp__card">
-          <span class="bcn-topic-dot" data-family="violet" data-shade="2"></span
+        <li class="bcn-cp__card bcn-proposal" data-suggested="" title="Suggested by Aldo">
+          <span
+            class="bcn-topic-dot"
+            data-family="violet"
+            data-shade="2"
+            data-suggested=""
+          ></span
           ><span class="bcn-cp__name">Nighttime operations › Overnight flights</span
           ><button
             type="button"
@@ -128,14 +140,14 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
       <ul class="bcn-cp__cards" role="list" data-cp-responses="">
         <li class="bcn-cp__card">
           <esa-tooltip
-            text="Draft: planned once it is accepted"
+            text="Final Review: planned once it is accepted"
             position="above"
             align="center"
             ><span
               class="bcn-cp__glyph"
               data-state="draft"
               role="img"
-              aria-label="Draft: planned once it is accepted"
+              aria-label="Final Review: planned once it is accepted"
               ><svg
                 width="14"
                 height="14"
@@ -147,17 +159,22 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
                 stroke-linejoin="round"
                 aria-hidden="true"
               >
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
                 <path
-                  d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
+                  d="M4.268 21a2 2 0 0 0 1.727 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"
                 ></path>
-                <path
-                  d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                ></path>
-                <path d="M8 18h1"></path></svg></span></esa-tooltip
+                <path d="m9 18-1.5-1.5"></path>
+                <circle cx="5" cy="14" r="3"></circle></svg></span></esa-tooltip
           ><a
             class="bcn-cp__name"
             href="/beacon-design/prototypes/comments/response?id=r-04"
             >Late Night Noise Limitation Program and Overnight Flights</a
+          ><span class="bcn-proposal-ring" title="Dana Whitcomb"
+            ><span
+              class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+              style="--_avatar-hue: 219"
+              ><span class="esa-avatar__initials">DW</span></span
+            ></span
           ><button
             type="button"
             class="bcn-cp__x"
@@ -258,7 +275,7 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
             >
               <path d="m9 18 6-6-6-6"></path></svg
           ></span></button></span></span
-    ><span class="bcn-cp__end" data-cp-foot="edit"
+    ><span class="cluster bcn-cp__end" data-gap="xs" data-cp-foot="edit"
       ><span
         class="esa-button esa-button--variant-danger esa-button--appearance-outline esa-button--sm"
         ><button
@@ -285,6 +302,30 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
               <line x1="14" x2="14" y1="11" y2="17"></line></svg></span
           ><span class="esa-button__label">Remove</span>
         </button></span
+      ><span data-cp-confirm-wrap=""
+        ><span
+          class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            data-cp-confirm-filing="true"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M20 6 9 17l-5-5"></path></svg></span
+            ><span class="esa-button__label">Confirm</span>
+          </button></span
+        ></span
       ></span
     ><span class="cluster bcn-cp__end" data-gap="xs" data-cp-foot="add" hidden=""
       ><span
@@ -344,6 +385,13 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
   font-weight: var(--typography-body-md-font-weight);
   line-height: var(--typography-body-md-line-height);
   letter-spacing: var(--typography-body-md-letter-spacing);
+}
+.typography-label-2xs-strong {
+  font-family: var(--typography-label-2xs-strong-font-family);
+  font-size: var(--typography-label-2xs-strong-font-size);
+  font-weight: var(--typography-label-2xs-strong-font-weight);
+  line-height: var(--typography-label-2xs-strong-line-height);
+  letter-spacing: var(--typography-label-2xs-strong-letter-spacing);
 }
 .typography-label-md-strong {
   font-family: var(--typography-label-md-strong-font-family);
@@ -421,6 +469,10 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
   font-size: var(--typography-label-sm-font-size);
   color: var(--color-content-default);
   display: flex;
+}
+.bcn-cp__cards .bcn-cp__card[data-suggested] {
+  border-style: dashed;
+  border-color: var(--color-content-default-tertiary);
 }
 .bcn-cp__cards .bcn-cp__name {
   text-overflow: ellipsis;
@@ -598,6 +650,33 @@ mark.bcn-hl {
   box-shadow: none;
   border: 1.5px dashed var(--_ink);
   background: 0 0;
+}
+mark.bcn-hl[data-suggested] {
+  outline: 1.5px dashed var(--_ink);
+  outline-offset: 0;
+}
+.bcn-topic-dot[data-suggested] {
+  background: color-mix(
+    in srgb,
+    var(--_ink) 22%,
+    var(--color-background-elevation-raised)
+  );
+  box-shadow: none;
+  border: 1.5px dashed var(--_ink);
+  box-sizing: border-box;
+}
+.bcn-proposal[data-suggested] {
+  border-style: dashed;
+  border-color: var(--color-content-default-tertiary);
+}
+.bcn-proposal-ring {
+  border: 1.5px solid #0000;
+  border-radius: 50%;
+  padding: 1px;
+  display: inline-flex;
+}
+.bcn-proposal-ring[data-suggested] {
+  border: 1.5px dashed var(--color-content-default-tertiary);
 }
 mark.bcn-hl[data-family="none"] {
   --_hl: transparent;
@@ -895,6 +974,13 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-body-md-line-height);
   letter-spacing: var(--typography-body-md-letter-spacing);
 }
+.typography-label-2xs-strong {
+  font-family: var(--typography-label-2xs-strong-font-family);
+  font-size: var(--typography-label-2xs-strong-font-size);
+  font-weight: var(--typography-label-2xs-strong-font-weight);
+  line-height: var(--typography-label-2xs-strong-line-height);
+  letter-spacing: var(--typography-label-2xs-strong-letter-spacing);
+}
 .typography-label-md-strong {
   font-family: var(--typography-label-md-strong-font-family);
   font-size: var(--typography-label-md-strong-font-size);
@@ -955,6 +1041,58 @@ summary.esa-button--variant-chrome:focus-visible {
   height: var(--_icon-size);
   display: block;
 }
+.esa-avatar {
+  --_avatar-size: var(--avatar-size-md, 40px);
+  --_avatar-font-size: var(
+    --avatar-font-size-md,
+    var(--typography-label-md-strong-font-size, var(--font-size-200, 0.9375rem))
+  );
+  --_avatar-radius: var(--radius-pill, 9999px);
+  --_avatar-bg: var(--avatar-bg, hsl(var(--_avatar-hue, 200) 45% 65%));
+  --_avatar-text: var(--color-content-default-knockout, #fcfcfc);
+  width: var(--_avatar-size);
+  height: var(--_avatar-size);
+  border-radius: var(--_avatar-radius);
+  background: var(--_avatar-bg);
+  color: var(--_avatar-text);
+  font-size: var(--_avatar-font-size);
+  user-select: none;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+  overflow: hidden;
+}
+.esa-avatar--xs {
+  --_avatar-size: var(--avatar-size-xs, 20px);
+  --_avatar-font-size: var(
+    --avatar-font-size-xs,
+    var(--typography-label-2xs-strong-font-size, var(--font-size-050, 0.625rem))
+  );
+}
+.esa-avatar--sm {
+  --_avatar-size: var(--avatar-size-sm, 28px);
+  --_avatar-font-size: var(
+    --avatar-font-size-sm,
+    var(--typography-label-xs-strong-font-size, var(--font-size-100, 0.75rem))
+  );
+}
+.esa-avatar--lg {
+  --_avatar-size: var(--avatar-size-lg, 56px);
+  --_avatar-font-size: var(
+    --avatar-font-size-lg,
+    var(--typography-title-font-size, var(--font-size-400, 1.25rem))
+  );
+}
+.esa-avatar--square {
+  --_avatar-radius: var(--radius-md, 0.5rem);
+}
+.esa-avatar__image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -985,6 +1123,15 @@ summary.esa-button--variant-chrome:focus-visible {
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
+- `--avatar-bg`: hsl(200 45% 65%) _(component)_
+- `--avatar-font-size-lg`: clamp(1rem, .88rem + .6vw, 1.25rem) _(component)_
+- `--avatar-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
+- `--avatar-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
+- `--avatar-font-size-xs`: clamp(.5rem, .44rem + .3vw, .625rem) _(component)_
+- `--avatar-size-lg`: 56px _(component)_
+- `--avatar-size-md`: 40px _(component)_
+- `--avatar-size-sm`: 28px _(component)_
+- `--avatar-size-xs`: 20px _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
@@ -1072,11 +1219,17 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
 - `--font-decorative`: "Besley", serif _(component)_
+- `--font-size-050`: clamp(.5rem, .44rem + .3vw, .625rem) _(primitive)_
+- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
+- `--font-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
+- `--radius-md`: .25rem _(semantic)_
+- `--radius-pill`: 9999px _(semantic)_
 - `--radius-sm`: .25rem _(semantic)_
 - `--radius-xs`: .125rem _(semantic)_
 - `--spacing-100`: .25rem _(primitive)_
@@ -1087,16 +1240,22 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-2xs-strong-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-label-2xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-2xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-2xs-strong-line-height`: 1.6 _(semantic)_
 - `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-label-md-strong-font-weight`: 550 _(semantic)_
 - `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
 - `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
 - `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
@@ -1109,6 +1268,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+- `--typography-title-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
