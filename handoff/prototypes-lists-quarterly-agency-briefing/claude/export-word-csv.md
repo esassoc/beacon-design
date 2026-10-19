@@ -97,7 +97,7 @@ Word and CSV downloads in the rail.
     </div>
   </div>
   <template data-list-export-copied=""
-    ><span class="esa-icon esa-icon--sm" aria-hidden="true" data-astro-cid-wcwfib5m=""
+    ><span class="esa-icon esa-icon--sm" aria-hidden="true" data-astro-cid-c7ivvrtd=""
       ><svg
         width="16"
         height="16"
@@ -108,7 +108,7 @@ Word and CSV downloads in the rail.
         stroke-linecap="round"
         stroke-linejoin="round"
         focusable="false"
-        data-astro-cid-wcwfib5m=""
+        data-astro-cid-c7ivvrtd=""
       >
         <path d="M20 6 9 17l-5-5"></path></svg></span
   ></template>
@@ -680,9 +680,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -826,7 +823,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
+- `--typography-body-md-font-weight`: 350 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
@@ -851,7 +848,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_

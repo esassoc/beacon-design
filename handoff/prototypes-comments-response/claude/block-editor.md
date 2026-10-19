@@ -310,25 +310,27 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                 <span class="esa-button__label"
                   ><span class="bcn-sb__aldo"
                     ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-                      ><svg
-                        class="bcn-aldo-mark__glyph"
-                        viewBox="0 0 64 64"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="3.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
-                        <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
-                        <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
-                        <circle
-                          cx="33.2"
-                          cy="31.1"
-                          r="2"
-                          fill="currentColor"
-                          stroke="none"
-                        ></circle></svg></span
+                      ><span class="bcn-aldo-mark__glyph"
+                        ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                          ><svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path
+                              d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+                            ></path>
+                            <circle
+                              cx="12"
+                              cy="12"
+                              r="10"
+                            ></circle></svg></span></span></span
                     >Rewrite with Aldo</span
                   ></span
                 >
@@ -353,25 +355,27 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                   ></span
                 ><span class="bcn-nc__who" data-nc-who="aldo" hidden=""
                   ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-                    ><svg
-                      class="bcn-aldo-mark__glyph"
-                      viewBox="0 0 64 64"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="3.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
-                      <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
-                      <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
-                      <circle
-                        cx="33.2"
-                        cy="31.1"
-                        r="2"
-                        fill="currentColor"
-                        stroke="none"
-                      ></circle></svg></span></span
+                    ><span class="bcn-aldo-mark__glyph"
+                      ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                        ><svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path
+                            d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+                          ></path>
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="10"
+                          ></circle></svg></span></span></span></span
                 ><span class="bcn-nc__title" data-nc-title="">New Note</span>
               </div>
               <p class="bcn-nc__quote" data-nc-quote="">
@@ -441,25 +445,23 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
           </div>
           <span class="bcn-sb__row" data-sb="done" hidden=""
             ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-              ><svg
-                class="bcn-aldo-mark__glyph"
-                viewBox="0 0 64 64"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="3.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
-                <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
-                <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
-                <circle
-                  cx="33.2"
-                  cy="31.1"
-                  r="2"
-                  fill="currentColor"
-                  stroke="none"
-                ></circle></svg></span
+              ><span class="bcn-aldo-mark__glyph"
+                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                  ><svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path
+                      d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+                    ></path>
+                    <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
             ><span class="bcn-sb__result" data-sb-result="" role="status"></span
             ><span
               class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
@@ -947,25 +949,27 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                 ></span
               ><span class="bcn-nc__who" data-nc-who="aldo" hidden=""
                 ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-                  ><svg
-                    class="bcn-aldo-mark__glyph"
-                    viewBox="0 0 64 64"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="3.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
-                    <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
-                    <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
-                    <circle
-                      cx="33.2"
-                      cy="31.1"
-                      r="2"
-                      fill="currentColor"
-                      stroke="none"
-                    ></circle></svg></span></span
+                  ><span class="bcn-aldo-mark__glyph"
+                    ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                      ><svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path
+                          d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+                        ></path>
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="10"
+                        ></circle></svg></span></span></span></span
               ><span class="bcn-nc__title" data-nc-title="">New Note</span>
             </div>
             <p class="bcn-nc__quote" data-nc-quote="">
@@ -1036,15 +1040,15 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
           ><li class="bcn-rn__item" data-astro-cid-q3ssrg2b="">
             <div
               class="esa-card esa-card--outlined esa-card--padding-compact"
-              data-astro-cid-gctb7h5d=""
+              data-astro-cid-t2d274gq=""
             >
-              <div class="esa-card__body typography-body-md" data-astro-cid-gctb7h5d="">
+              <div class="esa-card__body typography-body-md" data-astro-cid-t2d274gq="">
                 <div class="bcn-rn__card" data-astro-cid-q3ssrg2b="">
                   <span class="bcn-rn__num" data-rn-num="" data-astro-cid-q3ssrg2b=""
                     ><span
                       class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      data-astro-cid-yahmuvtj=""
-                      ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
+                      data-astro-cid-sh7ulwla=""
+                      ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
                         >1</span
                       ></span
                     ></span
@@ -1062,7 +1066,7 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                   ><span class="bcn-rn__fold" data-astro-cid-q3ssrg2b=""
                     ><span
                       class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                      data-astro-cid-5nhxdd72=""
+                      data-astro-cid-4xhmycw5=""
                       ><button
                         class="esa-button__native typography-microcopy-xs"
                         type="button"
@@ -1070,12 +1074,12 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                         title="Collapse Note"
                         data-rn-fold="true"
                         data-astro-cid-q3ssrg2b="true"
-                        data-astro-cid-5nhxdd72=""
+                        data-astro-cid-4xhmycw5=""
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-wcwfib5m=""
+                          data-astro-cid-c7ivvrtd=""
                           ><svg
                             width="16"
                             height="16"
@@ -1086,7 +1090,7 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-wcwfib5m=""
+                            data-astro-cid-c7ivvrtd=""
                           >
                             <path d="m6 9 6 6 6-6"></path></svg
                         ></span></button></span
@@ -1112,37 +1116,37 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                   </div>
                 </div>
               </div>
-              <div class="esa-card__footer typography-meta" data-astro-cid-gctb7h5d="">
+              <div class="esa-card__footer typography-meta" data-astro-cid-t2d274gq="">
                 <div class="bcn-rn__acts" data-rn-acts="" data-astro-cid-q3ssrg2b="">
                   <span
                     class="esa-button esa-button--variant-secondary esa-button--appearance-soft esa-button--sm"
-                    data-astro-cid-5nhxdd72=""
+                    data-astro-cid-4xhmycw5=""
                     ><button
                       class="esa-button__native typography-microcopy-xs"
                       type="button"
                       data-rn-reply="true"
                       data-astro-cid-q3ssrg2b="true"
-                      data-astro-cid-5nhxdd72=""
+                      data-astro-cid-4xhmycw5=""
                     >
-                      <span class="esa-button__label" data-astro-cid-5nhxdd72=""
+                      <span class="esa-button__label" data-astro-cid-4xhmycw5=""
                         >Reply</span
                       >
                     </button></span
                   ><span class="bcn-rn__end" data-astro-cid-q3ssrg2b=""
                     ><span
                       class="esa-button esa-button--variant-secondary esa-button--appearance-soft esa-button--sm"
-                      data-astro-cid-5nhxdd72=""
+                      data-astro-cid-4xhmycw5=""
                       ><button
                         class="esa-button__native typography-microcopy-xs"
                         type="button"
                         data-rn-resolve="true"
                         data-astro-cid-q3ssrg2b="true"
-                        data-astro-cid-5nhxdd72=""
+                        data-astro-cid-4xhmycw5=""
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-wcwfib5m=""
+                          data-astro-cid-c7ivvrtd=""
                           ><svg
                             width="16"
                             height="16"
@@ -1153,27 +1157,27 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-wcwfib5m=""
+                            data-astro-cid-c7ivvrtd=""
                           >
                             <path d="M20 6 9 17l-5-5"></path></svg></span
-                        ><span class="esa-button__label" data-astro-cid-5nhxdd72=""
+                        ><span class="esa-button__label" data-astro-cid-4xhmycw5=""
                           >Resolve</span
                         >
                       </button></span
                     ><span
                       class="esa-button esa-button--variant-secondary esa-button--appearance-soft esa-button--sm"
-                      data-astro-cid-5nhxdd72=""
+                      data-astro-cid-4xhmycw5=""
                       ><button
                         class="esa-button__native typography-microcopy-xs"
                         type="button"
                         data-rn-reopen="true"
                         data-astro-cid-q3ssrg2b="true"
-                        data-astro-cid-5nhxdd72=""
+                        data-astro-cid-4xhmycw5=""
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-wcwfib5m=""
+                          data-astro-cid-c7ivvrtd=""
                           ><svg
                             width="16"
                             height="16"
@@ -1184,13 +1188,13 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-wcwfib5m=""
+                            data-astro-cid-c7ivvrtd=""
                           >
                             <path
                               d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
                             ></path>
                             <path d="M3 3v5h5"></path></svg></span
-                        ><span class="esa-button__label" data-astro-cid-5nhxdd72=""
+                        ><span class="esa-button__label" data-astro-cid-4xhmycw5=""
                           >Reopen</span
                         >
                       </button></span
@@ -1206,8 +1210,8 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
               ><span
                 class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
                 style="--_avatar-hue: 332"
-                data-astro-cid-uz7u6efw=""
-                ><span class="esa-avatar__initials" data-astro-cid-uz7u6efw=""
+                data-astro-cid-cgicqi4o=""
+                ><span class="esa-avatar__initials" data-astro-cid-cgicqi4o=""
                   >ST</span
                 ></span
               ></span
@@ -1227,7 +1231,7 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
       </section>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnResponseNotes.astro_astro_type_script_index_0_lang.BkeNHaja.js"
+        src="/beacon-design/_astro/BcnResponseNotes.astro_astro_type_script_index_0_lang.DTPo9-Ls.js"
       ></script>
     </div>
   </div>
@@ -1389,6 +1393,7 @@ img.ProseMirror-separator {
   display: inline-flex;
 }
 .bcn-aldo-mark[data-size="sm"] {
+  --icon-size-xs: 12px;
   width: 20px;
   height: 20px;
 }
@@ -1401,15 +1406,16 @@ img.ProseMirror-separator {
   height: 64px;
 }
 .bcn-aldo-mark__glyph {
-  width: 100%;
-  height: 100%;
-  display: block;
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+  display: inline-flex;
 }
 .bcn-aldo-mark[data-animated] {
   animation: 2s ease-in-out infinite bcn-aldo-pulse;
 }
 .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
-  animation: 12s linear infinite bcn-aldo-spin;
+  animation: 8s linear infinite bcn-aldo-spin;
 }
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
@@ -2522,6 +2528,16 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-meta-line-height);
   letter-spacing: var(--typography-meta-letter-spacing);
 }
+.bcn-record-id {
+  align-self: center;
+  display: inline-flex;
+}
+.bcn-record-id .esa-badge {
+  --badge-bg: var(--color-background-elevation-sunken);
+  --badge-text-color: var(--color-content-default);
+  border: 1px solid var(--color-border-default);
+  font-variant-numeric: tabular-nums;
+}
 .esa-avatar {
   --_avatar-size: var(--avatar-size-md, 40px);
   --_avatar-font-size: var(
@@ -2573,16 +2589,6 @@ summary.esa-button--variant-chrome:focus-visible {
   object-fit: cover;
   width: 100%;
   height: 100%;
-}
-.bcn-record-id {
-  align-self: center;
-  display: inline-flex;
-}
-.bcn-record-id .esa-badge {
-  --badge-bg: var(--color-background-elevation-sunken);
-  --badge-text-color: var(--color-content-default);
-  border: 1px solid var(--color-border-default);
-  font-variant-numeric: tabular-nums;
 }
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -2833,7 +2839,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-body-lg-font-size`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
+- `--typography-body-md-font-weight`: 350 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
@@ -2852,7 +2858,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-label-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-meta-font-weight`: 400 _(semantic)_
+- `--typography-meta-font-weight`: 350 _(semantic)_
 - `--typography-meta-letter-spacing`: .01em _(semantic)_
 - `--typography-meta-line-height`: 1.6 _(semantic)_
 - `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -2867,7 +2873,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -2882,7 +2888,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -2897,7 +2903,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-title-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_

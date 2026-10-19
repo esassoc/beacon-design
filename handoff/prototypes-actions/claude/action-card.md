@@ -334,6 +334,18 @@ One implementation: commitment ids (BcnCommitmentBadge, plus a +N for more) and 
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.bcn-disc__head .esa-icon {
+  color: var(--color-content-default-secondary);
+  flex-shrink: 0;
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
 .bcn-component-picker__trigger > .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
@@ -374,17 +386,12 @@ One implementation: commitment ids (BcnCommitmentBadge, plus a +N for more) and 
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
 }
-.bcn-disc__head .esa-icon {
-  color: var(--color-content-default-secondary);
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
 }
 .bcn-evidence-card__lead .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -401,13 +408,6 @@ One implementation: commitment ids (BcnCommitmentBadge, plus a +N for more) and 
 .bcn-evidence-card__actions .esa-icon {
   width: 15px;
   height: 15px;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
-  flex-shrink: 0;
 }
 ```
 

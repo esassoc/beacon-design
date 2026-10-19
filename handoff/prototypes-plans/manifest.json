@@ -1,0 +1,588 @@
+{
+  "name": "plans",
+  "url": "http://localhost:4399/beacon-design/prototypes/plans/",
+  "theme": "beacon",
+  "generatedFrom": "spec",
+  "sections": [
+    {
+      "label": "Plan list",
+      "tag": "div",
+      "selector": "[data-plan-list]",
+      "html": "<div class=\"bcn-plan-list\" data-plan-list=\"\" data-plan-list-ready=\"true\">\n  <div class=\"bcn-plan-list__loading\" data-plan-list-state=\"loading\" hidden=\"\">\n    <span class=\"esa-loading-spinner esa-loading-spinner--md\" aria-hidden=\"true\"\n      ><span class=\"esa-loading-spinner__ring\"></span\n    ></span>\n  </div>\n  <div class=\"bcn-plan-list__box\" data-plan-list-state=\"failed\" hidden=\"\">\n    <span class=\"bcn-plan-list__box-icon\"\n      ><span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\"\n        ><svg\n          width=\"20\"\n          height=\"20\"\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          stroke=\"currentColor\"\n          stroke-width=\"2\"\n          stroke-linecap=\"round\"\n          stroke-linejoin=\"round\"\n          focusable=\"false\"\n        >\n          <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n          <path d=\"M12 16v-4\"></path>\n          <path d=\"M12 8h.01\"></path></svg></span\n    ></span>\n    <div class=\"bcn-plan-list__empty\">\n      <span role=\"alert\">Plans couldn't be loaded.</span\n      ><span\n        class=\"esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm\"\n        ><button\n          class=\"esa-button__native typography-microcopy-xs\"\n          type=\"button\"\n          data-plan-list-retry=\"true\"\n        >\n          <span class=\"esa-button__label\">Retry</span>\n        </button></span\n      >\n    </div>\n  </div>\n  <ul class=\"bcn-plan-list__rows\" data-plan-list-state=\"plans\" hidden=\"\"></ul>\n  <div class=\"bcn-plan-list__box\" data-plan-list-state=\"empty\">\n    <div class=\"bcn-plan-list__empty\">\n      <span>This project has no plans yet.</span>\n      <div class=\"bcn-plan-list__empty-actions\">\n        <span\n          class=\"esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm\"\n          ><button\n            class=\"esa-button__native typography-microcopy-xs\"\n            type=\"button\"\n            data-plan-list-create=\"true\"\n          >\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n              ><svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"M5 12h14\"></path>\n                <path d=\"M12 5v14\"></path></svg></span\n            ><span class=\"esa-button__label\">New plan</span>\n          </button></span\n        ><span class=\"bcn-plan-list__busy-pair\" data-plan-list-sample=\"\"\n          ><span data-busy=\"idle\"\n            ><span\n              class=\"esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm\"\n              ><button\n                class=\"esa-button__native typography-microcopy-xs\"\n                type=\"button\"\n                data-plan-list-sample-button=\"true\"\n              >\n                <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                  ><svg\n                    width=\"16\"\n                    height=\"16\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    focusable=\"false\"\n                  >\n                    <path d=\"M5 12h14\"></path>\n                    <path d=\"M12 5v14\"></path></svg></span\n                ><span class=\"esa-button__label\">Load sample plan</span>\n              </button></span\n            ></span\n          ><span data-busy=\"busy\" hidden=\"\"\n            ><span\n              class=\"esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm esa-button--loading\"\n              ><button\n                class=\"esa-button__native typography-microcopy-xs\"\n                type=\"button\"\n                disabled=\"\"\n                aria-busy=\"true\"\n              >\n                <span class=\"esa-button__spinner\" aria-hidden=\"true\"></span\n                ><span class=\"esa-button__label esa-button__label--hidden\"\n                  >Load sample plan</span\n                >\n              </button></span\n            ></span\n          ></span\n        >\n      </div>\n    </div>\n  </div>\n  <template data-plan-list-tpl=\"row\"\n    ><li class=\"bcn-plan-list__row\" data-astro-cid-ei5ip3z4=\"\">\n      <div class=\"bcn-plan-list__row-head\" data-astro-cid-ei5ip3z4=\"\">\n        <a\n          class=\"bcn-plan-list__name typography-label-sm-strong\"\n          href=\"#\"\n          data-plan-list-name=\"\"\n          data-astro-cid-ei5ip3z4=\"\"\n        ></a\n        ><span\n          class=\"bcn-plan-list__count\"\n          data-plan-list-count=\"\"\n          data-astro-cid-ei5ip3z4=\"\"\n          ><span\n            class=\"esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong\"\n            data-astro-cid-sh7ulwla=\"\"\n            ><span class=\"esa-badge__text\" data-astro-cid-sh7ulwla=\"\">0</span></span\n          ></span\n        >\n      </div>\n      <p\n        class=\"bcn-plan-list__description typography-body-md\"\n        data-plan-list-description=\"\"\n        data-astro-cid-ei5ip3z4=\"\"\n      ></p></li\n  ></template>\n</div>",
+      "css": ".typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-label-sm-strong {\n  font-family: var(--typography-label-sm-strong-font-family);\n  font-size: var(--typography-label-sm-strong-font-size);\n  font-weight: var(--typography-label-sm-strong-font-weight);\n  line-height: var(--typography-label-sm-strong-line-height);\n  letter-spacing: var(--typography-label-sm-strong-letter-spacing);\n}\n.typography-microcopy-xs {\n  font-family: var(--typography-microcopy-xs-font-family);\n  font-size: var(--typography-microcopy-xs-font-size);\n  font-weight: var(--typography-microcopy-xs-font-weight);\n  line-height: var(--typography-microcopy-xs-line-height);\n  letter-spacing: var(--typography-microcopy-xs-letter-spacing);\n}\n.typography-microcopy-xs-subtle {\n  font-family: var(--typography-microcopy-xs-subtle-font-family);\n  font-size: var(--typography-microcopy-xs-subtle-font-size);\n  font-weight: var(--typography-microcopy-xs-subtle-font-weight);\n  line-height: var(--typography-microcopy-xs-subtle-line-height);\n  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);\n}\n.typography-microcopy-xs-strong {\n  font-family: var(--typography-microcopy-xs-strong-font-family);\n  font-size: var(--typography-microcopy-xs-strong-font-size);\n  font-weight: var(--typography-microcopy-xs-strong-font-weight);\n  line-height: var(--typography-microcopy-xs-strong-line-height);\n  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);\n}\n.bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-help-bar .esa-icon-button {\n  color: var(--bcn-helpbar-fg-muted);\n  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);\n}\n.bcn-help-bar .esa-icon-button:hover,\n.bcn-help-bar .esa-icon-button:focus-visible {\n  color: var(--bcn-helpbar-fg);\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n.bcn-countchip__num .esa-badge {\n  --badge-radius: var(--radius-full);\n  --badge-bg: var(--color-border-default);\n  --badge-text-color: var(--color-content-default-secondary);\n  box-sizing: border-box;\n  font-variant-numeric: tabular-nums;\n  min-width: 19px;\n  height: 19px;\n  box-shadow: 0 0 0 1.5px var(--color-background-elevation-raised);\n  justify-content: center;\n  align-items: center;\n  padding: 0 4px;\n  font-size: 0.8125rem;\n  line-height: 1;\n  display: inline-flex;\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.esa-loading-spinner {\n  --_spinner-size: 32px;\n  --_spinner-border-width: 3px;\n  --_spinner-color: var(--loading-spinner-color, var(--color-background-brand, #46a758));\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-loading-spinner--xs {\n  --_spinner-size: 14px;\n  --_spinner-border-width: 2px;\n}\n.esa-loading-spinner--sm {\n  --_spinner-size: 20px;\n  --_spinner-border-width: 2px;\n}\n.esa-loading-spinner--lg {\n  --_spinner-size: 48px;\n  --_spinner-border-width: 4px;\n}\n.esa-loading-spinner__ring {\n  width: var(--_spinner-size);\n  height: var(--_spinner-size);\n  border: var(--_spinner-border-width) solid\n    var(--loading-spinner-track-color, var(--color-border-default-subtle, #d9d9d9));\n  border-top-color: var(--_spinner-color);\n  border-radius: var(--radius-pill, 9999px);\n  animation: esa-spinner-rotate var(--animation-spin, 0.75s linear infinite);\n  box-sizing: border-box;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-attached__mark .esa-badge {\n  --badge-bg: var(--color-background-utility-info-subtle);\n  --badge-text-color: var(--color-content-default);\n  border: 1px solid\n    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);\n  font-weight: var(--typography-font-weight-medium);\n}\n.bcn-ev-row__mark .esa-badge {\n  --badge-bg: var(--color-background-utility-info-subtle);\n  --badge-text-color: var(--color-content-default);\n  border: 1px solid\n    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);\n  font-weight: var(--typography-font-weight-medium);\n}\n.bcn-ev-row__tags .esa-badge {\n  --badge-bg: var(--bcn-gray-100);\n  --badge-text-color: var(--bcn-gray-700);\n  font-weight: var(--typography-font-weight-medium);\n}\n.topbar__right .esa-icon-button {\n  color: var(--color-content-default-secondary);\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.esa-badge {\n  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));\n  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));\n  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));\n  --_badge-padding-y: var(--spacing-150, 0.375rem);\n  --_badge-padding-x: var(--spacing-200, 0.5rem);\n  min-width: calc(1lh + 2 * var(--_badge-padding-y));\n  padding-block: var(--_badge-padding-y);\n  padding-inline: var(--_badge-padding-x);\n  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));\n  background: var(--_badge-bg);\n  color: var(--_badge-text);\n  white-space: nowrap;\n  box-sizing: border-box;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-badge--xs {\n  --_badge-padding-y: var(--spacing-100, 0.25rem);\n  --_badge-padding-x: var(--spacing-100, 0.25rem);\n}\n.esa-badge--sm {\n  --_badge-padding-y: var(--spacing-100, 0.25rem);\n  --_badge-padding-x: var(--spacing-150, 0.375rem);\n}\n.esa-badge--lg {\n  --_badge-padding-y: var(--spacing-250, 0.625rem);\n  --_badge-padding-x: var(--spacing-300, 0.75rem);\n}\n.esa-badge--primary {\n  --_badge-bg: var(--color-background-brand, #46a758);\n  --_badge-text: var(--color-content-default-knockout, #fcfcfc);\n}\n.esa-badge--secondary {\n  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);\n  --_badge-text: var(--color-content-on-brand-muted, #203c25);\n}\n.esa-badge--success {\n  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);\n  --_badge-text: var(--color-content-utility-success, #218358);\n  --_badge-border: var(--color-border-utility-success, #adddc0);\n}\n.esa-badge--warning {\n  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);\n  --_badge-text: var(--color-content-utility-warning, #ab6400);\n  --_badge-border: var(--color-border-utility-warning, #f3d673);\n}\n.esa-badge--danger {\n  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);\n  --_badge-text: var(--color-content-utility-danger, #ce2c31);\n  --_badge-border: var(--color-border-utility-danger, #fdbdbe);\n}\n.esa-badge--info {\n  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);\n  --_badge-text: var(--color-content-utility-info, #0d74ce);\n  --_badge-border: var(--color-border-utility-info, #acd8fc);\n}\n.esa-badge--neutral:not(.esa-badge--dot),\n.esa-badge--success:not(.esa-badge--dot),\n.esa-badge--warning:not(.esa-badge--dot),\n.esa-badge--danger:not(.esa-badge--dot),\n.esa-badge--info:not(.esa-badge--dot) {\n  border: 1px solid var(--_badge-border, transparent);\n}\n.esa-badge--dot {\n  border-radius: var(--radius-pill, 9999px);\n  width: 8px;\n  min-width: 8px;\n  height: 8px;\n  padding: 0;\n}\n.esa-badge--dot.esa-badge--neutral {\n  --_badge-bg: var(--color-content-default-secondary, #646464);\n}\n.esa-badge--dot.esa-badge--primary {\n  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);\n}\n.esa-badge--dot.esa-badge--secondary {\n  --_badge-bg: var(--color-background-brand, #46a758);\n}\n.esa-badge--dot.esa-badge--success {\n  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);\n}\n.esa-badge--dot.esa-badge--warning {\n  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);\n}\n.esa-badge--dot.esa-badge--danger {\n  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);\n}\n.esa-badge--dot.esa-badge--info {\n  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);\n}\n.esa-badge--dot {\n  background: canvastext;\n  border: 0;\n  outline: 1px solid canvastext;\n}\n.esa-button {\n  --_btn-pad-y: var(--spacing-300, 0.75rem);\n  --_btn-padding-x: var(--spacing-300, 0.75rem);\n  --_btn-radius: var(--button-radius-md, 0.5rem);\n  --_accent: var(--color-background-brand, #46a758);\n  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);\n  --_on: var(--color-content-default-knockout, #fcfcfc);\n  --_accent-text: var(--_accent);\n  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);\n  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);\n  display: inline-block;\n}\n.esa-button--xs {\n  --_btn-pad-y: var(--spacing-200, 0.5rem);\n  --_btn-padding-x: var(--spacing-200, 0.5rem);\n  --_btn-radius: var(--button-radius-xs, 4px);\n}\n.esa-button--sm {\n  --_btn-pad-y: var(--spacing-250, 0.625rem);\n  --_btn-padding-x: var(--spacing-250, 0.625rem);\n  --_btn-radius: var(--button-radius-sm, 4px);\n}\n.esa-button--lg {\n  --_btn-pad-y: var(--spacing-400, 1rem);\n  --_btn-padding-x: var(--spacing-400, 1rem);\n  --_btn-radius: var(--button-radius-lg, 8px);\n}\n.esa-button--variant-primary {\n  --_accent-text: var(--color-content-brand);\n}\n.esa-button--variant-secondary {\n  --_accent: var(--color-background-brand-muted);\n  --_accent-hover: var(--color-background-brand-muted-hover);\n  --_on: var(--color-content-on-brand-muted, var(--color-content-default));\n  --_accent-text: var(--color-content-brand);\n  --_accent-border: var(--color-border-default-strong, #bbb);\n}\n.esa-button--variant-danger {\n  --_accent: var(--color-background-utility-danger);\n  --_accent-hover: var(--color-background-utility-danger-hover);\n  --_accent-text: var(--color-content-utility-danger);\n}\n.esa-button--variant-success {\n  --_accent: var(--color-background-utility-success);\n  --_accent-hover: var(--color-background-utility-success-hover);\n  --_on: var(--color-content-on-utility-success);\n  --_accent-text: var(--color-content-utility-success);\n}\n.esa-button--variant-warning {\n  --_accent: var(--color-background-utility-warning);\n  --_accent-hover: var(--color-background-utility-warning-hover);\n  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));\n  --_accent-text: var(--color-content-utility-warning);\n}\n.esa-button--variant-info {\n  --_accent: var(--color-background-utility-info);\n  --_accent-hover: var(--color-background-utility-info-hover);\n  --_accent-text: var(--color-content-utility-info);\n}\n.esa-button--variant-ai {\n  --_accent: var(--color-background-ai);\n  --_accent-hover: var(--color-background-ai-hover);\n  --_accent-text: var(--color-content-ai);\n}\n.esa-button--appearance-fill .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent-border, transparent);\n}\n.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-fill.esa-button--active .esa-button__native {\n  background: var(--_accent-hover);\n}\n.esa-button--appearance-outline .esa-button__native,\n.esa-button--appearance-dashed .esa-button__native {\n  color: var(--_accent-text);\n  border-color: var(--_accent);\n  background: 0 0;\n}\n.esa-button--appearance-dashed .esa-button__native {\n  border-style: dashed;\n}\n.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {\n  background: var(--_btn-tint-hover);\n}\n.esa-button--appearance-outline.esa-button--active .esa-button__native,\n.esa-button--appearance-dashed.esa-button--active .esa-button__native {\n  background: var(--_btn-tint-active);\n}\n.esa-button--appearance-soft .esa-button__native {\n  background: color-mix(\n    in srgb,\n    var(--color-background-elevation-sunken, #f0f0f0) 45%,\n    var(--color-background-elevation-raised, #fcfcfc)\n  );\n  color: var(--_accent-text);\n  border-color: var(--color-border-default-strong, #bbb);\n}\n.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-soft.esa-button--active .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent);\n}\n.esa-button--variant-ghost .esa-button__native {\n  color: var(--color-content-default, #202020);\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,\n.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {\n  border-color: var(--color-border-default, #cecece);\n}\n.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),\n.esa-button--variant-ghost.esa-button--active .esa-button__native {\n  background: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-button--variant-chrome .esa-button__native {\n  color: inherit;\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),\n.esa-button--variant-chrome.esa-button--active .esa-button__native,\n.esa-button--variant-chrome.esa-button--current .esa-button__native {\n  background: var(\n    --button-chrome-bg-hover,\n    color-mix(in srgb, currentColor 14%, transparent)\n  );\n}\n.esa-button--variant-chrome .esa-button__native:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__native {\n  justify-content: center;\n  align-items: center;\n  gap: var(--spacing-200, 8px);\n  width: 100%;\n  padding-block: var(--_btn-pad-y);\n  padding-inline: var(--_btn-padding-x);\n  border: var(--border-width-default, 1px) solid transparent;\n  border-radius: var(--_btn-radius);\n  cursor: pointer;\n  transition:\n    background var(--transition-fast, 0.15s ease),\n    border-color var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n  text-decoration: none;\n  display: inline-flex;\n}\n.esa-button__native:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n}\n.esa-button--disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n  pointer-events: none;\n}\n.esa-button--icon-only .esa-button__native {\n  padding-inline: var(--_btn-pad-y);\n  aspect-ratio: 1;\n}\nsummary.esa-button {\n  cursor: pointer;\n  list-style: none;\n}\nsummary.esa-button::-webkit-details-marker {\n  display: none;\n}\nsummary.esa-button:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n  border-radius: var(--_btn-radius);\n}\nsummary.esa-button--variant-chrome:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__label {\n  white-space: nowrap;\n}\n.esa-button__label--hidden {\n  clip-path: inset(50%);\n  white-space: nowrap;\n  width: 1px;\n  height: 1px;\n  position: absolute;\n  overflow: hidden;\n}\n.esa-button__spinner {\n  width: 1em;\n  height: 1em;\n  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);\n  border: 2px solid;\n  border-right-color: #0000;\n  border-radius: 50%;\n  display: inline-block;\n}\n.bcn-plan-list {\n  --_row-surface: var(--color-background-elevation-raised, #fcfcfc);\n  --_row-surface-hover: var(--color-background-default-hover, #f0f0f0);\n  --_row-border: var(--color-border-default-subtle, #d9d9d9);\n  --_row-focus: var(--color-background-brand, #46a758);\n  --_text: var(--color-content-default, #202020);\n  --_text-muted: var(--color-content-default-secondary, #646464);\n  --_text-subtle: var(--color-content-default-tertiary, #8d8d8d);\n  --_page-bg: var(--color-background-default, #fcfcfc);\n}\n.bcn-plan-list__loading {\n  padding: var(--spacing-400, 1rem);\n  justify-content: center;\n  display: flex;\n}\n.bcn-plan-list__rows {\n  gap: var(--spacing-100, 0.25rem);\n  flex-direction: column;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n  display: flex;\n}\n.bcn-plan-list__row {\n  gap: var(--spacing-050, 0.125rem);\n  padding: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);\n  border: 1px solid var(--_row-border);\n  border-radius: var(--spacing-200, 0.5rem);\n  background: var(--_row-surface);\n  flex-direction: column;\n  display: flex;\n  position: relative;\n}\n.bcn-plan-list__row:hover {\n  background: var(--_row-surface-hover);\n}\n.bcn-plan-list__row:has(.bcn-plan-list__name:focus-visible) {\n  background: var(--_row-surface-hover);\n  outline: 2px solid var(--_row-focus);\n  outline-offset: -2px;\n}\n.bcn-plan-list__row-head {\n  align-items: center;\n  gap: var(--spacing-100, 0.25rem);\n  min-width: 0;\n  display: flex;\n}\n.bcn-plan-list__name {\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  min-width: 0;\n  color: var(--_text);\n  text-decoration: none;\n  display: block;\n  overflow: hidden;\n}\n.bcn-plan-list__name:after {\n  content: \"\";\n  border-radius: inherit;\n  position: absolute;\n  inset: 0;\n}\n.bcn-plan-list__name:focus-visible {\n  outline: none;\n}\n.bcn-plan-list__row:hover .bcn-plan-list__name {\n  text-decoration: underline;\n}\n.bcn-plan-list__count {\n  flex-shrink: 0;\n  display: inline-flex;\n}\n.bcn-plan-list__description {\n  color: var(--_text-muted);\n  margin: 0;\n}\n.bcn-plan-list__box {\n  align-items: center;\n  gap: var(--spacing-400, 1rem);\n  padding: var(--spacing-400, 1rem);\n  border: 2px dashed var(--_row-border);\n  border-radius: var(--spacing-200, 0.5rem);\n  background: var(--_page-bg);\n  text-align: center;\n  flex-direction: column;\n  display: flex;\n}\n.bcn-plan-list__box-icon {\n  color: var(--_text-subtle);\n  display: inline-flex;\n}\n.bcn-plan-list__box-icon svg {\n  width: 3rem;\n  height: 3rem;\n}\n.bcn-plan-list__empty {\n  align-items: center;\n  gap: var(--spacing-300, 0.75rem);\n  flex-wrap: wrap;\n  display: flex;\n}\n.bcn-plan-list__empty-actions {\n  gap: var(--spacing-200, 0.5rem);\n  flex-wrap: wrap;\n  display: flex;\n}\n.bcn-plan-list__busy-pair {\n  display: contents;\n}\n.typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-label-sm-strong {\n  font-family: var(--typography-label-sm-strong-font-family);\n  font-size: var(--typography-label-sm-strong-font-size);\n  font-weight: var(--typography-label-sm-strong-font-weight);\n  line-height: var(--typography-label-sm-strong-line-height);\n  letter-spacing: var(--typography-label-sm-strong-letter-spacing);\n}\n.typography-microcopy-xs {\n  font-family: var(--typography-microcopy-xs-font-family);\n  font-size: var(--typography-microcopy-xs-font-size);\n  font-weight: var(--typography-microcopy-xs-font-weight);\n  line-height: var(--typography-microcopy-xs-line-height);\n  letter-spacing: var(--typography-microcopy-xs-letter-spacing);\n}\n.typography-microcopy-xs-subtle {\n  font-family: var(--typography-microcopy-xs-subtle-font-family);\n  font-size: var(--typography-microcopy-xs-subtle-font-size);\n  font-weight: var(--typography-microcopy-xs-subtle-font-weight);\n  line-height: var(--typography-microcopy-xs-subtle-line-height);\n  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);\n}\n.typography-microcopy-xs-strong {\n  font-family: var(--typography-microcopy-xs-strong-font-family);\n  font-size: var(--typography-microcopy-xs-strong-font-size);\n  font-weight: var(--typography-microcopy-xs-strong-font-weight);\n  line-height: var(--typography-microcopy-xs-strong-line-height);\n  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon--md {\n  --_icon-size: var(--icon-size-md, 20px);\n}\n.esa-icon--lg {\n  --_icon-size: var(--icon-size-lg, 24px);\n}\n.esa-icon--xl {\n  --_icon-size: var(--icon-size-xl, 28px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}",
+      "guide": {
+        "intent": "The project’s plans, with New plan and Load sample plan. Each row opens that plan’s Gantt. A replica of Beacon’s pages/plan-list.",
+        "decisions": [
+          "REPLICA, NOT A SPEC. Read Beacon’s origin/develop for behavior; this page mirrors it, including its complexity.",
+          "Load sample plan is prod’s temporary demo scaffolding (BCN-1788), kept because prod still has it."
+        ],
+        "gotchas": [
+          "Plans persist in this browser only. Clearing site data empties the list."
+        ],
+        "acceptance": [
+          "With no plans, the empty state offers New plan and Load sample plan.",
+          "Load sample plan creates a plan and opens its Gantt."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--animation-spin",
+          "value": ".75s linear infinite",
+          "tier": "semantic"
+        },
+        {
+          "name": "--badge-bg",
+          "value": "#fcfcfc",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-border-color",
+          "value": "#dcdcdc",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-text-color",
+          "value": "#525252",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-100",
+          "value": "#efefef",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-1000",
+          "value": "#000",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-400",
+          "value": "#989898",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-500",
+          "value": "#7c7c7c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-700",
+          "value": "#525252",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-950",
+          "value": "#292929",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-fg",
+          "value": "#ffffffeb",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-fg-muted",
+          "value": "#ffffffb8",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-hover-bg",
+          "value": "#ffffff1a",
+          "tier": "component"
+        },
+        {
+          "name": "--border-width-default",
+          "value": "1px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--button-chrome-bg-hover",
+          "value": "color-mix(in srgb, currentColor 14%, transparent)",
+          "tier": "component"
+        },
+        {
+          "name": "--button-on-warning",
+          "value": "#fff",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-lg",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-md",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-sm",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-xs",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--color-background-ai",
+          "value": "#699cc6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-ai-hover",
+          "value": "#4c75a9",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-muted",
+          "value": "#eef5f4",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-muted-hover",
+          "value": "#b9d6d2",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-default",
+          "value": "#fafafa",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-default-hover",
+          "value": "#e8e8e8",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-danger",
+          "value": "#ce2c31",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-danger-hover",
+          "value": "#641723",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-danger-muted",
+          "value": "#feebec",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-info",
+          "value": "#228be6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-info-hover",
+          "value": "#113264",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-info-muted",
+          "value": "#e6f4fe",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-info-subtle",
+          "value": "#fbfdff",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-success",
+          "value": "#2e7571",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-success-hover",
+          "value": "#193b2d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-success-muted",
+          "value": "#e6f6eb",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-warning",
+          "value": "#f59e0b",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-warning-hover",
+          "value": "#ffba18",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-warning-muted",
+          "value": "#fff7c2",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-strong",
+          "value": "#bdbdbd",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-subtle",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-utility-danger",
+          "value": "#fdbdbe",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-utility-info",
+          "value": "#acd8fc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-utility-success",
+          "value": "#adddc0",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-utility-warning",
+          "value": "#f3d673",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-ai",
+          "value": "#7d5e54",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-knockout",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-on-brand-muted",
+          "value": "#203c25",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-on-utility-success",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-on-utility-warning",
+          "value": "#4f3422",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-danger",
+          "value": "#ce2c31",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-info",
+          "value": "#0d74ce",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-success",
+          "value": "#218358",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-warning",
+          "value": "#ab6400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--focus-ring-color",
+          "value": "#3e9b4f",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-offset",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-width",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-lg",
+          "value": "24px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-md",
+          "value": "20px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-sm",
+          "value": "16px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-xl",
+          "value": "28px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-xs",
+          "value": "14px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--loading-spinner-color",
+          "value": "#005862",
+          "tier": "component"
+        },
+        {
+          "name": "--loading-spinner-track-color",
+          "value": "#efefef",
+          "tier": "component"
+        },
+        {
+          "name": "--radius-chip",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-full",
+          "value": "9999px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-pill",
+          "value": "9999px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-sm",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
+          "name": "--spacing-050",
+          "value": ".125rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-150",
+          "value": ".375rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-250",
+          "value": ".625rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-size",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-font-weight",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-medium",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-label-sm-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-line-height",
+          "value": "1",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-line-height",
+          "value": "1",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-subtle-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-subtle-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-subtle-font-weight",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-subtle-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-subtle-line-height",
+          "value": "1",
+          "tier": "semantic"
+        }
+      ],
+      "claudePath": "claude/plan-list.md",
+      "repoPath": "public/handoff/prototypes-plans/claude/plan-list.md"
+    }
+  ]
+}

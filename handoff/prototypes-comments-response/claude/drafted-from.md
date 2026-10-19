@@ -94,22 +94,6 @@ The two or three past ESA responses the draft drew on, anonymized to the kind of
 .error {
   margin: 0;
 }
-/* Type comes from .typography-body-sm — help and error are one size at every
-       control step, so they name the composite directly rather than mapping. */
-/* Both nodes are ALWAYS in the DOM (see render()), so the gap is opt-IN rather
-       than collapsed away. Deliberately not display:none when empty — that removes
-       the node from the accessibility tree, and a live region that is not in the tree
-       cannot announce anything. An empty <p> with no margin occupies no space.
-
-       .is-shown rather than :empty: Lit's template whitespace leaves a text node
-       inside the element, and browsers still disagree about whether :empty ignores
-       whitespace-only children (Selectors L4 says yes, L3 says no). A class is
-       deterministic; :empty here would silently leave 4px of dead space under every
-       clean field in some engines and not others. */
-.help,
-.error {
-  margin: 0;
-}
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
   font-size: var(--typography-body-md-font-size);
@@ -385,12 +369,12 @@ The two or three past ESA responses the draft drew on, anonymized to the kind of
 - `--spacing-700`: 3rem _(primitive)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
+- `--typography-body-md-font-weight`: 350 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
+- `--typography-body-sm-font-weight`: 350 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_

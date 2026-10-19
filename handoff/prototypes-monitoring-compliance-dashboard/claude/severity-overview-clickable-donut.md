@@ -636,8 +636,6 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
 - `--card-bg`: #fcfcfc _(component)_
 - `--card-border-color`: #dcdcdc _(component)_
 - `--card-header-bg`: transparent _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
@@ -667,12 +665,12 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
 - `--spacing-700`: 3rem _(primitive)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
+- `--typography-body-md-font-weight`: 350 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
+- `--typography-body-sm-font-weight`: 350 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-display`: "DM Sans", sans-serif _(semantic)_
@@ -692,7 +690,7 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
 - `--typography-label-xs-strong-line-height`: 1.6 _(semantic)_
 - `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-meta-font-weight`: 400 _(semantic)_
+- `--typography-meta-font-weight`: 350 _(semantic)_
 - `--typography-meta-letter-spacing`: .01em _(semantic)_
 - `--typography-meta-line-height`: 1.6 _(semantic)_
 - `--typography-title-font-family`: "DM Sans", sans-serif _(semantic)_

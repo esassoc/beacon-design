@@ -889,8 +889,7 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc__class,
 .bcn-loc__class,
-.bcn-lob__class,
-.bcn-ci-chip {
+.bcn-lob__class {
   padding: 1px var(--spacing-200);
   border-radius: var(--radius-100);
   background: color-mix(in srgb, var(--_hue) 14%, white);
@@ -904,29 +903,24 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc[data-class="adhere"],
 .bcn-loc[data-class="adhere"],
-.bcn-lob[data-class="adhere"],
-.bcn-ci-chip[data-class="adhere"] {
+.bcn-lob[data-class="adhere"] {
   --_hue: var(--color-obligation);
 }
 .bcn-swoc[data-class="monitor"],
 .bcn-loc[data-class="monitor"],
-.bcn-lob[data-class="monitor"],
-.bcn-ci-chip[data-class="monitor"] {
+.bcn-lob[data-class="monitor"] {
   --_hue: #ff7c43;
 }
 .bcn-swoc[data-class="notify"],
 .bcn-loc[data-class="notify"],
-.bcn-lob[data-class="notify"],
-.bcn-ci-chip[data-class="notify"] {
+.bcn-lob[data-class="notify"] {
   --_hue: #ffa600;
 }
 .bcn-swoc[data-class="roster"],
 .bcn-loc[data-class="roster"],
 .bcn-lob[data-class="roster"],
-.bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
-.bcn-lac[data-class="action"],
-.bcn-ci-chip[data-class="action"] {
+.bcn-lac[data-class="action"] {
   --_hue: var(--color-action);
 }
 .bcn-swoc__title,
@@ -1001,8 +995,7 @@ details[open] > summary .bcn-loc__chevron {
   color: var(--color-background-utility-danger);
 }
 .bcn-swoc__reqs,
-.bcn-loc__reqs,
-.bcn-ciitem__reqs {
+.bcn-loc__reqs {
   padding: 0 var(--spacing-300) var(--spacing-150)
     calc(var(--spacing-300) + var(--_req-indent));
   flex-direction: column;
@@ -1011,8 +1004,7 @@ details[open] > summary .bcn-loc__chevron {
   display: flex;
 }
 .bcn-swoc__req,
-.bcn-loc__req,
-.bcn-ciitem__req {
+.bcn-loc__req {
   align-items: center;
   gap: var(--spacing-200);
   min-height: 28px;
@@ -1026,8 +1018,7 @@ details[open] > summary .bcn-loc__chevron {
   background: var(--color-background-default);
 }
 .bcn-swoc__req-name,
-.bcn-loc__req-name,
-.bcn-ciitem__req-name {
+.bcn-loc__req-name {
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
@@ -1514,7 +1505,7 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
-.bcn-component-picker__trigger > .esa-icon {
+.bcn-component-picker__trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
 }
@@ -1679,12 +1670,12 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
+- `--typography-body-md-font-weight`: 350 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
+- `--typography-body-sm-font-weight`: 350 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
@@ -1726,7 +1717,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -1741,7 +1732,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_

@@ -80,15 +80,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <p class="drawer__sub">Roads · 2024-2029 Geotechnical Activities</p>
           </header>
           <div class="band">
-            <div class="bcn-key-value" data-size="md" data-layout="stack">
+            <div class="bcn-key-value">
               <span class="bcn-key-value__key">Notification</span
               ><span class="bcn-key-value__val">May 15, 2026</span>
             </div>
-            <div class="bcn-key-value" data-size="md" data-layout="stack">
+            <div class="bcn-key-value">
               <span class="bcn-key-value__key">Clearance visit</span
               ><span class="bcn-key-value__val">Jun 15, 2026</span>
             </div>
-            <div class="bcn-key-value" data-size="md" data-layout="stack">
+            <div class="bcn-key-value">
               <span class="bcn-key-value__key">Planned start</span
               ><span class="bcn-key-value__val">Jun 29, 2026</span>
             </div>
@@ -351,15 +351,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <p class="drawer__sub">Rail Alignment · 2024-2029 Geotechnical Activities</p>
           </header>
           <div class="band">
-            <div class="bcn-key-value" data-size="md" data-layout="stack">
+            <div class="bcn-key-value">
               <span class="bcn-key-value__key">Notification</span
               ><span class="bcn-key-value__val">—</span>
             </div>
-            <div class="bcn-key-value" data-size="md" data-layout="stack">
+            <div class="bcn-key-value">
               <span class="bcn-key-value__key">Clearance visit</span
               ><span class="bcn-key-value__val">—</span>
             </div>
-            <div class="bcn-key-value" data-size="md" data-layout="stack">
+            <div class="bcn-key-value">
               <span class="bcn-key-value__key">Planned start</span
               ><span class="bcn-key-value__val">Jun 17, 2026</span>
             </div>
@@ -642,19 +642,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <p class="drawer__sub">Tunnel Reach 2 · 2024-2029 Geotechnical Activities</p>
           </header>
           <div class="band band--4">
-            <div class="bcn-key-value" data-size="md" data-layout="stack">
+            <div class="bcn-key-value">
               <span class="bcn-key-value__key">Notification</span
               ><span class="bcn-key-value__val">—</span>
             </div>
-            <div class="bcn-key-value" data-size="md" data-layout="stack">
+            <div class="bcn-key-value">
               <span class="bcn-key-value__key">Clearance visit</span
               ><span class="bcn-key-value__val">May 18, 2026</span>
             </div>
-            <div class="bcn-key-value" data-size="md" data-layout="stack">
+            <div class="bcn-key-value">
               <span class="bcn-key-value__key">Planned start</span
               ><span class="bcn-key-value__val">—</span>
             </div>
-            <div class="bcn-key-value" data-size="md" data-layout="stack">
+            <div class="bcn-key-value">
               <span class="bcn-key-value__key">Blocked until</span
               ><span class="band__alert">Jul 24, 2026</span>
             </div>
@@ -1299,15 +1299,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </summary>
                   <div class="esa-collapsible__body typography-body-md">
                     <div class="dates">
-                      <div class="bcn-key-value" data-size="md" data-layout="stack">
+                      <div class="bcn-key-value">
                         <span class="bcn-key-value__key">Notification</span
                         ><span class="bcn-key-value__val">May 15, 2026</span>
                       </div>
-                      <div class="bcn-key-value" data-size="md" data-layout="stack">
+                      <div class="bcn-key-value">
                         <span class="bcn-key-value__key">Clearance visit</span
                         ><span class="bcn-key-value__val">Jun 15, 2026</span>
                       </div>
-                      <div class="bcn-key-value" data-size="md" data-layout="stack">
+                      <div class="bcn-key-value">
                         <span class="bcn-key-value__key">Planned start</span
                         ><span class="bcn-key-value__val">Jun 29, 2026</span>
                       </div>
@@ -1583,15 +1583,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </summary>
                   <div class="esa-collapsible__body typography-body-md">
                     <div class="dates">
-                      <div class="bcn-key-value" data-size="md" data-layout="stack">
+                      <div class="bcn-key-value">
                         <span class="bcn-key-value__key">Notification</span
                         ><span class="bcn-key-value__val">—</span>
                       </div>
-                      <div class="bcn-key-value" data-size="md" data-layout="stack">
+                      <div class="bcn-key-value">
                         <span class="bcn-key-value__key">Clearance visit</span
                         ><span class="bcn-key-value__val">—</span>
                       </div>
-                      <div class="bcn-key-value" data-size="md" data-layout="stack">
+                      <div class="bcn-key-value">
                         <span class="bcn-key-value__key">Planned start</span
                         ><span class="bcn-key-value__val">Jun 17, 2026</span>
                       </div>
@@ -1756,24 +1756,24 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
      chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
      style block already documents. --><span class="disc-panel__when">Reviewed Jun 3, 2026</span>
                 </div>
-                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <div class="bcn-key-value">
                   <span class="bcn-key-value__key">Reviewer</span
                   ><span class="bcn-key-value__val">C. Anderson (ESA)</span>
                 </div>
-                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <div class="bcn-key-value">
                   <span class="bcn-key-value__key">Determination note</span
                   ><span class="kv-text"
                     >Highly disturbed gravel work pad; elderberry shrubs &gt;165 ft from
                     access.</span
                   >
                 </div>
-                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <div class="bcn-key-value">
                   <span class="bcn-key-value__key">Survey record</span
                   ><a class="survey__link" href="#" onclick="return false;"
                     >Pre-construction clearance survey · Jun 3, 2026</a
                   >
                 </div>
-                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <div class="bcn-key-value">
                   <span class="bcn-key-value__key">Field note (verbatim)</span>
                   <blockquote class="note note--sm">
                     6/3 email: This DH is located in a gravel work pad. It was moved slightly to be
@@ -1833,17 +1833,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     >Review scheduled Jun 20, 2026 (in 9 days)</span
                   >
                 </div>
-                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <div class="bcn-key-value">
                   <span class="bcn-key-value__key">Reviewer</span
                   ><span class="bcn-key-value__val">Not assigned</span>
                 </div>
-                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <div class="bcn-key-value">
                   <span class="bcn-key-value__key">Determination note</span
                   ><span class="kv-text"
                     >Potential noise issue raised near receptors; acoustic review pending.</span
                   >
                 </div>
-                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <div class="bcn-key-value">
                   <span class="bcn-key-value__key">Survey record</span
                   ><span class="bcn-key-value__val">No noise survey on record</span>
                 </div>
@@ -1877,17 +1877,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     >Review scheduled Jun 18, 2026 (in 7 days)</span
                   >
                 </div>
-                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <div class="bcn-key-value">
                   <span class="bcn-key-value__key">Reviewer</span
                   ><span class="bcn-key-value__val">Not assigned</span>
                 </div>
-                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <div class="bcn-key-value">
                   <span class="bcn-key-value__key">Determination note</span
                   ><span class="kv-text"
                     >Site relocated — pending geologist confirmation of the new position.</span
                   >
                 </div>
-                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                <div class="bcn-key-value">
                   <span class="bcn-key-value__key">Survey record</span
                   ><span class="bcn-key-value__val">No geology survey on record</span>
                 </div>
@@ -2268,15 +2268,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 ```css
 :root,
 [data-theme="beacon"] {
-  --badge-bg: #005862;
+  --badge-bg: #43608a;
   --badge-text-color: #fcfcfc;
   --border-width-default: 1px;
   --button-radius-md: 0.25rem;
   --button-radius-sm: 0.25rem;
-  --color-background-brand: #005862;
-  --color-background-brand-hover: #00474f;
   --color-background-brand-muted: #eef5f4;
-  --color-background-brand-subtle: #effefb;
   --color-background-default: #fafafa;
   --color-background-elevation-raised: #fcfcfc;
   --color-background-utility-danger: #ce2c31;
@@ -2284,12 +2281,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --color-border-default: #dcdcdc;
   --color-border-default-strong: #bdbdbd;
   --color-border-default-subtle: #efefef;
-  --color-content-brand: #005862;
   --color-content-default: #3d3d3d;
   --color-content-default-knockout: #fcfcfc;
   --color-content-default-secondary: #525252;
   --color-content-default-tertiary: #656565;
-  --color-content-link: #005862;
   --color-content-on-brand-muted: #203c25;
   --color-content-utility-danger: #ce2c31;
   --font-decorative: "Besley", serif;
@@ -2322,13 +2317,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --transition-fast: 0.15s ease;
   --typography-body-md-font-family: "DM Sans", sans-serif;
   --typography-body-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-  --typography-body-md-font-weight: 400;
+  --typography-body-md-font-weight: 350;
   --typography-body-md-letter-spacing: 0.01em;
   --typography-body-md-line-height: 1.6;
   --typography-font-family-mono: "Roboto Mono", ui-monospace, monospace;
   --typography-font-family-sans: "DM Sans", sans-serif;
   --typography-font-weight-medium: 500;
-  --typography-font-weight-regular: 400;
+  --typography-font-weight-regular: 350;
   --typography-font-weight-semibold: 550;
   --typography-label-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
   --typography-label-sm-strong-font-family: "DM Sans", sans-serif;
@@ -2353,6 +2348,319 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --typography-microcopy-xs-strong-line-height: 1;
 }
 
+.bcn-status-chip {
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  display: inline-flex;
+}
+.bcn-status-chip__dot {
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+}
+.bcn-key-value {
+  flex-direction: column;
+  gap: 2px;
+  display: flex;
+}
+.bcn-key-value__key {
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--form-label-color);
+}
+.bcn-key-value__val {
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+}
+.esa-collapsible {
+  border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
+  border-radius: var(--radius-md, 0.5rem);
+  background: var(--color-background-elevation-raised, #fcfcfc);
+}
+.esa-collapsible--flush {
+  background: 0 0;
+  border: none;
+  border-radius: 0;
+}
+.esa-collapsible__summary {
+  align-items: center;
+  gap: var(--spacing-200, 0.5rem);
+  padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
+  color: var(--color-content-default, #202020);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+}
+.esa-collapsible--flush > .esa-collapsible__summary,
+.esa-collapsible--flush > .esa-collapsible__body {
+  padding-inline: 0;
+}
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
+}
+.esa-collapsible__summary:after {
+  content: "";
+  border-right: 2px solid var(--color-content-default-secondary, #646464);
+  border-bottom: 2px solid var(--color-content-default-secondary, #646464);
+  width: 8px;
+  height: 8px;
+  margin-left: auto;
+  transition: transform 0.15s;
+  transform: rotate(-45deg);
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+}
+.esa-collapsible[open] > .esa-collapsible__summary:after {
+  transform: rotate(45deg);
+}
+.esa-collapsible__body {
+  gap: var(--spacing-400, 1rem);
+  padding: 0 var(--spacing-400, 1rem) var(--spacing-400, 1rem);
+  flex-direction: column;
+  display: flex;
+}
+:host {
+  all: initial;
+}
+.host-root {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483000;
+  font-family: system-ui, sans-serif;
+}
+.host-root > * {
+  pointer-events: auto;
+}
+.launch {
+  position: fixed;
+  bottom: 22px;
+  left: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 19px;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1px solid #3d6fd6;
+  background: linear-gradient(180deg, #1f6feb, #1551c4);
+  box-shadow:
+    0 10px 28px -8px rgba(31, 111, 235, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+.launch svg {
+  flex: none;
+}
+.panel {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  bottom: 18px;
+  width: min(720px, 94vw);
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  border-radius: 16px;
+  background: linear-gradient(155deg, rgba(26, 31, 40, 0.74), rgba(11, 15, 21, 0.86));
+  backdrop-filter: blur(26px) saturate(150%);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 28px 70px -18px rgba(0, 0, 0, 0.62),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  font-size: 12.5px;
+  overflow: hidden;
+  /* slide in from the right */
+  transform: translateX(calc(100% + 32px));
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.22s ease,
+    visibility 0s linear 0.3s;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.head strong {
+  font-size: 14px;
+}
+.head .sub {
+  flex: 1;
+  color: #ccd5e0;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.x {
+  border: 0;
+  background: none;
+  color: #c4cdd8;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.picker {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #eef2f6;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease,
+    color 0.12s ease;
+}
+.chip.on {
+  background: rgba(31, 111, 235, 0.28);
+  border-color: #4493f8;
+  color: #fff;
+  font-weight: 600;
+}
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 9px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.tabs button {
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: #ccd5e0;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.tabs button.on {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+.body {
+  overflow: auto;
+  padding: 13px 16px;
+  flex: 1;
+}
+.hint {
+  margin: 0;
+  color: #c4cdd8;
+  line-height: 1.6;
+}
+.footer {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 11px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.18);
+}
+[hidden] {
+  display: none !important;
+}
+.cpreview {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: calc(100% + 8px);
+  background: rgba(13, 17, 23, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  box-shadow: 0 18px 50px -14px rgba(0, 0, 0, 0.7);
+  padding: 12px 14px;
+  max-height: 50vh;
+  overflow: auto;
+}
+.copy {
+  color: #eef2f6;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+}
+.footer button {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.claude {
+  color: #fff;
+  border: 1px solid #d97757;
+  background: linear-gradient(180deg, #e0805f, #c25e3c);
+  box-shadow:
+    0 6px 18px -6px rgba(217, 119, 87, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+.claude svg {
+  flex: none;
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -2432,115 +2740,72 @@ html,
 .modern-layout__content {
   scroll-behavior: smooth;
 }
-.bcn-status-chip {
-  align-items: center;
-  gap: var(--spacing-150);
-  padding: 2px var(--spacing-250);
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-100);
-  font-weight: var(--typography-font-weight-semibold);
-  white-space: nowrap;
-  background: color-mix(in srgb, var(--_chip) 16%, transparent);
-  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
-  display: inline-flex;
-}
-.bcn-status-chip__dot {
-  border-radius: var(--radius-full);
-  background: var(--_chip);
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
-}
-.bcn-key-value {
-  flex-direction: column;
-  gap: 2px;
-  display: flex;
-}
-.bcn-key-value__key {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-medium);
-  color: var(--form-label-color);
-}
-.bcn-key-value__key {
-  align-items: center;
-  gap: var(--spacing-100);
-  display: inline-flex;
-}
-.bcn-key-value__val {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-}
-.esa-collapsible {
-  border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
-  border-radius: var(--radius-md, 0.5rem);
-  background: var(--color-background-elevation-raised, #fcfcfc);
-}
-.esa-collapsible--flush {
-  background: 0 0;
-  border: none;
-  border-radius: 0;
-}
-.esa-collapsible__summary {
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
-  padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
-  color: var(--color-content-default, #202020);
-  cursor: pointer;
-  list-style: none;
-  display: flex;
-}
-.esa-collapsible--flush > .esa-collapsible__summary,
-.esa-collapsible--flush > .esa-collapsible__body {
-  padding-inline: 0;
-}
-.esa-collapsible__summary .esa-icon {
-  color: var(--color-content-default-secondary, #646464);
-  flex-shrink: 0;
-}
-.esa-collapsible__summary:after {
-  content: "";
-  border-right: 2px solid var(--color-content-default-secondary, #646464);
-  border-bottom: 2px solid var(--color-content-default-secondary, #646464);
-  width: 8px;
-  height: 8px;
-  margin-left: auto;
-  transition: transform 0.15s;
-  transform: rotate(-45deg);
-}
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
+*,
+:before,
+:after {
   box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
 }
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
+body {
+  font-family: var(--typography-font-family-sans, system-ui, sans-serif);
+  font-weight: var(--typography-font-weight-regular, 350);
+  color: var(--color-content-default, #3d3d3d);
+  background: var(--color-background-elevation-raised, #fff);
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
 }
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+  margin: 0;
 }
-.esa-collapsible[open] > .esa-collapsible__summary:after {
-  transform: rotate(45deg);
+button {
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+  font-family: inherit;
 }
-.esa-collapsible__body {
-  gap: var(--spacing-400, 1rem);
-  padding: 0 var(--spacing-400, 1rem) var(--spacing-400, 1rem);
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  gap: var(--gap);
   flex-direction: column;
   display: flex;
+}
+a {
+  color: var(--color-content-link, #005862);
+  text-decoration: none;
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
 }
 body {
   background: var(--color-background-default);
@@ -3563,87 +3828,17 @@ body {
   height: var(--_icon-size);
   display: block;
 }
-*,
-:before,
-:after {
-  box-sizing: border-box;
-}
-body {
-  font-family: var(--typography-font-family-sans, system-ui, sans-serif);
-  font-weight: var(--typography-font-weight-regular, 350);
-  color: var(--color-content-default, #3d3d3d);
-  background: var(--color-background-elevation-raised, #fff);
-  -webkit-font-smoothing: antialiased;
-  margin: 0;
-}
-:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-  margin: 0;
-}
-button {
-  cursor: pointer;
-  background: 0 0;
-  border: 0;
-  font-family: inherit;
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  gap: var(--gap);
-  flex-direction: column;
-  display: flex;
-}
-a {
-  color: var(--color-content-link, #005862);
-  text-decoration: none;
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
 ```
 
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
-| `--badge-bg` | `#005862` | component |
+| `--badge-bg` | `#43608a` | component |
 | `--badge-text-color` | `#fcfcfc` | component |
 | `--border-width-default` | `1px` | semantic |
 | `--button-radius-md` | `.25rem` | component |
 | `--button-radius-sm` | `.25rem` | component |
-| `--color-background-brand` | `#005862` | semantic |
-| `--color-background-brand-hover` | `#00474f` | semantic |
 | `--color-background-brand-muted` | `#eef5f4` | semantic |
-| `--color-background-brand-subtle` | `#effefb` | semantic |
 | `--color-background-default` | `#fafafa` | semantic |
 | `--color-background-elevation-raised` | `#fcfcfc` | semantic |
 | `--color-background-utility-danger` | `#ce2c31` | semantic |
@@ -3651,12 +3846,10 @@ a {
 | `--color-border-default` | `#dcdcdc` | semantic |
 | `--color-border-default-strong` | `#bdbdbd` | semantic |
 | `--color-border-default-subtle` | `#efefef` | semantic |
-| `--color-content-brand` | `#005862` | semantic |
 | `--color-content-default` | `#3d3d3d` | semantic |
 | `--color-content-default-knockout` | `#fcfcfc` | semantic |
 | `--color-content-default-secondary` | `#525252` | semantic |
 | `--color-content-default-tertiary` | `#656565` | semantic |
-| `--color-content-link` | `#005862` | semantic |
 | `--color-content-on-brand-muted` | `#203c25` | semantic |
 | `--color-content-utility-danger` | `#ce2c31` | semantic |
 | `--font-decorative` | `"Besley", serif` | component |
@@ -3689,13 +3882,13 @@ a {
 | `--transition-fast` | `.15s ease` | semantic |
 | `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
-| `--typography-body-md-font-weight` | `400` | semantic |
+| `--typography-body-md-font-weight` | `350` | semantic |
 | `--typography-body-md-letter-spacing` | `.01em` | semantic |
 | `--typography-body-md-line-height` | `1.6` | semantic |
 | `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` | semantic |
 | `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
 | `--typography-font-weight-medium` | `500` | semantic |
-| `--typography-font-weight-regular` | `400` | semantic |
+| `--typography-font-weight-regular` | `350` | semantic |
 | `--typography-font-weight-semibold` | `550` | semantic |
 | `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
 | `--typography-label-sm-strong-font-family` | `"DM Sans", sans-serif` | semantic |

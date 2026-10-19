@@ -93,7 +93,6 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
               ><esa-tooltip
                 text="Least-advanced covering permit — its status sets this segment's status"
                 position="top"
-                align="center"
                 ><span class="sd-permit__gating" data-gating-tag="" hidden=""
                   >Gating</span
                 ></esa-tooltip
@@ -145,7 +144,6 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
               ><esa-tooltip
                 text="Least-advanced covering permit — its status sets this segment's status"
                 position="top"
-                align="center"
                 ><span class="sd-permit__gating" data-gating-tag="" hidden=""
                   >Gating</span
                 ></esa-tooltip
@@ -197,7 +195,6 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
               ><esa-tooltip
                 text="Least-advanced covering permit — its status sets this segment's status"
                 position="top"
-                align="center"
                 ><span class="sd-permit__gating" data-gating-tag="" hidden=""
                   >Gating</span
                 ></esa-tooltip
@@ -249,7 +246,6 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
               ><esa-tooltip
                 text="Least-advanced covering permit — its status sets this segment's status"
                 position="top"
-                align="center"
                 ><span class="sd-permit__gating" data-gating-tag="" hidden=""
                   >Gating</span
                 ></esa-tooltip
@@ -547,35 +543,6 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
   --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
@@ -665,8 +632,34 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
   border: 0;
   outline: 1px solid canvastext;
 }
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
 }
 .bcn-status-chip {
   align-items: center;
@@ -697,7 +690,7 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
 ```
 
 ## Tokens
-- `--badge-bg`: #005862 _(component)_
+- `--badge-bg`: #43608a _(component)_
 - `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
@@ -708,8 +701,6 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
 - `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-default`: #fafafa _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_

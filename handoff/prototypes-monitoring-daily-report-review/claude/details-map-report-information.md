@@ -1254,8 +1254,8 @@ Prod's Details card (detail-facts, ported as BcnDetailFacts) with prod's eight f
               >
                 <img
                   alt=""
-                  src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2869/6519?access_token=undefined"
-                  class="leaflet-tile"
+                  src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2869/6519?access_token=pk.eyJ1IjoiZXNhZ2lzIiwiYSI6ImV3dnkyWjAifQ.SYBjFR-Bw0YDntotGjtZxQ"
+                  class="leaflet-tile leaflet-tile-loaded"
                   style="
                     width: 256px;
                     height: 256px;
@@ -1264,8 +1264,8 @@ Prod's Details card (detail-facts, ported as BcnDetailFacts) with prod's eight f
                   "
                 /><img
                   alt=""
-                  src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2870/6519?access_token=undefined"
-                  class="leaflet-tile"
+                  src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2870/6519?access_token=pk.eyJ1IjoiZXNhZ2lzIiwiYSI6ImV3dnkyWjAifQ.SYBjFR-Bw0YDntotGjtZxQ"
+                  class="leaflet-tile leaflet-tile-loaded"
                   style="
                     width: 256px;
                     height: 256px;
@@ -1274,8 +1274,8 @@ Prod's Details card (detail-facts, ported as BcnDetailFacts) with prod's eight f
                   "
                 /><img
                   alt=""
-                  src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2869/6520?access_token=undefined"
-                  class="leaflet-tile"
+                  src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2869/6520?access_token=pk.eyJ1IjoiZXNhZ2lzIiwiYSI6ImV3dnkyWjAifQ.SYBjFR-Bw0YDntotGjtZxQ"
+                  class="leaflet-tile leaflet-tile-loaded"
                   style="
                     width: 256px;
                     height: 256px;
@@ -1284,8 +1284,8 @@ Prod's Details card (detail-facts, ported as BcnDetailFacts) with prod's eight f
                   "
                 /><img
                   alt=""
-                  src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2870/6520?access_token=undefined"
-                  class="leaflet-tile"
+                  src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2870/6520?access_token=pk.eyJ1IjoiZXNhZ2lzIiwiYSI6ImV3dnkyWjAifQ.SYBjFR-Bw0YDntotGjtZxQ"
+                  class="leaflet-tile leaflet-tile-loaded"
                   style="
                     width: 256px;
                     height: 256px;
@@ -1431,7 +1431,7 @@ Prod's Details card (detail-facts, ported as BcnDetailFacts) with prod's eight f
       </script>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.BpV6USJW.js"
+        src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.BVGzHZL7.js"
       ></script>
     </div>
   </div>

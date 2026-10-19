@@ -11,5 +11,5 @@ snapshot of one page for a developer (or an AI agent) to re-implement on any sta
 - **`components.md`** — the component blocks composing the page + their source.
 - **`manifest.json`** — per-section data powering the live dev-mode overlay.
 
-Source URL: http://localhost:4399/beacon-design/prototypes/fish-model-map/
-Rules shipped: 182 · Tokens referenced: 102
+Source URL: http://localhost:4410/beacon-design/prototypes/fish-model-map/
+Rules shipped: 208 · Tokens referenced: 102

@@ -5,16 +5,15 @@ This page IS one comment period: its name is the H1. Under it, one small card: O
 ## Key decisions
 - No period switcher on the page. Choosing another period happens on an index of periods outside this prototype; the breadcrumb names the level above.
 - Progress is stated in the affirmative and fills toward full, not a count draining to zero. Two meters because the two figures have different totals.
-- The breakdown leads with review stage: every comment counted once by its response (Accepted, Final Review, Draft, No Response), then a rule, then topics. Stage counts only; no derived figures beyond them.
 - Hovering or focusing the comments meter opens a breakdown by topic (esa-popover): dot, name, "N of M", and a bar filled in the topic's ink. The summary bar stays one color: seven hues in a 4px bar read as noise and most segments would be slivers.
 - esa-card clips overflow with no hook, so this card overrides it to let the popover hang below (logged in docs/system-improvement-ledger.md).
 - A comment is PLANNED once a person accepts the response it points at. A parser-proposed link does not count.
-- A submission is REVIEWED once a person has confirmed Aldo's filing of, accepted a response for, or changed, at least one of its comments. It is the same fact as the inbox's unread mark, inverted.
+- A submission is REVIEWED once a person has accepted a response for, or changed, at least one of its comments. It is the same fact as the inbox's unread mark, inverted.
 - Response format belongs to the period: summary rolls many comments up to one response; letter answers each submission.
 
 ## Done when
-- Opening state reads 12 of 85 planned and 15 of 30 reviewed.
-- Accepting the 21-comment response (R-004, at Final Review) fills them to 33 and 26.
+- Opening state reads 12 of 84 planned and 9 of 29 reviewed.
+- Accepting the 21-comment response fills them to 33 and 20; the same meters on the response page stay in step.
 
 ## Markup
 ```html
@@ -114,7 +113,7 @@ This page IS one comment period: its name is the H1. Under it, one small card: O
             >
               <p class="bcn-cbd__fig typography-body-sm">
                 <span class="bcn-cbd__n" data-bd="planned">12</span> of
-                <span data-bd-total="planned">85</span> <span>comments planned</span>
+                <span data-bd-total="planned">84</span> <span>comments planned</span>
               </p>
               <div
                 class="esa-progress-bar esa-progress-bar--sm esa-progress-bar--success"
@@ -130,93 +129,11 @@ This page IS one comment period: its name is the H1. Under it, one small card: O
               </div>
             </div>
             <div slot="content" class="bcn-cbd__topics" data-bd-topics="">
-              <div class="bcn-cbd__stages">
-                <span class="bcn-cbd__sglyph" data-state="done"
-                  ><svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                    ></path>
-                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                    <path d="m9 15 2 2 4-4"></path></svg></span
-                ><span>Accepted</span><span class="bcn-cbd__tn">12</span
-                ><span class="bcn-cbd__tof">of 85</span><span></span
-                ><span class="bcn-cbd__sglyph" data-state="review"
-                  ><svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                    <path
-                      d="M4.268 21a2 2 0 0 0 1.727 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"
-                    ></path>
-                    <path d="m9 18-1.5-1.5"></path>
-                    <circle cx="5" cy="14" r="3"></circle></svg></span
-                ><span>Final Review</span><span class="bcn-cbd__tn">27</span
-                ><span class="bcn-cbd__tof">of 85</span><span></span
-                ><span class="bcn-cbd__sglyph" data-state="draft"
-                  ><svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"
-                    ></path>
-                    <path
-                      d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-                    ></path>
-                    <path d="M8 18h1"></path></svg></span
-                ><span>Draft</span><span class="bcn-cbd__tn">31</span
-                ><span class="bcn-cbd__tof">of 85</span><span></span
-                ><span class="bcn-cbd__sglyph" data-state="none"
-                  ><svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                    ></path>
-                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                    <path d="M9 15h6"></path></svg></span
-                ><span>No Response</span><span class="bcn-cbd__tn">15</span
-                ><span class="bcn-cbd__tof">of 85</span><span></span
-                ><span class="bcn-cbd__rule"></span>
-              </div>
               <div class="bcn-cbd__trow" data-topic-ink="" data-family="amber">
                 <span class="bcn-topic-dot" data-family="amber"></span
                 ><span class="bcn-cbd__tname" data-name="">Aircraft noise</span
                 ><span class="bcn-cbd__tn" data-n="">0</span
-                ><span class="bcn-cbd__tof" data-of="">of 14</span>
+                ><span class="bcn-cbd__tof" data-of="">of 13</span>
                 <div
                   class="esa-progress-bar esa-progress-bar--sm esa-progress-bar--success"
                   role="progressbar"
@@ -346,19 +263,19 @@ This page IS one comment period: its name is the H1. Under it, one small card: O
             data-label="Submissions Reviewed"
           >
             <p class="bcn-cbd__fig typography-body-sm">
-              <span class="bcn-cbd__n" data-bd="reviewed">15</span> of
-              <span data-bd-total="reviewed">30</span> <span>submissions reviewed</span>
+              <span class="bcn-cbd__n" data-bd="reviewed">9</span> of
+              <span data-bd-total="reviewed">29</span> <span>submissions reviewed</span>
             </p>
             <div
               class="esa-progress-bar esa-progress-bar--sm esa-progress-bar--success"
               role="progressbar"
-              aria-valuenow="50"
+              aria-valuenow="31"
               aria-valuemin="0"
               aria-valuemax="100"
               aria-label="Submissions Reviewed"
             >
               <div class="esa-progress-bar__track">
-                <div class="esa-progress-bar__fill" style="width: 50%"></div>
+                <div class="esa-progress-bar__fill" style="width: 31%"></div>
               </div>
             </div>
           </div>
@@ -375,13 +292,13 @@ This page IS one comment period: its name is the H1. Under it, one small card: O
                 aria-valuemin="0"
                 aria-valuemax="100"
                 aria-label="Progress"
-                data-astro-cid-o4bx2qs6=""
+                data-astro-cid-wrbji5dg=""
               >
-                <div class="esa-progress-bar__track" data-astro-cid-o4bx2qs6="">
+                <div class="esa-progress-bar__track" data-astro-cid-wrbji5dg="">
                   <div
                     class="esa-progress-bar__fill"
                     style="width: 0%"
-                    data-astro-cid-o4bx2qs6=""
+                    data-astro-cid-wrbji5dg=""
                   ></div>
                 </div>
               </div></div
@@ -389,7 +306,7 @@ This page IS one comment period: its name is the H1. Under it, one small card: O
         </div>
         <script
           type="module"
-          src="/beacon-design/_astro/BcnCommentBurnDown.astro_astro_type_script_index_0_lang.rndUkQhx.js"
+          src="/beacon-design/_astro/BcnCommentBurnDown.astro_astro_type_script_index_0_lang.CCc9JIyN.js"
         ></script>
       </div>
     </div>
@@ -404,22 +321,6 @@ This page IS one comment period: its name is the H1. Under it, one small card: O
        Both nodes are always in the DOM (the live region has to pre-exist its content),
        so the gap is opt-IN via .is-shown rather than collapsed with :empty — Lit's
        template whitespace defeats :empty in engines that follow Selectors L3. */
-.help,
-.error {
-  margin: 0;
-}
-/* Type comes from .typography-body-sm — help and error are one size at every
-       control step, so they name the composite directly rather than mapping. */
-/* Both nodes are ALWAYS in the DOM (see render()), so the gap is opt-IN rather
-       than collapsed away. Deliberately not display:none when empty — that removes
-       the node from the accessibility tree, and a live region that is not in the tree
-       cannot announce anything. An empty <p> with no margin occupies no space.
-
-       .is-shown rather than :empty: Lit's template whitespace leaves a text node
-       inside the element, and browsers still disagree about whether :empty ignores
-       whitespace-only children (Selectors L4 says yes, L3 says no). A class is
-       deterministic; :empty here would silently leave 4px of dead space under every
-       clean field in some engines and not others. */
 .help,
 .error {
   margin: 0;
@@ -694,16 +595,6 @@ This page IS one comment period: its name is the H1. Under it, one small card: O
   border: 1.5px dashed var(--_ink);
   background: 0 0;
 }
-.bcn-topic-dot[data-suggested] {
-  background: color-mix(
-    in srgb,
-    var(--_ink) 22%,
-    var(--color-background-elevation-raised)
-  );
-  box-shadow: none;
-  border: 1.5px dashed var(--_ink);
-  box-sizing: border-box;
-}
 :is(mark.bcn-hl, .bcn-topic-dot)[data-family="amber"][data-shade="1"] {
   --_hl: var(--bcn-topic-amber-1);
 }
@@ -828,22 +719,8 @@ This page IS one comment period: its name is the H1. Under it, one small card: O
   line-height: 1.25;
   display: grid;
 }
-.bcn-cbd__topics .bcn-cbd__trow,
-.bcn-cbd__topics .bcn-cbd__stages {
+.bcn-cbd__topics .bcn-cbd__trow {
   display: contents;
-}
-.bcn-cbd__topics .bcn-cbd__sglyph {
-  color: var(--color-content-secondary);
-  display: inline-flex;
-}
-.bcn-cbd__topics .bcn-cbd__sglyph[data-state="done"] {
-  color: var(--color-content-success, var(--color-content-default));
-}
-.bcn-cbd__topics .bcn-cbd__rule {
-  height: 1px;
-  margin: var(--spacing-100) 0;
-  background: var(--color-border-default);
-  grid-column: 1/-1;
 }
 .bcn-cbd__topics :is(.bcn-cbd__tn, .bcn-cbd__tof) {
   font-variant-numeric: tabular-nums;
@@ -1170,12 +1047,12 @@ This page IS one comment period: its name is the H1. Under it, one small card: O
 - `--spacing-700`: 3rem _(primitive)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
+- `--typography-body-md-font-weight`: 350 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
+- `--typography-body-sm-font-weight`: 350 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_

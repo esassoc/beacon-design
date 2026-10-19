@@ -507,7 +507,7 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  padding-top: 7px;
+  padding-top: 4px;
   transition: background-color 0.16s;
   display: flex;
 }
@@ -524,25 +524,19 @@ The foot of the step's panel, as step 1 carries its scan console: header and con
   --_mark: var(--color-content-default);
 }
 .bcn-cscrub__track .bcn-cscrub__cell[data-state="confirmed"] {
-  background: var(
-    --_hue,
-    var(--_done, var(--color-background-success, var(--color-content-success)))
-  );
+  background: var(--_done, var(--color-background-success, var(--color-content-success)));
   --_mark: var(--color-background-elevation-raised);
 }
 .bcn-cscrub__track .bcn-cscrub__mark {
   background: var(--_mark);
   border-radius: 50%;
   flex: none;
-  width: 5px;
-  height: 5px;
+  width: 7px;
+  height: 7px;
   display: block;
 }
 .bcn-cscrub__track .bcn-cscrub__mark[data-dim] {
   opacity: 0.45;
-}
-.bcn-cscrub__track .bcn-cscrub__mark[data-at="bottom"] {
-  margin: auto 0 9px;
 }
 .bcn-cscrub__track .bcn-cscrub__sep {
   top: -4px;

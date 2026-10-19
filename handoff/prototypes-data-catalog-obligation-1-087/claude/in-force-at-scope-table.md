@@ -24,27 +24,27 @@ The full-width table of components the obligation applies at — the positional 
       ><span class="esa-badge__text">2</span></span
     >
   </h2>
-  <table class="bcn-mt" role="table" data-fill="" style="--_tracks: auto auto auto auto">
-    <thead role="rowgroup">
-      <tr role="row">
-        <th scope="col" role="columnheader">Component</th>
-        <th scope="col" role="columnheader">Type</th>
-        <th scope="col" role="columnheader">Carried by</th>
-        <th class="bcn-mt--end" scope="col" role="columnheader">Evidence</th>
+  <table class="bcn-mt">
+    <thead>
+      <tr>
+        <th scope="col">Component</th>
+        <th scope="col">Type</th>
+        <th scope="col">Carried by</th>
+        <th class="bcn-mt--end" scope="col">Evidence</th>
       </tr>
     </thead>
-    <tbody role="rowgroup">
-      <tr role="row">
-        <td role="cell">Twin Cities Complex</td>
-        <td role="cell">Tunnel shaft · Staging</td>
-        <td role="cell">Vehicle travel on site</td>
-        <td class="bcn-mt--end bcn-mt--num" role="cell">4</td>
+    <tbody>
+      <tr>
+        <td>Twin Cities Complex</td>
+        <td>Tunnel shaft · Staging</td>
+        <td>Vehicle travel on site</td>
+        <td class="bcn-mt--end bcn-mt--num">4</td>
       </tr>
-      <tr role="row">
-        <td role="cell">Intake C — North Delta</td>
-        <td role="cell">Screened intake · Sacramento River</td>
-        <td role="cell">Night work</td>
-        <td class="bcn-mt--end bcn-mt--num" role="cell">5</td>
+      <tr>
+        <td>Intake C — North Delta</td>
+        <td>Screened intake · Sacramento River</td>
+        <td>Night work</td>
+        <td class="bcn-mt--end bcn-mt--num">5</td>
       </tr>
     </tbody>
   </table>
@@ -116,45 +116,24 @@ The full-width table of components the obligation applies at — the positional 
   display: flex;
 }
 .bcn-mt {
-  grid-template-columns: var(--_tracks);
-  column-gap: var(--bcn-mt-column-gap, var(--spacing-300));
+  border-collapse: collapse;
   inline-size: 100%;
   font-size: var(--font-size-150);
-  display: grid;
-}
-.bcn-mt thead,
-.bcn-mt tbody {
-  display: contents;
-}
-.bcn-mt tr {
-  grid-column: 1/-1;
-  grid-template-columns: subgrid;
-  align-items: baseline;
-  display: grid;
-}
-.bcn-mt[data-fill] {
-  justify-content: space-between;
-}
-.bcn-mt tr[hidden] {
-  display: none;
-}
-.bcn-mt thead tr {
-  border-block-end: 1px solid var(--color-border-default);
-}
-.bcn-mt tbody tr:not([hidden]) + tr:not([hidden]) {
-  border-block-start: 1px solid var(--color-border-default);
 }
 .bcn-mt th {
   text-align: start;
   color: var(--color-content-default-secondary);
   padding-block: var(--spacing-100);
-  min-inline-size: 0;
+  border-block-end: 1px solid var(--color-border-default);
   font-weight: 600;
 }
 .bcn-mt td {
   padding-block: var(--spacing-150);
+  border-block-end: 1px solid var(--color-border-default);
   color: var(--color-content-default-primary);
-  min-inline-size: 0;
+}
+.bcn-mt tbody tr:last-child td {
+  border-block-end: none;
 }
 .bcn-mt th.bcn-mt--end,
 .bcn-mt td.bcn-mt--end {
@@ -178,11 +157,6 @@ The full-width table of components the obligation applies at — the positional 
   vertical-align: 1px;
   margin-inline-end: var(--spacing-100);
   display: inline-block;
-}
-.bcn-mt--truncate {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
 }
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
@@ -285,12 +259,10 @@ The full-width table of components the obligation applies at — the positional 
 ```
 
 ## Tokens
-- `--badge-bg`: #005862 _(component)_
+- `--badge-bg`: #43608a _(component)_
 - `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-700`: #525252 _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-utility-danger-hover`: #641723 _(semantic)_
@@ -308,7 +280,6 @@ The full-width table of components the obligation applies at — the positional 
 - `--color-border-utility-info`: #acd8fc _(semantic)_
 - `--color-border-utility-success`: #adddc0 _(semantic)_
 - `--color-border-utility-warning`: #f3d673 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_

@@ -1222,6 +1222,18 @@ The column editor, on the geometry of Jamie's monitoring configure dialog: a liv
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.bcn-disc__head .esa-icon {
+  color: var(--color-content-default-secondary);
+  flex-shrink: 0;
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -1468,25 +1480,6 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
 }
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  gap: var(--gap);
-  flex-direction: column;
-  display: flex;
-}
-.stack[data-split] > [data-split] {
-  margin-block-end: auto;
-}
-.cluster {
-  --gap: var(--spacing-300, 0.75rem);
-  --align: center;
-  --justify: flex-start;
-  gap: var(--gap);
-  align-items: var(--align);
-  justify-content: var(--justify);
-  flex-wrap: wrap;
-  display: flex;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -1523,17 +1516,31 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
 }
-.bcn-disc__head .esa-icon {
-  color: var(--color-content-default-secondary);
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  gap: var(--gap);
+  flex-direction: column;
+  display: flex;
 }
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
+.stack[data-split] > [data-split] {
+  margin-block-end: auto;
+}
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
+  flex-wrap: wrap;
+  display: flex;
 }
 .bcn-evidence-card__lead .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -1550,13 +1557,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-evidence-card__actions .esa-icon {
   width: 15px;
   height: 15px;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
-  flex-shrink: 0;
 }
 ```
 
@@ -1630,7 +1630,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
+- `--typography-body-sm-font-weight`: 350 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -1655,6 +1655,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

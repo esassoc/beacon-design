@@ -31,19 +31,19 @@ The 128 design tokens this page actually uses, resolved to their final values fo
 | `--transition-fast` | `.15s ease` |
 | `--typography-body-md-font-family` | `"DM Sans", sans-serif` |
 | `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
-| `--typography-body-md-font-weight` | `400` |
+| `--typography-body-md-font-weight` | `350` |
 | `--typography-body-md-letter-spacing` | `.01em` |
 | `--typography-body-md-line-height` | `1.6` |
 | `--typography-body-sm-font-family` | `"DM Sans", sans-serif` |
 | `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
-| `--typography-body-sm-font-weight` | `400` |
+| `--typography-body-sm-font-weight` | `350` |
 | `--typography-body-sm-letter-spacing` | `.01em` |
 | `--typography-body-sm-line-height` | `1.6` |
 | `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` |
 | `--typography-font-family-sans` | `"DM Sans", sans-serif` |
 | `--typography-font-weight-bold` | `650` |
 | `--typography-font-weight-medium` | `500` |
-| `--typography-font-weight-regular` | `400` |
+| `--typography-font-weight-regular` | `350` |
 | `--typography-font-weight-semibold` | `550` |
 | `--typography-heading-md-font-family` | `"DM Sans", sans-serif` |
 | `--typography-heading-md-font-size` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
@@ -58,7 +58,7 @@ The 128 design tokens this page actually uses, resolved to their final values fo
 | `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
 | `--typography-meta-font-family` | `"DM Sans", sans-serif` |
 | `--typography-meta-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
-| `--typography-meta-font-weight` | `400` |
+| `--typography-meta-font-weight` | `350` |
 | `--typography-meta-letter-spacing` | `.01em` |
 | `--typography-meta-line-height` | `1.6` |
 | `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` |

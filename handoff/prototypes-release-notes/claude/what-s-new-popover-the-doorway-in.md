@@ -174,7 +174,6 @@ The app-wide entry point to this page: a popover anchored above the floating hel
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-link`: #005862 _(semantic)_
 - `--font-decorative`: "Besley", serif _(component)_
 - `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
 - `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
@@ -185,5 +184,5 @@ The app-wide entry point to this page: a popover anchored above the floating hel
 - `--spacing-300`: .75rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-regular`: 400 _(semantic)_
+- `--typography-font-weight-regular`: 350 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_

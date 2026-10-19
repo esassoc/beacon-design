@@ -1,6 +1,6 @@
 {
   "name": "help-category",
-  "url": "http://localhost:4399/beacon-design/prototypes/help/tracking/",
+  "url": "http://localhost:4410/beacon-design/prototypes/help/tracking/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [
@@ -566,7 +566,7 @@
         },
         {
           "name": "--typography-body-md-font-weight",
-          "value": "400",
+          "value": "350",
           "tier": "semantic"
         },
         {
@@ -601,7 +601,7 @@
         },
         {
           "name": "--typography-meta-font-weight",
-          "value": "400",
+          "value": "350",
           "tier": "semantic"
         },
         {
@@ -1081,7 +1081,7 @@
         },
         {
           "name": "--typography-body-md-font-weight",
-          "value": "400",
+          "value": "350",
           "tier": "semantic"
         },
         {
@@ -1116,7 +1116,7 @@
         },
         {
           "name": "--typography-meta-font-weight",
-          "value": "400",
+          "value": "350",
           "tier": "semantic"
         },
         {

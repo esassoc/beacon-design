@@ -4022,7 +4022,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           ><button
                             type="button"
                             class="bcn-wb__bar"
-                            style="left: 24.99%; width: 3.89%; --_c: #9aa0a6"
+                            style="left: 24.98%; width: 3.89%; --_c: #9aa0a6"
                             title="TSK-011 — Predation exposure model build · Not started"
                             aria-label="Open TSK-011 Predation exposure model build"
                           ></button>
@@ -4468,7 +4468,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           ><button
                             type="button"
                             class="bcn-wb__bar"
-                            style="left: 13.59%; width: 1.71%; --_c: #9aa0a6"
+                            style="left: 13.59%; width: 1.72%; --_c: #9aa0a6"
                             title="TSK-012 — Monitoring-array installation &amp; calibration · Not started"
                             aria-label="Open TSK-012 Monitoring-array installation &amp; calibration"
                           ></button>
@@ -5228,7 +5228,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           ><button
                             type="button"
                             class="bcn-wb__bar"
-                            style="left: 6.56%; width: 3.9%; --_c: #9aa0a6"
+                            style="left: 6.56%; width: 3.91%; --_c: #9aa0a6"
                             title="TSK-015 — Station siting &amp; regulatory clearance · Not started"
                             aria-label="Open TSK-015 Station siting &amp; regulatory clearance"
                           ></button>
@@ -7059,7 +7059,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           ><button
                             type="button"
                             class="bcn-wb__bar"
-                            style="left: 38.14%; width: 3.9%; --_c: #9aa0a6"
+                            style="left: 38.14%; width: 3.91%; --_c: #9aa0a6"
                             title="TSK-025 — Hydrodynamic model calibration · Not started"
                             aria-label="Open TSK-025 Hydrodynamic model calibration"
                           ></button>
@@ -7985,7 +7985,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           ><span class="bcn-wb__today" style="left: 2.9%"></span
                           ><span
                             class="bcn-wb__summary"
-                            style="left: 1.3%; width: 3.9%"
+                            style="left: 1.3%; width: 3.91%"
                             aria-hidden="true"
                           ></span>
                         </div>
@@ -8763,7 +8763,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           ><button
                             type="button"
                             class="bcn-wb__bar"
-                            style="left: 11.83%; width: 3.9%; --_c: #9aa0a6"
+                            style="left: 11.83%; width: 3.91%; --_c: #9aa0a6"
                             title="TSK-041 — FGS modeling, analysis &amp; reporting · Not started"
                             aria-label="Open TSK-041 FGS modeling, analysis &amp; reporting"
                           ></button>
@@ -8828,18 +8828,18 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       ><span class="bcn-wb__add"
                         ><span
                           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-                          data-astro-cid-5nhxdd72=""
+                          data-astro-cid-wz6b6gp5=""
                           ><button
                             class="esa-button__native typography-microcopy-2xs"
                             type="button"
                             aria-label="Add child"
                             title="Add child"
-                            data-astro-cid-5nhxdd72=""
+                            data-astro-cid-wz6b6gp5=""
                           >
                             <span
                               class="esa-icon esa-icon--xs"
                               aria-hidden="true"
-                              data-astro-cid-wcwfib5m=""
+                              data-astro-cid-i4i7akh4=""
                               ><svg
                                 width="14"
                                 height="14"
@@ -8850,7 +8850,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                                 focusable="false"
-                                data-astro-cid-wcwfib5m=""
+                                data-astro-cid-i4i7akh4=""
                               >
                                 <path d="M5 12h14"></path>
                                 <path d="M12 5v14"></path></svg
@@ -8945,7 +8945,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </div>
               <script
                 type="module"
-                src="/beacon-design/_astro/BcnWorkBreakdown.astro_astro_type_script_index_0_lang.BqZfQlTY.js"
+                src="/beacon-design/_astro/BcnWorkBreakdown.astro_astro_type_script_index_0_lang.CGTwEXqh.js"
               ></script>
             </div>
             <div id="view-roles" hidden="">
@@ -9573,7 +9573,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </div>
               <script
                 type="module"
-                src="/beacon-design/_astro/BcnRolesMatrix.astro_astro_type_script_index_0_lang.CpALdhMt.js"
+                src="/beacon-design/_astro/BcnRolesMatrix.astro_astro_type_script_index_0_lang.BUFfFSv_.js"
               ></script>
             </div>
             <div id="view-readiness" hidden="">
@@ -13057,7 +13057,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       ></script>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnNodeEdit.astro_astro_type_script_index_0_lang.kdUnTa5f.js"
+        src="/beacon-design/_astro/BcnNodeEdit.astro_astro_type_script_index_0_lang.D_yp5xDO.js"
       ></script>
       <esa-side-dialog
         id="node-drawer"
@@ -28177,18 +28177,18 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <section class="bcn-edit__section bcn-edit__actions" data-astro-cid-7ghsj4jb="">
                   <span
                     class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                    data-astro-cid-5nhxdd72=""
+                    data-astro-cid-wz6b6gp5=""
                     ><a
                       class="esa-button__native typography-microcopy-xs"
                       href="/beacon-design/prototypes/fish-detail/"
                       role="button"
                       data-wb-details="true"
                       data-astro-cid-7ghsj4jb="true"
-                      data-astro-cid-5nhxdd72=""
+                      data-astro-cid-wz6b6gp5=""
                       ><span
                         class="esa-icon esa-icon--sm"
                         aria-hidden="true"
-                        data-astro-cid-wcwfib5m=""
+                        data-astro-cid-i4i7akh4=""
                         ><svg
                           width="16"
                           height="16"
@@ -28199,14 +28199,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           focusable="false"
-                          data-astro-cid-wcwfib5m=""
+                          data-astro-cid-i4i7akh4=""
                         >
                           <path d="M15 3h6v6"></path>
                           <path d="M10 14 21 3"></path>
                           <path
                             d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
                           ></path></svg></span
-                      ><span class="esa-button__label" data-astro-cid-5nhxdd72=""
+                      ><span class="esa-button__label" data-astro-cid-wz6b6gp5=""
                         >View full details</span
                       ></a
                     ></span
@@ -28295,18 +28295,18 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <section class="bcn-edit__section bcn-edit__actions" data-astro-cid-7ghsj4jb="">
                   <span
                     class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
-                    data-astro-cid-5nhxdd72=""
+                    data-astro-cid-wz6b6gp5=""
                     ><button
                       class="esa-button__native typography-microcopy-xs"
                       type="button"
                       data-wb-add="true"
                       data-astro-cid-7ghsj4jb="true"
-                      data-astro-cid-5nhxdd72=""
+                      data-astro-cid-wz6b6gp5=""
                     >
                       <span
                         class="esa-icon esa-icon--sm"
                         aria-hidden="true"
-                        data-astro-cid-wcwfib5m=""
+                        data-astro-cid-i4i7akh4=""
                         ><svg
                           width="16"
                           height="16"
@@ -28317,28 +28317,28 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           focusable="false"
-                          data-astro-cid-wcwfib5m=""
+                          data-astro-cid-i4i7akh4=""
                         >
                           <path d="M5 12h14"></path>
                           <path d="M12 5v14"></path></svg></span
-                      ><span class="esa-button__label" data-astro-cid-5nhxdd72=""
+                      ><span class="esa-button__label" data-astro-cid-wz6b6gp5=""
                         >Add sub-study</span
                       >
                     </button></span
                   ><span
                     class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                    data-astro-cid-5nhxdd72=""
+                    data-astro-cid-wz6b6gp5=""
                     ><a
                       class="esa-button__native typography-microcopy-xs"
                       href="/beacon-design/prototypes/fish-detail/"
                       role="button"
                       data-wb-details="true"
                       data-astro-cid-7ghsj4jb="true"
-                      data-astro-cid-5nhxdd72=""
+                      data-astro-cid-wz6b6gp5=""
                       ><span
                         class="esa-icon esa-icon--sm"
                         aria-hidden="true"
-                        data-astro-cid-wcwfib5m=""
+                        data-astro-cid-i4i7akh4=""
                         ><svg
                           width="16"
                           height="16"
@@ -28349,14 +28349,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           focusable="false"
-                          data-astro-cid-wcwfib5m=""
+                          data-astro-cid-i4i7akh4=""
                         >
                           <path d="M15 3h6v6"></path>
                           <path d="M10 14 21 3"></path>
                           <path
                             d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
                           ></path></svg></span
-                      ><span class="esa-button__label" data-astro-cid-5nhxdd72=""
+                      ><span class="esa-button__label" data-astro-cid-wz6b6gp5=""
                         >View full details</span
                       ></a
                     ></span
@@ -28539,19 +28539,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ><span class="bcn-rrep__del" data-rr-del="" data-astro-cid-gw2s2v3a=""
                     ><span
                       class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                      data-astro-cid-5nhxdd72=""
+                      data-astro-cid-wz6b6gp5=""
                       ><button
                         class="esa-button__native typography-microcopy-xs"
                         type="button"
                         aria-label="Remove assignment"
                         title="Remove assignment"
                         data-astro-cid-gw2s2v3a="true"
-                        data-astro-cid-5nhxdd72=""
+                        data-astro-cid-wz6b6gp5=""
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-wcwfib5m=""
+                          data-astro-cid-i4i7akh4=""
                           ><svg
                             width="16"
                             height="16"
@@ -28562,7 +28562,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-wcwfib5m=""
+                            data-astro-cid-i4i7akh4=""
                           >
                             <path d="M3 6h18"></path>
                             <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
@@ -28698,7 +28698,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.BWpiHCjJ.js"
+    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.B0-2TFz8.js"
   ></script>
   <!-- Aldo — help & guidance, app-wide like the palette above: the floating
          bottom-center utility bar and the route-aware guidance drawer it opens.
@@ -28717,19 +28717,23 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       aria-haspopup="dialog"
     >
       <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-        ><svg
-          class="bcn-aldo-mark__glyph"
-          viewBox="0 0 64 64"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="3.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
-          <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
-          <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
-          <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg></span
+        ><span class="bcn-aldo-mark__glyph"
+          ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path
+                d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+              ></path>
+              <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
       ><span class="bcn-help-bar__guidance-label">Guidance</span></button
     ><span class="bcn-help-bar__divider" aria-hidden="true"></span
     ><!-- Attach Evidence of Compliance — icon-only; the tooltip host carries the drawer's open hook.
@@ -28746,7 +28750,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       text="Attach Evidence of Compliance"
       position="above"
       data-evidence-trigger="true"
-      align="center"
       ><span
         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
         ><button
@@ -28865,7 +28868,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.BrGmwhrs.js"
+    src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.rnozUMkB.js"
   ></script>
   <!-- ── Drawer (parent) ── --><esa-side-dialog
     class="bcn-gd"
@@ -28875,38 +28878,46 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     size="md"
     ><div slot="header" class="bcn-gd__header">
       <span class="bcn-aldo-mark" data-size="md" aria-hidden="true"
-        ><svg
-          class="bcn-aldo-mark__glyph"
-          viewBox="0 0 64 64"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="3.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
-          <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
-          <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
-          <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg></span
+        ><span class="bcn-aldo-mark__glyph"
+          ><span class="esa-icon esa-icon--md" aria-hidden="true"
+            ><svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path
+                d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+              ></path>
+              <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
       ><span class="bcn-gd__title">Help &amp; Guidance</span>
     </div>
     <div class="bcn-gd__stream">
       <div class="bcn-gd-msg bcn-gd-msg--aldo" data-gd-intro="">
         <div class="bcn-gd-msg__avatar">
           <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-            ><svg
-              class="bcn-aldo-mark__glyph"
-              viewBox="0 0 64 64"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
-              <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
-              <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
-              <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg
+            ><span class="bcn-aldo-mark__glyph"
+              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+                  ></path>
+                  <circle cx="12" cy="12" r="10"></circle></svg></span></span
           ></span>
         </div>
         <div class="bcn-gd-msg__group">
@@ -29874,28 +29885,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       </div></div></esa-side-dialog
   ><!-- Aldo avatar cloned into each reply message (reuses the real mark). --><template
     data-gd-aldo-avatar=""
-    ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-lgb5fntv=""
-      ><svg
-        class="bcn-aldo-mark__glyph"
-        viewBox="0 0 64 64"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="3.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        data-astro-cid-lgb5fntv=""
-      >
-        <path d="M47.59 23A18 18 0 1 1 31.37 14.01" data-astro-cid-lgb5fntv=""></path>
-        <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41" data-astro-cid-lgb5fntv=""></path>
-        <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8" data-astro-cid-lgb5fntv=""></path>
-        <circle
-          cx="33.2"
-          cy="31.1"
-          r="2"
-          fill="currentColor"
-          stroke="none"
-          data-astro-cid-lgb5fntv=""
-        ></circle></svg></span></template
+    ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-breadewf=""
+      ><span class="bcn-aldo-mark__glyph" data-astro-cid-breadewf=""
+        ><span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-i4i7akh4=""
+          ><svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+            data-astro-cid-i4i7akh4=""
+          >
+            <path
+              d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+            ></path>
+            <circle cx="12" cy="12" r="10"></circle></svg></span></span></span></template
   ><!-- ── Article reader (child, stacked above the drawer) ── --><esa-side-dialog
     class="bcn-gd-article"
     data-gd-article="true"
@@ -31587,8 +31595,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ><li data-astro-cid-qzg7vnux="">
                     <span
                       class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                      data-astro-cid-xtwxlazl=""
-                      ><span class="esa-pill__label" data-astro-cid-xtwxlazl=""></span
+                      data-astro-cid-uydgtvqr=""
+                      ><span class="esa-pill__label" data-astro-cid-uydgtvqr=""></span
                     ></span></li></template
                 ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template data-draft-file-row=""
@@ -31598,19 +31606,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-5nhxdd72=""
+                        data-astro-cid-wz6b6gp5=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this file from the evidence"
                           title="Remove this file from the evidence"
                           data-astro-cid-qzg7vnux="true"
-                          data-astro-cid-5nhxdd72=""
+                          data-astro-cid-wz6b6gp5=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-wcwfib5m=""
+                            data-astro-cid-i4i7akh4=""
                             ><svg
                               width="16"
                               height="16"
@@ -31621,7 +31629,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-wcwfib5m=""
+                              data-astro-cid-i4i7akh4=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -31726,7 +31734,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
-                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -31909,7 +31916,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
-                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -32075,7 +32081,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
-                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -32242,7 +32247,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
-                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -32425,7 +32429,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
-                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -32591,7 +32594,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
-                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -32758,7 +32760,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
-                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -32924,7 +32925,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
-                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -33090,7 +33090,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
-                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -33256,7 +33255,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
-                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -33429,7 +33427,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
-                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -33581,7 +33578,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
-                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -33733,7 +33729,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
-                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -33885,7 +33880,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
-                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -34036,8 +34030,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
                       <circle cx="12" cy="12" r="2"></circle>
                       <path d="m13.41 10.59 5.66-5.66"></path></svg></span
-                  ><span data-targets-title-text="">Actions</span
-                  ><span
+                  >Actions<span
                     class="bcn-ev-targets__count"
                     data-targets-count=""
                     aria-hidden="true"
@@ -34051,7 +34044,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
        else. Component and Phase are the dimensions the Setup Wizard's Actions step filters
        on; all three are guarded while associations are unsaved (see evidence-drawer.ts). -->
               <div class="bcn-ev-targets__filters">
-                <span class="bcn-ev-targets__filter" data-targets-component-filter=""
+                <span class="bcn-ev-targets__filter"
                   ><span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-component">Component</span
                   ><esa-select
                     data-evidence-component="true"
@@ -34059,14 +34052,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     searchable="true"
                     aria-labelledby="bcn-ev-flabel-component"
                   ></esa-select></span
-                ><span class="bcn-ev-targets__filter" data-targets-scope-only=""
+                ><span class="bcn-ev-targets__filter"
                   ><span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-phase">Phase</span
                   ><esa-select
                     data-targets-phase="true"
                     size="sm"
                     aria-labelledby="bcn-ev-flabel-phase"
                   ></esa-select></span
-                ><span class="bcn-ev-targets__filter" data-targets-scope-only=""
+                ><span class="bcn-ev-targets__filter"
                   ><span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-type">Type</span
                   ><esa-select
                     data-targets-type="true"
@@ -34075,7 +34068,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ></esa-select
                 ></span>
               </div>
-              <div class="bcn-ev-targets__search" data-targets-scope-only="">
+              <div class="bcn-ev-targets__search">
                 <div class="bcn-ev-search">
                   <span class="bcn-ev-search__icon" aria-hidden="true"
                     ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -34180,7 +34173,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -34322,7 +34314,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -34464,7 +34455,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -34606,7 +34596,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -34777,7 +34766,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -34949,7 +34937,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -35121,7 +35108,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -35263,7 +35249,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -35405,7 +35390,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -35571,7 +35555,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -35713,7 +35696,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -35855,7 +35837,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -35999,7 +35980,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -36141,7 +36121,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -36310,7 +36289,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -36452,7 +36430,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -36594,7 +36571,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -36736,7 +36712,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -36878,7 +36853,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -37020,7 +36994,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -37164,7 +37137,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -37306,7 +37278,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
-                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -37404,27 +37375,27 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-attached__mark" hidden="" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        data-astro-cid-yahmuvtj=""
-                        ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
+                        data-astro-cid-bnhbuysz=""
+                        ><span class="esa-badge__text" data-astro-cid-bnhbuysz=""
                           >Suggested</span
                         ></span
                       ></span
                     ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-5nhxdd72=""
+                        data-astro-cid-wz6b6gp5=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this evidence from the action"
                           title="Remove this evidence from the action"
                           data-astro-cid-6zu5gb4v="true"
-                          data-astro-cid-5nhxdd72=""
+                          data-astro-cid-wz6b6gp5=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-wcwfib5m=""
+                            data-astro-cid-i4i7akh4=""
                             ><svg
                               width="16"
                               height="16"
@@ -37435,32 +37406,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-wcwfib5m=""
+                              data-astro-cid-i4i7akh4=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span
                     ></span></li></template
-                ><!-- LIST MODE (a list page's "Add evidence", see evidence-drawer.ts): the column
-         holds that list's members instead of a component's actions. Every member is a
-         target by default; the x leaves one out of this attach, and Restore brings the
-         left-out back. Each row is the list page's OWN slim card (.bcn-loc, from
-         bcn-obligation-card.css) cloned off its master tree and pared to chip, title and
-         the remove verb, so the drawer shows the member exactly as the page does. -->
-                <div class="bcn-ev-targets__listmode" data-targets-listmode="" hidden="">
-                  <p
-                    class="bcn-ev-targets__leftout typography-body-sm"
-                    data-listmode-leftout=""
-                    hidden=""
-                  >
-                    <span data-listmode-leftout-text=""></span
-                    ><button type="button" class="bcn-ev-targets__restore" data-listmode-restore="">
-                      Restore
-                    </button>
-                  </p>
-                  <ul class="bcn-ev-targets__list" data-listmode-rows=""></ul>
-                </div>
-                <!-- Nothing on the list yet. -->
+                ><!-- Nothing on the list yet. -->
                 <div class="bcn-ev-targets__empty" data-targets-empty="">
                   <div class="esa-empty-state esa-empty-state--sm">
                     <h3 class="esa-empty-state__title typography-label-sm-strong">
@@ -37524,13 +37476,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       </div>
       <footer class="bcn-bottom-drawer__foot">
         <div class="bcn-ev__foot">
-          <!-- List mode only: what Save is still waiting on, or what it will write. -->
-          <p
-            class="bcn-ev__status typography-body-sm"
-            data-evidence-status=""
-            role="status"
-            hidden=""
-          ></p>
           <div class="bcn-ev__actions">
             <span data-evidence-save=""
               ><span
@@ -37558,7 +37503,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   >
   <script
     type="module"
-    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.CgAsKejG.js"
+    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DSCvyJLV.js"
   ></script>
 </div>
 ```
@@ -37592,8 +37537,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --button-radius-sm: 0.25rem;
   --button-radius-xs: 0.25rem;
   --color-background-accent: #f76b15;
-  --color-background-brand: #005862;
-  --color-background-brand-hover: #00474f;
   --color-background-brand-muted: #eef5f4;
   --color-background-elevation-floating: #fcfcfc;
   --color-background-elevation-raised: #fcfcfc;
@@ -37608,12 +37551,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --color-border-default-strong: #bdbdbd;
   --color-border-default-subtle: #efefef;
   --color-commitment: #58508d;
-  --color-content-brand: #005862;
   --color-content-default: #3d3d3d;
   --color-content-default-knockout: #fcfcfc;
   --color-content-default-secondary: #525252;
   --color-content-default-tertiary: #656565;
-  --color-content-link: #005862;
   --color-content-utility-danger: #ce2c31;
   --confirm-dialog-width: 360px;
   --dialog-width: 480px;
@@ -37632,9 +37573,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --form-border-width: 1px;
   --form-error-color: #ce2c31;
   --form-help-color: #525252;
-  --form-help-gap: 0.25rem;
-  --form-label-color: #525252;
-  --form-label-gap: 0.25rem;
   --form-placeholder-color: #525252;
   --form-text-color: #3d3d3d;
   --icon-size-lg: 24px;
@@ -37664,30 +37602,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --transition-fast: 0.15s ease;
   --typography-body-md-font-family: "DM Sans", sans-serif;
   --typography-body-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-  --typography-body-md-font-weight: 400;
+  --typography-body-md-font-weight: 350;
   --typography-body-md-letter-spacing: 0.01em;
   --typography-body-md-line-height: 1.6;
   --typography-body-sm-font-family: "DM Sans", sans-serif;
   --typography-body-sm-font-size: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
-  --typography-body-sm-font-weight: 400;
+  --typography-body-sm-font-weight: 350;
   --typography-body-sm-letter-spacing: 0.01em;
   --typography-body-sm-line-height: 1.6;
   --typography-font-family-mono: "Roboto Mono", ui-monospace, monospace;
   --typography-font-family-sans: "DM Sans", sans-serif;
   --typography-font-weight-bold: 650;
   --typography-font-weight-medium: 500;
-  --typography-font-weight-regular: 400;
+  --typography-font-weight-regular: 350;
   --typography-font-weight-semibold: 550;
   --typography-label-md-font-family: "DM Sans", sans-serif;
   --typography-label-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
   --typography-label-md-font-weight: 500;
   --typography-label-md-letter-spacing: 0.01em;
   --typography-label-md-line-height: 1.6;
-  --typography-label-xs-font-family: "DM Sans", sans-serif;
-  --typography-label-xs-font-size: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
-  --typography-label-xs-font-weight: 500;
-  --typography-label-xs-letter-spacing: 0.01em;
-  --typography-label-xs-line-height: 1.6;
   --typography-microcopy-2xs-font-family: "DM Sans", sans-serif;
   --typography-microcopy-2xs-font-size: clamp(0.5rem, 0.44rem + 0.3vw, 0.625rem);
   --typography-microcopy-2xs-font-weight: 500;
@@ -37715,138 +37648,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --typography-microcopy-xs-strong-line-height: 1;
   --typography-microcopy-xs-subtle-font-family: "DM Sans", sans-serif;
   --typography-microcopy-xs-subtle-font-size: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
-  --typography-microcopy-xs-subtle-font-weight: 400;
+  --typography-microcopy-xs-subtle-font-weight: 350;
   --typography-microcopy-xs-subtle-letter-spacing: 0.01em;
   --typography-microcopy-xs-subtle-line-height: 1;
 }
 
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-  text-decoration: none;
-  display: inline-flex;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button--variant-chrome .esa-button__native {
-  color: inherit;
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  color: var(--_accent-text);
-  border-color: var(--_accent);
-  background: 0 0;
-}
-.esa-button--variant-ghost .esa-button__native {
-  color: var(--color-content-default, #202020);
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border-default, #cecece);
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
-.esa-button--sm {
-  --_btn-pad-y: var(--spacing-250, 0.625rem);
-  --_btn-padding-x: var(--spacing-250, 0.625rem);
-  --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--appearance-dashed .esa-button__native {
-  border-style: dashed;
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--appearance-soft .esa-button__native {
-  background: color-mix(
-    in srgb,
-    var(--color-background-elevation-sunken, #f0f0f0) 45%,
-    var(--color-background-elevation-raised, #fcfcfc)
-  );
-  color: var(--_accent-text);
-  border-color: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .bcn-gantt-coa {
   font-family: var(--typography-font-family-mono);
   font-size: var(--font-size-100);
@@ -38571,6 +38377,159 @@ html,
   display: flex;
 }
 :host {
+  display: block;
+  --_field-padding-y: var(--spacing-300, 0.75rem);
+  --_field-padding-x: var(--spacing-300, 0.75rem);
+  --_field-radius: var(--radius-md, 0.5rem);
+  --_field-border-color: var(--form-border-color, #cecece);
+}
+:host([size="sm"]) {
+  --_field-padding-y: var(--spacing-250, 0.625rem);
+  --_field-padding-x: var(--spacing-250, 0.625rem);
+  --_field-radius: var(--radius-sm, 0.25rem);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100, 4px);
+}
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100, 4px);
+}
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.input {
+  width: 100%;
+  padding: var(--_field-padding-y) var(--_field-padding-x);
+  padding-inline-end: calc(var(--_field-padding-x) + 24px);
+  /* The box is content + padding since heights were removed (2026-08-14), so
+         LEADING IS NOW LOAD-BEARING — it is the term that decides how tall a field
+         is. On a single-line control leading has no typographic job: there is one
+         line, and the space above and below it is invisible. Letting the body-*
+         composite's relaxed leading through added 12px here at md and made this
+         field 7px taller than esa-text-field on the same step, breaking the row
+         alignment component-tokens.css promises.
+         CHOSEN, NOT RESTATED, and not compensated for with a smaller padding rung.
+         The tight leading comes from FIELD_TYPE picking a microcopy-*-subtle rung,
+         whose composite declares the line-height for us — there is deliberately no
+         line-height declaration in this rule, because one here would outrank the
+         composite rather than agree with it. A static padding offset was the other option and
+         is wrong: leading scales with the fluid type (27px at 1600, 22px at 375) and
+         is re-pointable by a theme, so an offset would cancel it at exactly one
+         viewport. esa-textarea stays on a body-* composite on purpose — it is
+         genuinely multi-line, so its leading has a typographic job. */
+  color: var(--form-text-color, #202020);
+  background: var(--color-background-field, transparent);
+  border: var(--form-border-width, 1px) solid var(--_field-border-color);
+  border-radius: var(--_field-radius);
+  outline: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition:
+    border-color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.input--trigger {
+  display: block;
+  text-align: start;
+  font: inherit;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.arrow {
+  position: absolute;
+  right: var(--_field-padding-x);
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: var(--color-content-default-secondary, #646464);
+  pointer-events: none;
+  transition: transform var(--transition-fast, 150ms ease);
+}
+.arrow svg {
+  width: var(--icon-size-md, 20px);
+  height: var(--icon-size-md, 20px);
+}
+.field__error {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100, 4px);
+  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
+}
+.field__help {
+  color: var(--form-help-color, #838383);
+}
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100, 4px);
+  --_pad-y: var(--spacing-300, 0.75rem);
+  --_padding-x: var(--spacing-300, 0.75rem);
+  --_radius: var(--radius-md, 0.5rem);
+  --_border-width: var(--form-border-width, 1px);
+  --_border-color: var(--form-border-color, #cecece);
+  --_icon-size: 18px;
+}
+.group {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  gap: 2px;
+  padding: 2px;
+  background: var(--color-background-elevation-sunken, #f0f0f0);
+  border: var(--_border-width) solid var(--_border-color);
+  border-radius: var(--_radius);
+}
+.option {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-150, 6px);
+  /* Was calc(height - 4px) to compensate for the track's 2px padding. With no
+         height token the segment is its own text plus padding, and the track wraps
+         it — the compensation has nothing left to compensate for. */
+  padding: var(--_pad-y) var(--_padding-x);
+  color: var(--color-content-default-secondary, #646464);
+  background: transparent;
+  border: 0;
+  border-radius: calc(var(--_radius) - 2px);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--transition-fast, 150ms ease),
+    color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.option--selected {
+  background: var(--color-background-elevation-raised, #fcfcfc);
+  color: var(--color-content-brand, #2a7e3b);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.option__icon {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  flex-shrink: 0;
+}
+:host([size="sm"]) {
+  --_pad-y: var(--spacing-250, 0.625rem);
+  --_padding-x: var(--spacing-250, 0.625rem);
+  --_radius: var(--radius-sm, 0.25rem);
+  --_icon-size: 16px;
+}
+:host {
   display: inline-block;
 }
 .esa-dropdown {
@@ -38579,6 +38538,207 @@ html,
 }
 .esa-dropdown__trigger {
   display: inline-block;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+}
+:host {
+  --_dialog-bg: var(--color-background-elevation-floating, #fcfcfc);
+  --_dialog-border-radius: var(--radius-lg, 0.75rem);
+  --_dialog-padding: var(--spacing-500, 1.5rem);
+  --_dialog-header-border: var(--color-border-default-subtle, #d9d9d9);
+  /* Header/footer surface tints. These were --dialog-header-bg /
+         --dialog-footer-bg, declared in no token file — a hook offered on the
+         strength of a fallback nobody had asked to override. Folded to their
+         literal default 2026-08-16; --dialog-* is a live namespace, so they come
+         back as declarations the day a spoke actually wants to frame the body. */
+  --_dialog-header-bg: transparent;
+  --_dialog-footer-bg: transparent;
+  --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+  --_dialog-width: var(--dialog-width, 480px);
+  --_dialog-max-height: 85vh;
+}
+:host([size="sm"]) {
+  --_dialog-width: var(--dialog-width-sm, 360px);
+}
+dialog.esa-dialog {
+  /* UA reset. The UA sheet gives <dialog> a solid border, 1em padding and
+         'max-width/max-height: calc(100% - 6px - 2em)'; without clearing those the
+         panel renders inside a second, smaller box. */
+  border: none;
+  padding: 0;
+  margin: auto;
+  background: var(--_dialog-bg);
+  color: var(--color-content-default, #202020);
+  border-radius: var(--_dialog-border-radius);
+  box-shadow: var(--_dialog-shadow);
+  width: var(--_dialog-width);
+  max-width: 100vw;
+  max-height: var(--_dialog-max-height);
+  overflow: hidden;
+  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
+}
+:host {
+  display: inline-block;
+}
+.esa-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.bcn-rrep {
+  gap: var(--spacing-300);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-rrep__list {
+  flex-direction: column;
+  display: flex;
+}
+.bcn-rrep__add {
+  align-self: flex-start;
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+:host {
+  --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
+  --_popover-border: var(--color-border-default, #cecece);
+  --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  --_popover-radius: var(--radius-md, 0.5rem);
+  --_popover-padding: var(--spacing-300, 0.75rem);
+  --_popover-arrow-size: 8px;
+  --_popover-color: var(--color-content-default, #202020);
+  display: inline-block;
+}
+.esa-popover-anchor {
+  position: relative;
+  display: inline-block;
+}
+.typography-microcopy-md-strong {
+  font-family: var(--typography-microcopy-md-strong-font-family);
+  font-size: var(--typography-microcopy-md-strong-font-size);
+  font-weight: var(--typography-microcopy-md-strong-font-weight);
+  line-height: var(--typography-microcopy-md-strong-line-height);
+  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+:host {
+  --_width: var(--side-dialog-width, 400px);
+}
+dialog.panel {
+  --_inset: var(--side-dialog-inset, 16px);
+  position: fixed;
+  top: var(--_inset);
+  bottom: var(--_inset);
+  inset-inline: auto;
+  height: auto;
+  margin: 0;
+  border: none;
+  padding: 0;
+  width: min(var(--_width), calc(100vw - var(--_inset) * 2));
+  max-width: none;
+  max-height: none;
+  background: var(--color-background-elevation-raised, #fcfcfc);
+  color: var(--color-content-default, #202020);
+  border-radius: var(--radius-md, 0.5rem);
+  box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
+  outline: none;
+  overflow: hidden;
+  /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
+         second dialog on top) — ease the reposition instead of jumping. */
+  transition:
+    top 220ms ease,
+    right 220ms ease,
+    bottom 220ms ease,
+    left 220ms ease;
+}
+:host([position="right"]) dialog.panel {
+  right: var(--_inset);
+  animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
 }
 :host {
   --_field-padding-y: var(--spacing-300, 0.75rem);
@@ -38651,162 +38811,6 @@ html,
 }
 .help {
   color: var(--form-help-color, #838383);
-}
-.label {
-  color: var(--form-label-color, #646464);
-  margin-block-end: var(--form-label-gap, 4px);
-}
-.required {
-  color: var(--color-content-utility-danger, #ce2c31);
-  margin-inline-start: 2px;
-}
-.help.is-shown,
-.error.is-shown {
-  margin-block-start: var(--form-help-gap, 4px);
-}
-:host {
-  display: block;
-  --_field-padding-y: var(--spacing-300, 0.75rem);
-  --_field-padding-x: var(--spacing-300, 0.75rem);
-  --_field-radius: var(--radius-md, 0.5rem);
-  --_field-border-color: var(--form-border-color, #cecece);
-}
-:host([size="sm"]) {
-  --_field-padding-y: var(--spacing-250, 0.625rem);
-  --_field-padding-x: var(--spacing-250, 0.625rem);
-  --_field-radius: var(--radius-sm, 0.25rem);
-}
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100, 4px);
-}
-.container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100, 4px);
-}
-.input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-.input {
-  width: 100%;
-  padding: var(--_field-padding-y) var(--_field-padding-x);
-  padding-inline-end: calc(var(--_field-padding-x) + 24px);
-  /* The box is content + padding since heights were removed (2026-08-14), so
-         LEADING IS NOW LOAD-BEARING — it is the term that decides how tall a field
-         is. On a single-line control leading has no typographic job: there is one
-         line, and the space above and below it is invisible. Letting the body-*
-         composite's relaxed leading through added 12px here at md and made this
-         field 7px taller than esa-text-field on the same step, breaking the row
-         alignment component-tokens.css promises.
-         CHOSEN, NOT RESTATED, and not compensated for with a smaller padding rung.
-         The tight leading comes from FIELD_TYPE picking a microcopy-*-subtle rung,
-         whose composite declares the line-height for us — there is deliberately no
-         line-height declaration in this rule, because one here would outrank the
-         composite rather than agree with it. (.input--trigger below does restate
-         it as normal, for the button-versus-input reason given there.) A static padding offset was the other option and
-         is wrong: leading scales with the fluid type (27px at 1600, 22px at 375) and
-         is re-pointable by a theme, so an offset would cancel it at exactly one
-         viewport. esa-textarea stays on a body-* composite on purpose — it is
-         genuinely multi-line, so its leading has a typographic job. */
-  color: var(--form-text-color, #202020);
-  background: var(--color-background-field, transparent);
-  border: var(--form-border-width, 1px) solid var(--_field-border-color);
-  border-radius: var(--_field-radius);
-  outline: none;
-  cursor: pointer;
-  box-sizing: border-box;
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.input--trigger {
-  display: block;
-  text-align: start;
-  /* Only the family is restated. The composite class on this same element
-         already sets size, weight and tracking; the font shorthand that used to
-         sit here came later in the sheet and reset all of them to the host's,
-         which made the trigger a step larger than esa-text-field at the same size
-         and broke the filter-row alignment the two are meant to share. */
-  font-family: inherit;
-  /* Leading is the one composite term a BUTTON and an INPUT read differently.
-         The composite's line-height 1 is honoured by this button, but a native
-         single-line input never lays its text out shorter than the font's normal
-         line box (Chrome, WebKit), so esa-text-field's box is font-normal plus
-         padding whatever the composite says. Measured 2026-09-14: 3.5px shorter
-         at sm, 4.5px at md, 5.5px at lg. normal here puts the trigger on the
-         same floor the input is already on — same font, same normal, same box —
-         at every size and in every browser, with no px offset to drift. */
-  line-height: normal;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-appearance: none;
-  appearance: none;
-}
-.arrow {
-  position: absolute;
-  right: var(--_field-padding-x);
-  top: 50%;
-  transform: translateY(-50%);
-  display: inline-flex;
-  color: var(--color-content-default-secondary, #646464);
-  pointer-events: none;
-  transition: transform var(--transition-fast, 150ms ease);
-}
-.arrow svg {
-  width: var(--icon-size-md, 20px);
-  height: var(--icon-size-md, 20px);
-}
-.field__error {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-100, 4px);
-  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
-}
-.field__help {
-  color: var(--form-help-color, #838383);
-}
-.field__label {
-  /* Was the last reader of --form-label-font-size and one of two readers of
-         --form-label-font-weight. Both are retired with the rest of the size-only
-         ramp; the composite carries size and weight together. */
-  color: var(--form-label-color, #646464);
-}
-.input--placeholder {
-  color: var(--form-placeholder-color, #838383);
-}
-:host {
-  --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
-  --_popover-border: var(--color-border-default, #cecece);
-  --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-  --_popover-radius: var(--radius-md, 0.5rem);
-  --_popover-padding: var(--spacing-300, 0.75rem);
-  --_popover-arrow-size: 8px;
-  --_popover-color: var(--color-content-default, #202020);
-  display: inline-block;
-}
-.esa-popover-anchor {
-  position: relative;
-  display: inline-block;
-}
-.bcn-rrep {
-  gap: var(--spacing-300);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-rrep__list {
-  flex-direction: column;
-  display: flex;
-}
-.bcn-rrep__add {
-  align-self: flex-start;
 }
 .modern-layout {
   flex-direction: column;
@@ -39244,13 +39248,15 @@ html,
   display: inline-flex;
 }
 .bcn-aldo-mark[data-size="sm"] {
+  --icon-size-xs: 12px;
   width: 20px;
   height: 20px;
 }
 .bcn-aldo-mark__glyph {
-  width: 100%;
-  height: 100%;
-  display: block;
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+  display: inline-flex;
 }
 .bcn-help-bar__guidance-label {
   white-space: nowrap;
@@ -39613,194 +39619,6 @@ html,
   transform: translate(-50%);
   box-shadow: 0 -12px 48px -12px #00000052;
 }
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-2xs {
-  font-family: var(--typography-microcopy-2xs-font-family);
-  font-size: var(--typography-microcopy-2xs-font-size);
-  font-weight: var(--typography-microcopy-2xs-font-weight);
-  line-height: var(--typography-microcopy-2xs-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-:host {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100, 4px);
-  --_pad-y: var(--spacing-300, 0.75rem);
-  --_padding-x: var(--spacing-300, 0.75rem);
-  --_radius: var(--radius-md, 0.5rem);
-  --_border-width: var(--form-border-width, 1px);
-  --_border-color: var(--form-border-color, #cecece);
-  --_icon-size: 18px;
-}
-.group {
-  display: inline-flex;
-  width: fit-content;
-  max-width: 100%;
-  gap: 2px;
-  padding: 2px;
-  background: var(--color-background-elevation-sunken, #f0f0f0);
-  border: var(--_border-width) solid var(--_border-color);
-  border-radius: var(--_radius);
-}
-:host([size="sm"]) {
-  --_pad-y: var(--spacing-250, 0.625rem);
-  --_padding-x: var(--spacing-250, 0.625rem);
-  --_radius: var(--radius-sm, 0.25rem);
-  --_icon-size: 16px;
-}
-.option {
-  appearance: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-150, 6px);
-  /* Was calc(height - 4px) to compensate for the track's 2px padding. With no
-         height token the segment is its own text plus padding, and the track wraps
-         it — the compensation has nothing left to compensate for. */
-  padding: var(--_pad-y) var(--_padding-x);
-  color: var(--color-content-default-secondary, #646464);
-  background: transparent;
-  border: 0;
-  border-radius: calc(var(--_radius) - 2px);
-  cursor: pointer;
-  user-select: none;
-  white-space: nowrap;
-  transition:
-    background-color var(--transition-fast, 150ms ease),
-    color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.option--selected {
-  background: var(--color-background-elevation-raised, #fcfcfc);
-  color: var(--color-content-brand, #2a7e3b);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-}
-.option__icon {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  flex-shrink: 0;
-}
-:host {
-  display: inline-block;
-}
-.esa-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
-}
-dialog.panel {
-  --_inset: var(--side-dialog-inset, 16px);
-  position: fixed;
-  top: var(--_inset);
-  bottom: var(--_inset);
-  inset-inline: auto;
-  height: auto;
-  margin: 0;
-  border: none;
-  padding: 0;
-  width: min(var(--_width), calc(100vw - var(--_inset) * 2));
-  max-width: none;
-  max-height: none;
-  background: var(--color-background-elevation-raised, #fcfcfc);
-  color: var(--color-content-default, #202020);
-  border-radius: var(--radius-md, 0.5rem);
-  box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
-  outline: none;
-  overflow: hidden;
-  /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
-         second dialog on top) — ease the reposition instead of jumping. */
-  transition:
-    top 220ms ease,
-    right 220ms ease,
-    bottom 220ms ease,
-    left 220ms ease;
-}
-:host([position="right"]) dialog.panel {
-  right: var(--_inset);
-  animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
-}
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-}
-:host {
-  --_dialog-bg: var(--color-background-elevation-floating, #fcfcfc);
-  --_dialog-border-radius: var(--radius-lg, 0.75rem);
-  --_dialog-padding: var(--spacing-500, 1.5rem);
-  --_dialog-header-border: var(--color-border-default-subtle, #d9d9d9);
-  /* Header/footer surface tints. These were --dialog-header-bg /
-         --dialog-footer-bg, declared in no token file — a hook offered on the
-         strength of a fallback nobody had asked to override. Folded to their
-         literal default 2026-08-16; --dialog-* is a live namespace, so they come
-         back as declarations the day a spoke actually wants to frame the body. */
-  --_dialog-header-bg: transparent;
-  --_dialog-footer-bg: transparent;
-  --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
-  --_dialog-width: var(--dialog-width, 480px);
-  --_dialog-max-height: 85vh;
-}
-:host([size="sm"]) {
-  --_dialog-width: var(--dialog-width-sm, 360px);
-}
-dialog.esa-dialog {
-  /* UA reset. The UA sheet gives <dialog> a solid border, 1em padding and
-         'max-width/max-height: calc(100% - 6px - 2em)'; without clearing those the
-         panel renders inside a second, smaller box. */
-  border: none;
-  padding: 0;
-  margin: auto;
-  background: var(--_dialog-bg);
-  color: var(--color-content-default, #202020);
-  border-radius: var(--_dialog-border-radius);
-  box-shadow: var(--_dialog-shadow);
-  width: var(--_dialog-width);
-  max-width: 100vw;
-  max-height: var(--_dialog-max-height);
-  overflow: hidden;
-  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
-}
-:host {
-  display: contents;
-}
-dialog.esa-confirm-dialog {
-  position: relative;
-  border: none;
-  padding: 0;
-  margin: auto;
-  width: var(--confirm-dialog-width, 360px);
-  max-width: calc(100vw - 2rem);
-  background: var(--color-background-elevation-floating, #fcfcfc);
-  color: var(--color-content-default, #202020);
-  border-radius: var(--radius-lg, 0.75rem);
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.15),
-    0 4px 16px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
-}
 *,
 :before,
 :after {
@@ -39908,33 +39726,227 @@ a.breadcrumb-item {
   min-height: 70vh;
   position: relative;
 }
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
+:host {
+  all: initial;
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+.host-root {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483000;
+  font-family: system-ui, sans-serif;
 }
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
+.host-root > * {
+  pointer-events: auto;
 }
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+.launch {
+  position: fixed;
+  bottom: 22px;
+  left: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 19px;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1px solid #3d6fd6;
+  background: linear-gradient(180deg, #1f6feb, #1551c4);
+  box-shadow:
+    0 10px 28px -8px rgba(31, 111, 235, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+.launch svg {
+  flex: none;
+}
+.panel {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  bottom: 18px;
+  width: min(720px, 94vw);
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  border-radius: 16px;
+  background: linear-gradient(155deg, rgba(26, 31, 40, 0.74), rgba(11, 15, 21, 0.86));
+  backdrop-filter: blur(26px) saturate(150%);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 28px 70px -18px rgba(0, 0, 0, 0.62),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  font-size: 12.5px;
+  overflow: hidden;
+  /* slide in from the right */
+  transform: translateX(calc(100% + 32px));
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.22s ease,
+    visibility 0s linear 0.3s;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.head strong {
+  font-size: 14px;
+}
+.head .sub {
+  flex: 1;
+  color: #ccd5e0;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.x {
+  border: 0;
+  background: none;
+  color: #c4cdd8;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.picker {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #eef2f6;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease,
+    color 0.12s ease;
+}
+.chip.on {
+  background: rgba(31, 111, 235, 0.28);
+  border-color: #4493f8;
+  color: #fff;
+  font-weight: 600;
+}
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 9px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.tabs button {
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: #ccd5e0;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.tabs button.on {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+.body {
+  overflow: auto;
+  padding: 13px 16px;
+  flex: 1;
+}
+.hint {
+  margin: 0;
+  color: #c4cdd8;
+  line-height: 1.6;
+}
+.footer {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 11px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.18);
+}
+[hidden] {
+  display: none !important;
+}
+.cpreview {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: calc(100% + 8px);
+  background: rgba(13, 17, 23, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  box-shadow: 0 18px 50px -14px rgba(0, 0, 0, 0.7);
+  padding: 12px 14px;
+  max-height: 50vh;
+  overflow: auto;
+}
+.copy {
+  color: #eef2f6;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+}
+.footer button {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.claude {
+  color: #fff;
+  border: 1px solid #d97757;
+  background: linear-gradient(180deg, #e0805f, #c25e3c);
+  box-shadow:
+    0 6px 18px -6px rgba(217, 119, 87, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+.claude svg {
+  flex: none;
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-2xs {
+  font-family: var(--typography-microcopy-2xs-font-family);
+  font-size: var(--typography-microcopy-2xs-font-size);
+  font-weight: var(--typography-microcopy-2xs-font-weight);
+  line-height: var(--typography-microcopy-2xs-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -39943,33 +39955,121 @@ a.breadcrumb-item {
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-label-xs {
-  font-family: var(--typography-label-xs-font-family);
-  font-size: var(--typography-label-xs-font-size);
-  font-weight: var(--typography-label-xs-font-weight);
-  line-height: var(--typography-label-xs-line-height);
-  letter-spacing: var(--typography-label-xs-letter-spacing);
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
 }
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
+.esa-button__native {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  display: inline-flex;
 }
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
 }
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+  background: 0 0;
+}
+.esa-button--variant-ghost .esa-button__native {
+  color: var(--color-content-default, #202020);
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border-default, #cecece);
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--xs {
+  --_btn-pad-y: var(--spacing-200, 0.5rem);
+  --_btn-padding-x: var(--spacing-200, 0.5rem);
+  --_btn-radius: var(--button-radius-xs, 4px);
+}
+.esa-button--sm {
+  --_btn-pad-y: var(--spacing-250, 0.625rem);
+  --_btn-padding-x: var(--spacing-250, 0.625rem);
+  --_btn-radius: var(--button-radius-sm, 4px);
+}
+.esa-button--appearance-dashed .esa-button__native {
+  border-style: dashed;
+}
+.esa-button--variant-danger {
+  --_accent: var(--color-background-utility-danger);
+  --_accent-hover: var(--color-background-utility-danger-hover);
+  --_accent-text: var(--color-content-utility-danger);
+}
+.esa-button--appearance-soft .esa-button__native {
+  background: color-mix(
+    in srgb,
+    var(--color-background-elevation-sunken, #f0f0f0) 45%,
+    var(--color-background-elevation-raised, #fcfcfc)
+  );
+  color: var(--_accent-text);
+  border-color: var(--color-border-default-strong, #bbb);
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
+.esa-button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+:host {
+  display: contents;
+}
+dialog.esa-confirm-dialog {
+  position: relative;
+  border: none;
+  padding: 0;
+  margin: auto;
+  width: var(--confirm-dialog-width, 360px);
+  max-width: calc(100vw - 2rem);
+  background: var(--color-background-elevation-floating, #fcfcfc);
+  color: var(--color-content-default, #202020);
+  border-radius: var(--radius-lg, 0.75rem);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.15),
+    0 4px 16px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
 }
 ```
 
@@ -40001,8 +40101,6 @@ a.breadcrumb-item {
 | `--button-radius-sm` | `.25rem` | component |
 | `--button-radius-xs` | `.25rem` | component |
 | `--color-background-accent` | `#f76b15` | semantic |
-| `--color-background-brand` | `#005862` | semantic |
-| `--color-background-brand-hover` | `#00474f` | semantic |
 | `--color-background-brand-muted` | `#eef5f4` | semantic |
 | `--color-background-elevation-floating` | `#fcfcfc` | semantic |
 | `--color-background-elevation-raised` | `#fcfcfc` | semantic |
@@ -40017,12 +40115,10 @@ a.breadcrumb-item {
 | `--color-border-default-strong` | `#bdbdbd` | semantic |
 | `--color-border-default-subtle` | `#efefef` | semantic |
 | `--color-commitment` | `#58508d` | component |
-| `--color-content-brand` | `#005862` | semantic |
 | `--color-content-default` | `#3d3d3d` | semantic |
 | `--color-content-default-knockout` | `#fcfcfc` | semantic |
 | `--color-content-default-secondary` | `#525252` | semantic |
 | `--color-content-default-tertiary` | `#656565` | semantic |
-| `--color-content-link` | `#005862` | semantic |
 | `--color-content-utility-danger` | `#ce2c31` | semantic |
 | `--confirm-dialog-width` | `360px` | component |
 | `--dialog-width` | `480px` | component |
@@ -40041,9 +40137,6 @@ a.breadcrumb-item {
 | `--form-border-width` | `1px` | component |
 | `--form-error-color` | `#ce2c31` | component |
 | `--form-help-color` | `#525252` | component |
-| `--form-help-gap` | `.25rem` | component |
-| `--form-label-color` | `#525252` | component |
-| `--form-label-gap` | `.25rem` | component |
 | `--form-placeholder-color` | `#525252` | component |
 | `--form-text-color` | `#3d3d3d` | component |
 | `--icon-size-lg` | `24px` | primitive |
@@ -40073,30 +40166,25 @@ a.breadcrumb-item {
 | `--transition-fast` | `.15s ease` | semantic |
 | `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
-| `--typography-body-md-font-weight` | `400` | semantic |
+| `--typography-body-md-font-weight` | `350` | semantic |
 | `--typography-body-md-letter-spacing` | `.01em` | semantic |
 | `--typography-body-md-line-height` | `1.6` | semantic |
 | `--typography-body-sm-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
-| `--typography-body-sm-font-weight` | `400` | semantic |
+| `--typography-body-sm-font-weight` | `350` | semantic |
 | `--typography-body-sm-letter-spacing` | `.01em` | semantic |
 | `--typography-body-sm-line-height` | `1.6` | semantic |
 | `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` | semantic |
 | `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
 | `--typography-font-weight-bold` | `650` | semantic |
 | `--typography-font-weight-medium` | `500` | semantic |
-| `--typography-font-weight-regular` | `400` | semantic |
+| `--typography-font-weight-regular` | `350` | semantic |
 | `--typography-font-weight-semibold` | `550` | semantic |
 | `--typography-label-md-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
 | `--typography-label-md-font-weight` | `500` | semantic |
 | `--typography-label-md-letter-spacing` | `.01em` | semantic |
 | `--typography-label-md-line-height` | `1.6` | semantic |
-| `--typography-label-xs-font-family` | `"DM Sans", sans-serif` | semantic |
-| `--typography-label-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
-| `--typography-label-xs-font-weight` | `500` | semantic |
-| `--typography-label-xs-letter-spacing` | `.01em` | semantic |
-| `--typography-label-xs-line-height` | `1.6` | semantic |
 | `--typography-microcopy-2xs-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-microcopy-2xs-font-size` | `clamp(.5rem, .44rem + .3vw, .625rem)` | semantic |
 | `--typography-microcopy-2xs-font-weight` | `500` | semantic |
@@ -40124,7 +40212,7 @@ a.breadcrumb-item {
 | `--typography-microcopy-xs-strong-line-height` | `1` | semantic |
 | `--typography-microcopy-xs-subtle-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-microcopy-xs-subtle-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
-| `--typography-microcopy-xs-subtle-font-weight` | `400` | semantic |
+| `--typography-microcopy-xs-subtle-font-weight` | `350` | semantic |
 | `--typography-microcopy-xs-subtle-letter-spacing` | `.01em` | semantic |
 | `--typography-microcopy-xs-subtle-line-height` | `1` | semantic |
 

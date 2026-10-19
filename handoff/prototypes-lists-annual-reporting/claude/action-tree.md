@@ -6804,7 +6804,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="16"
               height="16"
@@ -6815,7 +6815,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-cbadge bcn-cbadge--sm" data-astro-cid-cqxc3yz3="">COA</span
@@ -6841,7 +6841,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="16"
               height="16"
@@ -6852,7 +6852,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-cbadge bcn-cbadge--sm" data-astro-cid-cqxc3yz3="">COA</span
@@ -6878,7 +6878,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="16"
               height="16"
@@ -6889,7 +6889,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-lot__name" data-list-name="" data-astro-cid-jcfghirm=""></span
@@ -6914,7 +6914,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="16"
               height="16"
@@ -6925,7 +6925,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-lot__name" data-list-name="" data-astro-cid-jcfghirm=""></span
@@ -6950,7 +6950,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="16"
               height="16"
@@ -6961,7 +6961,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-lot__name" data-list-name="" data-astro-cid-jcfghirm=""></span
@@ -6996,7 +6996,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
             ><span
               class="esa-icon esa-icon--sm"
               aria-hidden="true"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
               ><svg
                 width="16"
                 height="16"
@@ -7007,7 +7007,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 focusable="false"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
               >
                 <path d="m9 18 6-6-6-6"></path></svg></span></span
           ><span
@@ -7045,7 +7045,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
                 ><svg
                   width="14"
                   height="14"
@@ -7056,7 +7056,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-wcwfib5m=""
+                  data-astro-cid-c7ivvrtd=""
                 >
                   <path d="M18 6 6 18"></path>
                   <path d="m6 6 12 12"></path></svg
@@ -7418,8 +7418,7 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc__class,
 .bcn-loc__class,
-.bcn-lob__class,
-.bcn-ci-chip {
+.bcn-lob__class {
   padding: 1px var(--spacing-200);
   border-radius: var(--radius-100);
   background: color-mix(in srgb, var(--_hue) 14%, white);
@@ -7433,29 +7432,24 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc[data-class="adhere"],
 .bcn-loc[data-class="adhere"],
-.bcn-lob[data-class="adhere"],
-.bcn-ci-chip[data-class="adhere"] {
+.bcn-lob[data-class="adhere"] {
   --_hue: var(--color-obligation);
 }
 .bcn-swoc[data-class="monitor"],
 .bcn-loc[data-class="monitor"],
-.bcn-lob[data-class="monitor"],
-.bcn-ci-chip[data-class="monitor"] {
+.bcn-lob[data-class="monitor"] {
   --_hue: #ff7c43;
 }
 .bcn-swoc[data-class="notify"],
 .bcn-loc[data-class="notify"],
-.bcn-lob[data-class="notify"],
-.bcn-ci-chip[data-class="notify"] {
+.bcn-lob[data-class="notify"] {
   --_hue: #ffa600;
 }
 .bcn-swoc[data-class="roster"],
 .bcn-loc[data-class="roster"],
 .bcn-lob[data-class="roster"],
-.bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
-.bcn-lac[data-class="action"],
-.bcn-ci-chip[data-class="action"] {
+.bcn-lac[data-class="action"] {
   --_hue: var(--color-action);
 }
 .bcn-swoc__title,
@@ -7530,8 +7524,7 @@ details[open] > summary .bcn-loc__chevron {
   color: var(--color-background-utility-danger);
 }
 .bcn-swoc__reqs,
-.bcn-loc__reqs,
-.bcn-ciitem__reqs {
+.bcn-loc__reqs {
   padding: 0 var(--spacing-300) var(--spacing-150)
     calc(var(--spacing-300) + var(--_req-indent));
   flex-direction: column;
@@ -7540,8 +7533,7 @@ details[open] > summary .bcn-loc__chevron {
   display: flex;
 }
 .bcn-swoc__req,
-.bcn-loc__req,
-.bcn-ciitem__req {
+.bcn-loc__req {
   align-items: center;
   gap: var(--spacing-200);
   min-height: 28px;
@@ -7555,8 +7547,7 @@ details[open] > summary .bcn-loc__chevron {
   background: var(--color-background-default);
 }
 .bcn-swoc__req-name,
-.bcn-loc__req-name,
-.bcn-ciitem__req-name {
+.bcn-loc__req-name {
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
@@ -7649,13 +7640,11 @@ details[open] > summary .bcn-loc__chevron {
   border-bottom: 1px solid var(--color-border-default);
 }
 .bcn-swot__cat:nth-of-type(2n),
-.bcn-lot__cat:nth-of-type(2n),
-.bcn-ciidx__cat:nth-of-type(2n) {
+.bcn-lot__cat:nth-of-type(2n) {
   background: color-mix(in srgb, var(--bcn-gray-100) 50%, white);
 }
 .bcn-swot__cat:nth-of-type(2n) .bcn-swot__row:hover,
-.bcn-lot__cat:nth-of-type(2n) .bcn-lot__row:hover,
-.bcn-ciidx__cat:nth-of-type(2n) .bcn-ciidx__row:hover {
+.bcn-lot__cat:nth-of-type(2n) .bcn-lot__row:hover {
   background: var(--bcn-gray-100);
 }
 .bcn-swot__sub + .bcn-swot__sub,
@@ -7917,9 +7906,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   padding: 2px var(--spacing-100);
   font-size: var(--font-size-050);
 }
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -7949,13 +7935,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   height: var(--_icon-size);
   display: block;
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
-  flex-shrink: 0;
-}
 .bcn-status-chip {
   align-items: center;
   gap: var(--spacing-150);
@@ -7974,6 +7953,13 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   flex-shrink: 0;
   width: 8px;
   height: 8px;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
+  flex-shrink: 0;
 }
 ```
 
@@ -8026,7 +8012,7 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
 - `--spacing-800`: 4rem _(primitive)_
 - `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-body-xs-font-weight`: 400 _(semantic)_
+- `--typography-body-xs-font-weight`: 350 _(semantic)_
 - `--typography-body-xs-letter-spacing`: .01em _(semantic)_
 - `--typography-body-xs-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_

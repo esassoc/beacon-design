@@ -582,6 +582,34 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   color: var(--color-background-brand);
   background: #0000000a;
 }
+.bcn-disc__head .esa-icon {
+  color: var(--color-content-default-secondary);
+  flex-shrink: 0;
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
+.bcn-evidence-card__lead .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
+  transform: rotate(90deg);
+}
+.bcn-evidence-card__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-evidence-card__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
 .bcn-list-link .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
@@ -601,20 +629,9 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   --_icon-size: 12px;
   opacity: 0.75;
 }
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
-.bcn-disc__head .esa-icon {
-  color: var(--color-content-default-secondary);
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
   flex-shrink: 0;
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -645,31 +662,11 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   height: var(--_icon-size);
   display: block;
 }
-.bcn-evidence-card__lead .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  transition: transform 0.15s;
-}
-.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
-  transform: rotate(90deg);
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-evidence-card__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
   color: var(--page-title-icon-color, var(--bcn-gray-1000));
-  flex-shrink: 0;
-}
-.esa-collapsible__summary .esa-icon {
-  color: var(--color-content-default-secondary, #646464);
   flex-shrink: 0;
 }
 ```
@@ -686,7 +683,6 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
 - `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_

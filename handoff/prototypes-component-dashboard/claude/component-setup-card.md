@@ -579,8 +579,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--button-radius-xs`: .25rem _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
@@ -596,7 +594,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
@@ -625,18 +622,18 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
-- `--stat-accent-color`: #005862 _(component)_
+- `--stat-accent-color`: #3a7c59 _(component)_
 - `--stat-value-color`: #3d3d3d _(component)_
 - `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
+- `--typography-body-sm-font-weight`: 350 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-body-xs-font-weight`: 400 _(semantic)_
+- `--typography-body-xs-font-weight`: 350 _(semantic)_
 - `--typography-body-xs-letter-spacing`: .01em _(semantic)_
 - `--typography-body-xs-line-height`: 1.6 _(semantic)_
 - `--typography-display-sm-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -679,6 +676,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_

@@ -641,28 +641,6 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--color-content-default-secondary, #646464);
   flex-shrink: 0;
 }
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
-.bcn-status-chip {
-  align-items: center;
-  gap: var(--spacing-150);
-  padding: 2px var(--spacing-250);
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-100);
-  font-weight: var(--typography-font-weight-semibold);
-  white-space: nowrap;
-  background: color-mix(in srgb, var(--_chip) 16%, transparent);
-  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
-  display: inline-flex;
-}
-.bcn-status-chip__dot {
-  border-radius: var(--radius-full);
-  background: var(--_chip);
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -692,6 +670,25 @@ summary.esa-button--variant-chrome:focus-visible {
   height: var(--_icon-size);
   display: block;
 }
+.bcn-status-chip {
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  display: inline-flex;
+}
+.bcn-status-chip__dot {
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -719,8 +716,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--button-radius-xs`: .25rem _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-default`: #fafafa _(semantic)_
@@ -737,7 +732,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
@@ -782,6 +776,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

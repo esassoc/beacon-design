@@ -107,21 +107,6 @@ The H1 names the submitter with the submission's number (S-018) trailing as a ne
         ></esa-button-toggle>
         <ul class="bcn-rp__list" role="list" data-rp-list="">
           <li>
-            <a class="bcn-rp__row" href="/beacon-design/prototypes/comments/sub-30"
-              ><span class="bcn-rp__mark"
-                ><span class="bcn-rp__unread" aria-hidden="true"></span></span
-              ><span class="bcn-rp__no">S-030</span
-              ><span class="bcn-rp__name">Rhea Castellanos</span
-              ><span class="bcn-rp__meta"
-                ><span class="bcn-rp__status" data-state="open">Not Reviewed</span
-                ><span class="bcn-rp__topic"
-                  ><span class="bcn-topic-dot" data-family="amber"></span>Aircraft
-                  noise</span
-                ></span
-              ></a
-            >
-          </li>
-          <li>
             <a class="bcn-rp__row" href="/beacon-design/prototypes/comments/sub-29"
               ><span class="bcn-rp__mark"
                 ><span class="bcn-rp__unread" aria-hidden="true"></span></span
@@ -497,24 +482,11 @@ The H1 names the submitter with the submission's number (S-018) trailing as a ne
           <li>
             <a class="bcn-rp__row" href="/beacon-design/prototypes/comments/sub-10"
               ><span class="bcn-rp__mark"
-                ><span class="bcn-rp__glyph" data-state="done" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="m9 12 2 2 4-4"></path></svg></span></span
+                ><span class="bcn-rp__unread" aria-hidden="true"></span></span
               ><span class="bcn-rp__no">S-010</span
               ><span class="bcn-rp__name">Leonard Fairweather</span
               ><span class="bcn-rp__meta"
-                ><span class="bcn-rp__status" data-state="done">Reviewed</span
+                ><span class="bcn-rp__status" data-state="open">Not Reviewed</span
                 ><span class="bcn-rp__topic"
                   ><span class="bcn-topic-dot" data-family="amber"></span>Aircraft
                   noise</span
@@ -525,24 +497,11 @@ The H1 names the submitter with the submission's number (S-018) trailing as a ne
           <li>
             <a class="bcn-rp__row" href="/beacon-design/prototypes/comments/sub-09"
               ><span class="bcn-rp__mark"
-                ><span class="bcn-rp__glyph" data-state="done" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="m9 12 2 2 4-4"></path></svg></span></span
+                ><span class="bcn-rp__unread" aria-hidden="true"></span></span
               ><span class="bcn-rp__no">S-009</span
               ><span class="bcn-rp__name">Owen Castellano, Hillcrest Trail Runners</span
               ><span class="bcn-rp__meta"
-                ><span class="bcn-rp__status" data-state="done">Reviewed</span
+                ><span class="bcn-rp__status" data-state="open">Not Reviewed</span
                 ><span class="bcn-rp__topic"
                   ><span class="bcn-topic-dot" data-family="amber"></span>Aircraft
                   noise</span
@@ -609,24 +568,11 @@ The H1 names the submitter with the submission's number (S-018) trailing as a ne
           <li>
             <a class="bcn-rp__row" href="/beacon-design/prototypes/comments/sub-06"
               ><span class="bcn-rp__mark"
-                ><span class="bcn-rp__glyph" data-state="done" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="m9 12 2 2 4-4"></path></svg></span></span
+                ><span class="bcn-rp__unread" aria-hidden="true"></span></span
               ><span class="bcn-rp__no">S-006</span
               ><span class="bcn-rp__name">Walt Brandvold</span
               ><span class="bcn-rp__meta"
-                ><span class="bcn-rp__status" data-state="done">Reviewed</span
+                ><span class="bcn-rp__status" data-state="open">Not Reviewed</span
                 ><span class="bcn-rp__topic"
                   ><span class="bcn-topic-dot" data-family="amber"></span>Aircraft
                   noise</span
@@ -665,24 +611,11 @@ The H1 names the submitter with the submission's number (S-018) trailing as a ne
           <li>
             <a class="bcn-rp__row" href="/beacon-design/prototypes/comments/sub-04"
               ><span class="bcn-rp__mark"
-                ><span class="bcn-rp__glyph" data-state="done" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="m9 12 2 2 4-4"></path></svg></span></span
+                ><span class="bcn-rp__unread" aria-hidden="true"></span></span
               ><span class="bcn-rp__no">S-004</span
               ><span class="bcn-rp__name">Harriet Okafor</span
               ><span class="bcn-rp__meta"
-                ><span class="bcn-rp__status" data-state="done">Reviewed</span
+                ><span class="bcn-rp__status" data-state="open">Not Reviewed</span
                 ><span class="bcn-rp__topic"
                   ><span class="bcn-topic-dot" data-family="amber"></span>Aircraft
                   noise</span
@@ -693,24 +626,11 @@ The H1 names the submitter with the submission's number (S-018) trailing as a ne
           <li>
             <a class="bcn-rp__row" href="/beacon-design/prototypes/comments/sub-03"
               ><span class="bcn-rp__mark"
-                ><span class="bcn-rp__glyph" data-state="done" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="m9 12 2 2 4-4"></path></svg></span></span
+                ><span class="bcn-rp__unread" aria-hidden="true"></span></span
               ><span class="bcn-rp__no">S-003</span
               ><span class="bcn-rp__name">Theo Lindqvist</span
               ><span class="bcn-rp__meta"
-                ><span class="bcn-rp__status" data-state="done">Reviewed</span
+                ><span class="bcn-rp__status" data-state="open">Not Reviewed</span
                 ><span class="bcn-rp__topic"
                   ><span class="bcn-topic-dot" data-family="amber"></span>Aircraft
                   noise</span
@@ -750,24 +670,11 @@ The H1 names the submitter with the submission's number (S-018) trailing as a ne
           <li>
             <a class="bcn-rp__row" href="/beacon-design/prototypes/comments/sub-01"
               ><span class="bcn-rp__mark"
-                ><span class="bcn-rp__glyph" data-state="done" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="m9 12 2 2 4-4"></path></svg></span></span
+                ><span class="bcn-rp__unread" aria-hidden="true"></span></span
               ><span class="bcn-rp__no">S-001</span
               ><span class="bcn-rp__name">Lorraine Whitcomb</span
               ><span class="bcn-rp__meta"
-                ><span class="bcn-rp__status" data-state="done">Reviewed</span
+                ><span class="bcn-rp__status" data-state="open">Not Reviewed</span
                 ><span class="bcn-rp__topic"
                   ><span class="bcn-topic-dot" data-family="grass"></span>Noise
                   measurement</span
@@ -781,7 +688,7 @@ The H1 names the submitter with the submission's number (S-018) trailing as a ne
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnRecordPager.astro_astro_type_script_index_0_lang.eNyx_b48.js"
+    src="/beacon-design/_astro/BcnRecordPager.astro_astro_type_script_index_0_lang.znQ9dXbv.js"
   ></script>
 </div>
 ```
@@ -920,16 +827,6 @@ The H1 names the submitter with the submission's number (S-018) trailing as a ne
   box-shadow: none;
   border: 1.5px dashed var(--_ink);
   background: 0 0;
-}
-.bcn-topic-dot[data-suggested] {
-  background: color-mix(
-    in srgb,
-    var(--_ink) 22%,
-    var(--color-background-elevation-raised)
-  );
-  box-shadow: none;
-  border: 1.5px dashed var(--_ink);
-  box-sizing: border-box;
 }
 :is(mark.bcn-hl, .bcn-topic-dot)[data-family="amber"][data-shade="1"] {
   --_hl: var(--bcn-topic-amber-1);
@@ -1484,6 +1381,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

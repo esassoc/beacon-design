@@ -376,7 +376,7 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
         </script>
         <script
           type="module"
-          src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.BpV6USJW.js"
+          src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.V9eB__99.js"
         ></script>
       </div>
       <section class="bcn-apanel__outstanding stack" data-gap="sm">
@@ -1933,7 +1933,7 @@ summary.esa-button--variant-chrome:focus-visible {
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #005862 _(component)_
+- `--badge-bg`: #43608a _(component)_
 - `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
@@ -1958,8 +1958,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--card-header-bg`: transparent _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
@@ -1985,7 +1983,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-border-utility-success`: #adddc0 _(semantic)_
 - `--color-border-utility-warning`: #f3d673 _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
@@ -2031,12 +2028,12 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
+- `--typography-body-md-font-weight`: 350 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
+- `--typography-body-sm-font-weight`: 350 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
@@ -2065,7 +2062,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-label-xs-strong-line-height`: 1.6 _(semantic)_
 - `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-meta-font-weight`: 400 _(semantic)_
+- `--typography-meta-font-weight`: 350 _(semantic)_
 - `--typography-meta-letter-spacing`: .01em _(semantic)_
 - `--typography-meta-line-height`: 1.6 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -2080,7 +2077,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_

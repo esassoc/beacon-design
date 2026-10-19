@@ -9403,7 +9403,7 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-sm-strong-line-height);
   letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
 }
-.bcn-component-picker__trigger > .esa-icon {
+.bcn-component-picker__trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
 }
@@ -9704,7 +9704,7 @@ details[open] > .bcn-lao__row .bcn-lao__chevron {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
+- `--typography-body-sm-font-weight`: 350 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
@@ -9740,7 +9740,7 @@ details[open] > .bcn-lao__row .bcn-lao__chevron {
 - `--typography-microcopy-sm-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-sm-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-sm-subtle-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-sm-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-sm-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-sm-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -9755,6 +9755,6 @@ details[open] > .bcn-lao__row .bcn-lao__chevron {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

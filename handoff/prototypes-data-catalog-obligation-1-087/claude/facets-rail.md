@@ -43,7 +43,7 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
       ><span class="esa-collapsible__title">Details</span>
     </summary>
     <div class="esa-collapsible__body typography-body-md">
-      <div class="bcn-key-value" data-size="md" data-layout="stack">
+      <div class="bcn-key-value">
         <span class="bcn-key-value__key">Class</span
         ><span class="bcn-key-value__val">Adhere</span
         ><span class="bcn-key-value__hint"
@@ -438,6 +438,25 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
   font-size: 0.875rem;
   line-height: 1.4;
 }
+.bcn-key-value {
+  flex-direction: column;
+  gap: 2px;
+  display: flex;
+}
+.bcn-key-value__key {
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--form-label-color);
+}
+.bcn-key-value__val {
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+}
+.bcn-key-value__hint {
+  color: var(--color-content-default-tertiary);
+  font-size: 0.75rem;
+}
 .esa-collapsible {
   border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
   border-radius: var(--radius-md, 0.5rem);
@@ -487,64 +506,6 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
   flex-direction: column;
   display: flex;
 }
-.bcn-key-value {
-  flex-direction: column;
-  gap: 2px;
-  display: flex;
-}
-.bcn-key-value[data-layout="row"] {
-  align-items: baseline;
-  column-gap: var(--spacing-300);
-  grid-template-columns: 6.5rem minmax(0, 1fr);
-  display: grid;
-}
-.bcn-key-value__key {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-medium);
-  color: var(--form-label-color);
-}
-.bcn-key-value__val {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-}
-.bcn-key-value__hint {
-  color: var(--color-content-default-tertiary);
-  font-size: 0.75rem;
-}
-.bcn-key-value__key {
-  align-items: center;
-  gap: var(--spacing-100);
-  display: inline-flex;
-}
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
-.bcn-key-value[data-size="sm"] .bcn-key-value__key {
-  font-size: var(--typography-label-sm-font-size);
-  font-weight: var(--typography-label-sm-font-weight);
-  color: var(--color-content-secondary);
-}
-.bcn-key-value[data-size="sm"] .bcn-key-value__val {
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-}
-.bcn-evidence-card__lead .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  transition: transform 0.15s;
-}
-.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
-  transform: rotate(90deg);
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-evidence-card__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -574,6 +535,22 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
   height: var(--_icon-size);
   display: block;
 }
+.bcn-evidence-card__lead .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
+  transform: rotate(90deg);
+}
+.bcn-evidence-card__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-evidence-card__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -602,15 +579,12 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
 - `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
 - `--border-width-default`: 1px _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-link`: #005862 _(semantic)_
-- `--color-content-secondary`: #525252 _(component)_
 - `--form-label-color`: #525252 _(component)_
 - `--gap`: 1rem _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
@@ -627,14 +601,12 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
 - `--spacing-400`: 1rem _(primitive)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
+- `--typography-body-md-font-weight`: 350 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-font-weight`: 500 _(semantic)_
 - `--typography-label-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
 - `--typography-label-sm-strong-font-weight`: 550 _(semantic)_

@@ -263,6 +263,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -344,13 +351,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   background: 0 0;
   border-color: #0000;
 }
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
 ```
 
 ## Tokens
@@ -358,14 +358,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 |---|---|---|
 | `--border-width-default` | `1px` | semantic |
 | `--button-radius-md` | `.25rem` | component |
-| `--color-background-brand` | `#005862` | semantic |
-| `--color-background-brand-hover` | `#00474f` | semantic |
-| `--color-background-brand-subtle` | `#effefb` | semantic |
 | `--color-background-elevation-raised` | `#fcfcfc` | semantic |
 | `--color-background-elevation-sunken` | `#efefef` | semantic |
 | `--color-border-default` | `#dcdcdc` | semantic |
 | `--color-border-default-strong` | `#bdbdbd` | semantic |
-| `--color-content-brand` | `#005862` | semantic |
 | `--color-content-default` | `#3d3d3d` | semantic |
 | `--color-content-default-knockout` | `#fcfcfc` | semantic |
 | `--color-content-default-secondary` | `#525252` | semantic |

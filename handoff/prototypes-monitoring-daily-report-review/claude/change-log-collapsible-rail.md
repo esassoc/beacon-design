@@ -293,28 +293,28 @@ Who changed what, and when: a date-grouped timeline of every edit (field · cont
   <template data-dmr-log-tag="pending"
     ><span
       class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
-      data-astro-cid-yahmuvtj=""
-      ><span class="esa-badge__text" data-astro-cid-yahmuvtj="">Pending sync</span></span
+      data-astro-cid-v3fnotwi=""
+      ><span class="esa-badge__text" data-astro-cid-v3fnotwi="">Pending sync</span></span
     ></template
   ><template data-dmr-log-tag="synced"
     ><span
       class="esa-badge esa-badge--success esa-badge--sm typography-microcopy-xs-strong"
-      data-astro-cid-yahmuvtj=""
-      ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
+      data-astro-cid-v3fnotwi=""
+      ><span class="esa-badge__text" data-astro-cid-v3fnotwi=""
         >Synced to Fulcrum</span
       ></span
     ></template
   ><template data-dmr-log-tag="withdrawn"
     ><span
       class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-      data-astro-cid-yahmuvtj=""
-      ><span class="esa-badge__text" data-astro-cid-yahmuvtj="">Withdrawn</span></span
+      data-astro-cid-v3fnotwi=""
+      ><span class="esa-badge__text" data-astro-cid-v3fnotwi="">Withdrawn</span></span
     ></template
   ><template data-dmr-log-tag="beacon"
     ><span
       class="esa-badge esa-badge--info esa-badge--sm typography-microcopy-xs-strong"
-      data-astro-cid-yahmuvtj=""
-      ><span class="esa-badge__text" data-astro-cid-yahmuvtj="">Beacon only</span></span
+      data-astro-cid-v3fnotwi=""
+      ><span class="esa-badge__text" data-astro-cid-v3fnotwi="">Beacon only</span></span
     ></template
   >
 </div>

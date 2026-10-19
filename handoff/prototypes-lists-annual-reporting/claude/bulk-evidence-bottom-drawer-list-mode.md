@@ -189,8 +189,8 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                 ><li data-astro-cid-qzg7vnux="">
                   <span
                     class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                    data-astro-cid-xtwxlazl=""
-                    ><span class="esa-pill__label" data-astro-cid-xtwxlazl=""></span
+                    data-astro-cid-65ixjgm5=""
+                    ><span class="esa-pill__label" data-astro-cid-65ixjgm5=""></span
                   ></span></li></template
               ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template
@@ -201,19 +201,19 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                   ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                     ><span
                       class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                      data-astro-cid-5nhxdd72=""
+                      data-astro-cid-4xhmycw5=""
                       ><button
                         class="esa-button__native typography-microcopy-xs"
                         type="button"
                         aria-label="Remove this file from the evidence"
                         title="Remove this file from the evidence"
                         data-astro-cid-qzg7vnux="true"
-                        data-astro-cid-5nhxdd72=""
+                        data-astro-cid-4xhmycw5=""
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-wcwfib5m=""
+                          data-astro-cid-c7ivvrtd=""
                           ><svg
                             width="16"
                             height="16"
@@ -224,7 +224,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-wcwfib5m=""
+                            data-astro-cid-c7ivvrtd=""
                           >
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path></svg
@@ -6227,27 +6227,27 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                     data-astro-cid-6zu5gb4v=""
                     ><span
                       class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      data-astro-cid-yahmuvtj=""
-                      ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
+                      data-astro-cid-sh7ulwla=""
+                      ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
                         >Suggested</span
                       ></span
                     ></span
                   ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                     ><span
                       class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                      data-astro-cid-5nhxdd72=""
+                      data-astro-cid-4xhmycw5=""
                       ><button
                         class="esa-button__native typography-microcopy-xs"
                         type="button"
                         aria-label="Remove this evidence from the action"
                         title="Remove this evidence from the action"
                         data-astro-cid-6zu5gb4v="true"
-                        data-astro-cid-5nhxdd72=""
+                        data-astro-cid-4xhmycw5=""
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-wcwfib5m=""
+                          data-astro-cid-c7ivvrtd=""
                           ><svg
                             width="16"
                             height="16"
@@ -6258,7 +6258,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-wcwfib5m=""
+                            data-astro-cid-c7ivvrtd=""
                           >
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path></svg
@@ -8397,8 +8397,7 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc__class,
 .bcn-loc__class,
-.bcn-lob__class,
-.bcn-ci-chip {
+.bcn-lob__class {
   padding: 1px var(--spacing-200);
   border-radius: var(--radius-100);
   background: color-mix(in srgb, var(--_hue) 14%, white);
@@ -8412,29 +8411,24 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc[data-class="adhere"],
 .bcn-loc[data-class="adhere"],
-.bcn-lob[data-class="adhere"],
-.bcn-ci-chip[data-class="adhere"] {
+.bcn-lob[data-class="adhere"] {
   --_hue: var(--color-obligation);
 }
 .bcn-swoc[data-class="monitor"],
 .bcn-loc[data-class="monitor"],
-.bcn-lob[data-class="monitor"],
-.bcn-ci-chip[data-class="monitor"] {
+.bcn-lob[data-class="monitor"] {
   --_hue: #ff7c43;
 }
 .bcn-swoc[data-class="notify"],
 .bcn-loc[data-class="notify"],
-.bcn-lob[data-class="notify"],
-.bcn-ci-chip[data-class="notify"] {
+.bcn-lob[data-class="notify"] {
   --_hue: #ffa600;
 }
 .bcn-swoc[data-class="roster"],
 .bcn-loc[data-class="roster"],
 .bcn-lob[data-class="roster"],
-.bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
-.bcn-lac[data-class="action"],
-.bcn-ci-chip[data-class="action"] {
+.bcn-lac[data-class="action"] {
   --_hue: var(--color-action);
 }
 .bcn-swoc__title,
@@ -8509,8 +8503,7 @@ details[open] > summary .bcn-loc__chevron {
   color: var(--color-background-utility-danger);
 }
 .bcn-swoc__reqs,
-.bcn-loc__reqs,
-.bcn-ciitem__reqs {
+.bcn-loc__reqs {
   padding: 0 var(--spacing-300) var(--spacing-150)
     calc(var(--spacing-300) + var(--_req-indent));
   flex-direction: column;
@@ -8519,8 +8512,7 @@ details[open] > summary .bcn-loc__chevron {
   display: flex;
 }
 .bcn-swoc__req,
-.bcn-loc__req,
-.bcn-ciitem__req {
+.bcn-loc__req {
   align-items: center;
   gap: var(--spacing-200);
   min-height: 28px;
@@ -8534,8 +8526,7 @@ details[open] > summary .bcn-loc__chevron {
   background: var(--color-background-default);
 }
 .bcn-swoc__req-name,
-.bcn-loc__req-name,
-.bcn-ciitem__req-name {
+.bcn-loc__req-name {
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
@@ -9039,9 +9030,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .esa-empty-state__actions:empty {
   display: none;
 }
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -9070,13 +9058,6 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
-  flex-shrink: 0;
 }
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
@@ -9242,6 +9223,13 @@ summary.esa-button--variant-chrome:focus-visible {
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
+  flex-shrink: 0;
+}
 ```
 
 ## Tokens
@@ -9381,23 +9369,23 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
+- `--typography-body-md-font-weight`: 350 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
+- `--typography-body-sm-font-weight`: 350 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-body-xs-font-weight`: 400 _(semantic)_
+- `--typography-body-xs-font-weight`: 350 _(semantic)_
 - `--typography-body-xs-letter-spacing`: .01em _(semantic)_
 - `--typography-body-xs-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-regular`: 400 _(semantic)_
+- `--typography-font-weight-regular`: 350 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
@@ -9417,7 +9405,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-label-sm-strong-line-height`: 1.6 _(semantic)_
 - `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-meta-font-weight`: 400 _(semantic)_
+- `--typography-meta-font-weight`: 350 _(semantic)_
 - `--typography-meta-letter-spacing`: .01em _(semantic)_
 - `--typography-meta-line-height`: 1.6 _(semantic)_
 - `--typography-microcopy-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -9437,7 +9425,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -9452,6 +9440,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

@@ -655,7 +655,7 @@ The shared renderer for ONE article, captured on the dataset's richest body so e
 ```
 
 ## Tokens
-- `--badge-bg`: #005862 _(component)_
+- `--badge-bg`: #43608a _(component)_
 - `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
@@ -666,8 +666,6 @@ The shared renderer for ONE article, captured on the dataset's richest body so e
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
 - `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
@@ -693,8 +691,6 @@ The shared renderer for ONE article, captured on the dataset's richest body so e
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-link`: #005862 _(semantic)_
-- `--color-content-link-hover`: #00474f _(semantic)_
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-utility-danger`: #ce2c31 _(semantic)_
 - `--color-content-utility-info`: #0d74ce _(semantic)_
@@ -720,14 +716,14 @@ The shared renderer for ONE article, captured on the dataset's richest body so e
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
+- `--typography-body-md-font-weight`: 350 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-meta-font-weight`: 400 _(semantic)_
+- `--typography-meta-font-weight`: 350 _(semantic)_
 - `--typography-meta-letter-spacing`: .01em _(semantic)_
 - `--typography-meta-line-height`: 1.6 _(semantic)_
 - `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_

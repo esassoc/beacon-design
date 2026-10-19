@@ -490,7 +490,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
       <div class="bcn-sw3src__srcrow" data-astro-cid-6isyew5u="">
         <span
           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only bcn-sw3src__fold"
-          data-astro-cid-5nhxdd72=""
+          data-astro-cid-4xhmycw5=""
           ><button
             class="esa-button__native typography-microcopy-2xs"
             type="button"
@@ -499,12 +499,12 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
             data-src-fold="true"
             aria-expanded="true"
             data-astro-cid-6isyew5u="true"
-            data-astro-cid-5nhxdd72=""
+            data-astro-cid-4xhmycw5=""
           >
             <span
               class="esa-icon esa-icon--xs"
               aria-hidden="true"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
               ><svg
                 width="14"
                 height="14"
@@ -515,7 +515,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 focusable="false"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
               >
                 <path d="m6 9 6 6 6-6"></path></svg
             ></span></button></span
@@ -537,7 +537,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
           data-astro-cid-6isyew5u="true"
           ><span
             class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-            data-astro-cid-5nhxdd72=""
+            data-astro-cid-4xhmycw5=""
             ><button
               class="esa-button__native typography-microcopy-2xs"
               type="button"
@@ -545,12 +545,12 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
               title="Source document actions"
               data-ico="ellipsis"
               data-astro-cid-6isyew5u="true"
-              data-astro-cid-5nhxdd72=""
+              data-astro-cid-4xhmycw5=""
             >
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
                 ><svg
                   width="14"
                   height="14"
@@ -561,7 +561,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-wcwfib5m=""
+                  data-astro-cid-c7ivvrtd=""
                 >
                   <line x1="4" x2="20" y1="6" y2="6"></line>
                   <line x1="4" x2="20" y1="12" y2="12"></line>
@@ -586,7 +586,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
           ><span
             class="esa-icon esa-icon--xs"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="14"
               height="14"
@@ -597,7 +597,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
               <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
@@ -620,16 +620,16 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
             ><span data-file-state-badge="" data-astro-cid-6isyew5u=""
               ><span
                 class="esa-badge esa-badge--secondary esa-badge--xs typography-microcopy-2xs-strong"
-                data-astro-cid-yahmuvtj=""
-                ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
+                data-astro-cid-sh7ulwla=""
+                ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
                   >Not scanned</span
                 ></span
               ></span
             ><span data-file-badge="" hidden="" data-astro-cid-6isyew5u=""
               ><span
                 class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong"
-                data-astro-cid-yahmuvtj=""
-                ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
+                data-astro-cid-sh7ulwla=""
+                ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
                   >3 to check</span
                 ></span
               ></span
@@ -646,13 +646,13 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
               aria-valuemin="0"
               aria-valuemax="100"
               aria-label="Progress"
-              data-astro-cid-o4bx2qs6=""
+              data-astro-cid-wrbji5dg=""
             >
-              <div class="esa-progress-bar__track" data-astro-cid-o4bx2qs6="">
+              <div class="esa-progress-bar__track" data-astro-cid-wrbji5dg="">
                 <div
                   class="esa-progress-bar__fill"
                   style="width: 0%"
-                  data-astro-cid-o4bx2qs6=""
+                  data-astro-cid-wrbji5dg=""
                 ></div>
               </div></div></span
         ></span></button
@@ -663,7 +663,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
         data-astro-cid-6isyew5u="true"
         ><span
           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-          data-astro-cid-5nhxdd72=""
+          data-astro-cid-4xhmycw5=""
           ><button
             class="esa-button__native typography-microcopy-2xs"
             type="button"
@@ -671,12 +671,12 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
             title="File actions"
             data-ico="ellipsis"
             data-astro-cid-6isyew5u="true"
-            data-astro-cid-5nhxdd72=""
+            data-astro-cid-4xhmycw5=""
           >
             <span
               class="esa-icon esa-icon--xs"
               aria-hidden="true"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
               ><svg
                 width="14"
                 height="14"
@@ -687,7 +687,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 focusable="false"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
               >
                 <line x1="4" x2="20" y1="6" y2="6"></line>
                 <line x1="4" x2="20" y1="12" y2="12"></line>
