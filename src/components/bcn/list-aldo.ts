@@ -251,16 +251,24 @@ export function setupListAldo(root: HTMLElement): void {
   composer.setMentions([]);
   render();
 
+  // The field takes the cursor without moving the page: the rail sits below the fold on a
+  // short window, and esa-textarea's own focus() scrolls its native field into view.
+  const focusField = () => {
+    const native = root.querySelector<HTMLElement>('[data-composer-input]')?.shadowRoot?.querySelector('textarea');
+    if (native) native.focus({ preventScroll: true });
+    else composer.focus();
+  };
+
   // The launcher opens the conversation in place; the panel's collapse folds it back.
   const launcher = root.querySelector<HTMLButtonElement>('[data-lal-open]')!;
   launcher.addEventListener('click', () => {
     root.dataset.aldo = 'open';
     launcher.setAttribute('aria-expanded', 'true');
-    requestAnimationFrame(() => composer.focus());
+    requestAnimationFrame(focusField);
   });
   root.addEventListener('aldo:collapse', () => {
     launcher.setAttribute('aria-expanded', 'false');
     launcher.focus();
   });
-  if (data.fresh) requestAnimationFrame(() => composer.focus());
+  if (data.fresh) customElements.whenDefined('esa-textarea').then(() => requestAnimationFrame(focusField));
 }
