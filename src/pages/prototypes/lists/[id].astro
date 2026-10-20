@@ -3,8 +3,10 @@
 // commitment lists (2026-09-23) are sets of pointers on the same page chrome — the
 // same header, rail and add drawer — with <BcnListMemberTree> as their body. A
 // Compliance Index list (2026-10-19) has <BcnListIndexTree> as its body and no add
-// drawer: it arranges the index's items and adds none. The canonical index has no
-// title-row verbs and no Danger Zone; its filing is edited in the setup wizard.
+// drawer: it arranges the index's items and adds none. A version may remove an item,
+// give it a list title and description, and rename its categories and subcategories
+// (BcnListIndexItemPanel, BcnListIndexBranchPanel); nothing more. The canonical index has
+// no title-row verbs, no edits and no Danger Zone; its filing is edited in the setup wizard.
 //
 // One obligation list.
 //
@@ -43,6 +45,8 @@ import BcnListMemberTree from '../../../components/bcn/BcnListMemberTree.astro';
 import BcnListActionPanel from '../../../components/bcn/BcnListActionPanel.astro';
 import BcnListAddMembers from '../../../components/bcn/BcnListAddMembers.astro';
 import BcnListIndexTree from '../../../components/bcn/BcnListIndexTree.astro';
+import BcnListIndexItemPanel from '../../../components/bcn/BcnListIndexItemPanel.astro';
+import BcnListIndexBranchPanel from '../../../components/bcn/BcnListIndexBranchPanel.astro';
 import BcnListAldo from '../../../components/bcn/BcnListAldo.astro';
 import { NEW_LISTS, isNewList } from '../../../data/list-aldo';
 import BcnDangerZone from '../../../components/bcn/BcnDangerZone.astro';
@@ -92,15 +96,18 @@ const typeMany = LIST_MEMBER_NOUN[list.type][1];
     - details rail    -> bcn-list-details-rail             # the list record: name, description, type, created, last updated, member count
     - export panel    -> bcn-list-export-panel             # Word and CSV on every list; the JSON endpoint (key, URL, formFields preview) on obligation lists only
     - add members     -> bcn-list-add-obligations          # right drawer over candidateTree(list), checkboxes, emits list:members-added
-    - edit details    -> bcn-list-edit-details-panel       # right panel, name and description
+    - edit details    -> bcn-list-edit-details-dialog      # right panel, name and description
     - obligation panel-> bcn-list-obligation-panel         # right panel over one member; registry fields read-only, list description the one live control
     - member tree     -> bcn-list-member-tree              # action / commitment lists: By type / By commitment / A–Z (actions), flat (commitments); bcn-list-member-card leaves
-    - index tree      -> bcn-list-index-tree               # Compliance Index lists: the list's own category > subcategory outline over the index's actions and obligations
+    - index tree      -> bcn-list-index-tree               # Compliance Index lists: the list's own category > subcategory outline over the index's actions and obligations; on a version, remove, retitle and rename
+    - index item panel-> bcn-list-index-item-panel         # version only: right panel over one action or obligation; list title and list description the live controls, the index's fields read-only
+    - index rename    -> bcn-list-index-branch-panel       # version only: right panel renaming a category or subcategory for this list, its canonical sources read-only
     - action panel    -> bcn-list-action-panel             # right panel over one action; read only, footer links to the action page
     - add members     -> bcn-list-add-members              # action / commitment drawer over memberCandidates(list), emits list:members-added
-    - view tabs       -> bcn-list-view-tabs                # esa-tab-layout as a bare switch; ?view= keeps the choice
     - requirement panel-> bcn-list-requirement-panel       # right panel over one requirement row; full text + fields, read only, footer links to the requirement page
-    - danger zone     -> bcn-danger-zone + esa-button       # delete this list, behind esa-confirm-dialog (danger); prod's copy, per list type
+    - title count     -> bcn-sw-count-badge                # the item count beside the H1, re-tallied by the tree
+    - danger zone     -> bcn-danger-zone + esa-button       # delete this list; prod's copy, per list type
+    - delete guard    -> esa-confirm-dialog                # danger variant, behind the Danger Zone's delete
 -->
 
 <AppShell
@@ -169,6 +176,8 @@ const typeMany = LIST_MEMBER_NOUN[list.type][1];
     {list.type === 'obligation' && <BcnListObligationPanel list={list} />}
     {list.type === 'action' && <BcnListActionPanel />}
     {!index && <BcnListRequirementPanel ids={reqIds} />}
+    {index && !index.canonical && <BcnListIndexItemPanel list={index} />}
+    {index && !index.canonical && <BcnListIndexBranchPanel list={index} />}
 
     <esa-confirm-dialog
       data-list-delete-confirm

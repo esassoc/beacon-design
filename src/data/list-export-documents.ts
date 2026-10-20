@@ -50,6 +50,7 @@ import {
   COMMITMENT_TITLES,
   COMPLIANCE_INDEX_LISTS,
   indexListTree,
+  indexWording,
   type ComplianceIndexList,
   sectionOf,
   type ActionList,
@@ -84,7 +85,7 @@ export interface DocObligation {
   /** Unique within the document. A list may hold one obligation twice. */
   key: string;
   title: string;
-  /** The list's wording on a list document; the registry's on the index. */
+  /** The list's wording on a list document or an index version; the registry's on the index. */
   description: string;
   class: ObligationClass;
   classLabel: string;
@@ -353,6 +354,8 @@ export function actionListDocument(list: ActionList): ExportDocument {
  * prints its own outline in its own order. Either way, actions run before obligations
  * inside a subcategory.
  */
+const rename = (w: { title: string; description: string }) => ({ name: w.title, description: w.description });
+
 export function complianceIndexDocument(list: ComplianceIndexList): ExportDocument {
   const groups: DocGroup[] = indexListTree(list).map((cat) => ({
     id: cat.id,
@@ -362,7 +365,14 @@ export function complianceIndexDocument(list: ComplianceIndexList): ExportDocume
       id: sub.id,
       name: sub.name,
       groups: [],
-      entries: [...sub.actions.map(actionEntry), ...sub.obligations.map((o) => obligationEntry(o, o.id))],
+      // A version's own wording where it has one; the index's otherwise.
+      entries: [
+        ...sub.actions.map((a) => ({ ...actionEntry(a), ...rename(indexWording(list, a.id, a.name, a.text)) })),
+        ...sub.obligations.map((o) => {
+          const w = indexWording(list, o.id, o.title, o.description);
+          return obligationEntry({ ...o, title: w.title }, o.id, w.description);
+        }),
+      ],
     })),
   }));
   return {

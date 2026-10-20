@@ -72,9 +72,14 @@ export function aldoCandidates(list: ProjectList): AldoCandidate[] {
     );
   // A Compliance Index list keeps or drops whole subcategories of its own outline, so its
   // candidates are those subcategories, read by their names and the items they hold.
-  return indexListTree(list as ComplianceIndexList).flatMap((cat) =>
+  // Read by the titles this version shows, its own where it gave one.
+  const index = list as ComplianceIndexList;
+  return indexListTree(index).flatMap((cat) =>
     cat.subcategories.map((sub) =>
-      candidate(sub.id, sub.name, cat.name, [...sub.actions.map((a) => a.name), ...sub.obligations.map((o) => o.title)].join(' ')),
+      candidate(sub.id, sub.name, cat.name, [
+        ...sub.actions.map((a) => `${a.name} ${index.wording?.[a.id]?.title ?? ''}`),
+        ...sub.obligations.map((o) => `${o.title} ${index.wording?.[o.id]?.title ?? ''}`),
+      ].join(' ')),
     ),
   );
 }

@@ -40,7 +40,7 @@ The list as a record: name, description, type (Compliance index list), created, 
         </div>
         <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Items</span
-          ><span class="bcn-key-value__val">268</span>
+          ><span class="bcn-key-value__val">265</span>
         </div>
       </div>
     </div>

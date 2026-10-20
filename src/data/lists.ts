@@ -164,6 +164,8 @@ export interface ListObligation extends ObligationNode {
   listDescription: string;
   /** True when the member carries its own description rather than the registry's. */
   descriptionOverridden: boolean;
+  /** The title this list shows, when it has its own. */
+  listTitle?: string;
 }
 
 export interface ListTreeSub {
@@ -683,12 +685,24 @@ export interface IndexListCategory {
   subcategories: IndexListSubcategory[];
 }
 
+/** An item's own wording on one version. Empty means the index's. */
+export interface IndexItemWording {
+  title?: string;
+  description?: string;
+}
+
 /**
  * A version of the project's Compliance Index (Andy, 2026-10-19: "you should be able to
  * make your own version of a compliance index"). The canonical one is the index setup
  * builds; every other starts as a copy of it and is regrouped, renamed and trimmed for
  * whoever reads it. A version only arranges the canonical index's items: it never adds
  * an action or obligation the index does not hold.
+ *
+ * What a version may do to an ITEM is what an obligation list may (Andy, 2026-10-19:
+ * "remove it, give it a list title/description, or rename its cat/sub-cat... but that's
+ * it"): take it off (`removed`) and give it a title and description of its own
+ * (`wording`). Its type, class, requirements and filing in the canonical index stay the
+ * index's.
  */
 export interface ComplianceIndexList extends ProjectList {
   type: 'compliance-index';
@@ -696,27 +710,63 @@ export interface ComplianceIndexList extends ProjectList {
   canonical: boolean;
   /** A custom version's outline, in its own order. The canonical index has none. */
   categories?: IndexListCategory[];
+  /** Action and obligation ids this version took off. */
+  removed?: string[];
+  /** This version's own title and description per item, by action or obligation id. */
+  wording?: Record<string, IndexItemWording>;
 }
+
+/** An item's wording on a list: its own where it has one, the index's otherwise. */
+export const indexWording = (list: ComplianceIndexList, id: string, title: string, description: string) => ({
+  title: list.wording?.[id]?.title || title,
+  description: list.wording?.[id]?.description || description,
+});
 
 /** A list's index tree: the canonical tree, or a version's outline filled from it. */
 export function indexListTree(list: ComplianceIndexList): IndexCategory[] {
   const canonical = complianceIndexTree();
   if (list.canonical || !list.categories) return canonical;
   const subById = new Map(canonical.flatMap((c) => c.subcategories).map((s) => [s.id, s]));
-  return list.categories.map((cat) => ({
-    id: cat.id,
-    name: cat.name,
-    subcategories: cat.subcategories.map((sub) => {
-      const parts = sub.from.map((id) => subById.get(id)).filter((s): s is IndexSubcategory => !!s);
-      const uniqueBy = <T extends { id: string }>(xs: T[]) => [...new Map(xs.map((x) => [x.id, x])).values()];
-      return {
-        id: sub.id,
-        name: sub.name,
-        actions: uniqueBy(parts.flatMap((p) => p.actions)).sort((x, y) => x.name.localeCompare(y.name)),
-        obligations: uniqueBy(parts.flatMap((p) => p.obligations)).sort((x, y) => x.title.localeCompare(y.title)),
-      };
-    }),
-  }));
+  const removed = new Set(list.removed ?? []);
+  const kept = <T extends { id: string }>(xs: T[]) => [...new Map(xs.filter((x) => !removed.has(x.id)).map((x) => [x.id, x])).values()];
+  // Filed by the title the list shows, so a retitled item takes its place in the A–Z.
+  const shown = (id: string, title: string) => list.wording?.[id]?.title || title;
+  return list.categories
+    .map((cat) => ({
+      id: cat.id,
+      name: cat.name,
+      subcategories: cat.subcategories
+        .map((sub) => {
+          const parts = sub.from.map((id) => subById.get(id)).filter((s): s is IndexSubcategory => !!s);
+          return {
+            id: sub.id,
+            name: sub.name,
+            actions: kept(parts.flatMap((p) => p.actions)).sort((x, y) => shown(x.id, x.name).localeCompare(shown(y.id, y.name))),
+            obligations: kept(parts.flatMap((p) => p.obligations)).sort((x, y) => shown(x.id, x.title).localeCompare(shown(y.id, y.title))),
+          };
+        })
+        // A list shows only what it holds.
+        .filter((s) => s.actions.length + s.obligations.length > 0),
+    }))
+    .filter((c) => c.subcategories.length > 0);
+}
+
+/**
+ * Where a version's branch comes from in the canonical index, by category id or
+ * subcategory id: "Category › Subcategory" for each canonical subcategory it draws on.
+ * The rename panel shows these, and an emptied name falls back to the first one's.
+ */
+export function indexSources(list: ComplianceIndexList): Record<string, { category: string; subcategory: string }[]> {
+  const where = new Map(complianceIndexTree().flatMap((c) => c.subcategories.map((s) => [s.id, { category: c.name, subcategory: s.name }] as const)));
+  const out: Record<string, { category: string; subcategory: string }[]> = {};
+  for (const cat of list.categories ?? []) {
+    out[cat.id] = [];
+    for (const sub of cat.subcategories) {
+      out[sub.id] = sub.from.map((id) => where.get(id)).filter((w): w is { category: string; subcategory: string } => !!w);
+      out[cat.id].push(...out[sub.id]);
+    }
+  }
+  return out;
 }
 
 const indexCount = (tree: IndexCategory[]): number =>
@@ -749,6 +799,23 @@ export const COMPLIANCE_INDEX_LISTS: ComplianceIndexList[] = [
     description: 'Issued with the construction kickoff package. Grouped by when crews meet each duty; agency reporting and funding left out.',
     createdAt: '2026-09-29',
     updatedAt: '2026-10-17',
+    // The agency paperwork under the biologist and fencing duties: the crews never file it.
+    removed: [
+      'act_01M2G6Y34ZRWNWJ42W3E737QZY',
+      'act_01M2G6Y34ZRWNWJ42W3E737QZZ',
+      'act_01M2G6Y34X89RDDJZVZVMK8Y0E',
+    ],
+    wording: {
+      act_01M2G6Y40SJ78J9AJM2D416MYM: {
+        title: 'Attend worker awareness training before your first shift',
+        description: 'Everyone who works past the gate attends once, and again each year. Sign the attendance sheet: no sign-in, no site access.',
+      },
+      obl_01M2G6Y3GVB9GY756CNBCP3THC: {
+        title: 'A biologist can stop your work',
+        description: 'If a biologist or monitor tells you to stop, stop work near the animal and wait. Work starts again only when they say so.',
+      },
+      obl_01M2G6Y3757AMQWDRRZPPRX5WR: { title: 'Close every fence gate behind you' },
+    },
     categories: [
       cat('Before ground disturbance',
         sub('Worker awareness training', 'people-and-qualifications-worker-training'),

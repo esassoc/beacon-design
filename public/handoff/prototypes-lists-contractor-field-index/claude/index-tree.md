@@ -7,24 +7,26 @@ The list's own outline over the index's items: its categories and subcategories,
 - Items follow their canonical filing. Refile an action in the setup wizard and it moves in every version that draws from either subcategory, with no edit to the version.
 - Prod model: a ComplianceIndexList (Name, Description, ProjectID, IsCanonical) with its own ComplianceIndexListCategory and ComplianceIndexListSubcategory rows (Name, SortOrder), and a join from each list subcategory to the canonical ComplianceIndexSubcategoryIDs it draws from. The canonical index is the list with IsCanonical, whose subcategories map one to one.
 - Creating one copies the canonical outline: every category and subcategory with its name and order, each subcategory drawing from its one canonical twin. The person then regroups, renames and trims.
-- Rows and cards are the canonical page's: same card per item, actions then obligations inside a subcategory, each A–Z; an item merged in from two subcategories appears once.
+- Rows and cards are the canonical page's: same card per item, actions then obligations inside a subcategory, each A–Z by the title the list shows; an item merged in from two subcategories appears once.
+- What a version may do to an item is what an obligation list may, and nothing more (Andy, 2026-10-19: "remove it, give it a list title/description, or rename its cat/sub-cat... but that's it"). Three verbs: Remove from this list on a card, Retitle on a card (its title or pen), Rename for this list on a category or subcategory row. No move, no duplicate, no add; type, class, requirements and canonical filing stay the index's.
+- Prod model: ComplianceIndexListItemExclusion (ComplianceIndexListID, ActionID or ObligationID) for a removed item, and ComplianceIndexListItemWording (ComplianceIndexListID, ActionID or ObligationID, ListTitle, ListDescription, both nullable) for its own wording. Null means the index's. Renaming a branch writes the list's own category or subcategory Name.
 
 ## Gotchas
 - A subcategory added to the canonical index later is in no version until someone places it. Open: whether a version should show unplaced canonical subcategories in a bin of its own.
-- Open: the outline editor (rename, merge, reorder, remove a subcategory) is not built in this prototype. The page shows the result; the editing surface belongs in a side panel, not inline.
+- Open: merging, reordering and adding or removing whole categories and subcategories (the outline editor) is not built; Aldo's Keep and Take Out cover removing subcategories. Rename is built, in a side panel.
+- An item removed from a version is excluded by id, so refiling it in the canonical index does not bring it back into that version.
+- Removing the last item of a subcategory drops the subcategory from the page and the PDF; the list keeps its row, so re-including an item later restores it under the same name.
 
 ## Done when
 - Each category's count is the sum of its subcategories' and the title badge is the sum of the categories'.
 - A subcategory that merges two canonical subcategories lists the union of their items, once each.
+- Remove asks first ("It stays in the project's Compliance Index"), then drops the card and every count by one.
+- A retitled item shows its list title and a dot, files A–Z by that title, and prints that title and list description in the PDF.
+- The canonical index shows none of the three verbs.
 
 ## Markup
 ```html
-<details
-  class="bcn-lot__sub"
-  data-index-sub="worker-awareness-training"
-  data-n="2"
-  open=""
->
+<details class="bcn-lot__sub" data-index-sub="worker-awareness-training" open="">
   <summary class="bcn-lot__row bcn-lot__row--sub">
     <span class="bcn-lot__chevron" aria-hidden="true"
       ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -40,8 +42,38 @@ The list's own outline over the index's items: its categories and subcategories,
           focusable="false"
         >
           <path d="m9 18 6-6-6-6"></path></svg></span></span
-    ><span class="bcn-lot__name">Worker awareness training</span
-    ><span class="bcn-swcb" aria-label="2 items">2</span>
+    ><span
+      class="bcn-lot__name"
+      data-list-name=""
+      data-list-text="Worker awareness training"
+      >Worker awareness training</span
+    ><span class="bcn-swcb" aria-label="2 items" data-index-count="true">2</span
+    ><span class="bcn-lot__verbs"
+      ><esa-tooltip text="Rename for this list" align="end" position="above"
+        ><button
+          type="button"
+          class="bcn-lot__verb bcn-lot__verb--quiet"
+          aria-label="Rename this subcategory for this list"
+          data-index-rename="sub"
+        >
+          <span class="esa-icon esa-icon--xs" aria-hidden="true"
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path
+                d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+              ></path></svg
+          ></span></button></esa-tooltip
+    ></span>
   </summary>
   <ul class="bcn-lot__cards">
     <li
@@ -52,6 +84,8 @@ The list's own outline over the index's items: its categories and subcategories,
       data-class="action"
       data-codes="COA 11.82|COA 9.4"
       data-index="People and qualifications::Worker training|Birds::Nesting birds"
+      data-list-description="Everyone who works past the gate attends once, and again each year. Sign the attendance sheet: no sign-in, no site access."
+      data-registry-desc="A Designated Biologist, Fisheries Biologist, or Biological Monitor presents the Condition of Approval 9.4 education program to every person working in the Project Area before that person performs any work, covering Covered Species biology and timing windows, the Conditions of Approval, take-minimization protocols, non-covered listed species, site boundaries and disturbance-free zones, habitat avoidance, fencing and staking, roles, encounter and emergency procedures, and legal status and…"
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -74,13 +108,47 @@ The list's own outline over the index's items: its categories and subcategories,
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
-            data-list-text="Conduct Worker Education Program and Annual Refresher Training"
+            data-list-text="Attend worker awareness training before your first shift"
+            data-registry-title="Conduct Worker Education Program and Annual Refresher Training"
           >
-            Conduct Worker Education Program and Annual Refresher Training</button
+            Attend worker awareness training before your first shift</button
+          ><span class="bcn-loc__edited" data-list-edited=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
+          ><esa-tooltip text="Retitle for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -177,6 +245,8 @@ The list's own outline over the index's items: its categories and subcategories,
       data-class="action"
       data-codes="COA 11.36"
       data-index="People and qualifications::Worker training|Water::Barge and vessel operations"
+      data-list-description="Permittee ensures every tugboat and barge operator working on the Project is trained to minimize impacts on Covered Species habitat, including reducing the effects of wake on vegetated banks, before that operator runs a Project vessel. Completion is documented for each named operator."
+      data-registry-desc="Permittee ensures every tugboat and barge operator working on the Project is trained to minimize impacts on Covered Species habitat, including reducing the effects of wake on vegetated banks, before that operator runs a Project vessel. Completion is documented for each named operator."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -199,13 +269,47 @@ The list's own outline over the index's items: its categories and subcategories,
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Train Tugboat and Barge Operators on Habitat Impacts"
+            data-registry-title="Train Tugboat and Barge Operators on Habitat Impacts"
           >
             Train Tugboat and Barge Operators on Habitat Impacts</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
+          ><esa-tooltip text="Retitle for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -271,25 +375,10 @@ The list's own outline over the index's items: its categories and subcategories,
 
 ## Styles
 ```css
-.bcn-loc__edited {
-  flex-shrink: 0;
+.bcn-lot__verb-label {
+  align-items: center;
+  gap: var(--spacing-100);
   display: inline-flex;
-}
-.bcn-loc__edited[hidden] {
-  display: none;
-}
-.bcn-loc__dot {
-  place-items: center;
-  block-size: 1rem;
-  inline-size: 1rem;
-  display: inline-grid;
-}
-.bcn-loc__dot:before {
-  content: "";
-  background: var(--color-content-brand);
-  border-radius: 50%;
-  block-size: 6px;
-  inline-size: 6px;
 }
 .bcn-lot__cat[data-list-empty],
 .bcn-lot__sub[data-list-empty] {
@@ -306,7 +395,7 @@ The list's own outline over the index's items: its categories and subcategories,
   outline: 2px solid var(--color-action);
   outline-offset: -2px;
 }
-.bcn-lit
+.bcn-lit:not([data-index-editable])
   esa-tooltip:has(
     [data-list-remove],
     [data-list-duplicate],
@@ -507,6 +596,7 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
 .bcn-lac[data-class="action"],
+.bcn-lob[data-class="action"],
 .bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
@@ -628,6 +718,26 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-loc [data-list-count] {
   margin-inline-start: auto;
 }
+.bcn-loc__edited {
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-loc__edited[hidden] {
+  display: none;
+}
+.bcn-loc__dot {
+  place-items: center;
+  block-size: 1rem;
+  inline-size: 1rem;
+  display: inline-grid;
+}
+.bcn-loc__dot:before {
+  content: "";
+  background: var(--color-content-brand);
+  border-radius: 50%;
+  block-size: 6px;
+  inline-size: 6px;
+}
 .bcn-loc__req {
   color: var(--color-content-default-secondary);
   cursor: pointer;
@@ -748,11 +858,54 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   user-select: text;
   font-weight: 500;
 }
+.bcn-swot__verbs,
+.bcn-lot__verbs {
+  gap: 2px;
+  margin-left: auto;
+  display: inline-flex;
+}
+.bcn-swot__verbs esa-tooltip,
+.bcn-lot__verbs esa-tooltip {
+  display: inline-flex;
+}
+.bcn-swot__verb,
+.bcn-lot__verb {
+  border-radius: var(--radius-100);
+  width: 22px;
+  height: 22px;
+  color: var(--color-content-default-tertiary);
+  cursor: pointer;
+  background: 0 0;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.bcn-swot__verb--quiet,
+.bcn-lot__verb--quiet {
+  opacity: 0;
+  transition: opacity 0.12s;
+}
 .bcn-swot__row:hover .bcn-swot__verb--quiet,
 .bcn-swot__row:focus-within .bcn-swot__verb--quiet,
 .bcn-lot__row:hover .bcn-lot__verb--quiet,
 .bcn-lot__row:focus-within .bcn-lot__verb--quiet {
   opacity: 1;
+}
+.bcn-swot__verb:hover,
+.bcn-lot__verb:hover {
+  background: var(--bcn-gray-100);
+  color: var(--color-content-default);
+}
+.bcn-swot__verb:focus-visible,
+.bcn-lot__verb:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--color-obligation);
+  outline-offset: 1px;
+}
+.bcn-swot__verb--danger:hover,
+.bcn-lot__verb--danger:hover {
+  color: var(--color-background-utility-danger);
 }
 .bcn-swot__subs,
 .bcn-lot__subs {
@@ -774,9 +927,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
 }
 .bcn-lot__row .bcn-lot__name[hidden] {
   display: none;
-}
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -806,6 +956,9 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
 }
 .bcn-swcb {
   min-width: 22px;

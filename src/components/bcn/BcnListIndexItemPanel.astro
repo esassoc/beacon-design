@@ -1,0 +1,219 @@
+---
+// <BcnListIndexItemPanel> — one action or obligation on a Compliance Index VERSION, opened
+// from its card. Andy, 2026-10-19: "You shouldn't be able to edit the nature of an
+// obligation itself... remove it, give it a list title/description, or rename its
+// cat/sub-cat... but that's it." So the panel writes exactly two things, both the
+// version's: the item's list title and its list description. Everything else is the
+// index's and reads as text: the type or class chip, the index's own description, and the
+// requirements it answers to. Remove from this list is the one other verb, and the tree
+// guards it. Renaming a category or subcategory is <BcnListIndexBranchPanel>'s.
+//
+// The obligation list's panel (<BcnListObligationPanel>) in the same frame, the same
+// drawer stylesheet and the same field order, less what an index version cannot do: no
+// Category / Subcategory pickers (a version files items by its outline, not per item)
+// and no Duplicate (a version holds each item once). It also takes actions, since a
+// version holds both.
+//
+// LIVE, NOT SNAPSHOT. The blob carries only the index record, keyed by item id; what
+// this list currently says is read off the card at open time, so a retitle made a moment
+// ago opens as written.
+//
+// Contract with <BcnListIndexTree>, on `document`:
+//   in   list:edit-index-item    detail: item id
+//   out  list:index-item-saved   detail: { id, listTitle, listDescription }
+//   out  list:index-remove-item  detail: item id   (the tree owns the confirm)
+//
+// bcn-lego-checked: the frame IS esa-side-dialog, the fields ARE esa-text-field and
+// esa-textarea, the buttons ARE esa-button, the glyphs ARE esa-icon; the labels, sections,
+// requirement rows and footer split are bcn-obligation-drawer.css and the chip is
+// bcn-obligation-card.css, both shared with <BcnListObligationPanel>. What is scoped here
+// is the read-only text tier, which <BcnListObligationPanel> keeps scoped too. The form
+// also wears .bcn-lob so the chip takes its hue from the shared map by data-class.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { ITP, OBLIGATION_CLASS_LABEL, REQUIREMENT_TYPE_LABEL } from '../../data/setup-wizard';
+import { indexListTree, type ComplianceIndexList } from '../../data/lists';
+import '../../styles/bcn-obligation-drawer.css';
+import '../../styles/bcn-obligation-card.css';
+
+interface Props {
+  list: ComplianceIndexList;
+}
+const { list } = Astro.props;
+const reqById = new Map(ITP.requirements.map((r) => [r.id, r]));
+const records: Record<string, unknown> = {};
+for (const cat of indexListTree(list))
+  for (const sub of cat.subcategories) {
+    for (const a of sub.actions)
+      records[a.id] = {
+        title: a.name,
+        tone: 'action',
+        chip: REQUIREMENT_TYPE_LABEL[a.type] ?? a.type,
+        description: a.text,
+        reqs: a.requirementIds
+          .map((id) => reqById.get(id))
+          .filter((r) => !!r)
+          .map((r) => ({ code: r!.commitment, name: r!.name, text: r!.text })),
+      };
+    for (const o of sub.obligations)
+      records[o.id] = {
+        title: o.title,
+        tone: o.class,
+        chip: OBLIGATION_CLASS_LABEL[o.class],
+        description: o.description,
+        reqs: o.requirements.map((r) => ({ code: r.code, name: r.name, text: r.text })),
+      };
+  }
+---
+
+<esa-side-dialog
+  id="lip-editor"
+  heading="Item"
+  position="right"
+  show-close-button
+  style="--_width: min(640px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250;"
+>
+  <form class="bcn-swo-edit bcn-lob bcn-lip" data-index-item-panel>
+    <div><span class="bcn-lob__class" data-lip="chip"></span></div>
+
+    <esa-text-field
+      label="List title"
+      size="sm"
+      name="lip-title"
+      help-text="Leave this empty and the list uses the index title."
+    ></esa-text-field>
+
+    <div class="bcn-lip__field">
+      <span class="bcn-swo-edit__label">Index description</span>
+      <p class="bcn-lip__prose" data-lip="description"></p>
+    </div>
+
+    <esa-textarea
+      label="List description"
+      size="sm"
+      rows={4}
+      name="lip-description"
+      help-text="Leave this empty and the list uses the index description."
+    ></esa-textarea>
+
+    <div class="bcn-swo-edit__section">
+      <div class="bcn-swo-edit__label-row">
+        <span class="bcn-swo-edit__label">Requirements <span class="bcn-swo-edit__label-n" data-lip-req-n>0</span></span>
+      </div>
+      <div class="bcn-swo-edit__reqs" data-lip-reqs></div>
+    </div>
+  </form>
+
+  <span slot="footer" class="bcn-swo-edit__foot">
+    <span class="bcn-swo-edit__foot-left">
+      <EsaButton variant="danger" appearance="soft" size="sm" data-lip-remove>Remove from this list</EsaButton>
+    </span>
+    <span class="bcn-swo-edit__foot-right">
+      <EsaButton variant="primary" size="sm" data-lip-save>Save</EsaButton>
+      <EsaButton variant="ghost" size="sm" data-lip-cancel>Cancel</EsaButton>
+    </span>
+  </span>
+
+  <template data-lip-tpl="req">
+    <details class="bcn-swo-edit__req">
+      <summary class="bcn-swo-edit__req-row">
+        <span class="bcn-swo-edit__chev" aria-hidden="true"><EsaIcon name="chevron-right" size="xs" /></span>
+        <span class="bcn-swo-edit__code"></span>
+        <span class="bcn-swo-edit__req-name"></span>
+      </summary>
+      <blockquote class="bcn-swo-edit__text"></blockquote>
+    </details>
+  </template>
+</esa-side-dialog>
+
+<!-- The records ride outside the dialog, so the dialog's markup is the panel alone. -->
+<script type="application/json" data-lip-records set:html={JSON.stringify(records)} />
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-text-field';
+
+  interface Rec { title: string; tone: string; chip: string; description: string; reqs: { code: string; name: string; text: string }[] }
+  type Field = HTMLElement & { value: string };
+
+  const form = document.querySelector<HTMLFormElement>('[data-index-item-panel]');
+  if (form) {
+    const dialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>('#lip-editor')!;
+    const titleField = form.querySelector<Field>('esa-text-field[name="lip-title"]')!;
+    const descField = form.querySelector<Field>('esa-textarea[name="lip-description"]')!;
+    const records = JSON.parse(document.querySelector('[data-lip-records]')?.textContent || '{}') as Record<string, Rec>;
+    const slot = (key: string) => form.querySelector<HTMLElement>(`[data-lip="${key}"]`)!;
+    const reqsHost = form.querySelector<HTMLElement>('[data-lip-reqs]')!;
+    const reqTpl = dialog.querySelector<HTMLTemplateElement>('[data-lip-tpl="req"]')!;
+    // Absence renders as absence. The EN dash is this system's no-value mark.
+    const DASH = '–';
+    let item = '';
+
+    const fill = (id: string) => {
+      const card = document.querySelector<HTMLElement>(`[data-list-card][data-id="${CSS.escape(id)}"]`);
+      const rec = records[id];
+      if (!card || !rec) return false;
+      item = id;
+      dialog.heading = rec.title;
+      form.dataset.class = rec.tone;
+      slot('chip').textContent = rec.chip;
+      // What this list says now; an empty field means the index's own.
+      const shown = card.querySelector<HTMLElement>('[data-list-title]')?.dataset.listText ?? rec.title;
+      titleField.value = shown === rec.title ? '' : shown;
+      const listDesc = card.dataset.listDescription ?? rec.description;
+      const desc = slot('description');
+      desc.textContent = rec.description || DASH;
+      // Tertiary once the list says it differently: this is then only where it came from.
+      desc.dataset.superseded = String(listDesc !== rec.description);
+      descField.value = listDesc === rec.description ? '' : listDesc;
+
+      reqsHost.textContent = '';
+      rec.reqs.forEach((r) => {
+        const row = reqTpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+        row.querySelector('.bcn-swo-edit__code')!.textContent = r.code;
+        row.querySelector('.bcn-swo-edit__req-name')!.textContent = r.name;
+        row.querySelector('.bcn-swo-edit__text')!.textContent = (r.text || '').replace(/\s*\n\s*/g, ' ') || DASH;
+        reqsHost.append(row);
+      });
+      form.querySelector<HTMLElement>('[data-lip-req-n]')!.textContent = String(rec.reqs.length);
+      return true;
+    };
+
+    const close = () => {
+      dialog.open = false;
+      // Deferred past the slide-out, so the form is never seen resetting.
+      setTimeout(() => { item = ''; titleField.value = ''; descField.value = ''; }, 200);
+    };
+    const emit = (name: string, detail: unknown) => document.dispatchEvent(new CustomEvent(name, { detail, bubbles: true }));
+
+    document.addEventListener('list:edit-index-item', (e) => {
+      if (fill((e as CustomEvent<string>).detail)) dialog.open = true;
+    });
+    form.addEventListener('submit', (e) => e.preventDefault());
+    document.querySelector('[data-lip-save]')?.addEventListener('click', () => {
+      if (!item) return;
+      emit('list:index-item-saved', {
+        id: item,
+        listTitle: (titleField.value ?? '').trim(),
+        listDescription: (descField.value ?? '').trim(),
+      });
+      close();
+    });
+    document.querySelector('[data-lip-cancel]')?.addEventListener('click', close);
+    document.querySelector('[data-lip-remove]')?.addEventListener('click', () => {
+      if (!item) return;
+      const id = item;
+      close();
+      emit('list:index-remove-item', id);
+    });
+  }
+</script>
+
+<style>
+  /* The read-only tier: a record this panel shows and cannot write. Same values as
+     <BcnListObligationPanel>'s, which keeps its own scoped. */
+  .bcn-lip__field { display: flex; flex-direction: column; gap: var(--spacing-050); min-width: 0; }
+  .bcn-lip__prose { margin: 0; font-size: 0.8125rem; line-height: 1.5; color: var(--color-content-default); }
+  .bcn-lip__prose[data-superseded='true'] { color: var(--color-content-default-tertiary); }
+</style>
