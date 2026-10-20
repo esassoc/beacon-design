@@ -58,10 +58,10 @@ export default {
     {
       label: 'Export — PDF, CSV, Excel',
       selector: '.bcn-lxp',
-      intent: 'PDF, then prod\'s CSV and Excel downloads in the rail, then Word, the same document as the PDF.',
+      intent: 'PDF, then prod\'s CSV and Excel downloads in the rail, then Word (a later slice, BCN-1764).',
       decisions: [
         'PDF downloads the commitment list document (see the list-export-commitment-pdf spec): `GET commitment-lists/{commitmentListID}/generate-pdf`. Every list has one, an empty list included (Andy, 2026-10-19).',
-        'Word downloads the SAME document as the PDF, as a .docx: `GET commitment-lists/{commitmentListID}/generate-docx`, new, beside generate-pdf (BCN-1764). Same title block, summary, detail and order; Word\'s own pagination, with the summary table\'s header row repeating on each page. The prototype builds a .doc from the print route (list-word.ts), so its content cannot drift from the PDF (Andy, 2026-10-20: "show as active").',
+        'LATER SLICE, not this epic: Word is BCN-1764, under epic BCN-1922. The design is settled and the prototype\'s download works: the SAME document as the PDF, as a .docx from `GET commitment-lists/{commitmentListID}/generate-docx`, beside generate-pdf. Same title block, summary, detail and order; Word\'s own pagination, with the summary table\'s header row repeating on each page. The prototype builds a .doc from the print route (list-word.ts), so its content cannot drift from the PDF (Andy, 2026-10-20: "show as active").',
         'No JSON/API section; that is obligation-only.',
       ],
     },

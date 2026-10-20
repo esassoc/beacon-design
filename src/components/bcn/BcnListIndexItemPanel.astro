@@ -33,7 +33,7 @@
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import { ITP, OBLIGATION_CLASS_LABEL, REQUIREMENT_TYPE_LABEL } from '../../data/setup-wizard';
-import { complianceIndexTree, indexListTree, type ComplianceIndexList } from '../../data/lists';
+import { complianceIndexTree, type ComplianceIndexList } from '../../data/lists';
 import '../../styles/bcn-obligation-drawer.css';
 import '../../styles/bcn-obligation-card.css';
 
@@ -48,8 +48,10 @@ const homeOf = new Map(
     c.subcategories.flatMap((sub) => [...sub.actions, ...sub.obligations].map((x) => [x.id, `${c.name} › ${sub.name}`] as const)),
   ),
 );
+// Every item the index holds, not just the version's: the Add drawer can bring any of them
+// onto the version, and the panel opens on what it brings.
 const records: Record<string, unknown> = {};
-for (const cat of indexListTree(list))
+for (const cat of complianceIndexTree())
   for (const sub of cat.subcategories) {
     for (const a of sub.actions)
       records[a.id] = {
@@ -173,14 +175,20 @@ for (const cat of indexListTree(list))
     let member = '';
 
     // The version's own outline, as the page shows it now: every category and subcategory
-    // under the names this list gives them, including one a remove or a move emptied.
+    // under the names this list gives them, including one a remove or a move emptied. A
+    // dormant branch (a canonical subcategory the version draws on nowhere) joins it once
+    // the Add drawer has put something in it.
     const nameOf = (branch: Element) => branch.querySelector<HTMLElement>(':scope > summary [data-list-name]')?.dataset.listText ?? '';
+    const inOutline = (sub: HTMLElement) =>
+      !sub.hasAttribute('data-index-dormant') || [...sub.querySelectorAll('[data-list-card]')].some((c) => !c.hasAttribute('data-list-removed'));
     const outline = () =>
-      [...document.querySelectorAll<HTMLElement>('.bcn-lit [data-index-cat]')].map((cat) => ({
-        id: cat.dataset.indexCat ?? '',
-        name: nameOf(cat),
-        subs: [...cat.querySelectorAll<HTMLElement>('[data-index-sub]')].map((sub) => ({ id: sub.dataset.indexSub ?? '', name: nameOf(sub) })),
-      }));
+      [...document.querySelectorAll<HTMLElement>('.bcn-lit [data-index-cat]')]
+        .map((cat) => ({
+          id: cat.dataset.indexCat ?? '',
+          name: nameOf(cat),
+          subs: [...cat.querySelectorAll<HTMLElement>('[data-index-sub]')].filter(inOutline).map((sub) => ({ id: sub.dataset.indexSub ?? '', name: nameOf(sub) })),
+        }))
+        .filter((c) => c.subs.length > 0);
     let cats: ReturnType<typeof outline> = [];
     const fillSubs = (catId: string, subId?: string) => {
       const subs = cats.find((c) => c.id === catId)?.subs ?? [];

@@ -27,6 +27,14 @@
 // Every count, the title badge's included, is read again off the cards still on the list;
 // a subcategory with none drops out, and comes back if a member is moved into it.
 //
+// ADD, as on an obligation list (<BcnListAddIndexItems>): the drawer offers the index's
+// items this version does not hold, and each lands in the version subcategory that draws
+// on the item's canonical subcategory. A version renders its whole outline for that,
+// empty branches hidden, plus a dormant branch for each canonical subcategory it draws on
+// nowhere, so every item has somewhere to land. The added card is the canonical index's
+// own card for the item, taken from that page, so a version never draws an item a second
+// way.
+//
 // Members are keyed by data-member-id, as on an obligation list: the item id on load, and
 // `<item id>-m<n>` for a copy made here.
 //
@@ -43,6 +51,7 @@
 //   in   list:branch-renamed       detail: { id, name }
 //   in   list:index-remove-item    detail: memberId   (the panel's Remove; this tree guards it)
 //   in   list:index-duplicate-item detail: memberId   (the panel's Duplicate)
+//   in   list:index-items-added detail: { items: { id, land }[] }  (the Add drawer)
 //   in   list:index-keep / list:index-drop   detail: { ids }  (Aldo)
 //
 // bcn-lego-checked: the rows ARE bcn-tree.css (the obligation tree's one row
@@ -57,7 +66,8 @@ import BcnSwCountBadge from './BcnSwCountBadge.astro';
 import BcnListMemberCard from './BcnListMemberCard.astro';
 import BcnListObligationCard from './BcnListObligationCard.astro';
 import '../../styles/bcn-tree.css';
-import { actionRow, indexListTree, indexWording, type ComplianceIndexList, type ListObligation } from '../../data/lists';
+import { actionRow, indexListTree, indexOutline, indexWording, type ComplianceIndexList, type IndexSubcategory, type ListObligation } from '../../data/lists';
+import { withBase } from '../../lib/base';
 import { STEP_GLYPH, type ObligationNode, type WizardAction } from '../../data/setup-wizard';
 
 interface Props {
@@ -65,7 +75,16 @@ interface Props {
 }
 const { list } = Astro.props;
 const editable = !list.canonical;
-const tree = indexListTree(list);
+const filled = indexListTree(list);
+// A version renders its whole outline (see ADD above); the canonical index, what it holds.
+const bySub = new Map(filled.flatMap((c) => c.subcategories).map((s) => [s.id, s]));
+const tree: { id: string; name: string; subcategories: (IndexSubcategory & { dormant?: boolean })[] }[] = editable
+  ? indexOutline(list).map((cat) => ({
+      id: cat.id,
+      name: cat.name,
+      subcategories: cat.subcategories.map((s) => ({ ...(bySub.get(s.id) ?? { id: s.id, name: s.name, actions: [], obligations: [] }), name: s.name, dormant: s.dormant })),
+    }))
+  : filled;
 const countOf = (sub: { actions: unknown[]; obligations: unknown[] }) => sub.actions.length + sub.obligations.length;
 const items = (n: number) => `${n} ${n === 1 ? 'item' : 'items'}`;
 // The obligation card takes a list member; the index holds every obligation once, in
@@ -86,17 +105,19 @@ const actionCard = (a: WizardAction) => {
   const w = indexWording(list, a.id, a.name, a.text);
   return {
     row: { ...actionRow(a), title: w.title },
-    wording: editable ? { registryTitle: a.name, registryDescription: a.text, listDescription: w.description } : undefined,
+    // On the canonical index too: a version adds this very card back, and its verbs are
+    // hidden there by the rule below.
+    wording: { registryTitle: a.name, registryDescription: a.text, listDescription: w.description },
   };
 };
 ---
 
-<section class="bcn-lot bcn-lit" aria-label={list.name} data-list-label={list.name} data-index-editable={editable ? '' : undefined}>
+<section class="bcn-lot bcn-lit" aria-label={list.name} data-list-label={list.name} data-index-editable={editable ? '' : undefined} data-index-source={editable ? withBase('/prototypes/lists/compliance-index/') : undefined}>
   <div class="bcn-lot__body">
     {tree.map((cat) => {
       const n = cat.subcategories.reduce((sum, s) => sum + countOf(s), 0);
       return (
-        <details class="bcn-lot__cat" data-index-cat={cat.id} open>
+        <details class="bcn-lot__cat" data-index-cat={cat.id} open hidden={n === 0}>
           <summary class="bcn-lot__row bcn-lot__row--cat">
             <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
             <span class="bcn-lot__name" data-list-name data-list-text={cat.name}>{cat.name}</span>
@@ -109,7 +130,7 @@ const actionCard = (a: WizardAction) => {
           </summary>
           <div class="bcn-lot__subs">
             {cat.subcategories.map((sub) => (
-              <details class="bcn-lot__sub" data-index-sub={sub.id}>
+              <details class="bcn-lot__sub" data-index-sub={sub.id} data-index-dormant={sub.dormant ? '' : undefined} data-list-removed={countOf(sub) ? undefined : ''} hidden={countOf(sub) === 0}>
                 <summary class="bcn-lot__row bcn-lot__row--sub">
                   <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
                   <span class="bcn-lot__name" data-list-name data-list-text={sub.name}>{sub.name}</span>
@@ -254,6 +275,35 @@ const actionCard = (a: WizardAction) => {
         recount();
         flash(copy);
       };
+
+      // ---- Add. Each item is the canonical index's own card for it, read off that page
+      // once, given its member id, and filed in the subcategory the drawer named.
+      let source: Promise<Document> | null = null;
+      const canonical = () =>
+        (source ??= fetch(root.dataset.indexSource ?? '')
+          .then((r) => r.text())
+          .then((html) => new DOMParser().parseFromString(html, 'text/html')));
+      document.addEventListener('list:index-items-added', async (e) => {
+        const items = (e as CustomEvent<{ items: { id: string; land: string }[] }>).detail?.items ?? [];
+        const doc = await canonical();
+        let last: HTMLElement | null = null;
+        for (const { id, land } of items) {
+          const from = doc.querySelector<HTMLElement>(`.bcn-lit [data-list-card][data-id="${CSS.escape(id)}"]`);
+          const sub = root.querySelector<HTMLDetailsElement>(`[data-index-sub="${CSS.escape(land)}"]`);
+          if (!from || !sub) continue;
+          const card = document.importNode(from, true);
+          card.dataset.memberId = cardsIn(root).some((c) => c.dataset.memberId === id) ? nextMemberId(id) : id;
+          card.removeAttribute('data-list-removed');
+          card.hidden = false;
+          file(sub.querySelector('.bcn-lot__cards')!, card);
+          sub.open = true;
+          (sub.closest('[data-index-cat]') as HTMLDetailsElement).open = true;
+          flash(card);
+          last = card;
+        }
+        recount();
+        last?.scrollIntoView({ block: 'nearest' });
+      });
 
       // ---- What the panels send back.
       // A member's filing, list title and list description. Emptied, the title and the

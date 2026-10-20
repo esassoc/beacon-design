@@ -45,6 +45,7 @@ import BcnListRequirementPanel from '../../../components/bcn/BcnListRequirementP
 import BcnListMemberTree from '../../../components/bcn/BcnListMemberTree.astro';
 import BcnListActionPanel from '../../../components/bcn/BcnListActionPanel.astro';
 import BcnListAddMembers from '../../../components/bcn/BcnListAddMembers.astro';
+import BcnListAddIndexItems from '../../../components/bcn/BcnListAddIndexItems.astro';
 import BcnListIndexTree from '../../../components/bcn/BcnListIndexTree.astro';
 import BcnListIndexItemPanel from '../../../components/bcn/BcnListIndexItemPanel.astro';
 import BcnListBranchPanel from '../../../components/bcn/BcnListBranchPanel.astro';
@@ -102,11 +103,12 @@ const typeMany = LIST_MEMBER_NOUN[list.type][1];
     - edit details    -> bcn-list-edit-details-dialog      # right panel, name and description
     - obligation panel-> bcn-list-obligation-panel         # right panel over one member; registry fields read-only, list description the one live control
     - member tree     -> bcn-list-member-tree              # action / commitment lists: By type / By commitment / A–Z (actions), flat (commitments); bcn-list-member-card leaves
-    - index tree      -> bcn-list-index-tree               # Compliance Index lists: the list's own category > subcategory outline over the index's actions and obligations; on a version, remove, retitle and rename
+    - index tree      -> bcn-list-index-tree               # Compliance Index lists: the list's own category > subcategory outline over the index's actions and obligations; on a version, add, remove, move, retitle, duplicate and rename
     - index item panel-> bcn-list-index-item-panel         # version only: right panel over one member; move (version outline), list title and list description the live controls, the index's fields read-only; Remove and Duplicate
     - branch rename   -> bcn-list-branch-panel             # obligation lists and index versions: right panel renaming a category or subcategory for this list, its source read-only
     - action panel    -> bcn-list-action-panel             # right panel over one action; read only, footer links to the action page
     - add members     -> bcn-list-add-members              # action / commitment drawer over memberCandidates(list), emits list:members-added
+    - add index items -> bcn-list-add-index-items          # version only: right drawer over indexCandidates(list), the index's items it does not hold; emits list:index-items-added
     - requirement panel-> bcn-list-requirement-panel       # right panel over one requirement row; full text + fields, read only, footer links to the requirement page
     - title count     -> bcn-sw-count-badge                # the item count beside the H1, re-tallied by the tree
     - danger zone     -> bcn-danger-zone + esa-button       # delete this list; prod's copy, per list type
@@ -139,7 +141,7 @@ const typeMany = LIST_MEMBER_NOUN[list.type][1];
     </Fragment>
     <Fragment slot="utilities">
       {index
-        ? !index.canonical && <BcnListActions addLabel="" />
+        ? !index.canonical && <BcnListActions addLabel="Add items" addEvent="list:add-index-items" />
         : members
         ? <BcnListActions addLabel={`Add ${LIST_MEMBER_NOUN[list.type][1]}`} addEvent="list:add-members" evidence={list.type === 'action' ? LIST_MEMBER_NOUN.action : undefined} />
         : <BcnListActions evidence={LIST_MEMBER_NOUN.obligation} />}
@@ -175,6 +177,7 @@ const typeMany = LIST_MEMBER_NOUN[list.type][1];
 
     {members && <BcnListAddMembers list={members} />}
     {list.type === 'obligation' && <BcnListAddObligations list={list} />}
+    {index && !index.canonical && <BcnListAddIndexItems list={index} />}
     {!index?.canonical && <BcnListEditDetailsDialog list={list} />}
     {list.type === 'obligation' && <BcnListObligationPanel list={list} />}
     {list.type === 'action' && <BcnListActionPanel />}

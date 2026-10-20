@@ -759,7 +759,7 @@ export function indexListTree(list: ComplianceIndexList): IndexCategory[] {
 export function indexSources(list: ComplianceIndexList): Record<string, { category: string; subcategory: string }[]> {
   const where = new Map(complianceIndexTree().flatMap((c) => c.subcategories.map((s) => [s.id, { category: c.name, subcategory: s.name }] as const)));
   const out: Record<string, { category: string; subcategory: string }[]> = {};
-  for (const cat of list.categories ?? []) {
+  for (const cat of indexOutline(list)) {
     out[cat.id] = [];
     for (const sub of cat.subcategories) {
       out[sub.id] = sub.from.map((id) => where.get(id)).filter((w): w is { category: string; subcategory: string } => !!w);
@@ -767,6 +767,75 @@ export function indexSources(list: ComplianceIndexList): Record<string, { catego
     }
   }
   return out;
+}
+
+/** A branch of a version's outline. `dormant`: a canonical subcategory the version draws
+ *  on nowhere, kept so an item added from it has somewhere to land. */
+export interface IndexOutlineSubcategory extends IndexListSubcategory {
+  dormant?: boolean;
+}
+export interface IndexOutlineCategory {
+  id: string;
+  name: string;
+  subcategories: IndexOutlineSubcategory[];
+}
+
+/**
+ * A version's whole outline, empty branches included: its own categories and
+ * subcategories, then every canonical subcategory it draws on nowhere, under the
+ * canonical category's name (inside the version's category of that name, where it has
+ * one). The Add drawer files an item into the version subcategory that draws on the
+ * item's canonical subcategory, or into that subcategory's dormant branch.
+ */
+export function indexOutline(list: ComplianceIndexList): IndexOutlineCategory[] {
+  const cats: IndexOutlineCategory[] = (list.categories ?? []).map((c) => ({ ...c, subcategories: [...c.subcategories] }));
+  if (list.canonical) return cats;
+  const drawn = new Set(cats.flatMap((c) => c.subcategories.flatMap((s) => s.from)));
+  for (const canon of complianceIndexTree()) {
+    const subs = canon.subcategories.filter((s) => !drawn.has(s.id)).map((s) => ({ id: s.id, name: s.name, from: [s.id], dormant: true }));
+    if (!subs.length) continue;
+    const home = cats.find((c) => c.id === canon.id);
+    if (home) home.subcategories.push(...subs);
+    else cats.push({ id: canon.id, name: canon.name, subcategories: subs });
+  }
+  return cats;
+}
+
+/** One item the Add drawer offers: an index item the version does not hold. */
+export interface IndexCandidate {
+  id: string;
+  kind: 'action' | 'obligation';
+  title: string;
+  /** The version subcategory it lands in (see indexOutline). */
+  land: string;
+  facets: FacetValues;
+}
+
+/**
+ * What a version can take back from the canonical index: every action and obligation
+ * it does not hold, filed where the index files it. Removed items are here, and so is
+ * everything in the canonical subcategories the version left out.
+ */
+export function indexCandidates(list: ComplianceIndexList): { id: string; name: string; subcategories: { id: string; name: string; items: IndexCandidate[] }[] }[] {
+  const held = new Set(indexListTree(list).flatMap((c) => c.subcategories.flatMap((s) => [...s.actions.map((a) => a.id), ...s.obligations.map((o) => o.id)])));
+  const land = new Map<string, string>();
+  for (const cat of indexOutline(list)) for (const sub of cat.subcategories) for (const id of sub.from) if (!land.has(id)) land.set(id, sub.id);
+  return complianceIndexTree()
+    .map((cat) => ({
+      id: cat.id,
+      name: cat.name,
+      subcategories: cat.subcategories
+        .map((sub) => ({
+          id: sub.id,
+          name: sub.name,
+          items: [
+            ...sub.actions.filter((a) => !held.has(a.id)).map((a): IndexCandidate => ({ id: a.id, kind: 'action', title: a.name, land: land.get(sub.id) ?? sub.id, facets: actionFacets(a) })),
+            ...sub.obligations.filter((o) => !held.has(o.id)).map((o): IndexCandidate => ({ id: o.id, kind: 'obligation', title: o.title, land: land.get(sub.id) ?? sub.id, facets: obligationFacets(o, cat.id) })),
+          ],
+        }))
+        .filter((s) => s.items.length > 0),
+    }))
+    .filter((c) => c.subcategories.length > 0);
 }
 
 const indexCount = (tree: IndexCategory[]): number =>
@@ -918,7 +987,7 @@ export function registryBranchSources(): BranchSources {
 export function indexBranchSources(list: ComplianceIndexList): BranchSources {
   const out: BranchSources = { sources: {}, fallbacks: {} };
   const from = indexSources(list);
-  for (const cat of list.categories ?? []) {
+  for (const cat of indexOutline(list)) {
     const cats = [...new Set((from[cat.id] ?? []).map((w) => w.category))];
     out.sources[cat.id] = cats;
     out.fallbacks[cat.id] = cats[0] ?? cat.name;
@@ -1210,8 +1279,8 @@ export const LIST_FACETS: Record<ListType, [FacetKey, string][]> = {
   commitment: [['source', 'Source Document']],
   action: [['phase', 'Phase'], ['species', 'Species'], ['type', 'Type'], ['frequency', 'Frequency']],
   obligation: [['phase', 'Phase'], ['species', 'Species'], ['category', 'Category'], ['class', 'Class']],
-  // Nothing is added to the index from a drawer.
-  'compliance-index': [],
+  // A version adds back what the canonical index holds (Andy, 2026-10-20, parity).
+  'compliance-index': [['phase', 'Phase'], ['species', 'Species']],
 };
 
 /* ── Form-field export ──────────────────────────────────────────────────── */

@@ -173,10 +173,10 @@ export default {
       label: 'Export',
       selector: '.bcn-lxp',
       intent:
-        'The ways the list leaves Beacon, in the rail: PDF, CSV and Excel file pulls, Word (the PDF\'s document as a Word file), then the JSON endpoint that feeds a Fulcrum form, with its key, URL and a payload preview.',
+        'The ways the list leaves Beacon, in the rail: PDF, CSV and Excel file pulls, Word (a later slice, BCN-1764), then the JSON endpoint that feeds a Fulcrum form, with its key, URL and a payload preview.',
       decisions: [
         'Order is prod\'s card (CSV, then Excel, under those names) with PDF added first. PDF downloads the obligation list document (see the list-export-obligation-pdf spec): `GET obligation-lists/{obligationListID}/generate-pdf`. The prototype opens the print route in a new tab instead.',
-        'Word downloads the SAME document as the PDF, as a .docx: `GET obligation-lists/{obligationListID}/generate-docx`, new, beside generate-pdf (BCN-1764). Same title block, summary, detail and order; Word\'s own pagination, with the summary table\'s header row repeating on each page. The prototype builds a .doc from the print route (list-word.ts), so its content cannot drift from the PDF (Andy, 2026-10-20: "show as active").',
+        'LATER SLICE, not this epic: Word is BCN-1764, under epic BCN-1922. The design is settled and the prototype\'s download works: the SAME document as the PDF, as a .docx from `GET obligation-lists/{obligationListID}/generate-docx`, beside generate-pdf. Same title block, summary, detail and order; Word\'s own pagination, with the summary table\'s header row repeating on each page. The prototype builds a .doc from the print route (list-word.ts), so its content cannot drift from the PDF (Andy, 2026-10-20: "show as active").',
         'The formats are not peers. The file rows are one line each, a format mark and a verb. JSON is an integration: it has no file mark and nothing downloads, and it carries the key, the endpoint and the payload.',
         'The JSON endpoint exists ONLY on obligation lists. The form spec it serves is built from obligations; action and commitment lists get the file rows only (Andy: "but not the API option").',
         'Replaces a title-row Export menu, which hid that one format is a configured integration and had nowhere to show a key.',
