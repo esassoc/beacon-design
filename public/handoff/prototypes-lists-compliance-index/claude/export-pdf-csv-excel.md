@@ -1,10 +1,10 @@
 # Export — PDF, CSV, Excel
 
-The index's ways out: PDF (the Compliance Index document), CSV and Excel, then Word (the same document). No JSON endpoint.
+The index's ways out: PDF (the Compliance Index document), CSV and Excel, then Word (a later slice, BCN-1764). No JSON endpoint.
 
 ## Key decisions
 - PDF calls `GET projects/{projectID}/compliance-index/generate-pdf` (list-export-compliance-index-pdf). The prototype opens the print route in a new tab.
-- Word downloads the SAME document as the PDF, as a .docx: `GET projects/{projectID}/compliance-index/generate-docx`, new, beside generate-pdf (BCN-1764). Same title block, summary, detail and order; Word's own pagination, with the summary table's header row repeating on each page. The prototype builds a .doc from the print route (list-word.ts), so its content cannot drift from the PDF (Andy, 2026-10-20: "show as active").
+- LATER SLICE, not this epic: Word is BCN-1764, under epic BCN-1922. The design is settled and the prototype's download works: the SAME document as the PDF, as a .docx from `GET projects/{projectID}/compliance-index/generate-docx`, beside generate-pdf. Same title block, summary, detail and order; Word's own pagination, with the summary table's header row repeating on each page. The prototype builds a .doc from the print route (list-word.ts), so its content cannot drift from the PDF (Andy, 2026-10-20: "show as active").
 
 ## Gotchas
 - Open: prod has no CSV or Excel of the index yet. The rows are shown so the card matches every list's; their columns are undecided (the PDF's summary columns plus Category and Subcategory is the obvious start).
@@ -767,6 +767,9 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -795,9 +798,6 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
-}
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

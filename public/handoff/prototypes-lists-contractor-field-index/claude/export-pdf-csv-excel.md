@@ -1,6 +1,6 @@
 # Export — PDF, CSV, Excel
 
-PDF prints this list's outline (list-export-compliance-index-pdf, over the version), then CSV and Excel, then Word (the PDF's document as a Word file). No JSON endpoint.
+PDF prints this list's outline (list-export-compliance-index-pdf, over the version), then CSV and Excel, then Word (a later slice, BCN-1764). No JSON endpoint.
 
 ## Done when
 - The PDF's groups are this list's categories and subcategories, in its order.
@@ -760,6 +760,9 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -788,9 +791,6 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
-}
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

@@ -1,12 +1,12 @@
-# Title row — Edit details
+# Title row — Edit details, Add items
 
-Edit details (name, description) in the side panel every list uses. No Add button: a version arranges the index's items and adds none.
+Edit details (name, description) in the side panel every list uses, and Add items, the drawer an obligation list adds from.
 
 ## Key decisions
-- The canonical index has no title-row verbs at all; a version has Edit details only.
+- The canonical index has no title-row verbs at all; a version has Edit details and Add items.
 
 ## Done when
-- Edit details opens the side panel with the list's name and description.
+- Edit details opens the side panel with the list's name and description; Add items opens the Add drawer.
 
 ## Markup
 ```html
@@ -35,6 +35,30 @@ Edit details (name, description) in the side panel every list uses. No Add butto
           ></path>
           <path d="m15 5 4 4"></path></svg></span
       ><span class="esa-button__label">Edit details</span>
+    </button></span
+  ><span
+    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+    ><button
+      class="esa-button__native typography-microcopy-xs"
+      type="button"
+      data-list-add-obligations="true"
+      data-list-add-event="list:add-index-items"
+    >
+      <span class="esa-icon esa-icon--sm" aria-hidden="true"
+        ><svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          focusable="false"
+        >
+          <path d="M5 12h14"></path>
+          <path d="M12 5v14"></path></svg></span
+      ><span class="esa-button__label">Add items</span>
     </button></span
   >
 </div>
@@ -362,6 +386,9 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -390,9 +417,6 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
-}
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

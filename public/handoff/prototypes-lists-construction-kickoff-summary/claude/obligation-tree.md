@@ -9895,6 +9895,9 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
 .bcn-lot__row .bcn-lot__name[hidden] {
   display: none;
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -9923,9 +9926,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
-}
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
 }
 .bcn-swcb {
   min-width: 22px;

@@ -1,10 +1,10 @@
 # Export
 
-The ways the list leaves Beacon, in the rail: PDF, CSV and Excel file pulls, Word (the PDF's document as a Word file), then the JSON endpoint that feeds a Fulcrum form, with its key, URL and a payload preview.
+The ways the list leaves Beacon, in the rail: PDF, CSV and Excel file pulls, Word (a later slice, BCN-1764), then the JSON endpoint that feeds a Fulcrum form, with its key, URL and a payload preview.
 
 ## Key decisions
 - Order is prod's card (CSV, then Excel, under those names) with PDF added first. PDF downloads the obligation list document (see the list-export-obligation-pdf spec): `GET obligation-lists/{obligationListID}/generate-pdf`. The prototype opens the print route in a new tab instead.
-- Word downloads the SAME document as the PDF, as a .docx: `GET obligation-lists/{obligationListID}/generate-docx`, new, beside generate-pdf (BCN-1764). Same title block, summary, detail and order; Word's own pagination, with the summary table's header row repeating on each page. The prototype builds a .doc from the print route (list-word.ts), so its content cannot drift from the PDF (Andy, 2026-10-20: "show as active").
+- LATER SLICE, not this epic: Word is BCN-1764, under epic BCN-1922. The design is settled and the prototype's download works: the SAME document as the PDF, as a .docx from `GET obligation-lists/{obligationListID}/generate-docx`, beside generate-pdf. Same title block, summary, detail and order; Word's own pagination, with the summary table's header row repeating on each page. The prototype builds a .doc from the print route (list-word.ts), so its content cannot drift from the PDF (Andy, 2026-10-20: "show as active").
 - The formats are not peers. The file rows are one line each, a format mark and a verb. JSON is an integration: it has no file mark and nothing downloads, and it carries the key, the endpoint and the payload.
 - The JSON endpoint exists ONLY on obligation lists. The form spec it serves is built from obligations; action and commitment lists get the file rows only (Andy: "but not the API option").
 - Replaces a title-row Export menu, which hid that one format is a configured integration and had nowhere to show a key.
@@ -1716,35 +1716,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
 .bcn-key-value {
   flex-direction: column;
   gap: 2px;
@@ -1786,6 +1757,35 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-key-value[data-size="sm"] .bcn-key-value__val {
   font-size: var(--typography-label-sm-strong-font-size);
   font-weight: var(--typography-label-sm-strong-font-weight);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

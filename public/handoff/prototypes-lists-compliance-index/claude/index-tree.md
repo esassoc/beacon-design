@@ -49,6 +49,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 13.1"
       data-index="Mitigation and restoration::Mitigation lands|Mitigation and restoration::Security and funding assurances|Agency reporting and approvals::Agency approvals"
+      data-list-description="Before CDFW approves each Project Phase, the Permittee calculates that Phase's Security following the Phase Authorization Form (Attachment 6) instructions and COA 12.9, submitting the cost estimates CDFW uses to determine an amount sufficient for CDFW or its contractors to complete land acquisition, property enhancement, start-up, initial and long-term management, studies and monitoring."
+      data-registry-desc="Before CDFW approves each Project Phase, the Permittee calculates that Phase's Security following the Phase Authorization Form (Attachment 6) instructions and COA 12.9, submitting the cost estimates CDFW uses to determine an amount sufficient for CDFW or its contractors to complete land acquisition, property enhancement, start-up, initial and long-term management, studies and monitoring."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -70,13 +72,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Calculate Phase Security Amount Before Phase Approval"
+            data-registry-title="Calculate Phase Security Amount Before Phase Approval"
           >
             Calculate Phase Security Amount Before Phase Approval</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -206,6 +269,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 4"
       data-index="Agency reporting and approvals::Agency approvals"
+      data-list-description="When USFWS or NMFS issues a Biological Opinion for construction or operation of the Project, Permittee consults with CDFW on its terms as described in COA 8 and documents the consultation; where federal terms are less protective than or conflict with this ITP, the ITP conditions control."
+      data-registry-desc="When USFWS or NMFS issues a Biological Opinion for construction or operation of the Project, Permittee consults with CDFW on its terms as described in COA 8 and documents the consultation; where federal terms are less protective than or conflict with this ITP, the ITP conditions control."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -228,13 +293,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Consult CDFW on Federal Biological Opinions"
+            data-registry-title="Consult CDFW on Federal Biological Opinions"
           >
             Consult CDFW on Federal Biological Opinions</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -329,6 +455,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 11.40"
       data-index="Amphibians and reptiles::Amphibians|Agency reporting and approvals::Agency approvals"
+      data-list-description="Where suitable aquatic breeding habitat south of Byron Highway cannot be avoided by 300 feet, Permittee notifies CDFW and develops site-specific avoidance and minimization measures with CDFW through the appropriate Phase Authorization Package, and consults CDFW on further habitat protection measures at the Bethany Complex to maintain breeding-to-upland connectivity."
+      data-registry-desc="Where suitable aquatic breeding habitat south of Byron Highway cannot be avoided by 300 feet, Permittee notifies CDFW and develops site-specific avoidance and minimization measures with CDFW through the appropriate Phase Authorization Package, and consults CDFW on further habitat protection measures at the Bethany Complex to maintain breeding-to-upland connectivity."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -351,13 +479,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Coordinate with CDFW on Breeding Habitat Buffer Encroachment"
+            data-registry-title="Coordinate with CDFW on Breeding Habitat Buffer Encroachment"
           >
             Coordinate with CDFW on Breeding Habitat Buffer Encroachment</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -456,6 +645,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 10.18.3|COA 12|COA 8"
       data-index="Agency reporting and approvals::Agency approvals|Water operations::Diversion limits and bypass flows|Habitat protection::Habitat impact tracking|Agency reporting and approvals::Non-compliance reporting"
+      data-list-description="When a listed amendment-triggering condition occurs â€” including impacts documented in a Phase Authorization Package that are greater or less than anticipated, or a proposal to modify the Januaryâ€“February operating criteria in COA 11.111 and 11.111.2 â€” Permittee notifies CDFW in writing, consults on whether an amendment is necessary, and files an amendment application when one is required."
+      data-registry-desc="When a listed amendment-triggering condition occurs â€” including impacts documented in a Phase Authorization Package that are greater or less than anticipated, or a proposal to modify the Januaryâ€“February operating criteria in COA 11.111 and 11.111.2 â€” Permittee notifies CDFW in writing, consults on whether an amendment is necessary, and files an amendment application when one is required."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -478,13 +669,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Notify and Consult CDFW on ITP Amendment Conditions"
+            data-registry-title="Notify and Consult CDFW on ITP Amendment Conditions"
           >
             Notify and Consult CDFW on ITP Amendment Conditions</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -610,6 +862,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 11.60"
       data-index="Water::In-water work|Amphibians and reptiles::Giant garter snake|Agency reporting and approvals::Agency approvals"
+      data-list-description="If in-channel work must occur during the GGS active season, Permittee requests and obtains written CDFW approval, has the Designated Biologist or Biological Monitor survey for GGS under the CDFW-approved protocol before work begins, and keeps monitoring throughout the Covered Activities."
+      data-registry-desc="If in-channel work must occur during the GGS active season, Permittee requests and obtains written CDFW approval, has the Designated Biologist or Biological Monitor survey for GGS under the CDFW-approved protocol before work begins, and keeps monitoring throughout the Covered Activities."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -632,13 +886,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Obtain CDFW Approval for In-Channel Work in the GGS Active Season"
+            data-registry-title="Obtain CDFW Approval for In-Channel Work in the GGS Active Season"
           >
             Obtain CDFW Approval for In-Channel Work in the GGS Active Season</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -704,6 +1019,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 11.61"
       data-index="Water::Dewatering|Agency reporting and approvals::Agency approvals|Amphibians and reptiles::Giant garter snake"
+      data-list-description="Permittee and the Designated Biologist obtain written CDFW approval for any deviation from the dewatering measure and coordinate the alternative actions with CDFW before carrying them out."
+      data-registry-desc="Permittee and the Designated Biologist obtain written CDFW approval for any deviation from the dewatering measure and coordinate the alternative actions with CDFW before carrying them out."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -726,13 +1043,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Obtain CDFW Approval of Dewatering Measure Deviations"
+            data-registry-title="Obtain CDFW Approval of Dewatering Measure Deviations"
           >
             Obtain CDFW Approval of Dewatering Measure Deviations</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -831,6 +1209,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 12.11.3"
       data-index="Mitigation and restoration::Mitigation lands|Agency reporting and approvals::Agency approvals"
+      data-list-description="At least three months before acquiring or transferring HM lands, Permittee submits documentation identifying the land to be purchased or the property interest to be conveyed to an approved entity as mitigation, and obtains CDFW's written approval; HM lands may be proposed and approved in segments or subsets."
+      data-registry-desc="At least three months before acquiring or transferring HM lands, Permittee submits documentation identifying the land to be purchased or the property interest to be conveyed to an approved entity as mitigation, and obtains CDFW's written approval; HM lands may be proposed and approved in segments or subsets."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -853,13 +1233,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Obtain CDFW Approval of HM Lands Before Acquisition"
+            data-registry-title="Obtain CDFW Approval of HM Lands Before Acquisition"
           >
             Obtain CDFW Approval of HM Lands Before Acquisition</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -927,6 +1368,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 11.7"
       data-index="Site conduct::Work hours|Agency reporting and approvals::Agency approvals"
+      data-list-description="Where nighttime work is proposed, Permittee details the activity type, assesses site-specific impacts to Covered Species, identifies impact-reduction measures and justifies the need in the appropriate Construction Phase Authorization Package, and conducts nighttime work only after CDFW approves."
+      data-registry-desc="Where nighttime work is proposed, Permittee details the activity type, assesses site-specific impacts to Covered Species, identifies impact-reduction measures and justifies the need in the appropriate Construction Phase Authorization Package, and conducts nighttime work only after CDFW approves."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -949,13 +1392,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Obtain CDFW Approval of Nighttime Covered Activities"
+            data-registry-title="Obtain CDFW Approval of Nighttime Covered Activities"
           >
             Obtain CDFW Approval of Nighttime Covered Activities</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -1081,6 +1585,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 12.10"
       data-index="Mitigation and restoration::Mitigation lands|Agency reporting and approvals::Agency approvals"
+      data-list-description="If Permittee elects to purchase Covered Species credits for a Project Phase, it obtains CDFW approval confirming the mitigation or conservation bank is appropriate to compensate for that Phase's impacts before any credits are purchased."
+      data-registry-desc="If Permittee elects to purchase Covered Species credits for a Project Phase, it obtains CDFW approval confirming the mitigation or conservation bank is appropriate to compensate for that Phase's impacts before any credits are purchased."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -1103,13 +1609,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Obtain CDFW Approval of the Mitigation or Conservation Bank"
+            data-registry-title="Obtain CDFW Approval of the Mitigation or Conservation Bank"
           >
             Obtain CDFW Approval of the Mitigation or Conservation Bank</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -1235,6 +1802,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 11.110"
       data-index="Water operations::Diversion limits and bypass flows|Agency reporting and approvals::Agency approvals"
+      data-list-description="If Phase 1 Operations must run beyond one calendar year, Permittee requests and obtains CDFW approval of the extension, keeping the combined duration of Phase 1 and Phase 2 Operations within two calendar years."
+      data-registry-desc="If Phase 1 Operations must run beyond one calendar year, Permittee requests and obtains CDFW approval of the extension, keeping the combined duration of Phase 1 and Phase 2 Operations within two calendar years."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -1257,13 +1826,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Obtain CDFW Approval to Extend Phase 1 Operations"
+            data-registry-title="Obtain CDFW Approval to Extend Phase 1 Operations"
           >
             Obtain CDFW Approval to Extend Phase 1 Operations</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -1331,6 +1961,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 11.59"
       data-index="Amphibians and reptiles::Giant garter snake|Agency reporting and approvals::Agency approvals|Habitat protection::Exclusion fencing and ESAs"
+      data-list-description="To conduct Covered Activities in suitable GGS habitat before May 1, or otherwise outside the seasonal work restriction where initial ground disturbance predates September 15 and an exclusion barrier is already installed, Permittee submits a written request with justification, National Weather Service temperature evidence and any information CDFW requires, and obtains written CDFW approval before starting."
+      data-registry-desc="To conduct Covered Activities in suitable GGS habitat before May 1, or otherwise outside the seasonal work restriction where initial ground disturbance predates September 15 and an exclusion barrier is already installed, Permittee submits a written request with justification, National Weather Service temperature evidence and any information CDFW requires, and obtains written CDFW approval before starting."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -1353,13 +1985,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Obtain CDFW Approval to Work Outside the Seasonal Window"
+            data-registry-title="Obtain CDFW Approval to Work Outside the Seasonal Window"
           >
             Obtain CDFW Approval to Work Outside the Seasonal Window</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -1425,6 +2118,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 12"
       data-index="Mitigation and restoration::Mitigation lands|Agency reporting and approvals::Agency approvals"
+      data-list-description="Because this ITP authorizes no take for HM lands activities, Permittee obtains separate CESA authorization, and any separate CEQA evaluation, before implementing HM land protection, restoration and perpetual management."
+      data-registry-desc="Because this ITP authorizes no take for HM lands activities, Permittee obtains separate CESA authorization, and any separate CEQA evaluation, before implementing HM land protection, restoration and perpetual management."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -1447,13 +2142,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Obtain CESA Authorization for HM Lands Activities"
+            data-registry-title="Obtain CESA Authorization for HM Lands Activities"
           >
             Obtain CESA Authorization for HM Lands Activities</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -1552,6 +2308,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 10.18"
       data-index="Water operations::Operations monitoring and studies|Agency reporting and approvals::Agency approvals"
+      data-list-description="Permittee includes assessments of aquatic conditions for each Covered Fish Species monitoring period in the Phase 2 Operations Authorization Package and in the Final Mitigation Report following completion of Phase 2 Operations, so CDFW can evaluate changes in aquatic conditions across construction and operations."
+      data-registry-desc="Permittee includes assessments of aquatic conditions for each Covered Fish Species monitoring period in the Phase 2 Operations Authorization Package and in the Final Mitigation Report following completion of Phase 2 Operations, so CDFW can evaluate changes in aquatic conditions across construction and operations."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -1573,13 +2331,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Submit Aquatic Conditions Assessments with the Phase 2 Package"
+            data-registry-title="Submit Aquatic Conditions Assessments with the Phase 2 Package"
           >
             Submit Aquatic Conditions Assessments with the Phase 2 Package</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -1707,6 +2526,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 6|COA 6.2"
       data-index="Agency reporting and approvals::Agency approvals|Agency reporting and approvals::Schedule notices"
+      data-list-description="For each Construction Phase, Permittee submits a complete Construction Phase Authorization Package â€” Attachment 6 form with annual schedule and impact and mitigation calculations, biological report, habitat delineation, baseline survey results, 95% engineering plan, site-specific plans and the Phase's avoidance, minimization and mitigation measures â€” to WBSWPPermitting@wildlife.ca.gov 90 days before that Phase's Covered Activities, and does not begin the Phase until it holds the CDFW-signedâ€¦"
+      data-registry-desc="For each Construction Phase, Permittee submits a complete Construction Phase Authorization Package â€” Attachment 6 form with annual schedule and impact and mitigation calculations, biological report, habitat delineation, baseline survey results, 95% engineering plan, site-specific plans and the Phase's avoidance, minimization and mitigation measures â€” to WBSWPPermitting@wildlife.ca.gov 90 days before that Phase's Covered Activities, and does not begin the Phase until it holds the CDFW-signedâ€¦"
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -1729,13 +2550,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Submit Construction Phase Authorization Package to CDFW"
+            data-registry-title="Submit Construction Phase Authorization Package to CDFW"
           >
             Submit Construction Phase Authorization Package to CDFW</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -1801,6 +2683,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 10.18.1"
       data-index="Water operations::Operations monitoring and studies|Agency reporting and approvals::Agency approvals"
+      data-list-description="Permittee submits draft fish study plans and reports on the timelines in the CDFW-approved Covered Fish Species Monitoring and Science Plan and in each Condition of Approval, returns a revised final draft within six months of receiving CDFW comments, and obtains CDFW approval of every plan and report before implementing it or finalizing it."
+      data-registry-desc="Permittee submits draft fish study plans and reports on the timelines in the CDFW-approved Covered Fish Species Monitoring and Science Plan and in each Condition of Approval, returns a revised final draft within six months of receiving CDFW comments, and obtains CDFW approval of every plan and report before implementing it or finalizing it."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -1823,13 +2707,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Submit Fish Study Plans and Reports for CDFW Approval"
+            data-registry-title="Submit Fish Study Plans and Reports for CDFW Approval"
           >
             Submit Fish Study Plans and Reports for CDFW Approval</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -1953,6 +2898,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 10.21.8"
       data-index="Water operations::Operations monitoring and studies|Agency reporting and approvals::Agency approvals"
+      data-list-description="Permittee includes in the Phase 2 Authorization Package a final report documenting the joint operations study results and demonstrating the Project's ability to meet the Covered Fish Species Biological Criteria."
+      data-registry-desc="Permittee includes in the Phase 2 Authorization Package a final report documenting the joint operations study results and demonstrating the Project's ability to meet the Covered Fish Species Biological Criteria."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -1974,13 +2921,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Submit Joint Operations Study Results and Compliance Report"
+            data-registry-title="Submit Joint Operations Study Results and Compliance Report"
           >
             Submit Joint Operations Study Results and Compliance Report</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -2046,6 +3054,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 7|COA 7.1"
       data-index="Agency reporting and approvals::Agency approvals"
+      data-list-description="No more than 120 days before Phase 1 Operations begin, Permittee submits a complete Phase 2 Authorization Package â€” Attachment 6 form, covered fish life cycle models, joint operations modeling, science and monitoring reports, preconstruction engineering studies, operations monitoring results, 100% design and applicable measures and plans â€” and does not begin Phase 2 Operations until CDFW has signed the Phase 2 Authorization Form."
+      data-registry-desc="No more than 120 days before Phase 1 Operations begin, Permittee submits a complete Phase 2 Authorization Package â€” Attachment 6 form, covered fish life cycle models, joint operations modeling, science and monitoring reports, preconstruction engineering studies, operations monitoring results, 100% design and applicable measures and plans â€” and does not begin Phase 2 Operations until CDFW has signed the Phase 2 Authorization Form."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -2068,13 +3078,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Submit Phase 2 Authorization Package to CDFW"
+            data-registry-title="Submit Phase 2 Authorization Package to CDFW"
           >
             Submit Phase 2 Authorization Package to CDFW</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -2142,6 +3213,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 6.1"
       data-index="Agency reporting and approvals::Agency approvals|Agency reporting and approvals::Schedule notices"
+      data-list-description="Permittee submits the completed Pre-implementation Phase Authorization Package â€” Phase Authorization Form, monitoring and management plans and final survey methodology â€” no less than one year before preconstruction activities begin, and starts no Covered Activity until CDFW has reviewed and signed it."
+      data-registry-desc="Permittee submits the completed Pre-implementation Phase Authorization Package â€” Phase Authorization Form, monitoring and management plans and final survey methodology â€” no less than one year before preconstruction activities begin, and starts no Covered Activity until CDFW has reviewed and signed it."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -2164,13 +3237,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Submit Pre-implementation Phase Authorization Package to CDFW"
+            data-registry-title="Submit Pre-implementation Phase Authorization Package to CDFW"
           >
             Submit Pre-implementation Phase Authorization Package to CDFW</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -2269,6 +3403,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 10.8"
       data-index="Habitat protection::Habitat impact tracking|Agency reporting and approvals::Agency approvals"
+      data-list-description="Permittee includes the Designated Biologist's initial preconstruction field survey results in the appropriate Construction Phase Authorization Package, identifying the spatial extent of suitable habitat for each Covered Species and the total area surveyed."
+      data-registry-desc="Permittee includes the Designated Biologist's initial preconstruction field survey results in the appropriate Construction Phase Authorization Package, identifying the spatial extent of suitable habitat for each Covered Species and the total area surveyed."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -2290,13 +3426,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Submit Preconstruction Habitat Survey Results in the Phase Package"
+            data-registry-title="Submit Preconstruction Habitat Survey Results in the Phase Package"
           >
             Submit Preconstruction Habitat Survey Results in the Phase Package</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -2424,6 +3621,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 11.38|COA 6.1"
       data-index="Agency reporting and approvals::Agency approvals|People and qualifications::Designated biologists and monitors"
+      data-list-description="Permittee develops with CDFW the final protocol-level species and habitat survey methodology for CTS, GGS, SWHA, TRBL, CBB and MALI, submits it in the Pre-implementation Phase Authorization Package, and obtains written approval before any Covered Activity including preconstruction field investigations and preconstruction species site surveys. The protocols specify survey number, timing and spacing, habitat types, methods and rationale, capture and identification protocols and presence orâ€¦"
+      data-registry-desc="Permittee develops with CDFW the final protocol-level species and habitat survey methodology for CTS, GGS, SWHA, TRBL, CBB and MALI, submits it in the Pre-implementation Phase Authorization Package, and obtains written approval before any Covered Activity including preconstruction field investigations and preconstruction species site surveys. The protocols specify survey number, timing and spacing, habitat types, methods and rationale, capture and identification protocols and presence orâ€¦"
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -2445,13 +3644,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Submit Species and Habitat Survey Protocols to CDFW"
+            data-registry-title="Submit Species and Habitat Survey Protocols to CDFW"
           >
             Submit Species and Habitat Survey Protocols to CDFW</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -2550,6 +3810,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 10.17"
       data-index="Noise and vibration::Vibration|Agency reporting and approvals::Agency approvals"
+      data-list-description="Permittee submits the results of the Subsurface Testing and Monitoring Study, with suggested vibratory monitoring protocols for fossorial Covered Species, to CDFW as part of the appropriate Construction Phase Authorization Package."
+      data-registry-desc="Permittee submits the results of the Subsurface Testing and Monitoring Study, with suggested vibratory monitoring protocols for fossorial Covered Species, to CDFW as part of the appropriate Construction Phase Authorization Package."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -2571,13 +3833,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Submit Subsurface Vibration Study Results to CDFW"
+            data-registry-title="Submit Subsurface Vibration Study Results to CDFW"
           >
             Submit Subsurface Vibration Study Results to CDFW</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="3 implementations">3</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -2703,6 +4026,8 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
       data-class="action"
       data-codes="COA 7.1"
       data-index="Water operations::Operations coordination and data|Agency reporting and approvals::Agency approvals"
+      data-list-description="Permittee submits the additional data collected during Phase 1 Operations, with associated reports, to CDFW no less than 90 days before Phase 2 Operations begin, to augment the Phase 2 Authorization Package."
+      data-registry-desc="Permittee submits the additional data collected during Phase 1 Operations, with associated reports, to CDFW no less than 90 days before Phase 2 Operations begin, to augment the Phase 2 Authorization Package."
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -2724,13 +4049,74 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           ><button
             type="button"
             class="bcn-loc__title"
-            data-list-open=""
+            data-list-edit=""
             data-list-title=""
             data-list-text="Submit Supplemental Phase 1 Operations Data Before Phase 2"
+            data-registry-title="Submit Supplemental Phase 1 Operations Data Before Phase 2"
           >
             Submit Supplemental Phase 1 Operations Data Before Phase 2</button
+          ><span class="bcn-loc__edited" data-list-edited="" hidden=""
+            ><esa-tooltip text="Has its own list wording" position="above" align="center"
+              ><span
+                class="bcn-loc__dot"
+                role="img"
+                aria-label="Has its own list wording"
+              ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Move or retitle this action for this list"
+              data-list-edit=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                  ></path></svg
+              ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
               type="button"
@@ -3328,6 +4714,9 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
 .bcn-lot__row .bcn-lot__name[hidden] {
   display: none;
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -3356,9 +4745,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
-}
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
 }
 .bcn-status-chip {
   align-items: center;

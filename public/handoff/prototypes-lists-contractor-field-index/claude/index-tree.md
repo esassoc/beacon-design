@@ -9,6 +9,7 @@ The list's own outline over the index's items: its categories and subcategories,
 - Creating one copies the canonical outline: every category and subcategory with its name and order, each subcategory drawing from its one canonical twin. The person then regroups, renames and trims.
 - Rows and cards are the canonical page's: same card per item, actions then obligations inside a subcategory, each A–Z by the title the list shows; an item merged in from two subcategories appears once.
 - Parity with an obligation list (Andy, 2026-10-20: "there should be parity between the ci and obligations lists"). On actions and obligations alike: Remove from this list (the x), Move or retitle (the title or pen, into the item panel), Duplicate (the copy verb: a second membership filed beside the first, with its own wording), and Rename for this list on a category or subcategory row (the branch panel obligation lists rename in too). Never: the item's type, class, requirements, or where the canonical index files it (2026-10-19: "You shouldn't be able to edit the nature of an obligation itself").
+- Add items (the title row) puts the index's items back, as an obligation list's Add puts the registry's on (Andy, 2026-10-20). See Add drawer.
 - Members are keyed by member id, as on an obligation list: the item id on load, `<item id>-m<n>` for a copy.
 - Prod model: ComplianceIndexListMember (ComplianceIndexListMemberID, ComplianceIndexListID, ActionID or ObligationID, ComplianceIndexListSubcategoryID when moved, ListTitle, ListDescription; the last three nullable, null meaning the index's) for a member that differs from the outline's default: moved, reworded or copied. ComplianceIndexListItemExclusion (ComplianceIndexListID, ActionID or ObligationID) for one taken off. Renaming a branch writes the list's own category or subcategory Name.
 
@@ -17,7 +18,6 @@ The list's own outline over the index's items: its categories and subcategories,
 - Open: merging, reordering and adding or removing whole categories and subcategories (the outline editor) is not built, so in this epic a whole subcategory comes off only item by item (Aldo's Keep and Take Out, which do it at once, are the separate Aldo epic). Rename is built, in a side panel.
 - An item removed from a version is excluded by id, so refiling it in the canonical index does not bring it back into that version.
 - Removing or moving the last member of a subcategory drops the subcategory from the page and the PDF; the list keeps its row, so moving a member back restores it under the same name, and the Move picker still offers it.
-- Open: no Add on a version, so a removed item cannot be put back from this page. An obligation list has an Add drawer; a version's would list the index's items it does not hold.
 
 ## Done when
 - Each category's count is the sum of its subcategories' and the title badge is the sum of the categories'.
@@ -26,6 +26,7 @@ The list's own outline over the index's items: its categories and subcategories,
 - A retitled item shows its list title and a dot, files A–Z by that title, and prints that title and list description in the PDF.
 - Duplicate puts a copy beside the member with the same wording and moves every count by one; the copy opens in the panel on its own.
 - Moving a member files it A–Z in the chosen subcategory and re-tallies both subcategories.
+- Add items lands each ticked item in the version subcategory that draws on its canonical subcategory, moves every count, and offers the subcategory in the Move picker.
 - The canonical index shows none of these verbs.
 
 ## Markup
@@ -986,6 +987,9 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
 .bcn-lot__row .bcn-lot__name[hidden] {
   display: none;
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -1014,9 +1018,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
-}
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
 }
 .bcn-status-chip {
   align-items: center;

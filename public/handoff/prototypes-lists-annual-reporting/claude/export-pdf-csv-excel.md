@@ -1,15 +1,15 @@
 # Export — PDF, CSV, Excel
 
-The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, then Word, the same document as the PDF.
+The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, then Word (a later slice, BCN-1764).
 
 ## Key decisions
 - Order is prod's card (CSV, then Excel, under those names) with PDF added first.
 - PDF downloads the action list document (see the list-export-action-pdf spec): `GET action-lists/{actionListID}/generate-pdf`. The prototype opens the print route in a new tab instead.
-- Word downloads the SAME document as the PDF, as a .docx: `GET action-lists/{actionListID}/generate-docx`, new, beside generate-pdf (BCN-1764). Same title block, summary, detail and order; Word's own pagination, with the summary table's header row repeating on each page. The prototype builds a .doc from the print route (list-word.ts), so its content cannot drift from the PDF (Andy, 2026-10-20: "show as active").
+- LATER SLICE, not this epic: Word is BCN-1764, under epic BCN-1922. The design is settled and the prototype's download works: the SAME document as the PDF, as a .docx from `GET action-lists/{actionListID}/generate-docx`, beside generate-pdf. Same title block, summary, detail and order; Word's own pagination, with the summary table's header row repeating on each page. The prototype builds a .doc from the print route (list-word.ts), so its content cannot drift from the PDF (Andy, 2026-10-20: "show as active").
 - NO JSON/API section on action lists (Andy: "but not the API option"); that endpoint exists for obligation lists only.
 
 ## Done when
-- Four rows in order PDF, CSV, Excel, Word; Word downloads the PDF's document as a Word file.
+- Four rows in order PDF, CSV, Excel, Word; Word's download belongs to the later slice (BCN-1764).
 
 ## Markup
 ```html
@@ -766,6 +766,9 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -794,9 +797,6 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
-}
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

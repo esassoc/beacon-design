@@ -221,6 +221,9 @@ The side panel for one obligation ON THIS LIST. It offers exactly three things: 
 .bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -249,9 +252,6 @@ The side panel for one obligation ON THIS LIST. It offers exactly three things: 
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
-}
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
 }
 .bcn-swo-edit {
   gap: var(--spacing-400);
