@@ -1,0 +1,173 @@
+---
+// <BcnHelpDot> — one help dot: the Aldo mark with a ring radiating out of it, and the
+// esa-popover a click opens (a title, a sentence or two, an optional screenshot). Placed
+// and shown by the help-dots controller inside <BcnHelpDots>; a draft dot, which only
+// ESA admins see, is drawn muted and still.
+//
+// Without a `dot` it renders blank: that is the template new dots are cloned from, so
+// the screenshot slot is always in the markup and the controller fills or hides it.
+//
+// bcn-lego-checked: the dot is a branded affordance (the BcnAldoMark circle with a
+// radiating ring) and esa-icon-button / esa-button only take a registered Lucide icon
+// name, not a custom mark, so the button wrapping the mark is this component's. The
+// popover IS esa-popover (click trigger, Esc, outside-click); the text IS typography
+// composites. Checked Beacon: nothing places marks on a page. bcn-help-dot is the home.
+import BcnAldoMark from './aldo/BcnAldoMark.astro';
+import type { HelpDot } from '../../data/help-dots';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  dot?: HelpDot;
+}
+const { dot } = Astro.props;
+const shot = dot?.shot;
+---
+
+<div
+  class="bcn-hd"
+  data-help-dot
+  data-dot-id={dot?.id}
+  data-spot={dot?.spot}
+  data-status={dot?.status}
+  hidden
+>
+  <esa-popover trigger="click" offset={10} label={dot?.title} appearance="inverse">
+    <button type="button" class="bcn-hd__dot" aria-label={`About: ${dot?.title ?? ''}`} data-hd-button>
+      <BcnAldoMark size="sm" />
+    </button>
+    <div slot="content" class="bcn-hd__panel stack" data-gap="xs" data-has-shot={shot ? '' : undefined}>
+      <img
+        class="bcn-hd__shot"
+        alt={shot?.alt ?? ''}
+        src={shot ? withBase(shot.src) : undefined}
+        width={shot?.width}
+        height={shot?.height}
+        loading="lazy"
+        data-hd-shot
+        hidden={!shot}
+      />
+      <p class="bcn-hd__title typography-label-md-strong" data-hd-title>{dot?.title}</p>
+      <p class="bcn-hd__text typography-body-sm" data-hd-text>{dot?.text}</p>
+    </div>
+  </esa-popover>
+</div>
+
+<style>
+  .bcn-hd {
+    position: absolute;
+    inset-inline-start: var(--_x, 0);
+    inset-block-start: var(--_y, 0);
+    z-index: 20; /* over the page's cards, under the z-1000 Guidance bar */
+    translate: -50% -50%;
+    line-height: 0;
+  }
+  /* The open dot's popover sits over its neighbours' dots. */
+  .bcn-hd:has(esa-popover[open]) {
+    z-index: 21;
+  }
+
+  /* The dot: the Aldo mark itself, with a ring that radiates out from it twice a
+     cycle — the same Aldo-tinted box-shadow pulse the mark uses when it is at work. */
+  .bcn-hd__dot {
+    display: inline-flex;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: none;
+    cursor: pointer;
+    animation: bcn-help-dot-radiate 1.8s ease-out infinite;
+  }
+  .bcn-hd__dot:hover,
+  .bcn-hd__dot[aria-expanded='true'] {
+    animation: none;
+    box-shadow: 0 0 0 4px var(--bcn-aldo-100);
+  }
+  .bcn-hd__dot:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  /* A draft, which only admins see: still, and faded, so it never reads as live help. */
+  .bcn-hd[data-status='draft'] .bcn-hd__dot {
+    animation: none;
+    opacity: 0.45;
+    box-shadow: 0 0 0 3px var(--bcn-aldo-100);
+  }
+
+  @keyframes bcn-help-dot-radiate {
+    0% {
+      box-shadow:
+        0 0 0 0 color-mix(in srgb, var(--bcn-aldo) 55%, transparent),
+        0 0 0 0 color-mix(in srgb, var(--bcn-aldo) 35%, transparent);
+    }
+    60% {
+      box-shadow:
+        0 0 0 9px color-mix(in srgb, var(--bcn-aldo) 0%, transparent),
+        0 0 0 5px color-mix(in srgb, var(--bcn-aldo) 15%, transparent);
+    }
+    100% {
+      box-shadow:
+        0 0 0 9px color-mix(in srgb, var(--bcn-aldo) 0%, transparent),
+        0 0 0 14px color-mix(in srgb, var(--bcn-aldo) 0%, transparent);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-hd__dot {
+      animation: none;
+      box-shadow: 0 0 0 3px var(--bcn-aldo-100);
+    }
+  }
+
+  /* Dark tone: the knockout roles esa-popover's `inverse` appearance reads, re-pointed to
+     the Guidance bar's surface. Solid, not the bar's glass: the popover has no backdrop
+     blur, and the bar uses the same solid where blur is missing. The light tone
+     (`?popover=light`) is set on the layer and switches the popover's appearance. */
+  esa-popover {
+    --color-background-default-knockout: var(--bcn-helpbar-bg-solid);
+    --color-border-default-knockout: var(--bcn-helpbar-border);
+    --color-content-default-knockout: var(--bcn-helpbar-fg);
+  }
+
+  /* The popover body: a title and a sentence or two, with a screenshot on top when the
+     dot has one. Narrower without a picture, so a sentence still sets as a short block.
+     On a narrow screen the controller caps it to the room beside the dot (--_room). */
+  .bcn-hd__panel {
+    inline-size: min(280px, var(--_room, 280px));
+    line-height: normal;
+    white-space: normal;
+    text-align: start;
+  }
+  .bcn-hd__panel[data-has-shot] {
+    inline-size: min(320px, var(--_room, 320px));
+  }
+  .bcn-hd__title,
+  .bcn-hd__text {
+    margin: 0;
+  }
+  .bcn-hd__title {
+    color: var(--bcn-helpbar-fg);
+  }
+  .bcn-hd__text {
+    color: var(--bcn-helpbar-fg-muted);
+  }
+  .bcn-hd__shot {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    border: 1px solid var(--bcn-helpbar-border);
+    border-radius: var(--radius-200);
+  }
+  :global([data-tone='light']) .bcn-hd__title {
+    color: var(--color-content-default);
+  }
+  :global([data-tone='light']) .bcn-hd__text {
+    color: var(--color-content-default-secondary);
+  }
+  :global([data-tone='light']) .bcn-hd__shot {
+    border-color: var(--color-border-default);
+  }
+  .bcn-hd[hidden],
+  .bcn-hd__shot[hidden] {
+    display: none;
+  }
+</style>

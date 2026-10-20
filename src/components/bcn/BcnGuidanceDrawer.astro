@@ -39,6 +39,9 @@ import { withBase } from '../../lib/base';
 // in the registry.
 const ICON_LIST =
   '<line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/>';
+// Lucide 'radio': a dot with rings radiating from it, the help dots' own shape.
+const ICON_RADIO =
+  '<path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/>';
 const ICON_BOOK =
   '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>';
 ---
@@ -67,6 +70,11 @@ const ICON_BOOK =
           <div class="bcn-gd__dots" data-help-dots-slot hidden>
             <esa-switch-toggle size="sm" label="Show Me Around" data-help-dots-toggle></esa-switch-toggle>
           </div>
+        </section>
+        <!-- Dots on This Page — ESA admins only. Empty here: a page that mounts
+             <BcnHelpDotsAdmin> moves its rows in and unhides the section. -->
+        <section class="bcn-gd__section" data-help-dots-admin-slot hidden>
+          <h2 class="bcn-gd__label"><EsaIcon name="radio" paths={ICON_RADIO} size="sm" /> Dots on This Page</h2>
         </section>
         <section class="bcn-gd__section" data-gd-section="howtos">
           <h2 class="bcn-gd__label"><EsaIcon name="list" paths={ICON_LIST} size="sm" /> On this page</h2>

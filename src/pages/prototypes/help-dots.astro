@@ -9,12 +9,17 @@
 // commitment lists: the info banner, the search, the one group with its Add button,
 // and Global/Personal badges on the rows. It is built from the same components as
 // /prototypes/lists, with the banner and badges prod still shows.
+//
+// `?as=admin` is the ESA admin's view (round 3): draft dots show muted, and the drawer
+// gains Dots on This Page with Add Dot, pick mode and the dot form.
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 import BcnListIndexBoard from '../../components/bcn/BcnListIndexBoard.astro';
 import BcnListCreateDialog from '../../components/bcn/BcnListCreateDialog.astro';
 import BcnHelpDots from '../../components/bcn/BcnHelpDots.astro';
+import BcnHelpDotsAdmin from '../../components/bcn/BcnHelpDotsAdmin.astro';
+import BcnHelpDotForm from '../../components/bcn/BcnHelpDotForm.astro';
 import { PROJECT } from '../../data/project-dashboard';
 import { LISTS_HELP_DOTS } from '../../data/help-dots';
 ---
@@ -25,7 +30,9 @@ import { LISTS_HELP_DOTS } from '../../data/help-dots';
     - banner      -> esa-alert-box                    # prod's info banner over the lists
     - lists index -> bcn-list-index-board             # commitment group only, with Global/Personal badges
     - add list    -> bcn-list-create-dialog           # what Add Commitment List opens
-    - help dots   -> bcn-help-dots                    # the dot layer the guidance drawer's switch turns on
+    - help dots   -> bcn-help-dots                    # the dot layer the guidance drawer's switch turns on, plus pick mode
+    - dots admin  -> bcn-help-dots-admin              # Dots on This Page, moved into the drawer in the admin view
+    - dot form    -> bcn-help-dot-form                # the side panel a dot is written in
 -->
 
 <AppShell
@@ -48,5 +55,7 @@ import { LISTS_HELP_DOTS } from '../../data/help-dots';
     <BcnListIndexBoard types={['commitment']} showScope />
     <BcnListCreateDialog />
     <BcnHelpDots page={LISTS_HELP_DOTS} />
+    <BcnHelpDotsAdmin page={LISTS_HELP_DOTS} />
+    <BcnHelpDotForm />
   </PageLayout>
 </AppShell>
