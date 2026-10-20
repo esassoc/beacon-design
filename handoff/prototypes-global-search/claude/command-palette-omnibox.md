@@ -2687,8 +2687,6 @@ The global-search command palette — a fixed overlay centered both vertically a
 ```
 
 ## Tokens
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_

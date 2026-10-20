@@ -23,25 +23,23 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
   <div class="center bcn-kb-hero__col">
     <div class="stack bcn-kb-hero__intro">
       <span class="bcn-aldo-mark" data-size="md" data-animated="" aria-hidden="true"
-        ><svg
-          class="bcn-aldo-mark__glyph"
-          viewBox="0 0 64 64"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="3.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
-          <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
-          <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
-          <circle
-            cx="33.2"
-            cy="31.1"
-            r="2"
-            fill="currentColor"
-            stroke="none"
-          ></circle></svg
+        ><span class="bcn-aldo-mark__glyph"
+          ><span class="esa-icon esa-icon--md" aria-hidden="true"
+            ><svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path
+                d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+              ></path>
+              <circle cx="12" cy="12" r="10"></circle></svg></span></span
       ></span>
       <h1 class="typography-heading-lg bcn-kb-hero__title">Help &amp; Guidance</h1>
       <p class="typography-body-md bcn-kb-hero__lede">
@@ -664,6 +662,7 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
   display: inline-flex;
 }
 .bcn-aldo-mark[data-size="sm"] {
+  --icon-size-xs: 12px;
   width: 20px;
   height: 20px;
 }
@@ -676,15 +675,16 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
   height: 64px;
 }
 .bcn-aldo-mark__glyph {
-  width: 100%;
-  height: 100%;
-  display: block;
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+  display: inline-flex;
 }
 .bcn-aldo-mark[data-animated] {
   animation: 2s ease-in-out infinite bcn-aldo-pulse;
 }
 .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
-  animation: 12s linear infinite bcn-aldo-spin;
+  animation: 8s linear infinite bcn-aldo-spin;
 }
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
@@ -976,7 +976,6 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
 - `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
@@ -985,8 +984,6 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-link`: #005862 _(semantic)_
-- `--color-content-link-hover`: #00474f _(semantic)_
 - `--elevation-3`: 0 4px 20px -4px #0000000f _(semantic)_
 - `--gap`: 3rem _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
@@ -1006,7 +1003,7 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
+- `--typography-body-md-font-weight`: 350 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_

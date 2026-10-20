@@ -47,19 +47,19 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
   </div>
   <div class="wa">
     <div class="od__meta">
-      <div class="bcn-key-value" data-size="md" data-layout="stack">
+      <div class="bcn-key-value">
         <span class="bcn-key-value__key">Species code</span
         ><span class="wa__kv-val" id="obs-code">SWHA</span>
       </div>
-      <div class="bcn-key-value" data-size="md" data-layout="stack">
+      <div class="bcn-key-value">
         <span class="bcn-key-value__key">Kind</span
         ><span class="wa__kv-val" id="obs-kind">Nesting bird</span>
       </div>
-      <div class="bcn-key-value" data-size="md" data-layout="stack">
+      <div class="bcn-key-value">
         <span class="bcn-key-value__key">Buffer</span
         ><span class="wa__kv-val" id="obs-buffer">2,640 ft</span>
       </div>
-      <div class="bcn-key-value" data-size="md" data-layout="stack">
+      <div class="bcn-key-value">
         <span class="bcn-key-value__key">First observed</span
         ><span class="wa__kv-val" id="obs-first">May 18, 2026</span>
       </div>
@@ -116,7 +116,7 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
             <line x1="12" x2="12" y1="22" y2="18"></line></svg></span
         >Work areas within buffer<span id="obs-impact-count"
           ><span
-            class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
             ><span class="esa-badge__text">19</span></span
           ></span
         >
@@ -807,104 +807,6 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
-  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
-}
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
-}
-.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-  --_badge-text: var(--color-content-default-knockout, #fcfcfc);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
-}
-.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
-}
-.esa-badge--neutral:not(.esa-badge--dot),
-.esa-badge--success:not(.esa-badge--dot),
-.esa-badge--warning:not(.esa-badge--dot),
-.esa-badge--danger:not(.esa-badge--dot),
-.esa-badge--info:not(.esa-badge--dot) {
-  border: 1px solid var(--_badge-border, transparent);
-}
-.esa-badge--dot {
-  border-radius: var(--radius-pill, 9999px);
-  width: 8px;
-  min-width: 8px;
-  height: 8px;
-  padding: 0;
-}
-.esa-badge--dot.esa-badge--neutral {
-  --_badge-bg: var(--color-content-default-secondary, #646464);
-}
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
-}
-.esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-}
-.esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
-}
-.esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
-}
-.esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
-}
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  background: canvastext;
-  border: 0;
-  outline: 1px solid canvastext;
-}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -1438,12 +1340,6 @@ summary.esa-button--variant-chrome:focus-visible {
   gap: 2px;
   display: flex;
 }
-.bcn-key-value[data-layout="row"] {
-  align-items: baseline;
-  column-gap: var(--spacing-300);
-  grid-template-columns: 6.5rem minmax(0, 1fr);
-  display: grid;
-}
 .bcn-key-value__key {
   font-size: var(--typography-label-md-font-size);
   font-weight: var(--typography-font-weight-medium);
@@ -1457,42 +1353,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-key-value__hint {
   color: var(--color-content-default-tertiary);
   font-size: 0.75rem;
-}
-.bcn-key-value__key {
-  align-items: center;
-  gap: var(--spacing-100);
-  display: inline-flex;
-}
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
-.bcn-key-value[data-size="sm"] .bcn-key-value__key {
-  font-size: var(--typography-label-sm-font-size);
-  font-weight: var(--typography-label-sm-font-weight);
-  color: var(--color-content-secondary);
-}
-.bcn-key-value[data-size="sm"] .bcn-key-value__val {
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-}
-.bcn-status-chip {
-  align-items: center;
-  gap: var(--spacing-150);
-  padding: 2px var(--spacing-250);
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-100);
-  font-weight: var(--typography-font-weight-semibold);
-  white-space: nowrap;
-  background: color-mix(in srgb, var(--_chip) 16%, transparent);
-  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
-  display: inline-flex;
-}
-.bcn-status-chip__dot {
-  border-radius: var(--radius-full);
-  background: var(--_chip);
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -1523,6 +1383,114 @@ summary.esa-button--variant-chrome:focus-visible {
   height: var(--_icon-size);
   display: block;
 }
+.bcn-status-chip {
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  display: inline-flex;
+}
+.bcn-status-chip__dot {
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-badge--xs {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-100, 0.25rem);
+}
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-badge--lg {
+  --_badge-padding-y: var(--spacing-250, 0.625rem);
+  --_badge-padding-x: var(--spacing-300, 0.75rem);
+}
+.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+}
+.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
+  --_badge-text: var(--color-content-utility-success, #218358);
+  --_badge-border: var(--color-border-utility-success, #adddc0);
+}
+.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
+  --_badge-text: var(--color-content-utility-warning, #ab6400);
+  --_badge-border: var(--color-border-utility-warning, #f3d673);
+}
+.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
+  --_badge-text: var(--color-content-utility-danger, #ce2c31);
+  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
+}
+.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
+  --_badge-text: var(--color-content-utility-info, #0d74ce);
+  --_badge-border: var(--color-border-utility-info, #acd8fc);
+}
+.esa-badge--success:not(.esa-badge--dot),
+.esa-badge--warning:not(.esa-badge--dot),
+.esa-badge--danger:not(.esa-badge--dot),
+.esa-badge--info:not(.esa-badge--dot) {
+  border: 1px solid var(--_badge-border, transparent);
+}
+.esa-badge--dot {
+  border-radius: var(--radius-pill, 9999px);
+  width: 8px;
+  min-width: 8px;
+  height: 8px;
+  padding: 0;
+}
+.esa-badge--dot.esa-badge--primary {
+  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
+}
+.esa-badge--dot.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand, #46a758);
+}
+.esa-badge--dot.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
+}
+.esa-badge--dot.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
+}
+.esa-badge--dot.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
+}
+.esa-badge--dot.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
+}
+.esa-badge--dot {
+  background: canvastext;
+  border: 0;
+  outline: 1px solid canvastext;
+}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -1534,9 +1502,8 @@ summary.esa-button--variant-chrome:focus-visible {
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #fcfcfc _(component)_
-- `--badge-border-color`: #dcdcdc _(component)_
-- `--badge-text-color`: #525252 _(component)_
+- `--badge-bg`: #43608a _(component)_
+- `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
@@ -1555,8 +1522,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--button-radius-xs`: .25rem _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-default`: #fafafa _(semantic)_
@@ -1583,7 +1548,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-border-utility-success`: #adddc0 _(semantic)_
 - `--color-border-utility-warning`: #f3d673 _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
@@ -1591,7 +1555,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-on-utility-success`: #fcfcfc _(semantic)_
 - `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-secondary`: #525252 _(component)_
 - `--color-content-utility-danger`: #ce2c31 _(semantic)_
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
@@ -1631,10 +1594,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-font-weight-medium`: 500 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-font-weight`: 500 _(semantic)_
-- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
 - `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-microcopy-md-font-weight`: 500 _(semantic)_
@@ -1647,7 +1606,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_

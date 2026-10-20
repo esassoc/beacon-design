@@ -213,6 +213,7 @@ Read-only side panel: type, action text, frequency, deliverable, species, timing
 .bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
 .bcn-lac[data-class="action"],
+.bcn-lob[data-class="action"],
 .bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }

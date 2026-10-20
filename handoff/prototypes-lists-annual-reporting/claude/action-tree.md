@@ -6804,7 +6804,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="16"
               height="16"
@@ -6815,7 +6815,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-cbadge bcn-cbadge--sm" data-astro-cid-cqxc3yz3="">COA</span
@@ -6841,7 +6841,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="16"
               height="16"
@@ -6852,7 +6852,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-cbadge bcn-cbadge--sm" data-astro-cid-cqxc3yz3="">COA</span
@@ -6878,7 +6878,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="16"
               height="16"
@@ -6889,7 +6889,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-lot__name" data-list-name="" data-astro-cid-jcfghirm=""></span
@@ -6914,7 +6914,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="16"
               height="16"
@@ -6925,7 +6925,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-lot__name" data-list-name="" data-astro-cid-jcfghirm=""></span
@@ -6950,7 +6950,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="16"
               height="16"
@@ -6961,7 +6961,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-lot__name" data-list-name="" data-astro-cid-jcfghirm=""></span
@@ -6996,7 +6996,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
             ><span
               class="esa-icon esa-icon--sm"
               aria-hidden="true"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
               ><svg
                 width="16"
                 height="16"
@@ -7007,7 +7007,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 focusable="false"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
               >
                 <path d="m9 18 6-6-6-6"></path></svg></span></span
           ><span
@@ -7045,7 +7045,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
                 ><svg
                   width="14"
                   height="14"
@@ -7056,7 +7056,7 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-wcwfib5m=""
+                  data-astro-cid-c7ivvrtd=""
                 >
                   <path d="M18 6 6 18"></path>
                   <path d="m6 6 12 12"></path></svg
@@ -7170,26 +7170,6 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
   line-height: var(--typography-label-md-strong-line-height);
   letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
-.bcn-loc__edited {
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-loc__edited[hidden] {
-  display: none;
-}
-.bcn-loc__dot {
-  place-items: center;
-  block-size: 1rem;
-  inline-size: 1rem;
-  display: inline-grid;
-}
-.bcn-loc__dot:before {
-  content: "";
-  background: var(--color-content-brand);
-  border-radius: 50%;
-  block-size: 6px;
-  inline-size: 6px;
-}
 .bcn-lot__folds {
   justify-content: flex-end;
   gap: var(--spacing-200);
@@ -7238,6 +7218,14 @@ Members filed by Compliance Index. Actions carry no category of their own, so an
 .bcn-lot__row:focus-visible {
   outline: 2px solid var(--color-action);
   outline-offset: -2px;
+}
+.bcn-lit:not([data-index-editable])
+  esa-tooltip:has(
+    [data-list-remove],
+    [data-list-duplicate],
+    .bcn-loc__verb[data-list-edit]
+  ) {
+  display: none;
 }
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -7455,6 +7443,7 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
 .bcn-lac[data-class="action"],
+.bcn-lob[data-class="action"],
 .bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
@@ -7575,6 +7564,26 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-loc [data-list-count] {
   margin-inline-start: auto;
+}
+.bcn-loc__edited {
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-loc__edited[hidden] {
+  display: none;
+}
+.bcn-loc__dot {
+  place-items: center;
+  block-size: 1rem;
+  inline-size: 1rem;
+  display: inline-grid;
+}
+.bcn-loc__dot:before {
+  content: "";
+  background: var(--color-content-brand);
+  border-radius: 50%;
+  block-size: 6px;
+  inline-size: 6px;
 }
 .bcn-loc__req {
   color: var(--color-content-default-secondary);
@@ -7849,6 +7858,57 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   line-height: var(--typography-label-md-strong-line-height);
   letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.bcn-status-chip {
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  display: inline-flex;
+}
+.bcn-status-chip__dot {
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+}
 .esa-empty-state {
   --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
   --_empty-gap: var(--spacing-200, 0.5rem);
@@ -7916,57 +7976,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   min-width: 18px;
   padding: 2px var(--spacing-100);
   font-size: var(--font-size-050);
-}
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.bcn-status-chip {
-  align-items: center;
-  gap: var(--spacing-150);
-  padding: 2px var(--spacing-250);
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-100);
-  font-weight: var(--typography-font-weight-semibold);
-  white-space: nowrap;
-  background: color-mix(in srgb, var(--_chip) 16%, transparent);
-  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
-  display: inline-flex;
-}
-.bcn-status-chip__dot {
-  border-radius: var(--radius-full);
-  background: var(--_chip);
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

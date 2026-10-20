@@ -784,6 +784,18 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.bcn-disc__head .esa-icon {
+  color: var(--color-content-default-secondary);
+  flex-shrink: 0;
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -1114,34 +1126,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-component-picker__opt[aria-selected="true"] .bcn-component-picker__check {
   visibility: visible;
 }
-.bcn-disc__head .esa-icon {
-  color: var(--color-content-default-secondary);
-  flex-shrink: 0;
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
-.bcn-evidence-card__lead .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  transition: transform 0.15s;
-}
-.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
-  transform: rotate(90deg);
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-evidence-card__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
 .bcn-entity-logo {
   background: color-mix(in srgb, var(--_c) 12%, transparent);
   color: var(--_c);
@@ -1279,6 +1263,22 @@ summary.esa-button--variant-chrome:focus-visible {
   gap: var(--spacing-200);
   display: flex;
 }
+.bcn-evidence-card__lead .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
+  transform: rotate(90deg);
+}
+.bcn-evidence-card__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-evidence-card__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
 ```
 
 ## Tokens
@@ -1370,6 +1370,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

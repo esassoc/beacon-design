@@ -453,9 +453,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-md-strong-line-height);
   letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
 }
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
 .esa-collapsible__summary .esa-icon {
   color: var(--color-content-default-secondary, #646464);
   flex-shrink: 0;
@@ -535,8 +532,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--button-radius-xs`: .25rem _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
@@ -553,7 +548,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-commitment`: #58508d _(component)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
@@ -596,6 +590,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_

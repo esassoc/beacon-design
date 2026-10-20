@@ -5,7 +5,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
 ## Key decisions
 - Child rows are implementations, not requirements (Andy reversed this 2026-09-23). Requirement codes and index ride on the card as data, for the mirror views to file by.
 - Obligation rows carry NO status pill: evidence count is the only honest progress signal for an obligation.
-- Categories and subcategories can be renamed for this list alone (pencil on the branch row).
+- Categories and subcategories can be renamed for this list alone: the pencil on the branch row opens the rename side panel (bcn-list-branch-panel, the one a Compliance Index version uses), with the registry's name read only beneath the field. Never inline on the row (2026-10-20, for parity with index versions and the no-inline-edit rule).
 - A dot beside an obligation title means the list has its own wording for it (title or description differs from the registry), tooltip "Has its own list wording". No text label.
 - Card title and pencil both open the obligation panel; pencil tooltip "Move or retitle for this list".
 - Clicking an implementation row emits list:edit-implementation. Prod opens the implementation upsert dialog there; the prototype builds no dialog.
@@ -4965,7 +4965,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               data-id="obl_01M2G6YKKYBZ9A7EECEZB6FGY6"
               data-class="adhere"
               data-list-description="Shield and aim every night fixture down and inward. No light crosses the work-area boundary."
-              data-registry-desc="If night work is required within a Project construction site after exclusion barriers have been installed, Permittee shall not use artificial lighting unless it is needed for worker safety. 8."
+              data-registry-desc="If night work is required within a Project construction site after exclusion barriers have been installed, Permittee shall not use artificial lighting unless it is needed for worker safety."
               data-codes="COA 11.47|COA 11.8"
               hidden=""
             >
@@ -5453,8 +5453,8 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               data-member-id="obl_01M2G6Y374X4RKETDHB3S1M1N3-m1"
               data-id="obl_01M2G6Y374X4RKETDHB3S1M1N3"
               data-class="adhere"
-              data-list-description="Permittee shall confine movement of heavy equipment to existing or CDFW-approved access roads or to locations at least 75 feet from flagged burrows. 11."
-              data-registry-desc="Permittee shall confine movement of heavy equipment to existing or CDFW-approved access roads or to locations at least 75 feet from flagged burrows. 11."
+              data-list-description="Permittee shall confine movement of heavy equipment to existing or CDFW-approved access roads or to locations at least 75 feet from flagged burrows."
+              data-registry-desc="Permittee shall confine movement of heavy equipment to existing or CDFW-approved access roads or to locations at least 75 feet from flagged burrows."
               data-codes="COA 11.41|COA 11.65"
               hidden=""
             >
@@ -6501,7 +6501,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               data-id="obl_01M2G6YKKJFSBZ7MC77J15GFVF"
               data-class="adhere"
               data-list-description="After dark, 15 mph on every unpaved surface inside the work area, including haul roads."
-              data-registry-desc=", outside the “dry season” defined as July 15-Oct 15) to avoid potential vehicle strikes of CTS."
+              data-registry-desc="Project vehicles shall observe a nighttime speed limit of 10 miles per hour in Project construction sites within the Bethany Complex between October 16 through July 14 (i.e., outside the “dry season” defined as July 15-Oct 15) to avoid potential vehicle strikes of CTS."
               data-codes="COA 11.11"
               hidden=""
             >
@@ -8153,7 +8153,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               data-id="obl_01M2G6YKKXGW0MHG5S1F0JJR75"
               data-class="adhere"
               data-list-description="Haul all trash off site at the end of every shift. Nothing stays overnight."
-              data-registry-desc="6)."
+              data-registry-desc="Permittee shall ensure trash is removed from the construction site and taken to an appropriate facility at least once a week from the construction or Project site (see Condition of Approval 9.6)."
               data-codes="COA 11.20"
               hidden=""
             >
@@ -8791,7 +8791,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="16"
               height="16"
@@ -8802,7 +8802,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-cbadge bcn-cbadge--sm" data-astro-cid-cqxc3yz3="">COA</span
@@ -8828,7 +8828,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="16"
               height="16"
@@ -8839,7 +8839,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-cbadge bcn-cbadge--sm" data-astro-cid-cqxc3yz3="">COA</span
@@ -8867,7 +8867,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="16"
               height="16"
@@ -8878,7 +8878,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-lot__name" data-list-name="" data-astro-cid-s4gldfhz=""></span
@@ -8901,7 +8901,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
                 ><svg
                   width="14"
                   height="14"
@@ -8912,7 +8912,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-wcwfib5m=""
+                  data-astro-cid-c7ivvrtd=""
                 >
                   <path
                     d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
@@ -8935,7 +8935,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
           ><span
             class="esa-icon esa-icon--sm"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="16"
               height="16"
@@ -8946,7 +8946,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
         ><span class="bcn-lot__name" data-list-name="" data-astro-cid-s4gldfhz=""></span
@@ -8969,7 +8969,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
                 ><svg
                   width="14"
                   height="14"
@@ -8980,7 +8980,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-wcwfib5m=""
+                  data-astro-cid-c7ivvrtd=""
                 >
                   <path
                     d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
@@ -9000,7 +9000,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
                 ><svg
                   width="14"
                   height="14"
@@ -9011,7 +9011,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-wcwfib5m=""
+                  data-astro-cid-c7ivvrtd=""
                 >
                   <path d="m7 15 5 5 5-5"></path>
                   <path d="m7 9 5-5 5 5"></path></svg
@@ -9027,7 +9027,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
                 ><svg
                   width="14"
                   height="14"
@@ -9038,7 +9038,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-wcwfib5m=""
+                  data-astro-cid-c7ivvrtd=""
                 >
                   <path d="m7 20 5-5 5 5"></path>
                   <path d="m7 4 5 5 5-5"></path></svg
@@ -9068,7 +9068,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
             ><span
               class="esa-icon esa-icon--sm"
               aria-hidden="true"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
               ><svg
                 width="16"
                 height="16"
@@ -9079,7 +9079,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 focusable="false"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
               >
                 <path d="m9 18 6-6-6-6"></path></svg></span></span
           ><span class="bcn-loc__class" data-list-class-tag="" data-astro-cid-qmhiihvj=""
@@ -9126,7 +9126,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
                 ><svg
                   width="14"
                   height="14"
@@ -9137,7 +9137,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-wcwfib5m=""
+                  data-astro-cid-c7ivvrtd=""
                 >
                   <path
                     d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
@@ -9157,7 +9157,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
                 ><svg
                   width="14"
                   height="14"
@@ -9168,7 +9168,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-wcwfib5m=""
+                  data-astro-cid-c7ivvrtd=""
                 >
                   <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
                   <path
@@ -9189,7 +9189,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
                 ><svg
                   width="14"
                   height="14"
@@ -9200,7 +9200,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-wcwfib5m=""
+                  data-astro-cid-c7ivvrtd=""
                 >
                   <path d="M18 6 6 18"></path>
                   <path d="m6 6 12 12"></path></svg
@@ -9255,26 +9255,6 @@ The list's obligations filed Category › Subcategory › Obligation, with count
 
 ## Styles
 ```css
-.bcn-loc__edited {
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-loc__edited[hidden] {
-  display: none;
-}
-.bcn-loc__dot {
-  place-items: center;
-  block-size: 1rem;
-  inline-size: 1rem;
-  display: inline-grid;
-}
-.bcn-loc__dot:before {
-  content: "";
-  background: var(--color-content-brand);
-  border-radius: 50%;
-  block-size: 6px;
-  inline-size: 6px;
-}
 .bcn-lot__folds {
   justify-content: flex-end;
   gap: var(--spacing-200);
@@ -9303,6 +9283,14 @@ The list's obligations filed Category › Subcategory › Obligation, with count
 .bcn-lot__row:focus-visible {
   outline: 2px solid var(--color-action);
   outline-offset: -2px;
+}
+.bcn-lit:not([data-index-editable])
+  esa-tooltip:has(
+    [data-list-remove],
+    [data-list-duplicate],
+    .bcn-loc__verb[data-list-edit]
+  ) {
+  display: none;
 }
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -9520,6 +9508,7 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
 .bcn-lac[data-class="action"],
+.bcn-lob[data-class="action"],
 .bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
@@ -9640,6 +9629,26 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-loc [data-list-count] {
   margin-inline-start: auto;
+}
+.bcn-loc__edited {
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-loc__edited[hidden] {
+  display: none;
+}
+.bcn-loc__dot {
+  place-items: center;
+  block-size: 1rem;
+  inline-size: 1rem;
+  display: inline-grid;
+}
+.bcn-loc__dot:before {
+  content: "";
+  background: var(--color-content-brand);
+  border-radius: 50%;
+  block-size: 6px;
+  inline-size: 6px;
 }
 .bcn-loc__req {
   color: var(--color-content-default-secondary);
@@ -9886,27 +9895,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
 .bcn-lot__row .bcn-lot__name[hidden] {
   display: none;
 }
-.bcn-swcb {
-  min-width: 22px;
-  padding: 2px var(--spacing-150);
-  border-radius: var(--radius-100);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default-subtle);
-  color: var(--color-content-default-tertiary);
-  font-family: var(--typography-font-family-sans);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  line-height: 1;
-  display: inline-flex;
-}
-.bcn-swcb--sm {
-  min-width: 18px;
-  padding: 2px var(--spacing-100);
-  font-size: var(--font-size-050);
-}
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
 }
@@ -9938,6 +9926,27 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.bcn-swcb {
+  min-width: 22px;
+  padding: 2px var(--spacing-150);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default-subtle);
+  color: var(--color-content-default-tertiary);
+  font-family: var(--typography-font-family-sans);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1;
+  display: inline-flex;
+}
+.bcn-swcb--sm {
+  min-width: 18px;
+  padding: 2px var(--spacing-100);
+  font-size: var(--font-size-050);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

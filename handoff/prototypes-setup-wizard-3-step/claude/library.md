@@ -490,7 +490,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
       <div class="bcn-sw3src__srcrow" data-astro-cid-6isyew5u="">
         <span
           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only bcn-sw3src__fold"
-          data-astro-cid-5nhxdd72=""
+          data-astro-cid-4xhmycw5=""
           ><button
             class="esa-button__native typography-microcopy-2xs"
             type="button"
@@ -499,12 +499,12 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
             data-src-fold="true"
             aria-expanded="true"
             data-astro-cid-6isyew5u="true"
-            data-astro-cid-5nhxdd72=""
+            data-astro-cid-4xhmycw5=""
           >
             <span
               class="esa-icon esa-icon--xs"
               aria-hidden="true"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
               ><svg
                 width="14"
                 height="14"
@@ -515,7 +515,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 focusable="false"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
               >
                 <path d="m6 9 6 6 6-6"></path></svg
             ></span></button></span
@@ -537,7 +537,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
           data-astro-cid-6isyew5u="true"
           ><span
             class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-            data-astro-cid-5nhxdd72=""
+            data-astro-cid-4xhmycw5=""
             ><button
               class="esa-button__native typography-microcopy-2xs"
               type="button"
@@ -545,12 +545,12 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
               title="Source document actions"
               data-ico="ellipsis"
               data-astro-cid-6isyew5u="true"
-              data-astro-cid-5nhxdd72=""
+              data-astro-cid-4xhmycw5=""
             >
               <span
                 class="esa-icon esa-icon--xs"
                 aria-hidden="true"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
                 ><svg
                   width="14"
                   height="14"
@@ -561,7 +561,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   focusable="false"
-                  data-astro-cid-wcwfib5m=""
+                  data-astro-cid-c7ivvrtd=""
                 >
                   <line x1="4" x2="20" y1="6" y2="6"></line>
                   <line x1="4" x2="20" y1="12" y2="12"></line>
@@ -586,7 +586,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
           ><span
             class="esa-icon esa-icon--xs"
             aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+            data-astro-cid-c7ivvrtd=""
             ><svg
               width="14"
               height="14"
@@ -597,7 +597,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
             >
               <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
               <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
@@ -620,16 +620,16 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
             ><span data-file-state-badge="" data-astro-cid-6isyew5u=""
               ><span
                 class="esa-badge esa-badge--secondary esa-badge--xs typography-microcopy-2xs-strong"
-                data-astro-cid-yahmuvtj=""
-                ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
+                data-astro-cid-sh7ulwla=""
+                ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
                   >Not scanned</span
                 ></span
               ></span
             ><span data-file-badge="" hidden="" data-astro-cid-6isyew5u=""
               ><span
                 class="esa-badge esa-badge--warning esa-badge--xs typography-microcopy-2xs-strong"
-                data-astro-cid-yahmuvtj=""
-                ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
+                data-astro-cid-sh7ulwla=""
+                ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
                   >3 to check</span
                 ></span
               ></span
@@ -646,13 +646,13 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
               aria-valuemin="0"
               aria-valuemax="100"
               aria-label="Progress"
-              data-astro-cid-o4bx2qs6=""
+              data-astro-cid-wrbji5dg=""
             >
-              <div class="esa-progress-bar__track" data-astro-cid-o4bx2qs6="">
+              <div class="esa-progress-bar__track" data-astro-cid-wrbji5dg="">
                 <div
                   class="esa-progress-bar__fill"
                   style="width: 0%"
-                  data-astro-cid-o4bx2qs6=""
+                  data-astro-cid-wrbji5dg=""
                 ></div>
               </div></div></span
         ></span></button
@@ -663,7 +663,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
         data-astro-cid-6isyew5u="true"
         ><span
           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-          data-astro-cid-5nhxdd72=""
+          data-astro-cid-4xhmycw5=""
           ><button
             class="esa-button__native typography-microcopy-2xs"
             type="button"
@@ -671,12 +671,12 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
             title="File actions"
             data-ico="ellipsis"
             data-astro-cid-6isyew5u="true"
-            data-astro-cid-5nhxdd72=""
+            data-astro-cid-4xhmycw5=""
           >
             <span
               class="esa-icon esa-icon--xs"
               aria-hidden="true"
-              data-astro-cid-wcwfib5m=""
+              data-astro-cid-c7ivvrtd=""
               ><svg
                 width="14"
                 height="14"
@@ -687,7 +687,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 focusable="false"
-                data-astro-cid-wcwfib5m=""
+                data-astro-cid-c7ivvrtd=""
               >
                 <line x1="4" x2="20" y1="6" y2="6"></line>
                 <line x1="4" x2="20" y1="12" y2="12"></line>
@@ -830,104 +830,6 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
 .side-nav.collapsed .nav-section__title,
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
-}
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
-  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
-}
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
-}
-.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-  --_badge-text: var(--color-content-default-knockout, #fcfcfc);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
-}
-.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
-}
-.esa-badge--neutral:not(.esa-badge--dot),
-.esa-badge--success:not(.esa-badge--dot),
-.esa-badge--warning:not(.esa-badge--dot),
-.esa-badge--danger:not(.esa-badge--dot),
-.esa-badge--info:not(.esa-badge--dot) {
-  border: 1px solid var(--_badge-border, transparent);
-}
-.esa-badge--dot {
-  border-radius: var(--radius-pill, 9999px);
-  width: 8px;
-  min-width: 8px;
-  height: 8px;
-  padding: 0;
-}
-.esa-badge--dot.esa-badge--neutral {
-  --_badge-bg: var(--color-content-default-secondary, #646464);
-}
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
-}
-.esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-}
-.esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
-}
-.esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
-}
-.esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
-}
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  background: canvastext;
-  border: 0;
-  outline: 1px solid canvastext;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -1455,6 +1357,95 @@ summary.esa-button--variant-chrome:focus-visible {
   height: var(--_icon-size);
   display: block;
 }
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-badge--xs {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-100, 0.25rem);
+}
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-badge--lg {
+  --_badge-padding-y: var(--spacing-250, 0.625rem);
+  --_badge-padding-x: var(--spacing-300, 0.75rem);
+}
+.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+}
+.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
+  --_badge-text: var(--color-content-utility-success, #218358);
+  --_badge-border: var(--color-border-utility-success, #adddc0);
+}
+.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
+  --_badge-text: var(--color-content-utility-warning, #ab6400);
+  --_badge-border: var(--color-border-utility-warning, #f3d673);
+}
+.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
+  --_badge-text: var(--color-content-utility-danger, #ce2c31);
+  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
+}
+.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
+  --_badge-text: var(--color-content-utility-info, #0d74ce);
+  --_badge-border: var(--color-border-utility-info, #acd8fc);
+}
+.esa-badge--success:not(.esa-badge--dot),
+.esa-badge--warning:not(.esa-badge--dot),
+.esa-badge--danger:not(.esa-badge--dot),
+.esa-badge--info:not(.esa-badge--dot) {
+  border: 1px solid var(--_badge-border, transparent);
+}
+.esa-badge--dot {
+  border-radius: var(--radius-pill, 9999px);
+  width: 8px;
+  min-width: 8px;
+  height: 8px;
+  padding: 0;
+}
+.esa-badge--dot.esa-badge--primary {
+  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
+}
+.esa-badge--dot.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand, #46a758);
+}
+.esa-badge--dot.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
+}
+.esa-badge--dot.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
+}
+.esa-badge--dot.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
+}
+.esa-badge--dot.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
+}
+.esa-badge--dot {
+  background: canvastext;
+  border: 0;
+  outline: 1px solid canvastext;
+}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -1467,9 +1458,8 @@ summary.esa-button--variant-chrome:focus-visible {
 ## Tokens
 - `--animation-indeterminate`: 1.5s ease-in-out infinite _(semantic)_
 - `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #fcfcfc _(component)_
-- `--badge-border-color`: #dcdcdc _(component)_
-- `--badge-text-color`: #525252 _(component)_
+- `--badge-bg`: #005862 _(component)_
+- `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_

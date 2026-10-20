@@ -169,27 +169,15 @@ One action: type chip, title (opens the action panel), implementation count. Chi
 
 ## Styles
 ```css
-.bcn-loc__edited {
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-loc__edited[hidden] {
+.bcn-loc[data-class="commitment"] .bcn-loc__req .bcn-cbadge {
   display: none;
 }
-.bcn-loc__dot {
-  place-items: center;
-  block-size: 1rem;
-  inline-size: 1rem;
-  display: inline-grid;
-}
-.bcn-loc__dot:before {
-  content: "";
-  background: var(--color-content-brand);
-  border-radius: 50%;
-  block-size: 6px;
-  inline-size: 6px;
-}
-.bcn-loc[data-class="commitment"] .bcn-loc__req .bcn-cbadge {
+.bcn-lit:not([data-index-editable])
+  esa-tooltip:has(
+    [data-list-remove],
+    [data-list-duplicate],
+    .bcn-loc__verb[data-list-edit]
+  ) {
   display: none;
 }
 .bcn-search-trigger .esa-icon {
@@ -385,6 +373,7 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
 .bcn-lac[data-class="action"],
+.bcn-lob[data-class="action"],
 .bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
@@ -506,6 +495,26 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-loc [data-list-count] {
   margin-inline-start: auto;
 }
+.bcn-loc__edited {
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-loc__edited[hidden] {
+  display: none;
+}
+.bcn-loc__dot {
+  place-items: center;
+  block-size: 1rem;
+  inline-size: 1rem;
+  display: inline-grid;
+}
+.bcn-loc__dot:before {
+  content: "";
+  background: var(--color-content-brand);
+  border-radius: 50%;
+  block-size: 6px;
+  inline-size: 6px;
+}
 .bcn-loc__req {
   color: var(--color-content-default-secondary);
   cursor: pointer;
@@ -551,27 +560,6 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-loc__evidence[data-none] {
   color: var(--color-content-default-tertiary);
   font-weight: 400;
-}
-.bcn-swcb {
-  min-width: 22px;
-  padding: 2px var(--spacing-150);
-  border-radius: var(--radius-100);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default-subtle);
-  color: var(--color-content-default-tertiary);
-  font-family: var(--typography-font-family-sans);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  line-height: 1;
-  display: inline-flex;
-}
-.bcn-swcb--sm {
-  min-width: 18px;
-  padding: 2px var(--spacing-100);
-  font-size: var(--font-size-050);
 }
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -623,6 +611,27 @@ details[open] > summary .bcn-loc__chevron {
   flex-shrink: 0;
   width: 8px;
   height: 8px;
+}
+.bcn-swcb {
+  min-width: 22px;
+  padding: 2px var(--spacing-150);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default-subtle);
+  color: var(--color-content-default-tertiary);
+  font-family: var(--typography-font-family-sans);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1;
+  display: inline-flex;
+}
+.bcn-swcb--sm {
+  min-width: 18px;
+  padding: 2px var(--spacing-100);
+  font-size: var(--font-size-050);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

@@ -511,14 +511,12 @@ A project-wide roll-up above the list: how many components exist, how they distr
 - `--card-bg`: #fcfcfc _(component)_
 - `--card-border-color`: #dcdcdc _(component)_
 - `--card-header-bg`: transparent _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
@@ -541,12 +539,12 @@ A project-wide roll-up above the list: how many components exist, how they distr
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-700`: 3rem _(primitive)_
-- `--stat-accent-color`: #005862 _(component)_
+- `--stat-accent-color`: #3a7c59 _(component)_
 - `--stat-value-color`: #3d3d3d _(component)_
 - `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
+- `--typography-body-md-font-weight`: 350 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_

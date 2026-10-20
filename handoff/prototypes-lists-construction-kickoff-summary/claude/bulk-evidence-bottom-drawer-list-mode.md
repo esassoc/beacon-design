@@ -194,8 +194,8 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
               ><li data-astro-cid-qzg7vnux="">
                 <span
                   class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                  data-astro-cid-xtwxlazl=""
-                  ><span class="esa-pill__label" data-astro-cid-xtwxlazl=""></span
+                  data-astro-cid-65ixjgm5=""
+                  ><span class="esa-pill__label" data-astro-cid-65ixjgm5=""></span
                 ></span></li></template
             ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template
@@ -206,19 +206,19 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                 ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                   ><span
                     class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                    data-astro-cid-5nhxdd72=""
+                    data-astro-cid-4xhmycw5=""
                     ><button
                       class="esa-button__native typography-microcopy-xs"
                       type="button"
                       aria-label="Remove this file from the evidence"
                       title="Remove this file from the evidence"
                       data-astro-cid-qzg7vnux="true"
-                      data-astro-cid-5nhxdd72=""
+                      data-astro-cid-4xhmycw5=""
                     >
                       <span
                         class="esa-icon esa-icon--sm"
                         aria-hidden="true"
-                        data-astro-cid-wcwfib5m=""
+                        data-astro-cid-c7ivvrtd=""
                         ><svg
                           width="16"
                           height="16"
@@ -229,7 +229,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           focusable="false"
-                          data-astro-cid-wcwfib5m=""
+                          data-astro-cid-c7ivvrtd=""
                         >
                           <path d="M18 6 6 18"></path>
                           <path d="m6 6 12 12"></path></svg
@@ -6228,27 +6228,27 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                 ><span class="bcn-ev-attached__mark" hidden="" data-astro-cid-6zu5gb4v=""
                   ><span
                     class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-                    data-astro-cid-yahmuvtj=""
-                    ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
+                    data-astro-cid-sh7ulwla=""
+                    ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
                       >Suggested</span
                     ></span
                   ></span
                 ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                   ><span
                     class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                    data-astro-cid-5nhxdd72=""
+                    data-astro-cid-4xhmycw5=""
                     ><button
                       class="esa-button__native typography-microcopy-xs"
                       type="button"
                       aria-label="Remove this evidence from the action"
                       title="Remove this evidence from the action"
                       data-astro-cid-6zu5gb4v="true"
-                      data-astro-cid-5nhxdd72=""
+                      data-astro-cid-4xhmycw5=""
                     >
                       <span
                         class="esa-icon esa-icon--sm"
                         aria-hidden="true"
-                        data-astro-cid-wcwfib5m=""
+                        data-astro-cid-c7ivvrtd=""
                         ><svg
                           width="16"
                           height="16"
@@ -6259,7 +6259,7 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           focusable="false"
-                          data-astro-cid-wcwfib5m=""
+                          data-astro-cid-c7ivvrtd=""
                         >
                           <path d="M18 6 6 18"></path>
                           <path d="m6 6 12 12"></path></svg
@@ -8196,27 +8196,15 @@ Attach one set of evidence to many list members at once, in the SAME app-wide bo
   line-height: var(--typography-meta-line-height);
   letter-spacing: var(--typography-meta-letter-spacing);
 }
-.bcn-loc__edited {
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-loc__edited[hidden] {
+.bcn-loc[data-class="commitment"] .bcn-loc__req .bcn-cbadge {
   display: none;
 }
-.bcn-loc__dot {
-  place-items: center;
-  block-size: 1rem;
-  inline-size: 1rem;
-  display: inline-grid;
-}
-.bcn-loc__dot:before {
-  content: "";
-  background: var(--color-content-brand);
-  border-radius: 50%;
-  block-size: 6px;
-  inline-size: 6px;
-}
-.bcn-loc[data-class="commitment"] .bcn-loc__req .bcn-cbadge {
+.bcn-lit:not([data-index-editable])
+  esa-tooltip:has(
+    [data-list-remove],
+    [data-list-duplicate],
+    .bcn-loc__verb[data-list-edit]
+  ) {
   display: none;
 }
 .bcn-search-trigger .esa-icon {
@@ -9489,6 +9477,7 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
 .bcn-lac[data-class="action"],
+.bcn-lob[data-class="action"],
 .bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
@@ -9610,6 +9599,26 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-loc [data-list-count] {
   margin-inline-start: auto;
 }
+.bcn-loc__edited {
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-loc__edited[hidden] {
+  display: none;
+}
+.bcn-loc__dot {
+  place-items: center;
+  block-size: 1rem;
+  inline-size: 1rem;
+  display: inline-grid;
+}
+.bcn-loc__dot:before {
+  content: "";
+  background: var(--color-content-brand);
+  border-radius: 50%;
+  block-size: 6px;
+  inline-size: 6px;
+}
 .bcn-loc__req {
   color: var(--color-content-default-secondary);
   cursor: pointer;
@@ -9655,6 +9664,35 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-loc__evidence[data-none] {
   color: var(--color-content-default-tertiary);
   font-weight: 400;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
+.bcn-aldo-needs__head .esa-badge {
+  font-variant-numeric: tabular-nums;
+}
+.bcn-aldo-status .esa-alert-box {
+  padding: var(--_aldo-gap) var(--spacing-250, 0.625rem);
+  font-size: var(--_aldo-text);
+  align-items: center;
+}
+.bcn-aldo-status .esa-alert-box__icon svg {
+  width: 16px;
+  height: 16px;
+}
+.bcn-aldo-composer__context .esa-pill[data-auto] {
+  --_pill-bg: transparent;
+  border-style: dashed;
+}
+.bcn-aldo-composer__context .esa-pill {
+  max-width: 100%;
+}
+.bcn-aldo-composer__context .esa-pill__label,
+.bcn-aldo-msg__context .esa-pill__label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 16rem;
+  overflow: hidden;
 }
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
@@ -10052,6 +10090,113 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-meta-line-height);
   letter-spacing: var(--typography-meta-letter-spacing);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-alert-box {
+  --_alert-bg: var(--color-background-utility-info-subtle, #fbfdff);
+  --_alert-border: var(--color-border-utility-info, #acd8fc);
+  --_alert-accent: var(--color-content-utility-info, #0d74ce);
+  --_alert-icon-color: var(--_alert-accent);
+  --_alert-title-color: var(--_alert-accent);
+  --_alert-text-color: var(
+    --alert-box-text-color,
+    var(--color-content-default-secondary, #646464)
+  );
+  align-items: flex-start;
+  gap: var(--spacing-300, 0.75rem);
+  padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
+  border: var(--border-width-default, 1px) solid var(--_alert-border);
+  border-radius: var(--radius-md, 0.5rem);
+  background: var(--_alert-bg);
+  display: flex;
+}
+.esa-alert-box--success {
+  --_alert-bg: var(--color-background-utility-success-subtle, #fbfefc);
+  --_alert-border: var(--color-border-utility-success, #adddc0);
+  --_alert-accent: var(--color-content-utility-success, #218358);
+}
+.esa-alert-box--warning {
+  --_alert-bg: var(--color-background-utility-warning-subtle, #fefdfb);
+  --_alert-border: var(--color-border-utility-warning, #f3d673);
+  --_alert-accent: var(--color-content-utility-warning, #ab6400);
+}
+.esa-alert-box--danger {
+  --_alert-bg: var(--color-background-utility-danger-subtle, #fffcfc);
+  --_alert-border: var(--color-border-utility-danger, #fdbdbe);
+  --_alert-accent: var(--color-content-utility-danger, #ce2c31);
+}
+.esa-alert-box__icon {
+  color: var(--_alert-icon-color);
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+.esa-alert-box__body {
+  flex: 1;
+  min-width: 0;
+}
+.esa-alert-box__title {
+  color: var(--_alert-title-color);
+  margin-bottom: var(--spacing-050, 0.125rem);
+  display: block;
+}
+.esa-alert-box__message {
+  color: var(--_alert-text-color);
+}
+.esa-alert-box__dismiss {
+  border-radius: var(--radius-sm, 0.25rem);
+  width: 24px;
+  height: 24px;
+  color: var(--color-content-default-secondary, #646464);
+  cursor: pointer;
+  transition:
+    color var(--transition-fast, 0.15s ease),
+    background var(--transition-fast, 0.15s ease);
+  background: 0 0;
+  border: none;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  display: inline-flex;
+}
+.esa-alert-box__dismiss:hover {
+  color: var(--color-content-default, #202020);
+  background: var(--color-background-overlay-strong-hover, #0000000f);
+}
+.esa-alert-box__dismiss:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline-offset: var(--focus-ring-offset, 2px);
+}
 .esa-pill {
   --_pill-bg: var(--color-background-elevation-sunken, #f0f0f0);
   --_pill-text: var(--color-content-default, #202020);
@@ -10192,113 +10337,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .esa-empty-state__actions:empty {
   display: none;
 }
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-alert-box {
-  --_alert-bg: var(--color-background-utility-info-subtle, #fbfdff);
-  --_alert-border: var(--color-border-utility-info, #acd8fc);
-  --_alert-accent: var(--color-content-utility-info, #0d74ce);
-  --_alert-icon-color: var(--_alert-accent);
-  --_alert-title-color: var(--_alert-accent);
-  --_alert-text-color: var(
-    --alert-box-text-color,
-    var(--color-content-default-secondary, #646464)
-  );
-  align-items: flex-start;
-  gap: var(--spacing-300, 0.75rem);
-  padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
-  border: var(--border-width-default, 1px) solid var(--_alert-border);
-  border-radius: var(--radius-md, 0.5rem);
-  background: var(--_alert-bg);
-  display: flex;
-}
-.esa-alert-box--success {
-  --_alert-bg: var(--color-background-utility-success-subtle, #fbfefc);
-  --_alert-border: var(--color-border-utility-success, #adddc0);
-  --_alert-accent: var(--color-content-utility-success, #218358);
-}
-.esa-alert-box--warning {
-  --_alert-bg: var(--color-background-utility-warning-subtle, #fefdfb);
-  --_alert-border: var(--color-border-utility-warning, #f3d673);
-  --_alert-accent: var(--color-content-utility-warning, #ab6400);
-}
-.esa-alert-box--danger {
-  --_alert-bg: var(--color-background-utility-danger-subtle, #fffcfc);
-  --_alert-border: var(--color-border-utility-danger, #fdbdbe);
-  --_alert-accent: var(--color-content-utility-danger, #ce2c31);
-}
-.esa-alert-box__icon {
-  color: var(--_alert-icon-color);
-  flex-shrink: 0;
-  padding-top: 1px;
-}
-.esa-alert-box__body {
-  flex: 1;
-  min-width: 0;
-}
-.esa-alert-box__title {
-  color: var(--_alert-title-color);
-  margin-bottom: var(--spacing-050, 0.125rem);
-  display: block;
-}
-.esa-alert-box__message {
-  color: var(--_alert-text-color);
-}
-.esa-alert-box__dismiss {
-  border-radius: var(--radius-sm, 0.25rem);
-  width: 24px;
-  height: 24px;
-  color: var(--color-content-default-secondary, #646464);
-  cursor: pointer;
-  transition:
-    color var(--transition-fast, 0.15s ease),
-    background var(--transition-fast, 0.15s ease);
-  background: 0 0;
-  border: none;
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  display: inline-flex;
-}
-.esa-alert-box__dismiss:hover {
-  color: var(--color-content-default, #202020);
-  background: var(--color-background-overlay-strong-hover, #0000000f);
-}
-.esa-alert-box__dismiss:focus-visible {
-  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
-  outline-offset: var(--focus-ring-offset, 2px);
-}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -10314,6 +10352,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--badge-bg`: #fcfcfc _(component)_
 - `--badge-border-color`: #dcdcdc _(component)_
 - `--badge-text-color`: #525252 _(component)_
+- `--bcn-aldo-600`: #06736f _(component)_
 - `--bcn-content-muted`: #7c7c7c _(component)_
 - `--bcn-ev-search-gap`: .625rem _(component)_
 - `--bcn-gray-100`: #efefef _(component)_

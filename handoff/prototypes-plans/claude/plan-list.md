@@ -142,8 +142,8 @@ The project’s plans, with New plan and Load sample plan. Each row opens that p
           data-astro-cid-ei5ip3z4=""
           ><span
             class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-            data-astro-cid-yahmuvtj=""
-            ><span class="esa-badge__text" data-astro-cid-yahmuvtj="">0</span></span
+            data-astro-cid-sh7ulwla=""
+            ><span class="esa-badge__text" data-astro-cid-sh7ulwla="">0</span></span
           ></span
         >
       </div>

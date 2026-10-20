@@ -46,7 +46,7 @@ Prod's work-area section restyled to match prod: one collapsible per work area, 
         <path d="M16 17H8"></path></svg></span
     ><span>Work Area Reports</span
     ><span
-      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
       ><span class="esa-badge__text">3</span></span
     >
   </h2>
@@ -245,7 +245,7 @@ Prod's work-area section restyled to match prod: one collapsible per work area, 
                             ><span class="bcn-cc__quiet"
                               ><span data-bcn-cc-status="" data-status="Open" hidden=""
                                 ><span
-                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Open</span></span
                                 ></span
                               ><span
@@ -253,12 +253,12 @@ Prod's work-area section restyled to match prod: one collapsible per work area, 
                                 data-status="In Progress"
                                 hidden=""
                                 ><span
-                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">In Progress</span></span
                                 ></span
                               ><span data-bcn-cc-status="" data-status="Resolved"
                                 ><span
-                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Resolved</span></span
                                 ></span
                               ></span
@@ -868,7 +868,7 @@ Prod's work-area section restyled to match prod: one collapsible per work area, 
                           >
                             <span>Daily Logs</span
                             ><span
-                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                               ><span class="esa-badge__text">1</span></span
                             >
                           </h4>
@@ -2445,7 +2445,7 @@ Prod's work-area section restyled to match prod: one collapsible per work area, 
                             ><span class="bcn-cc__quiet"
                               ><span data-bcn-cc-status="" data-status="Open"
                                 ><span
-                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Open</span></span
                                 ></span
                               ><span
@@ -2453,7 +2453,7 @@ Prod's work-area section restyled to match prod: one collapsible per work area, 
                                 data-status="In Progress"
                                 hidden=""
                                 ><span
-                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">In Progress</span></span
                                 ></span
                               ><span
@@ -2461,7 +2461,7 @@ Prod's work-area section restyled to match prod: one collapsible per work area, 
                                 data-status="Resolved"
                                 hidden=""
                                 ><span
-                                  class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                                  class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                                   ><span class="esa-badge__text">Resolved</span></span
                                 ></span
                               ></span
@@ -2744,7 +2744,7 @@ Prod's work-area section restyled to match prod: one collapsible per work area, 
                                     ><span>Marcus Oyelaran</span
                                     ><span class="bcn-cc__quiet"
                                       ><span
-                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text"
                                           >Report Generated</span
                                         ></span
@@ -2765,7 +2765,7 @@ Prod's work-area section restyled to match prod: one collapsible per work area, 
                                     ><span>Dana Whitcomb</span
                                     ><span class="bcn-cc__quiet"
                                       ><span
-                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text"
                                           >Report Generated</span
                                         ></span
@@ -2786,7 +2786,7 @@ Prod's work-area section restyled to match prod: one collapsible per work area, 
                                     ><span>Marcus Oyelaran</span
                                     ><span class="bcn-cc__quiet"
                                       ><span
-                                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">Draft</span></span
                                       ></span
                                     >
@@ -3136,7 +3136,7 @@ Prod's work-area section restyled to match prod: one collapsible per work area, 
                           >
                             <span>Daily Logs</span
                             ><span
-                              class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                               ><span class="esa-badge__text">4</span></span
                             >
                           </h4>
@@ -3153,7 +3153,7 @@ Prod's work-area section restyled to match prod: one collapsible per work area, 
                                     >Sep 12, 2026, 8:40 AM</time
                                   ><span class="bcn-cc__quiet"
                                     ><span
-                                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                                       ><span class="esa-badge__text">Draft</span></span
                                     ></span
                                   >
@@ -3226,7 +3226,7 @@ Prod's work-area section restyled to match prod: one collapsible per work area, 
                                     >Sep 10, 2026, 10:05 AM</time
                                   ><span class="bcn-cc__quiet"
                                     ><span
-                                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                                       ><span class="esa-badge__text"
                                         >Report Generated</span
                                       ></span
@@ -3251,7 +3251,7 @@ Prod's work-area section restyled to match prod: one collapsible per work area, 
                                     >Sep 9, 2026, 2:20 PM</time
                                   ><span class="bcn-cc__quiet"
                                     ><span
-                                      class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                                       ><span class="esa-badge__text"
                                         >Report Generated</span
                                       ></span
@@ -5219,28 +5219,6 @@ Prod's work-area section restyled to match prod: one collapsible per work area, 
 .bcn-dmr-wa__tile figure{margin:0}
 .bcn-dmr-wa__tile-img{--frame-ratio:4 / 3;border-radius:var(--radius-sm,.25rem)}
 .bcn-dmr-wa [data-excluded] img{opacity:.4;filter:grayscale()}
-.visually-hidden{white-space:nowrap;clip:rect(0 0 0 0);clip-path:inset(50%);border:0;width:1px;height:1px;margin:-1px;padding:0;position:absolute;overflow:hidden}
-.visually-hidden--focusable:focus,.visually-hidden--focusable:focus-within,.visually-hidden--focusable:active{white-space:normal;clip:auto;clip-path:none;width:auto;height:auto;margin:0;position:static;overflow:visible}
-.esa-badge{--_badge-bg:var(--badge-bg,var(--color-background-elevation-raised,#fcfcfc));--_badge-text:var(--badge-text-color,var(--color-content-default-secondary,#646464));--_badge-border:var(--badge-border-color,var(--color-border-default,#cecece));--_badge-padding-y:var(--spacing-150,.375rem);--_badge-padding-x:var(--spacing-200,.5rem);min-width:calc(1lh + 2 * var(--_badge-padding-y));padding-block:var(--_badge-padding-y);padding-inline:var(--_badge-padding-x);border-radius:var(--radius-chip,var(--radius-sm,.25rem));background:var(--_badge-bg);color:var(--_badge-text);white-space:nowrap;box-sizing:border-box;justify-content:center;align-items:center;display:inline-flex}
-.esa-badge--xs{--_badge-padding-y:var(--spacing-100,.25rem);--_badge-padding-x:var(--spacing-100,.25rem)}
-.esa-badge--sm{--_badge-padding-y:var(--spacing-100,.25rem);--_badge-padding-x:var(--spacing-150,.375rem)}
-.esa-badge--lg{--_badge-padding-y:var(--spacing-250,.625rem);--_badge-padding-x:var(--spacing-300,.75rem)}
-.esa-badge--primary{--_badge-bg:var(--color-background-brand,#46a758);--_badge-text:var(--color-content-default-knockout,#fcfcfc)}
-.esa-badge--secondary{--_badge-bg:var(--color-background-brand-muted,#e9f6e9);--_badge-text:var(--color-content-on-brand-muted,#203c25)}
-.esa-badge--success{--_badge-bg:var(--color-background-utility-success-muted,#e6f6eb);--_badge-text:var(--color-content-utility-success,#218358);--_badge-border:var(--color-border-utility-success,#adddc0)}
-.esa-badge--warning{--_badge-bg:var(--color-background-utility-warning-muted,#fff7c2);--_badge-text:var(--color-content-utility-warning,#ab6400);--_badge-border:var(--color-border-utility-warning,#f3d673)}
-.esa-badge--danger{--_badge-bg:var(--color-background-utility-danger-muted,#feebec);--_badge-text:var(--color-content-utility-danger,#ce2c31);--_badge-border:var(--color-border-utility-danger,#fdbdbe)}
-.esa-badge--info{--_badge-bg:var(--color-background-utility-info-muted,#e6f4fe);--_badge-text:var(--color-content-utility-info,#0d74ce);--_badge-border:var(--color-border-utility-info,#acd8fc)}
-.esa-badge--neutral:not(.esa-badge--dot),.esa-badge--success:not(.esa-badge--dot),.esa-badge--warning:not(.esa-badge--dot),.esa-badge--danger:not(.esa-badge--dot),.esa-badge--info:not(.esa-badge--dot){border:1px solid var(--_badge-border,transparent)}
-.esa-badge--dot{border-radius:var(--radius-pill,9999px);width:8px;min-width:8px;height:8px;padding:0}
-.esa-badge--dot.esa-badge--neutral{--_badge-bg:var(--color-content-default-secondary,#646464)}
-.esa-badge--dot.esa-badge--primary{--_badge-bg:var(--color-background-brand-hover,#3e9b4f)}
-.esa-badge--dot.esa-badge--secondary{--_badge-bg:var(--color-background-brand,#46a758)}
-.esa-badge--dot.esa-badge--success{--_badge-bg:var(--color-background-utility-success-hover,#2b9a66)}
-.esa-badge--dot.esa-badge--warning{--_badge-bg:var(--color-background-utility-warning-hover,#ffba18)}
-.esa-badge--dot.esa-badge--danger{--_badge-bg:var(--color-background-utility-danger-hover,#dc3e42)}
-.esa-badge--dot.esa-badge--info{--_badge-bg:var(--color-background-utility-info-hover,#0588f0)}
-.esa-badge--dot{background:canvastext;border:0;outline:1px solid canvastext}
 .esa-button{--_btn-pad-y:var(--spacing-300,.75rem);--_btn-padding-x:var(--spacing-300,.75rem);--_btn-radius:var(--button-radius-md,.5rem);--_accent:var(--color-background-brand,#46a758);--_accent-hover:var(--color-background-brand-hover,#3e9b4f);--_on:var(--color-content-default-knockout,#fcfcfc);--_accent-text:var(--_accent);--_btn-tint-hover:color-mix(in srgb, var(--_accent) 8%, transparent);--_btn-tint-active:color-mix(in srgb, var(--_accent) 14%, transparent);display:inline-block}
 .esa-button--xs{--_btn-pad-y:var(--spacing-200,.5rem);--_btn-padding-x:var(--spacing-200,.5rem);--_btn-radius:var(--button-radius-xs,4px)}
 .esa-button--sm{--_btn-pad-y:var(--spacing-250,.625rem);--_btn-padding-x:var(--spacing-250,.625rem);--_btn-radius:var(--button-radius-sm,4px)}
@@ -5297,6 +5275,26 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 .esa-collapsible[open]>.esa-collapsible__summary:after{transform:rotate(45deg)}
 .esa-collapsible__summary .esa-icon{color:var(--color-content-default-secondary,#646464);flex-shrink:0}
 .esa-collapsible__body{gap:var(--spacing-400,1rem);padding:0 var(--spacing-400,1rem) var(--spacing-400,1rem);flex-direction:column;display:flex}
+.visually-hidden{white-space:nowrap;clip:rect(0 0 0 0);clip-path:inset(50%);border:0;width:1px;height:1px;margin:-1px;padding:0;position:absolute;overflow:hidden}
+.visually-hidden--focusable:focus,.visually-hidden--focusable:focus-within,.visually-hidden--focusable:active{white-space:normal;clip:auto;clip-path:none;width:auto;height:auto;margin:0;position:static;overflow:visible}
+.esa-badge{--_badge-bg:var(--badge-bg,var(--color-background-brand,#46a758));--_badge-text:var(--badge-text-color,var(--color-content-default-knockout,#fcfcfc));--_badge-padding-y:var(--spacing-150,.375rem);--_badge-padding-x:var(--spacing-200,.5rem);min-width:calc(1lh + 2 * var(--_badge-padding-y));padding-block:var(--_badge-padding-y);padding-inline:var(--_badge-padding-x);border-radius:var(--radius-chip,var(--radius-sm,.25rem));background:var(--_badge-bg);color:var(--_badge-text);white-space:nowrap;box-sizing:border-box;justify-content:center;align-items:center;display:inline-flex}
+.esa-badge--xs{--_badge-padding-y:var(--spacing-100,.25rem);--_badge-padding-x:var(--spacing-100,.25rem)}
+.esa-badge--sm{--_badge-padding-y:var(--spacing-100,.25rem);--_badge-padding-x:var(--spacing-150,.375rem)}
+.esa-badge--lg{--_badge-padding-y:var(--spacing-250,.625rem);--_badge-padding-x:var(--spacing-300,.75rem)}
+.esa-badge--secondary{--_badge-bg:var(--color-background-brand-muted,#e9f6e9);--_badge-text:var(--color-content-on-brand-muted,#203c25)}
+.esa-badge--success{--_badge-bg:var(--color-background-utility-success-muted,#e6f6eb);--_badge-text:var(--color-content-utility-success,#218358);--_badge-border:var(--color-border-utility-success,#adddc0)}
+.esa-badge--warning{--_badge-bg:var(--color-background-utility-warning-muted,#fff7c2);--_badge-text:var(--color-content-utility-warning,#ab6400);--_badge-border:var(--color-border-utility-warning,#f3d673)}
+.esa-badge--danger{--_badge-bg:var(--color-background-utility-danger-muted,#feebec);--_badge-text:var(--color-content-utility-danger,#ce2c31);--_badge-border:var(--color-border-utility-danger,#fdbdbe)}
+.esa-badge--info{--_badge-bg:var(--color-background-utility-info-muted,#e6f4fe);--_badge-text:var(--color-content-utility-info,#0d74ce);--_badge-border:var(--color-border-utility-info,#acd8fc)}
+.esa-badge--success:not(.esa-badge--dot),.esa-badge--warning:not(.esa-badge--dot),.esa-badge--danger:not(.esa-badge--dot),.esa-badge--info:not(.esa-badge--dot){border:1px solid var(--_badge-border,transparent)}
+.esa-badge--dot{border-radius:var(--radius-pill,9999px);width:8px;min-width:8px;height:8px;padding:0}
+.esa-badge--dot.esa-badge--primary{--_badge-bg:var(--color-background-brand-hover,#3e9b4f)}
+.esa-badge--dot.esa-badge--secondary{--_badge-bg:var(--color-background-brand,#46a758)}
+.esa-badge--dot.esa-badge--success{--_badge-bg:var(--color-background-utility-success-hover,#2b9a66)}
+.esa-badge--dot.esa-badge--warning{--_badge-bg:var(--color-background-utility-warning-hover,#ffba18)}
+.esa-badge--dot.esa-badge--danger{--_badge-bg:var(--color-background-utility-danger-hover,#dc3e42)}
+.esa-badge--dot.esa-badge--info{--_badge-bg:var(--color-background-utility-info-hover,#0588f0)}
+.esa-badge--dot{background:canvastext;border:0;outline:1px solid canvastext}
 .esa-alert-box{--_alert-bg:var(--color-background-utility-info-subtle,#fbfdff);--_alert-border:var(--color-border-utility-info,#acd8fc);--_alert-accent:var(--color-content-utility-info,#0d74ce);--_alert-icon-color:var(--_alert-accent);--_alert-title-color:var(--_alert-accent);--_alert-text-color:var(--alert-box-text-color,var(--color-content-default-secondary,#646464));align-items:flex-start;gap:var(--spacing-300,.75rem);padding:var(--spacing-300,.75rem) var(--spacing-400,1rem);border:var(--border-width-default,1px) solid var(--_alert-border);border-radius:var(--radius-md,.5rem);background:var(--_alert-bg);display:flex}
 .esa-alert-box--success{--_alert-bg:var(--color-background-utility-success-subtle,#fbfefc);--_alert-border:var(--color-border-utility-success,#adddc0);--_alert-accent:var(--color-content-utility-success,#218358)}
 .esa-alert-box--warning{--_alert-bg:var(--color-background-utility-warning-subtle,#fefdfb);--_alert-border:var(--color-border-utility-warning,#f3d673);--_alert-accent:var(--color-content-utility-warning,#ab6400)}
@@ -5329,9 +5327,8 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 ## Tokens
 - `--alert-box-text-color`: #525252 _(component)_
 - `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #fcfcfc _(component)_
-- `--badge-border-color`: #dcdcdc _(component)_
-- `--badge-text-color`: #525252 _(component)_
+- `--badge-bg`: #005862 _(component)_
+- `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_

@@ -1,0 +1,1 @@
+import{a as e}from"./sw3-index.BhvgXxgs.js";document.querySelectorAll(`[data-sw3-ix]`).forEach(e);
