@@ -36,8 +36,9 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           focusable="false"
         >
           <path d="m9 18 6-6-6-6"></path></svg></span></span
-    ><span class="bcn-lot__name">Agency approvals</span
-    ><span class="bcn-swcb" aria-label="22 items">22</span>
+    ><span class="bcn-lot__name" data-list-name="" data-list-text="Agency approvals"
+      >Agency approvals</span
+    ><span class="bcn-swcb" aria-label="22 items" data-index-count="true">22</span>
   </summary>
   <ul class="bcn-lot__cards">
     <li
@@ -2822,26 +2823,6 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
 
 ## Styles
 ```css
-.bcn-loc__edited {
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-loc__edited[hidden] {
-  display: none;
-}
-.bcn-loc__dot {
-  place-items: center;
-  block-size: 1rem;
-  inline-size: 1rem;
-  display: inline-grid;
-}
-.bcn-loc__dot:before {
-  content: "";
-  background: var(--color-content-brand);
-  border-radius: 50%;
-  block-size: 6px;
-  inline-size: 6px;
-}
 .bcn-lot__cat[data-list-empty],
 .bcn-lot__sub[data-list-empty] {
   display: none;
@@ -2857,7 +2838,7 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
   outline: 2px solid var(--color-action);
   outline-offset: -2px;
 }
-.bcn-lit
+.bcn-lit:not([data-index-editable])
   esa-tooltip:has(
     [data-list-remove],
     [data-list-duplicate],
@@ -3058,6 +3039,7 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
 .bcn-lac[data-class="action"],
+.bcn-lob[data-class="action"],
 .bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
@@ -3178,6 +3160,26 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-loc [data-list-count] {
   margin-inline-start: auto;
+}
+.bcn-loc__edited {
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-loc__edited[hidden] {
+  display: none;
+}
+.bcn-loc__dot {
+  place-items: center;
+  block-size: 1rem;
+  inline-size: 1rem;
+  display: inline-grid;
+}
+.bcn-loc__dot:before {
+  content: "";
+  background: var(--color-content-brand);
+  border-radius: 50%;
+  block-size: 6px;
+  inline-size: 6px;
 }
 .bcn-loc__req {
   color: var(--color-content-default-secondary);
@@ -3326,9 +3328,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
 .bcn-lot__row .bcn-lot__name[hidden] {
   display: none;
 }
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -3358,6 +3357,28 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   height: var(--_icon-size);
   display: block;
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-status-chip {
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  display: inline-flex;
+}
+.bcn-status-chip__dot {
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+}
 .bcn-swcb {
   min-width: 22px;
   padding: 2px var(--spacing-150);
@@ -3378,25 +3399,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   min-width: 18px;
   padding: 2px var(--spacing-100);
   font-size: var(--font-size-050);
-}
-.bcn-status-chip {
-  align-items: center;
-  gap: var(--spacing-150);
-  padding: 2px var(--spacing-250);
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-100);
-  font-weight: var(--typography-font-weight-semibold);
-  white-space: nowrap;
-  background: color-mix(in srgb, var(--_chip) 16%, transparent);
-  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
-  display: inline-flex;
-}
-.bcn-status-chip__dot {
-  border-radius: var(--radius-full);
-  background: var(--_chip);
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

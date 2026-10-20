@@ -48,9 +48,10 @@ export default {
     {
       label: 'Export — PDF, CSV, Excel',
       selector: '.bcn-lxp',
-      intent: 'The index\'s ways out: PDF (the Compliance Index document), CSV and Excel, then Word as Coming Later. No JSON endpoint.',
+      intent: 'The index\'s ways out: PDF (the Compliance Index document), CSV and Excel, then Word (the same document). No JSON endpoint.',
       decisions: [
         'PDF calls `GET projects/{projectID}/compliance-index/generate-pdf` (list-export-compliance-index-pdf). The prototype opens the print route in a new tab.',
+        'Word downloads the SAME document as the PDF, as a .docx: `GET projects/{projectID}/compliance-index/generate-docx`, new, beside generate-pdf (BCN-1764). Same title block, summary, detail and order; Word\'s own pagination, with the summary table\'s header row repeating on each page. The prototype builds a .doc from the print route (list-word.ts), so its content cannot drift from the PDF (Andy, 2026-10-20: "show as active").',
       ],
       gotchas: [
         'Open: prod has no CSV or Excel of the index yet. The rows are shown so the card matches every list\'s; their columns are undecided (the PDF\'s summary columns plus Category and Subcategory is the obvious start).',

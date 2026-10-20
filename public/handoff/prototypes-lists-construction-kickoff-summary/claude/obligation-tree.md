@@ -4965,7 +4965,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               data-id="obl_01M2G6YKKYBZ9A7EECEZB6FGY6"
               data-class="adhere"
               data-list-description="Shield and aim every night fixture down and inward. No light crosses the work-area boundary."
-              data-registry-desc="If night work is required within a Project construction site after exclusion barriers have been installed, Permittee shall not use artificial lighting unless it is needed for worker safety. 8."
+              data-registry-desc="If night work is required within a Project construction site after exclusion barriers have been installed, Permittee shall not use artificial lighting unless it is needed for worker safety."
               data-codes="COA 11.47|COA 11.8"
               hidden=""
             >
@@ -5453,8 +5453,8 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               data-member-id="obl_01M2G6Y374X4RKETDHB3S1M1N3-m1"
               data-id="obl_01M2G6Y374X4RKETDHB3S1M1N3"
               data-class="adhere"
-              data-list-description="Permittee shall confine movement of heavy equipment to existing or CDFW-approved access roads or to locations at least 75 feet from flagged burrows. 11."
-              data-registry-desc="Permittee shall confine movement of heavy equipment to existing or CDFW-approved access roads or to locations at least 75 feet from flagged burrows. 11."
+              data-list-description="Permittee shall confine movement of heavy equipment to existing or CDFW-approved access roads or to locations at least 75 feet from flagged burrows."
+              data-registry-desc="Permittee shall confine movement of heavy equipment to existing or CDFW-approved access roads or to locations at least 75 feet from flagged burrows."
               data-codes="COA 11.41|COA 11.65"
               hidden=""
             >
@@ -6501,7 +6501,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               data-id="obl_01M2G6YKKJFSBZ7MC77J15GFVF"
               data-class="adhere"
               data-list-description="After dark, 15 mph on every unpaved surface inside the work area, including haul roads."
-              data-registry-desc=", outside the “dry season” defined as July 15-Oct 15) to avoid potential vehicle strikes of CTS."
+              data-registry-desc="Project vehicles shall observe a nighttime speed limit of 10 miles per hour in Project construction sites within the Bethany Complex between October 16 through July 14 (i.e., outside the “dry season” defined as July 15-Oct 15) to avoid potential vehicle strikes of CTS."
               data-codes="COA 11.11"
               hidden=""
             >
@@ -8153,7 +8153,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
               data-id="obl_01M2G6YKKXGW0MHG5S1F0JJR75"
               data-class="adhere"
               data-list-description="Haul all trash off site at the end of every shift. Nothing stays overnight."
-              data-registry-desc="6)."
+              data-registry-desc="Permittee shall ensure trash is removed from the construction site and taken to an appropriate facility at least once a week from the construction or Project site (see Condition of Approval 9.6)."
               data-codes="COA 11.20"
               hidden=""
             >

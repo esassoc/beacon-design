@@ -7890,6 +7890,25 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
 }
+.bcn-status-chip {
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  display: inline-flex;
+}
+.bcn-status-chip__dot {
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+}
 .esa-empty-state {
   --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
   --_empty-gap: var(--spacing-200, 0.5rem);
@@ -7957,25 +7976,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   min-width: 18px;
   padding: 2px var(--spacing-100);
   font-size: var(--font-size-050);
-}
-.bcn-status-chip {
-  align-items: center;
-  gap: var(--spacing-150);
-  padding: 2px var(--spacing-250);
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-100);
-  font-weight: var(--typography-font-weight-semibold);
-  white-space: nowrap;
-  background: color-mix(in srgb, var(--_chip) 16%, transparent);
-  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
-  display: inline-flex;
-}
-.bcn-status-chip__dot {
-  border-radius: var(--radius-full);
-  background: var(--_chip);
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

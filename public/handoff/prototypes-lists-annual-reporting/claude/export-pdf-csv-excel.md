@@ -1,15 +1,15 @@
 # Export — PDF, CSV, Excel
 
-The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, then Word as a row that is not built yet.
+The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, then Word, the same document as the PDF.
 
 ## Key decisions
 - Order is prod's card (CSV, then Excel, under those names) with PDF added first.
 - PDF downloads the action list document (see the list-export-action-pdf spec): `GET action-lists/{actionListID}/generate-pdf`. The prototype opens the print route in a new tab instead.
-- Word stays as a row with a "Coming Later" badge where its button would be. Not a disabled button: a disabled control reads as broken, not as not built.
+- Word downloads the SAME document as the PDF, as a .docx: `GET action-lists/{actionListID}/generate-docx`, new, beside generate-pdf (BCN-1764). Same title block, summary, detail and order; Word's own pagination, with the summary table's header row repeating on each page. The prototype builds a .doc from the print route (list-word.ts), so its content cannot drift from the PDF (Andy, 2026-10-20: "show as active").
 - NO JSON/API section on action lists (Andy: "but not the API option"); that endpoint exists for obligation lists only.
 
 ## Done when
-- Four rows in order PDF, CSV, Excel, Word; Word has no button.
+- Four rows in order PDF, CSV, Excel, Word; Word downloads the PDF's document as a Word file.
 
 ## Markup
 ```html
@@ -166,8 +166,14 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
             >Word
           </h4>
           <span
-            class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-            ><span class="esa-badge__text">Coming Later</span></span
+            class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+            ><button
+              class="esa-button__native typography-microcopy-xs"
+              type="button"
+              data-list-export-word="/beacon-design/prototypes/list-export-documents/annual-reporting"
+            >
+              <span class="esa-button__label">Download</span>
+            </button></span
           >
         </div>
       </div>
@@ -457,22 +463,6 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
-.bcn-countchip__num .esa-badge {
-  --badge-radius: var(--radius-full);
-  --badge-bg: var(--color-border-default);
-  --badge-text-color: var(--color-content-default-secondary);
-  box-sizing: border-box;
-  font-variant-numeric: tabular-nums;
-  min-width: 19px;
-  height: 19px;
-  box-shadow: 0 0 0 1.5px var(--color-background-elevation-raised);
-  justify-content: center;
-  align-items: center;
-  padding: 0 4px;
-  font-size: 0.8125rem;
-  line-height: 1;
-  display: inline-flex;
-}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -491,27 +481,8 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
 .bcn-ev-targets__item[data-blocked] .esa-card {
   opacity: 0.45;
 }
-.bcn-ev-attached__mark .esa-badge {
-  --badge-bg: var(--color-background-utility-info-subtle);
-  --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
-  font-weight: var(--typography-font-weight-medium);
-}
 .bcn-ev-targets__item .esa-card {
   overflow: visible;
-}
-.bcn-ev-row__mark .esa-badge {
-  --badge-bg: var(--color-background-utility-info-subtle);
-  --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
-  font-weight: var(--typography-font-weight-medium);
-}
-.bcn-ev-row__tags .esa-badge {
-  --badge-bg: var(--bcn-gray-100);
-  --badge-text-color: var(--bcn-gray-700);
-  font-weight: var(--typography-font-weight-medium);
 }
 .topbar__right .esa-icon-button {
   color: var(--color-content-default-secondary);
@@ -552,107 +523,6 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
 }
 .bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
   color: var(--bcn-aldo-600);
-}
-.bcn-aldo-needs__head .esa-badge {
-  font-variant-numeric: tabular-nums;
-}
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
-  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
-}
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
-}
-.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-  --_badge-text: var(--color-content-default-knockout, #fcfcfc);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
-}
-.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
-}
-.esa-badge--neutral:not(.esa-badge--dot),
-.esa-badge--success:not(.esa-badge--dot),
-.esa-badge--warning:not(.esa-badge--dot),
-.esa-badge--danger:not(.esa-badge--dot),
-.esa-badge--info:not(.esa-badge--dot) {
-  border: 1px solid var(--_badge-border, transparent);
-}
-.esa-badge--dot {
-  border-radius: var(--radius-pill, 9999px);
-  width: 8px;
-  min-width: 8px;
-  height: 8px;
-  padding: 0;
-}
-.esa-badge--dot.esa-badge--neutral {
-  --_badge-bg: var(--color-content-default-secondary, #646464);
-}
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
-}
-.esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-}
-.esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
-}
-.esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
-}
-.esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
-}
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  background: canvastext;
-  border: 0;
-  outline: 1px solid canvastext;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -967,15 +837,10 @@ summary.esa-button--variant-chrome:focus-visible {
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #fcfcfc _(component)_
-- `--badge-border-color`: #dcdcdc _(component)_
-- `--badge-text-color`: #525252 _(component)_
 - `--bcn-aldo-600`: #06736f _(component)_
-- `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-700`: #525252 _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
@@ -1000,24 +865,15 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-danger-muted`: #feebec _(semantic)_
 - `--color-background-utility-info`: #228be6 _(semantic)_
 - `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
-- `--color-background-utility-info-subtle`: #fbfdff _(semantic)_
 - `--color-background-utility-success`: #2e7571 _(semantic)_
 - `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
 - `--color-background-utility-warning`: #f59e0b _(semantic)_
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-border-utility-danger`: #fdbdbe _(semantic)_
-- `--color-border-utility-info`: #acd8fc _(semantic)_
-- `--color-border-utility-success`: #adddc0 _(semantic)_
-- `--color-border-utility-warning`: #f3d673 _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
 - `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
@@ -1044,14 +900,10 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--line-height-normal`: 1.6 _(primitive)_
-- `--radius-chip`: .25rem _(semantic)_
-- `--radius-full`: 9999px _(primitive)_
 - `--radius-md`: .25rem _(semantic)_
-- `--radius-pill`: 9999px _(semantic)_
 - `--radius-sm`: .25rem _(semantic)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
@@ -1066,7 +918,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_

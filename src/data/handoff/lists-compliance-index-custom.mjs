@@ -101,7 +101,7 @@ export default {
     {
       label: 'Export — PDF, CSV, Excel',
       selector: '.bcn-lxp',
-      intent: 'PDF prints this list\'s outline (list-export-compliance-index-pdf, over the version), then CSV, Excel and Word as Coming Later. No JSON endpoint.',
+      intent: 'PDF prints this list\'s outline (list-export-compliance-index-pdf, over the version), then CSV and Excel, then Word (the PDF\'s document as a Word file). No JSON endpoint.',
       acceptance: ['The PDF\'s groups are this list\'s categories and subcategories, in its order.'],
     },
     {

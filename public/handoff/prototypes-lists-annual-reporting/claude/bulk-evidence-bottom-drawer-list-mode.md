@@ -9067,53 +9067,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
 }
-.esa-empty-state {
-  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
-  --_empty-gap: var(--spacing-200, 0.5rem);
-  text-align: center;
-  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
-  justify-content: center;
-  align-items: center;
-  gap: var(--_empty-gap);
-  flex-direction: column;
-  display: flex;
-}
-.esa-empty-state--xs {
-  --_empty-icon-size: var(--empty-state-icon-size-xs, 24px);
-  padding: var(--spacing-300, 0.75rem) var(--spacing-200, 0.5rem);
-}
-.esa-empty-state--sm {
-  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
-  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
-}
-.esa-empty-state--lg {
-  --_empty-icon-size: var(--empty-state-icon-size-lg, 64px);
-  padding: var(--spacing-800, 4rem) var(--spacing-400, 1rem);
-}
-.esa-empty-state__icon {
-  color: var(--color-content-default-secondary, #646464);
-  margin-bottom: var(--spacing-100, 0.25rem);
-  display: inline-flex;
-}
-.esa-empty-state__icon svg {
-  width: var(--_empty-icon-size);
-  height: var(--_empty-icon-size);
-}
-.esa-empty-state__title {
-  color: var(--color-content-default, #202020);
-  margin: 0;
-}
-.esa-empty-state__description {
-  color: var(--color-content-default-secondary, #646464);
-  max-width: 360px;
-  margin: 0;
-}
-.esa-empty-state__actions {
-  margin-top: var(--spacing-200, 0.5rem);
-}
-.esa-empty-state__actions:empty {
-  display: none;
-}
 .esa-alert-box {
   --_alert-bg: var(--color-background-utility-info-subtle, #fbfdff);
   --_alert-border: var(--color-border-utility-info, #acd8fc);
@@ -9281,6 +9234,53 @@ summary.esa-button--variant-chrome:focus-visible {
 .esa-pill__remove:focus-visible {
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
+}
+.esa-empty-state {
+  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
+  --_empty-gap: var(--spacing-200, 0.5rem);
+  text-align: center;
+  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
+  justify-content: center;
+  align-items: center;
+  gap: var(--_empty-gap);
+  flex-direction: column;
+  display: flex;
+}
+.esa-empty-state--xs {
+  --_empty-icon-size: var(--empty-state-icon-size-xs, 24px);
+  padding: var(--spacing-300, 0.75rem) var(--spacing-200, 0.5rem);
+}
+.esa-empty-state--sm {
+  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
+  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
+}
+.esa-empty-state--lg {
+  --_empty-icon-size: var(--empty-state-icon-size-lg, 64px);
+  padding: var(--spacing-800, 4rem) var(--spacing-400, 1rem);
+}
+.esa-empty-state__icon {
+  color: var(--color-content-default-secondary, #646464);
+  margin-bottom: var(--spacing-100, 0.25rem);
+  display: inline-flex;
+}
+.esa-empty-state__icon svg {
+  width: var(--_empty-icon-size);
+  height: var(--_empty-icon-size);
+}
+.esa-empty-state__title {
+  color: var(--color-content-default, #202020);
+  margin: 0;
+}
+.esa-empty-state__description {
+  color: var(--color-content-default-secondary, #646464);
+  max-width: 360px;
+  margin: 0;
+}
+.esa-empty-state__actions {
+  margin-top: var(--spacing-200, 0.5rem);
+}
+.esa-empty-state__actions:empty {
+  display: none;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
