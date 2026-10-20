@@ -533,6 +533,9 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
 .bcn-cscrub {
   align-items: center;
   column-gap: var(--spacing-100);
@@ -978,9 +981,6 @@ summary.esa-button--variant-chrome:focus-visible {
   border-right-color: #0000;
   border-radius: 50%;
   display: inline-block;
-}
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);

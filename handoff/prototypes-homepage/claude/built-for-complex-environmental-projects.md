@@ -272,6 +272,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
+| `--color-background-brand` | `#005862` | semantic |
 | `--color-background-elevation-raised` | `#fcfcfc` | semantic |
 | `--color-background-elevation-sunken` | `#efefef` | semantic |
 | `--color-border-default` | `#dcdcdc` | semantic |

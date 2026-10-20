@@ -1,6 +1,6 @@
 {
   "name": "list-export-compliance-index-pdf",
-  "url": "http://localhost:4400/beacon-design/prototypes/list-export-documents/compliance-index/",
+  "url": "http://localhost:4399/beacon-design/prototypes/list-export-documents/compliance-index/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [

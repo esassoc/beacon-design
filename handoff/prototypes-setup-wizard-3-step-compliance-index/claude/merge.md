@@ -114,6 +114,9 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
 .bcn-console__more .esa-button__native {
   font-family: var(--_mono);
   height: auto;
@@ -546,9 +549,6 @@ summary.esa-button--variant-chrome:focus-visible {
   border-right-color: #0000;
   border-radius: 50%;
   display: inline-block;
-}
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);

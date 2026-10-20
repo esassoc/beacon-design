@@ -347,61 +347,61 @@ On a Compliance Index version (e.g. /prototypes/lists/contractor-field-index), A
     ><template data-part="button-neutral"
       ><span
         class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-        data-astro-cid-4xhmycw5=""
+        data-astro-cid-5nhxdd72=""
         ><button
           class="esa-button__native typography-microcopy-2xs"
           type="button"
-          data-astro-cid-4xhmycw5=""
+          data-astro-cid-5nhxdd72=""
         >
-          <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
+          <span class="esa-button__label" data-astro-cid-5nhxdd72="">Action</span>
         </button></span
       ></template
     ><template data-part="button-primary"
       ><span
         class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--xs"
-        data-astro-cid-4xhmycw5=""
+        data-astro-cid-5nhxdd72=""
         ><button
           class="esa-button__native typography-microcopy-2xs"
           type="button"
-          data-astro-cid-4xhmycw5=""
+          data-astro-cid-5nhxdd72=""
         >
-          <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
+          <span class="esa-button__label" data-astro-cid-5nhxdd72="">Action</span>
         </button></span
       ></template
     ><template data-part="button-success"
       ><span
         class="esa-button esa-button--variant-success esa-button--appearance-fill esa-button--xs"
-        data-astro-cid-4xhmycw5=""
+        data-astro-cid-5nhxdd72=""
         ><button
           class="esa-button__native typography-microcopy-2xs"
           type="button"
-          data-astro-cid-4xhmycw5=""
+          data-astro-cid-5nhxdd72=""
         >
-          <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
+          <span class="esa-button__label" data-astro-cid-5nhxdd72="">Action</span>
         </button></span
       ></template
     ><template data-part="button-danger"
       ><span
         class="esa-button esa-button--variant-danger esa-button--appearance-soft esa-button--xs"
-        data-astro-cid-4xhmycw5=""
+        data-astro-cid-5nhxdd72=""
         ><button
           class="esa-button__native typography-microcopy-2xs"
           type="button"
-          data-astro-cid-4xhmycw5=""
+          data-astro-cid-5nhxdd72=""
         >
-          <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
+          <span class="esa-button__label" data-astro-cid-5nhxdd72="">Action</span>
         </button></span
       ></template
     ><template data-part="button-info"
       ><span
         class="esa-button esa-button--variant-info esa-button--appearance-soft esa-button--xs"
-        data-astro-cid-4xhmycw5=""
+        data-astro-cid-5nhxdd72=""
         ><button
           class="esa-button__native typography-microcopy-2xs"
           type="button"
-          data-astro-cid-4xhmycw5=""
+          data-astro-cid-5nhxdd72=""
         >
-          <span class="esa-button__label" data-astro-cid-4xhmycw5="">Action</span>
+          <span class="esa-button__label" data-astro-cid-5nhxdd72="">Action</span>
         </button></span
       ></template
     ><template data-part="badge"
@@ -413,19 +413,19 @@ On a Compliance Index version (e.g. /prototypes/lists/contractor-field-index), A
     ><template data-part="copy"
       ><span
         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-        data-astro-cid-4xhmycw5=""
+        data-astro-cid-5nhxdd72=""
         ><button
           class="esa-button__native typography-microcopy-2xs"
           type="button"
           aria-label="Copy message"
           title="Copy message"
           data-ico="copy"
-          data-astro-cid-4xhmycw5=""
+          data-astro-cid-5nhxdd72=""
         >
           <span
             class="esa-icon esa-icon--xs"
             aria-hidden="true"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
             ><svg
               width="14"
               height="14"
@@ -436,7 +436,7 @@ On a Compliance Index version (e.g. /prototypes/lists/contractor-field-index), A
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
             >
               <path d="M5 12h14"></path>
               <path d="M12 5v14"></path></svg
@@ -444,14 +444,14 @@ On a Compliance Index version (e.g. /prototypes/lists/contractor-field-index), A
     ><template data-part="chip"
       ><span
         class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-        data-astro-cid-65ixjgm5=""
-        ><span class="esa-pill__label" data-astro-cid-65ixjgm5="">Context</span
+        data-astro-cid-xtwxlazl=""
+        ><span class="esa-pill__label" data-astro-cid-xtwxlazl="">Context</span
         ><button
           class="esa-pill__remove"
           type="button"
           aria-label="Remove"
           data-esa-pill-remove=""
-          data-astro-cid-65ixjgm5=""
+          data-astro-cid-xtwxlazl=""
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -464,10 +464,10 @@ On a Compliance Index version (e.g. /prototypes/lists/contractor-field-index), A
             stroke-linecap="round"
             stroke-linejoin="round"
             aria-hidden="true"
-            data-astro-cid-65ixjgm5=""
+            data-astro-cid-xtwxlazl=""
           >
-            <path d="M18 6 6 18" data-astro-cid-65ixjgm5=""></path>
-            <path d="m6 6 12 12" data-astro-cid-65ixjgm5=""></path>
+            <path d="M18 6 6 18" data-astro-cid-xtwxlazl=""></path>
+            <path d="m6 6 12 12" data-astro-cid-xtwxlazl=""></path>
           </svg></button
       ></span>
       <script type="module">
@@ -487,8 +487,8 @@ On a Compliance Index version (e.g. /prototypes/lists/contractor-field-index), A
     ><template data-part="chip-fixed"
       ><span
         class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-        data-astro-cid-65ixjgm5=""
-        ><span class="esa-pill__label" data-astro-cid-65ixjgm5="">Context</span></span
+        data-astro-cid-xtwxlazl=""
+        ><span class="esa-pill__label" data-astro-cid-xtwxlazl="">Context</span></span
       >
       <script type="module">
         document.addEventListener(
@@ -507,18 +507,18 @@ On a Compliance Index version (e.g. /prototypes/lists/contractor-field-index), A
     ><template data-part="tool"
       ><span
         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
-        data-astro-cid-4xhmycw5=""
+        data-astro-cid-5nhxdd72=""
         ><button
           class="esa-button__native typography-microcopy-2xs"
           type="button"
           aria-label="Tool"
           title="Tool"
-          data-astro-cid-4xhmycw5=""
+          data-astro-cid-5nhxdd72=""
         >
           <span
             class="esa-icon esa-icon--xs"
             aria-hidden="true"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
             ><svg
               width="14"
               height="14"
@@ -529,7 +529,7 @@ On a Compliance Index version (e.g. /prototypes/lists/contractor-field-index), A
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
             >
               <path d="M5 12h14"></path>
               <path d="M12 5v14"></path></svg
@@ -1913,6 +1913,9 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -1941,9 +1944,6 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
-}
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
 }
 .esa-pill {
   --_pill-bg: var(--color-background-elevation-sunken, #f0f0f0);

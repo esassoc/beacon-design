@@ -21,23 +21,25 @@ The whole-letter rewrite: the green Aldo bar opens a composer whose field takes 
     <div class="bcn-ap__bar">
       <button type="button" class="bcn-ap__open" aria-expanded="false" data-ap-open="">
         <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-          ><span class="bcn-aldo-mark__glyph"
-            ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-              ><svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path
-                  d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                ></path>
-                <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+          ><svg
+            class="bcn-aldo-mark__glyph"
+            viewBox="0 0 64 64"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+            <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+            <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+            <circle
+              cx="33.2"
+              cy="31.1"
+              r="2"
+              fill="currentColor"
+              stroke="none"
+            ></circle></svg></span
         ><span class="bcn-ap__prompt typography-label-md-strong"
           >Ask Aldo to rewrite this response</span
         ></button
@@ -66,27 +68,25 @@ The whole-letter rewrite: the green Aldo bar opens a composer whose field takes 
       <div class="bcn-ap__head">
         <span data-ap-mark=""
           ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-            ><span class="bcn-aldo-mark__glyph"
-              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                ><svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path
-                    d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                  ></path>
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="10"
-                  ></circle></svg></span></span></span></span
+            ><svg
+              class="bcn-aldo-mark__glyph"
+              viewBox="0 0 64 64"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+              <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+              <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+              <circle
+                cx="33.2"
+                cy="31.1"
+                r="2"
+                fill="currentColor"
+                stroke="none"
+              ></circle></svg></span></span
         ><span class="typography-label-md-strong">Rewrite with Aldo</span
         ><span class="bcn-ap__close"
           ><span
@@ -173,7 +173,7 @@ The whole-letter rewrite: the green Aldo bar opens a composer whose field takes 
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnAldoPrompt.astro_astro_type_script_index_0_lang.lURGRDHI.js"
+    src="/beacon-design/_astro/BcnAldoPrompt.astro_astro_type_script_index_0_lang.Jn8CQphM.js"
   ></script>
 </div>
 ```
@@ -185,6 +185,22 @@ The whole-letter rewrite: the green Aldo bar opens a composer whose field takes 
        Both nodes are always in the DOM (the live region has to pre-exist its content),
        so the gap is opt-IN via .is-shown rather than collapsed with :empty — Lit's
        template whitespace defeats :empty in engines that follow Selectors L3. */
+.help,
+.error {
+  margin: 0;
+}
+/* Type comes from .typography-body-sm — help and error are one size at every
+       control step, so they name the composite directly rather than mapping. */
+/* Both nodes are ALWAYS in the DOM (see render()), so the gap is opt-IN rather
+       than collapsed away. Deliberately not display:none when empty — that removes
+       the node from the accessibility tree, and a live region that is not in the tree
+       cannot announce anything. An empty <p> with no margin occupies no space.
+
+       .is-shown rather than :empty: Lit's template whitespace leaves a text node
+       inside the element, and browsers still disagree about whether :empty ignores
+       whitespace-only children (Selectors L4 says yes, L3 says no). A class is
+       deterministic; :empty here would silently leave 4px of dead space under every
+       clean field in some engines and not others. */
 .help,
 .error {
   margin: 0;
@@ -314,7 +330,6 @@ img.ProseMirror-separator {
   display: inline-flex;
 }
 .bcn-aldo-mark[data-size="sm"] {
-  --icon-size-xs: 12px;
   width: 20px;
   height: 20px;
 }
@@ -327,16 +342,15 @@ img.ProseMirror-separator {
   height: 64px;
 }
 .bcn-aldo-mark__glyph {
-  justify-content: center;
-  align-items: center;
-  line-height: 0;
-  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .bcn-aldo-mark[data-animated] {
   animation: 2s ease-in-out infinite bcn-aldo-pulse;
 }
 .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
-  animation: 8s linear infinite bcn-aldo-spin;
+  animation: 12s linear infinite bcn-aldo-spin;
 }
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
@@ -942,7 +956,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-body-lg-font-size`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-font-weight`: 400 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -962,7 +976,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -977,6 +991,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

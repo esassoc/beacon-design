@@ -18,7 +18,7 @@ The top of the write drawer (esa-side-dialog, 640px): a header with the work-are
 ## Markup
 ```html
 <div class="band" id="wa-band">
-  <div class="bcn-key-value">
+  <div class="bcn-key-value" data-size="md" data-layout="stack">
     <span class="bcn-key-value__key">Clearance visit</span
     ><span class="wa__kv-val" id="wa-d-visit">May 18, 2026</span>
   </div>
@@ -46,6 +46,12 @@ The top of the write drawer (esa-side-dialog, 640px): a header with the work-are
   gap: 2px;
   display: flex;
 }
+.bcn-key-value[data-layout="row"] {
+  align-items: baseline;
+  column-gap: var(--spacing-300);
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  display: grid;
+}
 .bcn-key-value__key {
   font-size: var(--typography-label-md-font-size);
   font-weight: var(--typography-font-weight-medium);
@@ -60,6 +66,23 @@ The top of the write drawer (esa-side-dialog, 640px): a header with the work-are
   color: var(--color-content-default-tertiary);
   font-size: 0.75rem;
 }
+.bcn-key-value__key {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__key {
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  color: var(--color-content-secondary);
+}
+.bcn-key-value[data-size="sm"] .bcn-key-value__val {
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+}
 ```
 
 ## Tokens
@@ -67,7 +90,9 @@ The top of the write drawer (esa-side-dialog, 640px): a header with the work-are
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--color-content-secondary`: #525252 _(component)_
 - `--form-label-color`: #525252 _(component)_
+- `--spacing-100`: .25rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
@@ -75,3 +100,7 @@ The top of the write drawer (esa-side-dialog, 640px): a header with the work-are
 - `--typography-font-weight-medium`: 500 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-font-weight`: 500 _(semantic)_
+- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_

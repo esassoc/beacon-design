@@ -11,6 +11,8 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
 - Duplicate files the same passage a second time under another subtopic and links the response that filing's comments already use. In the submission reader the passage paints once, as its first filing.
 - Guidance is given to Aldo through bcn-aldo-prompt: a green-washed bar that opens a floating composer (auto-growing textarea, the locked topics it will keep, a round send button, ⌘Enter). Sending holds for a beat (shimmer, turning mark), folds the card away and lands the change in view; the bar then reads "Aldo refiled N comments" with Undo. It is the compliance-index guidance + Re-run pattern: it refiles everything not locked in one step, Unfiled first. A locked topic or subtopic neither gives nor takes comments, and cannot be renamed or deleted until unlocked; the composer names what is locked, and says nothing when nothing is. Names a person set are kept.
 - Renames and new subtopics reach the submission page's Topic select (comments-store holds the hierarchy).
+- Each topic row carries its expert (esa-avatar + an sm esa-select over the study team): the period's topic → expert map. Aldo routes a new response to its topic's expert, and changing the expert re-routes open responses that are still Aldo's routing (suggested), never ones a person assigned.
+- Re-run refiles only filings that are still suggested: a person's call stands.
 
 ## Gotchas
 - The prototype runs no model: Aldo's refiling is keyword-based (comments-store rerun) and moves 3 comments from the opening state. Production sends the guidance with the hierarchy and its locks.
@@ -35,23 +37,25 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
     <div class="bcn-ap__bar">
       <button type="button" class="bcn-ap__open" aria-expanded="false" data-ap-open="">
         <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-          ><span class="bcn-aldo-mark__glyph"
-            ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-              ><svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path
-                  d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                ></path>
-                <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+          ><svg
+            class="bcn-aldo-mark__glyph"
+            viewBox="0 0 64 64"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+            <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+            <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+            <circle
+              cx="33.2"
+              cy="31.1"
+              r="2"
+              fill="currentColor"
+              stroke="none"
+            ></circle></svg></span
         ><span class="bcn-ap__prompt typography-label-md-strong"
           >Give Aldo guidance on your topic index</span
         ></button
@@ -80,27 +84,25 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
       <div class="bcn-ap__head">
         <span data-ap-mark=""
           ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-            ><span class="bcn-aldo-mark__glyph"
-              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                ><svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path
-                    d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                  ></path>
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="10"
-                  ></circle></svg></span></span></span></span
+            ><svg
+              class="bcn-aldo-mark__glyph"
+              viewBox="0 0 64 64"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+              <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+              <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+              <circle
+                cx="33.2"
+                cy="31.1"
+                r="2"
+                fill="currentColor"
+                stroke="none"
+              ></circle></svg></span></span
         ><span class="typography-label-md-strong">Guide the Topic Index</span
         ><span class="bcn-ap__close"
           ><span
@@ -174,7 +176,7 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnAldoPrompt.astro_astro_type_script_index_0_lang.lURGRDHI.js"
+    src="/beacon-design/_astro/BcnAldoPrompt.astro_astro_type_script_index_0_lang.Jn8CQphM.js"
   ></script>
   <div class="bcn-cbt__tools">
     <span class="bcn-cbt__status typography-body-sm" data-cbt-status="" hidden=""
@@ -216,6 +218,18 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
       <div class="bcn-cbt__row bcn-cbt__row--cat">
         <span class="bcn-topic-dot" data-family="amber"></span
         ><span class="bcn-cbt__name" data-cbt-name="noise">Aircraft noise</span
+        ><span class="bcn-cbt__expert"
+          ><span class="bcn-proposal-ring" title="Ravi Anand"
+            ><span
+              class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+              style="--_avatar-hue: 308"
+              ><span class="esa-avatar__initials">RA</span></span
+            ></span
+          ><esa-select
+            size="sm"
+            aria-label="Expert for Aircraft noise"
+            data-cbt-expert="noise"
+          ></esa-select></span
         ><span class="bcn-cbt__verbs"
           ><esa-tooltip text="Rename" align="end" position="above"
             ><button
@@ -1265,6 +1279,18 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
       <div class="bcn-cbt__row bcn-cbt__row--cat">
         <span class="bcn-topic-dot" data-family="blue"></span
         ><span class="bcn-cbt__name" data-cbt-name="paths">Flight paths</span
+        ><span class="bcn-cbt__expert"
+          ><span class="bcn-proposal-ring" title="Mei Tanaka"
+            ><span
+              class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+              style="--_avatar-hue: 323"
+              ><span class="esa-avatar__initials">MT</span></span
+            ></span
+          ><esa-select
+            size="sm"
+            aria-label="Expert for Flight paths"
+            data-cbt-expert="paths"
+          ></esa-select></span
         ><span class="bcn-cbt__verbs"
           ><esa-tooltip text="Rename" align="end" position="above"
             ><button
@@ -1755,6 +1781,18 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
       <div class="bcn-cbt__row bcn-cbt__row--cat">
         <span class="bcn-topic-dot" data-family="violet"></span
         ><span class="bcn-cbt__name" data-cbt-name="night">Nighttime operations</span
+        ><span class="bcn-cbt__expert"
+          ><span class="bcn-proposal-ring" title="Ravi Anand"
+            ><span
+              class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+              style="--_avatar-hue: 308"
+              ><span class="esa-avatar__initials">RA</span></span
+            ></span
+          ><esa-select
+            size="sm"
+            aria-label="Expert for Nighttime operations"
+            data-cbt-expert="night"
+          ></esa-select></span
         ><span class="bcn-cbt__verbs"
           ><esa-tooltip text="Rename" align="end" position="above"
             ><button
@@ -2049,6 +2087,18 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
       <div class="bcn-cbt__row bcn-cbt__row--cat">
         <span class="bcn-topic-dot" data-family="grass"></span
         ><span class="bcn-cbt__name" data-cbt-name="measure">Noise measurement</span
+        ><span class="bcn-cbt__expert"
+          ><span class="bcn-proposal-ring" title="Jordan Ellis"
+            ><span
+              class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+              style="--_avatar-hue: 37"
+              ><span class="esa-avatar__initials">JE</span></span
+            ></span
+          ><esa-select
+            size="sm"
+            aria-label="Expert for Noise measurement"
+            data-cbt-expert="measure"
+          ></esa-select></span
         ><span class="bcn-cbt__verbs"
           ><esa-tooltip text="Rename" align="end" position="above"
             ><button
@@ -2441,6 +2491,18 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
       <div class="bcn-cbt__row bcn-cbt__row--cat">
         <span class="bcn-topic-dot" data-family="orange"></span
         ><span class="bcn-cbt__name" data-cbt-name="insulation">Sound insulation</span
+        ><span class="bcn-cbt__expert"
+          ><span class="bcn-proposal-ring" title="Tom Brecht"
+            ><span
+              class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+              style="--_avatar-hue: 112"
+              ><span class="esa-avatar__initials">TB</span></span
+            ></span
+          ><esa-select
+            size="sm"
+            aria-label="Expert for Sound insulation"
+            data-cbt-expert="insulation"
+          ></esa-select></span
         ><span class="bcn-cbt__verbs"
           ><esa-tooltip text="Rename" align="end" position="above"
             ><button
@@ -2836,6 +2898,18 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
       <div class="bcn-cbt__row bcn-cbt__row--cat">
         <span class="bcn-topic-dot" data-family="crimson"></span
         ><span class="bcn-cbt__name" data-cbt-name="health">Health</span
+        ><span class="bcn-cbt__expert"
+          ><span class="bcn-proposal-ring" title="Nadia Osei"
+            ><span
+              class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+              style="--_avatar-hue: 41"
+              ><span class="esa-avatar__initials">NO</span></span
+            ></span
+          ><esa-select
+            size="sm"
+            aria-label="Expert for Health"
+            data-cbt-expert="health"
+          ></esa-select></span
         ><span class="bcn-cbt__verbs"
           ><esa-tooltip text="Rename" align="end" position="above"
             ><button
@@ -3228,6 +3302,18 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
       <div class="bcn-cbt__row bcn-cbt__row--cat">
         <span class="bcn-topic-dot" data-family="slate"></span
         ><span class="bcn-cbt__name" data-cbt-name="process">Process and outreach</span
+        ><span class="bcn-cbt__expert"
+          ><span class="bcn-proposal-ring" title="Dana Whitcomb"
+            ><span
+              class="esa-avatar esa-avatar--xs esa-avatar--circle typography-label-2xs-strong"
+              style="--_avatar-hue: 219"
+              ><span class="esa-avatar__initials">DW</span></span
+            ></span
+          ><esa-select
+            size="sm"
+            aria-label="Expert for Process and outreach"
+            data-cbt-expert="process"
+          ></esa-select></span
         ><span class="bcn-cbt__verbs"
           ><esa-tooltip text="Rename" align="end" position="above"
             ><button
@@ -3679,12 +3765,35 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
 .error {
   margin: 0;
 }
+/* Type comes from .typography-body-sm — help and error are one size at every
+       control step, so they name the composite directly rather than mapping. */
+/* Both nodes are ALWAYS in the DOM (see render()), so the gap is opt-IN rather
+       than collapsed away. Deliberately not display:none when empty — that removes
+       the node from the accessibility tree, and a live region that is not in the tree
+       cannot announce anything. An empty <p> with no margin occupies no space.
+
+       .is-shown rather than :empty: Lit's template whitespace leaves a text node
+       inside the element, and browsers still disagree about whether :empty ignores
+       whitespace-only children (Selectors L4 says yes, L3 says no). A class is
+       deterministic; :empty here would silently leave 4px of dead space under every
+       clean field in some engines and not others. */
+.help,
+.error {
+  margin: 0;
+}
 .typography-body-sm {
   font-family: var(--typography-body-sm-font-family);
   font-size: var(--typography-body-sm-font-size);
   font-weight: var(--typography-body-sm-font-weight);
   line-height: var(--typography-body-sm-line-height);
   letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-2xs-strong {
+  font-family: var(--typography-label-2xs-strong-font-family);
+  font-size: var(--typography-label-2xs-strong-font-size);
+  font-weight: var(--typography-label-2xs-strong-font-weight);
+  line-height: var(--typography-label-2xs-strong-line-height);
+  letter-spacing: var(--typography-label-2xs-strong-letter-spacing);
 }
 .typography-label-md-strong {
   font-family: var(--typography-label-md-strong-font-family);
@@ -3771,7 +3880,6 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
   display: inline-flex;
 }
 .bcn-aldo-mark[data-size="sm"] {
-  --icon-size-xs: 12px;
   width: 20px;
   height: 20px;
 }
@@ -3784,16 +3892,15 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
   height: 64px;
 }
 .bcn-aldo-mark__glyph {
-  justify-content: center;
-  align-items: center;
-  line-height: 0;
-  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .bcn-aldo-mark[data-animated] {
   animation: 2s ease-in-out infinite bcn-aldo-pulse;
 }
 .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
-  animation: 8s linear infinite bcn-aldo-spin;
+  animation: 12s linear infinite bcn-aldo-spin;
 }
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
@@ -3902,6 +4009,25 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
   box-shadow: none;
   border: 1.5px dashed var(--_ink);
   background: 0 0;
+}
+.bcn-topic-dot[data-suggested] {
+  background: color-mix(
+    in srgb,
+    var(--_ink) 22%,
+    var(--color-background-elevation-raised)
+  );
+  box-shadow: none;
+  border: 1.5px dashed var(--_ink);
+  box-sizing: border-box;
+}
+.bcn-proposal-ring {
+  border: 1.5px solid #0000;
+  border-radius: 50%;
+  padding: 1px;
+  display: inline-flex;
+}
+.bcn-proposal-ring[data-suggested] {
+  border: 1.5px dashed var(--color-content-default-tertiary);
 }
 :is(mark.bcn-hl, .bcn-topic-dot)[data-family="amber"][data-shade="1"] {
   --_hl: var(--bcn-topic-amber-1);
@@ -4224,6 +4350,19 @@ summary.esa-button--variant-chrome:focus-visible {
   margin-left: auto;
   display: inline-flex;
 }
+.bcn-cbt .bcn-cbt__expert {
+  align-items: center;
+  gap: var(--spacing-150, 0.375rem);
+  font-weight: var(--typography-font-weight-regular);
+  margin-left: auto;
+  display: inline-flex;
+}
+.bcn-cbt .bcn-cbt__expert esa-select {
+  width: 11rem;
+}
+.bcn-cbt .bcn-cbt__expert + .bcn-cbt__verbs {
+  margin-left: 0;
+}
 .bcn-cbt__list {
   background: var(--color-background-elevation-raised);
   border: 1px solid var(--color-border-default);
@@ -4449,6 +4588,13 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-body-sm-line-height);
   letter-spacing: var(--typography-body-sm-letter-spacing);
 }
+.typography-label-2xs-strong {
+  font-family: var(--typography-label-2xs-strong-font-family);
+  font-size: var(--typography-label-2xs-strong-font-size);
+  font-weight: var(--typography-label-2xs-strong-font-weight);
+  line-height: var(--typography-label-2xs-strong-line-height);
+  letter-spacing: var(--typography-label-2xs-strong-letter-spacing);
+}
 .typography-label-md-strong {
   font-family: var(--typography-label-md-strong-font-family);
   font-size: var(--typography-label-md-strong-font-size);
@@ -4521,6 +4667,58 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
+}
+.esa-avatar {
+  --_avatar-size: var(--avatar-size-md, 40px);
+  --_avatar-font-size: var(
+    --avatar-font-size-md,
+    var(--typography-label-md-strong-font-size, var(--font-size-200, 0.9375rem))
+  );
+  --_avatar-radius: var(--radius-pill, 9999px);
+  --_avatar-bg: var(--avatar-bg, hsl(var(--_avatar-hue, 200) 45% 65%));
+  --_avatar-text: var(--color-content-default-knockout, #fcfcfc);
+  width: var(--_avatar-size);
+  height: var(--_avatar-size);
+  border-radius: var(--_avatar-radius);
+  background: var(--_avatar-bg);
+  color: var(--_avatar-text);
+  font-size: var(--_avatar-font-size);
+  user-select: none;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+  overflow: hidden;
+}
+.esa-avatar--xs {
+  --_avatar-size: var(--avatar-size-xs, 20px);
+  --_avatar-font-size: var(
+    --avatar-font-size-xs,
+    var(--typography-label-2xs-strong-font-size, var(--font-size-050, 0.625rem))
+  );
+}
+.esa-avatar--sm {
+  --_avatar-size: var(--avatar-size-sm, 28px);
+  --_avatar-font-size: var(
+    --avatar-font-size-sm,
+    var(--typography-label-xs-strong-font-size, var(--font-size-100, 0.75rem))
+  );
+}
+.esa-avatar--lg {
+  --_avatar-size: var(--avatar-size-lg, 56px);
+  --_avatar-font-size: var(
+    --avatar-font-size-lg,
+    var(--typography-title-font-size, var(--font-size-400, 1.25rem))
+  );
+}
+.esa-avatar--square {
+  --_avatar-radius: var(--radius-md, 0.5rem);
+}
+.esa-avatar__image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -4701,6 +4899,15 @@ summary.esa-button--variant-chrome:focus-visible {
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
+- `--avatar-bg`: hsl(200 45% 65%) _(component)_
+- `--avatar-font-size-lg`: clamp(1rem, .88rem + .6vw, 1.25rem) _(component)_
+- `--avatar-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
+- `--avatar-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
+- `--avatar-font-size-xs`: clamp(.5rem, .44rem + .3vw, .625rem) _(component)_
+- `--avatar-size-lg`: 56px _(component)_
+- `--avatar-size-md`: 40px _(component)_
+- `--avatar-size-sm`: 28px _(component)_
+- `--avatar-size-xs`: 20px _(component)_
 - `--bcn-aldo`: #08908b _(component)_
 - `--bcn-aldo-100`: #cfeceb _(component)_
 - `--bcn-aldo-600`: #06736f _(component)_
@@ -4796,6 +5003,10 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
+- `--font-size-050`: clamp(.5rem, .44rem + .3vw, .625rem) _(primitive)_
+- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
+- `--font-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
 - `--gap`: .5rem _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
@@ -4805,7 +5016,10 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
+- `--radius-md`: .25rem _(semantic)_
+- `--radius-pill`: 9999px _(semantic)_
 - `--spacing-100`: .25rem _(primitive)_
+- `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
@@ -4813,15 +5027,22 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-font-weight`: 400 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
+- `--typography-font-weight-regular`: 400 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
+- `--typography-label-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-2xs-strong-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
+- `--typography-label-2xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-2xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-2xs-strong-line-height`: 1.6 _(semantic)_
 - `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-label-md-strong-font-weight`: 550 _(semantic)_
 - `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
 - `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
+- `--typography-label-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
 - `--typography-microcopy-2xs-font-weight`: 500 _(semantic)_
@@ -4834,7 +5055,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-2xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -4849,7 +5070,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -4864,6 +5085,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+- `--typography-title-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_

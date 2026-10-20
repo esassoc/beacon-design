@@ -107,7 +107,7 @@ Selecting a source (not one of its files) shows prod's source view in the main p
   <template data-ed-file-tpl=""
     ><li class="bcn-sw3ed__file" data-ed-file="" data-astro-cid-phaaurm2="">
       <span class="bcn-sw3ed__fileicon" data-astro-cid-phaaurm2=""
-        ><span class="esa-icon esa-icon--md" aria-hidden="true" data-astro-cid-c7ivvrtd=""
+        ><span class="esa-icon esa-icon--md" aria-hidden="true" data-astro-cid-wcwfib5m=""
           ><svg
             width="20"
             height="20"
@@ -118,7 +118,7 @@ Selecting a source (not one of its files) shows prod's source view in the main p
             stroke-linecap="round"
             stroke-linejoin="round"
             focusable="false"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
           >
             <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
             <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
@@ -139,19 +139,19 @@ Selecting a source (not one of its files) shows prod's source view in the main p
       ><span class="bcn-sw3ed__factions" data-astro-cid-phaaurm2=""
         ><span
           class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-          data-astro-cid-4xhmycw5=""
+          data-astro-cid-5nhxdd72=""
           ><button
             class="esa-button__native typography-microcopy-xs"
             type="button"
             data-ed-fopen="true"
             data-astro-cid-phaaurm2="true"
-            data-astro-cid-4xhmycw5=""
+            data-astro-cid-5nhxdd72=""
           >
-            <span class="esa-button__label" data-astro-cid-4xhmycw5="">Open scan</span>
+            <span class="esa-button__label" data-astro-cid-5nhxdd72="">Open scan</span>
           </button></span
         ><span
           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-          data-astro-cid-4xhmycw5=""
+          data-astro-cid-5nhxdd72=""
           ><button
             class="esa-button__native typography-microcopy-xs"
             type="button"
@@ -159,12 +159,12 @@ Selecting a source (not one of its files) shows prod's source view in the main p
             title="Download"
             data-ed-fdownload="true"
             data-astro-cid-phaaurm2="true"
-            data-astro-cid-4xhmycw5=""
+            data-astro-cid-5nhxdd72=""
           >
             <span
               class="esa-icon esa-icon--sm"
               aria-hidden="true"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
               ><svg
                 width="16"
                 height="16"
@@ -175,7 +175,7 @@ Selecting a source (not one of its files) shows prod's source view in the main p
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 focusable="false"
-                data-astro-cid-c7ivvrtd=""
+                data-astro-cid-wcwfib5m=""
               >
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
@@ -183,7 +183,7 @@ Selecting a source (not one of its files) shows prod's source view in the main p
             ></span></button></span
         ><span
           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-          data-astro-cid-4xhmycw5=""
+          data-astro-cid-5nhxdd72=""
           ><button
             class="esa-button__native typography-microcopy-xs"
             type="button"
@@ -191,12 +191,12 @@ Selecting a source (not one of its files) shows prod's source view in the main p
             title="Delete file"
             data-ed-fdelete="true"
             data-astro-cid-phaaurm2="true"
-            data-astro-cid-4xhmycw5=""
+            data-astro-cid-5nhxdd72=""
           >
             <span
               class="esa-icon esa-icon--sm"
               aria-hidden="true"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
               ><svg
                 width="16"
                 height="16"
@@ -207,7 +207,7 @@ Selecting a source (not one of its files) shows prod's source view in the main p
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 focusable="false"
-                data-astro-cid-c7ivvrtd=""
+                data-astro-cid-wcwfib5m=""
               >
                 <path d="M3 6h18"></path>
                 <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
@@ -384,6 +384,9 @@ Selecting a source (not one of its files) shows prod's source view in the main p
 .side-nav.collapsed .nav-section__title,
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -704,9 +707,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3tools .esa-button,
 .bcn-sw3tools esa-dropdown-menu {
   flex: none;
-}
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
 }
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);

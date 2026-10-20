@@ -262,6 +262,9 @@ Where a locator leads: the commitment as step 2 marked it up, read only, the req
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
 .bcn-sw3c {
   flex-direction: column;
   min-height: 100%;
@@ -852,9 +855,6 @@ summary.esa-button--variant-chrome:focus-visible {
   border-right-color: #0000;
   border-radius: 50%;
   display: inline-block;
-}
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);

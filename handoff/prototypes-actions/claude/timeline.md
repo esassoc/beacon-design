@@ -2031,7 +2031,7 @@ Due Sep 16, 2026"
             ><span
               class="esa-icon esa-icon--sm"
               aria-hidden="true"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
               ><svg
                 width="16"
                 height="16"
@@ -2042,7 +2042,7 @@ Due Sep 16, 2026"
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 focusable="false"
-                data-astro-cid-c7ivvrtd=""
+                data-astro-cid-wcwfib5m=""
               >
                 <path d="m9 18 6-6-6-6"></path></svg></span></span
           ><span
@@ -2486,18 +2486,6 @@ Due Sep 16, 2026"
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
-.bcn-disc__head .esa-icon {
-  color: var(--color-content-default-secondary);
-  flex-shrink: 0;
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
 .typography-body-xs {
   font-family: var(--typography-body-xs-font-family);
   font-size: var(--typography-body-xs-font-size);
@@ -2529,6 +2517,34 @@ Due Sep 16, 2026"
 .bcn-component-picker__trigger > .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
+}
+.bcn-disc__head .esa-icon {
+  color: var(--color-content-default-secondary);
+  flex-shrink: 0;
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
+.bcn-evidence-card__lead .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
+  transform: rotate(90deg);
+}
+.bcn-evidence-card__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-evidence-card__actions .esa-icon {
+  width: 15px;
+  height: 15px;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -2620,22 +2636,6 @@ Due Sep 16, 2026"
   color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
-.bcn-evidence-card__lead .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  transition: transform 0.15s;
-}
-.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
-  transform: rotate(90deg);
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-evidence-card__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
 ```
 
 ## Tokens
@@ -2687,7 +2687,7 @@ Due Sep 16, 2026"
 - `--spacing-800`: 4rem _(primitive)_
 - `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-body-xs-font-weight`: 350 _(semantic)_
+- `--typography-body-xs-font-weight`: 400 _(semantic)_
 - `--typography-body-xs-letter-spacing`: .01em _(semantic)_
 - `--typography-body-xs-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_

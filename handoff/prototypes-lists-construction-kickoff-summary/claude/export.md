@@ -1122,7 +1122,7 @@ The ways the list leaves Beacon, in the rail: PDF, CSV and Excel file pulls, Wor
     </div>
   </div>
   <template data-list-export-copied=""
-    ><span class="esa-icon esa-icon--sm" aria-hidden="true" data-astro-cid-c7ivvrtd=""
+    ><span class="esa-icon esa-icon--sm" aria-hidden="true" data-astro-cid-wcwfib5m=""
       ><svg
         width="16"
         height="16"
@@ -1133,7 +1133,7 @@ The ways the list leaves Beacon, in the rail: PDF, CSV and Excel file pulls, Wor
         stroke-linecap="round"
         stroke-linejoin="round"
         focusable="false"
-        data-astro-cid-c7ivvrtd=""
+        data-astro-cid-wcwfib5m=""
       >
         <path d="M20 6 9 17l-5-5"></path></svg></span
   ></template>

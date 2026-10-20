@@ -189,7 +189,7 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
             class="esa-icon esa-icon--sm"
             role="img"
             aria-label="Approved"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
             ><svg
               width="16"
               height="16"
@@ -200,7 +200,7 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
               stroke-linecap="round"
               stroke-linejoin="round"
               focusable="false"
-              data-astro-cid-c7ivvrtd=""
+              data-astro-cid-wcwfib5m=""
             >
               <circle cx="12" cy="12" r="10"></circle>
               <path d="m9 12 2 2 4-4"></path></svg></span
@@ -367,6 +367,9 @@ One bar pinned across the top of the pane, as the PDF's page tools are on step 1
 .side-nav.collapsed .nav-section__title,
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
 }
 .bcn-console__more .esa-button__native {
   font-family: var(--_mono);
@@ -941,9 +944,6 @@ summary.esa-button--variant-chrome:focus-visible {
   border-right-color: #0000;
   border-radius: 50%;
   display: inline-block;
-}
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
 }
 .typography-label-sm {
   font-family: var(--typography-label-sm-font-family);

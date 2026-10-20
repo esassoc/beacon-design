@@ -36,13 +36,13 @@ Build index and the Draft run, each as a session. Build index is two tool calls:
     <template data-console-more=""
       ><span
         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs"
-        data-astro-cid-4xhmycw5=""
+        data-astro-cid-5nhxdd72=""
         ><button
           class="esa-button__native typography-microcopy-2xs"
           type="button"
-          data-astro-cid-4xhmycw5=""
+          data-astro-cid-5nhxdd72=""
         >
-          <span class="esa-button__label" data-astro-cid-4xhmycw5="">More</span>
+          <span class="esa-button__label" data-astro-cid-5nhxdd72="">More</span>
         </button></span
       ></template
     >
@@ -80,6 +80,9 @@ Build index and the Draft run, each as a session. Build index is two tool calls:
   font-weight: var(--typography-microcopy-2xs-strong-font-weight);
   line-height: var(--typography-microcopy-2xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
 }
 .bcn-console {
   --_mono: var(--typography-font-family-mono, ui-monospace, monospace);
@@ -572,9 +575,6 @@ summary.esa-button--variant-chrome:focus-visible {
   border-right-color: #0000;
   border-radius: 50%;
   display: inline-block;
-}
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
 }
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);

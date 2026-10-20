@@ -1,0 +1,3680 @@
+<!doctype html>
+<html lang="en" data-theme="beacon">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Work Area drawer — Decision-first v2 deep dive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Besley:ital,wght@0,400..900;1,400..900&amp;family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=Roboto+Mono:wght@400;500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root,
+      [data-theme="beacon"] {
+        --badge-bg: #fcfcfc;
+        --badge-border-color: #dcdcdc;
+        --badge-text-color: #525252;
+        --border-width-default: 1px;
+        --button-radius-md: 0.25rem;
+        --button-radius-sm: 0.25rem;
+        --color-background-brand: #005862;
+        --color-background-brand-hover: #00474f;
+        --color-background-brand-muted: #eef5f4;
+        --color-background-brand-subtle: #effefb;
+        --color-background-default: #fafafa;
+        --color-background-elevation-raised: #fcfcfc;
+        --color-background-utility-danger: #ce2c31;
+        --color-background-utility-danger-hover: #641723;
+        --color-border-default: #dcdcdc;
+        --color-border-default-strong: #bdbdbd;
+        --color-border-default-subtle: #efefef;
+        --color-content-brand: #005862;
+        --color-content-default: #3d3d3d;
+        --color-content-default-knockout: #fcfcfc;
+        --color-content-default-secondary: #525252;
+        --color-content-default-tertiary: #656565;
+        --color-content-link: #005862;
+        --color-content-on-brand-muted: #203c25;
+        --color-content-utility-danger: #ce2c31;
+        --font-decorative: "Besley", serif;
+        --font-size-100: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
+        --font-size-200: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
+        --font-size-400: clamp(1rem, 0.88rem + 0.6vw, 1.25rem);
+        --form-label-color: #525252;
+        --icon-size-md: 20px;
+        --icon-size-sm: 16px;
+        --radius-100: 0.25rem;
+        --radius-200: 0.5rem;
+        --radius-300: 0.5rem;
+        --radius-chip: 0.25rem;
+        --radius-full: 9999px;
+        --radius-md: 0.25rem;
+        --radius-sm: 0.25rem;
+        --spacing-100: 0.25rem;
+        --spacing-150: 0.375rem;
+        --spacing-200: 0.5rem;
+        --spacing-250: 0.625rem;
+        --spacing-300: 0.75rem;
+        --spacing-400: 1rem;
+        --spacing-500: 1.5rem;
+        --spacing-600: 2rem;
+        --spacing-700: 3rem;
+        --spacing-800: 4rem;
+        --st-blocked: #d73027;
+        --st-provisional-block: #d73027;
+        --st-survey-scheduled: #74add1;
+        --transition-fast: 0.15s ease;
+        --typography-body-md-font-family: "DM Sans", sans-serif;
+        --typography-body-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
+        --typography-body-md-font-weight: 400;
+        --typography-body-md-letter-spacing: 0.01em;
+        --typography-body-md-line-height: 1.6;
+        --typography-font-family-mono: "Roboto Mono", ui-monospace, monospace;
+        --typography-font-family-sans: "DM Sans", sans-serif;
+        --typography-font-weight-medium: 500;
+        --typography-font-weight-regular: 400;
+        --typography-font-weight-semibold: 550;
+        --typography-label-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
+        --typography-label-sm-strong-font-family: "DM Sans", sans-serif;
+        --typography-label-sm-strong-font-size: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
+        --typography-label-sm-strong-font-weight: 550;
+        --typography-label-sm-strong-letter-spacing: 0.01em;
+        --typography-label-sm-strong-line-height: 1.6;
+        --typography-microcopy-md-font-family: "DM Sans", sans-serif;
+        --typography-microcopy-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
+        --typography-microcopy-md-font-weight: 500;
+        --typography-microcopy-md-letter-spacing: 0.01em;
+        --typography-microcopy-md-line-height: 1;
+        --typography-microcopy-xs-font-family: "DM Sans", sans-serif;
+        --typography-microcopy-xs-font-size: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
+        --typography-microcopy-xs-font-weight: 500;
+        --typography-microcopy-xs-letter-spacing: 0.01em;
+        --typography-microcopy-xs-line-height: 1;
+        --typography-microcopy-xs-strong-font-family: "DM Sans", sans-serif;
+        --typography-microcopy-xs-strong-font-size: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
+        --typography-microcopy-xs-strong-font-weight: 550;
+        --typography-microcopy-xs-strong-letter-spacing: 0.01em;
+        --typography-microcopy-xs-strong-line-height: 1;
+      }
+
+      .bcn-status-chip {
+        align-items: center;
+        gap: var(--spacing-150);
+        padding: 2px var(--spacing-250);
+        border-radius: var(--radius-full);
+        font-size: var(--font-size-100);
+        font-weight: var(--typography-font-weight-semibold);
+        white-space: nowrap;
+        background: color-mix(in srgb, var(--_chip) 16%, transparent);
+        color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+        display: inline-flex;
+      }
+      .bcn-status-chip__dot {
+        border-radius: var(--radius-full);
+        background: var(--_chip);
+        flex-shrink: 0;
+        width: 8px;
+        height: 8px;
+      }
+      .bcn-key-value {
+        flex-direction: column;
+        gap: 2px;
+        display: flex;
+      }
+      .bcn-key-value__key {
+        font-size: var(--typography-label-md-font-size);
+        font-weight: var(--typography-font-weight-medium);
+        color: var(--form-label-color);
+      }
+      .bcn-key-value__key {
+        align-items: center;
+        gap: var(--spacing-100);
+        display: inline-flex;
+      }
+      .bcn-key-value__val {
+        font-size: var(--typography-label-md-font-size);
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+      }
+      .esa-collapsible {
+        border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
+        border-radius: var(--radius-md, 0.5rem);
+        background: var(--color-background-elevation-raised, #fcfcfc);
+      }
+      .esa-collapsible--flush {
+        background: 0 0;
+        border: none;
+        border-radius: 0;
+      }
+      .esa-collapsible__summary {
+        align-items: center;
+        gap: var(--spacing-200, 0.5rem);
+        padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
+        color: var(--color-content-default, #202020);
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+      }
+      .esa-collapsible--flush > .esa-collapsible__summary,
+      .esa-collapsible--flush > .esa-collapsible__body {
+        padding-inline: 0;
+      }
+      .esa-collapsible__summary .esa-icon {
+        color: var(--color-content-default-secondary, #646464);
+        flex-shrink: 0;
+      }
+      .esa-collapsible__summary:after {
+        content: "";
+        border-right: 2px solid var(--color-content-default-secondary, #646464);
+        border-bottom: 2px solid var(--color-content-default-secondary, #646464);
+        width: 8px;
+        height: 8px;
+        margin-left: auto;
+        transition: transform 0.15s;
+        transform: rotate(-45deg);
+      }
+      .esa-collapsible[open] > .esa-collapsible__summary:after {
+        transform: rotate(45deg);
+      }
+      .esa-collapsible__body {
+        gap: var(--spacing-400, 1rem);
+        padding: 0 var(--spacing-400, 1rem) var(--spacing-400, 1rem);
+        flex-direction: column;
+        display: flex;
+      }
+      html,
+      .modern-layout__content {
+        scroll-behavior: smooth;
+      }
+      *,
+      :before,
+      :after {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: var(--typography-font-family-sans, system-ui, sans-serif);
+        font-weight: var(--typography-font-weight-regular, 350);
+        color: var(--color-content-default, #3d3d3d);
+        background: var(--color-background-elevation-raised, #fff);
+        -webkit-font-smoothing: antialiased;
+        margin: 0;
+      }
+      :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+        margin: 0;
+      }
+      button {
+        cursor: pointer;
+        background: 0 0;
+        border: 0;
+        font-family: inherit;
+      }
+      .stack {
+        --gap: var(--spacing-400, 1rem);
+        gap: var(--gap);
+        flex-direction: column;
+        display: flex;
+      }
+      a {
+        color: var(--color-content-link, #005862);
+        text-decoration: none;
+      }
+      body {
+        background: var(--color-background-default);
+      }
+      .spec {
+        max-width: 1480px;
+        padding: var(--spacing-700) var(--spacing-500) var(--spacing-800);
+        gap: var(--spacing-700);
+        flex-direction: column;
+        margin: 0 auto;
+        display: flex;
+      }
+      .spec__head {
+        gap: var(--spacing-300);
+        flex-direction: column;
+        display: flex;
+      }
+      .spec__title {
+        font-family: var(--font-decorative);
+        font-size: 2rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+        margin: 0;
+      }
+      .spec__intro {
+        max-width: 86ch;
+        font-size: var(--font-size-200, 1rem);
+        color: var(--color-content-default-secondary);
+        margin: 0;
+        line-height: 1.6;
+      }
+      .spec__intro strong {
+        color: var(--color-content-default);
+        font-weight: var(--typography-font-weight-semibold);
+      }
+      .v2 {
+        gap: var(--spacing-500);
+        flex-direction: column;
+        display: flex;
+      }
+      .v2__head {
+        gap: var(--spacing-300);
+        flex-direction: column;
+        display: flex;
+      }
+      .v2__title {
+        font-size: 1.5rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+        margin: 0;
+      }
+      .v2__changes {
+        gap: var(--spacing-200);
+        flex-direction: column;
+        max-width: 86ch;
+        margin: 0;
+        padding-left: 1.25rem;
+        display: flex;
+      }
+      .v2__changes li {
+        color: var(--color-content-default-secondary);
+        font-size: 1rem;
+        line-height: 1.55;
+      }
+      .v2__changes strong {
+        color: var(--color-content-default);
+        font-weight: var(--typography-font-weight-semibold);
+      }
+      .v2__pair {
+        gap: var(--spacing-500);
+        grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+        align-items: start;
+        max-width: 1000px;
+        display: grid;
+      }
+      .mockup {
+        gap: var(--spacing-200);
+        flex-direction: column;
+        margin: 0;
+        display: flex;
+      }
+      .v2__pair .mockup {
+        justify-self: center;
+        width: 100%;
+        max-width: 460px;
+      }
+      .mockup__case {
+        font-size: 0.875rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default-secondary);
+        line-height: 1.5;
+      }
+      .drawer {
+        background: var(--color-background-elevation-raised);
+        border: 1px solid var(--color-border-default);
+        border-radius: var(--radius-300);
+        overflow: hidden;
+        box-shadow: 0 12px 32px #0000001a;
+      }
+      .drawer__head {
+        padding: var(--spacing-400);
+        border-bottom: 1px solid var(--color-border-default);
+        flex-direction: column;
+        gap: 2px;
+        display: flex;
+      }
+      .drawer__headrow {
+        align-items: center;
+        gap: var(--spacing-300);
+        display: flex;
+      }
+      .drawer__title {
+        font-size: var(--font-size-400);
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+        margin: 0;
+      }
+      .bcn-status-chip[data-status="provisional-block"],
+      .bcn-status-chip[data-status="provisional-block"] .bcn-status-chip__dot {
+        background: var(--color-background-elevation-raised);
+        box-shadow: inset 0 0 0 1.5px var(--st-provisional-block);
+      }
+      .drawer__sub {
+        color: var(--color-content-default-secondary);
+        margin: 0;
+        font-size: 0.875rem;
+      }
+      .band {
+        gap: var(--spacing-200) var(--spacing-300);
+        padding: var(--spacing-250) var(--spacing-400);
+        background: var(--color-background-default);
+        border-bottom: 1px solid var(--color-border-default);
+        grid-template-columns: repeat(3, 1fr);
+        display: grid;
+      }
+      .drawer__body {
+        gap: var(--spacing-400);
+        padding: var(--spacing-400);
+        flex-direction: column;
+        display: flex;
+      }
+      .decide {
+        gap: var(--spacing-200);
+        padding: var(--spacing-250) var(--spacing-300);
+        border-radius: var(--radius-200);
+        background: var(--color-background-default);
+        border: 1px solid var(--color-border-default);
+        flex-direction: column;
+        display: flex;
+      }
+      .decide--prov {
+        background: color-mix(in srgb, var(--st-provisional-block) 6%, transparent);
+        border-color: color-mix(in srgb, var(--st-provisional-block) 45%, transparent);
+        --color-background-utility-danger: var(--st-provisional-block);
+      }
+      .decide__line {
+        font-size: 0.9375rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+        margin: 0;
+        line-height: 1.45;
+      }
+      .decide__line--fact {
+        align-items: center;
+        gap: var(--spacing-250);
+        flex-wrap: wrap;
+        display: flex;
+      }
+      .decide--prov .decide__line {
+        color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
+      }
+      .obs-id {
+        font-family: var(--typography-font-family-mono);
+        padding: 1px var(--spacing-200);
+        border-radius: var(--radius-100);
+        background: var(--color-background-elevation-raised);
+        border: 1px solid color-mix(in srgb, var(--st-provisional-block) 45%, transparent);
+        color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
+        white-space: nowrap;
+        flex-shrink: 0;
+        font-size: 0.8125rem;
+        font-weight: 500;
+      }
+      .decide__actions {
+        justify-content: flex-end;
+        gap: var(--spacing-200);
+        display: flex;
+      }
+      .drawer__section {
+        align-items: center;
+        gap: var(--spacing-200);
+        margin: 0 0 var(--spacing-300);
+        font-size: 0.9375rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+        display: flex;
+      }
+      .drawer__section .esa-icon {
+        color: var(--color-content-default-secondary);
+        flex-shrink: 0;
+      }
+      .board {
+        gap: var(--spacing-200);
+        grid-template-columns: 1fr 1fr;
+        display: grid;
+      }
+      .board__cell--btn {
+        cursor: pointer;
+        text-align: left;
+        border: 1px solid var(--color-border-default-subtle);
+        background: var(--color-background-elevation-raised);
+        width: 100%;
+        font-family: inherit;
+        transition:
+          border-color 0.12s,
+          background 0.12s;
+      }
+      .board__cell {
+        align-items: flex-start;
+        gap: var(--spacing-150);
+        padding: var(--spacing-250) var(--spacing-300);
+        border: 1px solid var(--color-border-default-subtle);
+        border-radius: var(--radius-200);
+        background: var(--color-background-elevation-raised);
+        flex-direction: column;
+        display: flex;
+      }
+      .board__cellhead {
+        align-items: center;
+        gap: var(--spacing-150);
+        width: 100%;
+        display: flex;
+      }
+      .board__dim {
+        font-size: 0.875rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+      }
+      .board__cellhead .board__dim {
+        flex: 1;
+        min-width: 0;
+      }
+      .board__chev {
+        color: var(--color-content-default-tertiary);
+        display: inline-flex;
+      }
+      .board__meta {
+        color: var(--color-content-default-tertiary);
+        font-size: 0.8125rem;
+      }
+      .unreviewed {
+        padding: 2px var(--spacing-250);
+        border: 1px dashed var(--color-border-default-strong);
+        border-radius: var(--radius-full);
+        font-size: var(--font-size-100);
+        font-weight: var(--typography-font-weight-medium);
+        color: var(--color-content-default-tertiary);
+        white-space: nowrap;
+        align-items: center;
+        display: inline-flex;
+      }
+      .drawer__more {
+        flex-direction: column;
+        display: flex;
+      }
+      .drawer__more .esa-collapsible + .esa-collapsible {
+        border-top: 1px solid var(--color-border-default-subtle);
+      }
+      .drawer__foot {
+        justify-content: flex-end;
+        gap: var(--spacing-200);
+        padding: var(--spacing-300) var(--spacing-400);
+        border-top: 1px solid var(--color-border-default);
+        background: var(--color-background-elevation-raised);
+        display: flex;
+      }
+      .decide__row {
+        align-items: center;
+        gap: var(--spacing-250);
+        display: flex;
+      }
+      .decide__row--warn .esa-icon {
+        color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+        flex-shrink: 0;
+      }
+      .decide__warntext {
+        min-width: 0;
+        font-size: 0.875rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+        flex: 1;
+        line-height: 1.45;
+      }
+      .v2__sub {
+        margin: var(--spacing-300) 0 0;
+        font-size: 1.1875rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+      }
+      .stack {
+        width: 100%;
+        max-width: 540px;
+        position: relative;
+      }
+      .stack__parent {
+        width: calc(100% - 72px);
+        position: relative;
+      }
+      .band--4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .band__alert {
+        font-size: var(--typography-label-md-font-size);
+        font-weight: var(--typography-font-weight-semibold);
+        color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+      }
+      .decide--blocked {
+        background: color-mix(in srgb, var(--st-blocked) 10%, transparent);
+        border-color: color-mix(in srgb, var(--st-blocked) 30%, transparent);
+      }
+      .decide--blocked .decide__line {
+        color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+      }
+      .board__cell--btn[data-active] {
+        border-color: var(--color-background-brand);
+        box-shadow: inset 0 0 0 1px var(--color-background-brand);
+        background: var(--color-background-brand-subtle);
+      }
+      .stack__parent:after {
+        content: "";
+        border-radius: var(--radius-300);
+        z-index: 4;
+        pointer-events: none;
+        background: #0d111438;
+        position: absolute;
+        inset: 0;
+      }
+      .stack__child {
+        z-index: 5;
+        flex-direction: column;
+        width: calc(100% - 72px);
+        display: flex;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        box-shadow: -16px 0 40px #00000038;
+      }
+      .drawer__close {
+        color: var(--color-content-default-secondary);
+        margin-left: auto;
+      }
+      .stack__child .drawer__body {
+        flex: 1;
+      }
+      .child__bar {
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-300);
+        display: flex;
+      }
+      .child__count {
+        font-size: 0.9375rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+      }
+      .revs {
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+      }
+      .rev {
+        column-gap: var(--spacing-250);
+        padding-bottom: var(--spacing-400);
+        grid-template-columns: 16px 1fr;
+        display: grid;
+        position: relative;
+      }
+      .rev:not(:last-child):before {
+        content: "";
+        background: var(--color-border-default);
+        width: 2px;
+        position: absolute;
+        top: 20px;
+        bottom: 2px;
+        left: 7px;
+      }
+      .rev__dot {
+        border-radius: var(--radius-full);
+        z-index: 1;
+        background: var(--color-background-elevation-raised);
+        border: 2px solid var(--color-border-default-strong);
+        width: 16px;
+        height: 16px;
+        margin-top: 2px;
+      }
+      .rev[data-kind="scheduled"] .rev__dot {
+        border-color: var(--st-survey-scheduled);
+      }
+      .rev__main {
+        gap: var(--spacing-150);
+        flex-direction: column;
+        min-width: 0;
+        display: flex;
+      }
+      .rev__head {
+        align-items: baseline;
+        gap: var(--spacing-200);
+        font-size: 1rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+        flex-wrap: wrap;
+        margin: 0;
+        display: flex;
+      }
+      .rev__when {
+        font-size: 0.875rem;
+        font-weight: var(--typography-font-weight-medium);
+        color: var(--color-content-default-secondary);
+      }
+      .rev__chiprow {
+        align-items: center;
+        gap: var(--spacing-200);
+        flex-wrap: wrap;
+        display: flex;
+      }
+      .rev__note {
+        color: var(--color-content-default-secondary);
+        margin: 0;
+        font-size: 0.9375rem;
+        line-height: 1.55;
+      }
+      .rev:last-child {
+        padding-bottom: 0;
+      }
+      .rev[data-kind="blocked"] .rev__dot {
+        background: var(--st-blocked);
+        border-color: var(--st-blocked);
+      }
+      .rev__until {
+        font-size: 0.875rem;
+        font-weight: var(--typography-font-weight-medium);
+        color: var(--color-content-default-secondary);
+      }
+      .rev__current {
+        padding: 1px var(--spacing-200);
+        border-radius: var(--radius-full);
+        background: color-mix(in srgb, var(--color-background-brand) 10%, transparent);
+        border: 1px solid color-mix(in srgb, var(--color-background-brand) 30%, transparent);
+        font-size: 0.75rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-background-brand);
+        white-space: nowrap;
+        align-items: center;
+        display: inline-flex;
+      }
+      .model-note {
+        max-width: 86ch;
+        padding: var(--spacing-400) var(--spacing-500);
+        background: var(--color-background-elevation-raised);
+        border: 1px solid var(--color-border-default);
+        border-radius: var(--radius-300);
+        gap: var(--spacing-200);
+        flex-direction: column;
+        display: flex;
+      }
+      .model-note__title {
+        font-size: 1rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+        margin: 0;
+      }
+      .model-note__text {
+        color: var(--color-content-default-secondary);
+        margin: 0;
+        font-size: 0.9375rem;
+        line-height: 1.6;
+      }
+      .model-note__text code {
+        font-family: var(--typography-font-family-mono);
+        border-radius: var(--radius-100);
+        background: var(--color-background-default);
+        border: 1px solid var(--color-border-default-subtle);
+        padding: 1px 5px;
+        font-size: 0.875em;
+      }
+      .model-note__text strong {
+        color: var(--color-content-default);
+        font-weight: var(--typography-font-weight-semibold);
+      }
+      .evaluate {
+        max-width: 86ch;
+        padding: var(--spacing-500);
+        background: var(--color-background-elevation-raised);
+        border: 1px solid var(--color-border-default);
+        border-radius: var(--radius-300);
+        gap: var(--spacing-300);
+        flex-direction: column;
+        display: flex;
+      }
+      .evaluate__title {
+        font-size: 1.25rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+        margin: 0;
+      }
+      .evaluate__list {
+        gap: var(--spacing-250);
+        flex-direction: column;
+        margin: 0;
+        padding-left: 1.5rem;
+        display: flex;
+      }
+      .evaluate__list li {
+        color: var(--color-content-default-secondary);
+        font-size: 1rem;
+        line-height: 1.55;
+      }
+      .round1 {
+        gap: var(--spacing-500);
+        padding-top: var(--spacing-600);
+        border-top: 1px solid var(--color-border-default);
+        flex-direction: column;
+        display: flex;
+      }
+      .round1__head {
+        gap: var(--spacing-200);
+        flex-direction: column;
+        display: flex;
+      }
+      .round1__title {
+        font-size: 1.5rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+        margin: 0;
+      }
+      .round1__line {
+        max-width: 86ch;
+        color: var(--color-content-default-secondary);
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.55;
+      }
+      .concepts {
+        gap: var(--spacing-700) var(--spacing-500);
+        grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+        align-items: start;
+        display: grid;
+      }
+      .concept {
+        gap: var(--spacing-400);
+        flex-direction: column;
+        justify-self: center;
+        width: 100%;
+        max-width: 460px;
+        display: flex;
+      }
+      .concept__thesis {
+        gap: var(--spacing-250);
+        flex-direction: column;
+        display: flex;
+      }
+      .concept__name {
+        align-items: center;
+        gap: var(--spacing-250);
+        font-size: 1.25rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+        margin: 0;
+        display: flex;
+      }
+      .concept__num {
+        border-radius: var(--radius-full);
+        background: var(--color-background-brand);
+        color: #fff;
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+        font-weight: var(--typography-font-weight-semibold);
+        flex-shrink: 0;
+        justify-content: center;
+        align-items: center;
+        display: inline-flex;
+      }
+      .concept__line {
+        color: var(--color-content-default-secondary);
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+      .concept__pt {
+        gap: var(--spacing-100);
+        flex-direction: column;
+        display: flex;
+      }
+      .concept__pt-label {
+        margin: var(--spacing-150) 0 0;
+        font-size: 0.9375rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+      }
+      .concept__pt ul {
+        gap: var(--spacing-100);
+        flex-direction: column;
+        margin: 0;
+        padding-left: 1.25rem;
+        display: flex;
+      }
+      .concept__pt li {
+        color: var(--color-content-default-secondary);
+        font-size: 0.9375rem;
+        line-height: 1.5;
+      }
+      .action {
+        gap: var(--spacing-250);
+        padding: var(--spacing-400);
+        border-radius: var(--radius-300);
+        background: var(--color-background-default);
+        border: 1px solid var(--color-border-default);
+        flex-direction: column;
+        display: flex;
+      }
+      .action--provisional {
+        background: color-mix(in srgb, var(--st-provisional-block) 6%, transparent);
+        border: 1px solid color-mix(in srgb, var(--st-provisional-block) 45%, transparent);
+      }
+      .action__title {
+        font-size: 1.0625rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+        margin: 0;
+      }
+      .action--provisional .action__title {
+        color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
+      }
+      .action__text {
+        color: var(--color-content-default-secondary);
+        margin: 0;
+        font-size: 0.9375rem;
+        line-height: 1.55;
+      }
+      .action__facts {
+        font-size: 0.875rem;
+        font-weight: var(--typography-font-weight-medium);
+        color: var(--color-content-default-secondary);
+        margin: 0;
+      }
+      .action__btns {
+        gap: var(--spacing-200);
+        margin-top: var(--spacing-100);
+        display: flex;
+      }
+      .rows {
+        gap: var(--spacing-200);
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+      }
+      .conflict {
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-300);
+        padding: var(--spacing-250) var(--spacing-300);
+        background: var(--color-background-elevation-raised);
+        border: 1px solid var(--color-border-default);
+        border-radius: var(--radius-300);
+        display: flex;
+      }
+      .conflict__main {
+        min-width: 0;
+        font-size: 0.9375rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+        flex-direction: column;
+        flex: 1;
+        gap: 2px;
+        display: flex;
+      }
+      .conflict__sub {
+        font-size: 0.8125rem;
+        font-weight: var(--typography-font-weight-regular);
+        color: var(--color-content-default-tertiary);
+      }
+      .conflict__meta {
+        font-size: 0.875rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+        white-space: nowrap;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 2px;
+        display: flex;
+      }
+      .action__conflict {
+        align-items: flex-start;
+        gap: var(--spacing-150);
+        font-size: 0.9375rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+        margin: 0;
+        line-height: 1.45;
+        display: flex;
+      }
+      .action__conflict .esa-icon {
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .strip {
+        align-items: center;
+        gap: var(--spacing-250);
+        padding: var(--spacing-250) var(--spacing-300);
+        background: var(--color-background-default);
+        border: 1px solid var(--color-border-default);
+        border-radius: var(--radius-200);
+        display: flex;
+      }
+      .strip .esa-icon {
+        color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+        flex-shrink: 0;
+      }
+      .strip__text {
+        color: var(--color-content-default-secondary);
+        font-size: 0.875rem;
+        line-height: 1.45;
+      }
+      .strip__text strong {
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+      }
+      .disc-tabs {
+        gap: var(--spacing-150);
+        grid-template-columns: repeat(4, 1fr);
+        display: grid;
+      }
+      .disc-tabs [role="tab"] {
+        align-items: center;
+        gap: var(--spacing-100);
+        padding: var(--spacing-200) var(--spacing-100);
+        border: 1px solid var(--color-border-default);
+        border-radius: var(--radius-200);
+        background: var(--color-background-elevation-raised);
+        cursor: pointer;
+        flex-direction: column;
+        font-family: inherit;
+        transition:
+          border-color 0.12s,
+          background 0.12s;
+        display: flex;
+      }
+      .disc-tabs__dot {
+        border-radius: var(--radius-full);
+        flex-shrink: 0;
+        width: 10px;
+        height: 10px;
+      }
+      .disc-tabs__label {
+        font-size: 0.875rem;
+        font-weight: var(--typography-font-weight-medium);
+        color: var(--color-content-default);
+      }
+      .disc-tabs__dot[data-none="true"] {
+        background: var(--color-background-elevation-raised);
+        border: 1px dashed var(--color-border-default-strong);
+      }
+      .disc-tabs [role="tab"][aria-selected="true"] {
+        border-color: var(--color-background-brand);
+        background: var(--color-background-brand-subtle);
+        box-shadow: inset 0 0 0 1px var(--color-background-brand);
+      }
+      .disc-panel {
+        gap: var(--spacing-300);
+        padding: var(--spacing-400);
+        border: 1px solid var(--color-border-default);
+        border-radius: var(--radius-300);
+        background: var(--color-background-elevation-raised);
+        flex-direction: column;
+        display: flex;
+      }
+      .disc-panel[hidden] {
+        display: none;
+      }
+      .disc-panel__head {
+        align-items: center;
+        gap: var(--spacing-300);
+        display: flex;
+      }
+      .disc-panel__when {
+        font-size: 0.875rem;
+        font-weight: var(--typography-font-weight-medium);
+        color: var(--color-content-default-secondary);
+      }
+      .kv-text {
+        color: var(--color-content-default-secondary);
+        font-size: 0.9375rem;
+        line-height: 1.5;
+      }
+      .disc-panel__warn {
+        align-items: flex-start;
+        gap: var(--spacing-150);
+        font-size: 0.875rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+        margin: 0;
+        line-height: 1.45;
+        display: flex;
+      }
+      .disc-panel__warn .esa-icon {
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .disc-panel__foot {
+        gap: var(--spacing-200);
+        margin-top: var(--spacing-100);
+        display: flex;
+      }
+      .steps {
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+      }
+      .step {
+        column-gap: var(--spacing-300);
+        padding-bottom: var(--spacing-400);
+        grid-template-columns: 24px 1fr;
+        display: grid;
+        position: relative;
+      }
+      .step:not(:last-child):before {
+        content: "";
+        background: var(--color-border-default);
+        width: 2px;
+        position: absolute;
+        top: 28px;
+        bottom: 4px;
+        left: 11px;
+      }
+      .step__dot {
+        border-radius: var(--radius-full);
+        background: var(--color-background-elevation-raised);
+        border: 2px solid var(--color-border-default-strong);
+        z-index: 1;
+        justify-content: center;
+        align-items: center;
+        width: 24px;
+        height: 24px;
+        margin-top: 0;
+        display: flex;
+      }
+      .step[data-state="done"] .step__dot {
+        background: var(--color-background-brand);
+        border-color: var(--color-background-brand);
+      }
+      .step[data-state="done"] .step__dot:after {
+        content: "";
+        border-bottom: 2px solid #fff;
+        border-left: 2px solid #fff;
+        width: 9px;
+        height: 5px;
+        margin-top: -2px;
+        transform: rotate(-45deg);
+      }
+      .step__content {
+        gap: var(--spacing-150);
+        flex-direction: column;
+        min-width: 0;
+        padding-top: 2px;
+        display: flex;
+      }
+      .step__title {
+        align-items: baseline;
+        gap: var(--spacing-200);
+        font-size: 1rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+        flex-wrap: wrap;
+        margin: 0;
+        display: flex;
+      }
+      .step__when {
+        font-size: 0.875rem;
+        font-weight: var(--typography-font-weight-medium);
+        color: var(--color-content-default-secondary);
+      }
+      .step__text {
+        color: var(--color-content-default-secondary);
+        margin: 0;
+        font-size: 0.9375rem;
+        line-height: 1.5;
+      }
+      .step[data-state="scheduled"] .step__dot {
+        border-color: var(--st-survey-scheduled);
+      }
+      .step[data-state="live-red"] .step__dot {
+        border-color: var(--st-provisional-block);
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--st-provisional-block) 18%, transparent);
+      }
+      .step[data-state="live-red"] .step__dot:after {
+        content: "";
+        border-radius: var(--radius-full);
+        background: var(--st-provisional-block);
+        width: 8px;
+        height: 8px;
+      }
+      .step[data-state="live-red"] .step__when {
+        color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
+      }
+      .check {
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+      }
+      .check__row {
+        column-gap: var(--spacing-250);
+        padding: var(--spacing-200) 0;
+        grid-template-columns: 12px 1fr auto;
+        align-items: center;
+        row-gap: 2px;
+        display: grid;
+      }
+      .check__dot {
+        border-radius: var(--radius-full);
+        justify-self: center;
+        width: 10px;
+        height: 10px;
+      }
+      .check__dim {
+        font-size: 0.9375rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+      }
+      .check__state {
+        color: var(--color-content-default-secondary);
+        grid-column: 2/-1;
+        font-size: 0.875rem;
+      }
+      .check__row + .check__row {
+        border-top: 1px solid var(--color-border-default-subtle);
+      }
+      .check__dot[data-none="true"] {
+        background: var(--color-background-elevation-raised);
+        border: 1px dashed var(--color-border-default-strong);
+      }
+      .action--instep {
+        padding: var(--spacing-300);
+        margin-top: var(--spacing-250);
+      }
+      .action__text strong {
+        color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
+        font-weight: var(--typography-font-weight-semibold);
+      }
+      .step[data-state="future"] .step__dot {
+        border-style: dashed;
+        border-color: var(--color-border-default-strong);
+      }
+      .step:last-child {
+        padding-bottom: 0;
+      }
+      .step__flag {
+        align-items: flex-start;
+        gap: var(--spacing-150);
+        font-size: 0.9375rem;
+        font-weight: var(--typography-font-weight-semibold);
+        color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+        margin: 0;
+        line-height: 1.45;
+        display: flex;
+      }
+      .step__flag .esa-icon {
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .step__act {
+        gap: var(--spacing-200);
+        margin-top: var(--spacing-100);
+        display: flex;
+      }
+      .survey__link {
+        font-size: 0.9375rem;
+        font-weight: var(--typography-font-weight-medium);
+        color: var(--color-background-brand-muted);
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .step[data-state="live"] .step__dot {
+        border-color: var(--st-survey-scheduled);
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--st-survey-scheduled) 22%, transparent);
+      }
+      .step[data-state="live"] .step__dot:after {
+        content: "";
+        border-radius: var(--radius-full);
+        background: var(--st-survey-scheduled);
+        width: 8px;
+        height: 8px;
+      }
+      .check__act {
+        grid-area: 1/3;
+      }
+      .esa-button {
+        --_btn-pad-y: var(--spacing-300, 0.75rem);
+        --_btn-padding-x: var(--spacing-300, 0.75rem);
+        --_btn-radius: var(--button-radius-md, 0.5rem);
+        --_accent: var(--color-background-brand, #46a758);
+        --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+        --_on: var(--color-content-default-knockout, #fcfcfc);
+        --_accent-text: var(--_accent);
+        --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+        --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+        display: inline-block;
+      }
+      .esa-button--sm {
+        --_btn-pad-y: var(--spacing-250, 0.625rem);
+        --_btn-padding-x: var(--spacing-250, 0.625rem);
+        --_btn-radius: var(--button-radius-sm, 4px);
+      }
+      .esa-button--variant-danger {
+        --_accent: var(--color-background-utility-danger);
+        --_accent-hover: var(--color-background-utility-danger-hover);
+        --_accent-text: var(--color-content-utility-danger);
+      }
+      .esa-button__native {
+        justify-content: center;
+        align-items: center;
+        gap: var(--spacing-200, 8px);
+        width: 100%;
+        padding-block: var(--_btn-pad-y);
+        padding-inline: var(--_btn-padding-x);
+        border: var(--border-width-default, 1px) solid transparent;
+        border-radius: var(--_btn-radius);
+        cursor: pointer;
+        transition:
+          background var(--transition-fast, 0.15s ease),
+          border-color var(--transition-fast, 0.15s ease);
+        -webkit-appearance: none;
+        appearance: none;
+        text-decoration: none;
+        display: inline-flex;
+      }
+      .esa-button--appearance-fill .esa-button__native {
+        background: var(--_accent);
+        color: var(--_on);
+        border-color: var(--_accent-border, transparent);
+      }
+      .esa-button__label {
+        white-space: nowrap;
+      }
+      .esa-button--appearance-outline .esa-button__native,
+      .esa-button--appearance-dashed .esa-button__native {
+        color: var(--_accent-text);
+        border-color: var(--_accent);
+        background: 0 0;
+      }
+      .esa-button--variant-ghost .esa-button__native {
+        color: var(--color-content-default, #202020);
+        background: 0 0;
+        border-color: #0000;
+      }
+      .esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+      .esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+        border-color: var(--color-border-default, #cecece);
+      }
+      .esa-button--variant-chrome .esa-button__native {
+        color: inherit;
+        background: 0 0;
+        border-color: #0000;
+      }
+      .esa-button--icon-only .esa-button__native {
+        padding-inline: var(--_btn-pad-y);
+        aspect-ratio: 1;
+      }
+      .esa-button--variant-primary {
+        --_accent-text: var(--color-content-brand);
+      }
+      .typography-microcopy-xs {
+        font-family: var(--typography-microcopy-xs-font-family);
+        font-size: var(--typography-microcopy-xs-font-size);
+        font-weight: var(--typography-microcopy-xs-font-weight);
+        line-height: var(--typography-microcopy-xs-line-height);
+        letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+      }
+      .typography-label-sm-strong {
+        font-family: var(--typography-label-sm-strong-font-family);
+        font-size: var(--typography-label-sm-strong-font-size);
+        font-weight: var(--typography-label-sm-strong-font-weight);
+        line-height: var(--typography-label-sm-strong-line-height);
+        letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+      }
+      .typography-microcopy-md {
+        font-family: var(--typography-microcopy-md-font-family);
+        font-size: var(--typography-microcopy-md-font-size);
+        font-weight: var(--typography-microcopy-md-font-weight);
+        line-height: var(--typography-microcopy-md-line-height);
+        letter-spacing: var(--typography-microcopy-md-letter-spacing);
+      }
+      .typography-microcopy-xs-strong {
+        font-family: var(--typography-microcopy-xs-strong-font-family);
+        font-size: var(--typography-microcopy-xs-strong-font-size);
+        font-weight: var(--typography-microcopy-xs-strong-font-weight);
+        line-height: var(--typography-microcopy-xs-strong-line-height);
+        letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+      }
+      .typography-body-md {
+        font-family: var(--typography-body-md-font-family);
+        font-size: var(--typography-body-md-font-size);
+        font-weight: var(--typography-body-md-font-weight);
+        line-height: var(--typography-body-md-line-height);
+        letter-spacing: var(--typography-body-md-letter-spacing);
+      }
+      .esa-badge {
+        --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
+        --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
+        --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
+        --_badge-padding-y: var(--spacing-150, 0.375rem);
+        --_badge-padding-x: var(--spacing-200, 0.5rem);
+        min-width: calc(1lh + 2 * var(--_badge-padding-y));
+        padding-block: var(--_badge-padding-y);
+        padding-inline: var(--_badge-padding-x);
+        border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+        background: var(--_badge-bg);
+        color: var(--_badge-text);
+        white-space: nowrap;
+        box-sizing: border-box;
+        justify-content: center;
+        align-items: center;
+        display: inline-flex;
+      }
+      .esa-badge--sm {
+        --_badge-padding-y: var(--spacing-100, 0.25rem);
+        --_badge-padding-x: var(--spacing-150, 0.375rem);
+      }
+      .esa-badge--secondary {
+        --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+        --_badge-text: var(--color-content-on-brand-muted, #203c25);
+      }
+      .esa-icon {
+        --_icon-size: var(--icon-size-md, 20px);
+        width: var(--_icon-size);
+        height: var(--_icon-size);
+        color: inherit;
+        justify-content: center;
+        align-items: center;
+        display: inline-flex;
+      }
+      .esa-icon--sm {
+        --_icon-size: var(--icon-size-sm, 16px);
+      }
+      .esa-icon svg {
+        width: var(--_icon-size);
+        height: var(--_icon-size);
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="spec">
+      <header class="spec__head">
+        <h1 class="spec__title">Work Area drawer — Decision-first v2</h1>
+        <p class="spec__intro">
+          Round 1 compared three drawer structures; <strong>Decision-first</strong> was selected
+          (<em>"Decision-first seems right"</em>). This page now leads with the v2 deep dive — dates
+          promoted to an always-visible band, a confirm that reads in two seconds, discipline cells
+          that open a stacked child drawer, and a per-discipline review history that survives the
+          June → September re-survey reality. The round-1 exploration is kept at the bottom for
+          reference. All data is real fixture data; the only static mock is the September re-survey
+          (flagged in the data-model note).
+        </p>
+      </header>
+      <!-- ═══════════════════════ Decision-first — v2 deep dive ═══════════════════════ -->
+      <section class="v2" aria-labelledby="v2-title">
+        <header class="v2__head">
+          <h2 class="v2__title" id="v2-title">Decision-first — v2 deep dive</h2>
+          <ul class="v2__changes">
+            <li>
+              <strong>Dates up high.</strong> Notification · Clearance visit · Planned start (+
+              Blocked until when relevant) render as a compact band directly under the header —
+              decision inputs, not detail.
+            </li>
+            <li>
+              <strong>A two-second confirm.</strong> The provisional banner is now one slim line —
+              observation ID · "within buffer · est. through Jul 24" · a compact Confirm block
+              inline.
+            </li>
+            <li>
+              <strong>Disciplines open a stacked child drawer.</strong> Each board cell is a button
+              that opens that discipline's own drawer over the parent (the permit workspace's
+              segment → editor stacking) — not tabs, not one long form.
+            </li>
+            <li>
+              <strong>Review history per discipline.</strong> The child drawer holds every review —
+              clearance survey, re-survey, management determination — newest first. The latest
+              completed review sets the board status; future reviews ride the history as scheduled.
+              Cells show a count when there is more than one. Survey records live here now, not in a
+              parent section.
+            </li>
+          </ul>
+        </header>
+        <div class="v2__pair">
+          <!-- v2 · Case A: DCRDS-DH-184 -->
+          <figure class="mockup">
+            <figcaption class="mockup__case">
+              DCRDS-DH-184 · provisional block — the dates band answers "when", the slim line
+              answers "what now".
+            </figcaption>
+            <article class="drawer">
+              <header class="drawer__head">
+                <div class="drawer__headrow">
+                  <h3 class="drawer__title">DCRDS-DH-184</h3>
+                  <span
+                    class="bcn-status-chip"
+                    data-status="provisional-block"
+                    style="--_chip: var(--st-provisional-block, #d73027)"
+                    ><span class="bcn-status-chip__dot"></span
+                    ><span class="bcn-status-chip__label">Provisional Block</span></span
+                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. -->
+                </div>
+                <p class="drawer__sub">Roads · 2024-2029 Geotechnical Activities</p>
+              </header>
+              <div class="band">
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Notification</span
+                  ><span class="bcn-key-value__val">May 15, 2026</span>
+                </div>
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Clearance visit</span
+                  ><span class="bcn-key-value__val">Jun 15, 2026</span>
+                </div>
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Planned start</span
+                  ><span class="bcn-key-value__val">Jun 29, 2026</span>
+                </div>
+              </div>
+              <div class="drawer__body">
+                <div class="decide decide--prov">
+                  <p class="decide__line decide__line--fact">
+                    <span class="obs-id">SWHA-2289</span
+                    ><span>within buffer · est. through Jul 24, 2026</span>
+                  </p>
+                  <div class="decide__actions">
+                    <span
+                      class="esa-button esa-button--variant-danger esa-button--appearance-fill esa-button--sm"
+                      ><button class="esa-button__native typography-microcopy-xs" type="button">
+                        <span class="esa-button__label">Confirm block</span>
+                      </button></span
+                    >
+                  </div>
+                </div>
+                <section>
+                  <h4 class="drawer__section">
+                    <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                      ><svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path
+                          d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                        ></path>
+                        <path d="m9 12 2 2 4-4"></path></svg></span
+                    >Disciplines
+                  </h4>
+                  <div class="board">
+                    <button type="button" class="board__cell board__cell--btn">
+                      <span class="board__cellhead"
+                        ><span class="board__dim">Biological</span
+                        ><span class="board__chev"
+                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                            ><svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path d="m9 18 6-6-6-6"></path></svg></span></span></span
+                      ><span
+                        class="bcn-status-chip"
+                        data-status="survey-scheduled"
+                        style="--_chip: var(--st-survey-scheduled, #74add1)"
+                        ><span class="bcn-status-chip__dot"></span
+                        ><span class="bcn-status-chip__label">Survey Scheduled</span></span
+                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="board__meta"
+                        >Scheduled Jun 15, 2026</span
+                      ></button
+                    ><button type="button" class="board__cell board__cell--btn">
+                      <span class="board__cellhead"
+                        ><span class="board__dim">Cultural Resources</span
+                        ><span class="board__chev"
+                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                            ><svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path d="m9 18 6-6-6-6"></path></svg></span></span></span
+                      ><span class="unreviewed">Not reviewed</span
+                      ><span class="board__meta">—</span></button
+                    ><button type="button" class="board__cell board__cell--btn">
+                      <span class="board__cellhead"
+                        ><span class="board__dim">Noise</span
+                        ><span class="board__chev"
+                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                            ><svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path d="m9 18 6-6-6-6"></path></svg></span></span></span
+                      ><span class="unreviewed">Not reviewed</span
+                      ><span class="board__meta">—</span></button
+                    ><button type="button" class="board__cell board__cell--btn">
+                      <span class="board__cellhead"
+                        ><span class="board__dim">Geology</span
+                        ><span class="board__chev"
+                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                            ><svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path d="m9 18 6-6-6-6"></path></svg></span></span></span
+                      ><span class="unreviewed">Not reviewed</span
+                      ><span class="board__meta">—</span>
+                    </button>
+                  </div>
+                </section>
+                <div class="drawer__more">
+                  <details class="esa-collapsible esa-collapsible--flush">
+                    <summary class="esa-collapsible__summary typography-label-sm-strong">
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                        ><svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path
+                            d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                          ></path>
+                          <path d="M12 9v4"></path>
+                          <path d="M12 17h.01"></path></svg></span
+                      ><span class="esa-collapsible__title">Buffer conflicts (1)</span>
+                    </summary>
+                    <div class="esa-collapsible__body typography-body-md">
+                      <ul class="rows">
+                        <li class="conflict">
+                          <span class="conflict__main"
+                            >Swainson's Hawk<span class="conflict__sub"
+                              >SWHA-2289-05182026 · 2,640 ft buffer</span
+                            ></span
+                          ><span class="conflict__meta"
+                            >146 ft away<span class="conflict__sub"
+                              >est. end Jul 24, 2026</span
+                            ></span
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+                  <details class="esa-collapsible esa-collapsible--flush">
+                    <summary class="esa-collapsible__summary typography-label-sm-strong">
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                        ><svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path
+                            d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                          ></path>
+                          <path
+                            d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                          ></path></svg></span
+                      ><span class="esa-collapsible__title">Notes (1)</span>
+                    </summary>
+                    <div class="esa-collapsible__body typography-body-md">
+                      <blockquote class="note">
+                        5/27 email (from H. Barbare): 30-day Notification was scheduled to be sent
+                        5/15/2026 for 6/15/2026 site clearance visit and 6/29/2026 work. This
+                        location is the closest to the nest.
+                      </blockquote>
+                    </div>
+                  </details>
+                  <details class="esa-collapsible esa-collapsible--flush">
+                    <summary class="esa-collapsible__summary typography-label-sm-strong">
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                        ><svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                          <path d="M3 3v5h5"></path>
+                          <path d="M12 7v5l4 2"></path></svg></span
+                      ><span class="esa-collapsible__title">Activity</span>
+                    </summary>
+                    <div class="esa-collapsible__body typography-body-md">
+                      <p class="empty">No changes this session.</p>
+                    </div>
+                  </details>
+                </div>
+              </div>
+              <footer class="drawer__foot">
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                  ><button class="esa-button__native typography-microcopy-md" type="button">
+                    <span class="esa-button__label">Edit site details</span>
+                  </button></span
+                >
+              </footer>
+            </article>
+          </figure>
+          <!-- v2 · Case B: DCRAI-DH-014 -->
+          <figure class="mockup">
+            <figcaption class="mockup__case">
+              DCRAI-DH-014 · multi-discipline — the empty dates are as informative as the filled
+              ones.
+            </figcaption>
+            <article class="drawer">
+              <header class="drawer__head">
+                <div class="drawer__headrow">
+                  <h3 class="drawer__title">DCRAI-DH-014</h3>
+                  <span
+                    class="bcn-status-chip"
+                    data-status="survey-scheduled"
+                    style="--_chip: var(--st-survey-scheduled, #74add1)"
+                    ><span class="bcn-status-chip__dot"></span
+                    ><span class="bcn-status-chip__label">Survey Scheduled</span></span
+                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. -->
+                </div>
+                <p class="drawer__sub">Rail Alignment · 2024-2029 Geotechnical Activities</p>
+              </header>
+              <div class="band">
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Notification</span
+                  ><span class="bcn-key-value__val">—</span>
+                </div>
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Clearance visit</span
+                  ><span class="bcn-key-value__val">—</span>
+                </div>
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Planned start</span
+                  ><span class="bcn-key-value__val">Jun 17, 2026</span>
+                </div>
+              </div>
+              <div class="drawer__body">
+                <div class="decide">
+                  <p class="decide__line">Awaiting geology review — Jun 18, 2026 (in 7 days)</p>
+                  <div class="decide__row decide__row--warn">
+                    <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                      ><svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path
+                          d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                        ></path>
+                        <path d="M12 9v4"></path>
+                        <path d="M12 17h.01"></path></svg></span
+                    ><span class="decide__warntext"
+                      >Start Jun 17, 2026 precedes the geology and noise reviews</span
+                    >
+                  </div>
+                  <div class="decide__actions">
+                    <span
+                      class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                      ><button class="esa-button__native typography-microcopy-xs" type="button">
+                        <span class="esa-button__label">Edit start</span>
+                      </button></span
+                    >
+                  </div>
+                </div>
+                <section>
+                  <h4 class="drawer__section">
+                    <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                      ><svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path
+                          d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                        ></path>
+                        <path d="m9 12 2 2 4-4"></path></svg></span
+                    >Disciplines
+                  </h4>
+                  <div class="board">
+                    <button type="button" class="board__cell board__cell--btn">
+                      <span class="board__cellhead"
+                        ><span class="board__dim">Biological</span
+                        ><span class="board__chev"
+                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                            ><svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path d="m9 18 6-6-6-6"></path></svg></span></span></span
+                      ><span
+                        class="bcn-status-chip"
+                        data-status="cleared"
+                        style="--_chip: var(--st-cleared, #1a9850)"
+                        ><span class="bcn-status-chip__dot"></span
+                        ><span class="bcn-status-chip__label">Cleared</span></span
+                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="board__meta"
+                        >Jun 3, 2026 · C. Anderson (ESA)</span
+                      ></button
+                    ><button type="button" class="board__cell board__cell--btn">
+                      <span class="board__cellhead"
+                        ><span class="board__dim">Cultural Resources</span
+                        ><span class="board__chev"
+                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                            ><svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path d="m9 18 6-6-6-6"></path></svg></span></span></span
+                      ><span class="unreviewed">Not reviewed</span
+                      ><span class="board__meta">—</span></button
+                    ><button type="button" class="board__cell board__cell--btn">
+                      <span class="board__cellhead"
+                        ><span class="board__dim">Noise</span
+                        ><span class="board__chev"
+                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                            ><svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path d="m9 18 6-6-6-6"></path></svg></span></span></span
+                      ><span
+                        class="bcn-status-chip"
+                        data-status="survey-scheduled"
+                        style="--_chip: var(--st-survey-scheduled, #74add1)"
+                        ><span class="bcn-status-chip__dot"></span
+                        ><span class="bcn-status-chip__label">Survey Scheduled</span></span
+                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="board__meta"
+                        >Scheduled Jun 20, 2026</span
+                      ></button
+                    ><button type="button" class="board__cell board__cell--btn">
+                      <span class="board__cellhead"
+                        ><span class="board__dim">Geology</span
+                        ><span class="board__chev"
+                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                            ><svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path d="m9 18 6-6-6-6"></path></svg></span></span></span
+                      ><span
+                        class="bcn-status-chip"
+                        data-status="survey-scheduled"
+                        style="--_chip: var(--st-survey-scheduled, #74add1)"
+                        ><span class="bcn-status-chip__dot"></span
+                        ><span class="bcn-status-chip__label">Survey Scheduled</span></span
+                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="board__meta">Scheduled Jun 18, 2026</span>
+                    </button>
+                  </div>
+                </section>
+                <div class="drawer__more">
+                  <details class="esa-collapsible esa-collapsible--flush">
+                    <summary class="esa-collapsible__summary typography-label-sm-strong">
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                        ><svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path
+                            d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                          ></path>
+                          <path
+                            d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                          ></path></svg></span
+                      ><span class="esa-collapsible__title">Notes (1)</span>
+                    </summary>
+                    <div class="esa-collapsible__body typography-body-md">
+                      <blockquote class="note">
+                        6/3 email: This DH is located in a gravel work pad. It was moved slightly to
+                        be placed outside of a dry roadside ditch and to be situated further from
+                        the railroad tracks. There are several large trees, and waterways nearby,
+                        but the site is situated in an area that is highly disturbed. A few
+                        elderberry shrubs are near the entrance to the road, but they are greater
+                        than 165' away.
+                      </blockquote>
+                    </div>
+                  </details>
+                  <details class="esa-collapsible esa-collapsible--flush">
+                    <summary class="esa-collapsible__summary typography-label-sm-strong">
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                        ><svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                          <path d="M3 3v5h5"></path>
+                          <path d="M12 7v5l4 2"></path></svg></span
+                      ><span class="esa-collapsible__title">Activity</span>
+                    </summary>
+                    <div class="esa-collapsible__body typography-body-md">
+                      <p class="empty">No changes this session.</p>
+                    </div>
+                  </details>
+                </div>
+              </div>
+              <footer class="drawer__foot">
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                  ><button class="esa-button__native typography-microcopy-md" type="button">
+                    <span class="esa-button__label">Edit site details</span>
+                  </button></span
+                >
+              </footer>
+            </article>
+          </figure>
+        </div>
+        <h3 class="v2__sub">The discipline child drawer — stacked over the parent</h3>
+        <figure class="mockup mockup--stack">
+          <figcaption class="mockup__case">
+            DCTR2-DH-010 · clicking the Biological cell (count "2") opens its review history as a
+            child drawer stacked over the parent — the parent slides aside and dims behind it,
+            exactly as the permit workspace stacks its permit editor over the segment drawer.
+          </figcaption>
+          <div class="stack">
+            <!-- Parent drawer (under card — dimmed, peeking out at the left) -->
+            <article class="drawer stack__parent">
+              <header class="drawer__head">
+                <div class="drawer__headrow">
+                  <h4 class="drawer__title">DCTR2-DH-010</h4>
+                  <span
+                    class="bcn-status-chip"
+                    data-status="blocked"
+                    style="--_chip: var(--st-blocked, #d73027)"
+                    ><span class="bcn-status-chip__dot"></span
+                    ><span class="bcn-status-chip__label">Blocked</span></span
+                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. -->
+                </div>
+                <p class="drawer__sub">Tunnel Reach 2 · 2024-2029 Geotechnical Activities</p>
+              </header>
+              <div class="band band--4">
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Notification</span
+                  ><span class="bcn-key-value__val">—</span>
+                </div>
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Clearance visit</span
+                  ><span class="bcn-key-value__val">May 18, 2026</span>
+                </div>
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Planned start</span
+                  ><span class="bcn-key-value__val">—</span>
+                </div>
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
+                  <span class="bcn-key-value__key">Blocked until</span
+                  ><span class="band__alert">Jul 24, 2026</span>
+                </div>
+              </div>
+              <div class="drawer__body">
+                <div class="decide decide--blocked">
+                  <p class="decide__line">
+                    Blocked through Jul 24, 2026 — est. 43 more days · re-surveySep 2, 2026
+                  </p>
+                </div>
+                <section>
+                  <h4 class="drawer__section">
+                    <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                      ><svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path
+                          d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                        ></path>
+                        <path d="m9 12 2 2 4-4"></path></svg></span
+                    >Disciplines
+                  </h4>
+                  <div class="board">
+                    <button type="button" class="board__cell board__cell--btn" data-active="true">
+                      <span class="board__cellhead"
+                        ><span class="board__dim">Biological</span
+                        ><span
+                          class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
+                          ><span class="esa-badge__text">2</span></span
+                        ><span class="board__chev"
+                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                            ><svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path d="m9 18 6-6-6-6"></path></svg></span></span></span
+                      ><span
+                        class="bcn-status-chip"
+                        data-status="blocked"
+                        style="--_chip: var(--st-blocked, #d73027)"
+                        ><span class="bcn-status-chip__dot"></span
+                        ><span class="bcn-status-chip__label">Blocked</span></span
+                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="board__meta"
+                        >May 18, 2026 · C. Anderson (ESA)</span
+                      ></button
+                    ><button type="button" class="board__cell board__cell--btn">
+                      <span class="board__cellhead"
+                        ><span class="board__dim">Cultural Resources</span
+                        ><span class="board__chev"
+                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                            ><svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path d="m9 18 6-6-6-6"></path></svg></span></span></span
+                      ><span class="unreviewed">Not reviewed</span
+                      ><span class="board__meta">—</span></button
+                    ><button type="button" class="board__cell board__cell--btn">
+                      <span class="board__cellhead"
+                        ><span class="board__dim">Noise</span
+                        ><span class="board__chev"
+                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                            ><svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path d="m9 18 6-6-6-6"></path></svg></span></span></span
+                      ><span class="unreviewed">Not reviewed</span
+                      ><span class="board__meta">—</span></button
+                    ><button type="button" class="board__cell board__cell--btn">
+                      <span class="board__cellhead"
+                        ><span class="board__dim">Geology</span
+                        ><span class="board__chev"
+                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                            ><svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path d="m9 18 6-6-6-6"></path></svg></span></span></span
+                      ><span class="unreviewed">Not reviewed</span
+                      ><span class="board__meta">—</span>
+                    </button>
+                  </div>
+                </section>
+                <div class="drawer__more">
+                  <details class="esa-collapsible esa-collapsible--flush">
+                    <summary class="esa-collapsible__summary typography-label-sm-strong">
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                        ><svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path
+                            d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                          ></path>
+                          <path d="M12 9v4"></path>
+                          <path d="M12 17h.01"></path></svg></span
+                      ><span class="esa-collapsible__title">Buffer conflicts (1)</span>
+                    </summary>
+                    <div class="esa-collapsible__body typography-body-md">
+                      <ul class="rows">
+                        <li class="conflict">
+                          <span class="conflict__main"
+                            >Swainson's Hawk<span class="conflict__sub"
+                              >SWHA-2289-05182026 · 2,640 ft buffer</span
+                            ></span
+                          ><span class="conflict__meta"
+                            >878 ft away<span class="conflict__sub"
+                              >est. end Jul 24, 2026</span
+                            ></span
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+                  <details class="esa-collapsible esa-collapsible--flush">
+                    <summary class="esa-collapsible__summary typography-label-sm-strong">
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                        ><svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path
+                            d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                          ></path>
+                          <path
+                            d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                          ></path></svg></span
+                      ><span class="esa-collapsible__title">Notes (1)</span>
+                    </summary>
+                    <div class="esa-collapsible__body typography-body-md">
+                      <blockquote class="note">
+                        This was the site clearance visit that identified the SWHA nest on 5/18.
+                      </blockquote>
+                    </div>
+                  </details>
+                  <details class="esa-collapsible esa-collapsible--flush">
+                    <summary class="esa-collapsible__summary typography-label-sm-strong">
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                        ><svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                          <path d="M3 3v5h5"></path>
+                          <path d="M12 7v5l4 2"></path></svg></span
+                      ><span class="esa-collapsible__title">Activity</span>
+                    </summary>
+                    <div class="esa-collapsible__body typography-body-md">
+                      <p class="empty">No changes this session.</p>
+                    </div>
+                  </details>
+                </div>
+              </div>
+              <footer class="drawer__foot">
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                  ><button class="esa-button__native typography-microcopy-md" type="button">
+                    <span class="esa-button__label">Edit site details</span>
+                  </button></span
+                >
+              </footer>
+            </article>
+            <!-- Child drawer (top card — the discipline's review history) -->
+            <article class="drawer stack__child">
+              <header class="drawer__head">
+                <div class="drawer__headrow">
+                  <h4 class="drawer__title">Biological review</h4>
+                  <span
+                    class="bcn-status-chip"
+                    data-status="blocked"
+                    style="--_chip: var(--st-blocked, #d73027)"
+                    ><span class="bcn-status-chip__dot"></span
+                    ><span class="bcn-status-chip__label">Blocked</span></span
+                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="drawer__close"
+                    ><span
+                      class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                      ><button
+                        class="esa-button__native typography-microcopy-xs"
+                        type="button"
+                        aria-label="Close review history"
+                        title="Close review history"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                          ><svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path></svg
+                        ></span></button></span
+                  ></span>
+                </div>
+                <p class="drawer__sub">
+                  DCTR2-DH-010 · the latest completed review sets this status
+                </p>
+              </header>
+              <div class="drawer__body">
+                <div class="child__bar">
+                  <span class="child__count">2 reviews</span
+                  ><span
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                    ><button class="esa-button__native typography-microcopy-xs" type="button">
+                      <span class="esa-button__label">Add review</span>
+                    </button></span
+                  >
+                </div>
+                <ol class="revs">
+                  <li class="rev" data-kind="scheduled">
+                    <span class="rev__dot"></span>
+                    <div class="rev__main">
+                      <p class="rev__head">
+                        Re-survey <span class="rev__when">scheduled Sep 2, 2026</span>
+                      </p>
+                      <div class="rev__chiprow">
+                        <span
+                          class="bcn-status-chip"
+                          data-status="survey-scheduled"
+                          style="--_chip: var(--st-survey-scheduled, #74add1)"
+                          ><span class="bcn-status-chip__dot"></span
+                          ><span class="bcn-status-chip__label">Survey Scheduled</span></span
+                        ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. -->
+                      </div>
+                      <p class="rev__note">
+                        Post-fledge confirmation visit — SWHA est. fledge Jul 24, 2026. Reviewer not
+                        yet assigned.
+                      </p>
+                    </div>
+                  </li>
+                  <li class="rev" data-kind="blocked">
+                    <span class="rev__dot"></span>
+                    <div class="rev__main">
+                      <p class="rev__head">
+                        Clearance survey<span class="rev__when"
+                          >May 18, 2026 · C. Anderson (ESA)</span
+                        >
+                      </p>
+                      <div class="rev__chiprow">
+                        <span
+                          class="bcn-status-chip"
+                          data-status="blocked"
+                          style="--_chip: var(--st-blocked, #d73027)"
+                          ><span class="bcn-status-chip__dot"></span
+                          ><span class="bcn-status-chip__label">Blocked</span></span
+                        ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="rev__until">until Jul 24, 2026</span
+                        ><span class="rev__current">Sets current status</span>
+                      </div>
+                      <p class="rev__note">
+                        Active SWHA nest within the 0.5-mile no-disturbance buffer — discovered
+                        during the site clearance visit.
+                      </p>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+              <footer class="drawer__foot">
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                  ><button class="esa-button__native typography-microcopy-md" type="button">
+                    <span class="esa-button__label">Close</span>
+                  </button></span
+                >
+              </footer>
+            </article>
+          </div>
+        </figure>
+        <aside class="model-note">
+          <p class="model-note__title">Data-model note (for productionizing)</p>
+          <p class="model-note__text">
+            Today's <code>ClearanceGate</code> holds one status per discipline — it cannot say
+            "Blocked now, re-survey scheduled Sep 2." Productionizing v2 turns each discipline's
+            gate into a per-discipline<strong>review list</strong> (date, kind — Clearance survey /
+            Re-survey / Management determination — reviewer, outcome, notes/stipulations): the
+            latest completed review derives the discipline's current status, and future reviews ride
+            the history as scheduled. The fixture keeps its single-gate shape for now; the June →
+            September story above is mocked statically in this specimen.
+          </p>
+        </aside>
+      </section>
+      <!-- ═══ How to evaluate (v2) ═══ -->
+      <section class="evaluate" aria-labelledby="eval-title">
+        <h2 class="evaluate__title" id="eval-title">How to evaluate v2</h2>
+        <ol class="evaluate__list">
+          <li>
+            From a cold open, how fast do you know whether work can start — and what the single next
+            action is?
+          </li>
+          <li>
+            Are the dates you decide with — notification, visit, planned start, blocked-until —
+            visible without opening anything?
+          </li>
+          <li>Does the stacked discipline drawer keep you oriented to the parent site?</li>
+          <li>Is a June → September re-survey history legible at a glance?</li>
+          <li>
+            Where does a pasted field-biologist email note go, and could you find it again a week
+            later?
+          </li>
+        </ol>
+      </section>
+      <!-- ═══════════════════ Round 1 exploration (reference) ═══════════════════ -->
+      <section class="round1" aria-labelledby="round1-title">
+        <header class="round1__head">
+          <h2 class="round1__title" id="round1-title">Round 1 exploration (reference)</h2>
+          <p class="round1__line">
+            The three structural options as first presented — Decision-first (option 1) was selected
+            and is developed at the top of the page. Kept for the record of what each structure
+            prioritized.
+          </p>
+        </header>
+        <div class="concepts">
+          <!-- ═══════════════════ Concept 1 — Decision-first ═══════════════════ -->
+          <section class="concept" aria-labelledby="c1-name">
+            <header class="concept__thesis">
+              <h3 class="concept__name" id="c1-name">
+                <span class="concept__num">1</span>Decision-first
+              </h3>
+              <p class="concept__line">
+                The top half answers one question: can work start — and if not, what single action
+                moves it?
+              </p>
+              <div class="concept__pt">
+                <p class="concept__pt-label">Prioritizes</p>
+                <ul>
+                  <li>
+                    The manager's go/no-go decision, with the ONE next action promoted to a real
+                    button
+                  </li>
+                  <li>A four-cell discipline board you can scan in a second</li>
+                </ul>
+                <p class="concept__pt-label">Trades away</p>
+                <ul>
+                  <li>
+                    Ambient detail — conflicts, surveys, notes, dates and activity collapse until
+                    asked for
+                  </li>
+                </ul>
+              </div>
+            </header>
+            <!-- Case A: DCRDS-DH-184 -->
+            <figure class="mockup">
+              <figcaption class="mockup__case">
+                DCRDS-DH-184 · provisional block — the system found a buffer conflict; a manager
+                must decide now.
+              </figcaption>
+              <article class="drawer">
+                <header class="drawer__head">
+                  <div class="drawer__headrow">
+                    <h3 class="drawer__title">DCRDS-DH-184</h3>
+                    <span
+                      class="bcn-status-chip"
+                      data-status="provisional-block"
+                      style="--_chip: var(--st-provisional-block, #d73027)"
+                      ><span class="bcn-status-chip__dot"></span
+                      ><span class="bcn-status-chip__label">Provisional Block</span></span
+                    ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. -->
+                  </div>
+                  <p class="drawer__sub">Roads · 2024-2029 Geotechnical Activities</p>
+                </header>
+                <div class="drawer__body">
+                  <section>
+                    <h4 class="drawer__section">Next action</h4>
+                    <div class="action action--provisional">
+                      <p class="action__title">Confirm the block?</p>
+                      <p class="action__text">
+                        Inside the Swainson's Hawk ½-mile buffer (SWHA-2289-05182026) — 146 ft from
+                        the nest, est. end Jul 24, 2026. The system detected the conflict; it stays
+                        provisional until a manager decides.
+                      </p>
+                      <p class="action__facts">
+                        Survey scheduled Jun 15, 2026 · planned startJun 29, 2026 (in 18 days)
+                      </p>
+                      <div class="action__btns">
+                        <span
+                          class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+                          ><button class="esa-button__native typography-microcopy-xs" type="button">
+                            <span class="esa-button__label">Confirm block</span>
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                          ><button class="esa-button__native typography-microcopy-xs" type="button">
+                            <span class="esa-button__label">Review gates</span>
+                          </button></span
+                        >
+                      </div>
+                    </div>
+                  </section>
+                  <section>
+                    <h4 class="drawer__section">
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                        ><svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path
+                            d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                          ></path>
+                          <path d="m9 12 2 2 4-4"></path></svg></span
+                      >Disciplines
+                    </h4>
+                    <div class="board">
+                      <div class="board__cell">
+                        <span class="board__dim">Biological</span
+                        ><span
+                          class="bcn-status-chip"
+                          data-status="survey-scheduled"
+                          style="--_chip: var(--st-survey-scheduled, #74add1)"
+                          ><span class="bcn-status-chip__dot"></span
+                          ><span class="bcn-status-chip__label">Survey Scheduled</span></span
+                        ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="board__meta">Scheduled Jun 15, 2026</span>
+                      </div>
+                      <div class="board__cell">
+                        <span class="board__dim">Cultural Resources</span
+                        ><span class="unreviewed">Not reviewed</span
+                        ><span class="board__meta">—</span>
+                      </div>
+                      <div class="board__cell">
+                        <span class="board__dim">Noise</span
+                        ><span class="unreviewed">Not reviewed</span
+                        ><span class="board__meta">—</span>
+                      </div>
+                      <div class="board__cell">
+                        <span class="board__dim">Geology</span
+                        ><span class="unreviewed">Not reviewed</span
+                        ><span class="board__meta">—</span>
+                      </div>
+                    </div>
+                  </section>
+                  <div class="drawer__more">
+                    <details class="esa-collapsible esa-collapsible--flush" open="">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                          ><svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path
+                              d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                            ></path>
+                            <path d="M12 9v4"></path>
+                            <path d="M12 17h.01"></path></svg></span
+                        ><span class="esa-collapsible__title">Buffer conflicts (1)</span>
+                      </summary>
+                      <div class="esa-collapsible__body typography-body-md">
+                        <ul class="rows">
+                          <li class="conflict">
+                            <span class="conflict__main"
+                              >Swainson's Hawk<span class="conflict__sub"
+                                >SWHA-2289-05182026 · 2,640 ft buffer</span
+                              ></span
+                            ><span class="conflict__meta"
+                              >146 ft away<span class="conflict__sub"
+                                >est. end Jul 24, 2026</span
+                              ></span
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                    </details>
+                    <details class="esa-collapsible esa-collapsible--flush">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                          ><svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
+                            <path
+                              d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                            ></path>
+                            <path d="m9 14 2 2 4-4"></path></svg></span
+                        ><span class="esa-collapsible__title">Survey records</span>
+                      </summary>
+                      <div class="esa-collapsible__body typography-body-md">
+                        <p class="empty">No survey on record.</p>
+                      </div>
+                    </details>
+                    <details class="esa-collapsible esa-collapsible--flush">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                          ><svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path
+                              d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                            ></path>
+                            <path
+                              d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                            ></path></svg></span
+                        ><span class="esa-collapsible__title">Notes (1)</span>
+                      </summary>
+                      <div class="esa-collapsible__body typography-body-md">
+                        <blockquote class="note">
+                          5/27 email (from H. Barbare): 30-day Notification was scheduled to be sent
+                          5/15/2026 for 6/15/2026 site clearance visit and 6/29/2026 work. This
+                          location is the closest to the nest.
+                        </blockquote>
+                      </div>
+                    </details>
+                    <details class="esa-collapsible esa-collapsible--flush">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                          ><svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline></svg></span
+                        ><span class="esa-collapsible__title">Dates</span>
+                      </summary>
+                      <div class="esa-collapsible__body typography-body-md">
+                        <div class="dates">
+                          <div class="bcn-key-value" data-size="md" data-layout="stack">
+                            <span class="bcn-key-value__key">Notification</span
+                            ><span class="bcn-key-value__val">May 15, 2026</span>
+                          </div>
+                          <div class="bcn-key-value" data-size="md" data-layout="stack">
+                            <span class="bcn-key-value__key">Clearance visit</span
+                            ><span class="bcn-key-value__val">Jun 15, 2026</span>
+                          </div>
+                          <div class="bcn-key-value" data-size="md" data-layout="stack">
+                            <span class="bcn-key-value__key">Planned start</span
+                            ><span class="bcn-key-value__val">Jun 29, 2026</span>
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+                    <details class="esa-collapsible esa-collapsible--flush">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                          ><svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                            <path d="M3 3v5h5"></path>
+                            <path d="M12 7v5l4 2"></path></svg></span
+                        ><span class="esa-collapsible__title">Activity</span>
+                      </summary>
+                      <div class="esa-collapsible__body typography-body-md">
+                        <p class="empty">No changes this session.</p>
+                      </div>
+                    </details>
+                  </div>
+                </div>
+                <footer class="drawer__foot">
+                  <span
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                    ><button class="esa-button__native typography-microcopy-md" type="button">
+                      <span class="esa-button__label">Edit clearance</span>
+                    </button></span
+                  >
+                </footer>
+              </article>
+            </figure>
+            <!-- Case B: DCRAI-DH-014 -->
+            <figure class="mockup">
+              <figcaption class="mockup__case">
+                DCRAI-DH-014 · multi-discipline — pending reviews, and a planned start that lands
+                before them.
+              </figcaption>
+              <article class="drawer">
+                <header class="drawer__head">
+                  <div class="drawer__headrow">
+                    <h3 class="drawer__title">DCRAI-DH-014</h3>
+                    <span
+                      class="bcn-status-chip"
+                      data-status="survey-scheduled"
+                      style="--_chip: var(--st-survey-scheduled, #74add1)"
+                      ><span class="bcn-status-chip__dot"></span
+                      ><span class="bcn-status-chip__label">Survey Scheduled</span></span
+                    ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. -->
+                  </div>
+                  <p class="drawer__sub">Rail Alignment · 2024-2029 Geotechnical Activities</p>
+                </header>
+                <div class="drawer__body">
+                  <section>
+                    <h4 class="drawer__section">Next action</h4>
+                    <div class="action">
+                      <p class="action__title">Awaiting geology review — Jun 18, 2026</p>
+                      <p class="action__text">
+                        Site relocated — pending geologist confirmation of the new position. Noise
+                        review follows Jun 20, 2026.
+                      </p>
+                      <p class="action__conflict">
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                          ><svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path
+                              d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                            ></path>
+                            <path d="M12 9v4"></path>
+                            <path d="M12 17h.01"></path></svg></span
+                        >Planned start Jun 17, 2026 lands before both pending reviews.
+                      </p>
+                      <div class="action__btns">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                          ><button class="esa-button__native typography-microcopy-xs" type="button">
+                            <span class="esa-button__label">Edit planned start</span>
+                          </button></span
+                        >
+                      </div>
+                    </div>
+                  </section>
+                  <section>
+                    <h4 class="drawer__section">
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                        ><svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path
+                            d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                          ></path>
+                          <path d="m9 12 2 2 4-4"></path></svg></span
+                      >Disciplines
+                    </h4>
+                    <div class="board">
+                      <div class="board__cell">
+                        <span class="board__dim">Biological</span
+                        ><span
+                          class="bcn-status-chip"
+                          data-status="cleared"
+                          style="--_chip: var(--st-cleared, #1a9850)"
+                          ><span class="bcn-status-chip__dot"></span
+                          ><span class="bcn-status-chip__label">Cleared</span></span
+                        ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="board__meta"
+                          >Jun 3, 2026 · C. Anderson (ESA)</span
+                        >
+                      </div>
+                      <div class="board__cell">
+                        <span class="board__dim">Cultural Resources</span
+                        ><span class="unreviewed">Not reviewed</span
+                        ><span class="board__meta">—</span>
+                      </div>
+                      <div class="board__cell">
+                        <span class="board__dim">Noise</span
+                        ><span
+                          class="bcn-status-chip"
+                          data-status="survey-scheduled"
+                          style="--_chip: var(--st-survey-scheduled, #74add1)"
+                          ><span class="bcn-status-chip__dot"></span
+                          ><span class="bcn-status-chip__label">Survey Scheduled</span></span
+                        ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="board__meta">Scheduled Jun 20, 2026</span>
+                      </div>
+                      <div class="board__cell">
+                        <span class="board__dim">Geology</span
+                        ><span
+                          class="bcn-status-chip"
+                          data-status="survey-scheduled"
+                          style="--_chip: var(--st-survey-scheduled, #74add1)"
+                          ><span class="bcn-status-chip__dot"></span
+                          ><span class="bcn-status-chip__label">Survey Scheduled</span></span
+                        ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="board__meta">Scheduled Jun 18, 2026</span>
+                      </div>
+                    </div>
+                  </section>
+                  <div class="drawer__more">
+                    <details class="esa-collapsible esa-collapsible--flush">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                          ><svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
+                            <path
+                              d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                            ></path>
+                            <path d="m9 14 2 2 4-4"></path></svg></span
+                        ><span class="esa-collapsible__title">Survey records (1)</span>
+                      </summary>
+                      <div class="esa-collapsible__body typography-body-md">
+                        <ul class="rows">
+                          <li class="survey">
+                            <a class="survey__link" href="#" onclick="return false;"
+                              >Pre-construction clearance survey · Jun 3, 2026 · C. Anderson
+                              (ESA)</a
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                    </details>
+                    <details class="esa-collapsible esa-collapsible--flush">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                          ><svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path
+                              d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                            ></path>
+                            <path
+                              d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                            ></path></svg></span
+                        ><span class="esa-collapsible__title">Notes (1)</span>
+                      </summary>
+                      <div class="esa-collapsible__body typography-body-md">
+                        <blockquote class="note">
+                          6/3 email: This DH is located in a gravel work pad. It was moved slightly
+                          to be placed outside of a dry roadside ditch and to be situated further
+                          from the railroad tracks. There are several large trees, and waterways
+                          nearby, but the site is situated in an area that is highly disturbed. A
+                          few elderberry shrubs are near the entrance to the road, but they are
+                          greater than 165' away.
+                        </blockquote>
+                      </div>
+                    </details>
+                    <details class="esa-collapsible esa-collapsible--flush">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                          ><svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline></svg></span
+                        ><span class="esa-collapsible__title">Dates</span>
+                      </summary>
+                      <div class="esa-collapsible__body typography-body-md">
+                        <div class="dates">
+                          <div class="bcn-key-value" data-size="md" data-layout="stack">
+                            <span class="bcn-key-value__key">Notification</span
+                            ><span class="bcn-key-value__val">—</span>
+                          </div>
+                          <div class="bcn-key-value" data-size="md" data-layout="stack">
+                            <span class="bcn-key-value__key">Clearance visit</span
+                            ><span class="bcn-key-value__val">—</span>
+                          </div>
+                          <div class="bcn-key-value" data-size="md" data-layout="stack">
+                            <span class="bcn-key-value__key">Planned start</span
+                            ><span class="bcn-key-value__val">Jun 17, 2026</span>
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+                    <details class="esa-collapsible esa-collapsible--flush">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                          ><svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                            <path d="M3 3v5h5"></path>
+                            <path d="M12 7v5l4 2"></path></svg></span
+                        ><span class="esa-collapsible__title">Activity</span>
+                      </summary>
+                      <div class="esa-collapsible__body typography-body-md">
+                        <p class="empty">No changes this session.</p>
+                      </div>
+                    </details>
+                  </div>
+                </div>
+                <footer class="drawer__foot">
+                  <span
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                    ><button class="esa-button__native typography-microcopy-md" type="button">
+                      <span class="esa-button__label">Edit clearance</span>
+                    </button></span
+                  >
+                </footer>
+              </article>
+            </figure>
+          </section>
+          <!-- ═══════════════════ Concept 2 — Discipline workspace ═══════════════════ -->
+          <section class="concept" aria-labelledby="c2-name">
+            <header class="concept__thesis">
+              <h3 class="concept__name" id="c2-name">
+                <span class="concept__num">2</span>Discipline workspace
+              </h3>
+              <p class="concept__line">
+                One discipline at a time, at full depth — the drawer is a segmented workspace, not a
+                stack.
+              </p>
+              <div class="concept__pt">
+                <p class="concept__pt-label">Prioritizes</p>
+                <ul>
+                  <li>
+                    Per-discipline depth: status, dates, reviewer, notes and survey record in one
+                    panel
+                  </li>
+                  <li>
+                    Clean per-discipline editing — add/edit/remove scoped to the open panel, no long
+                    form
+                  </li>
+                  <li>
+                    A thin rollup strip keeps the site-level answer and the live conflict always in
+                    view
+                  </li>
+                </ul>
+                <p class="concept__pt-label">Trades away</p>
+                <ul>
+                  <li>Whole-site glanceability — you visit four panels to read everything</li>
+                </ul>
+              </div>
+            </header>
+            <figure class="mockup">
+              <figcaption class="mockup__case">
+                DCRAI-DH-014 · the switcher opens on Geology — the next pending review. The tabs
+                work; click through.
+              </figcaption>
+              <article class="drawer" data-workspace="">
+                <header class="drawer__head">
+                  <div class="drawer__headrow">
+                    <h3 class="drawer__title">DCRAI-DH-014</h3>
+                    <span
+                      class="bcn-status-chip"
+                      data-status="survey-scheduled"
+                      style="--_chip: var(--st-survey-scheduled, #74add1)"
+                      ><span class="bcn-status-chip__dot"></span
+                      ><span class="bcn-status-chip__label">Survey Scheduled</span></span
+                    ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. -->
+                  </div>
+                  <p class="drawer__sub">Rail Alignment · 2024-2029 Geotechnical Activities</p>
+                </header>
+                <div class="drawer__body">
+                  <!-- Always-visible rollup strip: derived status + the live conflict -->
+                  <div class="strip">
+                    <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                      ><svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path
+                          d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                        ></path>
+                        <path d="M12 9v4"></path>
+                        <path d="M12 17h.01"></path></svg></span
+                    ><span class="strip__text"
+                      ><strong>Planned start Jun 17, 2026</strong> — lands before 2 pending reviews
+                      (geology Jun 18, 2026, noise Jun 20, 2026)</span
+                    >
+                  </div>
+                  <div class="disc-tabs" role="tablist" aria-label="Disciplines">
+                    <button type="button" role="tab" data-dim="biological" aria-selected="false">
+                      <span
+                        class="disc-tabs__dot"
+                        style="background: var(--st-cleared, #1a9850)"
+                      ></span
+                      ><span class="disc-tabs__label">Biological</span></button
+                    ><button type="button" role="tab" data-dim="cultural" aria-selected="false">
+                      <span class="disc-tabs__dot" data-none="true"></span
+                      ><span class="disc-tabs__label">Cultural</span></button
+                    ><button type="button" role="tab" data-dim="noise" aria-selected="false">
+                      <span
+                        class="disc-tabs__dot"
+                        style="background: var(--st-survey-scheduled, #74add1)"
+                      ></span
+                      ><span class="disc-tabs__label">Noise</span></button
+                    ><button type="button" role="tab" data-dim="geology" aria-selected="true">
+                      <span
+                        class="disc-tabs__dot"
+                        style="background: var(--st-survey-scheduled, #74add1)"
+                      ></span
+                      ><span class="disc-tabs__label">Geology</span>
+                    </button>
+                  </div>
+                  <!-- Biological — cleared -->
+                  <section class="disc-panel" data-panel="biological" hidden="">
+                    <div class="disc-panel__head">
+                      <span
+                        class="bcn-status-chip"
+                        data-status="cleared"
+                        style="--_chip: var(--st-cleared, #1a9850)"
+                        ><span class="bcn-status-chip__dot"></span
+                        ><span class="bcn-status-chip__label">Cleared</span></span
+                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="disc-panel__when">Reviewed Jun 3, 2026</span>
+                    </div>
+                    <div class="bcn-key-value" data-size="md" data-layout="stack">
+                      <span class="bcn-key-value__key">Reviewer</span
+                      ><span class="bcn-key-value__val">C. Anderson (ESA)</span>
+                    </div>
+                    <div class="bcn-key-value" data-size="md" data-layout="stack">
+                      <span class="bcn-key-value__key">Determination note</span
+                      ><span class="kv-text"
+                        >Highly disturbed gravel work pad; elderberry shrubs &gt;165 ft from
+                        access.</span
+                      >
+                    </div>
+                    <div class="bcn-key-value" data-size="md" data-layout="stack">
+                      <span class="bcn-key-value__key">Survey record</span
+                      ><a class="survey__link" href="#" onclick="return false;"
+                        >Pre-construction clearance survey · Jun 3, 2026</a
+                      >
+                    </div>
+                    <div class="bcn-key-value" data-size="md" data-layout="stack">
+                      <span class="bcn-key-value__key">Field note (verbatim)</span>
+                      <blockquote class="note note--sm">
+                        6/3 email: This DH is located in a gravel work pad. It was moved slightly to
+                        be placed outside of a dry roadside ditch and to be situated further from
+                        the railroad tracks. There are several large trees, and waterways nearby,
+                        but the site is situated in an area that is highly disturbed. A few
+                        elderberry shrubs are near the entrance to the road, but they are greater
+                        than 165' away.
+                      </blockquote>
+                    </div>
+                    <div class="disc-panel__foot">
+                      <span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button class="esa-button__native typography-microcopy-xs" type="button">
+                          <span class="esa-button__label">Edit biological review</span>
+                        </button></span
+                      >
+                    </div>
+                  </section>
+                  <!-- Cultural — not reviewed -->
+                  <section class="disc-panel" data-panel="cultural" hidden="">
+                    <div class="disc-panel__head"><span class="unreviewed">Not reviewed</span></div>
+                    <p class="empty">
+                      No cultural resources review has been recorded for this work area.
+                    </p>
+                    <div class="disc-panel__foot">
+                      <span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button class="esa-button__native typography-microcopy-xs" type="button">
+                          <span class="esa-button__label">Add review</span>
+                        </button></span
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button class="esa-button__native typography-microcopy-xs" type="button">
+                          <span class="esa-button__label">Mark no review required</span>
+                        </button></span
+                      >
+                    </div>
+                  </section>
+                  <!-- Noise — review scheduled -->
+                  <section class="disc-panel" data-panel="noise" hidden="">
+                    <div class="disc-panel__head">
+                      <span
+                        class="bcn-status-chip"
+                        data-status="survey-scheduled"
+                        style="--_chip: var(--st-survey-scheduled, #74add1)"
+                        ><span class="bcn-status-chip__dot"></span
+                        ><span class="bcn-status-chip__label">Survey Scheduled</span></span
+                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="disc-panel__when"
+                        >Review scheduled Jun 20, 2026 (in 9 days)</span
+                      >
+                    </div>
+                    <div class="bcn-key-value" data-size="md" data-layout="stack">
+                      <span class="bcn-key-value__key">Reviewer</span
+                      ><span class="bcn-key-value__val">Not assigned</span>
+                    </div>
+                    <div class="bcn-key-value" data-size="md" data-layout="stack">
+                      <span class="bcn-key-value__key">Determination note</span
+                      ><span class="kv-text"
+                        >Potential noise issue raised near receptors; acoustic review pending.</span
+                      >
+                    </div>
+                    <div class="bcn-key-value" data-size="md" data-layout="stack">
+                      <span class="bcn-key-value__key">Survey record</span
+                      ><span class="bcn-key-value__val">No noise survey on record</span>
+                    </div>
+                    <div class="disc-panel__foot">
+                      <span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button class="esa-button__native typography-microcopy-xs" type="button">
+                          <span class="esa-button__label">Edit noise review</span>
+                        </button></span
+                      >
+                    </div>
+                  </section>
+                  <!-- Geology — review scheduled (default panel: the next pending review) -->
+                  <section class="disc-panel" data-panel="geology">
+                    <div class="disc-panel__head">
+                      <span
+                        class="bcn-status-chip"
+                        data-status="survey-scheduled"
+                        style="--_chip: var(--st-survey-scheduled, #74add1)"
+                        ><span class="bcn-status-chip__dot"></span
+                        ><span class="bcn-status-chip__label">Survey Scheduled</span></span
+                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="disc-panel__when"
+                        >Review scheduled Jun 18, 2026 (in 7 days)</span
+                      >
+                    </div>
+                    <div class="bcn-key-value" data-size="md" data-layout="stack">
+                      <span class="bcn-key-value__key">Reviewer</span
+                      ><span class="bcn-key-value__val">Not assigned</span>
+                    </div>
+                    <div class="bcn-key-value" data-size="md" data-layout="stack">
+                      <span class="bcn-key-value__key">Determination note</span
+                      ><span class="kv-text"
+                        >Site relocated — pending geologist confirmation of the new position.</span
+                      >
+                    </div>
+                    <div class="bcn-key-value" data-size="md" data-layout="stack">
+                      <span class="bcn-key-value__key">Survey record</span
+                      ><span class="bcn-key-value__val">No geology survey on record</span>
+                    </div>
+                    <p class="disc-panel__warn">
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                        ><svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path
+                            d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                          ></path>
+                          <path d="M12 9v4"></path>
+                          <path d="M12 17h.01"></path></svg></span
+                      >This review lands one day after the planned start (Jun 17, 2026).
+                    </p>
+                    <div class="disc-panel__foot">
+                      <span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button class="esa-button__native typography-microcopy-xs" type="button">
+                          <span class="esa-button__label">Edit geology review</span>
+                        </button></span
+                      >
+                    </div>
+                  </section>
+                </div>
+                <footer class="drawer__foot">
+                  <span
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                    ><button class="esa-button__native typography-microcopy-md" type="button">
+                      <span class="esa-button__label">Edit site details</span>
+                    </button></span
+                  >
+                </footer>
+              </article>
+            </figure>
+          </section>
+          <!-- ═══════════════════ Concept 3 — Lifecycle / checklist ═══════════════════ -->
+          <section class="concept" aria-labelledby="c3-name">
+            <header class="concept__thesis">
+              <h3 class="concept__name" id="c3-name">
+                <span class="concept__num">3</span>Lifecycle / checklist
+              </h3>
+              <p class="concept__line">
+                The work area is a pipeline — Notification → Survey → Determinations → Outcome →
+                Work start — and every fact, conflict and edit lives at its step.
+              </p>
+              <div class="concept__pt">
+                <p class="concept__pt-label">Prioritizes</p>
+                <ul>
+                  <li>
+                    Temporal clarity: where are we, what's next, what's late — dates on every step
+                  </li>
+                  <li>
+                    Conflicts surface where they belong: the buffer conflict at Determinations, the
+                    start-before-review clash at Work start
+                  </li>
+                  <li>Inline edits at the step — no separate edit mode</li>
+                </ul>
+                <p class="concept__pt-label">Trades away</p>
+                <ul>
+                  <li>Dense at-a-glance status across disciplines; the pipeline runs tall</li>
+                </ul>
+              </div>
+            </header>
+            <!-- Case A: DCRDS-DH-184 -->
+            <figure class="mockup">
+              <figcaption class="mockup__case">
+                DCRDS-DH-184 · the conflict jumped the queue — Determinations is live before the
+                survey happens.
+              </figcaption>
+              <article class="drawer">
+                <header class="drawer__head">
+                  <div class="drawer__headrow">
+                    <h3 class="drawer__title">DCRDS-DH-184</h3>
+                    <span
+                      class="bcn-status-chip"
+                      data-status="provisional-block"
+                      style="--_chip: var(--st-provisional-block, #d73027)"
+                      ><span class="bcn-status-chip__dot"></span
+                      ><span class="bcn-status-chip__label">Provisional Block</span></span
+                    ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. -->
+                  </div>
+                  <p class="drawer__sub">Roads · 2024-2029 Geotechnical Activities</p>
+                </header>
+                <div class="drawer__body">
+                  <ol class="steps">
+                    <li class="step" data-state="done">
+                      <span class="step__dot"></span>
+                      <div class="step__content">
+                        <p class="step__title">
+                          Notification <span class="step__when">May 15, 2026</span>
+                        </p>
+                        <p class="step__text">30-day landowner notification sent.</p>
+                      </div>
+                    </li>
+                    <li class="step" data-state="scheduled">
+                      <span class="step__dot"></span>
+                      <div class="step__content">
+                        <p class="step__title">
+                          Clearance survey<span class="step__when">scheduled Jun 15, 2026</span>
+                        </p>
+                        <p class="step__text">Biological clearance visit in 4 days.</p>
+                      </div>
+                    </li>
+                    <li class="step" data-state="live-red">
+                      <span class="step__dot"></span>
+                      <div class="step__content">
+                        <p class="step__title">
+                          Determinations <span class="step__when">decision needed now</span>
+                        </p>
+                        <ul class="check">
+                          <li class="check__row">
+                            <span
+                              class="check__dot"
+                              style="background: var(--st-survey-scheduled, #74add1)"
+                            ></span
+                            ><span class="check__dim">Biological</span
+                            ><span class="check__state">Scheduled Jun 15, 2026</span>
+                          </li>
+                          <li class="check__row">
+                            <span class="check__dot" data-none="true"></span
+                            ><span class="check__dim">Cultural Resources</span
+                            ><span class="check__state">Not reviewed</span>
+                          </li>
+                          <li class="check__row">
+                            <span class="check__dot" data-none="true"></span
+                            ><span class="check__dim">Noise</span
+                            ><span class="check__state">Not reviewed</span>
+                          </li>
+                          <li class="check__row">
+                            <span class="check__dot" data-none="true"></span
+                            ><span class="check__dim">Geology</span
+                            ><span class="check__state">Not reviewed</span>
+                          </li>
+                        </ul>
+                        <div class="action action--provisional action--instep">
+                          <p class="action__text">
+                            <strong>Buffer conflict — needs a manager decision.</strong> Inside the
+                            Swainson's Hawk½-mile buffer (SWHA-2289-05182026), 146 ft from the nest
+                            · est. endJul 24, 2026.
+                          </p>
+                          <div class="action__btns">
+                            <span
+                              class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+                              ><button
+                                class="esa-button__native typography-microcopy-xs"
+                                type="button"
+                              >
+                                <span class="esa-button__label">Confirm block</span>
+                              </button></span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="step" data-state="future">
+                      <span class="step__dot"></span>
+                      <div class="step__content">
+                        <p class="step__title">Cleared / Blocked</p>
+                        <p class="step__text">
+                          Projected: Blocked through Jul 24, 2026 (est. 43 more days) once the block
+                          is confirmed.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="step" data-state="future">
+                      <span class="step__dot"></span>
+                      <div class="step__content">
+                        <p class="step__title">
+                          Work start<span class="step__when">planned Jun 29, 2026</span>
+                        </p>
+                        <p class="step__flag">
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                            ><svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                              ></path>
+                              <path d="M12 9v4"></path>
+                              <path d="M12 17h.01"></path></svg></span
+                          >Inside the buffer window — if the block is confirmed, the start slips
+                          pastJul 24, 2026.
+                        </p>
+                      </div>
+                    </li>
+                  </ol>
+                </div>
+              </article>
+            </figure>
+            <!-- Case B: DCRAI-DH-014 -->
+            <figure class="mockup">
+              <figcaption class="mockup__case">
+                DCRAI-DH-014 · determinations are the live step; the start-before-review clash is
+                flagged at Work start.
+              </figcaption>
+              <article class="drawer">
+                <header class="drawer__head">
+                  <div class="drawer__headrow">
+                    <h3 class="drawer__title">DCRAI-DH-014</h3>
+                    <span
+                      class="bcn-status-chip"
+                      data-status="survey-scheduled"
+                      style="--_chip: var(--st-survey-scheduled, #74add1)"
+                      ><span class="bcn-status-chip__dot"></span
+                      ><span class="bcn-status-chip__label">Survey Scheduled</span></span
+                    ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. -->
+                  </div>
+                  <p class="drawer__sub">Rail Alignment · 2024-2029 Geotechnical Activities</p>
+                </header>
+                <div class="drawer__body">
+                  <ol class="steps">
+                    <li class="step" data-state="future">
+                      <span class="step__dot"></span>
+                      <div class="step__content">
+                        <p class="step__title">
+                          Notification <span class="step__when">not on record</span>
+                        </p>
+                        <p class="step__text">No 30-day landowner notification recorded.</p>
+                        <div class="step__act">
+                          <span
+                            class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                            >
+                              <span class="esa-button__label">Record notification</span>
+                            </button></span
+                          >
+                        </div>
+                      </div>
+                    </li>
+                    <li class="step" data-state="done">
+                      <span class="step__dot"></span>
+                      <div class="step__content">
+                        <p class="step__title">
+                          Clearance survey <span class="step__when">Jun 3, 2026</span>
+                        </p>
+                        <p class="step__text">
+                          <a class="survey__link" href="#" onclick="return false;"
+                            >Pre-construction clearance survey · Jun 3, 2026 · C. Anderson (ESA)</a
+                          >
+                        </p>
+                      </div>
+                    </li>
+                    <li class="step" data-state="live">
+                      <span class="step__dot"></span>
+                      <div class="step__content">
+                        <p class="step__title">
+                          Determinations <span class="step__when">2 reviews pending</span>
+                        </p>
+                        <ul class="check">
+                          <li class="check__row">
+                            <span
+                              class="check__dot"
+                              style="background: var(--st-cleared, #1a9850)"
+                            ></span
+                            ><span class="check__dim">Biological</span
+                            ><span class="check__state"
+                              >Cleared · Jun 3, 2026 · C. Anderson (ESA)</span
+                            >
+                          </li>
+                          <li class="check__row">
+                            <span
+                              class="check__dot"
+                              style="background: var(--st-survey-scheduled, #74add1)"
+                            ></span
+                            ><span class="check__dim">Geology</span
+                            ><span class="check__state"
+                              >Scheduled Jun 18, 2026 — site relocated</span
+                            >
+                          </li>
+                          <li class="check__row">
+                            <span
+                              class="check__dot"
+                              style="background: var(--st-survey-scheduled, #74add1)"
+                            ></span
+                            ><span class="check__dim">Noise</span
+                            ><span class="check__state">Scheduled Jun 20, 2026</span>
+                          </li>
+                          <li class="check__row">
+                            <span class="check__dot" data-none="true"></span
+                            ><span class="check__dim">Cultural Resources</span
+                            ><span class="check__act"
+                              ><span
+                                class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                >
+                                  <span class="esa-button__label">Add review</span>
+                                </button></span
+                              ></span
+                            ><span class="check__state">Not reviewed</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li class="step" data-state="future">
+                      <span class="step__dot"></span>
+                      <div class="step__content">
+                        <p class="step__title">Cleared / Blocked</p>
+                        <p class="step__text">
+                          Pending 2 scheduled reviews and 1 unreviewed discipline.
+                        </p>
+                      </div>
+                    </li>
+                    <li class="step" data-state="future">
+                      <span class="step__dot"></span>
+                      <div class="step__content">
+                        <p class="step__title">
+                          Work start<span class="step__when">planned Jun 17, 2026</span>
+                        </p>
+                        <p class="step__flag">
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+                            ><svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                              ></path>
+                              <path d="M12 9v4"></path>
+                              <path d="M12 17h.01"></path></svg></span
+                          >Lands before geology (Jun 18, 2026) and noise (Jun 20, 2026) — move the
+                          start or expedite the reviews.
+                        </p>
+                        <div class="step__act">
+                          <span
+                            class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                            >
+                              <span class="esa-button__label">Edit planned start</span>
+                            </button></span
+                          >
+                        </div>
+                      </div>
+                    </li>
+                  </ol>
+                </div>
+              </article>
+            </figure>
+          </section>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
