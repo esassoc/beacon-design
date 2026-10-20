@@ -1,0 +1,51 @@
+---
+// Help dots on the Lists page. The Guidance bar grows one switch, Show Me Around
+// (a placeholder name), on pages that have dots. Switch it on and pulsing Aldo dots
+// mark five spots; click one for a popover about that thing. Switch it off and they
+// are gone. No numbers, no order, no tour.
+//
+// The page under the dots is prod's Lists page for a project that only keeps
+// commitment lists: the info banner, the search, the one group with its Add button,
+// and Global/Personal badges on the rows. It is built from the same components as
+// /prototypes/lists, with the banner and badges prod still shows.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+import BcnListIndexBoard from '../../components/bcn/BcnListIndexBoard.astro';
+import BcnListCreateDialog from '../../components/bcn/BcnListCreateDialog.astro';
+import BcnHelpDots from '../../components/bcn/BcnHelpDots.astro';
+import { PROJECT } from '../../data/project-dashboard';
+import { LISTS_HELP_DOTS } from '../../data/help-dots';
+---
+
+<!-- manifest:
+  layout: PageLayout > stack(md)                      # SPINE
+  sections:
+    - banner      -> esa-alert-box                    # prod's info banner over the lists
+    - lists index -> bcn-list-index-board             # commitment group only, with Global/Personal badges
+    - add list    -> bcn-list-create-dialog           # what Add Commitment List opens
+    - help dots   -> bcn-help-dots                    # the dot layer the Guidance bar's switch turns on
+-->
+
+<AppShell
+  title="Lists"
+  tenantName={PROJECT.tenant}
+  projectName="Delta Conveyance"
+  activeNavId="lists"
+  expandedSections={['project']}
+>
+  <PageLayout
+    title="Lists"
+    icon="notepad-text"
+    iconColor="var(--color-content-brand)"
+    breadcrumbs={[{ label: 'Project', href: '#project' }, { label: 'Lists' }]}
+  >
+    <EsaAlertBox variant="info">
+      Lists are sets of commitments, actions or obligations you want to track and report on
+      together. A commitment can sit on more than one list.
+    </EsaAlertBox>
+    <BcnListIndexBoard types={['commitment']} showScope />
+    <BcnListCreateDialog />
+    <BcnHelpDots page={LISTS_HELP_DOTS} />
+  </PageLayout>
+</AppShell>

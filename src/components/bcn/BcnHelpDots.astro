@@ -1,0 +1,258 @@
+---
+// <BcnHelpDots> — the help-dot layer for one page. Switched on from the Guidance bar's
+// toggle, it puts a pulsing Aldo dot on each named spot; a click on a dot opens a
+// popover with a title, a sentence or two and, optionally, a small screenshot. Switched
+// off, the dots are gone. The toggle only shows on a page that mounts this layer.
+//
+// Each dot is placed by measuring its target against this layer, which sits in the
+// page's own scroll container, so dots scroll with the page and need re-measuring only
+// when the layout moves (resize, a search narrowing the rows). A spot whose target is
+// missing or hidden hides its dot rather than floating over nothing.
+//
+// Contract with siblings: the Guidance bar (<BcnHelpBar>) carries a hidden
+// `[data-help-dots-slot]` holding an esa-switch-toggle marked `[data-help-dots-toggle]`.
+// This layer unhides the slot and listens for the switch's `change`; the bar adds no
+// behavior of its own.
+//
+// bcn-lego-checked: the dot is a branded affordance — the BcnAldoMark circle with a
+// radiating ring — and esa-icon-button / esa-button only take a registered Lucide icon
+// name, not a custom mark, so the button wrapping the mark is this component's. The
+// popover IS esa-popover (click trigger, Esc, outside-click), the label IS esa-switch-toggle
+// on the bar, the text IS typography composites. Checked Beacon: help items attach by
+// route key (BCN-1518) and nothing places marks on a page; bcn-help-dots is the home.
+import BcnAldoMark from './aldo/BcnAldoMark.astro';
+import type { HelpDotPage } from '../../data/help-dots';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  page: HelpDotPage;
+}
+const { page } = Astro.props;
+---
+
+<div class="bcn-help-dots" data-help-dots data-route-key={page.routeKey} hidden>
+  {
+    page.dots.map((dot) => (
+      <div class="bcn-help-dots__spot" data-help-dot data-target={dot.target} data-at={dot.at} data-side={dot.side} hidden>
+        <esa-popover position={dot.side} trigger="click" offset={10} label={dot.title}>
+          <button type="button" class="bcn-help-dots__dot" aria-label={`About: ${dot.title}`}>
+            <BcnAldoMark size="sm" />
+          </button>
+          <div slot="content" class="bcn-help-dots__panel stack" data-gap="xs" data-has-shot={dot.shot ? '' : undefined}>
+            {dot.shot && (
+              <img
+                class="bcn-help-dots__shot"
+                src={withBase(dot.shot.src)}
+                alt={dot.shot.alt}
+                width={dot.shot.width}
+                height={dot.shot.height}
+                loading="lazy"
+              />
+            )}
+            <p class="bcn-help-dots__title typography-label-md-strong">{dot.title}</p>
+            <p class="bcn-help-dots__text typography-body-sm">{dot.text}</p>
+          </div>
+        </esa-popover>
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  import '@esa/ecology/esa-popover';
+  import '@esa/ecology/esa-switch-toggle';
+
+  type Popover = HTMLElement & { open: boolean };
+  type Toggle = HTMLElement & { checked: boolean };
+
+  const layer = document.querySelector<HTMLElement>('[data-help-dots]');
+  const slot = document.querySelector<HTMLElement>('[data-help-dots-slot]');
+  const toggle = document.querySelector<Toggle>('[data-help-dots-toggle]');
+
+  if (layer && slot && toggle) {
+    slot.hidden = false;
+    const spots = Array.from(layer.querySelectorAll<HTMLElement>('[data-help-dot]'));
+
+    // The dot's centre, from the target's box, in the layer's coordinates.
+    const anchor = (r: DOMRect, at: string): [number, number] => {
+      const midY = r.top + r.height / 2;
+      switch (at) {
+        case 'top-end':
+          return [r.right - 2, r.top + 2];
+        case 'inside-end':
+          return [r.right - 24, midY];
+        case 'before':
+          return [r.left - 18, midY];
+        default:
+          return [r.right + 18, midY];
+      }
+    };
+
+    const place = () => {
+      if (layer.hidden) return;
+      const origin = layer.getBoundingClientRect();
+      spots.forEach((spot) => {
+        const target = document.querySelector<HTMLElement>(spot.dataset.target ?? '');
+        const r = target?.getBoundingClientRect();
+        const shown = !!target && !!r && r.width > 0 && target.closest('[hidden]') === null;
+        spot.hidden = !shown;
+        if (!shown || !r) return;
+        const [x, y] = anchor(r, spot.dataset.at ?? 'after');
+        spot.style.setProperty('--_x', `${x - origin.left}px`);
+        spot.style.setProperty('--_y', `${y - origin.top}px`);
+        fit(spot, x);
+      });
+    };
+
+    // esa-popover opens on a fixed side and never moves to stay on screen. On a narrow
+    // screen there is no side that is always right, so the popover opens toward the
+    // wider half of the page's scroll area (which clips it), beside the dot, sized to the
+    // room that half leaves.
+    const NARROW = 640;
+    const EDGE = 12;
+    const GAP = 20; // the popover's offset plus the dot's radius
+    const CHROME = 28; // the popover's own padding and border, both sides
+    const scroller = (() => {
+      for (let el = layer.parentElement; el; el = el.parentElement) {
+        if (/(auto|scroll|hidden)/.test(getComputedStyle(el).overflowX)) return el;
+      }
+      return document.documentElement;
+    })();
+    const fit = (spot: HTMLElement, x: number) => {
+      const popover = spot.querySelector<HTMLElement & { position: string }>('esa-popover');
+      if (!popover) return;
+      if (document.documentElement.clientWidth >= NARROW) {
+        popover.position = spot.dataset.side ?? 'bottom';
+        spot.style.removeProperty('--_room');
+        return;
+      }
+      const box = scroller.getBoundingClientRect();
+      const toLeft = x - box.left > box.right - x;
+      const room = (toLeft ? x - box.left : box.right - x) - GAP - EDGE - CHROME;
+      popover.position = toLeft ? 'left' : 'right';
+      spot.style.setProperty('--_room', `${Math.max(160, Math.round(room))}px`);
+    };
+
+    let frame = 0;
+    const schedule = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(place);
+    };
+
+    const setOn = (on: boolean) => {
+      layer.hidden = !on;
+      if (on) {
+        place();
+      } else {
+        layer.querySelectorAll<Popover>('esa-popover').forEach((p) => (p.open = false));
+      }
+    };
+
+    toggle.addEventListener('change', () => setOn(toggle.checked));
+    window.addEventListener('resize', schedule);
+    document.addEventListener('input', schedule, true);
+    const watched = layer.parentElement;
+    if (watched) new ResizeObserver(schedule).observe(watched);
+    setOn(toggle.checked);
+  }
+</script>
+
+<style>
+  /* A zero-height box in the page's flow: it scrolls with the page, and each spot is
+     positioned from its top-left corner. */
+  .bcn-help-dots {
+    position: relative;
+    block-size: 0;
+  }
+  .bcn-help-dots[hidden],
+  .bcn-help-dots__spot[hidden] {
+    display: none;
+  }
+
+  .bcn-help-dots__spot {
+    position: absolute;
+    inset-inline-start: var(--_x, 0);
+    inset-block-start: var(--_y, 0);
+    z-index: 20; /* over the page's cards, under the z-1000 Guidance bar */
+    translate: -50% -50%;
+    line-height: 0;
+  }
+  /* The open dot's popover sits over its neighbours' dots. */
+  .bcn-help-dots__spot:has(esa-popover[open]) {
+    z-index: 21;
+  }
+
+  /* The dot: the Aldo mark itself, with a ring that radiates out from it twice a
+     cycle — the same Aldo-tinted box-shadow pulse the mark uses when it is at work. */
+  .bcn-help-dots__dot {
+    display: inline-flex;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: none;
+    cursor: pointer;
+    animation: bcn-help-dot-radiate 1.8s ease-out infinite;
+  }
+  .bcn-help-dots__dot:hover,
+  .bcn-help-dots__dot[aria-expanded='true'] {
+    animation: none;
+    box-shadow: 0 0 0 4px var(--bcn-aldo-100);
+  }
+  .bcn-help-dots__dot:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  @keyframes bcn-help-dot-radiate {
+    0% {
+      box-shadow:
+        0 0 0 0 color-mix(in srgb, var(--bcn-aldo) 55%, transparent),
+        0 0 0 0 color-mix(in srgb, var(--bcn-aldo) 35%, transparent);
+    }
+    60% {
+      box-shadow:
+        0 0 0 9px color-mix(in srgb, var(--bcn-aldo) 0%, transparent),
+        0 0 0 5px color-mix(in srgb, var(--bcn-aldo) 15%, transparent);
+    }
+    100% {
+      box-shadow:
+        0 0 0 9px color-mix(in srgb, var(--bcn-aldo) 0%, transparent),
+        0 0 0 14px color-mix(in srgb, var(--bcn-aldo) 0%, transparent);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-help-dots__dot {
+      animation: none;
+      box-shadow: 0 0 0 3px var(--bcn-aldo-100);
+    }
+  }
+
+  /* The popover body: a title and a sentence or two, with a screenshot on top when the
+     spot has one. Narrower without a picture, so a sentence still sets as a short block. */
+  .bcn-help-dots__panel {
+    inline-size: min(280px, var(--_room, 280px));
+    line-height: normal;
+    white-space: normal;
+    text-align: start;
+  }
+  .bcn-help-dots__panel[data-has-shot] {
+    inline-size: min(320px, var(--_room, 320px));
+  }
+  .bcn-help-dots__title,
+  .bcn-help-dots__text {
+    margin: 0;
+  }
+  .bcn-help-dots__title {
+    color: var(--color-content-default);
+  }
+  .bcn-help-dots__text {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-help-dots__shot {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+  }
+</style>

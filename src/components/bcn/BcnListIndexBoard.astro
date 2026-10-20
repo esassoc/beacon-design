@@ -84,7 +84,15 @@ import { withBase } from '../../lib/base';
 // Every list type has its detail page now (2026-09-23): one route, three bodies.
 const hrefFor = (list: ProjectList): string => withBase(`/prototypes/lists/${list.id}`);
 
-const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
+interface Props {
+  /** Which groups to show, in LIST_GROUP_ORDER. Default: all of them. */
+  types?: ListType[];
+  /** Pass through to every row: show its Global/Personal badge. */
+  showScope?: boolean;
+}
+const { types = LIST_GROUP_ORDER, showScope = false } = Astro.props;
+
+const GROUPS = LIST_GROUP_ORDER.filter((type) => types.includes(type)).map((type: ListType) => ({
   type,
   label: LIST_GROUP_LABEL[type],
   // "commitment list" — the singular the badge's accessible name is rebuilt from when a
@@ -132,7 +140,7 @@ const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
 
           <div class="stack" data-gap="xs">
             {group.lists.map((list) => (
-              <BcnListCard list={list} href={hrefFor(list)} />
+              <BcnListCard list={list} href={hrefFor(list)} showScope={showScope} />
             ))}
             <div class="bcn-lib__empty" data-group-empty hidden={group.lists.length > 0}>
               <EsaEmptyState

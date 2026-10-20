@@ -47,15 +47,21 @@
 // ink, the mark's tint and the one-line clamp.
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
 import BcnSwCountBadge from './BcnSwCountBadge.astro';
-import { LIST_TYPE_MARK, memberCountLabel, type ProjectList } from '../../data/lists';
+import { LIST_SCOPE_LABEL, LIST_TYPE_MARK, memberCountLabel, type ProjectList } from '../../data/lists';
 
 interface Props {
   list: ProjectList;
   /** Where the name links. */
   href: string;
+  /**
+   * Show the list's Global/Personal badge, as prod's Lists page does. Off by default:
+   * the Lists redesign at /prototypes/lists leaves it out.
+   */
+  showScope?: boolean;
 }
-const { list, href } = Astro.props;
+const { list, href, showScope = false } = Astro.props;
 
 const mark = LIST_TYPE_MARK[list.type];
 // The badge carries the whole phrase as its accessible name; the visible glyph is the
@@ -88,6 +94,11 @@ const updated = new Date(`${list.updatedAt}T00:00:00`).toLocaleDateString('en-US
               {list.name}
             </a>
             <BcnSwCountBadge value={list.memberCount} label={countLabel} size="sm" />
+            {showScope && list.scope && (
+              <span class="bcn-lc__scope" data-list-scope={list.scope}>
+                <EsaBadge value={LIST_SCOPE_LABEL[list.scope]} variant={list.scope === 'global' ? 'info' : 'neutral'} size="sm" />
+              </span>
+            )}
           </div>
           <span class="bcn-lc__updated typography-body-xs">Updated {updated}</span>
         </div>
@@ -104,6 +115,10 @@ const updated = new Date(`${list.updatedAt}T00:00:00`).toLocaleDateString('en-US
 </article>
 
 <style>
+  .bcn-lc__scope {
+    display: inline-flex;
+  }
+
   /* Everything sits in esa-card's DEFAULT slot, and the header slot is left unfilled.
      That is the density decision. A filled header slot is a titled band: 56px min-height,
      1rem block padding and a hairline under it, which turned a one-line row into two

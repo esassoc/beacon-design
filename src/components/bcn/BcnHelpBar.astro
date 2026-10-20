@@ -56,6 +56,14 @@ const fmtLong = (iso: string): string =>
     <span class="bcn-help-bar__guidance-label">Guidance</span>
   </button>
 
+  <!-- Help dots toggle — hidden until the page mounts a <BcnHelpDots> layer, which
+       unhides this slot and listens on the switch. "Show Me Around" is a placeholder
+       name. -->
+  <span class="bcn-help-bar__dots cluster" data-gap="xs" data-help-dots-slot hidden>
+    <span class="bcn-help-bar__divider" aria-hidden="true"></span>
+    <esa-switch-toggle class="bcn-help-bar__dots-switch" size="sm" label="Show Me Around" data-help-dots-toggle></esa-switch-toggle>
+  </span>
+
   <span class="bcn-help-bar__divider" aria-hidden="true"></span>
 
   <!-- Attach Evidence of Compliance — icon-only; the tooltip host carries the drawer's open hook.
@@ -217,6 +225,26 @@ const fmtLong = (iso: string): string =>
   }
   .bcn-help-bar__guidance-label {
     white-space: nowrap;
+  }
+
+  /* Help dots toggle — the switch's label takes the bar's light foreground (its part is
+     the lego's public styling surface), and the track sits on Aldo green when on. */
+  .bcn-help-bar__dots {
+    flex-wrap: nowrap;
+  }
+  .bcn-help-bar__dots[hidden] {
+    display: none;
+  }
+  .bcn-help-bar__dots-switch {
+    padding-inline: var(--spacing-150) var(--spacing-100);
+  }
+  .bcn-help-bar__dots-switch::part(label) {
+    color: var(--bcn-helpbar-fg);
+    font-weight: var(--typography-font-weight-medium);
+    white-space: nowrap;
+  }
+  .bcn-help-bar__dots-switch[checked]::part(track) {
+    background: var(--bcn-aldo);
   }
 
   .bcn-help-bar__divider {

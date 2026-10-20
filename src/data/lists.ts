@@ -99,7 +99,16 @@ export interface ProjectList {
   updatedAt: string;
   /** Rows in the list. On an obligation list this is `members.length`, always. */
   memberCount: number;
+  /**
+   * Who sees the list. Prod marks commitment lists Global (everyone on the tenant) or
+   * Personal (its creator only); action and obligation lists carry no scope.
+   */
+  scope?: ListScope;
 }
+
+export type ListScope = 'global' | 'personal';
+
+export const LIST_SCOPE_LABEL: Record<ListScope, string> = { global: 'Global', personal: 'Personal' };
 
 /**
  * One obligation's membership in one list.
@@ -513,13 +522,13 @@ const commitmentList = (
 // condition with its real requirements. The two seeds that named other permits (the
 // Biological Opinion, the 401) became ITP groupings with the same dates.
 export const COMMITMENT_LISTS: CommitmentList[] = [
-  commitmentList({ id: 'itp-2081-conditions', name: 'ITP 2081 Conditions', createdAt: '2026-02-19', updatedAt: '2026-09-08', description: 'Every condition of the incidental take permit, as issued.',
+  commitmentList({ id: 'itp-2081-conditions', name: 'ITP 2081 Conditions', createdAt: '2026-02-19', updatedAt: '2026-09-08', scope: 'global', description: 'Every condition of the incidental take permit, as issued.',
     pick: () => true }),
-  commitmentList({ id: 'consultation-and-authorization', name: 'Consultation and Authorization', createdAt: '2026-02-19', updatedAt: '2026-08-14',
+  commitmentList({ id: 'consultation-and-authorization', name: 'Consultation and Authorization', createdAt: '2026-02-19', updatedAt: '2026-08-14', scope: 'global',
     pick: (_c, t) => /consult|notif|authoriz|amend/i.test(t) }),
-  commitmentList({ id: 'fish-monitoring-studies', name: 'Fish Monitoring Studies', createdAt: '2026-05-06', updatedAt: '2026-09-02',
+  commitmentList({ id: 'fish-monitoring-studies', name: 'Fish Monitoring Studies', createdAt: '2026-05-06', updatedAt: '2026-09-02', scope: 'global',
     pick: (c) => /^COA 10\.(18|19|20|21)\b/.test(c) }),
-  commitmentList({ id: 'quarterly-agency-briefing', name: 'Quarterly Agency Briefing', createdAt: '2026-07-15', updatedAt: '2026-09-04', description: 'Read into the quarterly briefing deck for the resource agencies.',
+  commitmentList({ id: 'quarterly-agency-briefing', name: 'Quarterly Agency Briefing', createdAt: '2026-07-15', updatedAt: '2026-09-04', scope: 'personal', description: 'Read into the quarterly briefing deck for the resource agencies.',
     pick: (_c, t) => /report/i.test(t) }),
 ];
 
