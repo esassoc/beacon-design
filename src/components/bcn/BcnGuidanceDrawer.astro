@@ -61,6 +61,12 @@ const ICON_BOOK =
             <span class="bcn-gd__here-page" data-gd-page>Beacon</span>
             <span class="bcn-gd__here-purpose" data-gd-purpose></span>
           </div>
+          <!-- Help dots switch. Hidden until the page mounts a <BcnHelpDots> layer, which
+               unhides it, listens on it, and closes this drawer when it turns on.
+               "Show Me Around" is a placeholder name. -->
+          <div class="bcn-gd__dots" data-help-dots-slot hidden>
+            <esa-switch-toggle size="sm" label="Show Me Around" data-help-dots-toggle></esa-switch-toggle>
+          </div>
         </section>
         <section class="bcn-gd__section" data-gd-section="howtos">
           <h2 class="bcn-gd__label"><EsaIcon name="list" paths={ICON_LIST} size="sm" /> On this page</h2>
@@ -192,6 +198,8 @@ const ICON_BOOK =
   /* section (inside the intro group): icon + word with authority over the regular rows */
   .bcn-gd__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
   .bcn-gd__section[hidden] { display: none; }
+  .bcn-gd__dots[hidden] { display: none; }
+  .bcn-gd__dots esa-switch-toggle[checked]::part(track) { background: var(--bcn-aldo); }
   .bcn-gd__label {
     display: flex;
     align-items: center;

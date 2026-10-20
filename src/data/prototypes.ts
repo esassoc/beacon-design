@@ -713,7 +713,7 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'help-dots',
         title: 'Help Dots',
         description:
-          'A Show Me Around switch on the Guidance bar puts pulsing Aldo dots on the Lists page; each dot opens a popover about the thing it marks, one with a screenshot.',
+          'A Show Me Around switch in the Help & Guidance drawer puts pulsing Aldo dots on the Lists page; each dot opens a popover about the thing it marks, one with a screenshot.',
         route: '/prototypes/help-dots',
         createdAt: '2026-10-20',
         status: 'in-progress',

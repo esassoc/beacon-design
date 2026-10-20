@@ -1,4 +1,4 @@
-// Help dots: pulsing marks a reader switches on from the Guidance bar, each opening a
+// Help dots: pulsing marks a reader switches on from the Help & Guidance drawer, each opening a
 // popover about the thing it sits on. Spots are named in code next to the page's route
 // help key, the same key Help & Guidance articles attach by. A spot whose target is gone
 // from the page hides its dot.

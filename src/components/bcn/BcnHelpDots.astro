@@ -1,6 +1,6 @@
 ---
-// <BcnHelpDots> — the help-dot layer for one page. Switched on from the Guidance bar's
-// toggle, it puts a pulsing Aldo dot on each named spot; a click on a dot opens a
+// <BcnHelpDots> — the help-dot layer for one page. Switched on from the Help & Guidance
+// drawer's toggle, it puts a pulsing Aldo dot on each named spot; a click on a dot opens a
 // popover with a title, a sentence or two and, optionally, a small screenshot. Switched
 // off, the dots are gone. The toggle only shows on a page that mounts this layer.
 //
@@ -9,16 +9,24 @@
 // when the layout moves (resize, a search narrowing the rows). A spot whose target is
 // missing or hidden hides its dot rather than floating over nothing.
 //
-// Contract with siblings: the Guidance bar (<BcnHelpBar>) carries a hidden
-// `[data-help-dots-slot]` holding an esa-switch-toggle marked `[data-help-dots-toggle]`.
-// This layer unhides the slot and listens for the switch's `change`; the bar adds no
-// behavior of its own.
+// Contract with siblings: the Help & Guidance drawer (<BcnGuidanceDrawer>, `[data-gd]`)
+// carries a hidden `[data-help-dots-slot]` under You Are Here, holding an
+// esa-switch-toggle marked `[data-help-dots-toggle]`. This layer unhides the slot, listens
+// for the switch's `change`, and closes the drawer when the dots turn on so they are in
+// view. The drawer adds no behavior of its own.
+//
+// TONE. The popovers take the Guidance bar's dark (round 2, 2026-10-20: "Wondering if the
+// popup should be the dark of the action-bar"). esa-popover's own `inverse` appearance
+// paints from the three knockout roles, which this layer re-points to the bar's tokens,
+// so the panel and its arrow match the bar with no new values. `?popover=light` puts back
+// the light panel for comparison. (Round 1, 2026-10-20: the switch moved
+// here from the Guidance bar.)
 //
 // bcn-lego-checked: the dot is a branded affordance — the BcnAldoMark circle with a
 // radiating ring — and esa-icon-button / esa-button only take a registered Lucide icon
 // name, not a custom mark, so the button wrapping the mark is this component's. The
 // popover IS esa-popover (click trigger, Esc, outside-click), the label IS esa-switch-toggle
-// on the bar, the text IS typography composites. Checked Beacon: help items attach by
+// in the guidance drawer, the text IS typography composites. Checked Beacon: help items attach by
 // route key (BCN-1518) and nothing places marks on a page; bcn-help-dots is the home.
 import BcnAldoMark from './aldo/BcnAldoMark.astro';
 import type { HelpDotPage } from '../../data/help-dots';
@@ -34,7 +42,7 @@ const { page } = Astro.props;
   {
     page.dots.map((dot) => (
       <div class="bcn-help-dots__spot" data-help-dot data-target={dot.target} data-at={dot.at} data-side={dot.side} hidden>
-        <esa-popover position={dot.side} trigger="click" offset={10} label={dot.title}>
+        <esa-popover position={dot.side} trigger="click" offset={10} label={dot.title} appearance="inverse">
           <button type="button" class="bcn-help-dots__dot" aria-label={`About: ${dot.title}`}>
             <BcnAldoMark size="sm" />
           </button>
@@ -71,6 +79,13 @@ const { page } = Astro.props;
 
   if (layer && slot && toggle) {
     slot.hidden = false;
+
+    if (new URLSearchParams(location.search).get('popover') === 'light') {
+      layer.dataset.tone = 'light';
+      layer.querySelectorAll<HTMLElement & { appearance: string }>('esa-popover').forEach((p) => {
+        p.appearance = 'default';
+      });
+    }
     const spots = Array.from(layer.querySelectorAll<HTMLElement>('[data-help-dot]'));
 
     // The dot's centre, from the target's box, in the layer's coordinates.
@@ -148,7 +163,12 @@ const { page } = Astro.props;
       }
     };
 
-    toggle.addEventListener('change', () => setOn(toggle.checked));
+    toggle.addEventListener('change', () => {
+      setOn(toggle.checked);
+      if (toggle.checked) {
+        document.querySelector<HTMLElement & { close(): void }>('[data-gd]')?.close();
+      }
+    });
     window.addEventListener('resize', schedule);
     document.addEventListener('input', schedule, true);
     const watched = layer.parentElement;
@@ -227,6 +247,15 @@ const { page } = Astro.props;
     }
   }
 
+  /* Dark tone: the knockout roles esa-popover's `inverse` appearance reads, re-pointed to
+     the Guidance bar's surface. Solid, not the bar's glass: the popover has no backdrop
+     blur, and the bar uses the same solid where blur is missing. */
+  .bcn-help-dots:not([data-tone='light']) esa-popover {
+    --color-background-default-knockout: var(--bcn-helpbar-bg-solid);
+    --color-border-default-knockout: var(--bcn-helpbar-border);
+    --color-content-default-knockout: var(--bcn-helpbar-fg);
+  }
+
   /* The popover body: a title and a sentence or two, with a screenshot on top when the
      spot has one. Narrower without a picture, so a sentence still sets as a short block. */
   .bcn-help-dots__panel {
@@ -243,16 +272,25 @@ const { page } = Astro.props;
     margin: 0;
   }
   .bcn-help-dots__title {
-    color: var(--color-content-default);
+    color: var(--bcn-helpbar-fg);
   }
   .bcn-help-dots__text {
+    color: var(--bcn-helpbar-fg-muted);
+  }
+  .bcn-help-dots[data-tone='light'] .bcn-help-dots__title {
+    color: var(--color-content-default);
+  }
+  .bcn-help-dots[data-tone='light'] .bcn-help-dots__text {
     color: var(--color-content-default-secondary);
   }
   .bcn-help-dots__shot {
     display: block;
     inline-size: 100%;
     block-size: auto;
-    border: 1px solid var(--color-border-default);
+    border: 1px solid var(--bcn-helpbar-border);
     border-radius: var(--radius-200);
+  }
+  .bcn-help-dots[data-tone='light'] .bcn-help-dots__shot {
+    border-color: var(--color-border-default);
   }
 </style>

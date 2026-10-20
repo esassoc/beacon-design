@@ -804,6 +804,13 @@ export interface HelpRouteContext {
 
 export const HELP_ROUTE_CONTEXTS: HelpRouteContext[] = [
   {
+    pattern: '/prototypes/help-dots',
+    page: 'Lists',
+    purpose: 'Every list on the project, filed by type, to track and report on a set of commitments, actions or obligations together.',
+    howtos: ['global-search-tips'],
+    terms: ['what-is-a-commitment', 'what-is-an-action'],
+  },
+  {
     pattern: '/prototypes/permit-tracking',
     page: 'Permit Tracking',
     purpose: 'Every permit and approval the project needs, tracked through the acquisition pipeline — what is in hand, in review, and due next.',
