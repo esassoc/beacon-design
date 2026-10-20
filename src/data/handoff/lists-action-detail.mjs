@@ -25,13 +25,6 @@
 export default {
   sections: [
     {
-      label: 'Aldo',
-      selector: '[data-list-aldo] [data-aldo-panel]',
-      apply: [{ click: '[data-lal-open]' }],
-      intent: 'Aldo above Details, as on an obligation list (see lists-obligation-detail): say what the list is for and Aldo proposes the actions that fit; Add fills the list through the Add drawer\'s own path.',
-      decisions: ['Candidates are every action on the project; the reply groups them by action type.'],
-    },
-    {
       label: 'Header verbs',
       selector: '.bcn-list-actions',
       intent: 'Edit details, Add actions (the checkbox drawer), Add evidence (the bottom evidence drawer in list mode).',

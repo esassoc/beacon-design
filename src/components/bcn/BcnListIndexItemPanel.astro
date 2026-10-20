@@ -26,9 +26,9 @@
 // bcn-lego-checked: the frame IS esa-side-dialog, the fields ARE esa-text-field and
 // esa-textarea, the buttons ARE esa-button, the glyphs ARE esa-icon; the labels, sections,
 // requirement rows and footer split are bcn-obligation-drawer.css and the chip is
-// bcn-obligation-card.css, both shared with <BcnListObligationPanel>. What is scoped here
-// is the read-only text tier, which <BcnListObligationPanel> keeps scoped too. The form
-// also wears .bcn-lob so the chip takes its hue from the shared map by data-class.
+// bcn-obligation-card.css, both shared with <BcnListObligationPanel>, the read-only field
+// and prose rows included. The form wears .bcn-lob for those rows and so the chip takes
+// its hue from the shared map by data-class. Nothing is scoped here.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import { ITP, OBLIGATION_CLASS_LABEL, REQUIREMENT_TYPE_LABEL } from '../../data/setup-wizard';
@@ -83,9 +83,9 @@ for (const cat of indexListTree(list))
       help-text="Leave this empty and the list uses the index title."
     ></esa-text-field>
 
-    <div class="bcn-lip__field">
+    <div class="bcn-lob__field">
       <span class="bcn-swo-edit__label">Index description</span>
-      <p class="bcn-lip__prose" data-lip="description"></p>
+      <p class="bcn-lob__prose" data-lip="description"></p>
     </div>
 
     <esa-textarea
@@ -209,11 +209,3 @@ for (const cat of indexListTree(list))
     });
   }
 </script>
-
-<style>
-  /* The read-only tier: a record this panel shows and cannot write. Same values as
-     <BcnListObligationPanel>'s, which keeps its own scoped. */
-  .bcn-lip__field { display: flex; flex-direction: column; gap: var(--spacing-050); min-width: 0; }
-  .bcn-lip__prose { margin: 0; font-size: 0.8125rem; line-height: 1.5; color: var(--color-content-default); }
-  .bcn-lip__prose[data-superseded='true'] { color: var(--color-content-default-tertiary); }
-</style>

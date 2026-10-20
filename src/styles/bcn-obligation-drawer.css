@@ -68,3 +68,11 @@
 .bcn-swo-edit__foot { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: var(--spacing-200); }
 .bcn-swo-edit__foot--end { justify-content: flex-end; }
 .bcn-swo-edit__foot-left, .bcn-swo-edit__foot-right { display: inline-flex; align-items: center; gap: var(--spacing-200); }
+
+/* The READ-ONLY tier of the list panels (<BcnListObligationPanel>, <BcnListIndexItemPanel>):
+   a record the panel shows and cannot write. Once scoped in each panel with the same
+   values; shared here when the second panel arrived. */
+.bcn-lob__field { display: flex; flex-direction: column; gap: var(--spacing-050); min-width: 0; }
+.bcn-lob__prose { margin: 0; font-size: 0.8125rem; line-height: 1.5; color: var(--color-content-default); }
+/* This sentence is no longer the one the list exports; the field below it is. */
+.bcn-lob__prose[data-superseded='true'] { color: var(--color-content-default-tertiary); }

@@ -6277,9 +6277,6 @@ Checkbox drawer of every action not on the list, in Action Type folders, with se
   line-height: var(--typography-microcopy-sm-strong-line-height);
   letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
 }
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
 .bcn-laf__clear[hidden] {
   display: none;
 }
@@ -6437,6 +6434,9 @@ details[open] > .bcn-lao__row .bcn-lao__chevron {
   padding: var(--filter-container-padding, 0);
   flex-wrap: wrap;
   display: flex;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
 }
 .bcn-swcb {
   min-width: 22px;

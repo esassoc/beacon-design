@@ -332,11 +332,8 @@ const DATA = JSON.stringify({ records, taxonomy });
      wizard's editor in src/styles/bcn-obligation-drawer.css, and the class chip with the
      two cards in bcn-obligation-card.css. What is here is the READ-ONLY tier, which only
      this panel has, because only this panel shows a record it cannot write. */
-  .bcn-lob__field { display: flex; flex-direction: column; gap: var(--spacing-050); min-width: 0; }
-  .bcn-lob__prose { margin: 0; font-size: 0.8125rem; line-height: 1.5; color: var(--color-content-default); }
-
-  /* This sentence is no longer the one the list exports; the field below it is. */
-  .bcn-lob__prose[data-superseded='true'] { color: var(--color-content-default-tertiary); }
+  /* The read-only field and prose rows are shared with <BcnListIndexItemPanel> in
+     bcn-obligation-drawer.css. */
 
   /* Where the registry files a member this list has moved. */
   .bcn-lob__registry { font-size: 0.6875rem; color: var(--color-content-default-tertiary); }

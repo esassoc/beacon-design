@@ -1,9 +1,24 @@
-# Aldo
+# Aldo on a list
 
-Aldo above Details, as on an obligation list (see lists-obligation-detail): say what the list is for and Aldo proposes the commitments that fit; Add fills the list through the Add drawer's own path.
+Aldo on the list, above Details: a launcher in Aldo's wash ("Ask Aldo to fill this list") that opens the same conversation the setup wizard has, in place. The person says what the list is for in their own words; Aldo names how many records fit and where they file, and offers one key. The list fills when the key is pressed. Andy, 2026-10-19: "I should be able to start a list and then explain what I want and have that populate."
 
 ## Key decisions
-- Candidates are every commitment on the project; the reply groups them by permit section.
+- Built from the Aldo kit (bcn-aldo-panel, -thread, -composer; docs/aldo-kit-spec.md), docked in the rail at a fixed 32rem height so Details stays put, expandable over the page like the setup wizard's. Collapsing folds it back into the launcher.
+- What it reads a message as: add (the default), remove ("take out", "remove", "drop", "leave out"), or a question ("what's on here?", "is dust covered?"), which changes nothing.
+- Nothing changes until the key is pressed: "Add 14" (success tone) or "Remove 4" (danger tone), with Dismiss beside it. Pressed, the change goes through the page's own paths: the Add drawer's rows (`list:add-ids`) and the tree's own remove (`list:drop-members`), so counts, filing and the drawer stay as a manual add leaves them. The press is said as one quiet event line ("Added 14 obligations").
+- Records already on the list are not offered again; the reply says how many were.
+- Prod: one structured-output call per message (AIController, the kit's { actions, reply } contract) given the list, its members and the registry of its type, returning `{ actions: [{ kind: "add" | "remove", ids }], reply }`. The ids must be checked against the registry server-side before the key is offered.
+- Not on the canonical Compliance Index: it is the project's own and is not edited here.
+- Candidates per list type: every obligation in the registry (reply grouped by category › subcategory), every action on the project (grouped by action type), every commitment (grouped by permit section).
+- Depends on the setup wizard's Aldo: the kit and the AI call are that work's, so this epic follows it. The list-export epic's pages work without any of it.
+
+## Gotchas
+- The prototype runs no model. It matches words per clause ("dust, spills or refueling" is three asks, "annual reports to CDFW" one), with the phrases records file under and a short synonym list (list-aldo-match.ts). Do not port it; it only stands in for the call.
+- A remove from Aldo skips the per-card confirm: the key in the conversation is the confirmation.
+
+## Done when
+- Typing "anything about dust, spills or refueling" and pressing Add puts those obligations in the tree under their subcategories, and the title badge moves by the number added.
+- Dismiss leaves the list as it was and says so.
 
 ## Markup
 ```html
@@ -151,10 +166,10 @@ Aldo above Details, as on an obligation list (see lists-obligation-detail): say 
             <p
               class="bcn-aldo-msg__text"
               data-msg-text=""
-              data-raw="Quarterly Agency Briefing holds 12 commitments. Tell me what to add or take off."
+              data-raw="What should New Obligation List hold? Describe it and I'll fill it from the project's 333 obligations."
             >
-              Quarterly Agency Briefing holds 12 commitments. Tell me what to add or take
-              off.
+              What should New Obligation List hold? Describe it and I'll fill it from the
+              project's 333 obligations.
             </p>
             <span class="bcn-aldo-msg__tools" data-msg-tools="" data-keys="copy"
               ><span
@@ -196,17 +211,12 @@ Aldo above Details, as on an obligation list (see lists-obligation-detail): say 
           <span
             class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
             ><button class="esa-button__native typography-microcopy-2xs" type="button">
-              <span class="esa-button__label">Use the description</span>
+              <span class="esa-button__label">Before ground disturbance</span>
             </button></span
           ><span
             class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
             ><button class="esa-button__native typography-microcopy-2xs" type="button">
-              <span class="esa-button__label">Nesting birds and bats</span>
-            </button></span
-          ><span
-            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-            ><button class="esa-button__native typography-microcopy-2xs" type="button">
-              <span class="esa-button__label">Water quality</span>
+              <span class="esa-button__label">Dust, spills and fuel</span>
             </button></span
           >
         </div>
@@ -1913,9 +1923,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -1944,6 +1951,9 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
 }
 .esa-pill {
   --_pill-bg: var(--color-background-elevation-sunken, #f0f0f0);

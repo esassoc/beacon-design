@@ -34,9 +34,9 @@ One action or obligation on this version: List title and List description are th
       name="lip-title"
       help-text="Leave this empty and the list uses the index title."
     ></esa-text-field>
-    <div class="bcn-lip__field">
+    <div class="bcn-lob__field">
       <span class="bcn-swo-edit__label">Index description</span>
-      <p class="bcn-lip__prose" data-lip="description" data-superseded="true">
+      <p class="bcn-lob__prose" data-lip="description" data-superseded="true">
         A Designated Biologist, Fisheries Biologist, or Biological Monitor presents the
         Condition of Approval 9.4 education program to every person working in the Project
         Area before that person performs any work, covering Covered Species biology and
@@ -179,9 +179,9 @@ One action or obligation on this version: List title and List description are th
       ></span
     ></span
   ><template data-lip-tpl="req"
-    ><details class="bcn-swo-edit__req" data-astro-cid-ywezhp5l="">
-      <summary class="bcn-swo-edit__req-row" data-astro-cid-ywezhp5l="">
-        <span class="bcn-swo-edit__chev" aria-hidden="true" data-astro-cid-ywezhp5l=""
+    ><details class="bcn-swo-edit__req">
+      <summary class="bcn-swo-edit__req-row">
+        <span class="bcn-swo-edit__chev" aria-hidden="true"
           ><span
             class="esa-icon esa-icon--xs"
             aria-hidden="true"
@@ -199,13 +199,10 @@ One action or obligation on this version: List title and List description are th
               data-astro-cid-c7ivvrtd=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
-        ><span class="bcn-swo-edit__code" data-astro-cid-ywezhp5l=""></span
-        ><span class="bcn-swo-edit__req-name" data-astro-cid-ywezhp5l=""></span>
+        ><span class="bcn-swo-edit__code"></span
+        ><span class="bcn-swo-edit__req-name"></span>
       </summary>
-      <blockquote
-        class="bcn-swo-edit__text"
-        data-astro-cid-ywezhp5l=""
-      ></blockquote></details></template
+      <blockquote class="bcn-swo-edit__text"></blockquote></details></template
 ></esa-side-dialog>
 ```
 
@@ -232,42 +229,12 @@ One action or obligation on this version: List title and List description are th
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
-.bcn-lob__field {
-  gap: var(--spacing-050);
-  flex-direction: column;
-  min-width: 0;
-  display: flex;
-}
-.bcn-lob__prose {
-  color: var(--color-content-default);
-  margin: 0;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-}
-.bcn-lob__prose[data-superseded="true"] {
-  color: var(--color-content-default-tertiary);
-}
 .bcn-lob__registry {
   color: var(--color-content-default-tertiary);
   font-size: 0.6875rem;
 }
 .bcn-lob__registry[hidden] {
   display: none;
-}
-.bcn-lip__field {
-  gap: var(--spacing-050);
-  flex-direction: column;
-  min-width: 0;
-  display: flex;
-}
-.bcn-lip__prose {
-  color: var(--color-content-default);
-  margin: 0;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-}
-.bcn-lip__prose[data-superseded="true"] {
-  color: var(--color-content-default-tertiary);
 }
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -805,6 +772,21 @@ summary.esa-button--variant-chrome:focus-visible {
   align-items: center;
   gap: var(--spacing-200);
   display: inline-flex;
+}
+.bcn-lob__field {
+  gap: var(--spacing-050);
+  flex-direction: column;
+  min-width: 0;
+  display: flex;
+}
+.bcn-lob__prose {
+  color: var(--color-content-default);
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.bcn-lob__prose[data-superseded="true"] {
+  color: var(--color-content-default-tertiary);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

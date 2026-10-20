@@ -13,7 +13,7 @@ The list's own outline over the index's items: its categories and subcategories,
 
 ## Gotchas
 - A subcategory added to the canonical index later is in no version until someone places it. Open: whether a version should show unplaced canonical subcategories in a bin of its own.
-- Open: merging, reordering and adding or removing whole categories and subcategories (the outline editor) is not built; Aldo's Keep and Take Out cover removing subcategories. Rename is built, in a side panel.
+- Open: merging, reordering and adding or removing whole categories and subcategories (the outline editor) is not built, so in this epic a whole subcategory comes off only item by item (Aldo's Keep and Take Out, which do it at once, are the separate Aldo epic). Rename is built, in a side panel.
 - An item removed from a version is excluded by id, so refiling it in the canonical index does not bring it back into that version.
 - Removing the last item of a subcategory drops the subcategory from the page and the PDF; the list keeps its row, so re-including an item later restores it under the same name.
 

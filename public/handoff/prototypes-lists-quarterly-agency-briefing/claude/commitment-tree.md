@@ -1660,26 +1660,6 @@ One flat list of commitments in code order. Each card keeps its REQUIREMENT rows
   line-height: var(--typography-label-md-strong-line-height);
   letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
-.bcn-loc__edited {
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-loc__edited[hidden] {
-  display: none;
-}
-.bcn-loc__dot {
-  place-items: center;
-  block-size: 1rem;
-  inline-size: 1rem;
-  display: inline-grid;
-}
-.bcn-loc__dot:before {
-  content: "";
-  background: var(--color-content-brand);
-  border-radius: 50%;
-  block-size: 6px;
-  inline-size: 6px;
-}
 .bcn-lot__folds {
   justify-content: flex-end;
   gap: var(--spacing-200);
@@ -1735,7 +1715,7 @@ One flat list of commitments in code order. Each card keeps its REQUIREMENT rows
   outline: 2px solid var(--color-action);
   outline-offset: -2px;
 }
-.bcn-lit
+.bcn-lit:not([data-index-editable])
   esa-tooltip:has(
     [data-list-remove],
     [data-list-duplicate],
@@ -1959,6 +1939,7 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
 .bcn-lac[data-class="action"],
+.bcn-lob[data-class="action"],
 .bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
@@ -2079,6 +2060,26 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-loc [data-list-count] {
   margin-inline-start: auto;
+}
+.bcn-loc__edited {
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-loc__edited[hidden] {
+  display: none;
+}
+.bcn-loc__dot {
+  place-items: center;
+  block-size: 1rem;
+  inline-size: 1rem;
+  display: inline-grid;
+}
+.bcn-loc__dot:before {
+  content: "";
+  background: var(--color-content-brand);
+  border-radius: 50%;
+  block-size: 6px;
+  inline-size: 6px;
 }
 .bcn-loc__req {
   color: var(--color-content-default-secondary);
@@ -2353,9 +2354,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   line-height: var(--typography-label-md-strong-line-height);
   letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -2384,6 +2382,9 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
 }
 .esa-empty-state {
   --_empty-icon-size: var(--empty-state-icon-size-md, 48px);

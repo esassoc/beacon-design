@@ -1,9 +1,14 @@
-# Aldo
+# Aldo on a Compliance Index version
 
-Aldo above Details, as on an obligation list (see lists-obligation-detail): say what the list is for and Aldo proposes the actions that fit; Add fills the list through the Add drawer's own path.
+On a Compliance Index version (e.g. /prototypes/lists/contractor-field-index), Aldo above Details ("Ask Aldo to shape this index"): say who the version is for or what it covers and Aldo keeps the subcategories that fit and takes out the rest; "take out fire prevention" takes those out. One key each: Keep N, Take Out N.
 
 ## Key decisions
-- Candidates are every action on the project; the reply groups them by action type.
+- A version arranges subcategories, so Aldo proposes subcategories, never single items. It reads each one by its name, its category and the titles of what it holds.
+- Kept and taken-out subcategories go through the tree (`list:index-keep`, `list:index-drop`); a category left empty goes too, and every count is read again.
+- Open: merging and renaming through Aldo ("put dust under Every day on site") belongs with the outline editor, which is not built.
+
+## Done when
+- "Take out fire prevention and dust control" then Take Out drops those two subcategories and the title badge by the items they held.
 
 ## Markup
 ```html
@@ -151,9 +156,10 @@ Aldo above Details, as on an obligation list (see lists-obligation-detail): say 
             <p
               class="bcn-aldo-msg__text"
               data-msg-text=""
-              data-raw="Annual Reporting holds 16 actions. Tell me what to add or take off."
+              data-raw="What should New Obligation List hold? Describe it and I'll fill it from the project's 333 obligations."
             >
-              Annual Reporting holds 16 actions. Tell me what to add or take off.
+              What should New Obligation List hold? Describe it and I'll fill it from the
+              project's 333 obligations.
             </p>
             <span class="bcn-aldo-msg__tools" data-msg-tools="" data-keys="copy"
               ><span
@@ -195,17 +201,12 @@ Aldo above Details, as on an obligation list (see lists-obligation-detail): say 
           <span
             class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
             ><button class="esa-button__native typography-microcopy-2xs" type="button">
-              <span class="esa-button__label">Use the description</span>
+              <span class="esa-button__label">Before ground disturbance</span>
             </button></span
           ><span
             class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
             ><button class="esa-button__native typography-microcopy-2xs" type="button">
-              <span class="esa-button__label">Agency reporting</span>
-            </button></span
-          ><span
-            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--xs"
-            ><button class="esa-button__native typography-microcopy-2xs" type="button">
-              <span class="esa-button__label">Biologist surveys</span>
+              <span class="esa-button__label">Dust, spills and fuel</span>
             </button></span
           >
         </div>
@@ -1912,9 +1913,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -1943,6 +1941,9 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
 }
 .esa-pill {
   --_pill-bg: var(--color-background-elevation-sunken, #f0f0f0);

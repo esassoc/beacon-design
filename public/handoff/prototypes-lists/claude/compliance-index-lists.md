@@ -145,7 +145,7 @@ The last group on Lists: the project's canonical Compliance Index, pinned first,
                     href="/beacon-design/prototypes/lists/contractor-field-index"
                     data-list-text=""
                     >Contractor Field Index</a
-                  ><span class="bcn-swcb bcn-swcb--sm" aria-label="268 items">268</span>
+                  ><span class="bcn-swcb bcn-swcb--sm" aria-label="265 items">265</span>
                 </div>
                 <span class="bcn-lc__updated typography-body-xs"
                   >Updated Oct 17, 2026</span

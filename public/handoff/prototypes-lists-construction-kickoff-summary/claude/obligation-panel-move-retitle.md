@@ -107,21 +107,6 @@ The side panel for one obligation ON THIS LIST. It offers exactly three things: 
 
 ## Styles
 ```css
-.bcn-lob__field {
-  gap: var(--spacing-050);
-  flex-direction: column;
-  min-width: 0;
-  display: flex;
-}
-.bcn-lob__prose {
-  color: var(--color-content-default);
-  margin: 0;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-}
-.bcn-lob__prose[data-superseded="true"] {
-  color: var(--color-content-default-tertiary);
-}
 .bcn-lob__registry {
   color: var(--color-content-default-tertiary);
   font-size: 0.6875rem;
@@ -441,6 +426,21 @@ The side panel for one obligation ON THIS LIST. It offers exactly three things: 
   align-items: center;
   gap: var(--spacing-200);
   display: inline-flex;
+}
+.bcn-lob__field {
+  gap: var(--spacing-050);
+  flex-direction: column;
+  min-width: 0;
+  display: flex;
+}
+.bcn-lob__prose {
+  color: var(--color-content-default);
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.bcn-lob__prose[data-superseded="true"] {
+  color: var(--color-content-default-tertiary);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
