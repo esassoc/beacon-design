@@ -76,3 +76,7 @@
 .bcn-lob__prose { margin: 0; font-size: 0.8125rem; line-height: 1.5; color: var(--color-content-default); }
 /* This sentence is no longer the one the list exports; the field below it is. */
 .bcn-lob__prose[data-superseded='true'] { color: var(--color-content-default-tertiary); }
+/* Where the source files a member, under the Category / Subcategory pickers: the registry
+   on an obligation list, the canonical index on an index version. Meta, at the 13px floor. */
+.bcn-lob__registry { font-size: 0.8125rem; color: var(--color-content-default-tertiary); }
+.bcn-lob__registry[hidden] { display: none; }

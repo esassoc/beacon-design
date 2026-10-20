@@ -1,14 +1,15 @@
 # Item panel
 
-One action or obligation on this version: List title and List description are the only live fields; the type or class chip, the index description and the requirements read as text. Footer: Remove from this list left; Save, Cancel right.
+One member of this version, an action or an obligation: the obligation list's panel for a version. Live: List title, Category and Subcategory (where this version files it), List description. Read only: the type or class chip, where the Compliance Index files it, the index description and the requirements. Footer: Remove from this list and Duplicate left; Save, Cancel right.
 
 ## Key decisions
-- The obligation list's panel less its Category / Subcategory pickers (a version files by its outline, not per item) and less Duplicate (a version holds each item once). It takes actions as well as obligations.
-- An empty field means the index's wording, so the fields hold only what the list says differently. The index description turns tertiary once the list has its own.
-- Remove from the panel goes through the tree's confirm, the same as the card's x.
+- The pickers offer the VERSION's outline under this list's names, not the canonical taxonomy: a version files by its own categories. Changing Category refills Subcategory.
+- An empty title or description means the index's wording, so the fields hold only what the list says differently. The index description turns tertiary once the list has its own.
+- Remove goes through the tree's confirm, the same as the card's x; Duplicate files the copy the way the card's copy verb does.
 
 ## Done when
-- Clearing both fields and saving restores the index title and drops the dot.
+- Clearing both wording fields and saving restores the index title and drops the dot.
+- Saving with another Subcategory moves the member there.
 
 ## Markup
 ```html
@@ -34,6 +35,15 @@ One action or obligation on this version: List title and List description are th
       name="lip-title"
       help-text="Leave this empty and the list uses the index title."
     ></esa-text-field>
+    <div class="bcn-lob__field">
+      <div class="bcn-swo-edit__pair">
+        <esa-select label="Category" size="sm" name="lip-cat"></esa-select
+        ><esa-select label="Subcategory" size="sm" name="lip-sub"></esa-select>
+      </div>
+      <span class="bcn-lob__registry" data-lip="home"
+        >Compliance Index: People and qualifications › Worker training</span
+      >
+    </div>
     <div class="bcn-lob__field">
       <span class="bcn-swo-edit__label">Index description</span>
       <p class="bcn-lob__prose" data-lip="description" data-superseded="true">
@@ -156,6 +166,15 @@ One action or obligation on this version: List title and List description are th
         >
           <span class="esa-button__label">Remove from this list</span>
         </button></span
+      ><span
+        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          data-lip-duplicate="true"
+        >
+          <span class="esa-button__label">Duplicate</span>
+        </button></span
       ></span
     ><span class="bcn-swo-edit__foot-right"
       ><span
@@ -228,13 +247,6 @@ One action or obligation on this version: List title and List description are th
   font-weight: var(--typography-microcopy-xs-strong-font-weight);
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.bcn-lob__registry {
-  color: var(--color-content-default-tertiary);
-  font-size: 0.6875rem;
-}
-.bcn-lob__registry[hidden] {
-  display: none;
 }
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -787,6 +799,13 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-lob__prose[data-superseded="true"] {
   color: var(--color-content-default-tertiary);
+}
+.bcn-lob__registry {
+  color: var(--color-content-default-tertiary);
+  font-size: 0.8125rem;
+}
+.bcn-lob__registry[hidden] {
+  display: none;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

@@ -8,6 +8,8 @@
 //
 // Its own epic (Andy, 2026-10-20), apart from list exports: it builds on the setup wizard's
 // Aldo, so it ships after that work. Specified in src/data/handoff/lists-new-list.mjs only.
+// So it renders hidden and shows only when the URL carries `?aldo` (Andy, 2026-10-20:
+// "sure"); without it every list page is the list-export epic's page, with no Aldo.
 //
 // A new list (the create dialog lands on one) opens with the conversation already open:
 // starting a list and explaining what it is for are one motion.
@@ -54,7 +56,7 @@ const data = {
 };
 ---
 
-<div class="bcn-lal" data-list-aldo data-aldo={fresh ? 'open' : 'closed'}>
+<div class="bcn-lal" data-list-aldo data-aldo={fresh ? 'open' : 'closed'} hidden>
   <button type="button" class="bcn-lal__open" data-lal-open aria-expanded={fresh ? 'true' : 'false'}>
     <BcnAldoMark size="sm" />
     <span class="bcn-lal__label typography-label-md-strong">{launch}</span>
@@ -70,7 +72,11 @@ const data = {
 
 <script>
   import { setupListAldo } from './list-aldo';
-  document.querySelectorAll<HTMLElement>('[data-list-aldo]').forEach(setupListAldo);
+  if (new URLSearchParams(location.search).has('aldo'))
+    document.querySelectorAll<HTMLElement>('[data-list-aldo]').forEach((root) => {
+      root.hidden = false;
+      setupListAldo(root);
+    });
 </script>
 
 <style>

@@ -1,38 +1,39 @@
 ---
-// <BcnListIndexItemPanel> — one action or obligation on a Compliance Index VERSION, opened
-// from its card. Andy, 2026-10-19: "You shouldn't be able to edit the nature of an
-// obligation itself... remove it, give it a list title/description, or rename its
-// cat/sub-cat... but that's it." So the panel writes exactly two things, both the
-// version's: the item's list title and its list description. Everything else is the
-// index's and reads as text: the type or class chip, the index's own description, and the
-// requirements it answers to. Remove from this list is the one other verb, and the tree
-// guards it. Renaming a category or subcategory is <BcnListIndexBranchPanel>'s.
+// <BcnListIndexItemPanel> — one MEMBERSHIP on a Compliance Index VERSION, an action or an
+// obligation, opened from its card. Andy, 2026-10-20: "there should be parity between the
+// ci and obligations lists". So this is the obligation list's panel
+// (<BcnListObligationPanel>) for a version: it writes the three things that one does, all
+// the version's. Where the version files the member (Category / Subcategory pickers over the
+// version's OWN outline, read off the page so a rename made a moment ago shows), its list
+// title and its list description. Remove from this list and Duplicate sit in the footer, as
+// there; the tree guards the remove and files the copy.
 //
-// The obligation list's panel (<BcnListObligationPanel>) in the same frame, the same
-// drawer stylesheet and the same field order, less what an index version cannot do: no
-// Category / Subcategory pickers (a version files items by its outline, not per item)
-// and no Duplicate (a version holds each item once). It also takes actions, since a
-// version holds both.
+// Everything else is the index's and reads as text (2026-10-19: "You shouldn't be able to
+// edit the nature of an obligation itself"): the type or class chip, where the canonical
+// index files the item, the index's own description, and the requirements it answers to.
+// Renaming a category or subcategory is <BcnListBranchPanel>'s. Unlike the obligation panel,
+// it also takes actions, since a version holds both.
 //
-// LIVE, NOT SNAPSHOT. The blob carries only the index record, keyed by item id; what
-// this list currently says is read off the card at open time, so a retitle made a moment
-// ago opens as written.
+// LIVE, NOT SNAPSHOT. The blob carries only the index record, keyed by item id; which copy
+// this is, where it is filed and what the list says now are read off the card at open time,
+// so a copy made in the browser opens correctly.
 //
 // Contract with <BcnListIndexTree>, on `document`:
-//   in   list:edit-index-item    detail: item id
-//   out  list:index-item-saved   detail: { id, listTitle, listDescription }
-//   out  list:index-remove-item  detail: item id   (the tree owns the confirm)
+//   in   list:edit-index-item       detail: memberId
+//   out  list:index-item-saved      detail: { memberId, listTitle, listDescription, subId }
+//   out  list:index-remove-item     detail: memberId   (the tree owns the confirm)
+//   out  list:index-duplicate-item  detail: memberId
 //
-// bcn-lego-checked: the frame IS esa-side-dialog, the fields ARE esa-text-field and
-// esa-textarea, the buttons ARE esa-button, the glyphs ARE esa-icon; the labels, sections,
-// requirement rows and footer split are bcn-obligation-drawer.css and the chip is
+// bcn-lego-checked: the frame IS esa-side-dialog, the fields ARE esa-text-field, esa-select
+// and esa-textarea, the buttons ARE esa-button, the glyphs ARE esa-icon; the labels, pair,
+// sections, requirement rows and footer split are bcn-obligation-drawer.css and the chip is
 // bcn-obligation-card.css, both shared with <BcnListObligationPanel>, the read-only field
 // and prose rows included. The form wears .bcn-lob for those rows and so the chip takes
 // its hue from the shared map by data-class. Nothing is scoped here.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import { ITP, OBLIGATION_CLASS_LABEL, REQUIREMENT_TYPE_LABEL } from '../../data/setup-wizard';
-import { indexListTree, type ComplianceIndexList } from '../../data/lists';
+import { complianceIndexTree, indexListTree, type ComplianceIndexList } from '../../data/lists';
 import '../../styles/bcn-obligation-drawer.css';
 import '../../styles/bcn-obligation-card.css';
 
@@ -41,6 +42,12 @@ interface Props {
 }
 const { list } = Astro.props;
 const reqById = new Map(ITP.requirements.map((r) => [r.id, r]));
+// Where the canonical index files each item: shown read only under the pickers.
+const homeOf = new Map(
+  complianceIndexTree().flatMap((c) =>
+    c.subcategories.flatMap((sub) => [...sub.actions, ...sub.obligations].map((x) => [x.id, `${c.name} › ${sub.name}`] as const)),
+  ),
+);
 const records: Record<string, unknown> = {};
 for (const cat of indexListTree(list))
   for (const sub of cat.subcategories) {
@@ -48,6 +55,7 @@ for (const cat of indexListTree(list))
       records[a.id] = {
         title: a.name,
         tone: 'action',
+        home: homeOf.get(a.id) ?? '',
         chip: REQUIREMENT_TYPE_LABEL[a.type] ?? a.type,
         description: a.text,
         reqs: a.requirementIds
@@ -59,6 +67,7 @@ for (const cat of indexListTree(list))
       records[o.id] = {
         title: o.title,
         tone: o.class,
+        home: homeOf.get(o.id) ?? '',
         chip: OBLIGATION_CLASS_LABEL[o.class],
         description: o.description,
         reqs: o.requirements.map((r) => ({ code: r.code, name: r.name, text: r.text })),
@@ -84,6 +93,14 @@ for (const cat of indexListTree(list))
     ></esa-text-field>
 
     <div class="bcn-lob__field">
+      <div class="bcn-swo-edit__pair">
+        <esa-select label="Category" size="sm" name="lip-cat"></esa-select>
+        <esa-select label="Subcategory" size="sm" name="lip-sub"></esa-select>
+      </div>
+      <span class="bcn-lob__registry" data-lip="home"></span>
+    </div>
+
+    <div class="bcn-lob__field">
       <span class="bcn-swo-edit__label">Index description</span>
       <p class="bcn-lob__prose" data-lip="description"></p>
     </div>
@@ -107,6 +124,7 @@ for (const cat of indexListTree(list))
   <span slot="footer" class="bcn-swo-edit__foot">
     <span class="bcn-swo-edit__foot-left">
       <EsaButton variant="danger" appearance="soft" size="sm" data-lip-remove>Remove from this list</EsaButton>
+      <EsaButton variant="ghost" size="sm" data-lip-duplicate>Duplicate</EsaButton>
     </span>
     <span class="bcn-swo-edit__foot-right">
       <EsaButton variant="primary" size="sm" data-lip-save>Save</EsaButton>
@@ -133,9 +151,11 @@ for (const cat of indexListTree(list))
   import '@esa/ecology/esa-side-dialog';
   import '@esa/ecology/esa-textarea';
   import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-select';
 
-  interface Rec { title: string; tone: string; chip: string; description: string; reqs: { code: string; name: string; text: string }[] }
+  interface Rec { title: string; tone: string; chip: string; home: string; description: string; reqs: { code: string; name: string; text: string }[] }
   type Field = HTMLElement & { value: string };
+  type Select = HTMLElement & { value: string; options: { label: string; value: string }[] };
 
   const form = document.querySelector<HTMLFormElement>('[data-index-item-panel]');
   if (form) {
@@ -148,13 +168,38 @@ for (const cat of indexListTree(list))
     const reqTpl = dialog.querySelector<HTMLTemplateElement>('[data-lip-tpl="req"]')!;
     // Absence renders as absence. The EN dash is this system's no-value mark.
     const DASH = '–';
-    let item = '';
+    const catSel = form.querySelector<Select>('esa-select[name="lip-cat"]')!;
+    const subSel = form.querySelector<Select>('esa-select[name="lip-sub"]')!;
+    let member = '';
 
-    const fill = (id: string) => {
-      const card = document.querySelector<HTMLElement>(`[data-list-card][data-id="${CSS.escape(id)}"]`);
-      const rec = records[id];
+    // The version's own outline, as the page shows it now: every category and subcategory
+    // under the names this list gives them, including one a remove or a move emptied.
+    const nameOf = (branch: Element) => branch.querySelector<HTMLElement>(':scope > summary [data-list-name]')?.dataset.listText ?? '';
+    const outline = () =>
+      [...document.querySelectorAll<HTMLElement>('.bcn-lit [data-index-cat]')].map((cat) => ({
+        id: cat.dataset.indexCat ?? '',
+        name: nameOf(cat),
+        subs: [...cat.querySelectorAll<HTMLElement>('[data-index-sub]')].map((sub) => ({ id: sub.dataset.indexSub ?? '', name: nameOf(sub) })),
+      }));
+    let cats: ReturnType<typeof outline> = [];
+    const fillSubs = (catId: string, subId?: string) => {
+      const subs = cats.find((c) => c.id === catId)?.subs ?? [];
+      subSel.options = subs.map((s) => ({ label: s.name, value: s.id }));
+      subSel.value = subs.some((s) => s.id === subId) ? subId! : subs[0]?.id ?? '';
+    };
+    catSel.addEventListener('change', () => fillSubs(catSel.value));
+
+    const fill = (memberId: string) => {
+      const card = document.querySelector<HTMLElement>(`.bcn-lit [data-list-card][data-member-id="${CSS.escape(memberId)}"]`);
+      const rec = records[card?.dataset.id ?? ''];
       if (!card || !rec) return false;
-      item = id;
+      member = memberId;
+      cats = outline();
+      const catId = card.closest<HTMLElement>('[data-index-cat]')?.dataset.indexCat ?? '';
+      catSel.options = cats.map((c) => ({ label: c.name, value: c.id }));
+      catSel.value = catId;
+      fillSubs(catId, card.closest<HTMLElement>('[data-index-sub]')?.dataset.indexSub);
+      slot('home').textContent = rec.home ? `Compliance Index: ${rec.home}` : '';
       dialog.heading = rec.title;
       form.dataset.class = rec.tone;
       slot('chip').textContent = rec.chip;
@@ -183,7 +228,7 @@ for (const cat of indexListTree(list))
     const close = () => {
       dialog.open = false;
       // Deferred past the slide-out, so the form is never seen resetting.
-      setTimeout(() => { item = ''; titleField.value = ''; descField.value = ''; }, 200);
+      setTimeout(() => { member = ''; titleField.value = ''; descField.value = ''; }, 200);
     };
     const emit = (name: string, detail: unknown) => document.dispatchEvent(new CustomEvent(name, { detail, bubbles: true }));
 
@@ -192,20 +237,27 @@ for (const cat of indexListTree(list))
     });
     form.addEventListener('submit', (e) => e.preventDefault());
     document.querySelector('[data-lip-save]')?.addEventListener('click', () => {
-      if (!item) return;
+      if (!member) return;
       emit('list:index-item-saved', {
-        id: item,
+        memberId: member,
         listTitle: (titleField.value ?? '').trim(),
         listDescription: (descField.value ?? '').trim(),
+        subId: subSel.value ?? '',
       });
       close();
     });
     document.querySelector('[data-lip-cancel]')?.addEventListener('click', close);
     document.querySelector('[data-lip-remove]')?.addEventListener('click', () => {
-      if (!item) return;
-      const id = item;
+      if (!member) return;
+      const id = member;
       close();
       emit('list:index-remove-item', id);
+    });
+    document.querySelector('[data-lip-duplicate]')?.addEventListener('click', () => {
+      if (!member) return;
+      const id = member;
+      close();
+      emit('list:index-duplicate-item', id);
     });
   }
 </script>

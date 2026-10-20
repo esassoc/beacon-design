@@ -891,6 +891,45 @@ export const COMPLIANCE_INDEX_LISTS: ComplianceIndexList[] = [
   }),
 ];
 
+/** What the rename panel (<BcnListBranchPanel>) shows per branch id: its source lines and
+ *  the name an emptied field falls back to. */
+export interface BranchSources {
+  sources: Record<string, string[]>;
+  fallbacks: Record<string, string>;
+}
+
+/** An obligation list's branches: the registry's own names, over its whole taxonomy (a
+ *  branch the Add drawer brings in is renamable too). */
+export function registryBranchSources(): BranchSources {
+  const out: BranchSources = { sources: {}, fallbacks: {} };
+  for (const cat of OBLIGATION_TREE) {
+    out.sources[cat.id] = [cat.name];
+    out.fallbacks[cat.id] = cat.name;
+    for (const sub of cat.subcategories) {
+      out.sources[sub.id] = [`${cat.name} › ${sub.name}`];
+      out.fallbacks[sub.id] = sub.name;
+    }
+  }
+  return out;
+}
+
+/** A Compliance Index version's branches: the canonical branches each draws on. A category
+ *  lists its canonical categories once each; an emptied name takes the first source's. */
+export function indexBranchSources(list: ComplianceIndexList): BranchSources {
+  const out: BranchSources = { sources: {}, fallbacks: {} };
+  const from = indexSources(list);
+  for (const cat of list.categories ?? []) {
+    const cats = [...new Set((from[cat.id] ?? []).map((w) => w.category))];
+    out.sources[cat.id] = cats;
+    out.fallbacks[cat.id] = cats[0] ?? cat.name;
+    for (const sub of cat.subcategories) {
+      out.sources[sub.id] = (from[sub.id] ?? []).map((w) => `${w.category} › ${w.subcategory}`);
+      out.fallbacks[sub.id] = from[sub.id]?.[0]?.subcategory ?? sub.name;
+    }
+  }
+  return out;
+}
+
 /** Every list on the project, the way the index reads it: newest change first. */
 export const PROJECT_LISTS: ProjectList[] = [...ACTION_LISTS, ...OBLIGATION_LISTS, ...COMMITMENT_LISTS, ...COMPLIANCE_INDEX_LISTS].sort(
   (a, b) => b.updatedAt.localeCompare(a.updatedAt) || a.name.localeCompare(b.name),

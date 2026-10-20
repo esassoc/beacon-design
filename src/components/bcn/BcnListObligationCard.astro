@@ -62,15 +62,9 @@ interface Props {
   obligation: ListObligation;
   /** Requirements folded open on load. Closed is the default, by design. */
   open?: boolean;
-  /** The edit verb moves as well as retitles. Off on a Compliance Index list, whose
-   *  filing is the version's outline, not the member's. */
-  move?: boolean;
-  /** The duplicate verb. Off on a Compliance Index list, which holds each item once. */
-  duplicate?: boolean;
 }
-const { obligation: o, open = false, move = true, duplicate = true } = Astro.props;
+const { obligation: o, open = false } = Astro.props;
 const title = o.listTitle || o.title;
-const editTip = move ? 'Move or retitle for this list' : 'Retitle for this list';
 // Keyed on the registry obligation: a duplicated membership is the same duty on the
 // same components, so it shows the same implementations.
 const impls = implementationsOf(o.id);
@@ -94,18 +88,18 @@ const codes = [...new Set(o.requirements.map((r) => r.code))].join('|');
       <button type="button" class="bcn-loc__title" data-list-edit data-list-title data-list-text={title} data-registry-title={o.title}>{title}</button>
       <span class="bcn-loc__edited" data-list-edited hidden={!o.descriptionOverridden && title === o.title}><esa-tooltip text="Has its own list wording"><span class="bcn-loc__dot" role="img" aria-label="Has its own list wording"></span></esa-tooltip></span>
       <span data-list-count="obligation"><BcnSwCountBadge value={impls.length} label={`${impls.length} implementations`} /></span>
-      <esa-tooltip text={editTip}><button
+      <esa-tooltip text="Move or retitle for this list"><button
         type="button"
         class="bcn-loc__verb"
-        aria-label={`${editTip.replace(' for this list', '')} this obligation for this list`}
+        aria-label="Move or retitle this obligation for this list"
         data-list-edit
       ><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
-      {duplicate && <esa-tooltip text="Duplicate for this list"><button
+      <esa-tooltip text="Duplicate for this list"><button
         type="button"
         class="bcn-loc__verb"
         aria-label="Hold this obligation again with its own wording"
         data-list-duplicate
-      ><EsaIcon name="copy" size="xs" paths={STEP_GLYPH.copy} /></button></esa-tooltip>}
+      ><EsaIcon name="copy" size="xs" paths={STEP_GLYPH.copy} /></button></esa-tooltip>
       <esa-tooltip text="Remove from this list" align="end"><button
         type="button"
         class="bcn-loc__verb bcn-loc__verb--danger"

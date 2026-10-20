@@ -1002,7 +1002,7 @@ export const prototypeGroups: PrototypeGroup[] = [
         title: 'Aldo on Lists',
         description:
           'Its own epic, after the setup wizard’s Aldo. Create list lands on the new, empty list with Aldo open beside it; say what the list is for, and Aldo proposes what fits. On every list, Aldo waits above Details.',
-        route: '/prototypes/lists/new-obligation-list',
+        route: '/prototypes/lists/new-obligation-list?aldo',
         createdAt: '2026-10-19',
         status: 'in-progress',
       },

@@ -191,6 +191,8 @@ const HEADINGS = Object.fromEntries(
       if (!href) return dialog.close();
       const q = new URLSearchParams({ name: name.value.trim() });
       if (description?.value.trim()) q.set('description', description.value.trim());
+      // Aldo on Lists is its own epic, shown only when the URL asks for it; carry the ask.
+      if (new URLSearchParams(location.search).has('aldo')) q.set('aldo', '');
       location.href = `${href}/?${q}`;
     });
   }

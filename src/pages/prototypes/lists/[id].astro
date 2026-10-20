@@ -3,10 +3,11 @@
 // commitment lists (2026-09-23) are sets of pointers on the same page chrome — the
 // same header, rail and add drawer — with <BcnListMemberTree> as their body. A
 // Compliance Index list (2026-10-19) has <BcnListIndexTree> as its body and no add
-// drawer: it arranges the index's items and adds none. A version may remove an item,
-// give it a list title and description, and rename its categories and subcategories
-// (BcnListIndexItemPanel, BcnListIndexBranchPanel); nothing more. The canonical index has
-// no title-row verbs, no edits and no Danger Zone; its filing is edited in the setup wizard.
+// drawer: it arranges the index's items and adds none. A version edits like an obligation
+// list (2026-10-20, parity): remove, move, retitle and duplicate a member
+// (BcnListIndexItemPanel), and rename its categories and subcategories (BcnListBranchPanel,
+// which obligation lists rename in too). The canonical index has no title-row verbs, no
+// edits and no Danger Zone; its filing is edited in the setup wizard.
 //
 // One obligation list.
 //
@@ -46,7 +47,7 @@ import BcnListActionPanel from '../../../components/bcn/BcnListActionPanel.astro
 import BcnListAddMembers from '../../../components/bcn/BcnListAddMembers.astro';
 import BcnListIndexTree from '../../../components/bcn/BcnListIndexTree.astro';
 import BcnListIndexItemPanel from '../../../components/bcn/BcnListIndexItemPanel.astro';
-import BcnListIndexBranchPanel from '../../../components/bcn/BcnListIndexBranchPanel.astro';
+import BcnListBranchPanel from '../../../components/bcn/BcnListBranchPanel.astro';
 import BcnListAldo from '../../../components/bcn/BcnListAldo.astro';
 import { NEW_LISTS, isNewList } from '../../../data/list-aldo';
 import BcnDangerZone from '../../../components/bcn/BcnDangerZone.astro';
@@ -59,7 +60,9 @@ import {
   COMPLIANCE_INDEX_LISTS,
   LIST_MEMBER_NOUN,
   OBLIGATION_LISTS,
+  indexBranchSources,
   memberCountLabel,
+  registryBranchSources,
   type ActionList,
   type CommitmentList,
   type ComplianceIndexList,
@@ -100,8 +103,8 @@ const typeMany = LIST_MEMBER_NOUN[list.type][1];
     - obligation panel-> bcn-list-obligation-panel         # right panel over one member; registry fields read-only, list description the one live control
     - member tree     -> bcn-list-member-tree              # action / commitment lists: By type / By commitment / A–Z (actions), flat (commitments); bcn-list-member-card leaves
     - index tree      -> bcn-list-index-tree               # Compliance Index lists: the list's own category > subcategory outline over the index's actions and obligations; on a version, remove, retitle and rename
-    - index item panel-> bcn-list-index-item-panel         # version only: right panel over one action or obligation; list title and list description the live controls, the index's fields read-only
-    - index rename    -> bcn-list-index-branch-panel       # version only: right panel renaming a category or subcategory for this list, its canonical sources read-only
+    - index item panel-> bcn-list-index-item-panel         # version only: right panel over one member; move (version outline), list title and list description the live controls, the index's fields read-only; Remove and Duplicate
+    - branch rename   -> bcn-list-branch-panel             # obligation lists and index versions: right panel renaming a category or subcategory for this list, its source read-only
     - action panel    -> bcn-list-action-panel             # right panel over one action; read only, footer links to the action page
     - add members     -> bcn-list-add-members              # action / commitment drawer over memberCandidates(list), emits list:members-added
     - requirement panel-> bcn-list-requirement-panel       # right panel over one requirement row; full text + fields, read only, footer links to the requirement page
@@ -177,7 +180,8 @@ const typeMany = LIST_MEMBER_NOUN[list.type][1];
     {list.type === 'action' && <BcnListActionPanel />}
     {!index && <BcnListRequirementPanel ids={reqIds} />}
     {index && !index.canonical && <BcnListIndexItemPanel list={index} />}
-    {index && !index.canonical && <BcnListIndexBranchPanel list={index} />}
+    {index && !index.canonical && <BcnListBranchPanel {...indexBranchSources(index)} sourceLabel="In the Compliance Index" />}
+    {list.type === 'obligation' && <BcnListBranchPanel {...registryBranchSources()} sourceLabel="In the registry" />}
 
     <esa-confirm-dialog
       data-list-delete-confirm

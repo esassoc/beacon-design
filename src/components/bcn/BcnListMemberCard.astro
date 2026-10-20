@@ -22,11 +22,12 @@
 // action or commitment list has no wording of its own to edit and no reason to hold a
 // record twice; it is a set of pointers.
 //
-// The one exception is an action on a Compliance Index list, which may carry a title and
-// description of its own (Andy, 2026-10-19). Given `wording`, the card takes the
-// obligation card's edit hooks: the title and a pen verb open the list's panel
-// (data-list-edit, not data-list-open), the dot marks own wording, and the record's own
-// title and description ride along as data-registry-title / data-registry-desc.
+// The one exception is an action on a Compliance Index version, which an obligation list's
+// verbs reach too (Andy, 2026-10-20: parity between the two). Given `wording`, the card
+// takes the obligation card's hooks and verbs: the title and a pen open the list's panel
+// (data-list-edit, not data-list-open) to move or retitle it, a copy verb duplicates it,
+// the dot marks own wording, and the record's own title and description ride along as
+// data-registry-title / data-registry-desc.
 //
 // Contract with <BcnListMemberTree>: presentational. The tree owns every listener and
 // reaches in through data-list-card, data-list-open, data-list-remove, data-list-req,
@@ -93,12 +94,18 @@ const childNoun = row.impls ? 'implementations' : 'requirements';
           data-list-goto
         ><EsaIcon name="external-link" size="xs" /></a></esa-tooltip>
       )}
-      {wording && <esa-tooltip text="Retitle for this list"><button
+      {wording && <esa-tooltip text="Move or retitle for this list"><button
         type="button"
         class="bcn-loc__verb"
-        aria-label="Retitle this action for this list"
+        aria-label="Move or retitle this action for this list"
         data-list-edit
       ><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>}
+      {wording && <esa-tooltip text="Duplicate for this list"><button
+        type="button"
+        class="bcn-loc__verb"
+        aria-label="Hold this action again with its own wording"
+        data-list-duplicate
+      ><EsaIcon name="copy" size="xs" paths={STEP_GLYPH.copy} /></button></esa-tooltip>}
       <esa-tooltip text="Remove from this list" align="end"><button
         type="button"
         class="bcn-loc__verb bcn-loc__verb--danger"

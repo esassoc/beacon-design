@@ -5,7 +5,7 @@ The list's obligations filed Category › Subcategory › Obligation, with count
 ## Key decisions
 - Child rows are implementations, not requirements (Andy reversed this 2026-09-23). Requirement codes and index ride on the card as data, for the mirror views to file by.
 - Obligation rows carry NO status pill: evidence count is the only honest progress signal for an obligation.
-- Categories and subcategories can be renamed for this list alone (pencil on the branch row).
+- Categories and subcategories can be renamed for this list alone: the pencil on the branch row opens the rename side panel (bcn-list-branch-panel, the one a Compliance Index version uses), with the registry's name read only beneath the field. Never inline on the row (2026-10-20, for parity with index versions and the no-inline-edit rule).
 - A dot beside an obligation title means the list has its own wording for it (title or description differs from the registry), tooltip "Has its own list wording". No text label.
 - Card title and pencil both open the obligation panel; pencil tooltip "Move or retitle for this list".
 - Clicking an implementation row emits list:edit-implementation. Prod opens the implementation upsert dialog there; the prototype builds no dialog.

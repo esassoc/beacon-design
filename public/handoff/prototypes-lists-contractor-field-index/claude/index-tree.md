@@ -4,25 +4,29 @@ The list's own outline over the index's items: its categories and subcategories,
 
 ## Key decisions
 - A version arranges SUBCATEGORIES, never single items. Each of its subcategories names one or more canonical subcategories; two names merge them ("Speed, access and parking" is Speed limits plus Access routes and parking). Trimming is leaving canonical subcategories out.
-- Items follow their canonical filing. Refile an action in the setup wizard and it moves in every version that draws from either subcategory, with no edit to the version.
+- Items follow their canonical filing until the version moves them. Refile an action in the setup wizard and it moves in every version that draws from either subcategory, except where that version has moved its member.
 - Prod model: a ComplianceIndexList (Name, Description, ProjectID, IsCanonical) with its own ComplianceIndexListCategory and ComplianceIndexListSubcategory rows (Name, SortOrder), and a join from each list subcategory to the canonical ComplianceIndexSubcategoryIDs it draws from. The canonical index is the list with IsCanonical, whose subcategories map one to one.
 - Creating one copies the canonical outline: every category and subcategory with its name and order, each subcategory drawing from its one canonical twin. The person then regroups, renames and trims.
 - Rows and cards are the canonical page's: same card per item, actions then obligations inside a subcategory, each A–Z by the title the list shows; an item merged in from two subcategories appears once.
-- What a version may do to an item is what an obligation list may, and nothing more (Andy, 2026-10-19: "remove it, give it a list title/description, or rename its cat/sub-cat... but that's it"). Three verbs: Remove from this list on a card, Retitle on a card (its title or pen), Rename for this list on a category or subcategory row. No move, no duplicate, no add; type, class, requirements and canonical filing stay the index's.
-- Prod model: ComplianceIndexListItemExclusion (ComplianceIndexListID, ActionID or ObligationID) for a removed item, and ComplianceIndexListItemWording (ComplianceIndexListID, ActionID or ObligationID, ListTitle, ListDescription, both nullable) for its own wording. Null means the index's. Renaming a branch writes the list's own category or subcategory Name.
+- Parity with an obligation list (Andy, 2026-10-20: "there should be parity between the ci and obligations lists"). On actions and obligations alike: Remove from this list (the x), Move or retitle (the title or pen, into the item panel), Duplicate (the copy verb: a second membership filed beside the first, with its own wording), and Rename for this list on a category or subcategory row (the branch panel obligation lists rename in too). Never: the item's type, class, requirements, or where the canonical index files it (2026-10-19: "You shouldn't be able to edit the nature of an obligation itself").
+- Members are keyed by member id, as on an obligation list: the item id on load, `<item id>-m<n>` for a copy.
+- Prod model: ComplianceIndexListMember (ComplianceIndexListMemberID, ComplianceIndexListID, ActionID or ObligationID, ComplianceIndexListSubcategoryID when moved, ListTitle, ListDescription; the last three nullable, null meaning the index's) for a member that differs from the outline's default: moved, reworded or copied. ComplianceIndexListItemExclusion (ComplianceIndexListID, ActionID or ObligationID) for one taken off. Renaming a branch writes the list's own category or subcategory Name.
 
 ## Gotchas
 - A subcategory added to the canonical index later is in no version until someone places it. Open: whether a version should show unplaced canonical subcategories in a bin of its own.
 - Open: merging, reordering and adding or removing whole categories and subcategories (the outline editor) is not built, so in this epic a whole subcategory comes off only item by item (Aldo's Keep and Take Out, which do it at once, are the separate Aldo epic). Rename is built, in a side panel.
 - An item removed from a version is excluded by id, so refiling it in the canonical index does not bring it back into that version.
-- Removing the last item of a subcategory drops the subcategory from the page and the PDF; the list keeps its row, so re-including an item later restores it under the same name.
+- Removing or moving the last member of a subcategory drops the subcategory from the page and the PDF; the list keeps its row, so moving a member back restores it under the same name, and the Move picker still offers it.
+- Open: no Add on a version, so a removed item cannot be put back from this page. An obligation list has an Add drawer; a version's would list the index's items it does not hold.
 
 ## Done when
 - Each category's count is the sum of its subcategories' and the title badge is the sum of the categories'.
 - A subcategory that merges two canonical subcategories lists the union of their items, once each.
 - Remove asks first ("It stays in the project's Compliance Index"), then drops the card and every count by one.
 - A retitled item shows its list title and a dot, files A–Z by that title, and prints that title and list description in the PDF.
-- The canonical index shows none of the three verbs.
+- Duplicate puts a copy beside the member with the same wording and moves every count by one; the copy opens in the panel on its own.
+- Moving a member files it A–Z in the chosen subcategory and re-tallies both subcategories.
+- The canonical index shows none of these verbs.
 
 ## Markup
 ```html
@@ -123,11 +127,14 @@ The list's own outline over the index's items: its categories and subcategories,
               ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
-          ><esa-tooltip text="Retitle for this list" position="above" align="center"
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
             ><button
               type="button"
               class="bcn-loc__verb"
-              aria-label="Retitle this action for this list"
+              aria-label="Move or retitle this action for this list"
               data-list-edit=""
             >
               <span class="esa-icon esa-icon--xs" aria-hidden="true"
@@ -147,6 +154,30 @@ The list's own outline over the index's items: its categories and subcategories,
                   ></path>
                   <path
                     d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
                   ></path></svg
               ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
@@ -284,11 +315,14 @@ The list's own outline over the index's items: its categories and subcategories,
               ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
-          ><esa-tooltip text="Retitle for this list" position="above" align="center"
+          ><esa-tooltip
+            text="Move or retitle for this list"
+            position="above"
+            align="center"
             ><button
               type="button"
               class="bcn-loc__verb"
-              aria-label="Retitle this action for this list"
+              aria-label="Move or retitle this action for this list"
               data-list-edit=""
             >
               <span class="esa-icon esa-icon--xs" aria-hidden="true"
@@ -308,6 +342,30 @@ The list's own outline over the index's items: its categories and subcategories,
                   ></path>
                   <path
                     d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  ></path></svg
+              ></span></button></esa-tooltip
+          ><esa-tooltip text="Duplicate for this list" position="above" align="center"
+            ><button
+              type="button"
+              class="bcn-loc__verb"
+              aria-label="Hold this action again with its own wording"
+              data-list-duplicate=""
+            >
+              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                  <path
+                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
                   ></path></svg
               ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"

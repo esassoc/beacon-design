@@ -185,7 +185,9 @@ function writeCuratedBundle(dirSlug, name, url, theme, sections) {
 // see @esa/handoff inspector.client.ts routeSlug(). The bundle DIRECTORY must equal
 // that string exactly or the inspector fetches a 404 and stays dormant. The registry
 // `slug` is only our spec-file key; the route is the source of truth for the dir name.
-const bundleSlug = (route) => route.replace(/^\/+|\/+$/g, '').replace(/\//g, '-');
+// A route may carry a query (`?aldo` turns on a flagged feature); the bundle is keyed by
+// the path alone, which is what the inspector derives from the URL.
+const bundleSlug = (route) => route.split('?')[0].replace(/^\/+|\/+$/g, '').replace(/\//g, '-');
 
 // --- change detection ---------------------------------------------------------
 // Keys record the inputs each bundle was last built from. A route whose key still
@@ -240,7 +242,8 @@ try {
   console.log(`handoff:all — capturing ${targets.length} route(s), ${CONCURRENCY} at a time\n`);
 
   results = await pool(targets, CONCURRENCY, async ({ slug, route }) => {
-    const url = `${ORIGIN}${BASE}${route.replace(/^\/+|\/+$/g, '')}/`;
+    const [path, query] = route.split('?');
+    const url = `${ORIGIN}${BASE}${path.replace(/^\/+|\/+$/g, '')}/${query !== undefined ? `?${query}` : ''}`;
     const dirSlug = bundleSlug(route); // what the inspector will look for at runtime
     const specPath = root(`src/data/handoff/${slug}.mjs`);
 

@@ -3,7 +3,7 @@
 Rename a category or subcategory for this list: one Name field, and beneath it, read only, where the branch comes from in the Compliance Index ("People and qualifications › Designated biologists and monitors"; a merged subcategory lists each).
 
 ## Key decisions
-- In a side panel, never inline on the row.
+- One panel for both list types (bcn-list-branch-panel): an obligation list renames in it too, showing the registry's name. Never inline on the row.
 - An emptied name falls back to the first source's canonical name. The canonical index and every other version keep their names.
 
 ## Done when
@@ -12,27 +12,23 @@ Rename a category or subcategory for this list: one Name field, and beneath it, 
 ## Markup
 ```html
 <esa-side-dialog
-  id="lib-editor"
+  id="lbr-editor"
   heading="Rename for this list"
   position="right"
   show-close-button="true"
   style="--_width: min(480px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250"
   size="md"
   open=""
-  ><form
-    class="bcn-swo-edit bcn-lib"
-    data-index-branch-panel=""
-    data-lib-data='{"before-ground-disturbance":[{"category":"People and qualifications","subcategory":"Worker training"},{"category":"People and qualifications","subcategory":"Designated biologists and monitors"},{"category":"Habitat protection","subcategory":"Exclusion fencing and ESAs"},{"category":"Habitat protection","subcategory":"Vegetation removal"},{"category":"Birds","subcategory":"Nesting birds"}],"worker-awareness-training":[{"category":"People and qualifications","subcategory":"Worker training"}],"biologists-on-site":[{"category":"People and qualifications","subcategory":"Designated biologists and monitors"}],"fencing-and-exclusion-areas":[{"category":"Habitat protection","subcategory":"Exclusion fencing and ESAs"}],"clearing-and-grubbing":[{"category":"Habitat protection","subcategory":"Vegetation removal"},{"category":"Birds","subcategory":"Nesting birds"}],"every-day-on-site":[{"category":"Site conduct","subcategory":"Speed limits"},{"category":"Site conduct","subcategory":"Access routes and parking"},{"category":"Site conduct","subcategory":"Work hours"},{"category":"Lighting","subcategory":"Lighting near habitat and waters"},{"category":"Site conduct","subcategory":"Trash and food waste"},{"category":"Site conduct","subcategory":"Pets, firearms and campfires"},{"category":"Air quality","subcategory":"Fugitive dust"}],"speed-access-and-parking":[{"category":"Site conduct","subcategory":"Speed limits"},{"category":"Site conduct","subcategory":"Access routes and parking"}],"work-hours-and-lighting":[{"category":"Site conduct","subcategory":"Work hours"},{"category":"Lighting","subcategory":"Lighting near habitat and waters"}],"trash-pets-and-firearms":[{"category":"Site conduct","subcategory":"Trash and food waste"},{"category":"Site conduct","subcategory":"Pets, firearms and campfires"}],"dust-control":[{"category":"Air quality","subcategory":"Fugitive dust"}],"fuel-spills-and-hazmat":[{"category":"Hazards","subcategory":"Refueling and equipment servicing"},{"category":"Hazards","subcategory":"Spill prevention and response"},{"category":"Hazards","subcategory":"Hazardous materials"},{"category":"Hazards","subcategory":"Fire prevention"}],"refueling-and-equipment":[{"category":"Hazards","subcategory":"Refueling and equipment servicing"}],"spills":[{"category":"Hazards","subcategory":"Spill prevention and response"}],"hazardous-materials":[{"category":"Hazards","subcategory":"Hazardous materials"}],"fire-prevention":[{"category":"Hazards","subcategory":"Fire prevention"}],"working-in-or-near-water":[{"category":"Water","subcategory":"In-water work"},{"category":"Water","subcategory":"Dewatering"},{"category":"Water","subcategory":"Erosion and sediment control"},{"category":"Water","subcategory":"Stormwater and discharges"},{"category":"Noise and vibration","subcategory":"Pile driving and underwater sound"}],"in-water-work-and-dewatering":[{"category":"Water","subcategory":"In-water work"},{"category":"Water","subcategory":"Dewatering"}],"erosion-sediment-and-stormwater":[{"category":"Water","subcategory":"Erosion and sediment control"},{"category":"Water","subcategory":"Stormwater and discharges"}],"pile-driving":[{"category":"Noise and vibration","subcategory":"Pile driving and underwater sound"}],"wildlife-on-site":[{"category":"Habitat protection","subcategory":"Wildlife encounters and handling"},{"category":"Habitat protection","subcategory":"Wildlife entrapment"},{"category":"Amphibians and reptiles","subcategory":"Giant garter snake"}],"encounters-and-handling":[{"category":"Habitat protection","subcategory":"Wildlife encounters and handling"}],"trenches-and-entrapment":[{"category":"Habitat protection","subcategory":"Wildlife entrapment"}],"giant-garter-snake":[{"category":"Amphibians and reptiles","subcategory":"Giant garter snake"}]}'
-  >
+  ><form class="bcn-swo-edit bcn-lbr" data-branch-panel="">
     <esa-text-field
       label="Name"
       size="sm"
-      name="lib-name"
+      name="lbr-name"
       help-text="Leave this empty and the list uses “Worker training”."
     ></esa-text-field>
     <div class="bcn-swo-edit__section">
       <span class="bcn-swo-edit__label">In the Compliance Index</span>
-      <ul class="bcn-lib__sources" data-lib-sources="">
+      <ul class="bcn-lbr__sources" data-lbr-sources="">
         <li>People and qualifications › Worker training</li>
       </ul>
     </div>
@@ -44,7 +40,7 @@ Rename a category or subcategory for this list: one Name field, and beneath it, 
         ><button
           class="esa-button__native typography-microcopy-xs"
           type="button"
-          data-lib-save="true"
+          data-lbr-save="true"
         >
           <span class="esa-button__label">Save</span>
         </button></span
@@ -53,7 +49,7 @@ Rename a category or subcategory for this list: one Name field, and beneath it, 
         ><button
           class="esa-button__native typography-microcopy-xs"
           type="button"
-          data-lib-cancel="true"
+          data-lbr-cancel="true"
         >
           <span class="esa-button__label">Cancel</span>
         </button></span
@@ -86,7 +82,7 @@ Rename a category or subcategory for this list: one Name field, and beneath it, 
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
-.bcn-lib__sources {
+.bcn-lbr__sources {
   gap: var(--spacing-100);
   color: var(--color-content-default);
   flex-direction: column;

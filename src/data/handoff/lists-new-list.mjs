@@ -6,7 +6,11 @@
 // the list pages' own specs (lists-obligation-detail, -action-detail, -commitment-detail,
 // -compliance-index-custom, lists-index) leave it out.
 //
-// Shown on /prototypes/lists/new-obligation-list, where "Create list" lands: a new, empty
+// FLAGGED: the prototype renders Aldo only when the URL carries `?aldo` (Andy, 2026-10-20),
+// so every list page without it is the list-export epic's page. Create list keeps the flag
+// on the page it lands on.
+//
+// Shown on /prototypes/lists/new-obligation-list?aldo, where "Create list" lands: a new, empty
 // list of the type chosen, named as typed, with Aldo already open beside it (Andy,
 // 2026-10-19: "I should be able to start a list and then explain what I want and have that
 // populate"). One per type: new-commitment-list, new-action-list, new-obligation-list,
