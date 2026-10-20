@@ -1,0 +1,375 @@
+---
+// <BcnListIndexTree> — the body of a Compliance Index list's page: the list's outline,
+// category › subcategory, over the index's actions and obligations. On the canonical
+// index that is every item on the project, Unfiled last; on a version someone made, it
+// is their own categories, names and order, holding the items of the canonical
+// subcategories they drew from. The sibling of
+// <BcnListObligationTree> and <BcnListMemberTree>, on the same row anatomy
+// (bcn-tree.css) and the same cards, so the index reads as one more list.
+//
+// It reads indexListTree(list), the outline the list's PDF prints, so the page and the
+// PDF hold the same items in the same order. Categories load open, subcategories folded;
+// inside a subcategory the actions come first, then the obligations.
+//
+// EDITING A VERSION. Andy, 2026-10-20: "there should be parity between the ci and
+// obligations lists". So a version's tree carries the obligation list's verbs, on actions
+// and obligations alike:
+//   - REMOVE FROM LIST on a card, guarded by esa-confirm-dialog (not the danger variant:
+//     the item stays in the project's Compliance Index).
+//   - MOVE OR RETITLE on a card (its title or its pen): opens <BcnListIndexItemPanel>,
+//     which writes where this version files the member (a subcategory of the version's own
+//     outline), its list title and its list description.
+//   - DUPLICATE on a card: a second membership of the same item, filed beside it, so the
+//     version can say one duty twice with different wording.
+//   - RENAME FOR THIS LIST on a category or subcategory row: opens <BcnListBranchPanel>,
+//     the panel an obligation list renames in. Never inline.
+// Nothing about what an item is, or where the canonical index files it, is written here.
+// Every count, the title badge's included, is read again off the cards still on the list;
+// a subcategory with none drops out, and comes back if a member is moved into it.
+//
+// ADD, as on an obligation list (<BcnListAddIndexItems>): the drawer offers the index's
+// items this version does not hold, and each lands in the version subcategory that draws
+// on the item's canonical subcategory. A version renders its whole outline for that,
+// empty branches hidden, plus a dormant branch for each canonical subcategory it draws on
+// nowhere, so every item has somewhere to land. The added card is the canonical index's
+// own card for the item, taken from that page, so a version never draws an item a second
+// way.
+//
+// Members are keyed by data-member-id, as on an obligation list: the item id on load, and
+// `<item id>-m<n>` for a copy made here.
+//
+// The canonical index carries none of these: filing it belongs to the setup wizard's
+// Compliance Index step, so its cards' verbs are hidden.
+//
+// Aldo shapes a version here too (BcnListAldo, the separate Aldo epic): `list:index-keep`
+// { ids } keeps only those subcategories, `list:index-drop` { ids } takes those out.
+//
+// Contract, on `document`:
+//   out  list:edit-index-item      detail: memberId
+//   out  list:rename-branch        detail: { level: 'cat' | 'sub', id, name }
+//   in   list:index-item-saved     detail: { memberId, listTitle, listDescription, subId }
+//   in   list:branch-renamed       detail: { id, name }
+//   in   list:index-remove-item    detail: memberId   (the panel's Remove; this tree guards it)
+//   in   list:index-duplicate-item detail: memberId   (the panel's Duplicate)
+//   in   list:index-items-added detail: { items: { id, land }[] }  (the Add drawer)
+//   in   list:index-keep / list:index-drop   detail: { ids }  (Aldo)
+//
+// bcn-lego-checked: the rows ARE bcn-tree.css (the obligation tree's one row
+// definition), the cards ARE bcn-list-member-card (actions) and bcn-list-obligation-card
+// (obligations), the counts ARE bcn-sw-count-badge, the guard IS esa-confirm-dialog, the
+// glyphs ARE esa-icon, the tooltips ARE esa-tooltip. Checked Ecology for a tree lego
+// (esa-collapsible is one titled section; there is no tree view) and Beacon
+// (compliance-index-step renders the index as a nested list with drag, read here
+// without it).
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import BcnListMemberCard from './BcnListMemberCard.astro';
+import BcnListObligationCard from './BcnListObligationCard.astro';
+import '../../styles/bcn-tree.css';
+import { actionRow, indexListTree, indexOutline, indexWording, type ComplianceIndexList, type IndexSubcategory, type ListObligation } from '../../data/lists';
+import { withBase } from '../../lib/base';
+import { STEP_GLYPH, type ObligationNode, type WizardAction } from '../../data/setup-wizard';
+
+interface Props {
+  list: ComplianceIndexList;
+}
+const { list } = Astro.props;
+const editable = !list.canonical;
+const filled = indexListTree(list);
+// A version renders its whole outline (see ADD above); the canonical index, what it holds.
+const bySub = new Map(filled.flatMap((c) => c.subcategories).map((s) => [s.id, s]));
+const tree: { id: string; name: string; subcategories: (IndexSubcategory & { dormant?: boolean })[] }[] = editable
+  ? indexOutline(list).map((cat) => ({
+      id: cat.id,
+      name: cat.name,
+      subcategories: cat.subcategories.map((s) => ({ ...(bySub.get(s.id) ?? { id: s.id, name: s.name, actions: [], obligations: [] }), name: s.name, dormant: s.dormant })),
+    }))
+  : filled;
+const countOf = (sub: { actions: unknown[]; obligations: unknown[] }) => sub.actions.length + sub.obligations.length;
+const items = (n: number) => `${n} ${n === 1 ? 'item' : 'items'}`;
+// The obligation card takes a list member; the index holds every obligation once, in
+// the version's wording where it has its own.
+const member = (o: ObligationNode): ListObligation => {
+  const w = indexWording(list, o.id, o.title, o.description);
+  return {
+    ...o,
+    memberId: o.id,
+    occurrence: 1,
+    copies: 1,
+    listTitle: w.title === o.title ? undefined : w.title,
+    listDescription: w.description,
+    descriptionOverridden: w.description !== o.description,
+  };
+};
+const actionCard = (a: WizardAction) => {
+  const w = indexWording(list, a.id, a.name, a.text);
+  return {
+    row: { ...actionRow(a), title: w.title },
+    // On the canonical index too: a version adds this very card back, and its verbs are
+    // hidden there by the rule below.
+    wording: { registryTitle: a.name, registryDescription: a.text, listDescription: w.description },
+  };
+};
+---
+
+<section class="bcn-lot bcn-lit" aria-label={list.name} data-list-label={list.name} data-index-editable={editable ? '' : undefined} data-index-source={editable ? withBase('/prototypes/lists/compliance-index/') : undefined}>
+  <div class="bcn-lot__body">
+    {tree.map((cat) => {
+      const n = cat.subcategories.reduce((sum, s) => sum + countOf(s), 0);
+      return (
+        <details class="bcn-lot__cat" data-index-cat={cat.id} open hidden={n === 0}>
+          <summary class="bcn-lot__row bcn-lot__row--cat">
+            <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+            <span class="bcn-lot__name" data-list-name data-list-text={cat.name}>{cat.name}</span>
+            <BcnSwCountBadge value={n} label={items(n)} data-index-count />
+            {editable && (
+              <span class="bcn-lot__verbs">
+                <esa-tooltip text="Rename for this list" align="end"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this category for this list" data-index-rename="cat"><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+              </span>
+            )}
+          </summary>
+          <div class="bcn-lot__subs">
+            {cat.subcategories.map((sub) => (
+              <details class="bcn-lot__sub" data-index-sub={sub.id} data-index-dormant={sub.dormant ? '' : undefined} data-list-removed={countOf(sub) ? undefined : ''} hidden={countOf(sub) === 0}>
+                <summary class="bcn-lot__row bcn-lot__row--sub">
+                  <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+                  <span class="bcn-lot__name" data-list-name data-list-text={sub.name}>{sub.name}</span>
+                  <BcnSwCountBadge value={countOf(sub)} label={items(countOf(sub))} data-index-count />
+                  {editable && (
+                    <span class="bcn-lot__verbs">
+                      <esa-tooltip text="Rename for this list" align="end"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this subcategory for this list" data-index-rename="sub"><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+                    </span>
+                  )}
+                </summary>
+                <ul class="bcn-lot__cards">
+                  {sub.actions.map((a) => <BcnListMemberCard {...actionCard(a)} />)}
+                  {sub.obligations.map((o) => <BcnListObligationCard obligation={member(o)} />)}
+                </ul>
+              </details>
+            ))}
+          </div>
+        </details>
+      );
+    })}
+  </div>
+
+  {editable && (
+    <esa-confirm-dialog
+      data-index-confirm
+      heading="Remove from this list?"
+      confirm-label="Remove"
+      cancel-label="Cancel"
+      show-close-button
+      style="--z-modal: 1500; --z-modal-backdrop: 1450;"></esa-confirm-dialog>
+  )}
+</section>
+
+<style>
+  /* The canonical index edits nothing here: its cards' list verbs are hidden. */
+  .bcn-lit:not([data-index-editable]) :global(esa-tooltip:has([data-list-remove], [data-list-duplicate], .bcn-loc__verb[data-list-edit])) {
+    display: none;
+  }
+</style>
+
+<script>
+  import '@esa/ecology/esa-tooltip';
+  import '@esa/ecology/esa-confirm-dialog';
+
+  const root = document.querySelector<HTMLElement>('.bcn-lit');
+  if (root) {
+    const listName = root.dataset.listLabel ?? '';
+    const subs = () => [...root.querySelectorAll<HTMLElement>('[data-index-sub]')];
+    const gone = (c: HTMLElement) => c.hasAttribute('data-list-removed');
+    const cardsIn = (el: ParentNode) => [...el.querySelectorAll<HTMLElement>('[data-list-card]')];
+    const items = (n: number) => `${n} ${n === 1 ? 'item' : 'items'}`;
+    const setBadge = (el: Element | null, n: number) => {
+      if (!el) return;
+      el.textContent = String(n);
+      el.setAttribute('aria-label', items(n));
+    };
+    const flash = (el: HTMLElement) => { el.classList.add('is-new'); setTimeout(() => el.classList.remove('is-new'), 1000); };
+
+    // Counts are read off the cards still on the list. A subcategory with none is marked
+    // taken out (Aldo reads that mark) and hidden; a member moved into it brings it back.
+    const recount = () => {
+      let total = 0;
+      root.querySelectorAll<HTMLElement>('[data-index-cat]').forEach((cat) => {
+        let n = 0;
+        cat.querySelectorAll<HTMLElement>('[data-index-sub]').forEach((sub) => {
+          const m = cardsIn(sub).filter((c) => !gone(c)).length;
+          sub.toggleAttribute('data-list-removed', m === 0);
+          sub.hidden = m === 0;
+          setBadge(sub.querySelector(':scope > summary [data-index-count]'), m);
+          n += m;
+        });
+        cat.hidden = n === 0;
+        setBadge(cat.querySelector(':scope > summary [data-index-count]'), n);
+        total += n;
+      });
+      setBadge(document.querySelector('[data-list-count="title"] .bcn-swcb'), total);
+    };
+    const drop = (card: HTMLElement) => {
+      card.setAttribute('data-list-removed', '');
+      card.hidden = true;
+    };
+    // Aldo takes a subcategory out by taking out every member in it.
+    const takeOut = (keep: (id: string) => boolean) => {
+      for (const s of subs()) if (!keep(s.dataset.indexSub ?? '')) cardsIn(s).forEach(drop);
+      recount();
+    };
+    const idsOf = (e: Event) => new Set((e as CustomEvent<{ ids: string[] }>).detail?.ids ?? []);
+    document.addEventListener('list:index-keep', (e) => {
+      const ids = idsOf(e);
+      takeOut((id) => ids.has(id));
+    });
+    document.addEventListener('list:index-drop', (e) => {
+      const ids = idsOf(e);
+      takeOut((id) => !ids.has(id));
+    });
+
+    if (root.hasAttribute('data-index-editable')) {
+      const byMember = (id: string) => cardsIn(root).find((c) => c.dataset.memberId === id) ?? null;
+      const emit = (name: string, detail: unknown) => document.dispatchEvent(new CustomEvent(name, { detail, bubbles: true }));
+
+      // ---- Filing inside a subcategory: actions first, then obligations, each A–Z by the
+      // title this list shows. A moved, retitled or copied member is filed, never appended.
+      const kindOf = (c: HTMLElement) => (c.dataset.class === 'action' ? 'action' : 'obligation');
+      const titleOf = (c: HTMLElement) => c.querySelector<HTMLElement>('[data-list-title]')?.dataset.listText ?? '';
+      const file = (ul: Element, card: HTMLElement) => {
+        const others = [...ul.children].filter((c): c is HTMLElement => c !== card && c instanceof HTMLElement);
+        const rank = (c: HTMLElement) => (kindOf(c) === 'action' ? 0 : 1);
+        const after = others.find((c) => rank(c) > rank(card) || (rank(c) === rank(card) && titleOf(c).localeCompare(titleOf(card)) > 0));
+        ul.insertBefore(card, after ?? null);
+      };
+
+      // ---- Remove from list. Nothing is destroyed: the member comes off this version
+      // and the item stays in the project's Compliance Index, and the guard says so.
+      type Confirm = HTMLElement & { open: boolean; message: string };
+      const guard = root.querySelector<Confirm>('[data-index-confirm]');
+      let pending: (() => void) | null = null;
+      guard?.addEventListener('confirm', () => { pending?.(); pending = null; });
+      guard?.addEventListener('cancel', () => { pending = null; });
+      guard?.addEventListener('dismiss', () => { pending = null; });
+      const removeFromList = (card: HTMLElement) => {
+        const go = () => { drop(card); recount(); };
+        if (!guard) { go(); return; }
+        pending = go;
+        guard.message = `"${titleOf(card)}" comes off ${listName}. It stays in the project's Compliance Index.`;
+        guard.open = true;
+      };
+
+      // ---- Duplicate. A second membership of the same item, its id continuing the
+      // item's own run so a removed copy's id is never handed out again.
+      const nextMemberId = (itemId: string) => {
+        const used = cardsIn(root)
+          .filter((c) => c.dataset.id === itemId)
+          .map((c) => Number((c.dataset.memberId ?? '').split('-m')[1]) || 1);
+        return `${itemId}-m${Math.max(1, ...used) + 1}`;
+      };
+      const duplicate = (card: HTMLElement) => {
+        const copy = card.cloneNode(true) as HTMLElement;
+        copy.dataset.memberId = nextMemberId(card.dataset.id ?? '');
+        copy.removeAttribute('data-list-removed');
+        copy.hidden = false;
+        card.after(copy);
+        recount();
+        flash(copy);
+      };
+
+      // ---- Add. Each item is the canonical index's own card for it, read off that page
+      // once, given its member id, and filed in the subcategory the drawer named.
+      let source: Promise<Document> | null = null;
+      const canonical = () =>
+        (source ??= fetch(root.dataset.indexSource ?? '')
+          .then((r) => r.text())
+          .then((html) => new DOMParser().parseFromString(html, 'text/html')));
+      document.addEventListener('list:index-items-added', async (e) => {
+        const items = (e as CustomEvent<{ items: { id: string; land: string }[] }>).detail?.items ?? [];
+        const doc = await canonical();
+        let last: HTMLElement | null = null;
+        for (const { id, land } of items) {
+          const from = doc.querySelector<HTMLElement>(`.bcn-lit [data-list-card][data-id="${CSS.escape(id)}"]`);
+          const sub = root.querySelector<HTMLDetailsElement>(`[data-index-sub="${CSS.escape(land)}"]`);
+          if (!from || !sub) continue;
+          const card = document.importNode(from, true);
+          card.dataset.memberId = cardsIn(root).some((c) => c.dataset.memberId === id) ? nextMemberId(id) : id;
+          card.removeAttribute('data-list-removed');
+          card.hidden = false;
+          file(sub.querySelector('.bcn-lot__cards')!, card);
+          sub.open = true;
+          (sub.closest('[data-index-cat]') as HTMLDetailsElement).open = true;
+          flash(card);
+          last = card;
+        }
+        recount();
+        last?.scrollIntoView({ block: 'nearest' });
+      });
+
+      // ---- What the panels send back.
+      // A member's filing, list title and list description. Emptied, the title and the
+      // description fall back to the index's, which is also what makes each pair of
+      // attributes agree again and the dot go.
+      document.addEventListener('list:index-item-saved', (e) => {
+        const s = (e as CustomEvent<{ memberId: string; listTitle: string; listDescription: string; subId: string }>).detail;
+        const card = byMember(s.memberId);
+        if (!card) return;
+        const title = card.querySelector<HTMLElement>('[data-list-title]')!;
+        const registryTitle = title.dataset.registryTitle ?? '';
+        const registryDesc = card.dataset.registryDesc ?? '';
+        const nextTitle = s.listTitle || registryTitle;
+        title.textContent = nextTitle;
+        title.dataset.listText = nextTitle;
+        card.dataset.listDescription = s.listDescription || registryDesc;
+        const mark = card.querySelector<HTMLElement>('[data-list-edited]');
+        if (mark) mark.hidden = nextTitle === registryTitle && card.dataset.listDescription === registryDesc;
+        const sub = root.querySelector<HTMLDetailsElement>(`[data-index-sub="${CSS.escape(s.subId)}"]`) ?? card.closest<HTMLDetailsElement>('[data-index-sub]')!;
+        file(sub.querySelector('.bcn-lot__cards')!, card);
+        sub.open = true;
+        (sub.closest('[data-index-cat]') as HTMLDetailsElement).open = true;
+        recount();
+        flash(card);
+      });
+      document.addEventListener('list:branch-renamed', (e) => {
+        const { id, name } = (e as CustomEvent<{ id: string; name: string }>).detail;
+        const el = root.querySelector<HTMLElement>(`[data-index-cat="${CSS.escape(id)}"] > summary [data-list-name], [data-index-sub="${CSS.escape(id)}"] > summary [data-list-name]`);
+        if (!el) return;
+        el.textContent = name;
+        el.dataset.listText = name;
+      });
+      document.addEventListener('list:index-remove-item', (e) => {
+        const card = byMember((e as CustomEvent<string>).detail);
+        if (card) removeFromList(card);
+      });
+      document.addEventListener('list:index-duplicate-item', (e) => {
+        const card = byMember((e as CustomEvent<string>).detail);
+        if (card) duplicate(card);
+      });
+
+      // ---- Verbs: move or retitle a member, copy one, take one off, rename a branch.
+      root.addEventListener('click', (e) => {
+        const btn = (e.target as HTMLElement).closest<HTMLElement>('button');
+        if (!btn) return;
+        if (btn.matches('[data-index-rename]')) {
+          e.preventDefault();
+          const branch = btn.closest<HTMLElement>('[data-index-cat], [data-index-sub]')!;
+          const level = btn.dataset.indexRename as 'cat' | 'sub';
+          const name = branch.querySelector<HTMLElement>(':scope > summary [data-list-name]');
+          emit('list:rename-branch', { level, id: level === 'cat' ? branch.dataset.indexCat : branch.dataset.indexSub, name: name?.dataset.listText ?? '' });
+          return;
+        }
+        const card = btn.closest<HTMLElement>('[data-list-card]');
+        if (!card) return;
+        if (btn.matches('[data-list-edit]')) {
+          e.preventDefault();
+          emit('list:edit-index-item', card.dataset.memberId);
+        } else if (btn.matches('[data-list-duplicate]')) {
+          e.preventDefault();
+          duplicate(card);
+        } else if (btn.matches('[data-list-remove]')) {
+          e.preventDefault();
+          removeFromList(card);
+        }
+      });
+    }
+  }
+</script>

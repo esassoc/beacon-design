@@ -1,16 +1,17 @@
 # Add list dialog
 
-The "Add list" modal, in the order the decision is made: which registry the list draws from, what it is called, what it is for.
+The "Add list" modal, in the order the decision is made: which kind of list it is, what it is called, what it is for.
 
 ## Key decisions
-- The type comes first and all three options stay on screen as a segmented control (esa-button-toggle), because the type is the one irreversible choice: a list is a subset of ONE registry forever.
+- The type comes first and all four options stay on screen as a segmented control (esa-button-toggle), because the type is the one irreversible choice: a list is a subset of ONE registry forever, and a Compliance Index list is always a version of the index.
+- A Compliance Index list starts as a copy of the canonical index's outline; its cue line says so. The dialog is the large size so the four segments fit on one row.
 - The trigger presets it: data-list-create="<type>" on the heading's button opens the dialog already on that type, with a matching heading ("Add Action List"). The toggle stays changeable.
 - A cue line under the toggle names what the selected type holds; it swaps on change.
 - Name is required; description is optional.
 
 ## Gotchas
 - esa-radio-group has no per-option description field, which is why this is a toggle plus one cue line rather than described radios.
-- Prototype honesty: "Create list" validates Name and closes; it writes no row and navigates nowhere. In the app it creates the list and lands on its detail page.
+- "Create list" validates Name, then lands on the new, empty list, named as typed. (Aldo opening on it is the separate Aldo epic, lists-new-list.) The prototype writes no row: the name and description ride in the URL. In the app it creates the list and lands on its detail page the same way.
 
 ## Done when
 - Each heading's add button opens the dialog preset to that type; changing the toggle updates heading and cue; Create is refused with an empty Name.
@@ -19,10 +20,11 @@ The "Add list" modal, in the order the decision is made: which registry the list
 ```html
 <esa-dialog
   data-list-create-dialog="true"
+  data-new-hrefs='{"commitment":"/beacon-design/prototypes/lists/new-commitment-list","action":"/beacon-design/prototypes/lists/new-action-list","obligation":"/beacon-design/prototypes/lists/new-obligation-list","compliance-index":"/beacon-design/prototypes/lists/new-compliance-index-list"}'
   heading="Add Action List"
-  size="sm"
+  size="lg"
   show-close-button="true"
-  data-headings='{"action":"Add Action List","obligation":"Add Obligation List","commitment":"Add Commitment List"}'
+  data-headings='{"action":"Add Action List","obligation":"Add Obligation List","commitment":"Add Commitment List","compliance-index":"Add Compliance Index List"}'
   open=""
   ><div class="bcn-list-create stack" data-gap="lg">
     <div class="stack" data-gap="sm">
@@ -31,8 +33,8 @@ The "Add list" modal, in the order the decision is made: which registry the list
         label="Type"
         size="sm"
         value="commitment"
-        data-options='[{"label":"Commitment list","value":"commitment"},{"label":"Action list","value":"action"},{"label":"Obligation list","value":"obligation"}]'
-        data-basis='{"action":"Actions tracked together on the Tracker pages.","obligation":"Standing duties exported as a document, a spreadsheet or form fields.","commitment":"Permit commitments grouped for review and reporting."}'
+        data-options='[{"label":"Commitment list","value":"commitment"},{"label":"Action list","value":"action"},{"label":"Obligation list","value":"obligation"},{"label":"Compliance index list","value":"compliance-index"}]'
+        data-basis='{"action":"Actions tracked together on the Tracker pages.","obligation":"Standing duties exported as a document, a spreadsheet or form fields.","commitment":"Permit commitments grouped for review and reporting.","compliance-index":"A copy of the project Compliance Index to regroup, rename and trim."}'
       ></esa-button-toggle>
       <p
         class="bcn-list-create__basis typography-body-md"
@@ -414,7 +416,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -429,6 +431,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

@@ -52,7 +52,7 @@ const specs = new Set(
     .map((f) => f.replace(/\.mjs$/, ''))
 );
 const allowed = new Set(baseline);
-const bundleSlug = (route) => route.replace(/^\/+|\/+$/g, '').replace(/\//g, '-');
+const bundleSlug = (route) => route.split('?')[0].replace(/^\/+|\/+$/g, '').replace(/\//g, '-');
 
 const errors = [];
 const warnings = [];

@@ -1,0 +1,119 @@
+---
+// <BcnListBranchPanel> — rename a category or subcategory for ONE LIST. Opened from the pen
+// on a branch row, in every list that names its own branches: an obligation list
+// (<BcnListObligationTree>, over the registry's taxonomy) and a Compliance Index version
+// (<BcnListIndexTree>, over its own outline). Never inline: names are edited in a side panel
+// (Andy, 2026-10-20, asking for parity between the two: one rename, the same on both).
+//
+// One field, the name this list uses, and beneath it, read only, where the branch comes
+// from: the registry's own name on an obligation list, or each canonical
+// "Category › Subcategory" a version's branch draws on. An emptied name falls back to the
+// source's name. The name is this list's alone.
+//
+// The page hands the panel what it cannot read off the row: per branch id, the source
+// lines and the fallback name. The current name comes with the request, read off the row.
+//
+// Contract, on `document`:
+//   in   list:rename-branch    detail: { level: 'cat' | 'sub', id, name }
+//   out  list:branch-renamed   detail: { id, name }
+//
+// bcn-lego-checked: the frame IS esa-side-dialog at a compact width (one field), the field
+// IS esa-text-field, the buttons ARE esa-button; the labels and footer split are
+// bcn-obligation-drawer.css, shared with the list panels.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import '../../styles/bcn-obligation-drawer.css';
+
+interface Props {
+  /** Where each branch comes from, by branch id, one line each. */
+  sources: Record<string, string[]>;
+  /** The name an emptied field falls back to, by branch id. */
+  fallbacks: Record<string, string>;
+  /** The label over the source lines ("In the registry", "In the Compliance Index"). */
+  sourceLabel: string;
+}
+const { sources, fallbacks, sourceLabel } = Astro.props;
+---
+
+<esa-side-dialog
+  id="lbr-editor"
+  heading="Rename for this list"
+  position="right"
+  show-close-button
+  style="--_width: min(480px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250;"
+>
+  <form class="bcn-swo-edit bcn-lbr" data-branch-panel>
+    <esa-text-field label="Name" size="sm" name="lbr-name"></esa-text-field>
+
+    <div class="bcn-swo-edit__section">
+      <span class="bcn-swo-edit__label">{sourceLabel}</span>
+      <ul class="bcn-lbr__sources" data-lbr-sources></ul>
+    </div>
+  </form>
+
+  <span slot="footer" class="bcn-swo-edit__foot bcn-swo-edit__foot--end">
+    <span class="bcn-swo-edit__foot-right">
+      <EsaButton variant="primary" size="sm" data-lbr-save>Save</EsaButton>
+      <EsaButton variant="ghost" size="sm" data-lbr-cancel>Cancel</EsaButton>
+    </span>
+  </span>
+</esa-side-dialog>
+
+<script type="application/json" data-lbr-data set:html={JSON.stringify({ sources, fallbacks })} />
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+
+  type Field = HTMLElement & { value: string };
+
+  const form = document.querySelector<HTMLFormElement>('[data-branch-panel]');
+  if (form) {
+    const dialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>('#lbr-editor')!;
+    const field = form.querySelector<Field>('esa-text-field[name="lbr-name"]')!;
+    const host = form.querySelector<HTMLElement>('[data-lbr-sources]')!;
+    const { sources, fallbacks } = JSON.parse(document.querySelector('[data-lbr-data]')?.textContent || '{}') as {
+      sources: Record<string, string[]>;
+      fallbacks: Record<string, string>;
+    };
+    let target: { id: string; fallback: string } | null = null;
+
+    document.addEventListener('list:rename-branch', (e) => {
+      const { level, id, name } = (e as CustomEvent<{ level: 'cat' | 'sub'; id: string; name: string }>).detail;
+      const fallback = fallbacks[id] || name;
+      target = { id, fallback };
+      dialog.heading = level === 'cat' ? 'Rename category for this list' : 'Rename subcategory for this list';
+      field.value = name;
+      field.setAttribute('help-text', `Leave this empty and the list uses “${fallback}”.`);
+      host.replaceChildren(...(sources[id] ?? [fallback]).map((text) => Object.assign(document.createElement('li'), { textContent: text })));
+      dialog.open = true;
+    });
+
+    const close = () => {
+      dialog.open = false;
+      setTimeout(() => { target = null; field.value = ''; }, 200);
+    };
+    form.addEventListener('submit', (e) => e.preventDefault());
+    document.querySelector('[data-lbr-save]')?.addEventListener('click', () => {
+      if (!target) return;
+      const name = (field.value ?? '').replace(/\s+/g, ' ').trim() || target.fallback;
+      document.dispatchEvent(new CustomEvent('list:branch-renamed', { detail: { id: target.id, name }, bubbles: true }));
+      close();
+    });
+    document.querySelector('[data-lbr-cancel]')?.addEventListener('click', close);
+  }
+</script>
+
+<style>
+  /* Read only: where this branch comes from, one line each. */
+  .bcn-lbr__sources {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-content-default);
+  }
+</style>

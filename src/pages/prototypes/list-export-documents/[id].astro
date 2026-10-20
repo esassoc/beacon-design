@@ -1,0 +1,39 @@
+---
+// One export document, as Beacon's print route renders it: the PDF a list or the
+// compliance index downloads as. Prod: print/obligation-list/:obligationListID,
+// print/action-list/:actionListID and print/compliance-index/:projectID, beside
+// print/report/:reportID, captured by PdfService on Letter.
+//
+// The page is the document and nothing else (no app shell, as in prod's print layout):
+// the title block, the summary table, then the detail from a new page. Every value is
+// read from src/data/list-export-documents.ts.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BcnDocSheet from '../../../components/bcn/BcnDocSheet.astro';
+import BcnDocSummary from '../../../components/bcn/BcnDocSummary.astro';
+import BcnDocGroups from '../../../components/bcn/BcnDocGroups.astro';
+import { EXPORT_DOCUMENTS, type ExportDocument } from '../../../data/list-export-documents';
+
+export function getStaticPaths() {
+  return EXPORT_DOCUMENTS.map((doc) => ({ params: { id: doc.id }, props: { doc } }));
+}
+
+interface Props {
+  doc: ExportDocument;
+}
+const { doc } = Astro.props;
+---
+
+<!-- manifest:
+  layout: BaseLayout                                   # SPINE: no app shell, as prod's print layout
+  sections:
+    - document      -> bcn-doc-sheet                   # the paper and the title block; the two below sit inside it
+    - summary table -> bcn-doc-summary                 # one line per item, column header repeating on every page
+    - detail        -> bcn-doc-groups                  # every entry in full, from a new page
+-->
+
+<BaseLayout title={`${doc.title} · ${doc.project}`}>
+  <BcnDocSheet doc={doc}>
+    <BcnDocSummary doc={doc} />
+    <BcnDocGroups doc={doc} />
+  </BcnDocSheet>
+</BaseLayout>

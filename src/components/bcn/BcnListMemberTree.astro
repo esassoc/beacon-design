@@ -513,6 +513,11 @@ const STAMP: ListMemberRow = {
       }
       flash(card);
     };
+    // Aldo's Remove key: the person already confirmed it in the conversation, so no guard.
+    document.addEventListener('list:drop-members', (e) => {
+      const ids = new Set((e as CustomEvent<{ ids: string[] }>).detail?.ids ?? []);
+      cards().filter((c) => !gone(c) && ids.has(c.dataset.id ?? '')).forEach(drop);
+    });
     document.addEventListener('list:members-added', (e) => {
       ((e as CustomEvent<{ items: Item[] }>).detail?.items ?? []).forEach(addItem);
       recount();

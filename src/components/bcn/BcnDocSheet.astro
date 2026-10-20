@@ -1,0 +1,145 @@
+---
+// <BcnDocSheet> — one export document as paper: the desk it sits on in the browser, the
+// Letter sheet, and the title block every export document opens with. The document's
+// body is the slot (<BcnDocSummary>, then <BcnDocGroups>).
+//
+// This is prod's print layout (Beacon.Web/src/app/print/print-layout): on screen, a
+// sheet at the paper's width on a gray desk; in print, the desk and the sheet's chrome
+// fall away and Chromium paginates the content inside the @page margins. The running
+// footer (title and project left, page of pages right) is not drawn here. PdfService
+// draws it from its FooterTemplate on every page.
+//
+// Round 1 (Andy, 2026-10-19): Letter paper, the tenant's logo. The title block is the
+// logo, the title, the list's description, and one row of facts.
+//
+// bcn-lego-checked: no esa- lego renders a printed page (no paper, title block or print
+// pagination in the catalog; esa-card is a screen container with its own padding and
+// radius). Checked Beacon: print-layout.component.scss is ported here (desk, sheet,
+// print rules) and the Report template's cover (tenant logo over the title) is the brand
+// precedent. BcnReportPreview simulates paper inside a dialog for one report; this is
+// the stand-alone print route every export document shares.
+import BcnDocFacts from './BcnDocFacts.astro';
+import { withBase } from '../../lib/base';
+import type { ExportDocument } from '../../data/list-export-documents';
+
+interface Props {
+  doc: ExportDocument;
+}
+const { doc } = Astro.props;
+
+// The title block's one row of facts. A list says which kind of list it is; the
+// canonical index's title already does.
+const facts = [
+  ...(doc.kindLabel === doc.title ? [] : [{ label: 'Type', value: doc.kindLabel }]),
+  { label: doc.labels.project, value: doc.project },
+  { label: 'Exported', value: doc.exportedOn },
+  // Each list counts what it holds, zero included; the index counts both kinds.
+  ...(doc.kind === 'action-list' || doc.kind === 'compliance-index'
+    ? [{ label: `${doc.labels.action}s`, value: String(doc.counts.actions) }] : []),
+  ...(doc.kind === 'obligation-list' || doc.kind === 'compliance-index'
+    ? [{ label: `${doc.labels.obligation}s`, value: String(doc.counts.obligations) }] : []),
+  ...(doc.kind === 'commitment-list' ? [{ label: `${doc.labels.commitment}s`, value: String(doc.counts.commitments) }] : []),
+];
+---
+
+<div class="bcn-doc-desk">
+  <article class="bcn-doc" data-doc data-doc-kind={doc.kind}>
+    <header class="bcn-doc__head">
+      <img class="bcn-doc__logo" src={withBase(doc.tenantLogo)} alt={doc.tenant} />
+      <h1 class="bcn-doc__title">{doc.title}</h1>
+      {doc.description && <p class="bcn-doc__desc">{doc.description}</p>}
+      <div class="bcn-doc__facts">
+        <BcnDocFacts facts={facts} size="title" />
+      </div>
+    </header>
+
+    <div class="bcn-doc__body">
+      <slot />
+    </div>
+  </article>
+</div>
+
+<style is:global>
+  /* @page cannot be scoped (and cannot live in prod's Shadow DOM either: it goes in the
+     app's global styles.scss there). PdfService passes the same size and margins. */
+  @page {
+    size: letter;
+    margin: 20mm;
+  }
+</style>
+
+<style>
+  /* ── The desk and the sheet (screen) ───────────────────────────────────────── */
+  .bcn-doc-desk {
+    background: var(--bcn-print-desk);
+    padding: var(--spacing-600) var(--spacing-400);
+    min-block-size: 100vh;
+  }
+
+  .bcn-doc {
+    inline-size: var(--bcn-print-letter-width);
+    min-block-size: var(--bcn-print-letter-height);
+    margin-inline: auto;
+    padding: var(--bcn-print-margin);
+    background: var(--bcn-print-paper);
+    border: 1px solid var(--color-border-default);
+    box-shadow: var(--shadow-200);
+    color: var(--color-content-default);
+    font-family: var(--typography-font-family-sans);
+    font-size: var(--bcn-print-font-size-body);
+    line-height: var(--bcn-print-line-height);
+  }
+
+  /* ── Title block ───────────────────────────────────────────────────────────── */
+  .bcn-doc__head {
+    padding-block-end: var(--spacing-400);
+    margin-block-end: var(--spacing-500);
+    border-block-end: 2px solid var(--color-content-default);
+  }
+
+  .bcn-doc__logo {
+    display: block;
+    block-size: var(--bcn-print-logo-height);
+    inline-size: auto;
+    margin-block-end: var(--spacing-500);
+  }
+
+  .bcn-doc__title {
+    margin: 0;
+    font-size: var(--bcn-print-font-size-title);
+    font-weight: var(--typography-font-weight-semibold);
+    line-height: var(--line-height-tight);
+    color: var(--color-content-default);
+  }
+
+  .bcn-doc__desc {
+    margin: var(--spacing-200) 0 0;
+    max-inline-size: 42em;
+    font-size: var(--bcn-print-font-size-entry);
+  }
+
+  .bcn-doc__facts {
+    margin-block-start: var(--spacing-400);
+  }
+
+  /* ── Print: the desk and the sheet's chrome fall away ─────────────────────── */
+  @media print {
+    :global(body) {
+      background: none;
+    }
+    .bcn-doc-desk {
+      padding: 0;
+      background: none;
+      min-block-size: 0;
+    }
+    .bcn-doc {
+      inline-size: auto;
+      min-block-size: 0;
+      padding: 0;
+      border: 0;
+      box-shadow: none;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+  }
+</style>

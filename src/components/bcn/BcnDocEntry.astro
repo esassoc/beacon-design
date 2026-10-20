@@ -1,0 +1,133 @@
+---
+// <BcnDocEntry> — one action or obligation in an export document's detail.
+//
+// The title line carries the commitment codes at its right, the way a citation sits at
+// the margin, so a contractor can find the permit language without a column for it.
+// Below: the description in the list's own wording, then one row of facts.
+//
+//   Obligation  Class, Audience, Applies When (prod's label for the trigger). No status
+//               and no evidence count: an obligation has no lifecycle (Andy,
+//               2026-09-23), and round 1 left evidence off.
+//   Action      Type (in the index, where the group does not already say it),
+//               Frequency, Timing, then where it stands per component
+//               (<BcnDocOccurrences>).
+//   Commitment  Its code at the margin, its title, then each requirement it holds:
+//               the requirement's name, then its text in the permit's words.
+//
+// The entry draws no rule of its own. The list it sits in owns the divider between
+// entries (<BcnDocGroups>), so the first entry under a heading needs no exception.
+//
+// bcn-lego-checked: no esa- lego is a printed entry (esa-card and the list cards are
+// screen surfaces with padding, radius and hover). Checked Beacon: the component
+// coversheet's requirement item (code, name, type, then evidence lines) is the precedent.
+import BcnDocFacts from './BcnDocFacts.astro';
+import BcnDocOccurrences from './BcnDocOccurrences.astro';
+import type { DocEntry, DocLabels } from '../../data/list-export-documents';
+
+interface Props {
+  entry: DocEntry;
+  labels: DocLabels;
+  /** Show an action's type. Off where the group heading already names it. */
+  showType?: boolean;
+  /** The title's heading level: one below the heading the entry sits under. */
+  level?: 3 | 4 | 5;
+}
+const { entry, labels, showType = false, level = 4 } = Astro.props;
+const Title = `h${level}` as 'h3' | 'h4' | 'h5';
+
+const title = entry.kind === 'action' ? entry.name : entry.title;
+const facts =
+  entry.kind === 'commitment'
+    ? []
+    : entry.kind === 'obligation'
+    ? [
+        { label: 'Class', value: entry.classLabel },
+        { label: 'Audience', value: entry.audience },
+        ...(entry.appliesWhen ? [{ label: 'Applies When', value: entry.appliesWhen }] : []),
+      ]
+    : [
+        ...(showType ? [{ label: 'Type', value: entry.typeLabel }] : []),
+        ...(entry.frequencyLabel ? [{ label: 'Frequency', value: entry.frequencyLabel }] : []),
+        ...(entry.timing ? [{ label: 'Timing', value: entry.timing }] : []),
+      ];
+---
+
+<article class="bcn-doc-entry" data-doc-entry={entry.kind}>
+  <div class="bcn-doc-entry__head">
+    <Title class="bcn-doc-entry__title">{title}</Title>
+    {entry.codes.length > 0 && (
+      <p class="bcn-doc-entry__codes" aria-label={`${labels.commitment}s`}>{entry.codes.join(', ')}</p>
+    )}
+  </div>
+  {entry.description && <p class="bcn-doc-entry__desc">{entry.description}</p>}
+  {facts.length > 0 && (
+    <div class="bcn-doc-entry__facts">
+      <BcnDocFacts facts={facts} />
+    </div>
+  )}
+  {entry.kind === 'action' && <BcnDocOccurrences occurrences={entry.occurrences} />}
+  {entry.kind === 'commitment' && entry.requirements.length > 0 && (
+    <ol class="bcn-doc-entry__reqs">
+      {entry.requirements.map((r) => (
+        <li class="bcn-doc-entry__req">
+          <p class="bcn-doc-entry__req-name">{r.name}</p>
+          <p class="bcn-doc-entry__req-text">{r.text}</p>
+        </li>
+      ))}
+    </ol>
+  )}
+</article>
+
+<style>
+  .bcn-doc-entry {
+    padding-block: var(--spacing-250);
+    break-inside: avoid;
+  }
+
+  .bcn-doc-entry__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-500);
+  }
+  .bcn-doc-entry__title {
+    margin: 0;
+    font-size: var(--bcn-print-font-size-entry);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  .bcn-doc-entry__codes {
+    flex: none;
+    max-inline-size: 40%;
+    margin: 0;
+    text-align: end;
+    font-size: var(--bcn-print-font-size-meta);
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-doc-entry__desc {
+    margin: var(--spacing-100) 0 0;
+    max-inline-size: 46em;
+  }
+
+  .bcn-doc-entry__facts {
+    margin-block-start: var(--spacing-150);
+  }
+
+  .bcn-doc-entry__reqs {
+    margin: var(--spacing-150) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .bcn-doc-entry__req + .bcn-doc-entry__req {
+    margin-block-start: var(--spacing-150);
+  }
+  .bcn-doc-entry__req-name {
+    margin: 0;
+    font-weight: var(--typography-font-weight-medium);
+  }
+  .bcn-doc-entry__req-text {
+    margin: var(--spacing-050) 0 0;
+    max-inline-size: 46em;
+  }
+</style>

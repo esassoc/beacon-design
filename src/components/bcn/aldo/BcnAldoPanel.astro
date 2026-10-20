@@ -47,10 +47,13 @@ interface Props {
   glow?: boolean;
   /** Renders the expand key and the overlay it opens. */
   expandable?: boolean;
+  /** The collapse key's glyph, where the panel folds into something other than a side
+   *  rail (a list page folds it back into its launcher above the Details card). */
+  collapseIcon?: string;
   [attr: string]: unknown;
 }
-const { title = 'Aldo', collapsible = false, rail = 'right', glow = true, expandable = false, ...rest } = Astro.props;
-const away = rail === 'right' ? 'chevrons-right' : 'chevrons-left';
+const { title = 'Aldo', collapsible = false, rail = 'right', glow = true, expandable = false, collapseIcon, ...rest } = Astro.props;
+const away = collapseIcon ?? (rail === 'right' ? 'chevrons-right' : 'chevrons-left');
 const back = rail === 'right' ? 'chevrons-left' : 'chevrons-right';
 ---
 

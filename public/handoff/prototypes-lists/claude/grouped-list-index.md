@@ -8,14 +8,14 @@ Every list, filed under the registry it draws from, in setup order: Commitments,
 - A heading's badge counts LISTS in the group (and counts HITS while searching); a row's badge counts that list's MEMBERS. Accessible names tell them apart ("4 commitment lists" vs "64 commitments").
 - A group with no hits keeps its heading and its add button and shows a dashed "No lists match" box. Hiding the whole group would hide the add verb at the exact moment the reader learned the list they want does not exist.
 - A group that holds no lists at all reads "No commitment lists" (settled at build time), not "No lists match".
-- All three types open the same detail route: /lists/<id>.
+- All four types open the same detail route: /lists/<id>.
 
 ## Gotchas
 - The dashed empty box sets display:grid, which outranks [hidden]; re-assert display:none on the hidden state or the box never goes away.
 - Counts are derived from the data (group length / member predicates), never hard-coded, so a new seed list moves the heading without edits.
 
 ## Done when
-- Three groups in order Commitments → Actions → Obligations; each heading has a count and an add button; searching "report" leaves the headings in place, updates each count to its hits, and shows "No lists match" in any group with none.
+- Four groups in order Commitments → Actions → Obligations → Compliance Index Lists; each heading has a count and an add button; searching "report" leaves the headings in place, updates each count to its hits, and shows "No lists match" in any group with none.
 
 ## Markup
 ```html
@@ -32,7 +32,7 @@ Every list, filed under the registry it draws from, in setup order: Commitments,
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnSwFilterRow.astro_astro_type_script_index_0_lang.C8SgbOxC.js"
+    src="/beacon-design/_astro/BcnSwFilterRow.astro_astro_type_script_index_0_lang.BBU0UrEC.js"
   ></script>
   <div class="stack" data-gap="2xl">
     <section
@@ -1120,6 +1120,268 @@ Every list, filed under the registry it draws from, in setup order: Commitments,
         </div>
       </div>
     </section>
+    <section
+      class="stack"
+      data-gap="sm"
+      aria-labelledby="lists-compliance-index"
+      data-list-group="compliance-index"
+      data-list-noun="compliance index list"
+    >
+      <div class="bcn-lib__head repel" data-gap="sm">
+        <div class="cluster" data-gap="xs">
+          <h2 class="bcn-lib__title typography-title-strong" id="lists-compliance-index">
+            Compliance Index Lists
+          </h2>
+          <span
+            class="bcn-swcb"
+            aria-label="4 compliance index lists"
+            data-group-count="true"
+            data-total="4"
+            >4</span
+          >
+        </div>
+        <span
+          class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+          ><button
+            class="esa-button__native typography-microcopy-xs"
+            type="button"
+            data-list-create="compliance-index"
+          >
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M5 12h14"></path>
+                <path d="M12 5v14"></path></svg></span
+            ><span class="esa-button__label">Add Compliance Index List</span>
+          </button></span
+        >
+      </div>
+      <div class="stack" data-gap="xs">
+        <article class="bcn-lc" data-list-row="" data-type="compliance-index">
+          <div class="esa-card esa-card--outlined esa-card--padding-none">
+            <div class="esa-card__body typography-body-md">
+              <div
+                class="bcn-lc__row cluster"
+                data-gap="xs"
+                style="--_mark: var(--color-requirement)"
+              >
+                <span class="bcn-lc__mark"
+                  ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path d="M21 12h-8"></path>
+                      <path d="M21 6H8"></path>
+                      <path d="M21 18h-8"></path>
+                      <path d="M3 6v4c0 1.1.9 2 2 2h3"></path>
+                      <path d="M3 10v6c0 1.1.9 2 2 2h3"></path></svg></span
+                ></span>
+                <div class="bcn-lc__body stack" data-gap="3xs">
+                  <div class="bcn-lc__head repel" data-gap="sm">
+                    <div class="cluster" data-gap="2xs">
+                      <a
+                        class="bcn-lc__name typography-label-sm-strong"
+                        href="/beacon-design/prototypes/lists/compliance-index"
+                        data-list-text=""
+                        >Compliance Index</a
+                      ><span class="bcn-swcb bcn-swcb--sm" aria-label="600 items"
+                        >600</span
+                      >
+                    </div>
+                    <span class="bcn-lc__updated typography-body-xs"
+                      >Updated Oct 15, 2026</span
+                    >
+                  </div>
+                  <p class="bcn-lc__desc typography-body-xs" data-list-text="">
+                    Every action and obligation on the project, filed by category and
+                    subcategory.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="bcn-lc" data-list-row="" data-type="compliance-index">
+          <div class="esa-card esa-card--outlined esa-card--padding-none">
+            <div class="esa-card__body typography-body-md">
+              <div
+                class="bcn-lc__row cluster"
+                data-gap="xs"
+                style="--_mark: var(--color-requirement)"
+              >
+                <span class="bcn-lc__mark"
+                  ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path d="M21 12h-8"></path>
+                      <path d="M21 6H8"></path>
+                      <path d="M21 18h-8"></path>
+                      <path d="M3 6v4c0 1.1.9 2 2 2h3"></path>
+                      <path d="M3 10v6c0 1.1.9 2 2 2h3"></path></svg></span
+                ></span>
+                <div class="bcn-lc__body stack" data-gap="3xs">
+                  <div class="bcn-lc__head repel" data-gap="sm">
+                    <div class="cluster" data-gap="2xs">
+                      <a
+                        class="bcn-lc__name typography-label-sm-strong"
+                        href="/beacon-design/prototypes/lists/contractor-field-index"
+                        data-list-text=""
+                        >Contractor Field Index</a
+                      ><span class="bcn-swcb bcn-swcb--sm" aria-label="265 items"
+                        >265</span
+                      >
+                    </div>
+                    <span class="bcn-lc__updated typography-body-xs"
+                      >Updated Oct 17, 2026</span
+                    >
+                  </div>
+                  <p class="bcn-lc__desc typography-body-xs" data-list-text="">
+                    Issued with the construction kickoff package. Grouped by when crews
+                    meet each duty; agency reporting and funding left out.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="bcn-lc" data-list-row="" data-type="compliance-index">
+          <div class="esa-card esa-card--outlined esa-card--padding-none">
+            <div class="esa-card__body typography-body-md">
+              <div
+                class="bcn-lc__row cluster"
+                data-gap="xs"
+                style="--_mark: var(--color-requirement)"
+              >
+                <span class="bcn-lc__mark"
+                  ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path d="M21 12h-8"></path>
+                      <path d="M21 6H8"></path>
+                      <path d="M21 18h-8"></path>
+                      <path d="M3 6v4c0 1.1.9 2 2 2h3"></path>
+                      <path d="M3 10v6c0 1.1.9 2 2 2h3"></path></svg></span
+                ></span>
+                <div class="bcn-lc__body stack" data-gap="3xs">
+                  <div class="bcn-lc__head repel" data-gap="sm">
+                    <div class="cluster" data-gap="2xs">
+                      <a
+                        class="bcn-lc__name typography-label-sm-strong"
+                        href="/beacon-design/prototypes/lists/annual-report-structure"
+                        data-list-text=""
+                        >Annual Report Structure</a
+                      ><span class="bcn-swcb bcn-swcb--sm" aria-label="105 items"
+                        >105</span
+                      >
+                    </div>
+                    <span class="bcn-lc__updated typography-body-xs"
+                      >Updated Oct 8, 2026</span
+                    >
+                  </div>
+                  <p class="bcn-lc__desc typography-body-xs" data-list-text="">
+                    The appendix outline of the annual compliance report. Field duties
+                    left out.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="bcn-lc" data-list-row="" data-type="compliance-index">
+          <div class="esa-card esa-card--outlined esa-card--padding-none">
+            <div class="esa-card__body typography-body-md">
+              <div
+                class="bcn-lc__row cluster"
+                data-gap="xs"
+                style="--_mark: var(--color-requirement)"
+              >
+                <span class="bcn-lc__mark"
+                  ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                    ><svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path d="M21 12h-8"></path>
+                      <path d="M21 6H8"></path>
+                      <path d="M21 18h-8"></path>
+                      <path d="M3 6v4c0 1.1.9 2 2 2h3"></path>
+                      <path d="M3 10v6c0 1.1.9 2 2 2h3"></path></svg></span
+                ></span>
+                <div class="bcn-lc__body stack" data-gap="3xs">
+                  <div class="bcn-lc__head repel" data-gap="sm">
+                    <div class="cluster" data-gap="2xs">
+                      <a
+                        class="bcn-lc__name typography-label-sm-strong"
+                        href="/beacon-design/prototypes/lists/fish-and-water-operations"
+                        data-list-text=""
+                        >Fish and Water Operations</a
+                      ><span class="bcn-swcb bcn-swcb--sm" aria-label="93 items">93</span>
+                    </div>
+                    <span class="bcn-lc__updated typography-body-xs"
+                      >Updated Sep 30, 2026</span
+                    >
+                  </div>
+                  <p class="bcn-lc__desc typography-body-xs" data-list-text="">
+                    For the operations team: the fish and water operations categories
+                    only.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <div class="bcn-lib__empty" data-group-empty="" hidden="">
+          <div class="esa-empty-state esa-empty-state--sm">
+            <h3 class="esa-empty-state__title typography-label-sm-strong">
+              No lists match
+            </h3>
+            <div class="esa-empty-state__actions typography-label-md"></div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>
 ```
@@ -1653,6 +1915,46 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-title-strong-line-height);
   letter-spacing: var(--typography-title-strong-letter-spacing);
 }
+.bcn-swfr {
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-500);
+  border-top: 1px solid var(--color-border-default-subtle);
+  color: var(--color-content-default);
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+  display: flex;
+}
+.bcn-swfr--inset {
+  border-top: none;
+}
+.bcn-swfr--panel {
+  padding: var(--spacing-250) var(--spacing-400);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-200);
+  background: var(--color-background-elevation-sunken);
+}
+.bcn-swfr--panel .bcn-swfr__search,
+.bcn-swfr--panel .bcn-swfr__picker {
+  --color-background-field: var(--color-background-elevation-raised);
+}
+.bcn-swfr__search {
+  flex: 180px;
+  max-width: 360px;
+}
+.bcn-swfr__picker {
+  flex: 0 180px;
+  min-width: 140px;
+}
+.bcn-swfr__verbs {
+  align-items: center;
+  gap: var(--spacing-200);
+  margin-left: auto;
+  display: inline-flex;
+}
+.bcn-swfr__verbs:empty {
+  display: none;
+}
 .bcn-lc__row {
   padding: var(--spacing-200) var(--spacing-300);
 }
@@ -1737,75 +2039,6 @@ summary.esa-button--variant-chrome:focus-visible {
   padding: 2px var(--spacing-100);
   font-size: var(--font-size-050);
 }
-.bcn-swfr {
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-500);
-  border-top: 1px solid var(--color-border-default-subtle);
-  color: var(--color-content-default);
-  flex-wrap: wrap;
-  font-size: 0.8125rem;
-  display: flex;
-}
-.bcn-swfr--inset {
-  border-top: none;
-}
-.bcn-swfr--panel {
-  padding: var(--spacing-250) var(--spacing-400);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  background: var(--color-background-elevation-sunken);
-}
-.bcn-swfr--panel .bcn-swfr__search,
-.bcn-swfr--panel .bcn-swfr__picker {
-  --color-background-field: var(--color-background-elevation-raised);
-}
-.bcn-swfr__search {
-  flex: 180px;
-  max-width: 360px;
-}
-.bcn-swfr__picker {
-  flex: 0 180px;
-  min-width: 140px;
-}
-.bcn-swfr__verbs {
-  align-items: center;
-  gap: var(--spacing-200);
-  margin-left: auto;
-  display: inline-flex;
-}
-.bcn-swfr__verbs:empty {
-  display: none;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
 .esa-empty-state {
   --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
   --_empty-gap: var(--spacing-200, 0.5rem);
@@ -1852,6 +2085,35 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .esa-empty-state__actions:empty {
   display: none;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
@@ -1979,12 +2241,12 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-body-xs-font-weight`: 350 _(semantic)_
+- `--typography-body-xs-font-weight`: 400 _(semantic)_
 - `--typography-body-xs-letter-spacing`: .01em _(semantic)_
 - `--typography-body-xs-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
@@ -2016,7 +2278,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-title-strong-font-family`: "DM Sans", sans-serif _(semantic)_

@@ -1,12 +1,12 @@
 ---
 // <BcnListCreateDialog> is the "Add list" surface for the Lists index. One small modal
-// holding three answers, in the order the decision is actually made: which registry the
-// list draws from, what it is called, and what it is for.
+// holding three answers, in the order the decision is actually made: which kind of list
+// it is, what it is called, and what it is for.
 //
 // THE TYPE IS THE POINT, SO IT IS THE FIRST THING AND IT IS ALL VISIBLE. A list is a
 // subset of ONE registry and can never change which, so the type is the only choice in
-// here that is irreversible. It is a segmented control with all three options on screen
-// at once rather than a picker that hides two of them behind a click, and the line under
+// here that is irreversible. It is a segmented control with all four options on screen
+// at once rather than a picker that hides three of them behind a click, and the line under
 // it names what the selected type holds.
 //
 // WHY A SEGMENTED CONTROL AND NOT RADIOS: esa-radio-group would let each option carry
@@ -25,9 +25,10 @@
 // than defaulted. A trigger with no value opens on the first type. Nothing is passed in
 // as a prop and nothing is dispatched out, so the page carries no script for it.
 //
-// PROTOTYPE HONESTY: "Create list" checks that Name has something in it and then closes.
-// It writes no row, it navigates nowhere, and it shows no success message, because none
-// of that happened.
+// "Create list" checks that Name has something in it, then lands on the new list: an
+// empty list of the type chosen (a Compliance Index list, a copy of the canonical index),
+// named as typed, with Aldo open beside it so the person can say what it is for and have it
+// filled (Andy, 2026-10-19). The prototype writes no row: the new list lives in the URL.
 //
 // bcn-lego-checked: the frame IS esa-dialog (its own Esc, light dismiss, close button and
 // scrim, none of it re-implemented or disabled), the type control IS esa-button-toggle,
@@ -38,6 +39,8 @@
 // exposes no CSS part to restyle it through. A light-DOM line at typography-body-md with
 // aria-live is the size-honest version.
 import EsaButton from '@esa/ecology/esa-button.astro';
+import { newListHref } from '../../data/list-aldo';
+import { withBase } from '../../lib/base';
 import {
   LIST_GROUP_ORDER,
   LIST_TYPE_BASIS,
@@ -47,8 +50,9 @@ import {
 } from '../../data/lists';
 
 // Labels and basis strings are read off the data module. Nothing here is typed by hand,
-// and the segments run in LIST_GROUP_ORDER so the three types sit in the same order here
-// as they do on the index behind the dialog.
+// and the segments run in LIST_GROUP_ORDER, so the types sit in the same order here as
+// they do behind the dialog. A new Compliance Index list starts as a copy of the
+// canonical index.
 const TYPES = LIST_GROUP_ORDER.map((value) => ({ label: LIST_TYPE_LABEL[value], value }));
 const DEFAULT_TYPE: ListType = TYPES[0].value;
 
@@ -62,8 +66,9 @@ const HEADINGS = Object.fromEntries(
 
 <esa-dialog
   data-list-create-dialog
+  data-new-hrefs={JSON.stringify(Object.fromEntries(LIST_GROUP_ORDER.map((t) => [t, withBase(newListHref(t))])))}
   heading={HEADINGS[DEFAULT_TYPE]}
-  size="sm"
+  size="lg"
   show-close-button
   data-headings={JSON.stringify(HEADINGS)}
 >
@@ -181,7 +186,14 @@ const HEADINGS = Object.fromEntries(
         (name as unknown as HTMLElement).focus();
         return;
       }
-      dialog.close();
+      const hrefs = JSON.parse(dialog.dataset.newHrefs ?? '{}') as Record<string, string>;
+      const href = hrefs[toggle?.value ?? openedType];
+      if (!href) return dialog.close();
+      const q = new URLSearchParams({ name: name.value.trim() });
+      if (description?.value.trim()) q.set('description', description.value.trim());
+      // Aldo on Lists is its own epic, shown only when the URL asks for it; carry the ask.
+      if (new URLSearchParams(location.search).has('aldo')) q.set('aldo', '');
+      location.href = `${href}/?${q}`;
     });
   }
 </script>

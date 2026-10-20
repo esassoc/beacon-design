@@ -657,7 +657,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3GTRYAK61ZHAYGX6GA3"
               data-title="Biological monitoring of initial grading and excavation"
               data-class="monitor"
-              data-description="The Designated Biologist(s) and/or Biological Monitor(s) shall follow earthmoving equipment to look for CTS during initial site grading. All ruts and holes near root structures, foundations, abutments, etc."
+              data-description="The Designated Biologist(s) and/or Biological Monitor(s) shall follow earthmoving equipment to look for CTS during initial site grading."
               data-cat-id="herps"
               data-cat-name="Amphibians and reptiles"
               data-sub-id="amphibians"
@@ -715,7 +715,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3XJH7593GF8314KY8RF"
               data-title="Biologist survey before work resumes after rain"
               data-class="monitor"
-              data-description="38)."
+              data-description="The Designated Biologist(s) shall survey each Project construction site before Covered Activities resume, using the CDFW-approved preconstruction survey protocol (Condition of Approval 11.38)."
               data-cat-id="herps"
               data-cat-name="Amphibians and reptiles"
               data-sub-id="amphibians"
@@ -773,7 +773,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3757AMQWDRRZPPRX5WW"
               data-title="Burrow avoidance"
               data-class="adhere"
-              data-description=", grading or excavation areas) or their location poses a risk of direct harm to CTS individuals."
+              data-description="Permittee shall avoid disturbing any known or potential CTS burrows unless they are in an area of direct disturbance (e.g., grading or excavation areas) or their location poses a risk of direct harm to CTS individuals."
               data-cat-id="herps"
               data-cat-name="Amphibians and reptiles"
               data-sub-id="amphibians"
@@ -796,7 +796,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKZS8T1WDX0E4QXHYFR"
               data-title="Burrow Avoidance"
               data-class="adhere"
-              data-description=", grading areas, excavation areas) or their location poses a risk of direct harm to GGS. Permittee shall not destroy or modify burrows or exclude GGS from burrows that are beyond the direct footprint of ground disturbance."
+              data-description="Permittee shall avoid disturbing any known or potentially occupied burrows unless they are in an area of direct ground disturbance (e.g., grading areas, excavation areas) or their location poses a risk of direct harm to GGS."
               data-cat-id="herps"
               data-cat-name="Amphibians and reptiles"
               data-sub-id="amphibians"
@@ -819,7 +819,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3GVB9GY756CNBCP3TGQ"
               data-title="Burrow monitoring when night lighting spills toward habitat"
               data-class="monitor"
-              data-description="39) to ensure CTS movement is not inhibited by artificial lighting."
+              data-description="If light spillover occurs within 300 feet of suitable CTS habitat during night work, the Designated Biologist(s) and/or Biological Monitor(s) shall be present to survey CTS burrows in portions of the 75- foot no-activity buffer (see Condition of Approval 11.39) to ensure CTS movement is not inhibited by artificial lighting."
               data-cat-id="herps"
               data-cat-name="Amphibians and reptiles"
               data-sub-id="amphibians"
@@ -874,7 +874,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3XJH7593GF8314KY8RG"
               data-title="Clearance survey after barrier repair"
               data-class="monitor"
-              data-description="15)."
+              data-description="After the barrier is repaired, the Designated Biologist(s) shall conduct a survey using CDFW-approved protocol (see Condition of Approval 11.38) within 24 hours (1 calendar day) prior to reinitiation of Covered Activities and carefully search potential hiding spots, such as along exclusion fence and in pipes, culverts, or other similar structures, trenches, large downed woody debris, and beneath vehicles or equipment before they are moved (see Conditions of Approval 9.12, 11.14, and 11.15)."
               data-cat-id="herps"
               data-cat-name="Amphibians and reptiles"
               data-sub-id="amphibians"
@@ -932,7 +932,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y374X4RKETDHB3S1M1N2"
               data-title="Habitat disturbance work window"
               data-class="adhere"
-              data-description="44)."
+              data-description="Permittee shall restrict Covered Activities to the dry season of July 15 – October 15 (Condition of Approval 11.44)."
               data-cat-id="herps"
               data-cat-name="Amphibians and reptiles"
               data-sub-id="amphibians"
@@ -1019,7 +1019,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3GTRYAK61ZHAYGX6GA4"
               data-title="Morning survey after burrow watering"
               data-class="monitor"
-              data-description="The Designated Biologist(s) and/or Biological Monitor(s) shall survey the area each morning following watering. 51)."
+              data-description="The Designated Biologist(s) and/or Biological Monitor(s) shall survey the area each morning following watering. The Designated Biologist(s) shall relocate any CTS according to the CTS Relocation Plan (Condition of Approval 11.51)."
               data-cat-id="herps"
               data-cat-name="Amphibians and reptiles"
               data-sub-id="amphibians"
@@ -1152,7 +1152,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3GVB9GY756CNBCP3TGX"
               data-title="No-activity buffer around occupied burrows and refugia"
               data-class="adhere"
-              data-description="The Designated Biologist(s) and/or Biological Monitor(s) shall be on-site during selection of the field investigation site, ingress and egress, and during set-up activities to guide Project personnel to avoid visible burrows until access routes are clearly established."
+              data-description="The Designated Biologist(s) and/or Biological Monitor(s) shall be on-site during selection of the field investigation site, ingress and egress, and during set-up activities to guide Project personnel to avoid visible burrows until access routes are clearly established. • The Designated Biologist(s) and/or Biological Monitor(s) shall conduct daily surveys prior to the start of Covered Activities each day to check for burrows within the exploration site."
               data-cat-id="herps"
               data-cat-name="Amphibians and reptiles"
               data-sub-id="amphibians"
@@ -1410,7 +1410,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKZS8T1WDX0E4QXHYFZ"
               data-title="Canal Bank Disturbance Avoidance"
               data-class="adhere"
-              data-description=", within three to six feet of) canals."
+              data-description="Permittee shall not disturb canal banks as many GGS overwinter very close to (i.e., within three to six feet of) canals."
               data-cat-id="herps"
               data-cat-name="Amphibians and reptiles"
               data-sub-id="ggs"
@@ -1523,7 +1523,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3757AMQWDRRZPPRX5X6"
               data-title="ESA demarcation observed"
               data-class="adhere"
-              data-description="55). Permittee shall not conduct these Covered Activities in suitable GGS aquatic habitat."
+              data-description="Permittee shall delineate suitable GGS aquatic habitat within preconstruction field investigations sites and SCADA, transmission line, and access road construction, and maintenance sites with highly visible poly wire or other flagging approved by CDFW to demarcate it as a disturbance-free zone (see Condition of Approval 11.55)."
               data-cat-id="herps"
               data-cat-name="Amphibians and reptiles"
               data-sub-id="ggs"
@@ -1578,7 +1578,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKZS8T1WDX0E4QXHYFX"
               data-title="In-Channel Work Window"
               data-class="adhere"
-              data-description="Permittee shall conduct all in-channel Covered Activities only between October 2 and April 30 (GGS inactive period). 38) have occurred and absence of overwintering GGS has been confirmed by the Designated Biologist(s)."
+              data-description="Permittee shall conduct all in-channel Covered Activities only between October 2 and April 30 (GGS inactive period)."
               data-cat-id="herps"
               data-cat-name="Amphibians and reptiles"
               data-sub-id="ggs"
@@ -1604,7 +1604,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3XKVCCZ66NC7TNFN3WP"
               data-title="Investigation of burrows for occupancy"
               data-class="monitor"
-              data-description="2) to determine whether the burrows are occupied by GGS."
+              data-description="Within the Project construction site and three-foot boundary, the Designated Biologist(s) with assistance (if needed) from the Biological Monitor(s) shall investigate all burrows within suitable upland habitat outside of established ESAs using a CDFW-approved methodology (see Condition of Approval 11.62.2) to determine whether the burrows are occupied by GGS."
               data-cat-id="herps"
               data-cat-name="Amphibians and reptiles"
               data-sub-id="ggs"
@@ -1691,7 +1691,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKZS8T1WDX0E4QXHYFM"
               data-title="Staging Area Setback from Habitat"
               data-class="adhere"
-              data-description="54)."
+              data-description="Permittee shall restrict stockpiling of construction materials including portable equipment, vehicles, and supplies away from GGS suitable habitat including any ESAs (see Condition of Approval 11.54)."
               data-cat-id="herps"
               data-cat-name="Amphibians and reptiles"
               data-sub-id="ggs"
@@ -1941,7 +1941,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3GVB9GY756CNBCP3TH3"
               data-title="Daily monitoring of an occupied roost site near work"
               data-class="monitor"
-              data-description="38) to verify that Covered Activities are not disrupting roosting TRBL."
+              data-description="Occupied roost sites that are within the 300 feet no-activity buffer (Condition of Approval 11.87) shall be monitored daily by the Designated Biologist(s), with assistance (if needed) from the Biological Monitor(s), for at least four hours each day or until the roost site is no longer occupied and consistent with CDFW-approved TRBL survey protocol (Condition of Approval 11.38) to verify that Covered Activities are not disrupting roosting TRBL."
               data-cat-id="birds"
               data-cat-name="Birds"
               data-sub-id="nesting-birds"
@@ -2144,7 +2144,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3766PDKM5BW1NBAQNY2"
               data-title="Helicopter setback from nests"
               data-class="adhere"
-              data-description="5 miles of an occupied nest tree."
+              data-description="Permittee shall not use helicopters to string SCADA or transmission lines within 0.5 miles of an occupied nest tree."
               data-cat-id="birds"
               data-cat-name="Birds"
               data-sub-id="nesting-birds"
@@ -2173,7 +2173,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3TR9MB6F5AADY7R6PS0"
               data-title="Irrigation and maintenance of replacement nest trees"
               data-class="adhere"
-              data-description=", fertilizing, irrigation) to ensure successful tree establishment. Permittee shall irrigate trees for a minimum of five years after planting, and then gradually wean the trees off the irrigation during a period of approximately two years."
+              data-description="Permittee shall provide all necessary maintenance (e.g., fertilizing, irrigation) to ensure successful tree establishment."
               data-cat-id="birds"
               data-cat-name="Birds"
               data-sub-id="nesting-birds"
@@ -2347,7 +2347,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3757AMQWDRRZPPRX5XF"
               data-title="No contact with occupied nest trees"
               data-class="adhere"
-              data-description="70)."
+              data-description="Permittee shall prohibit physical contact with an occupied nest tree throughout the breeding season (see Condition of Approval 11.70)."
               data-cat-id="birds"
               data-cat-name="Birds"
               data-sub-id="nesting-birds"
@@ -2376,7 +2376,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3766PDKM5BW1NBAQNY9"
               data-title="No exiting vehicles within buffers"
               data-class="adhere"
-              data-description="87)."
+              data-description="Project personnel shall not exit vehicles when inside the established no-activity buffer for breeding or roosting when TRBL are present (see Conditions of Approval 11.85 and 11.87)."
               data-cat-id="birds"
               data-cat-name="Birds"
               data-sub-id="nesting-birds"
@@ -2463,7 +2463,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3GVB9GY756CNBCP3TH1"
               data-title="Occupancy checks of unoccupied roost sites during work"
               data-class="monitor"
-              data-description="38), to determine whether TRBL later occupies the roost site."
+              data-description="The Designated Biologist(s) with assistance (if needed) from the Biological Monitor(s) shall check suitable roost sites within 300 feet of Project sites that are not occupied at the time of preconstruction surveys in accordance with the roosting survey protocol approved by CDFW (Condition of Approval 11.38), to determine whether TRBL later occupies the roost site."
               data-cat-id="birds"
               data-cat-name="Birds"
               data-sub-id="nesting-birds"
@@ -2492,7 +2492,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3757AMQWDRRZPPRX5XH"
               data-title="Occupied nest no-activity buffer"
               data-class="adhere"
-              data-description="5 miles away from any occupied nest tree, unless otherwise approved by CDFW in writing."
+              data-description="Permittee shall limit field investigation activities to at least 0.5 miles away from any occupied nest tree, unless otherwise approved by CDFW in writing."
               data-cat-id="birds"
               data-cat-name="Birds"
               data-sub-id="nesting-birds"
@@ -2605,7 +2605,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3TR9MB6F5AADY7R6PRZ"
               data-title="Siting of replacement nest sites"
               data-class="adhere"
-              data-description="5 miles apart. 5 miles from any existing occupied nest tree."
+              data-description="Establish replacement nest sites at least 0.5 miles apart. • Establish replacement nest sites at least 0.25 miles from any existing suitable nest tree and at least 0.5 miles from any existing occupied nest tree. • Establish replacement nest sites as close as possible to the impacted nest site, unless such location would have low long-term conservation value due to threats such as ongoing disturbance, seasonal flooding, or sea level rise. • Plant the five mature trees and 15 saplings in sites…"
               data-cat-id="birds"
               data-cat-name="Birds"
               data-sub-id="nesting-birds"
@@ -2740,7 +2740,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3GTRYAK61ZHAYGX6GA0"
               data-title="Fisheries biologist present to rescue fish during dewatering"
               data-class="monitor"
-              data-description="35)."
+              data-description="During dewatering activities at the north Delta intakes or during any other dewatering activity that could potentially impact Covered Fish Species, a Fisheries Biologist(s) shall remain onsite to observe the process and remove Covered Species that were not successfully salvaged prior to dewatering (see Condition of Approval 11.35)."
               data-cat-id="fish"
               data-cat-name="Fish"
               data-sub-id="fish"
@@ -2798,7 +2798,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3GVB9GY756CNBCP3TGR"
               data-title="Preservation and delivery of dead covered specimens"
               data-class="adhere"
-              data-description="5-inch portion of the tail tip shall be removed and placed in a labeled tissue tube with 95% ethanol. The carcass shall be immediately bagged, labeled, and preserved in a freezer."
+              data-description="a 0.5-inch portion of the tail tip shall be removed and placed in a labeled tissue tube with 95% ethanol. The carcass shall be immediately bagged, labeled, and preserved in a freezer."
               data-cat-id="fish"
               data-cat-name="Fish"
               data-sub-id="fish"
@@ -3106,7 +3106,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3757AMQWDRRZPPRX5WS"
               data-title="Refuge cover along exclusion fencing"
               data-class="adhere"
-              data-description="Permittee shall provide refuge opportunities such as natural cover objects (such as fallen logs and branches), artificial cover boards, or leaf litter along or near both sides of the barrier. 49)."
+              data-description="Permittee shall provide refuge opportunities such as natural cover objects (such as fallen logs and branches), artificial cover boards, or leaf litter along or near both sides of the barrier."
               data-cat-id="habitat"
               data-cat-name="Habitat protection"
               data-sub-id="esas-fencing"
@@ -3135,7 +3135,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3757AMQWDRRZPPRX5WT"
               data-title="Vegetation maintenance along exclusion fencing"
               data-class="adhere"
-              data-description="Permittee shall provide refuge opportunities such as natural cover objects (such as fallen logs and branches), artificial cover boards, or leaf litter along or near both sides of the barrier. 49)."
+              data-description="Permittee shall provide refuge opportunities such as natural cover objects (such as fallen logs and branches), artificial cover boards, or leaf litter along or near both sides of the barrier."
               data-cat-id="habitat"
               data-cat-name="Habitat protection"
               data-sub-id="esas-fencing"
@@ -3304,7 +3304,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3757AMQWDRRZPPRX5X7"
               data-title="Suitable habitat avoidance"
               data-class="adhere"
-              data-description="55). Permittee shall not conduct these Covered Activities in suitable GGS aquatic habitat."
+              data-description="Permittee shall delineate suitable GGS aquatic habitat within preconstruction field investigations sites and SCADA, transmission line, and access road construction, and maintenance sites with highly visible poly wire or other flagging approved by CDFW to demarcate it as a disturbance-free zone (see Condition of Approval 11.55)."
               data-cat-id="habitat"
               data-cat-name="Habitat protection"
               data-sub-id="habitat-avoidance"
@@ -3333,7 +3333,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKYBZ9A7EECEZB6FGY0"
               data-title="Suitable Habitat Avoidance"
               data-class="adhere"
-              data-description="38) shall be completely avoided."
+              data-description="suitable CTS habitat identified and delineated in accordance with CDFW-approved protocols (Condition of Approval 11.38) shall be completely avoided."
               data-cat-id="habitat"
               data-cat-name="Habitat protection"
               data-sub-id="habitat-avoidance"
@@ -3438,7 +3438,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y324Y1TBHKG18MZXXJCT"
               data-title="GIS tracking of land disturbance and suitable habitat feature impacts"
               data-class="monitor"
-              data-description="4 for habitat features) within the Project construction site."
+              data-description="Permittee shall maintain Geographic Information System (GIS) shapefile layers and associated maps depicting: 1) mapped areas of all land disturbances within each Project construction site; and 2) mapped areas of disturbed identified habitat features suitable for Covered Species (see Condition of Approval 10.4 for habitat features) within the Project construction site."
               data-cat-id="habitat"
               data-cat-name="Habitat protection"
               data-sub-id="impact-tracking"
@@ -3611,7 +3611,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKZS8T1WDX0E4QXHYFS"
               data-title="Emergent Vegetation Mowing Avoidance"
               data-class="adhere"
-              data-description=", tule, cattail, sedge, rush) to the maximum extent feasible."
+              data-description="Permittee shall avoid mowing emergent vegetation (i.e., tule, cattail, sedge, rush) to the maximum extent feasible."
               data-cat-id="habitat"
               data-cat-name="Habitat protection"
               data-sub-id="vegetation"
@@ -3640,7 +3640,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEN"
               data-title="Hand Tool Trimming of Protected Vegetation"
               data-class="adhere"
-              data-description=", weed whackers) to gain access to work sites unless otherwise approved by CDFW."
+              data-description="Vegetation marked for protection shall only be trimmed with hand tools limited to string trimmers (e.g., weed whackers) to gain access to work sites unless otherwise approved by CDFW."
               data-cat-id="habitat"
               data-cat-name="Habitat protection"
               data-sub-id="vegetation"
@@ -3695,7 +3695,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKJFSBZ7MC77J15GFV8"
               data-title="Mower Blade Height"
               data-class="adhere"
-              data-description="18)."
+              data-description="Permittee shall set mower blade heights to no lower than four inches, unless otherwise approved by CDFW in writing (See Condition of Approval 11.18)."
               data-cat-id="habitat"
               data-cat-name="Habitat protection"
               data-sub-id="vegetation"
@@ -4031,7 +4031,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKZS8T1WDX0E4QXHYG2"
               data-title="Care of Injured Covered Species"
               data-class="adhere"
-              data-description="67) and contact the CDFW Representative, via email and telephone, within one business day to discuss the next steps."
+              data-description="The Designated Biologist(s) shall immediately take the GGS to a CDFW-approved wildlife rehabilitation or veterinary facility identified in the GGS Relocation Plan (see Condition of Approval 11.67) and contact the CDFW Representative, via email and telephone, within one business day to discuss the next steps."
               data-cat-id="habitat"
               data-cat-name="Habitat protection"
               data-sub-id="encounters"
@@ -4292,7 +4292,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKZS8T1WDX0E4QXHYFP"
               data-title="Wildlife Encounter Response"
               data-class="adhere"
-              data-description="67."
+              data-description="If Permittee unearths or uncovers a GGS while conducting ground disturbing activities, the Designated Biologist(s) and/or Biological Monitor(s) shall have the authority to stop Covered Activities and allow it to escape the Project construction site of its own volition or the Designated Biologist(s) may relocate it in accordance with Condition of Approval 11.67."
               data-cat-id="habitat"
               data-cat-name="Habitat protection"
               data-sub-id="encounters"
@@ -4430,7 +4430,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3GTRYAK61ZHAYGX6G9M"
               data-title="Inspection of stored pipes, culverts and similar structures for wildlife"
               data-class="monitor"
-              data-description="25 inches or greater that are stored in Project construction sites for one or more overnight periods shall be thoroughly inspected by the Designated Biologist(s) and/or Biological Monitor(s) for Covered Species prior to the initiation of any Covered Activity and when these materials are subsequently buried, capped, or otherwise used or moved in any way."
+              data-description="All pipes, culverts, and similar structures with a diameter of 0.25 inches or greater that are stored in Project construction sites for one or more overnight periods shall be thoroughly inspected by the Designated Biologist(s) and/or Biological Monitor(s) for Covered Species prior to the initiation of any Covered Activity and when these materials are subsequently buried, capped, or otherwise used or moved in any way."
               data-cat-id="habitat"
               data-cat-name="Habitat protection"
               data-sub-id="entrapment"
@@ -4596,7 +4596,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKYBZ9A7EECEZB6FGY2"
               data-title="Licensed Pesticide Applicator"
               data-class="roster"
-              data-description=", backpack sprayer) at a buffer from Covered Species habitat. Permittee shall only apply sprays via ground application when wind speed measures less than three miles per hour."
+              data-description="Through this consultation, CDFW may approve limited use of herbicides or pesticides through targeted spray (e.g., backpack sprayer) at a buffer from Covered Species habitat."
               data-cat-id="hazards"
               data-cat-name="Hazards"
               data-sub-id="pesticides"
@@ -4625,7 +4625,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKYBZ9A7EECEZB6FGY1"
               data-title="Pesticide Application Wind Limit"
               data-class="adhere"
-              data-description=", backpack sprayer) at a buffer from Covered Species habitat. Permittee shall only apply sprays via ground application when wind speed measures less than three miles per hour."
+              data-description="Through this consultation, CDFW may approve limited use of herbicides or pesticides through targeted spray (e.g., backpack sprayer) at a buffer from Covered Species habitat."
               data-cat-id="hazards"
               data-cat-name="Hazards"
               data-sub-id="pesticides"
@@ -4932,7 +4932,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3C2SY5ZD9STA88WHY1E"
               data-title="Integration of the spawning habitat study into shallow spawning habitat design"
               data-class="adhere"
-              data-description="5) into shallow spawning habitat design and implementation."
+              data-description="Permittee shall integrate the results from the Ecological Response Evaluation Study: Delta Smelt and Longfin Smelt Spawning Habitat Study (Condition of Approval 10.21.5) into shallow spawning habitat design and implementation."
               data-cat-id="mitigation"
               data-cat-name="Mitigation and restoration"
               data-sub-id="mitigation-lands"
@@ -5536,7 +5536,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y374X4RKETDHB3S1M1MR"
               data-title="Impact pile driving limits"
               data-class="adhere"
-              data-description="34)."
+              data-description="Permittee shall not exceed the limits on pile driving identified in Tables 4 - 6 below and as approved by CDFW in the pile driving plan (Condition of Approval 11.34)."
               data-cat-id="noise"
               data-cat-name="Noise and vibration"
               data-sub-id="underwater-sound"
@@ -5565,7 +5565,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKYBZ9A7EECEZB6FGXR"
               data-title="Pile Driving Hour Limit"
               data-class="adhere"
-              data-description="m. m."
+              data-description="Additionally, pile driving shall not occur before 7:00 a.m. or after 7:00 p.m."
               data-cat-id="noise"
               data-cat-name="Noise and vibration"
               data-sub-id="underwater-sound"
@@ -5591,7 +5591,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y374X4RKETDHB3S1M1MV"
               data-title="Pile driving noise attenuation"
               data-class="adhere"
-              data-description=", wood or micarta), bubble curtains, air-filled fabric barriers, or isolation piles; or installation of piling-specific cofferdams."
+              data-description="Equipment to minimize underwater noise generated by impact pile driving shall include using vibratory rather than impact pile driving equipment where feasible; noise attenuation with pile caps (e.g., wood or micarta), bubble curtains, air-filled fabric barriers, or isolation piles; or installation of piling-specific cofferdams."
               data-cat-id="noise"
               data-cat-name="Noise and vibration"
               data-sub-id="underwater-sound"
@@ -5646,7 +5646,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y374X4RKETDHB3S1M1MS"
               data-title="Shoulder-season pile driving restrictions"
               data-class="adhere"
-              data-description=", outside of a cofferdam or sheet pile walls) at the north Delta intakes from May 16 – May 31 and November 1 – November 15 if bubble curtains or other measures for noise attenuation demonstrate that an equivalent level of protection can be achieved as during the June 1 – October 31 work window and real-time monitoring of Covered Species demonstrates absence in the work area, and as approved in writing by CDFW."
+              data-description="Permittee may conduct in-water impact pile driving (i.e., outside of a cofferdam or sheet pile walls) at the north Delta intakes from May 16 – May 31 and November 1 – November 15 if bubble curtains or other measures for noise attenuation demonstrate that an equivalent level of protection can be achieved as during the June 1 – October 31 work window and real-time monitoring of Covered Species demonstrates absence in the work area, and as approved in writing by CDFW."
               data-cat-id="noise"
               data-cat-name="Noise and vibration"
               data-sub-id="underwater-sound"
@@ -6262,7 +6262,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKZS8T1WDX0E4QXHYGE"
               data-title="Overwintering Habitat Disturbance Avoidance"
               data-class="adhere"
-              data-description="2)."
+              data-description="During the overwintering period, Permittee shall avoid ground disturbance activities in CBB habitat to the greatest extent possible or develop a site-specific phased approach to implementation of activities, for CDFW approval as part of the appropriate Project Construction Phase Authorization Package (Condition of Approval 6.2)."
               data-cat-id="plants-inverts"
               data-cat-name="Plants and invertebrates"
               data-sub-id="bees-monarchs"
@@ -6349,7 +6349,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y374X4RKETDHB3S1M1MJ"
               data-title="Stop work on covered species discovery"
               data-class="adhere"
-              data-description="108."
+              data-description="If MALI is discovered within the Project construction site, the Designated Biologist(s) and or Biological Monitor(s) shall have the authority to stop Covered Activities until the plant is translocated to suitable habitat outside of the Project footprint in accordance with Condition of Approval 11.108."
               data-cat-id="plants-inverts"
               data-cat-name="Plants and invertebrates"
               data-sub-id="bees-monarchs"
@@ -6407,7 +6407,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y374X4RKETDHB3S1M1MG"
               data-title="Vegetation removal clearance near refugia"
               data-class="adhere"
-              data-description="38) have been performed by the Designated Biologist(s) and absence of overwintering CBB is confirmed."
+              data-description="Within potential habitat, Permittee shall avoid removal of vegetation such as woody plants, tall grasses, leaf litter or loose soils until CDFW-approved CBB survey protocols (Condition of Approval 11.38) have been performed by the Designated Biologist(s) and absence of overwintering CBB is confirmed."
               data-cat-id="plants-inverts"
               data-cat-name="Plants and invertebrates"
               data-sub-id="bees-monarchs"
@@ -6460,7 +6460,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3TQ8SHJTZ29GDGETEXV"
               data-title="Avoidance of covered plant removal"
               data-class="adhere"
-              data-description="108."
+              data-description="Permittee shall follow the MALI Relocation Plan in Condition of Approval 11.108."
               data-cat-id="plants-inverts"
               data-cat-name="Plants and invertebrates"
               data-sub-id="plants"
@@ -6883,7 +6883,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3QRJRM8HB4RC5N41ANR"
               data-title="Daily written observation and inspection record"
               data-class="monitor"
-              data-description="6), summarizing oversight activities and compliance inspections, observations of Covered Species and their sign, survey results, dates of Covered Activity and inactivity, and monitoring activities required by this ITP."
+              data-description="The Designated Representative or Designated Biologist(s) shall prepare daily written observation and inspection records, including photo-documentation records (Condition of Approval 10.6), summarizing oversight activities and compliance inspections, observations of Covered Species and their sign, survey results, dates of Covered Activity and inactivity, and monitoring activities required by this ITP."
               data-cat-id="site"
               data-cat-name="Site conduct"
               data-sub-id="compliance-inspections"
@@ -7024,7 +7024,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3C2SY5ZD9STA88WHY1A"
               data-title="Roadway design passable by covered species"
               data-class="adhere"
-              data-description=", k-cuts) that could prevent Covered Species from crossing or exiting the roadway. If curbs are necessary for safety and/or surface runoff, Permittee shall design and construct them to allow Covered Species to walk over them."
+              data-description="Permittee shall construct roadways that are within Covered Species habitat such that there are no steep curbs, berms, dikes, or median barriers (e.g., k-cuts) that could prevent Covered Species from crossing or exiting the roadway."
               data-cat-id="site"
               data-cat-name="Site conduct"
               data-sub-id="facility-design"
@@ -7383,7 +7383,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3757AMQWDRRZPPRX5X5"
               data-title="Dewatering pump shutdown"
               data-class="adhere"
-              data-description="67)."
+              data-description="If Project personnel see GGS at the screen during dewatering, they shall shut down the pump and contact the Designated Biologist(s) to relocate the snake (see Condition of Approval 11.67)."
               data-cat-id="water"
               data-cat-name="Water"
               data-sub-id="dewatering"
@@ -7719,7 +7719,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3GTRYAK61ZHAYGX6G9H"
               data-title="Monitoring of the 72-hour weather forecast for each project site"
               data-class="monitor"
-              data-description="gov) 72-hour forecast for each Project Site."
+              data-description="Permittee and Designated Biologist(s) shall monitor the National Weather Service (http://www.nws.noaa.gov) 72-hour forecast for each Project Site."
               data-cat-id="water"
               data-cat-name="Water"
               data-sub-id="erosion"
@@ -7777,7 +7777,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKZS8T1WDX0E4QXHYFW"
               data-title="Precipitation Work Limit"
               data-class="adhere"
-              data-description="25 inch per 24-hour period) and periods of dry weather (with less than a 40 percent chance of rain) unless otherwise approved by CDFW."
+              data-description="The work period for Covered Activities within suitable GGS habitat shall be restricted to periods of low rainfall (less than 0.25 inch per 24-hour period) and periods of dry weather (with less than a 40 percent chance of rain) unless otherwise approved by CDFW."
               data-cat-id="water"
               data-cat-name="Water"
               data-sub-id="erosion"
@@ -7890,7 +7890,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKXGW0MHG5S1F0JJR6Y"
               data-title="Spoils Storage Site Siting"
               data-class="adhere"
-              data-description="e. CTS breeding pools); and shall not locate storage sites where materials may be washed back into a watercourse and pass into any other waters, in accordance with Fish and Game Code section 5650."
+              data-description="Permittee shall not place materials where soil could pass into Covered Species habitat (i.e."
               data-cat-id="water"
               data-cat-name="Water"
               data-sub-id="erosion"
@@ -7948,7 +7948,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKM0HYHZPHBXBXTP9J36"
               data-title="Storm Onset Work Restriction"
               data-class="adhere"
-              data-description="5 inch during a 24-hour period)."
+              data-description="No phase of the Project that may cause the introduction of sediments into a drainage, stream, or ponded area may be started if that phase and its associated erosion control measures cannot be completed prior to the onset of a storm (rainfall exceeding 0.5 inch during a 24-hour period)."
               data-cat-id="water"
               data-cat-name="Water"
               data-sub-id="erosion"
@@ -8032,7 +8032,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y374X4RKETDHB3S1M1MN"
               data-title="Work limits during precipitation"
               data-class="adhere"
-              data-description="25 inches per 24-hour period) and periods of dry weather (with less than a 30% chance of rain)."
+              data-description="For preconstruction activities, construction activities, and maintenance activities including transmission line construction, transmission line maintenance, ground-disturbing work activities, and facilities maintenance within 100 feet of rivers, streams, sloughs, ponds, or vernal pools, Permittee shall restrict Covered Activities to periods of low rainfall (less than 0.25 inches per 24-hour period) and periods of dry weather (with less than a 30% chance of rain)."
               data-cat-id="water"
               data-cat-name="Water"
               data-sub-id="erosion"
@@ -8085,7 +8085,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKYBZ9A7EECEZB6FGXN"
               data-title="Daily In-Water Work Limit"
               data-class="adhere"
-              data-description="32."
+              data-description="Permittee shall terminate all in-water exploratory activities 30 minutes before sunset and shall not resume until 30 minutes after sunrise, consistent with Condition of Approval 11.32."
               data-cat-id="water"
               data-cat-name="Water"
               data-sub-id="in-water-work"
@@ -8222,7 +8222,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3TQ8SHJTZ29GDGETEXY"
               data-title="Invasive plant removal methods in restoration areas"
               data-class="adhere"
-              data-description="3). The Designated Biologist(s) and/or Biological Monitor(s) shall ensure that weed removal does not result in damage to root systems of the installed plants."
+              data-description="The Designated Biologist(s) and/or Biological Monitor(s) shall oversee invasive terrestrial and aquatic plant species management utilizing best management practices such as hand removal in seeding and planting areas during vegetation restoration (see Condition of Approval 12.3.3)."
               data-cat-id="water"
               data-cat-name="Water"
               data-sub-id="invasive-species"
@@ -8280,7 +8280,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKXGW0MHG5S1F0JJR72"
               data-title="Invasive Species Spread Prevention"
               data-class="adhere"
-              data-description=") from one Project construction site and/or water body to another. php)."
+              data-description="Permittee shall conduct Covered Activities in a manner that prevents the introduction, transfer, and spread of invasive species, including plants, animals, and microbes (e.g., algae, fungi, parasites, bacteria, etc.) from one Project construction site and/or water body to another."
               data-cat-id="water"
               data-cat-name="Water"
               data-sub-id="invasive-species"
@@ -8309,7 +8309,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKXGW0MHG5S1F0JJR70"
               data-title="Pathogen Spread Prevention BMPs"
               data-class="adhere"
-              data-description="2) to minimize risk of introduction and/or spread of molds such as Phythophthora spp."
+              data-description="Permittee shall incorporate best management practices approved by CDFW as part of the appropriate Project Phase Authorization Package (Condition of Approval 6.1 and 6.2) to minimize risk of introduction and/or spread of molds such as Phythophthora spp. within the Project Area as introduction or exacerbation in the Project Area may reduce viability of restoration plantings and already occurring native plant species."
               data-cat-id="water"
               data-cat-name="Water"
               data-sub-id="invasive-species"
@@ -8338,7 +8338,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKYBZ9A7EECEZB6FGY8"
               data-title="Predatory Species Introduction Prohibition"
               data-class="adhere"
-              data-description="3 miles of suitable aquatic/breeding CTS habitat."
+              data-description="Permittee shall not introduce predatory fishes (including but not limited to largemouth bass, redear sunfish, bluegill, catfish, mosquitofish, and fathead minnows) or amphibians (including but not limited to bullfrogs, barred tiger salamanders, and Arizona tiger salamanders) within 1.3 miles of suitable aquatic/breeding CTS habitat."
               data-cat-id="water"
               data-cat-name="Water"
               data-sub-id="invasive-species"
@@ -8527,7 +8527,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y324Y1TBHKG18MZXXJCZ"
               data-title="Biological criterion on population growth rate"
               data-class="adhere"
-              data-description="2."
+              data-description="Permittee shall ensure that Phase 1 and Phase 2 operations do not result in a net negative change in DS or LFS population growth rate relative to baseline conditions as measured using the DS and LFS life cycle models required by Condition of Approval 10.21.2."
               data-cat-id="operations"
               data-cat-name="Water operations"
               data-sub-id="biological-criteria"
@@ -8556,7 +8556,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3K5EMRXM9ZZ0CA3RZAK"
               data-title="Covered Fish Species Biological Criteria met during operations"
               data-class="adhere"
-              data-description="117)."
+              data-description="Permittee shall ensure that Covered Fish Species Biological Criteria are met during Phase 1 and Phase 2 operations (Conditions of Approval 11.115, 11.116, and 11.117)."
               data-cat-id="operations"
               data-cat-name="Water operations"
               data-sub-id="biological-criteria"
@@ -8699,7 +8699,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKW469S9XKYKCE1V6Y3"
               data-title="Annual Operating Criteria Schedule"
               data-class="adhere"
-              data-description="111. 111 allows for risk assessments and real-time decision-making when flows in the Sacramento River are between 20,000 – 35,000 cfs (December – February) or above 35,000 cfs."
+              data-description="December – May: Default operations shall adhere to operating criteria described in Condition of Approval 11.111."
               data-cat-id="operations"
               data-cat-name="Water operations"
               data-sub-id="diversion-limits"
@@ -8728,7 +8728,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3GTRYAK61ZHAYGX6G9E"
               data-title="Annual schedule for applying the diversion operating criteria"
               data-class="adhere"
-              data-description="110."
+              data-description="Permittee shall monitor and manage Project operations in close coordination with CDFW staff during Phase 1 and Phase 2 operations as described in Condition of Approval 11.110."
               data-cat-id="operations"
               data-cat-name="Water operations"
               data-sub-id="diversion-limits"
@@ -8757,7 +8757,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKW469S9XKYKCE1V6Y0"
               data-title="Bypass Flow Minimum"
               data-class="adhere"
-              data-description="Permittee shall not divert from the north Delta intakes unless an instantaneous bypass of Sacramento River flow of 10,000 cfs is maintained below the north Delta intake C."
+              data-description="Permittee shall not divert from the north Delta intakes unless an instantaneous bypass of Sacramento River flow of 10,000 cfs is maintained below the north Delta intake C. • Permittee shall not divert from the north Delta intakes unless a minimum bypass 25-hour running average Sacramento River flow of 6,000 cfs is maintained downstream of the north Delta intake C."
               data-cat-id="operations"
               data-cat-name="Water operations"
               data-sub-id="diversion-limits"
@@ -8783,7 +8783,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y3K6F3VSR2GCE566TNFR"
               data-title="Combined south and north Delta SWP diversion daily cap"
               data-class="adhere"
-              data-description="114."
+              data-description="Permittee shall limit combined SWP water diversions at the existing south Delta facilities and the north Delta intakes to the amount allowed under Condition of Approval 11.114."
               data-cat-id="operations"
               data-cat-name="Water operations"
               data-sub-id="diversion-limits"
@@ -8812,7 +8812,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKW469S9XKYKCE1V6XZ"
               data-title="Diversion Flow Fraction Limit"
               data-class="adhere"
-              data-description="Total Project diversions from the north Delta intakes shall not exceed ten percent (10 %) of the 25-hour running average Sacramento River flow at any time."
+              data-description="Total Project diversions from the north Delta intakes shall not exceed ten percent (10 %) of the 25-hour running average Sacramento River flow at any time. • Total north Delta intake diversions may take between 10% - 12% of the 25-hour running average Sacramento River flow, if approved through Condition of Approval 11.111.5 in response to a risk assessment (Condition of Approval 11.111.3), demonstrating that increased diversions will not cause Covered Fish Species Biological Criteria to be…"
               data-cat-id="operations"
               data-cat-name="Water operations"
               data-sub-id="diversion-limits"
@@ -8841,7 +8841,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKGY4YJ4PEN2GRTDYZ2"
               data-title="Flow Reversal Minimization"
               data-class="adhere"
-              data-description="114 Permittee shall manage diversions at the north Delta intakes at all times to minimize increases in the timing, magnitude, frequency, or duration of flow reversals in the Sacramento River at the Georgiana Slough junction above pre-Project levels."
+              data-description="By adhering to the requirements in Conditions of Approval 11.109, 11.110, 11.111, 11.112, 11.113, and 11.114 Permittee shall manage diversions at the north Delta intakes at all times to minimize increases in the timing, magnitude, frequency, or duration of flow reversals in the Sacramento River at the Georgiana Slough junction above pre-Project levels."
               data-cat-id="operations"
               data-cat-name="Water operations"
               data-sub-id="diversion-limits"
@@ -9096,7 +9096,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y324Y1TBHKG18MZXXJCX"
               data-title="Salmon presence off-ramp from spring operating criteria"
               data-class="adhere"
-              data-description="2oC for seven days (does not have to be consecutive) in June."
+              data-description="95% of CHNWR and CHNSR have exited the Delta past Chipps Island as determined through Condition of Approval 11.111.5; o Daily mean water temperature at Prisoner’s Point (CDEC station PPT) is &gt; 22.2oC for seven days (does not have to be consecutive) in June."
               data-cat-id="operations"
               data-cat-name="Water operations"
               data-sub-id="diversion-limits"
@@ -9207,7 +9207,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6YKKJFSBZ7MC77J15GFVC"
               data-title="Fish Screen Velocity Criteria"
               data-class="adhere"
-              data-description="2 feet per second across the wetted surface of each individual fish screen."
+              data-description="Permittee shall only divert when the north Delta intake B and C fish screens are operating according to the CDFW 2000 Fish Screening Criteria and the NMFS 2023 Anadromous Salmonid Passage Design Manual.50, 51 In order to comply with CDFW and NMFS fish screening criteria, Permittee shall operate the north Delta intakes not to exceed the maximum uniform approach velocity (Va) of 0.2 feet per second across the wetted surface of each individual fish screen."
               data-cat-id="operations"
               data-cat-name="Water operations"
               data-sub-id="fish-screens"
@@ -9491,7 +9491,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y324Y1TBHKG18MZXXJCS"
               data-title="Assessment of juvenile salmon route entrainment by reach and junction"
               data-class="monitor"
-              data-description="1)."
+              data-description="Permittee shall assess changes in CHNWR and CHNSR route entrainment by reach within the lower Sacramento River and through the Delta between baseline conditions established during In-water Preconstruction Baseline Monitoring and In-water Construction Monitoring, and Phase 1 and Phase 2 Operations Monitoring using the Hydrodynamics at Georgiana Slough Monitoring Study and the Far-field Routing and Survival Study (Conditions of Approval 10.21.1 and 10.19.1)."
               data-cat-id="operations"
               data-cat-name="Water operations"
               data-sub-id="ops-monitoring"
@@ -9521,7 +9521,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y323R4AB65RD0MJDTZ9G"
               data-title="Covered fish monitoring across baseline, construction and operations periods"
               data-class="monitor"
-              data-description="27 to 1) ensure that impacts to Covered Fish Species during Phase 2 Operations do not exceed Covered Fish Species Biological Criteria, and 2) prepare for future regulatory processes that may address long-term authorizations for Project operations."
+              data-description="Permittee shall work collaboratively with CDFW to use the results from science and monitoring required in Conditions of Approval 10.18, 10.19, 10.20, 10.21, 10.26, and 10.27 to 1) ensure that impacts to Covered Fish Species during Phase 2 Operations do not exceed Covered Fish Species Biological Criteria, and 2) prepare for future regulatory processes that may address long-term authorizations for Project operations."
               data-cat-id="operations"
               data-cat-name="Water operations"
               data-sub-id="ops-monitoring"
@@ -9551,7 +9551,7 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
               data-id="obl_01M2G6Y324Y1TBHKG18MZXXJCR"
               data-title="Food web and larval fish entrainment study"
               data-class="monitor"
-              data-description="117)."
+              data-description="Permittee shall incorporate near-field and far-field impacts from changes in food web resources and Covered Fish Species entrainment into Covered Fish Species life cycle models to evaluate effects of Project operations on DS, LFS, CHNWR, CHNSR, and WS populations and ensure compliance with the Covered Fish Species Biological Criteria (Conditions of Approval 11.115, 11.116, and 11.117)."
               data-cat-id="operations"
               data-cat-name="Water operations"
               data-sub-id="ops-monitoring"
@@ -9648,6 +9648,115 @@ A right-hand side panel with a searchable checkbox tree of every registry obliga
   font-weight: var(--typography-microcopy-sm-strong-font-weight);
   line-height: var(--typography-microcopy-sm-strong-line-height);
   letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
+}
+.bcn-search-trigger .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-gd-row .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-disclosure .esa-icon {
+  transition: transform 0.15s;
+}
+.bcn-disclosure[aria-expanded="false"] .esa-icon {
+  transform: rotate(-90deg);
+}
+.bcn-ev-staging__title .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-ev-targets__title .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-content-default-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
+  color: var(--color-background-utility-danger);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  color: var(--bcn-gray-500);
+  flex-shrink: 0;
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-background-brand);
+}
+.nav-section__header > .esa-icon:first-child {
+  color: var(--bcn-gray-950);
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  flex-shrink: 0;
+  transition:
+    transform 0.15s,
+    opacity 0.2s ease-in-out;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.side-nav.collapsed .nav-section__title,
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
+  display: none;
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-label-md-strong {
+  font-family: var(--typography-label-md-strong-font-family);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height);
+  letter-spacing: var(--typography-label-md-strong-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+}
+.typography-microcopy-sm-subtle {
+  font-family: var(--typography-microcopy-sm-subtle-font-family);
+  font-size: var(--typography-microcopy-sm-subtle-font-size);
+  font-weight: var(--typography-microcopy-sm-subtle-font-weight);
+  line-height: var(--typography-microcopy-sm-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-sm-subtle-letter-spacing);
+}
+.typography-microcopy-sm-strong {
+  font-family: var(--typography-microcopy-sm-strong-font-family);
+  font-size: var(--typography-microcopy-sm-strong-font-size);
+  font-weight: var(--typography-microcopy-sm-strong-font-weight);
+  line-height: var(--typography-microcopy-sm-strong-line-height);
+  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
 }
 .bcn-laf__clear[hidden] {
   display: none;
@@ -9771,133 +9880,6 @@ details[open] > .bcn-lao__row .bcn-lao__chevron {
   gap: var(--spacing-200);
   display: inline-flex;
 }
-.bcn-search-trigger .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex: none;
-}
-.bcn-gd-row .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex: none;
-}
-.bcn-disclosure .esa-icon {
-  transition: transform 0.15s;
-}
-.bcn-disclosure[aria-expanded="false"] .esa-icon {
-  transform: rotate(-90deg);
-}
-.bcn-ev-staging__title .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex: none;
-}
-.bcn-ev-targets__title .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
-}
-.user-panel__item .esa-icon {
-  color: var(--bcn-gray-500);
-}
-.user-panel__item--danger .esa-icon {
-  color: var(--color-background-utility-danger);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  color: var(--bcn-gray-500);
-  flex-shrink: 0;
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-background-brand);
-}
-.nav-section__header > .esa-icon:first-child {
-  color: var(--bcn-gray-950);
-  flex-shrink: 0;
-  transition: color 0.15s;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  flex-shrink: 0;
-  transition:
-    transform 0.15s,
-    opacity 0.2s ease-in-out;
-}
-.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
-  transform: rotate(-90deg);
-}
-.side-nav.collapsed .nav-section__title,
-.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
-  display: none;
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-.typography-microcopy-sm-subtle {
-  font-family: var(--typography-microcopy-sm-subtle-font-family);
-  font-size: var(--typography-microcopy-sm-subtle-font-size);
-  font-weight: var(--typography-microcopy-sm-subtle-font-weight);
-  line-height: var(--typography-microcopy-sm-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-sm-subtle-letter-spacing);
-}
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
-}
-.bcn-swcb {
-  min-width: 22px;
-  padding: 2px var(--spacing-150);
-  border-radius: var(--radius-100);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default-subtle);
-  color: var(--color-content-default-tertiary);
-  font-family: var(--typography-font-family-sans);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  line-height: 1;
-  display: inline-flex;
-}
-.bcn-swcb--sm {
-  min-width: 18px;
-  padding: 2px var(--spacing-100);
-  font-size: var(--font-size-050);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -9972,6 +9954,27 @@ details[open] > .bcn-lao__row .bcn-lao__chevron {
 .esa-filter-clear-button__label {
   white-space: nowrap;
 }
+.bcn-swcb {
+  min-width: 22px;
+  padding: 2px var(--spacing-150);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default-subtle);
+  color: var(--color-content-default-tertiary);
+  font-family: var(--typography-font-family-sans);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1;
+  display: inline-flex;
+}
+.bcn-swcb--sm {
+  min-width: 18px;
+  padding: 2px var(--spacing-100);
+  font-size: var(--font-size-050);
+}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -10041,6 +10044,6 @@ details[open] > .bcn-lao__row .bcn-lao__chevron {
 - `--typography-microcopy-sm-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-sm-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-sm-subtle-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-sm-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-sm-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-sm-subtle-line-height`: 1 _(semantic)_

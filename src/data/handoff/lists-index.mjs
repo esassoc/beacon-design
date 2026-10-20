@@ -27,6 +27,20 @@
 export default {
   sections: [
     {
+      label: 'Compliance Index lists',
+      selector: '[data-list-group="compliance-index"]',
+      intent:
+        'The last group on Lists: the project\'s canonical Compliance Index, pinned first, then the versions people made from it (a contractor\'s field index, the annual report\'s outline, an operations subset). Each opens its own page with the Details and Export rail every list has.',
+      decisions: [
+        'Andy, 2026-10-19: "You should be able to make your own version of a compliance index. Like obviously, there\'s the canonical one that you start from." So the index is a list type with versions, not one row.',
+        'The canonical index is pinned first whatever its date; the versions sort newest change first under it.',
+        'The group has an "Add Compliance Index List" button like every group; the new list starts as a copy of the canonical index (see lists-compliance-index-custom).',
+        'A row\'s count is the items the list holds: every action and obligation for the canonical index, fewer for a version that trims.',
+        'Its mark is Lucide list-tree in the requirement accent: no setup step owns the index, and it files requirements.',
+      ],
+      acceptance: ['Lists ends with a Compliance Index Lists group, canonical index first, with an Add button; every row opens its list page.'],
+    },
+    {
       label: 'Lists search',
       selector: '.bcn-swfr',
       intent:
@@ -41,7 +55,7 @@ export default {
         'HTML-escape the row text before re-inserting it with marks; the <mark> wrappers are the only injected markup.',
       ],
       acceptance: [
-        'Typing narrows rows in all three groups at once, marks the matches in name and description, and clearing restores every row with no stale marks.',
+        'Typing narrows rows in every group at once, marks the matches in name and description, and clearing restores every row with no stale marks.',
       ],
     },
     {
@@ -55,14 +69,14 @@ export default {
         'A heading\'s badge counts LISTS in the group (and counts HITS while searching); a row\'s badge counts that list\'s MEMBERS. Accessible names tell them apart ("4 commitment lists" vs "64 commitments").',
         'A group with no hits keeps its heading and its add button and shows a dashed "No lists match" box. Hiding the whole group would hide the add verb at the exact moment the reader learned the list they want does not exist.',
         'A group that holds no lists at all reads "No commitment lists" (settled at build time), not "No lists match".',
-        'All three types open the same detail route: /lists/<id>.',
+        'All four types open the same detail route: /lists/<id>.',
       ],
       gotchas: [
         'The dashed empty box sets display:grid, which outranks [hidden]; re-assert display:none on the hidden state or the box never goes away.',
         'Counts are derived from the data (group length / member predicates), never hard-coded, so a new seed list moves the heading without edits.',
       ],
       acceptance: [
-        'Three groups in order Commitments → Actions → Obligations; each heading has a count and an add button; searching "report" leaves the headings in place, updates each count to its hits, and shows "No lists match" in any group with none.',
+        'Four groups in order Commitments → Actions → Obligations → Compliance Index Lists; each heading has a count and an add button; searching "report" leaves the headings in place, updates each count to its hits, and shows "No lists match" in any group with none.',
       ],
     },
     {
@@ -70,16 +84,17 @@ export default {
       selector: '[data-list-create-dialog]',
       apply: [{ clickText: ['[data-list-group]', 'Add Action List'] }],
       intent:
-        'The "Add list" modal, in the order the decision is made: which registry the list draws from, what it is called, what it is for.',
+        'The "Add list" modal, in the order the decision is made: which kind of list it is, what it is called, what it is for.',
       decisions: [
-        'The type comes first and all three options stay on screen as a segmented control (esa-button-toggle), because the type is the one irreversible choice: a list is a subset of ONE registry forever.',
+        'The type comes first and all four options stay on screen as a segmented control (esa-button-toggle), because the type is the one irreversible choice: a list is a subset of ONE registry forever, and a Compliance Index list is always a version of the index.',
+        'A Compliance Index list starts as a copy of the canonical index\'s outline; its cue line says so. The dialog is the large size so the four segments fit on one row.',
         'The trigger presets it: data-list-create="<type>" on the heading\'s button opens the dialog already on that type, with a matching heading ("Add Action List"). The toggle stays changeable.',
         'A cue line under the toggle names what the selected type holds; it swaps on change.',
         'Name is required; description is optional.',
       ],
       gotchas: [
         'esa-radio-group has no per-option description field, which is why this is a toggle plus one cue line rather than described radios.',
-        'Prototype honesty: "Create list" validates Name and closes; it writes no row and navigates nowhere. In the app it creates the list and lands on its detail page.',
+        '"Create list" validates Name, then lands on the new, empty list, named as typed. (Aldo opening on it is the separate Aldo epic, lists-new-list.) The prototype writes no row: the name and description ride in the URL. In the app it creates the list and lands on its detail page the same way.',
       ],
       acceptance: [
         'Each heading\'s add button opens the dialog preset to that type; changing the toggle updates heading and cue; Create is refused with an empty Name.',

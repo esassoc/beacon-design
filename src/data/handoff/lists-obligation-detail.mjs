@@ -85,7 +85,7 @@ export default {
       decisions: [
         'Child rows are implementations, not requirements (Andy reversed this 2026-09-23). Requirement codes and index ride on the card as data, for the mirror views to file by.',
         'Obligation rows carry NO status pill: evidence count is the only honest progress signal for an obligation.',
-        'Categories and subcategories can be renamed for this list alone (pencil on the branch row).',
+        'Categories and subcategories can be renamed for this list alone: the pencil on the branch row opens the rename side panel (bcn-list-branch-panel, the one a Compliance Index version uses), with the registry\'s name read only beneath the field. Never inline on the row (2026-10-20, for parity with index versions and the no-inline-edit rule).',
         'A dot beside an obligation title means the list has its own wording for it (title or description differs from the registry), tooltip "Has its own list wording". No text label.',
         'Card title and pencil both open the obligation panel; pencil tooltip "Move or retitle for this list".',
         'Clicking an implementation row emits list:edit-implementation. Prod opens the implementation upsert dialog there; the prototype builds no dialog.',
@@ -173,17 +173,19 @@ export default {
       label: 'Export',
       selector: '.bcn-lxp',
       intent:
-        'The ways the list leaves Beacon, in the rail: Word and CSV file pulls, then the JSON endpoint that feeds a Fulcrum form, with its key, URL and a payload preview.',
+        'The ways the list leaves Beacon, in the rail: PDF, CSV and Excel file pulls, Word (a later slice, BCN-1764), then the JSON endpoint that feeds a Fulcrum form, with its key, URL and a payload preview.',
       decisions: [
-        'The formats are not peers. Word and CSV are one-line rows with a format mark and a verb. JSON is an integration: it has no file mark and nothing downloads, and it carries the key, the endpoint and the payload.',
-        'The JSON endpoint exists ONLY on obligation lists. The form spec it serves is built from obligations; action and commitment lists get Word + CSV only (Andy: "but not the API option").',
+        'Order is prod\'s card (CSV, then Excel, under those names) with PDF added first. PDF downloads the obligation list document (see the list-export-obligation-pdf spec): `GET obligation-lists/{obligationListID}/generate-pdf`. The prototype opens the print route in a new tab instead.',
+        'LATER SLICE, not this epic: Word is BCN-1764, under epic BCN-1922. The design is settled and the prototype\'s download works: the SAME document as the PDF, as a .docx from `GET obligation-lists/{obligationListID}/generate-docx`, beside generate-pdf. Same title block, summary, detail and order; Word\'s own pagination, with the summary table\'s header row repeating on each page. The prototype builds a .doc from the print route (list-word.ts), so its content cannot drift from the PDF (Andy, 2026-10-20: "show as active").',
+        'The formats are not peers. The file rows are one line each, a format mark and a verb. JSON is an integration: it has no file mark and nothing downloads, and it carries the key, the endpoint and the payload.',
+        'The JSON endpoint exists ONLY on obligation lists. The form spec it serves is built from obligations; action and commitment lists get the file rows only (Andy: "but not the API option").',
         'Replaces a title-row Export menu, which hid that one format is a configured integration and had nowhere to show a key.',
       ],
       gotchas: [
         'Never render a real key or list GUID from a running environment into the fixture or the page.',
         'The JSON form spec carries Beacon ids so a form answer can be written back to the right obligation.',
       ],
-      acceptance: ['Word + CSV rows plus the JSON section with key, endpoint and payload, on obligation lists only.'],
+      acceptance: ['PDF, CSV, Excel and Word rows in that order, then the JSON section with key, endpoint and payload, on obligation lists only.'],
     },
     {
       label: 'Danger zone',

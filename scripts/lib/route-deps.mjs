@@ -30,7 +30,7 @@ const read = (f) => {
 
 // Astro resolves a route to either <path>.astro or <path>/index.astro.
 export function pageFileFor(route) {
-  const rel = route.replace(/^\/+|\/+$/g, '');
+  const rel = route.split('?')[0].replace(/^\/+|\/+$/g, '');
   for (const candidate of [join(SRC, 'pages', `${rel}.astro`), join(SRC, 'pages', rel, 'index.astro')])
     if (existsSync(candidate)) return candidate;
   return null;
