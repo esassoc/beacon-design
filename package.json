@@ -8,11 +8,11 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "predeploy": "node scripts/check-guidance.mjs",
+    "predeploy": "handoff check --changed",
     "deploy": "astro build && gh-pages -d dist --dotfiles",
-    "handoff:check": "node scripts/check-guidance.mjs",
-    "handoff:all": "node scripts/gen-handoff.mjs",
-    "handoff:changed": "node scripts/gen-handoff.mjs --changed"
+    "handoff:check": "handoff check",
+    "handoff:all": "handoff all",
+    "handoff:changed": "handoff all --changed"
   },
   "dependencies": {
     "@esa/docs": "file:../ecology/packages/docs",
