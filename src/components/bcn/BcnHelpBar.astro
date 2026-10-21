@@ -149,6 +149,21 @@ const fmtLong = (iso: string): string =>
     // Already caught up on the newest note → no dot.
     if (dot && newest && readSeen() === newest) dot.hidden = true;
 
+    // esa-tooltip opens on mouseenter and any focusin, and a tap fires both (the browser's
+    // compatibility mouseenter, then focus), so on touch a bar tooltip stood over the page
+    // until focus moved. Keep it to a real mouse hover and keyboard focus: when the last
+    // pointer was a finger or pen, close it as it opens (`open` reflects, and is the
+    // lego's public state). The fix belongs in esa-tooltip (logged in the improvement
+    // ledger).
+    bar.querySelectorAll<HTMLElement & { open: boolean }>('esa-tooltip').forEach((tip) => {
+      let touch = false;
+      tip.addEventListener('pointerdown', (e) => (touch = e.pointerType !== 'mouse'), true);
+      document.addEventListener('keydown', () => (touch = false), true);
+      new MutationObserver(() => {
+        if (tip.open && touch) tip.open = false;
+      }).observe(tip, { attributes: true, attributeFilter: ['open'] });
+    });
+
     // First open marks the newest note seen and retires the dot for this browser.
     trigger?.addEventListener('click', () => {
       if (dot && !dot.hidden && newest) {
