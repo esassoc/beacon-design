@@ -1,8 +1,10 @@
 ---
-// <BcnHelpDots> — the help-dot layer for one page. Switched on from the Help & Guidance
-// drawer, it puts a pulsing Aldo dot (<BcnHelpDot>) on each spot that has a published dot;
-// a click opens a popover about that thing. Switched off, the dots are gone. The switch
-// only shows on a page that mounts this layer.
+// <BcnHelpDots> — the help-dot layer for one page. On a page that mounts it, Guidance on
+// the Guidance bar turns the dots on instead of opening the drawer (round 4): a pulsing Aldo
+// dot (<BcnHelpDot>) on each spot that has a published dot, a popover about that thing on
+// click. A dark button above the bar, Open Help & Guidance, opens the drawer. Guidance
+// again, or Esc, turns the dots off. Pages without this layer keep Guidance opening the
+// drawer.
 //
 // Each dot is placed by measuring its spot's target against this layer, which sits in the
 // page's own scroll container, so dots scroll with the page and need re-measuring only
@@ -15,8 +17,10 @@
 //
 // All behavior lives in the help-dots controller (help-dots.ts). Contract with siblings,
 // all by data-* hook:
-//   - drawer (<BcnGuidanceDrawer>, `[data-gd]`): `[data-help-dots-slot]` holds the switch
-//     `[data-help-dots-toggle]`; `[data-help-dots-admin-slot]` receives <BcnHelpDotsAdmin>.
+//   - bar (<BcnHelpBar>): the controller sets `data-help-dots-claimed` on `[data-help-trigger]`
+//     so the drawer leaves it alone, and `aria-pressed` while the dots show.
+//   - drawer (<BcnGuidanceDrawer>, `[data-gd]`): `[data-help-dots-admin-slot]` receives
+//     <BcnHelpDotsAdmin>.
 //   - admin list (<BcnHelpDotsAdmin>): `data-hda-*`. Form (<BcnHelpDotForm>): `data-hdf-*`.
 //
 // TONE. The popovers take the Guidance bar's dark (round 2). `?popover=light` puts back
@@ -24,7 +28,7 @@
 //
 // bcn-lego-checked: the spot OUTLINE in pick mode is a positioned button drawn around a
 // measured box, which no esa-* lego renders; the pick bar reuses the Guidance bar's dark
-// glass tokens and its Cancel IS esa-button. Everything else is a lego or a bcn-help-dot.
+// glass tokens and its Cancel IS esa-button; so does the panel bar, whose button IS esa-button. Everything else is a lego or a bcn-help-dot.
 // Checked Beacon: nothing places marks on a page. bcn-help-dots is the home.
 import BcnAldoMark from './aldo/BcnAldoMark.astro';
 import BcnHelpDot from './BcnHelpDot.astro';
@@ -75,6 +79,10 @@ const clientPage = {
   <EsaButton variant="chrome" size="sm" data-help-pick-cancel>Cancel</EsaButton>
 </div>
 
+<div class="bcn-help-dots__panelbar" data-help-panelbar hidden>
+  <EsaButton variant="chrome" size="sm" data-help-panel-open>Open Help &amp; Guidance</EsaButton>
+</div>
+
 <script type="application/json" data-help-dots-page set:html={JSON.stringify(clientPage)} />
 
 <script>
@@ -122,14 +130,13 @@ const clientPage = {
     white-space: nowrap;
   }
 
-  /* The pick bar: the Guidance bar's dark glass, along the top of the page. */
-  .bcn-help-dots__pickbar {
+  /* The pick bar and the panel bar: the Guidance bar's dark glass. */
+  .bcn-help-dots__pickbar,
+  .bcn-help-dots__panelbar {
     position: fixed;
-    inset-block-start: 68px; /* under the 52px topbar */
     inset-inline-start: 50%;
     translate: -50% 0;
     z-index: 1000;
-    padding: var(--spacing-100) var(--spacing-100) var(--spacing-100) var(--spacing-250);
     color: var(--bcn-helpbar-fg);
     background: var(--bcn-helpbar-bg);
     -webkit-backdrop-filter: blur(14px) saturate(1.4);
@@ -138,18 +145,30 @@ const clientPage = {
     border-radius: var(--radius-400, 14px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28); /* the Guidance bar's lift */
   }
+  /* Along the top of the page, under the 52px topbar. */
+  .bcn-help-dots__pickbar {
+    inset-block-start: 68px;
+    padding: var(--spacing-100) var(--spacing-100) var(--spacing-100) var(--spacing-250);
+  }
+  /* Just above the Guidance bar (20px off the bottom, 58px tall), so it reads as part of it. */
+  .bcn-help-dots__panelbar {
+    inset-block-end: 86px;
+    padding: var(--spacing-075, 3px);
+  }
   .bcn-help-dots__pickbar-text {
     font-weight: var(--typography-font-weight-medium);
     white-space: nowrap;
   }
-  .bcn-help-dots__pickbar :global(.esa-button) {
+  .bcn-help-dots__pickbar :global(.esa-button),
+  .bcn-help-dots__panelbar :global(.esa-button) {
     color: var(--bcn-helpbar-fg);
     --focus-ring-color: var(--bcn-helpbar-fg);
   }
 
   .bcn-help-dots[hidden],
   .bcn-help-dots__outline[hidden],
-  .bcn-help-dots__pickbar[hidden] {
+  .bcn-help-dots__pickbar[hidden],
+  .bcn-help-dots__panelbar[hidden] {
     display: none;
   }
 </style>

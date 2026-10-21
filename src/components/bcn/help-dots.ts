@@ -3,12 +3,12 @@
 // as with every prototype here) and wires the three components and the drawer by their
 // data-* hooks. See <BcnHelpDots> for the contract.
 //
-// Reader: the drawer's Show Me Around switch shows the published dots. Admin
+// Reader: Guidance on the Guidance bar shows the published dots, with a dark button above
+// the bar that opens the drawer; Guidance again or Esc hides them. Admin
 // (`?as=admin`): drafts show muted, the drawer gains Dots on This Page, and Add Dot /
 // Pick Again run pick mode, which ends on the dot form.
 
 import '@esa/ecology/esa-popover';
-import '@esa/ecology/esa-switch-toggle';
 import '@esa/ecology/esa-side-dialog';
 import '@esa/ecology/esa-text-field';
 import '@esa/ecology/esa-textarea';
@@ -16,7 +16,6 @@ import '@esa/ecology/esa-file-upload';
 import type { HelpDot, HelpDotShot, HelpDotStatus, HelpSpot } from '../../data/help-dots';
 
 type Popover = HTMLElement & { open: boolean; position: string; appearance: string; label: string };
-type Toggle = HTMLElement & { checked: boolean };
 type Dialog = HTMLElement & { show(): void; close(): void; heading: string; open: boolean };
 type Field = HTMLElement & { value: string };
 
@@ -39,9 +38,8 @@ const OUTLINE_PAD = 4;
 export function setupHelpDots(): void {
   const layer = document.querySelector<HTMLElement>('[data-help-dots]');
   const json = document.querySelector<HTMLScriptElement>('[data-help-dots-page]');
-  const slot = document.querySelector<HTMLElement>('[data-help-dots-slot]');
-  const toggle = document.querySelector<Toggle>('[data-help-dots-toggle]');
-  if (!layer || !json || !slot || !toggle) return;
+  const trigger = document.querySelector<HTMLElement>('[data-help-bar] [data-help-trigger]');
+  if (!layer || !json || !trigger) return;
 
   const page = JSON.parse(json.textContent ?? '{}') as ClientPage;
   const params = new URLSearchParams(location.search);
@@ -51,9 +49,12 @@ export function setupHelpDots(): void {
   const spots = new Map(page.spots.map((s) => [s.spot, s]));
   const dots = new Map<string, DotState>(page.dots.map((d) => [d.id, { ...d }]));
   let picking: { dotId: string | null } | null = null;
+  let on = false;
   let made = 0;
 
-  slot.hidden = false;
+  trigger.setAttribute('data-help-dots-claimed', '');
+  trigger.setAttribute('aria-pressed', 'false');
+  trigger.removeAttribute('aria-haspopup');
   if (params.get('popover') === 'light') layer.dataset.tone = 'light';
 
   // ── the page's elements ────────────────────────────────────────────────────────────
@@ -149,8 +150,12 @@ export function setupHelpDots(): void {
 
   const closePopovers = () => layer.querySelectorAll<Popover>('esa-popover').forEach((p) => (p.open = false));
 
+  const panelbar = document.querySelector<HTMLElement>('[data-help-panelbar]');
+
   const showLayer = () => {
-    layer.hidden = !(toggle.checked || picking);
+    layer.hidden = !(on || picking);
+    trigger.setAttribute('aria-pressed', String(on));
+    if (panelbar) panelbar.hidden = !on || !!picking;
     if (layer.hidden) closePopovers();
     else place();
   };
@@ -352,12 +357,20 @@ export function setupHelpDots(): void {
     endPick();
     drawer?.show();
   });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && picking) {
-      endPick();
-      drawer?.show();
-    }
-  });
+  // Capture, so an open popover is still open here: its own Esc closes it and the dots stay.
+  window.addEventListener(
+    'keydown',
+    (e) => {
+      if (e.key !== 'Escape') return;
+      if (picking) {
+        endPick();
+        drawer?.show();
+      } else if (on && !drawer?.open && !layer.querySelector('esa-popover[open]')) {
+        setOn(false);
+      }
+    },
+    true,
+  );
 
   // ── admin list actions (delegated: rows come and go) ───────────────────────────────
 
@@ -388,9 +401,15 @@ export function setupHelpDots(): void {
     showLayer();
   };
 
-  toggle.addEventListener('change', () => {
+  const setOn = (next: boolean) => {
+    on = next;
+    if (on) drawer?.close();
     showLayer();
-    if (toggle.checked) drawer?.close();
+  };
+  trigger.addEventListener('click', () => setOn(!on));
+  panelbar?.querySelector('[data-help-panel-open]')?.addEventListener('click', () => {
+    closePopovers();
+    drawer?.show();
   });
   window.addEventListener('resize', schedule);
   document.addEventListener('input', schedule, true);

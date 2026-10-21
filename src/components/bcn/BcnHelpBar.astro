@@ -9,7 +9,9 @@
 // Wiring is by data-* hook, composed BLIND against siblings — this component adds NO open
 // behavior for the evidence or guidance drawers; it only advertises the hooks the siblings
 // already listen on, plus its own local what's-new state:
-//   • [data-help-trigger]     — the route-aware guidance drawer (sibling) opens on clicks here.
+//   • [data-help-trigger]     — the route-aware guidance drawer (sibling) opens on clicks here,
+//                               unless a page with help dots claims it (data-help-dots-claimed):
+//                               there it turns the dots on and off, and shows aria-pressed.
 //   • [data-evidence-trigger] — the global evidence drawer (sibling) opens on clicks here.
 //   • [data-whatsnew]         — LOCAL only: the first click marks WHATS_NEW seen (localStorage
 //                               'bcn-whats-new-seen' = newest entry date) and hides the dot.
@@ -211,6 +213,11 @@ const fmtLong = (iso: string): string =>
   }
   .bcn-help-bar__guidance:hover {
     background: var(--bcn-helpbar-hover-bg);
+  }
+  /* On a page with help dots, Guidance turns them on: pressed while they show. */
+  .bcn-help-bar__guidance[aria-pressed='true'] {
+    background: var(--bcn-helpbar-hover-bg);
+    box-shadow: inset 0 0 0 1px var(--bcn-aldo);
   }
   .bcn-help-bar__guidance:focus-visible {
     outline: 2px solid var(--bcn-helpbar-fg); /* light foreground — visible on the dark shell, monochrome (no aldo tint) */

@@ -207,7 +207,9 @@ export function initGuidanceDrawer(): void {
   // ── open / reset ──
   document.addEventListener('click', (e) => {
     const trigger = (e.target as HTMLElement).closest('[data-help-trigger]');
-    if (!trigger) return;
+    // A page with help dots claims the trigger: there Guidance turns the dots on and the
+    // dots layer opens this drawer from its own button.
+    if (!trigger || trigger.hasAttribute('data-help-dots-claimed')) return;
     e.preventDefault();
     (root as unknown as { show?: () => void }).show?.();
     // Reopen shows the intro at the top of the stream.

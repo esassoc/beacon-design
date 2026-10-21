@@ -1,9 +1,8 @@
 ---
-// Help dots on the Lists page. The Help & Guidance drawer grows one switch, Show Me
-// Around (a placeholder name), under You Are Here on pages that have dots. Switch it
-// on and the drawer closes onto pulsing Aldo dots at five spots; click one for a
-// popover about that thing. Switch it off and they are gone. No numbers, no order,
-// no tour.
+// Help dots on the Lists page. On a page that has dots, Guidance on the Guidance bar
+// turns on pulsing Aldo dots at five spots instead of opening the drawer; click one for
+// a popover about that thing. A dark Open Help & Guidance button above the bar opens the
+// drawer. Guidance again, or Esc, and they are gone. No numbers, no order, no tour.
 //
 // The page under the dots is prod's Lists page for a project that only keeps
 // commitment lists: the info banner, the search, the one group with its Add button,
@@ -30,7 +29,7 @@ import { LISTS_HELP_DOTS } from '../../data/help-dots';
     - banner      -> esa-alert-box                    # prod's info banner over the lists
     - lists index -> bcn-list-index-board             # commitment group only, with Global/Personal badges
     - add list    -> bcn-list-create-dialog           # what Add Commitment List opens
-    - help dots   -> bcn-help-dots                    # the dot layer the guidance drawer's switch turns on, plus pick mode
+    - help dots   -> bcn-help-dots                    # the dot layer Guidance turns on, its panel button, and pick mode
     - dots admin  -> bcn-help-dots-admin              # Dots on This Page, moved into the drawer in the admin view
     - dot form    -> bcn-help-dot-form                # the side panel a dot is written in
 -->
