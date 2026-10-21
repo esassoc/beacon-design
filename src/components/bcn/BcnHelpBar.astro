@@ -236,10 +236,11 @@ const fmtLong = (iso: string): string =>
   .bcn-help-bar__guidance:hover {
     background: var(--bcn-helpbar-hover-bg);
   }
-  /* The Aldo rings, a step larger than the 20px paper clip and notepad so the primary
-     control reads first, ramped from the hub's teal-7 to Aldo green (round 6, option B). */
+  /* The Aldo rings, ramped from the hub's teal-7 to Aldo green (round 6, option B), sized
+     so their ink matches the paper clip's and notepad's (about 19-20px tall) and an even box
+     centres on the bar's pixel grid (round 7). */
   .bcn-help-bar__guidance {
-    --bcn-aldo-mark-size: 26px;
+    --bcn-aldo-mark-size: 20px;
     --bcn-aldo-ring-from: var(--color-teal-7);
     --bcn-aldo-ring-to: var(--bcn-aldo);
   }
@@ -260,6 +261,13 @@ const fmtLong = (iso: string): string =>
   .bcn-help-bar__tooltip,
   .bcn-help-bar__popover {
     display: inline-flex;
+  }
+  /* The paper clip rides in esa-button's label slot (no registry glyph), whose text line
+     box sat it 1.5px above the bar's centre; collapse the line so it centres like the
+     icon-only buttons beside it. */
+  .bcn-help-bar__tooltip :global(.esa-button__label) {
+    display: inline-flex;
+    line-height: 0;
   }
   /* Theme the icon-button legos to the dark zone. esa-icon-button already exposes the hook
      --icon-button-bg-hover and draws its focus outline from currentColor, so both adapt to the
