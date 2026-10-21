@@ -43,6 +43,12 @@ export interface HelpSpot {
   side: HelpDotSide;
   /** What Capture This Spot returns in the prototype: the area around the spot. */
   capture: HelpDotShot;
+  /**
+   * A spot that only exists in one state of the page (the `?empty=1` empty state). Out of
+   * that state its dot is not orphaned, just not shown, and the admin list says where it
+   * lives instead of offering Pick Again.
+   */
+  onlyIn?: { param: string; value: string; label: string };
 }
 
 export interface HelpDot {
@@ -130,13 +136,50 @@ export const LISTS_HELP_DOTS: HelpDotPage = {
       capture: capture('updated', 'A list row with its Updated date'),
     },
     {
+      spot: 'count',
+      label: 'Member Count',
+      target: '[data-list-row] .bcn-swcb',
+      // On the badge's corner: 'after' puts the dot on the scope badge that follows it.
+      at: 'top-end',
+      side: 'bottom',
+      capture: capture('count', 'A list row with its member count'),
+    },
+    {
+      spot: 'name',
+      label: 'List Name',
+      target: '[data-list-row] .bcn-lc__name',
+      at: 'before',
+      side: 'left',
+      capture: capture('name', 'A list row with its name'),
+    },
+    {
+      spot: 'obligations',
+      label: 'Obligation Lists Heading',
+      target: '[data-list-group="obligation"] .bcn-lib__head > .cluster',
+      at: 'after',
+      side: 'bottom',
+      capture: capture('obligations', 'The Obligation Lists heading with its count'),
+    },
+    {
       // The Create List button on the empty state (round 11, `?empty=1`).
       spot: 'first',
       label: 'Create List Button',
       target: '[data-list-empty] [data-list-create]',
+      onlyIn: { param: 'empty', value: '1', label: 'Empty State Only' },
       at: 'before',
       side: 'left',
       capture: capture('add', 'The Create List button on a project with no lists'),
+    },
+    {
+      // Export moved off the Lists index onto each list's page (BCN-1909 put Excel on the
+      // list's Export card), so this spot no longer resolves and its dot sits under Needs
+      // a New Spot (round 14, restored as that example).
+      spot: 'export',
+      label: 'Export Button',
+      target: '[data-list-export]',
+      at: 'before',
+      side: 'left',
+      capture: capture('add', 'The Export button'),
     },
   ],
   dots: [
@@ -195,6 +238,13 @@ export const LISTS_HELP_DOTS: HelpDotPage = {
       title: 'Personal Lists',
       text: 'Only you see a Personal list. Make it Global from its Details panel to share it with your team.',
       draftedFrom: 'Beacon PR #2231, Personal commitment lists',
+    },
+    {
+      id: 'lists-export',
+      spot: 'export',
+      status: 'published',
+      title: 'Export Every List',
+      text: 'Download all of this project’s lists as one CSV.',
     },
   ],
 };

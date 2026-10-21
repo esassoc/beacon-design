@@ -67,6 +67,11 @@ export function setupHelpDots(): void {
     if (!el || el.closest('[hidden]') || el.getBoundingClientRect().width === 0) return null;
     return el;
   };
+  // A spot that only exists in another state of the page (HelpSpot.onlyIn).
+  const elsewhere = (spot: string): string | null => {
+    const w = spots.get(spot)?.onlyIn;
+    return w && params.get(w.param) !== w.value ? w.label : null;
+  };
   const live = (d: DotState) => d.status !== 'dismissed' && !d.detached;
   const seen = (d: DotState) => live(d) && (d.status === 'published' || admin);
 
@@ -227,11 +232,13 @@ export function setupHelpDots(): void {
       if (!row) return;
       row.hidden = !live(d);
       if (!live(d)) return;
-      const orphan = !targetOf(d.spot);
+      const away = elsewhere(d.spot);
+      const orphan = !away && !targetOf(d.spot);
       const claudeDraft = d.status === 'draft' && !!d.draftedFrom;
       const q = (sel: string) => row.querySelector<HTMLElement>(sel);
       q('[data-hda-title]')!.textContent = d.title;
-      q('[data-hda-spot]')!.textContent = spots.get(d.spot)?.label ?? d.spot;
+      const spotName = spots.get(d.spot)?.label ?? d.spot;
+      q('[data-hda-spot]')!.textContent = away ? `${spotName} · ${away}` : spotName;
       q('[data-hda-draft]')!.hidden = d.status !== 'draft';
       q('[data-hda-from]')!.hidden = !claudeDraft;
       q('[data-hda-review]')!.hidden = !claudeDraft || orphan;
