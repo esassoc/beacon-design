@@ -189,8 +189,8 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                 ><li data-astro-cid-qzg7vnux="">
                   <span
                     class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                    data-astro-cid-xtwxlazl=""
-                    ><span class="esa-pill__label" data-astro-cid-xtwxlazl=""></span
+                    data-astro-cid-65ixjgm5=""
+                    ><span class="esa-pill__label" data-astro-cid-65ixjgm5=""></span
                   ></span></li></template
               ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template
@@ -201,19 +201,19 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                   ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                     ><span
                       class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                      data-astro-cid-5nhxdd72=""
+                      data-astro-cid-4xhmycw5=""
                       ><button
                         class="esa-button__native typography-microcopy-xs"
                         type="button"
                         aria-label="Remove this file from the evidence"
                         title="Remove this file from the evidence"
                         data-astro-cid-qzg7vnux="true"
-                        data-astro-cid-5nhxdd72=""
+                        data-astro-cid-4xhmycw5=""
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-wcwfib5m=""
+                          data-astro-cid-c7ivvrtd=""
                           ><svg
                             width="16"
                             height="16"
@@ -224,7 +224,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-wcwfib5m=""
+                            data-astro-cid-c7ivvrtd=""
                           >
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path></svg
@@ -6227,27 +6227,27 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                     data-astro-cid-6zu5gb4v=""
                     ><span
                       class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-                      data-astro-cid-yahmuvtj=""
-                      ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
+                      data-astro-cid-sh7ulwla=""
+                      ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
                         >Suggested</span
                       ></span
                     ></span
                   ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                     ><span
                       class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                      data-astro-cid-5nhxdd72=""
+                      data-astro-cid-4xhmycw5=""
                       ><button
                         class="esa-button__native typography-microcopy-xs"
                         type="button"
                         aria-label="Remove this evidence from the action"
                         title="Remove this evidence from the action"
                         data-astro-cid-6zu5gb4v="true"
-                        data-astro-cid-5nhxdd72=""
+                        data-astro-cid-4xhmycw5=""
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-wcwfib5m=""
+                          data-astro-cid-c7ivvrtd=""
                           ><svg
                             width="16"
                             height="16"
@@ -6258,7 +6258,7 @@ Same list-mode bottom evidence drawer as obligation lists: pick a component, sta
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-wcwfib5m=""
+                            data-astro-cid-c7ivvrtd=""
                           >
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path></svg

@@ -70,7 +70,7 @@ The three work areas as equal cards, each rolling up this component's actions of
                 ><span class="bcn-cbadge bcn-cbadge--sm">CUL-02</span>Cultural resources
                 worker training</span
               ><span class="bcn-mod__action-meta"
-                >Bouldin Island Launch Shaft · Due Mar 30</span
+                >Bouldin Island Geotechnical Exploration · Due Mar 30</span
               ></span
             ></a
           >
@@ -177,7 +177,7 @@ The three work areas as equal cards, each rolling up this component's actions of
                 ><span class="bcn-cbadge bcn-cbadge--sm">BIO-03</span>Nesting-bird
                 preconstruction survey</span
               ><span class="bcn-mod__action-meta"
-                >Bouldin Island Launch Shaft · 1d overdue</span
+                >Bouldin Island Geotechnical Exploration · 1d overdue</span
               ></span
             ></a
           >
@@ -640,6 +640,10 @@ The three work areas as equal cards, each rolling up this component's actions of
   font-weight: var(--typography-label-md-strong-font-weight);
   line-height: var(--typography-label-md-strong-line-height);
   letter-spacing: var(--typography-label-md-strong-letter-spacing);
+}
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);

@@ -227,7 +227,7 @@ The three work areas as a row of equal cards ABOVE the components, each owning i
                 ><span class="bcn-cbadge bcn-cbadge--sm">BIO-03</span>Nesting-bird
                 preconstruction survey</span
               ><span class="bcn-mod__action-meta"
-                >Bouldin Island Launch Shaft · 1d overdue</span
+                >Bouldin Island Geotechnical Exploration · 1d overdue</span
               ></span
             ></a
           >

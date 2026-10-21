@@ -151,16 +151,16 @@ Prod's action-implementation upsert dialog, ported as-is: summary, referenced re
                     <path d="m17.66 17.66 1.41 1.41"></path>
                     <path d="M20 12h2"></path>
                     <path d="m17.66 6.34 1.41-1.41"></path></svg></span></span></span
-            ><span data-aid-mark="Bouldin Island Launch Shaft" hidden=""
+            ><span data-aid-mark="Bouldin Island Geotechnical Exploration" hidden=""
               ><span
                 class="bcn-entity-logo"
                 data-size="sm"
                 data-variant="seal"
                 data-shape="circle"
                 data-style="fill"
-                data-glyph="bird"
-                data-color="slate"
-                style="--_c: var(--bcn-mark-slate)"
+                data-glyph="building-2"
+                data-color="cyan"
+                style="--_c: var(--bcn-mark-cyan)"
                 ><span class="esa-icon esa-icon--xs" aria-hidden="true"
                   ><svg
                     width="14"
@@ -173,12 +173,13 @@ Prod's action-implementation upsert dialog, ported as-is: summary, referenced re
                     stroke-linejoin="round"
                     focusable="false"
                   >
-                    <path d="M16 7h.01"></path>
-                    <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"></path>
-                    <path d="m20 7 2 .5-2 .5"></path>
-                    <path d="M10 18v3"></path>
-                    <path d="M14 17.75V21"></path>
-                    <path d="M7 18a6 6 0 0 0 3.84-10.61"></path></svg></span></span></span
+                    <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+                    <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+                    <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+                    <path d="M10 6h4"></path>
+                    <path d="M10 10h4"></path>
+                    <path d="M10 14h4"></path>
+                    <path d="M10 18h4"></path></svg></span></span></span
             ><span data-aid-mark="Bethany Reservoir Aqueduct" hidden=""
               ><span
                 class="bcn-entity-logo"
@@ -2579,14 +2580,14 @@ Prod's action-implementation upsert dialog, ported as-is: summary, referenced re
     </div></esa-dialog
   ><!-- Runtime parts, cloned by the controller (clones keep their scoped-CSS ids). --><template
     data-aid-tpl="requirement"
-    ><details class="esa-collapsible" data-astro-cid-x3kbh6j2="">
+    ><details class="esa-collapsible" data-astro-cid-feck5fek="">
       <summary
         class="esa-collapsible__summary typography-label-sm-strong"
-        data-astro-cid-x3kbh6j2=""
+        data-astro-cid-feck5fek=""
       >
-        <span class="esa-collapsible__title" data-astro-cid-x3kbh6j2="">–</span>
+        <span class="esa-collapsible__title" data-astro-cid-feck5fek="">–</span>
       </summary>
-      <div class="esa-collapsible__body typography-body-md" data-astro-cid-x3kbh6j2="">
+      <div class="esa-collapsible__body typography-body-md" data-astro-cid-feck5fek="">
         <div class="bcn-aid__req" data-astro-cid-iqe2bvd3="">
           <p
             class="bcn-aid__req-text"

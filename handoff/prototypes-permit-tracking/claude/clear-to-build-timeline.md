@@ -25,12 +25,11 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
     <span></span>
     <div class="ctb__axis" id="ctb-axis">
       <span class="ctb-tick" style="left: 0%">Jun ’26</span
-      ><span class="ctb-tick" style="left: 16.3934%">Jul</span
-      ><span class="ctb-tick" style="left: 33.3333%">Aug</span
-      ><span class="ctb-tick" style="left: 50.2732%">Sep</span
-      ><span class="ctb-tick" style="left: 66.6667%">Oct</span
-      ><span class="ctb-tick" style="left: 83.6066%">Nov</span
-      ><span class="ctb-tick ctb-tick--today" style="left: 77.0492%">Today</span>
+      ><span class="ctb-tick" style="left: 19.6078%">Jul</span
+      ><span class="ctb-tick" style="left: 39.8693%">Aug</span
+      ><span class="ctb-tick" style="left: 60.1307%">Sep</span
+      ><span class="ctb-tick" style="left: 79.7386%">Oct</span
+      ><span class="ctb-tick ctb-tick--today" style="left: 92.6198%">Today</span>
     </div>
     <span></span>
   </div>
@@ -43,14 +42,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 0.546448087431694%;
-            width: 76.50273224043715%;
+            left: 0.4629629629629629%;
+            width: 92.15686274509804%;
             background: var(--st-cleared);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 0.546448087431694%; background: var(--st-cleared)"
+          style="left: 0.4629629629629629%; background: var(--st-cleared)"
         ></span
       ></span>
       <span class="ctb-row__meta">Jun 2, 2026</span>
@@ -63,14 +62,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 0.546448087431694%;
-            width: 76.50273224043715%;
+            left: 0.4629629629629629%;
+            width: 92.15686274509804%;
             background: var(--st-cleared);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 0.546448087431694%; background: var(--st-cleared)"
+          style="left: 0.4629629629629629%; background: var(--st-cleared)"
         ></span
       ></span>
       <span class="ctb-row__meta">Jun 2, 2026</span>
@@ -83,14 +82,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 0.546448087431694%;
-            width: 76.50273224043715%;
+            left: 0.4629629629629629%;
+            width: 92.15686274509804%;
             background: var(--st-cleared);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 0.546448087431694%; background: var(--st-cleared)"
+          style="left: 0.4629629629629629%; background: var(--st-cleared)"
         ></span
       ></span>
       <span class="ctb-row__meta">Jun 2, 2026</span>
@@ -103,14 +102,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 26.775956284153008%;
-            width: 50.27322404371584%;
+            left: 31.835511982570807%;
+            width: 60.78431372549019%;
             background: var(--st-in-preparation);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 26.775956284153008%; background: var(--st-in-preparation)"
+          style="left: 31.835511982570807%; background: var(--st-in-preparation)"
         ></span
       ></span>
       <span class="ctb-row__meta">Jul 20, 2026</span>
@@ -123,14 +122,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 43.71584699453552%;
-            width: 33.333333333333336%;
+            left: 52.09694989106753%;
+            width: 40.52287581699347%;
             background: var(--st-under-review);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 43.71584699453552%; background: var(--st-under-review)"
+          style="left: 52.09694989106753%; background: var(--st-under-review)"
         ></span
       ></span>
       <span class="ctb-row__meta">Aug 20, 2026</span>
@@ -143,14 +142,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 49.18032786885246%;
-            width: 27.868852459016395%;
+            left: 58.63289760348584%;
+            width: 33.98692810457516%;
             background: var(--st-under-review);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 49.18032786885246%; background: var(--st-under-review)"
+          style="left: 58.63289760348584%; background: var(--st-under-review)"
         ></span
       ></span>
       <span class="ctb-row__meta">Aug 30, 2026</span>
@@ -163,14 +162,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 49.18032786885246%;
-            width: 27.868852459016395%;
+            left: 58.63289760348584%;
+            width: 33.98692810457516%;
             background: var(--st-under-review);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 49.18032786885246%; background: var(--st-under-review)"
+          style="left: 58.63289760348584%; background: var(--st-under-review)"
         ></span
       ></span>
       <span class="ctb-row__meta">Aug 30, 2026</span>
@@ -183,14 +182,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 52.459016393442624%;
-            width: 24.59016393442623%;
+            left: 62.554466230936825%;
+            width: 30.065359477124176%;
             background: var(--st-submitted);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 52.459016393442624%; background: var(--st-submitted)"
+          style="left: 62.554466230936825%; background: var(--st-submitted)"
         ></span
       ></span>
       <span class="ctb-row__meta">Sep 5, 2026</span>
@@ -203,14 +202,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 55.19125683060109%;
-            width: 21.857923497267763%;
+            left: 65.82244008714598%;
+            width: 26.797385620915023%;
             background: var(--st-submitted);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 55.19125683060109%; background: var(--st-submitted)"
+          style="left: 65.82244008714598%; background: var(--st-submitted)"
         ></span
       ></span>
       <span class="ctb-row__meta">Sep 10, 2026</span>
@@ -223,14 +222,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 55.19125683060109%;
-            width: 21.857923497267763%;
+            left: 65.82244008714598%;
+            width: 26.797385620915023%;
             background: var(--st-submitted);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 55.19125683060109%; background: var(--st-submitted)"
+          style="left: 65.82244008714598%; background: var(--st-submitted)"
         ></span
       ></span>
       <span class="ctb-row__meta">Sep 10, 2026</span>
@@ -243,14 +242,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 63.387978142076506%;
-            width: 13.661202185792348%;
+            left: 75.62636165577342%;
+            width: 16.993464052287578%;
             background: var(--st-in-preparation);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 63.387978142076506%; background: var(--st-in-preparation)"
+          style="left: 75.62636165577342%; background: var(--st-in-preparation)"
         ></span
       ></span>
       <span class="ctb-row__meta">Sep 25, 2026</span>
@@ -263,14 +262,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 63.387978142076506%;
-            width: 13.661202185792348%;
+            left: 75.62636165577342%;
+            width: 16.993464052287578%;
             background: var(--st-in-preparation);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 63.387978142076506%; background: var(--st-in-preparation)"
+          style="left: 75.62636165577342%; background: var(--st-in-preparation)"
         ></span
       ></span>
       <span class="ctb-row__meta">Sep 25, 2026</span>
@@ -283,14 +282,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 63.387978142076506%;
-            width: 13.661202185792348%;
+            left: 75.62636165577342%;
+            width: 16.993464052287578%;
             background: var(--st-in-preparation);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 63.387978142076506%; background: var(--st-in-preparation)"
+          style="left: 75.62636165577342%; background: var(--st-in-preparation)"
         ></span
       ></span>
       <span class="ctb-row__meta">Sep 25, 2026</span>
@@ -303,14 +302,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 74.31693989071039%;
-            width: 2.7322404371584668%;
+            left: 88.69825708061002%;
+            width: 3.9215686274509807%;
             background: var(--st-not-started);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 74.31693989071039%; background: var(--st-not-started)"
+          style="left: 88.69825708061002%; background: var(--st-not-started)"
         ></span
       ></span>
       <span class="ctb-row__meta">Oct 15, 2026</span>
@@ -323,14 +322,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 74.31693989071039%;
-            width: 2.7322404371584668%;
+            left: 88.69825708061002%;
+            width: 3.9215686274509807%;
             background: var(--st-not-started);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 74.31693989071039%; background: var(--st-not-started)"
+          style="left: 88.69825708061002%; background: var(--st-not-started)"
         ></span
       ></span>
       <span class="ctb-row__meta">Oct 15, 2026</span>
@@ -343,14 +342,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 74.31693989071039%;
-            width: 2.7322404371584668%;
+            left: 88.69825708061002%;
+            width: 3.9215686274509807%;
             background: var(--st-not-started);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 74.31693989071039%; background: var(--st-not-started)"
+          style="left: 88.69825708061002%; background: var(--st-not-started)"
         ></span
       ></span>
       <span class="ctb-row__meta">Oct 15, 2026</span>
@@ -363,14 +362,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 77.04918032786885%;
-            width: 6.557377049180332%;
+            left: 92.619825708061%;
+            width: 7.189542483660134%;
             background: var(--st-not-started);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 83.60655737704919%; background: var(--st-not-started)"
+          style="left: 99.80936819172113%; background: var(--st-not-started)"
         ></span
       ></span>
       <span class="ctb-row__meta">Nov 1, 2026</span>
@@ -383,14 +382,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 77.04918032786885%;
-            width: 6.557377049180332%;
+            left: 92.619825708061%;
+            width: 7.189542483660134%;
             background: var(--st-not-started);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 83.60655737704919%; background: var(--st-not-started)"
+          style="left: 99.80936819172113%; background: var(--st-not-started)"
         ></span
       ></span>
       <span class="ctb-row__meta">Nov 1, 2026</span>
@@ -403,14 +402,14 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 77.04918032786885%;
-            width: 6.557377049180332%;
+            left: 92.619825708061%;
+            width: 7.189542483660134%;
             background: var(--st-not-started);
           "
         ></span>
         <span
           class="ctb-row__dot"
-          style="left: 83.60655737704919%; background: var(--st-not-started)"
+          style="left: 99.80936819172113%; background: var(--st-not-started)"
         ></span
       ></span>
       <span class="ctb-row__meta">Nov 1, 2026</span>

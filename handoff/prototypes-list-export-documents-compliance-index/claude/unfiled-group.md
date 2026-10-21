@@ -149,8 +149,8 @@ Items the index has not placed yet, as the LAST group: category "Unfiled", subca
           </div>
           <dl class="bcn-doc-occ">
             <div class="bcn-doc-occ__line">
-              <dt>Bouldin Island Launch Shaft</dt>
-              <dd>Overdue<span class="bcn-doc-occ__aside">Due 2026-12-03</span></dd>
+              <dt>Bouldin Island Geotechnical Exploration</dt>
+              <dd>In Progress<span class="bcn-doc-occ__aside">Due 2026-07-30</span></dd>
             </div>
           </dl>
         </article>
@@ -312,8 +312,8 @@ Items the index has not placed yet, as the LAST group: category "Unfiled", subca
               <dd>In Progress<span class="bcn-doc-occ__aside">Due 2026-11-23</span></dd>
             </div>
             <div class="bcn-doc-occ__line">
-              <dt>Bouldin Island Launch Shaft</dt>
-              <dd>Not Started<span class="bcn-doc-occ__aside">Due 2026-12-14</span></dd>
+              <dt>Bouldin Island Geotechnical Exploration</dt>
+              <dd>In Progress<span class="bcn-doc-occ__aside">Due 2026-06-23</span></dd>
             </div>
           </dl>
         </article>

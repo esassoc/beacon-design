@@ -200,9 +200,9 @@ An action list as the PDF its Export card downloads: title block, a summary tabl
                     </dd>
                   </div>
                   <div class="bcn-doc-occ__line">
-                    <dt>Bouldin Island Launch Shaft</dt>
+                    <dt>Bouldin Island Geotechnical Exploration</dt>
                     <dd>
-                      In Progress<span class="bcn-doc-occ__aside">Due 2027-03-10</span
+                      In Progress<span class="bcn-doc-occ__aside">Due 2026-06-25</span
                       ><span class="bcn-doc-occ__aside">1 of 3 done</span>
                     </dd>
                   </div>
@@ -254,9 +254,9 @@ An action list as the PDF its Export card downloads: title block, a summary tabl
                     </dd>
                   </div>
                   <div class="bcn-doc-occ__line">
-                    <dt>Bouldin Island Launch Shaft</dt>
+                    <dt>Bouldin Island Geotechnical Exploration</dt>
                     <dd>
-                      In Progress<span class="bcn-doc-occ__aside">Due 2026-08-31</span
+                      In Progress<span class="bcn-doc-occ__aside">Due 2026-10-24</span
                       ><span class="bcn-doc-occ__aside">1 of 3 done</span>
                     </dd>
                   </div>

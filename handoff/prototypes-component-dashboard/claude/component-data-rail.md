@@ -3,9 +3,9 @@
 The quiet utility rail: four links that open component-data side panels via the ?data=<key> URL contract, the same contract the project dashboard established.
 
 ## Key decisions
-- FOUR keys, not six: component info, milestones, source documents, footprint layers. Species, seasons and construction activities are project-level. Offering component copies would imply an override the data model does not have — this asymmetry is deliberate and a future reader should not "fix" it.
+- FOUR keys, not six: component info, milestones, source documents, footprint layers. The project owns the species, season and construction-activity lists; a component's picks from them are made in Component Setup, not in rail panels. This asymmetry is deliberate and a future reader should not "fix" it.
 - Milestones is the only genuinely editable one, matching production, where it is a component's single edit tab.
-- Source documents and footprint layers are read-only here. Sources reach a component through commitments, not by assignment; layers are managed in the Spatial Library zone.
+- Source documents and footprint layers are read-only here. Which documents apply is chosen in Component Setup; layers are managed in the Spatial Library zone.
 
 ## Gotchas
 - Panel state must ride the URL so panels are bookmarkable and the browser Back button closes them — honored on first load AND on popstate, not just on click.
@@ -238,6 +238,10 @@ The quiet utility rail: four links that open component-data side panels via the 
 }
 .bcn-sw__head .esa-icon {
   color: var(--color-content-default-secondary);
+}
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);

@@ -22,7 +22,10 @@ The component's identity band: a full-width white bar carrying its mark, its nam
 
 ## Markup
 ```html
-<section class="bcn-chd" aria-label="Bouldin Island Launch Shaft — component home">
+<section
+  class="bcn-chd"
+  aria-label="Bouldin Island Geotechnical Exploration — component home"
+>
   <!-- WAYFINDING MOVED OUT (review, 2026-08-13). Both the way back up the tree and
        the prev/next walk now live in the breadcrumb bar above this band: the trail
        carries the hierarchy (project › All Components › this one) and bcn-sibling-nav
@@ -45,7 +48,7 @@ The component's identity band: a full-width white bar carrying its mark, its nam
         ><span
           class="esa-icon esa-icon--xl"
           role="img"
-          aria-label="Bouldin Island Launch Shaft mark"
+          aria-label="Bouldin Island Geotechnical Exploration mark"
           ><svg
             width="28"
             height="28"
@@ -93,7 +96,9 @@ The component's identity band: a full-width white bar carrying its mark, its nam
     ></span>
     <div class="bcn-chd__ident">
       <div class="bcn-chd__title-row">
-        <h1 class="bcn-chd__name typography-heading-lg">Bouldin Island Launch Shaft</h1>
+        <h1 class="bcn-chd__name typography-heading-lg">
+          Bouldin Island Geotechnical Exploration
+        </h1>
         <span
           class="bcn-status-chip"
           data-status="active"
@@ -112,14 +117,14 @@ The component's identity band: a full-width white bar carrying its mark, its nam
           class="bcn-chd__star"
           data-star-toggle=""
           data-pressed="true"
-          data-name="Bouldin Island Launch Shaft"
+          data-name="Bouldin Island Geotechnical Exploration"
           ><span
             class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
             ><button
               class="esa-button__native typography-microcopy-md"
               type="button"
-              aria-label="Unstar Bouldin Island Launch Shaft"
-              title="Unstar Bouldin Island Launch Shaft"
+              aria-label="Unstar Bouldin Island Geotechnical Exploration"
+              title="Unstar Bouldin Island Geotechnical Exploration"
               aria-pressed="true"
             >
               <span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -680,6 +685,10 @@ summary.esa-button--variant-chrome:focus-visible {
   border: var(--bcn-seal-ring-width) solid var(--bcn-seal-ring-color);
   box-shadow: var(--bcn-seal-shadow);
   box-sizing: content-box;
+}
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);

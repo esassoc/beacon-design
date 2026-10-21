@@ -12,4 +12,4 @@ snapshot of one page for a developer (or an AI agent) to re-implement on any sta
 - **`manifest.json`** — per-section data powering the live dev-mode overlay.
 
 Source URL: http://localhost:4399/beacon-design/prototypes/permitting-details/
-Rules shipped: 448 · Tokens referenced: 778
+Rules shipped: 476 · Tokens referenced: 778

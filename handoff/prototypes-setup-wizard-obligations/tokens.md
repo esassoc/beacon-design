@@ -1,6 +1,6 @@
 # Token contract — prototypes-setup-wizard-obligations
 
-The 137 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 131 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -56,11 +56,6 @@ The 137 design tokens this page actually uses, resolved to their final values fo
 | `--typography-label-md-font-weight` | `500` |
 | `--typography-label-md-letter-spacing` | `.01em` |
 | `--typography-label-md-line-height` | `1.6` |
-| `--typography-label-xs-font-family` | `"DM Sans", sans-serif` |
-| `--typography-label-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
-| `--typography-label-xs-font-weight` | `500` |
-| `--typography-label-xs-letter-spacing` | `.01em` |
-| `--typography-label-xs-line-height` | `1.6` |
 | `--typography-microcopy-2xs-font-family` | `"DM Sans", sans-serif` |
 | `--typography-microcopy-2xs-font-size` | `clamp(.5rem, .44rem + .3vw, .625rem)` |
 | `--typography-microcopy-2xs-font-weight` | `500` |
@@ -119,7 +114,6 @@ The 137 design tokens this page actually uses, resolved to their final values fo
 | `--form-error-color` | `#ce2c31` |
 | `--form-help-color` | `#525252` |
 | `--form-label-color` | `#525252` |
-| `--form-label-gap` | `.25rem` |
 | `--form-placeholder-color` | `#525252` |
 | `--form-text-color` | `#3d3d3d` |
 | `--side-dialog-inset` | `16px` |

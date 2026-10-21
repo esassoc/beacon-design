@@ -113,7 +113,7 @@ The components the user works in, as portal cards into their component dashboard
       <a
         class="bcn-stc__portal"
         href="/beacon-design/prototypes/component-dashboard"
-        aria-label="Open the Bouldin Island Launch Shaft component dashboard"
+        aria-label="Open the Bouldin Island Geotechnical Exploration component dashboard"
       ></a
       ><span class="bcn-stc__star" data-star-toggle=""
         ><span
@@ -121,8 +121,8 @@ The components the user works in, as portal cards into their component dashboard
           ><button
             class="esa-button__native typography-microcopy-xs"
             type="button"
-            aria-label="Unstar Bouldin Island Launch Shaft"
-            title="Unstar Bouldin Island Launch Shaft"
+            aria-label="Unstar Bouldin Island Geotechnical Exploration"
+            title="Unstar Bouldin Island Geotechnical Exploration"
             aria-pressed="true"
           >
             <span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -163,8 +163,10 @@ The components the user works in, as portal cards into their component dashboard
                 <path d="M3.29 7 12 12l8.71-5"></path>
                 <path d="M12 22V12"></path></svg></span></span
           ><span class="bcn-stc__ident"
-            ><span class="bcn-stc__name">Bouldin Island Launch Shaft</span
-            ><span class="bcn-stc__type">Tunnel launch shaft — Bouldin Island</span></span
+            ><span class="bcn-stc__name">Bouldin Island Geotechnical Exploration</span
+            ><span class="bcn-stc__type"
+              >Geotechnical exploration — Bouldin Island</span
+            ></span
           >
         </div>
       </div>

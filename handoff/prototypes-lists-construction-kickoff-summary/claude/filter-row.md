@@ -37,7 +37,7 @@ Search plus three pickers above the tree: Category, Component, Evidence (Has Evi
     class="bcn-swfr__picker"
     size="sm"
     name="list-search-component"
-    options='[{"label":"All components","value":""},{"label":"Southern Forebay &amp; Pumping Plant","value":"southern-forebay-pumping-plant"},{"label":"Intake B — North Delta","value":"intake-b-north-delta"},{"label":"Twin Cities Complex","value":"twin-cities-complex"},{"label":"Intake C — North Delta","value":"intake-c-north-delta"},{"label":"Bouldin Island Launch Shaft","value":"bouldin-island-launch-shaft"},{"label":"Bethany Reservoir Aqueduct","value":"bethany-reservoir-aqueduct"},{"label":"Byron Tract Forebay","value":"byron-tract-forebay"}]'
+    options='[{"label":"All components","value":""},{"label":"Southern Forebay &amp; Pumping Plant","value":"southern-forebay-pumping-plant"},{"label":"Intake B — North Delta","value":"intake-b-north-delta"},{"label":"Twin Cities Complex","value":"twin-cities-complex"},{"label":"Intake C — North Delta","value":"intake-c-north-delta"},{"label":"Bouldin Island Geotechnical Exploration","value":"bouldin-island-geotechnical-exploration"},{"label":"Bethany Reservoir Aqueduct","value":"bethany-reservoir-aqueduct"},{"label":"Byron Tract Forebay","value":"byron-tract-forebay"}]'
     value=""
     placeholder="All components"
     cue="Filter by component."

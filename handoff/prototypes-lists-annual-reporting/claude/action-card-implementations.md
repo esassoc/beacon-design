@@ -104,9 +104,9 @@ One action: type chip, title (opens the action panel), implementation count. Chi
       </li>
       <li
         class="bcn-loc__req bcn-loc__impl"
-        data-list-impl="act_01M2G6Y3ENYWE6AXT12YDFDJM1|bouldin-island-launch-shaft"
+        data-list-impl="act_01M2G6Y3ENYWE6AXT12YDFDJM1|bouldin-island-geotechnical-exploration"
         data-status="in-progress"
-        data-evidence="0"
+        data-evidence="6"
       >
         <span
           class="bcn-status-chip"
@@ -125,13 +125,11 @@ One action: type chip, title (opens the action panel), implementation count. Chi
      style block already documents. --><button
           type="button"
           class="bcn-loc__req-name"
-          data-list-text="Bouldin Island Launch Shaft"
+          data-list-text="Bouldin Island Geotechnical Exploration"
         >
-          Bouldin Island Launch Shaft</button
+          Bouldin Island Geotechnical Exploration</button
         ><span class="bcn-loc__comments" hidden="">0 comments</span
-        ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
-          >No evidence</span
-        >
+        ><span class="bcn-loc__evidence" data-list-evidence="">6 evidence</span>
       </li>
       <li
         class="bcn-loc__req bcn-loc__impl"

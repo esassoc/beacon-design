@@ -3882,7 +3882,7 @@ Four cuts of one record set as icon tabs: All (inbox), Important (star: records 
                           <div class="bcn-frec__pair">
                             <dt class="typography-label-sm">Component</dt>
                             <dd class="typography-body-sm">
-                              Bouldin Island Launch Shaft
+                              Bouldin Island Geotechnical Exploration
                             </dd>
                           </div>
                           <div class="bcn-frec__pair">

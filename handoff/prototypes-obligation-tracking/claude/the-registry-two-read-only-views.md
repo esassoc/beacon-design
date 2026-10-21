@@ -70,7 +70,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
               aria-expanded="false"
               aria-controls="menu"
               style="
-                font-family: &quot;Times New Roman&quot;;
+                font-family: Times;
                 font-size: 13px;
                 font-weight: 400;
                 line-height: normal;
@@ -178,7 +178,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
               aria-expanded="false"
               aria-controls="menu"
               style="
-                font-family: &quot;Times New Roman&quot;;
+                font-family: Times;
                 font-size: 13px;
                 font-weight: 400;
                 line-height: normal;
@@ -100163,7 +100163,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 <span
                   class="esa-icon esa-icon--xs"
                   aria-hidden="true"
-                  data-astro-cid-wcwfib5m=""
+                  data-astro-cid-c7ivvrtd=""
                   ><svg
                     width="14"
                     height="14"
@@ -100174,7 +100174,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     focusable="false"
-                    data-astro-cid-wcwfib5m=""
+                    data-astro-cid-c7ivvrtd=""
                   >
                     <path
                       d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
@@ -100194,7 +100194,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                 <span
                   class="esa-icon esa-icon--xs"
                   aria-hidden="true"
-                  data-astro-cid-wcwfib5m=""
+                  data-astro-cid-c7ivvrtd=""
                   ><svg
                     width="14"
                     height="14"
@@ -100205,7 +100205,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     focusable="false"
-                    data-astro-cid-wcwfib5m=""
+                    data-astro-cid-c7ivvrtd=""
                   >
                     <path d="M18 6 6 18"></path>
                     <path d="m6 6 12 12"></path></svg

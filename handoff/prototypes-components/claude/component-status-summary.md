@@ -37,7 +37,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
         <div
           class="bcn-summary__bar"
           role="img"
-          aria-label="4 not started, 7 in progress, 2 on hold, 3 complete"
+          aria-label="4 not started, 8 in progress, 2 on hold, 2 complete"
         >
           <span
             class="bcn-summary__seg"
@@ -45,7 +45,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
           ></span
           ><span
             class="bcn-summary__seg"
-            style="--_c: var(--color-background-utility-warning); width: 43.75%"
+            style="--_c: var(--color-background-utility-warning); width: 50%"
           ></span
           ><span
             class="bcn-summary__seg"
@@ -53,7 +53,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
           ></span
           ><span
             class="bcn-summary__seg"
-            style="--_c: var(--color-background-utility-success); width: 18.75%"
+            style="--_c: var(--color-background-utility-success); width: 12.5%"
           ></span>
         </div>
         <ul class="bcn-summary__legend">
@@ -69,7 +69,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
               class="bcn-summary__dot"
               style="--_c: var(--color-background-utility-warning)"
             ></span
-            >In progress<span class="bcn-summary__legend-count">7</span>
+            >In progress<span class="bcn-summary__legend-count">8</span>
           </li>
           <li class="bcn-summary__legend-item">
             <span class="bcn-summary__dot" style="--_c: var(--bcn-status-on-hold)"></span
@@ -80,7 +80,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
               class="bcn-summary__dot"
               style="--_c: var(--color-background-utility-success)"
             ></span
-            >Complete<span class="bcn-summary__legend-count">3</span>
+            >Complete<span class="bcn-summary__legend-count">2</span>
           </li>
         </ul>
       </div>
@@ -98,7 +98,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
       <div class="bcn-summary__attention">
         <div style="--stat-value-color: var(--color-content-utility-danger)">
           <div class="esa-stat">
-            <div class="esa-stat__value typography-display-sm">5</div>
+            <div class="esa-stat__value typography-display-sm">6</div>
             <div class="esa-stat__label typography-label-md">
               Components with overdue actions
             </div>
@@ -116,10 +116,11 @@ A project-wide roll-up above the list: how many components exist, how they distr
             ><span class="bcn-summary__att-flag">3 overdue</span>
           </li>
           <li class="bcn-summary__att-row">
-            <span class="bcn-summary__att-name">Intake B — North Delta</span
-            ><span class="bcn-summary__att-flag">2 overdue</span>
+            <span class="bcn-summary__att-name"
+              >Bouldin Island Geotechnical Exploration</span
+            ><span class="bcn-summary__att-flag">3 overdue</span>
           </li>
-          <li class="bcn-summary__att-more">+2 more</li>
+          <li class="bcn-summary__att-more">+3 more</li>
         </ul>
       </div>
     </div>
