@@ -25,8 +25,32 @@
  * @property {string[]} [acceptance] "Done when…" checks.
  */
 
-/** @type {{ sections: HandoffSection[] }} */
+/** @type {{ data?: object, sections: HandoffSection[] }} */
 export default {
+  // The fixture behind every section, printed as a Data section in each spec.
+  data: {
+    fixture: 'src/data/action-tracking.ts',
+    store: 'src/lib/action-board.ts',
+    fields: {
+      id: 'ActionImplementationID, `<actionId>|<componentId>`',
+      name: 'Action name',
+      type: 'RequirementType; the Type tabs group these into workflows',
+      codes: 'ClientCommitmentIDs, in code order (the card\'s commitment badges)',
+      sequence: 'SequenceNumber, the occurrence for recurring and as-needed work',
+      dueDate: 'ISO, or null when unscheduled (prod "Not set")',
+      completedDate: 'ISO, Completed only',
+      columnId: 'The workflow column the card sits in',
+      category: 'The status backbone the column maps to',
+      notApplicable: 'IsNotApplicable; the N/A switch hides these',
+      evidence: 'Evidence count on the card',
+      comments: 'Comment count; hidden at zero',
+    },
+    enums: {
+      category: ['NotStarted', 'InProgress', 'Completed'],
+      frequency: ['Onetime', 'Recurring', 'AsNeeded', 'Ongoing'],
+    },
+    notes: ['category is prod\'s ActionImplementationStatusDtoEnum.'],
+  },
   sections: [
     {
       label: 'Title + component switcher',
