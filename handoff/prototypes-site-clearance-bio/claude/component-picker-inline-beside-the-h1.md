@@ -70,6 +70,10 @@ The single-select Component picker that scopes the whole page — map, grids, an
   color: var(--color-content-default-tertiary);
   flex: none;
 }
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
+}
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;

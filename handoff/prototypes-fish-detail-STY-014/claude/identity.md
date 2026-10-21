@@ -102,6 +102,12 @@ _4 repeated elements are collapsed in the markup below; the comments say where._
   align-self: flex-start;
   width: fit-content;
 }
+.bcn-aldo-instructions .esa-collapsible__summary {
+  padding-block: var(--_aldo-gap);
+}
+.bcn-aldo-panel__side .bcn-aldo-instructions .esa-collapsible__summary {
+  padding-block: 0 var(--spacing-200);
+}
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
   font-size: var(--typography-body-md-font-size);

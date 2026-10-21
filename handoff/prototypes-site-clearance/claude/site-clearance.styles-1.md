@@ -61,6 +61,48 @@
   color: var(--color-content-default-tertiary);
   flex: none;
 }
+.bcn-help-bar__tooltip .esa-button__label {
+  line-height: 0;
+  display: inline-flex;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
+.bcn-aldo-instructions .esa-collapsible__summary {
+  padding-block: var(--_aldo-gap);
+}
+.bcn-aldo-needs__head .esa-badge {
+  font-variant-numeric: tabular-nums;
+}
+.bcn-aldo-composer__send[data-empty] .esa-button__native {
+  cursor: not-allowed;
+}
+.bcn-aldo-panel__side .bcn-aldo-instructions .esa-collapsible__summary {
+  padding-block: 0 var(--spacing-200);
+}
+.bcn-admin-btn,
+.bcn-admin-btn .esa-button {
+  display: inline-flex;
+}
+.bcn-admin-btn .esa-button__native {
+  --focus-ring-color: #fff;
+  border-radius: var(--radius-full);
+  color: #ffffffb8;
+  block-size: 22px;
+  min-block-size: 0;
+  inline-size: 22px;
+  min-inline-size: 0;
+  padding: 0;
+}
+.bcn-admin-btn .esa-button__native:hover,
+.bcn-admin-btn .esa-button__native:focus-visible {
+  color: #fff;
+  background: #ffffff24;
+}
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
+}
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -1724,40 +1766,5 @@ html,
   border: none;
   text-decoration: underline;
   display: inline-flex;
-}
-.esa-filter-clear-button:hover {
-  color: var(--_clear-text-hover);
-  background: var(--color-background-overlay-hover, #00000008);
-}
-.esa-filter-clear-button:focus-visible {
-  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
-  outline-offset: var(--focus-ring-offset, 2px);
-}
-.esa-filter-clear-button__icon {
-  width: var(--_clear-icon-size);
-  height: var(--_clear-icon-size);
-  flex: none;
-}
-.esa-filter-clear-button__label {
-  white-space: nowrap;
-}
-.esa-empty-state {
-  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
-  --_empty-gap: var(--spacing-200, 0.5rem);
-  text-align: center;
-  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
-  justify-content: center;
-  align-items: center;
-  gap: var(--_empty-gap);
-  flex-direction: column;
-  display: flex;
-}
-.esa-empty-state--sm {
-  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
-  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
-}
-.esa-empty-state__title {
-  color: var(--color-content-default, #202020);
-  margin: 0;
 }
 ```

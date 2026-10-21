@@ -429,7 +429,7 @@
                   >
                     <div
                       class="leaflet-pane leaflet-map-pane"
-                      style="transform: translate3d(0px, 0px, 0px)"
+                      style="transform: translate3d(75px, 0px, 0px)"
                     >
                       <div class="leaflet-pane leaflet-tile-pane">
                         <div class="leaflet-layer" style="z-index: 1; opacity: 1">
@@ -444,7 +444,7 @@
                               style="
                                 width: 256px;
                                 height: 256px;
-                                transform: translate3d(247px, 129px, 0px);
+                                transform: translate3d(172px, 129px, 0px);
                                 opacity: 1;
                               "
                             /><img
@@ -454,7 +454,7 @@
                               style="
                                 width: 256px;
                                 height: 256px;
-                                transform: translate3d(247px, -127px, 0px);
+                                transform: translate3d(172px, -127px, 0px);
                                 opacity: 1;
                               "
                             /><!-- …and 7 more like this (<img class="leaflet-tile">) -->
@@ -467,8 +467,8 @@
                           class="leaflet-zoom-animated"
                           width="814"
                           height="670"
-                          viewBox="-68 -56 814 670"
-                          style="transform: translate3d(-68.1861px, -55.4972px, 0px) scale(1)"
+                          viewBox="-143 -56 814 670"
+                          style="transform: translate3d(-143px, -56px, 0px)"
                         >
                           <g>
                             <path
@@ -481,7 +481,7 @@
                               fill="#005862"
                               fill-opacity="0.15"
                               fill-rule="evenodd"
-                              d="M189 430L489 430L489 129L189 129z"
+                              d="M114 430L414 430L414 129L114 129z"
                             ></path>
                           </g>
                         </svg>

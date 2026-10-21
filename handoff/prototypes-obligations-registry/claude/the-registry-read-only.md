@@ -42,7 +42,7 @@ The registry as a nested tree — 17 subject areas over 69 headings over 402 sta
 _97 repeated elements are collapsed in the markup below; the comments say where._
 
 - [the-registry-read-only.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-obligations-registry/claude/the-registry-read-only.markup.md) (40 KB)
-- [the-registry-read-only.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-obligations-registry/claude/the-registry-read-only.styles.md) (16 KB)
+- [the-registry-read-only.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-obligations-registry/claude/the-registry-read-only.styles.md) (17 KB)
 
 ## Tokens
 
@@ -51,6 +51,7 @@ _97 repeated elements are collapsed in the markup below; the comments say where.
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-content-muted` | `#7c7c7c` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-700` | `#525252` | component |

@@ -153,6 +153,35 @@ _4 repeated elements are collapsed in the markup below; the comments say where._
   line-height: var(--typography-microcopy-md-line-height);
   letter-spacing: var(--typography-microcopy-md-letter-spacing);
 }
+.bcn-help-bar__tooltip .esa-button__label {
+  line-height: 0;
+  display: inline-flex;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
+.bcn-aldo-composer__send[data-empty] .esa-button__native {
+  cursor: not-allowed;
+}
+.bcn-admin-btn,
+.bcn-admin-btn .esa-button {
+  display: inline-flex;
+}
+.bcn-admin-btn .esa-button__native {
+  --focus-ring-color: #fff;
+  border-radius: var(--radius-full);
+  color: #ffffffb8;
+  block-size: 22px;
+  min-block-size: 0;
+  inline-size: 22px;
+  min-inline-size: 0;
+  padding: 0;
+}
+.bcn-admin-btn .esa-button__native:hover,
+.bcn-admin-btn .esa-button__native:focus-visible {
+  color: #fff;
+  background: #ffffff24;
+}
 .bcn-csc__figures {
   gap: var(--spacing-400);
   grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
@@ -532,6 +561,7 @@ summary.esa-button:focus-visible {
 | Token | Value | Tier |
 |---|---|---|
 | `--animation-indeterminate` | `1.5s ease-in-out infinite` | semantic |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--border-width-default` | `1px` | semantic |
 | `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
 | `--button-radius-md` | `.25rem` | component |
@@ -558,6 +588,7 @@ summary.esa-button:focus-visible {
 | `--gap` | `1rem` | component |
 | `--progress-bar-height-md` | `8px` | component |
 | `--progress-bar-height-sm` | `4px` | component |
+| `--radius-full` | `9999px` | primitive |
 | `--radius-pill` | `9999px` | semantic |
 | `--spacing-050` | `.125rem` | primitive |
 | `--spacing-100` | `.25rem` | primitive |

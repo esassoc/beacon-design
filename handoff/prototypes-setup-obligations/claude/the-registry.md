@@ -57,7 +57,7 @@ _97 repeated elements are collapsed in the markup below; the comments say where.
 
 - [the-registry.markup-1.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-obligations/claude/the-registry.markup-1.md) (47 KB)
 - [the-registry.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-obligations/claude/the-registry.markup-2.md) (979 B)
-- [the-registry.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-obligations/claude/the-registry.styles.md) (17 KB)
+- [the-registry.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-obligations/claude/the-registry.styles.md) (18 KB)
 
 ## Tokens
 
@@ -66,6 +66,7 @@ _97 repeated elements are collapsed in the markup below; the comments say where.
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-content-muted` | `#7c7c7c` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-700` | `#525252` | component |

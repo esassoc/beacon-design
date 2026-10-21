@@ -63,13 +63,14 @@ _161 repeated elements are collapsed in the markup below; the comments say where
 - [the-feed-four-views.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-tracking/claude/the-feed-four-views.markup-2.md) (46 KB)
 - [the-feed-four-views.markup-3.md](https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-tracking/claude/the-feed-four-views.markup-3.md) (47 KB)
 - [the-feed-four-views.markup-4.md](https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-tracking/claude/the-feed-four-views.markup-4.md) (2.7 KB)
-- [the-feed-four-views.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-tracking/claude/the-feed-four-views.styles.md) (22 KB)
+- [the-feed-four-views.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-tracking/claude/the-feed-four-views.styles.md) (23 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
 | `--alert-box-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-400` | `#989898` | component |
 | `--bcn-gray-500` | `#7c7c7c` | component |
@@ -105,11 +106,13 @@ _161 repeated elements are collapsed in the markup below; the comments say where
 | `--icon-size-sm` | `16px` | primitive |
 | `--icon-size-xs` | `14px` | primitive |
 | `--radius-100` | `.25rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
 | `--radius-md` | `.25rem` | semantic |
 | `--spacing-050` | `.125rem` | primitive |
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |
 | `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
 | `--spacing-300` | `.75rem` | primitive |
 | `--spacing-400` | `1rem` | primitive |
 | `--spacing-500` | `1.5rem` | primitive |

@@ -244,6 +244,39 @@ One member of this version, an action or an obligation: the obligation list's pa
   color: var(--color-content-default-tertiary);
   flex: none;
 }
+.bcn-help-bar__tooltip .esa-button__label {
+  line-height: 0;
+  display: inline-flex;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
+.bcn-aldo-composer__send[data-empty] .esa-button__native {
+  cursor: not-allowed;
+}
+.bcn-admin-btn,
+.bcn-admin-btn .esa-button {
+  display: inline-flex;
+}
+.bcn-admin-btn .esa-button__native {
+  --focus-ring-color: #fff;
+  border-radius: var(--radius-full);
+  color: #ffffffb8;
+  block-size: 22px;
+  min-block-size: 0;
+  inline-size: 22px;
+  min-inline-size: 0;
+  padding: 0;
+}
+.bcn-admin-btn .esa-button__native:hover,
+.bcn-admin-btn .esa-button__native:focus-visible {
+  color: #fff;
+  background: #ffffff24;
+}
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
+}
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -347,9 +380,6 @@ One member of this version, an action or an obligation: the obligation list's pa
 .bcn-lob[data-class="action"],
 .bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
-}
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -696,6 +726,7 @@ summary.esa-button:focus-visible {
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-xs` | `14px` | primitive |
 | `--radius-100` | `.25rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
 | `--spacing-050` | `.125rem` | primitive |
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |

@@ -18,12 +18,13 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wi
 _38 repeated elements are collapsed in the markup below; the comments say where._
 
 - [setup-wizard.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard/claude/setup-wizard.markup.md) (26 KB)
-- [setup-wizard.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard/claude/setup-wizard.styles.md) (19 KB)
+- [setup-wizard.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard/claude/setup-wizard.styles.md) (20 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-200` | `#dcdcdc` | component |

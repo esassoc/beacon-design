@@ -37,12 +37,13 @@ _93 repeated elements are collapsed in the markup below; the comments say where.
 - [setup-wizard.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-obligations/claude/setup-wizard.markup-2.md) (46 KB)
 - [setup-wizard.markup-3.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-obligations/claude/setup-wizard.markup-3.md) (47 KB)
 - [setup-wizard.markup-4.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-obligations/claude/setup-wizard.markup-4.md) (14 KB)
-- [setup-wizard.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-obligations/claude/setup-wizard.styles.md) (34 KB)
+- [setup-wizard.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-obligations/claude/setup-wizard.styles.md) (35 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-1000` | `#000` | component |

@@ -25,6 +25,7 @@ _101 repeated elements are collapsed in the markup below; the comments say where
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-200` | `#dcdcdc` | component |
@@ -60,6 +61,7 @@ _101 repeated elements are collapsed in the markup below; the comments say where
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-sm` | `16px` | primitive |
 | `--radius-100` | `.25rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
 | `--spacing-050` | `.125rem` | primitive |
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |

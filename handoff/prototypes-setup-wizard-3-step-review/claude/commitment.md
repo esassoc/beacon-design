@@ -141,6 +141,7 @@ _7 repeated elements are collapsed in the markup below; the comments say where._
 | `--icon-size-sm` | `16px` | primitive |
 | `--radius-100` | `.25rem` | primitive |
 | `--radius-200` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
 | `--radius-xs` | `.125rem` | semantic |
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |

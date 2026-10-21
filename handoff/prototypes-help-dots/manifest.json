@@ -1,0 +1,1321 @@
+{
+  "name": "help-dots",
+  "title": "Help Dots",
+  "description": "On the Lists page, Guidance puts pulsing Aldo dots on the page instead of opening the drawer, with a dark button to open Help & Guidance; each dot opens a popover about the thing it marks, one with a screenshot.",
+  "dir": "prototypes-help-dots",
+  "url": "https://esassoc.github.io/beacon-design/prototypes/help-dots/",
+  "baseUrl": "https://esassoc.github.io/beacon-design/handoff/prototypes-help-dots/",
+  "theme": "beacon",
+  "generatedFrom": "spec",
+  "sections": [
+    {
+      "label": "Band above the Guidance bar",
+      "tag": "div",
+      "selector": "[data-help-panelbar]",
+      "apply": [
+        {
+          "click": "[data-help-bar] [data-help-trigger]"
+        }
+      ],
+      "html": "<div class=\"bcn-help-dots__band\" data-help-panelbar=\"\">\n  <div class=\"bcn-help-dots__row\" data-help-band-menu=\"\">\n    <span class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm\"\n      ><button\n        class=\"esa-button__native typography-microcopy-xs\"\n        type=\"button\"\n        data-help-panel-open=\"true\"\n      >\n        <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n          ><svg\n            width=\"16\"\n            height=\"16\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n            <path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\"></path>\n            <path d=\"M12 17h.01\"></path></svg></span\n        ><span class=\"esa-button__label\">Open Help &amp; Guidance</span>\n      </button></span\n    >\n    <div class=\"bcn-help-dots__admin\" data-help-band-admin=\"\" hidden=\"\">\n      <esa-tooltip\n        text=\"ESA admin: add a dot, shown to every tenant\"\n        position=\"above\"\n        delay=\"150\"\n        align=\"center\"\n        ><span\n          class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm\"\n          ><button\n            class=\"esa-button__native typography-microcopy-xs\"\n            type=\"button\"\n            data-help-band-add=\"true\"\n          >\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n              ><svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"M5 12h14\"></path>\n                <path d=\"M12 5v14\"></path></svg></span\n            ><span class=\"esa-button__label\">Add Dot</span>\n          </button></span\n        ></esa-tooltip\n      ><esa-tooltip\n        text=\"ESA admin: move, edit or detach dots for every tenant\"\n        position=\"above\"\n        delay=\"150\"\n        align=\"center\"\n        ><span\n          class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm\"\n          ><button\n            class=\"esa-button__native typography-microcopy-xs\"\n            type=\"button\"\n            data-help-band-edit=\"true\"\n          >\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n              ><svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path\n                  d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"\n                ></path>\n                <path d=\"m15 5 4 4\"></path></svg></span\n            ><span class=\"esa-button__label\">Edit Dots</span>\n          </button></span\n        ></esa-tooltip\n      >\n    </div>\n  </div>\n  <div class=\"bcn-help-dots__row bcn-help-dots__state\" data-help-pickbar=\"\" role=\"status\" hidden=\"\">\n    <span class=\"bcn-aldo-mark\" data-size=\"sm\" data-variant=\"badge\" aria-hidden=\"true\"\n      ><svg\n        class=\"bcn-aldo-mark__glyph\"\n        viewBox=\"0 0 64 64\"\n        fill=\"none\"\n        stroke=\"currentColor\"\n        stroke-width=\"3.5\"\n        stroke-linecap=\"round\"\n        stroke-linejoin=\"round\"\n      >\n        <path d=\"M47.59 23A18 18 0 1 1 31.37 14.01\"></path>\n        <path d=\"M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41\"></path>\n        <path d=\"M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8\"></path>\n        <circle cx=\"33.2\" cy=\"31.1\" r=\"2\" fill=\"currentColor\" stroke=\"none\"></circle></svg></span\n    ><span class=\"bcn-help-dots__state-text\" data-help-pick-text=\"\"\n      >Editing dots: drag to move, click to edit</span\n    ><span class=\"bcn-help-dots__item\" data-help-orphans-wrap=\"\" hidden=\"\"\n      ><esa-popover\n        trigger=\"click\"\n        position=\"top\"\n        offset=\"10\"\n        appearance=\"inverse\"\n        label=\"Needs a New Spot\"\n        ><esa-tooltip\n          text=\"ESA admin: dots whose part is gone from this page\"\n          position=\"above\"\n          delay=\"150\"\n          align=\"center\"\n          ><span\n            class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm\"\n            ><button\n              class=\"esa-button__native typography-microcopy-xs\"\n              type=\"button\"\n              data-help-orphans-chip=\"true\"\n              aria-expanded=\"false\"\n              aria-haspopup=\"dialog\"\n            >\n              <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                ><svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                  <line x1=\"12\" x2=\"12\" y1=\"8\" y2=\"12\"></line>\n                  <line x1=\"12\" x2=\"12.01\" y1=\"16\" y2=\"16\"></line></svg></span\n              ><span class=\"esa-button__label\">0 Need a Spot</span>\n            </button></span\n          ></esa-tooltip\n        >\n        <div\n          slot=\"content\"\n          class=\"bcn-help-dots__orphans stack\"\n          data-gap=\"3xs\"\n          data-help-orphans=\"\"\n        ></div></esa-popover></span\n    ><span class=\"bcn-help-dots__item\" data-help-done-wrap=\"\"\n      ><span\n        class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm\"\n        ><button\n          class=\"esa-button__native typography-microcopy-xs\"\n          type=\"button\"\n          data-help-edit-done=\"true\"\n        >\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"M20 6 9 17l-5-5\"></path></svg></span\n          ><span class=\"esa-button__label\">Done</span>\n        </button></span\n      ></span\n    ><span class=\"bcn-help-dots__item\" data-help-cancel-wrap=\"\" hidden=\"\"\n      ><span\n        class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm\"\n        ><button\n          class=\"esa-button__native typography-microcopy-xs\"\n          type=\"button\"\n          data-help-pick-cancel=\"true\"\n        >\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n            ><svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"M18 6 6 18\"></path>\n              <path d=\"m6 6 12 12\"></path></svg></span\n          ><span class=\"esa-button__label\">Cancel</span>\n        </button></span\n      ></span\n    >\n  </div>\n</div>",
+      "css": ".typography-microcopy-xs {\n  font-family: var(--typography-microcopy-xs-font-family);\n  font-size: var(--typography-microcopy-xs-font-size);\n  font-weight: var(--typography-microcopy-xs-font-weight);\n  line-height: var(--typography-microcopy-xs-line-height);\n  letter-spacing: var(--typography-microcopy-xs-letter-spacing);\n}\n.bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-aldo-mark {\n  border-radius: var(--radius-full);\n  background: var(--bcn-aldo);\n  color: var(--color-content-default-knockout);\n  flex-shrink: 0;\n  justify-content: center;\n  align-items: center;\n  line-height: 0;\n  display: inline-flex;\n}\n.bcn-aldo-mark[data-size=\"sm\"] {\n  width: 20px;\n  height: 20px;\n}\n.bcn-aldo-mark[data-size=\"md\"] {\n  width: 40px;\n  height: 40px;\n}\n.bcn-aldo-mark[data-size=\"lg\"] {\n  width: 64px;\n  height: 64px;\n}\n.bcn-aldo-mark__glyph {\n  width: 100%;\n  height: 100%;\n  display: block;\n}\n.bcn-aldo-mark[data-variant=\"rings\"] {\n  width: var(--bcn-aldo-mark-size, 24px);\n  height: var(--bcn-aldo-mark-size, 24px);\n  background: 0 0;\n  border-radius: 0;\n}\n.bcn-aldo-mark[data-animated] {\n  animation: 2s ease-in-out infinite bcn-aldo-pulse;\n}\n.bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {\n  animation: 12s linear infinite bcn-aldo-spin;\n}\n@media (prefers-reduced-motion: reduce) {\n  .bcn-aldo-mark[data-animated],\n  .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {\n    animation: none;\n  }\n}\n.bcn-help-bar__tooltip .esa-button__label {\n  line-height: 0;\n  display: inline-flex;\n}\n.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {\n  color: var(--bcn-aldo-600);\n}\n.bcn-aldo-composer__send[data-empty] .esa-button__native {\n  cursor: not-allowed;\n}\n.bcn-admin-btn,\n.bcn-admin-btn .esa-button {\n  display: inline-flex;\n}\n.bcn-admin-btn .esa-button__native {\n  --focus-ring-color: #fff;\n  border-radius: var(--radius-full);\n  color: #ffffffb8;\n  block-size: 22px;\n  min-block-size: 0;\n  inline-size: 22px;\n  min-inline-size: 0;\n  padding: 0;\n}\n.bcn-admin-btn .esa-button__native:hover,\n.bcn-admin-btn .esa-button__native:focus-visible {\n  color: #fff;\n  background: #ffffff24;\n}\n.bcn-admin-btn .esa-icon {\n  block-size: 14px;\n  inline-size: 14px;\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n@media (prefers-reduced-motion: reduce) {\n  .bcn-disclosure .esa-icon {\n    transition: none;\n  }\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.esa-button {\n  --_btn-pad-y: var(--spacing-300, 0.75rem);\n  --_btn-padding-x: var(--spacing-300, 0.75rem);\n  --_btn-radius: var(--button-radius-md, 0.5rem);\n  --_accent: var(--color-background-brand, #46a758);\n  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);\n  --_on: var(--color-content-default-knockout, #fcfcfc);\n  --_accent-text: var(--_accent);\n  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);\n  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);\n  display: inline-block;\n}\n.esa-button--sm {\n  --_btn-pad-y: var(--spacing-250, 0.625rem);\n  --_btn-padding-x: var(--spacing-250, 0.625rem);\n  --_btn-radius: var(--button-radius-sm, 4px);\n}\n.esa-button--appearance-fill .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent-border, transparent);\n}\n.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-fill.esa-button--active .esa-button__native {\n  background: var(--_accent-hover);\n}\n.esa-button--appearance-outline .esa-button__native,\n.esa-button--appearance-dashed .esa-button__native {\n  color: var(--_accent-text);\n  border-color: var(--_accent);\n  background: 0 0;\n}\n.esa-button--appearance-dashed .esa-button__native {\n  border-style: dashed;\n}\n.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {\n  background: var(--_btn-tint-hover);\n}\n.esa-button--appearance-outline.esa-button--active .esa-button__native,\n.esa-button--appearance-dashed.esa-button--active .esa-button__native {\n  background: var(--_btn-tint-active);\n}\n.esa-button--appearance-soft .esa-button__native {\n  background: color-mix(\n    in srgb,\n    var(--color-background-elevation-sunken, #f0f0f0) 45%,\n    var(--color-background-elevation-raised, #fcfcfc)\n  );\n  color: var(--_accent-text);\n  border-color: var(--color-border-default-strong, #bbb);\n}\n.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-soft.esa-button--active .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent);\n}\n.esa-button--variant-ghost .esa-button__native {\n  color: var(--color-content-default, #202020);\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,\n.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {\n  border-color: var(--color-border-default, #cecece);\n}\n.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),\n.esa-button--variant-ghost.esa-button--active .esa-button__native {\n  background: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-button--variant-chrome .esa-button__native {\n  color: inherit;\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),\n.esa-button--variant-chrome.esa-button--active .esa-button__native,\n.esa-button--variant-chrome.esa-button--current .esa-button__native {\n  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));\n}\n.esa-button--variant-chrome .esa-button__native:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__native {\n  justify-content: center;\n  align-items: center;\n  gap: var(--spacing-200, 8px);\n  width: 100%;\n  padding-block: var(--_btn-pad-y);\n  padding-inline: var(--_btn-padding-x);\n  border: var(--border-width-default, 1px) solid transparent;\n  border-radius: var(--_btn-radius);\n  cursor: pointer;\n  transition:\n    background var(--transition-fast, 0.15s ease),\n    border-color var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n  text-decoration: none;\n  display: inline-flex;\n}\n.esa-button__native:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n}\n.esa-button--icon-only .esa-button__native {\n  padding-inline: var(--_btn-pad-y);\n  aspect-ratio: 1;\n}\nsummary.esa-button {\n  cursor: pointer;\n  list-style: none;\n}\nsummary.esa-button::-webkit-details-marker {\n  display: none;\n}\nsummary.esa-button:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n  border-radius: var(--_btn-radius);\n}\nsummary.esa-button--variant-chrome:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__label {\n  white-space: nowrap;\n}\n.bcn-list-empty .bcn-list-empty__tour .esa-button__label {\n  align-items: center;\n  gap: var(--spacing-150);\n  display: inline-flex;\n}\n.bcn-list-empty .bcn-list-empty__tour .esa-button__native {\n  --bcn-aldo-mark-size: 20px;\n  --bcn-aldo-ring-from: var(--color-teal-7);\n  --bcn-aldo-ring-to: var(--color-teal-9);\n  color: var(--bcn-helpbar-fg);\n  background: var(--bcn-helpbar-bg-solid);\n  border-color: var(--bcn-helpbar-border);\n}\n.bcn-list-empty .bcn-list-empty__tour .esa-button__native:hover {\n  color: var(--bcn-helpbar-fg);\n  background: color-mix(in srgb, var(--bcn-helpbar-bg-solid) 88%, white);\n}\n.bcn-hd__dot .bcn-aldo-mark {\n  background: var(--bcn-aldo-raised-fill);\n  box-shadow: var(--bcn-aldo-raised-shadow);\n}\n.bcn-hd__detach .esa-button__native {\n  --focus-ring-color: var(--bcn-helpbar-fg);\n  border-radius: var(--radius-full);\n  block-size: 18px;\n  min-block-size: 0;\n  inline-size: 18px;\n  min-inline-size: 0;\n  padding: 0;\n}\n.bcn-hd__detach .esa-icon {\n  block-size: 12px;\n  inline-size: 12px;\n}\n.bcn-help-dots__carry .bcn-aldo-mark {\n  background: var(--bcn-aldo-raised-fill);\n  box-shadow: var(--bcn-aldo-raised-shadow);\n}\n.bcn-help-dots__band {\n  padding: var(--spacing-075, 3px);\n  color: var(--bcn-helpbar-fg);\n  background: var(--bcn-helpbar-bg);\n  backdrop-filter: blur(14px) saturate(1.4);\n  border: 1px solid var(--bcn-helpbar-border);\n  border-radius: var(--radius-400, 14px);\n  white-space: nowrap;\n  position: fixed;\n  inset-block-end: 86px;\n  inset-inline-start: 50%;\n  translate: -50%;\n  box-shadow: 0 8px 24px #00000047;\n}\n.bcn-help-dots__row {\n  align-items: center;\n  gap: var(--spacing-075, 3px);\n  display: flex;\n}\n.bcn-help-dots__admin {\n  border-radius: var(--radius-300);\n  background: #ffffff12;\n  align-items: center;\n  gap: 2px;\n  margin-inline-start: var(--spacing-100);\n  padding: 2px;\n  display: flex;\n  box-shadow: inset 0 0 0 1px #ffffff24;\n}\n.bcn-help-dots__state {\n  gap: var(--spacing-150);\n  padding-inline-start: var(--spacing-200);\n}\n.bcn-help-dots__state-text {\n  font-weight: var(--typography-font-weight-medium);\n  padding-inline-end: var(--spacing-100);\n}\n.bcn-help-dots__item {\n  display: inline-flex;\n}\n.bcn-help-dots__band .esa-button {\n  color: var(--bcn-helpbar-fg);\n  --focus-ring-color: var(--bcn-helpbar-fg);\n}\n.bcn-help-dots__state esa-popover {\n  --color-background-default-knockout: var(--bcn-helpbar-bg-solid);\n  --color-border-default-knockout: var(--bcn-helpbar-border);\n  --color-content-default-knockout: var(--bcn-helpbar-fg);\n}\n.bcn-help-dots__orphans {\n  white-space: normal;\n  min-inline-size: 220px;\n}\n.bcn-help-dots__orphans .bcn-help-dots__orphan {\n  padding: var(--spacing-150) var(--spacing-200);\n  border-radius: var(--radius-200);\n  color: var(--bcn-helpbar-fg);\n  font: inherit;\n  text-align: start;\n  cursor: pointer;\n  background: 0 0;\n  border: 0;\n  flex-direction: column;\n  gap: 1px;\n  display: flex;\n}\n.bcn-help-dots__orphans .bcn-help-dots__orphan:hover,\n.bcn-help-dots__orphans .bcn-help-dots__orphan:focus-visible {\n  background: #ffffff14;\n}\n.bcn-help-dots__orphans .bcn-help-dots__orphan-spot {\n  color: var(--bcn-helpbar-fg-muted);\n}\n.bcn-help-dots[hidden],\n.bcn-help-dots__highlight[hidden],\n.bcn-help-dots__carry[hidden],\n.bcn-help-dots__band [hidden],\n.bcn-help-dots__band[hidden] {\n  display: none;\n}\n.bcn-help-dots__band {\n  z-index: 999;\n  transition:\n    translate 0.22s var(--easing-enter),\n    opacity 0.22s var(--easing-enter),\n    display 0.22s allow-discrete;\n}\n.bcn-help-dots__band[hidden] {\n  opacity: 0;\n  transition-duration: 0.16s;\n  transition-timing-function: var(--easing-exit);\n  translate: -50% 66px;\n}\n@media (prefers-reduced-motion: reduce) {\n  .bcn-help-dots__band,\n  .bcn-help-dots__band[hidden] {\n    translate: -50%;\n  }\n}\n.bcn-hdr__mark .bcn-aldo-mark {\n  background: var(--bcn-aldo-raised-fill);\n  box-shadow: var(--bcn-aldo-raised-shadow);\n}\n.typography-microcopy-xs {\n  font-family: var(--typography-microcopy-xs-font-family);\n  font-size: var(--typography-microcopy-xs-font-size);\n  font-weight: var(--typography-microcopy-xs-font-weight);\n  line-height: var(--typography-microcopy-xs-line-height);\n  letter-spacing: var(--typography-microcopy-xs-letter-spacing);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}\n.stack {\n  --gap: var(--spacing-400, 1rem);\n  gap: var(--gap);\n  flex-direction: column;\n  display: flex;\n}\n.stack[data-split] > [data-split] {\n  margin-block-end: auto;\n}",
+      "guide": {
+        "intent": "Guidance on a page with dots turns the dots on and raises a band above the Guidance bar. Everyone gets Open Help & Guidance. ESA admins ONLY also get Add Dot and Edit Dots, in a quiet admin inset; a tenant admin sees exactly what a reader sees.",
+        "decisions": [
+          "Roles: Add Dot, Edit Dots, the Need a Spot chip, drafts and every dot editing control are ESA admin only. Dots are ESA-authored help content and identical for every tenant (BCN-1513), so no tenant role authors them.",
+          "Every ESA-only control says so in its tooltip (\"ESA admin: …\"), so the role is legible on the surface, not only in the permission check.",
+          "The band rises from behind the bar and fades in (220ms, easing-enter); off, it drops back (160ms, easing-exit). Reduced motion: fades only.",
+          "Dots come in at random: each draws a delay (0 to 350ms) and a length (180 to 260ms) on every Guidance-on; pings start once a dot lands."
+        ],
+        "gotchas": [
+          "Gate on the ESA admin claim, not on a tenant admin role: a tenant admin must not see Add Dot or Edit Dots."
+        ],
+        "acceptance": [
+          "A reader and a tenant admin see only Open Help & Guidance in the band; an ESA admin also sees Add Dot and Edit Dots."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--bcn-aldo",
+          "value": "#08908b",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-aldo-600",
+          "value": "#06736f",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-aldo-raised-fill",
+          "value": "linear-gradient(150deg, #12a594 0%, #06736f 100%)",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-aldo-raised-shadow",
+          "value": "inset 0 1px 0 #ffffff59, inset 0 -1px 1px #00282640, 0 1px 2px #10182038, 0 3px 8px -2px #08908b73",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-1000",
+          "value": "#000",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-400",
+          "value": "#989898",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-500",
+          "value": "#7c7c7c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-950",
+          "value": "#292929",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-bg",
+          "value": "#17191bc7",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-bg-solid",
+          "value": "#1f2224",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-border",
+          "value": "#ffffff1f",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-fg",
+          "value": "#ffffffeb",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-fg-muted",
+          "value": "#ffffffb8",
+          "tier": "component"
+        },
+        {
+          "name": "--border-width-default",
+          "value": "1px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--button-chrome-bg-hover",
+          "value": "color-mix(in srgb, currentColor 14%, transparent)",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-md",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-sm",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-danger",
+          "value": "#ce2c31",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-strong",
+          "value": "#bdbdbd",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-knockout",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-teal-7",
+          "value": "#83cdc1",
+          "tier": "primitive"
+        },
+        {
+          "name": "--color-teal-9",
+          "value": "#12a594",
+          "tier": "primitive"
+        },
+        {
+          "name": "--easing-enter",
+          "value": "ease-out",
+          "tier": "primitive"
+        },
+        {
+          "name": "--easing-exit",
+          "value": "ease-in",
+          "tier": "primitive"
+        },
+        {
+          "name": "--focus-ring-color",
+          "value": "#3e9b4f",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-offset",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-width",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-md",
+          "value": "20px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-sm",
+          "value": "16px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-300",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-400",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-full",
+          "value": "9999px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-150",
+          "value": ".375rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-250",
+          "value": ".625rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-medium",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-line-height",
+          "value": "1",
+          "tier": "semantic"
+        }
+      ],
+      "components": [
+        {
+          "name": "bcn-aldo-mark",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnHelpDot.astro",
+          "target": null
+        },
+        {
+          "name": "bcn-help-dots",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnHelpDots.astro",
+          "target": null
+        },
+        {
+          "name": "esa-button",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-button.astro",
+          "target": "ui-button"
+        },
+        {
+          "name": "esa-icon",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-icon.astro",
+          "target": null
+        },
+        {
+          "name": "esa-popover",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-popover.ts",
+          "target": null
+        },
+        {
+          "name": "esa-tooltip",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-tooltip.ts",
+          "target": null
+        }
+      ],
+      "claudePath": "claude/band-above-the-guidance-bar.md",
+      "repoPath": "public/handoff/prototypes-help-dots/claude/band-above-the-guidance-bar.md",
+      "parts": [],
+      "shots": {
+        "desktop": "claude/band-above-the-guidance-bar.desktop.png",
+        "phone": "claude/band-above-the-guidance-bar.phone.png"
+      },
+      "bytes": 25907,
+      "specBytes": 25907,
+      "files": 1,
+      "collapsed": 0
+    },
+    {
+      "label": "On This Page (the dots)",
+      "tag": "section",
+      "selector": "[data-gd-section=\"howtos\"]",
+      "apply": [
+        {
+          "click": "[data-help-bar] [data-help-trigger]"
+        },
+        {
+          "click": "[data-help-panel-open]"
+        }
+      ],
+      "html": "<section class=\"bcn-gd__section\" data-gd-section=\"howtos\">\n  <h2 class=\"bcn-gd__label\">\n    <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n      ><svg\n        width=\"16\"\n        height=\"16\"\n        viewBox=\"0 0 24 24\"\n        fill=\"none\"\n        stroke=\"currentColor\"\n        stroke-width=\"2\"\n        stroke-linecap=\"round\"\n        stroke-linejoin=\"round\"\n        focusable=\"false\"\n      >\n        <line x1=\"8\" x2=\"21\" y1=\"6\" y2=\"6\"></line>\n        <line x1=\"8\" x2=\"21\" y1=\"12\" y2=\"12\"></line>\n        <!-- …and 4 more like this (<line>) -->\n      </svg></span\n    >\n    On this page\n  </h2>\n  <div data-help-dots-list-slot=\"\">\n    <div class=\"bcn-hda\" data-hda=\"\">\n      <div class=\"bcn-hda__rows\" data-hda-list=\"\">\n        <div class=\"bcn-hdr\" data-hda-row=\"\" data-dot-id=\"lists-banner\" hidden=\"\">\n          <button type=\"button\" class=\"bcn-hdr__main\" data-hda-open=\"\">\n            <span class=\"bcn-hdr__mark\" data-hda-mark=\"\"\n              ><span class=\"bcn-aldo-mark\" data-size=\"sm\" data-variant=\"badge\" aria-hidden=\"true\"\n                ><svg\n                  class=\"bcn-aldo-mark__glyph\"\n                  viewBox=\"0 0 64 64\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"3.5\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                >\n                  <path d=\"M47.59 23A18 18 0 1 1 31.37 14.01\"></path>\n                  <path d=\"M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41\"></path>\n                  <path d=\"M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8\"></path>\n                  <circle\n                    cx=\"33.2\"\n                    cy=\"31.1\"\n                    r=\"2\"\n                    fill=\"currentColor\"\n                    stroke=\"none\"\n                  ></circle></svg></span></span\n            ><span class=\"bcn-hdr__lost\" data-hda-lost=\"\" hidden=\"\"\n              ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                ><svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                  <line x1=\"12\" x2=\"12\" y1=\"8\" y2=\"12\"></line>\n                  <line x1=\"12\" x2=\"12.01\" y1=\"16\" y2=\"16\"></line></svg></span></span\n            ><span class=\"bcn-hdr__text\"\n              ><span class=\"bcn-hdr__titlerow\"\n                ><span class=\"bcn-hdr__title\" data-hda-title=\"\">What a List Is For</span\n                ><span class=\"bcn-hdr__tag\" data-hda-draft=\"\" hidden=\"\"\n                  ><span class=\"bcn-hdr__tag-text\">Draft</span></span\n                ></span\n              ><span class=\"bcn-hdr__sub\" data-hda-sub=\"\"\n                >A list gathers the commitments, actions or obligations one group of people needs,\n                like a contractor at a kickoff meeting, so nobody has to sort the full set.</span\n              ></span\n            ></button\n          ><span class=\"bcn-hdr__tools bcn-admin-cue\" data-hda-tools=\"\" hidden=\"\"\n            ><span class=\"bcn-admin-btn\" data-hda-act=\"publish\"\n              ><esa-tooltip text=\"ESA admin: Publish\" position=\"above\" delay=\"150\" align=\"center\"\n                ><span\n                  class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                  ><button\n                    class=\"esa-button__native typography-microcopy-2xs\"\n                    type=\"button\"\n                    aria-label=\"Publish\"\n                    title=\"Publish\"\n                    data-hda-publish=\"true\"\n                  >\n                    <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\"\n                      ><svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2\"\n                        stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\"\n                        focusable=\"false\"\n                      >\n                        <path d=\"M20 6 9 17l-5-5\"></path></svg\n                    ></span></button></span></esa-tooltip></span\n            ><span class=\"bcn-admin-btn\" data-hda-act=\"pickagain\"\n              ><esa-tooltip text=\"ESA admin: Pick Again\" position=\"above\" delay=\"150\" align=\"center\"\n                ><span\n                  class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                  ><button\n                    class=\"esa-button__native typography-microcopy-2xs\"\n                    type=\"button\"\n                    aria-label=\"Pick Again\"\n                    title=\"Pick Again\"\n                    data-hda-pickagain=\"true\"\n                  >\n                    <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\"\n                      ><svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2\"\n                        stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\"\n                        focusable=\"false\"\n                      >\n                        <path\n                          d=\"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0\"\n                        ></path>\n                        <circle cx=\"12\" cy=\"10\" r=\"3\"></circle></svg\n                    ></span></button></span></esa-tooltip></span\n            ><!-- …and 3 more like this (<span class=\"bcn-admin-btn\">) --></span\n          >\n        </div>\n        <div class=\"bcn-hdr\" data-hda-row=\"\" data-dot-id=\"lists-first\" hidden=\"\">\n          <button type=\"button\" class=\"bcn-hdr__main\" data-hda-open=\"\">\n            <span class=\"bcn-hdr__mark\" data-hda-mark=\"\"\n              ><span class=\"bcn-aldo-mark\" data-size=\"sm\" data-variant=\"badge\" aria-hidden=\"true\"\n                ><svg\n                  class=\"bcn-aldo-mark__glyph\"\n                  viewBox=\"0 0 64 64\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"3.5\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                >\n                  <path d=\"M47.59 23A18 18 0 1 1 31.37 14.01\"></path>\n                  <path d=\"M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41\"></path>\n                  <path d=\"M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8\"></path>\n                  <circle\n                    cx=\"33.2\"\n                    cy=\"31.1\"\n                    r=\"2\"\n                    fill=\"currentColor\"\n                    stroke=\"none\"\n                  ></circle></svg></span></span\n            ><span class=\"bcn-hdr__lost\" data-hda-lost=\"\" hidden=\"\"\n              ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n                ><svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                  <line x1=\"12\" x2=\"12\" y1=\"8\" y2=\"12\"></line>\n                  <line x1=\"12\" x2=\"12.01\" y1=\"16\" y2=\"16\"></line></svg></span></span\n            ><span class=\"bcn-hdr__text\"\n              ><span class=\"bcn-hdr__titlerow\"\n                ><span class=\"bcn-hdr__title\" data-hda-title=\"\">Your First List</span\n                ><span class=\"bcn-hdr__tag\" data-hda-draft=\"\" hidden=\"\"\n                  ><span class=\"bcn-hdr__tag-text\">Draft</span></span\n                ></span\n              ><span class=\"bcn-hdr__sub\" data-hda-sub=\"\"\n                >Name the list and give it a description. Keep it Personal or share it as\n                Global.</span\n              ></span\n            ></button\n          ><span class=\"bcn-hdr__tools bcn-admin-cue\" data-hda-tools=\"\" hidden=\"\"\n            ><span class=\"bcn-admin-btn\" data-hda-act=\"publish\"\n              ><esa-tooltip text=\"ESA admin: Publish\" position=\"above\" delay=\"150\" align=\"center\"\n                ><span\n                  class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                  ><button\n                    class=\"esa-button__native typography-microcopy-2xs\"\n                    type=\"button\"\n                    aria-label=\"Publish\"\n                    title=\"Publish\"\n                    data-hda-publish=\"true\"\n                  >\n                    <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\"\n                      ><svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2\"\n                        stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\"\n                        focusable=\"false\"\n                      >\n                        <path d=\"M20 6 9 17l-5-5\"></path></svg\n                    ></span></button></span></esa-tooltip></span\n            ><span class=\"bcn-admin-btn\" data-hda-act=\"pickagain\"\n              ><esa-tooltip text=\"ESA admin: Pick Again\" position=\"above\" delay=\"150\" align=\"center\"\n                ><span\n                  class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                  ><button\n                    class=\"esa-button__native typography-microcopy-2xs\"\n                    type=\"button\"\n                    aria-label=\"Pick Again\"\n                    title=\"Pick Again\"\n                    data-hda-pickagain=\"true\"\n                  >\n                    <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\"\n                      ><svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2\"\n                        stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\"\n                        focusable=\"false\"\n                      >\n                        <path\n                          d=\"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0\"\n                        ></path>\n                        <circle cx=\"12\" cy=\"10\" r=\"3\"></circle></svg\n                    ></span></button></span></esa-tooltip></span\n            ><!-- …and 3 more like this (<span class=\"bcn-admin-btn\">) --></span\n          >\n        </div>\n        <!-- …and 6 more like this (<div class=\"bcn-hdr\">) -->\n      </div>\n      <template data-hda-template=\"\"\n        ><div class=\"bcn-hdr\" data-hda-row=\"\" data-astro-cid-loaecv7s=\"\">\n          <button type=\"button\" class=\"bcn-hdr__main\" data-hda-open=\"\" data-astro-cid-loaecv7s=\"\">\n            <span class=\"bcn-hdr__mark\" data-hda-mark=\"\" data-astro-cid-loaecv7s=\"\"\n              ><span\n                class=\"bcn-aldo-mark\"\n                data-size=\"sm\"\n                data-variant=\"badge\"\n                aria-hidden=\"true\"\n                data-astro-cid-lgb5fntv=\"\"\n                ><svg\n                  class=\"bcn-aldo-mark__glyph\"\n                  viewBox=\"0 0 64 64\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"3.5\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  data-astro-cid-lgb5fntv=\"\"\n                >\n                  <path d=\"M47.59 23A18 18 0 1 1 31.37 14.01\" data-astro-cid-lgb5fntv=\"\"></path>\n                  <path\n                    d=\"M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41\"\n                    data-astro-cid-lgb5fntv=\"\"\n                  ></path>\n                  <path d=\"M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8\" data-astro-cid-lgb5fntv=\"\"></path>\n                  <circle\n                    cx=\"33.2\"\n                    cy=\"31.1\"\n                    r=\"2\"\n                    fill=\"currentColor\"\n                    stroke=\"none\"\n                    data-astro-cid-lgb5fntv=\"\"\n                  ></circle></svg></span></span\n            ><span class=\"bcn-hdr__lost\" data-hda-lost=\"\" hidden=\"\" data-astro-cid-loaecv7s=\"\"\n              ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\" data-astro-cid-wcwfib5m=\"\"\n                ><svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                  data-astro-cid-wcwfib5m=\"\"\n                >\n                  <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                  <line x1=\"12\" x2=\"12\" y1=\"8\" y2=\"12\"></line>\n                  <line x1=\"12\" x2=\"12.01\" y1=\"16\" y2=\"16\"></line></svg></span></span\n            ><span class=\"bcn-hdr__text\" data-astro-cid-loaecv7s=\"\"\n              ><span class=\"bcn-hdr__titlerow\" data-astro-cid-loaecv7s=\"\"\n                ><span class=\"bcn-hdr__title\" data-hda-title=\"\" data-astro-cid-loaecv7s=\"\"></span\n                ><span class=\"bcn-hdr__tag\" data-hda-draft=\"\" hidden=\"\" data-astro-cid-loaecv7s=\"\"\n                  ><span class=\"bcn-hdr__tag-text\" data-astro-cid-loaecv7s=\"\">Draft</span></span\n                ></span\n              ><span class=\"bcn-hdr__sub\" data-hda-sub=\"\" data-astro-cid-loaecv7s=\"\"></span\n            ></span></button\n          ><span\n            class=\"bcn-hdr__tools bcn-admin-cue\"\n            data-hda-tools=\"\"\n            hidden=\"\"\n            data-astro-cid-loaecv7s=\"\"\n            ><span class=\"bcn-admin-btn\" data-hda-act=\"publish\" data-astro-cid-loaecv7s=\"\"\n              ><esa-tooltip\n                text=\"ESA admin: Publish\"\n                position=\"above\"\n                delay=\"150\"\n                data-astro-cid-loaecv7s=\"true\"\n                ><span\n                  class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                  data-astro-cid-5nhxdd72=\"\"\n                  ><button\n                    class=\"esa-button__native typography-microcopy-2xs\"\n                    type=\"button\"\n                    aria-label=\"Publish\"\n                    title=\"Publish\"\n                    data-hda-publish=\"true\"\n                    data-astro-cid-loaecv7s=\"true\"\n                    data-astro-cid-5nhxdd72=\"\"\n                  >\n                    <span\n                      class=\"esa-icon esa-icon--xs\"\n                      aria-hidden=\"true\"\n                      data-astro-cid-wcwfib5m=\"\"\n                      ><svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2\"\n                        stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\"\n                        focusable=\"false\"\n                        data-astro-cid-wcwfib5m=\"\"\n                      >\n                        <path d=\"M20 6 9 17l-5-5\"></path></svg\n                    ></span></button></span></esa-tooltip></span\n            ><span class=\"bcn-admin-btn\" data-hda-act=\"pickagain\" data-astro-cid-loaecv7s=\"\"\n              ><esa-tooltip\n                text=\"ESA admin: Pick Again\"\n                position=\"above\"\n                delay=\"150\"\n                data-astro-cid-loaecv7s=\"true\"\n                ><span\n                  class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                  data-astro-cid-5nhxdd72=\"\"\n                  ><button\n                    class=\"esa-button__native typography-microcopy-2xs\"\n                    type=\"button\"\n                    aria-label=\"Pick Again\"\n                    title=\"Pick Again\"\n                    data-hda-pickagain=\"true\"\n                    data-astro-cid-loaecv7s=\"true\"\n                    data-astro-cid-5nhxdd72=\"\"\n                  >\n                    <span\n                      class=\"esa-icon esa-icon--xs\"\n                      aria-hidden=\"true\"\n                      data-astro-cid-wcwfib5m=\"\"\n                      ><svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2\"\n                        stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\"\n                        focusable=\"false\"\n                        data-astro-cid-wcwfib5m=\"\"\n                      >\n                        <path\n                          d=\"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0\"\n                        ></path>\n                        <circle cx=\"12\" cy=\"10\" r=\"3\"></circle></svg\n                    ></span></button></span></esa-tooltip></span\n            ><span class=\"bcn-admin-btn\" data-hda-act=\"edit\" data-astro-cid-loaecv7s=\"\"\n              ><esa-tooltip\n                text=\"ESA admin: Edit\"\n                position=\"above\"\n                delay=\"150\"\n                data-astro-cid-loaecv7s=\"true\"\n                ><span\n                  class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                  data-astro-cid-5nhxdd72=\"\"\n                  ><button\n                    class=\"esa-button__native typography-microcopy-2xs\"\n                    type=\"button\"\n                    aria-label=\"Edit\"\n                    title=\"Edit\"\n                    data-hda-edit=\"true\"\n                    data-astro-cid-loaecv7s=\"true\"\n                    data-astro-cid-5nhxdd72=\"\"\n                  >\n                    <span\n                      class=\"esa-icon esa-icon--xs\"\n                      aria-hidden=\"true\"\n                      data-astro-cid-wcwfib5m=\"\"\n                      ><svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2\"\n                        stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\"\n                        focusable=\"false\"\n                        data-astro-cid-wcwfib5m=\"\"\n                      >\n                        <path\n                          d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"\n                        ></path>\n                        <path d=\"m15 5 4 4\"></path></svg\n                    ></span></button></span></esa-tooltip></span\n            ><span class=\"bcn-admin-btn\" data-hda-act=\"dismiss\" data-astro-cid-loaecv7s=\"\"\n              ><esa-tooltip\n                text=\"ESA admin: Dismiss\"\n                position=\"above\"\n                delay=\"150\"\n                data-astro-cid-loaecv7s=\"true\"\n                ><span\n                  class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                  data-astro-cid-5nhxdd72=\"\"\n                  ><button\n                    class=\"esa-button__native typography-microcopy-2xs\"\n                    type=\"button\"\n                    aria-label=\"Dismiss\"\n                    title=\"Dismiss\"\n                    data-hda-dismiss=\"true\"\n                    data-astro-cid-loaecv7s=\"true\"\n                    data-astro-cid-5nhxdd72=\"\"\n                  >\n                    <span\n                      class=\"esa-icon esa-icon--xs\"\n                      aria-hidden=\"true\"\n                      data-astro-cid-wcwfib5m=\"\"\n                      ><svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2\"\n                        stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\"\n                        focusable=\"false\"\n                        data-astro-cid-wcwfib5m=\"\"\n                      >\n                        <path d=\"M18 6 6 18\"></path>\n                        <path d=\"m6 6 12 12\"></path></svg\n                    ></span></button></span></esa-tooltip></span\n            ><span class=\"bcn-admin-btn\" data-hda-act=\"detach\" data-astro-cid-loaecv7s=\"\"\n              ><esa-tooltip\n                text=\"ESA admin: Detach from this page\"\n                position=\"above\"\n                delay=\"150\"\n                data-astro-cid-loaecv7s=\"true\"\n                ><span\n                  class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n                  data-astro-cid-5nhxdd72=\"\"\n                  ><button\n                    class=\"esa-button__native typography-microcopy-2xs\"\n                    type=\"button\"\n                    aria-label=\"Detach from This Page\"\n                    title=\"Detach from This Page\"\n                    data-hda-detach=\"true\"\n                    data-astro-cid-loaecv7s=\"true\"\n                    data-astro-cid-5nhxdd72=\"\"\n                  >\n                    <span\n                      class=\"esa-icon esa-icon--xs\"\n                      aria-hidden=\"true\"\n                      data-astro-cid-wcwfib5m=\"\"\n                      ><svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2\"\n                        stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\"\n                        focusable=\"false\"\n                        data-astro-cid-wcwfib5m=\"\"\n                      >\n                        <path d=\"M18 6 6 18\"></path>\n                        <path d=\"m6 6 12 12\"></path></svg\n                    ></span></button></span></esa-tooltip></span\n          ></span></div\n      ></template>\n    </div>\n  </div>\n  <div class=\"bcn-gd__rows\" data-gd-howtos=\"\"></div>\n</section>",
+      "css": ".typography-microcopy-2xs {\n  font-family: var(--typography-microcopy-2xs-font-family);\n  font-size: var(--typography-microcopy-2xs-font-size);\n  font-weight: var(--typography-microcopy-2xs-font-weight);\n  line-height: var(--typography-microcopy-2xs-line-height);\n  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);\n}\n.bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-aldo-mark {\n  border-radius: var(--radius-full);\n  background: var(--bcn-aldo);\n  color: var(--color-content-default-knockout);\n  flex-shrink: 0;\n  justify-content: center;\n  align-items: center;\n  line-height: 0;\n  display: inline-flex;\n}\n.bcn-aldo-mark[data-size=\"sm\"] {\n  width: 20px;\n  height: 20px;\n}\n.bcn-aldo-mark[data-size=\"md\"] {\n  width: 40px;\n  height: 40px;\n}\n.bcn-aldo-mark[data-size=\"lg\"] {\n  width: 64px;\n  height: 64px;\n}\n.bcn-aldo-mark__glyph {\n  width: 100%;\n  height: 100%;\n  display: block;\n}\n.bcn-aldo-mark[data-variant=\"rings\"] {\n  width: var(--bcn-aldo-mark-size, 24px);\n  height: var(--bcn-aldo-mark-size, 24px);\n  background: 0 0;\n  border-radius: 0;\n}\n.bcn-aldo-mark[data-animated] {\n  animation: 2s ease-in-out infinite bcn-aldo-pulse;\n}\n.bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {\n  animation: 12s linear infinite bcn-aldo-spin;\n}\n@media (prefers-reduced-motion: reduce) {\n  .bcn-aldo-mark[data-animated],\n  .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {\n    animation: none;\n  }\n}\n.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {\n  color: var(--bcn-aldo-600);\n}\n.bcn-aldo-composer__send[data-empty] .esa-button__native {\n  cursor: not-allowed;\n}\n.bcn-admin-cue {\n  border-radius: var(--radius-full);\n  color: #fff;\n  background: var(--bcn-helpbar-bg);\n  backdrop-filter: blur(14px) saturate(1.4);\n  border: 1px solid var(--bcn-helpbar-border);\n  align-items: center;\n  gap: 1px;\n  padding: 1px;\n  display: inline-flex;\n}\n@supports not (backdrop-filter: blur(1px)) {\n  .bcn-admin-cue {\n    background: var(--bcn-helpbar-bg-solid);\n  }\n}\n@media (prefers-reduced-transparency: reduce) {\n  .bcn-admin-cue {\n    background: var(--bcn-helpbar-bg-solid);\n    backdrop-filter: none;\n  }\n}\n.bcn-admin-cue[hidden] {\n  display: none;\n}\n.bcn-admin-btn,\n.bcn-admin-btn .esa-button {\n  display: inline-flex;\n}\n.bcn-admin-btn[hidden] {\n  display: none;\n}\n.bcn-admin-btn .esa-button__native {\n  --focus-ring-color: #fff;\n  border-radius: var(--radius-full);\n  color: #ffffffb8;\n  block-size: 22px;\n  min-block-size: 0;\n  inline-size: 22px;\n  min-inline-size: 0;\n  padding: 0;\n}\n.bcn-admin-btn .esa-button__native:hover,\n.bcn-admin-btn .esa-button__native:focus-visible {\n  color: #fff;\n  background: #ffffff24;\n}\n.bcn-admin-btn .esa-icon {\n  block-size: 14px;\n  inline-size: 14px;\n}\n.bcn-admin-cue esa-tooltip {\n  --color-background-default-knockout: var(--bcn-helpbar-bg-solid);\n  --color-content-default-knockout: var(--bcn-helpbar-fg);\n  display: inline-flex;\n}\n.bcn-gd__section {\n  gap: var(--spacing-300);\n  flex-direction: column;\n  display: flex;\n}\n.bcn-gd__section[hidden] {\n  display: none;\n}\n.bcn-gd__label {\n  align-items: center;\n  gap: var(--spacing-200);\n  font-size: var(--font-size-250);\n  font-weight: var(--typography-font-weight-bold);\n  color: var(--color-content-default);\n  margin: 0;\n  display: flex;\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd__rows {\n  flex-direction: column;\n  display: flex;\n}\n.bcn-gd__rows:empty {\n  display: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n@media (prefers-reduced-motion: reduce) {\n  .bcn-disclosure .esa-icon {\n    transition: none;\n  }\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.esa-button {\n  --_btn-pad-y: var(--spacing-300, 0.75rem);\n  --_btn-padding-x: var(--spacing-300, 0.75rem);\n  --_btn-radius: var(--button-radius-md, 0.5rem);\n  --_accent: var(--color-background-brand, #46a758);\n  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);\n  --_on: var(--color-content-default-knockout, #fcfcfc);\n  --_accent-text: var(--_accent);\n  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);\n  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);\n  display: inline-block;\n}\n.esa-button--xs {\n  --_btn-pad-y: var(--spacing-200, 0.5rem);\n  --_btn-padding-x: var(--spacing-200, 0.5rem);\n  --_btn-radius: var(--button-radius-xs, 4px);\n}\n.esa-button--appearance-fill .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent-border, transparent);\n}\n.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-fill.esa-button--active .esa-button__native {\n  background: var(--_accent-hover);\n}\n.esa-button--appearance-outline .esa-button__native,\n.esa-button--appearance-dashed .esa-button__native {\n  color: var(--_accent-text);\n  border-color: var(--_accent);\n  background: 0 0;\n}\n.esa-button--appearance-dashed .esa-button__native {\n  border-style: dashed;\n}\n.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {\n  background: var(--_btn-tint-hover);\n}\n.esa-button--appearance-outline.esa-button--active .esa-button__native,\n.esa-button--appearance-dashed.esa-button--active .esa-button__native {\n  background: var(--_btn-tint-active);\n}\n.esa-button--appearance-soft .esa-button__native {\n  background: color-mix(\n    in srgb,\n    var(--color-background-elevation-sunken, #f0f0f0) 45%,\n    var(--color-background-elevation-raised, #fcfcfc)\n  );\n  color: var(--_accent-text);\n  border-color: var(--color-border-default-strong, #bbb);\n}\n.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-soft.esa-button--active .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent);\n}\n.esa-button--variant-ghost .esa-button__native {\n  color: var(--color-content-default, #202020);\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,\n.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {\n  border-color: var(--color-border-default, #cecece);\n}\n.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),\n.esa-button--variant-ghost.esa-button--active .esa-button__native {\n  background: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-button--variant-chrome .esa-button__native {\n  color: inherit;\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),\n.esa-button--variant-chrome.esa-button--active .esa-button__native,\n.esa-button--variant-chrome.esa-button--current .esa-button__native {\n  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));\n}\n.esa-button--variant-chrome .esa-button__native:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__native {\n  justify-content: center;\n  align-items: center;\n  gap: var(--spacing-200, 8px);\n  width: 100%;\n  padding-block: var(--_btn-pad-y);\n  padding-inline: var(--_btn-padding-x);\n  border: var(--border-width-default, 1px) solid transparent;\n  border-radius: var(--_btn-radius);\n  cursor: pointer;\n  transition:\n    background var(--transition-fast, 0.15s ease),\n    border-color var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n  text-decoration: none;\n  display: inline-flex;\n}\n.esa-button__native:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n}\n.esa-button--icon-only .esa-button__native {\n  padding-inline: var(--_btn-pad-y);\n  aspect-ratio: 1;\n}\nsummary.esa-button {\n  cursor: pointer;\n  list-style: none;\n}\nsummary.esa-button::-webkit-details-marker {\n  display: none;\n}\nsummary.esa-button:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n  border-radius: var(--_btn-radius);\n}\nsummary.esa-button--variant-chrome:focus-visible {\n  outline-color: currentColor;\n}\n.bcn-list-empty .bcn-list-empty__tour .esa-button__native {\n  --bcn-aldo-mark-size: 20px;\n  --bcn-aldo-ring-from: var(--color-teal-7);\n  --bcn-aldo-ring-to: var(--color-teal-9);\n  color: var(--bcn-helpbar-fg);\n  background: var(--bcn-helpbar-bg-solid);\n  border-color: var(--bcn-helpbar-border);\n}\n.bcn-list-empty .bcn-list-empty__tour .esa-button__native:hover {\n  color: var(--bcn-helpbar-fg);\n  background: color-mix(in srgb, var(--bcn-helpbar-bg-solid) 88%, white);\n}\n.bcn-hd__dot .bcn-aldo-mark {\n  background: var(--bcn-aldo-raised-fill);\n  box-shadow: var(--bcn-aldo-raised-shadow);\n}\n.bcn-hd__detach .esa-button__native {\n  --focus-ring-color: var(--bcn-helpbar-fg);\n  border-radius: var(--radius-full);\n  block-size: 18px;\n  min-block-size: 0;\n  inline-size: 18px;\n  min-inline-size: 0;\n  padding: 0;\n}\n.bcn-hd__detach .esa-icon {\n  block-size: 12px;\n  inline-size: 12px;\n}\n.bcn-help-dots__carry .bcn-aldo-mark {\n  background: var(--bcn-aldo-raised-fill);\n  box-shadow: var(--bcn-aldo-raised-shadow);\n}\n.bcn-help-dots__band .esa-button {\n  color: var(--bcn-helpbar-fg);\n  --focus-ring-color: var(--bcn-helpbar-fg);\n}\n.bcn-hdr {\n  border-bottom: 1px solid var(--color-border-default-subtle);\n  align-items: center;\n  display: flex;\n  position: relative;\n}\n.bcn-hdr:hover {\n  background: var(--color-background-elevation-sunken);\n}\n.bcn-hdr__main {\n  align-items: center;\n  gap: var(--spacing-300);\n  min-width: 0;\n  padding: var(--spacing-300) var(--spacing-100);\n  font: inherit;\n  text-align: left;\n  cursor: pointer;\n  background: 0 0;\n  border: 0;\n  flex: 1;\n  display: flex;\n}\n.bcn-hdr__main:focus-visible {\n  outline: var(--focus-ring-width) solid var(--focus-ring-color);\n  outline-offset: -2px;\n}\n.bcn-hdr__mark,\n.bcn-hdr__lost {\n  --bcn-aldo-mark-size: 16px;\n  flex: none;\n  display: inline-flex;\n}\n.bcn-hdr__mark .bcn-aldo-mark {\n  background: var(--bcn-aldo-raised-fill);\n  box-shadow: var(--bcn-aldo-raised-shadow);\n}\n.bcn-hdr__lost {\n  color: var(--color-content-default-tertiary);\n}\n.bcn-hdr__text {\n  flex-direction: column;\n  flex: 1;\n  gap: 2px;\n  min-width: 0;\n  display: flex;\n}\n.bcn-hdr__titlerow {\n  align-items: center;\n  gap: var(--spacing-200);\n  min-width: 0;\n  display: flex;\n}\n.bcn-hdr__title {\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  font-size: var(--font-size-200);\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default);\n  line-height: 1.35;\n  overflow: hidden;\n}\n.bcn-hdr__sub {\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  font-size: var(--font-size-150);\n  color: var(--color-content-default-secondary);\n  line-height: 1.4;\n  overflow: hidden;\n}\n.bcn-hdr[data-lost] .bcn-hdr__title,\n.bcn-hdr[data-lost] .bcn-hdr__sub {\n  color: var(--color-content-default-tertiary);\n}\n.bcn-hdr__tag {\n  flex: none;\n  display: inline-flex;\n}\n.bcn-hdr__tag-text {\n  border-radius: var(--radius-100);\n  border: 1px solid var(--color-border-default);\n  background: var(--color-background-elevation-raised);\n  font-size: var(--font-size-100);\n  font-weight: var(--typography-font-weight-medium);\n  color: var(--color-content-default-secondary);\n  padding: 1px 6px;\n  line-height: 1.5;\n}\n.bcn-hdr__tools {\n  opacity: 0;\n  position: absolute;\n  inset-block-start: 50%;\n  inset-inline-end: var(--spacing-100);\n  translate: 0 -50%;\n}\n.bcn-hdr:has(.bcn-hdr__tools:not([hidden])):is(:hover, :focus-within) .bcn-hdr__main {\n  padding-inline-end: calc(var(--_tools-w, 52px) + var(--spacing-200));\n}\n.bcn-hdr:hover .bcn-hdr__tools,\n.bcn-hdr:focus-within .bcn-hdr__tools {\n  opacity: 1;\n}\n@media (hover: none) {\n  .bcn-hdr__tools {\n    opacity: 1;\n  }\n}\n.bcn-hdr[hidden],\n.bcn-hdr [hidden] {\n  display: none;\n}\n.bcn-hda__rows {\n  flex-direction: column;\n  display: flex;\n}\n.bcn-hda[hidden],\n.bcn-hda [hidden] {\n  display: none;\n}\n.typography-microcopy-2xs {\n  font-family: var(--typography-microcopy-2xs-font-family);\n  font-size: var(--typography-microcopy-2xs-font-size);\n  font-weight: var(--typography-microcopy-2xs-font-weight);\n  line-height: var(--typography-microcopy-2xs-line-height);\n  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}",
+      "guide": {
+        "intent": "On a page with dots, the drawer's On This Page is the page's published dots in page order. A row closes the drawer, turns dots on, scrolls to the dot and opens it. No page-attached articles are listed here (Related was cut, a deviation from BCN-1513 to settle).",
+        "decisions": [
+          "ESA admin only: drafts with a Draft tag, dots that need a spot (last, muted, alert icon), and hover row tools (Publish, Edit, Dismiss, Pick Again, Detach), each tooltip prefixed \"ESA admin:\".",
+          "Row tools sit in the shared admin cue (src/styles/bcn-admin-cue.css: the settings rail's ESA Admin glass, 22px icon buttons, 14px glyphs) and take their own width, so the text truncates short of them."
+        ],
+        "acceptance": [
+          "A tenant admin sees the same list as a reader: published dots only, no tools."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--bcn-aldo",
+          "value": "#08908b",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-aldo-600",
+          "value": "#06736f",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-aldo-raised-fill",
+          "value": "linear-gradient(150deg, #12a594 0%, #06736f 100%)",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-aldo-raised-shadow",
+          "value": "inset 0 1px 0 #ffffff59, inset 0 -1px 1px #00282640, 0 1px 2px #10182038, 0 3px 8px -2px #08908b73",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-1000",
+          "value": "#000",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-400",
+          "value": "#989898",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-500",
+          "value": "#7c7c7c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-950",
+          "value": "#292929",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-bg",
+          "value": "#17191bc7",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-bg-solid",
+          "value": "#1f2224",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-border",
+          "value": "#ffffff1f",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-fg",
+          "value": "#ffffffeb",
+          "tier": "component"
+        },
+        {
+          "name": "--border-width-default",
+          "value": "1px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--button-chrome-bg-hover",
+          "value": "color-mix(in srgb, currentColor 14%, transparent)",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-md",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-xs",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-danger",
+          "value": "#ce2c31",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-strong",
+          "value": "#bdbdbd",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-subtle",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-knockout",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-teal-7",
+          "value": "#83cdc1",
+          "tier": "primitive"
+        },
+        {
+          "name": "--color-teal-9",
+          "value": "#12a594",
+          "tier": "primitive"
+        },
+        {
+          "name": "--focus-ring-color",
+          "value": "#3e9b4f",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-offset",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-width",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--font-size-100",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-size-150",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-size-200",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-size-250",
+          "value": "clamp(.8125rem, .71rem + .5vw, 1.0625rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-md",
+          "value": "20px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-sm",
+          "value": "16px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-xs",
+          "value": "14px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-full",
+          "value": "9999px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-bold",
+          "value": "650",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-medium",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-semibold",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-2xs-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-2xs-font-size",
+          "value": "clamp(.5rem, .44rem + .3vw, .625rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-2xs-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-2xs-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-2xs-line-height",
+          "value": "1",
+          "tier": "semantic"
+        }
+      ],
+      "components": [
+        {
+          "name": "bcn-aldo-mark",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnHelpDot.astro",
+          "target": null
+        },
+        {
+          "name": "bcn-gd",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnGuidanceDrawer.astro",
+          "target": null
+        },
+        {
+          "name": "bcn-hda",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnHelpDotList.astro",
+          "target": null
+        },
+        {
+          "name": "bcn-hdr",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnHelpDotRow.astro",
+          "target": null
+        },
+        {
+          "name": "esa-button",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-button.astro",
+          "target": "ui-button"
+        },
+        {
+          "name": "esa-icon",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-icon.astro",
+          "target": null
+        },
+        {
+          "name": "esa-tooltip",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-tooltip.ts",
+          "target": null
+        }
+      ],
+      "claudePath": "claude/on-this-page-the-dots.md",
+      "repoPath": "public/handoff/prototypes-help-dots/claude/on-this-page-the-dots.md",
+      "parts": [],
+      "shots": {
+        "desktop": "claude/on-this-page-the-dots.desktop.png",
+        "phone": "claude/on-this-page-the-dots.phone.png"
+      },
+      "bytes": 42254,
+      "specBytes": 42254,
+      "files": 1,
+      "collapsed": 16
+    },
+    {
+      "label": "Terms",
+      "tag": "section",
+      "selector": "[data-gd-section=\"terms\"]",
+      "apply": [
+        {
+          "click": "[data-help-bar] [data-help-trigger]"
+        },
+        {
+          "click": "[data-help-panel-open]"
+        }
+      ],
+      "html": "<section class=\"bcn-gd__section\" data-gd-section=\"terms\">\n  <div class=\"bcn-gd__here-head\">\n    <h2 class=\"bcn-gd__label\">\n      <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n        ><svg\n          width=\"16\"\n          height=\"16\"\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          stroke=\"currentColor\"\n          stroke-width=\"2\"\n          stroke-linecap=\"round\"\n          stroke-linejoin=\"round\"\n          focusable=\"false\"\n        >\n          <path\n            d=\"M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20\"\n          ></path></svg\n      ></span>\n      Terms\n    </h2>\n    <span class=\"bcn-admin-cue\" data-gd-term-add-wrap=\"\" hidden=\"\"\n      ><esa-tooltip\n        text=\"ESA admin: add a term to this page for every tenant\"\n        position=\"above\"\n        delay=\"150\"\n        align=\"center\"\n        ><span class=\"bcn-admin-btn\" data-gd-term-add=\"\"\n          ><span\n            class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n            ><button\n              class=\"esa-button__native typography-microcopy-2xs\"\n              type=\"button\"\n              aria-label=\"Add Term\"\n              title=\"Add Term\"\n            >\n              <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\"\n                ><svg\n                  width=\"14\"\n                  height=\"14\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <path d=\"M5 12h14\"></path>\n                  <path d=\"M12 5v14\"></path></svg\n              ></span></button></span></span></esa-tooltip\n    ></span>\n  </div>\n  <div class=\"bcn-gd__pick\" data-gd-term-pick=\"\" hidden=\"\">\n    <esa-combobox\n      mode=\"autocomplete\"\n      size=\"sm\"\n      label=\"Add Term\"\n      placeholder=\"Search the glossary\"\n      data-gd-term-combo=\"true\"\n    ></esa-combobox>\n  </div>\n  <div class=\"bcn-gd__rows\" data-gd-terms=\"\">\n    <button\n      type=\"button\"\n      class=\"bcn-gd-row\"\n      data-article-id=\"what-is-a-commitment\"\n      data-kind=\"glossary\"\n      data-title=\"Commitment\"\n      data-summary=\"One discrete obligation, recorded in its source document’s original language.\"\n    >\n      <span class=\"bcn-gd-row__text\"\n        ><span class=\"bcn-gd-row__title\">Commitment</span\n        ><span class=\"bcn-gd-row__sub\"\n          >One discrete obligation, recorded in its source document’s original language.</span\n        ></span\n      ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n        ><svg\n          width=\"16\"\n          height=\"16\"\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          stroke=\"currentColor\"\n          stroke-width=\"2\"\n          stroke-linecap=\"round\"\n          stroke-linejoin=\"round\"\n          focusable=\"false\"\n        >\n          <path d=\"m9 18 6-6-6-6\"></path></svg\n      ></span></button\n    ><button\n      type=\"button\"\n      class=\"bcn-gd-row\"\n      data-article-id=\"what-is-an-action\"\n      data-kind=\"glossary\"\n      data-title=\"Action\"\n      data-summary=\"One trackable deliverable consolidating requirements that describe the same work.\"\n    >\n      <span class=\"bcn-gd-row__text\"\n        ><span class=\"bcn-gd-row__title\">Action</span\n        ><span class=\"bcn-gd-row__sub\"\n          >One trackable deliverable consolidating requirements that describe the same work.</span\n        ></span\n      ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n        ><svg\n          width=\"16\"\n          height=\"16\"\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          stroke=\"currentColor\"\n          stroke-width=\"2\"\n          stroke-linecap=\"round\"\n          stroke-linejoin=\"round\"\n          focusable=\"false\"\n        >\n          <path d=\"m9 18 6-6-6-6\"></path></svg\n      ></span>\n    </button>\n    <div class=\"bcn-gd-trow\" data-term-id=\"what-is-a-component\">\n      <button\n        type=\"button\"\n        class=\"bcn-gd-row\"\n        data-article-id=\"what-is-a-component\"\n        data-kind=\"glossary\"\n        data-title=\"Component\"\n        data-summary=\"A distinct place or package of work within a project, tracked independently.\"\n      >\n        <span class=\"bcn-gd-row__text\"\n          ><span class=\"bcn-gd-row__title\">Component</span\n          ><span class=\"bcn-gd-trow__from\">From Project</span\n          ><span class=\"bcn-gd-row__sub\"\n            >A distinct place or package of work within a project, tracked independently.</span\n          ></span\n        ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n          ><svg\n            width=\"16\"\n            height=\"16\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <path d=\"m9 18 6-6-6-6\"></path></svg\n        ></span>\n      </button>\n    </div>\n  </div>\n  <!-- An admin's row tools, cloned onto each term row: an attached term's ×, an\n               inherited term's Hide and Edit on Project. --><template data-gd-trow-attached=\"\"\n    ><span class=\"bcn-gd-trow__tools bcn-admin-cue\" data-astro-cid-i5kl5miz=\"\"\n      ><esa-tooltip\n        text=\"ESA admin: Detach from this page\"\n        position=\"above\"\n        delay=\"150\"\n        data-astro-cid-i5kl5miz=\"true\"\n        ><span class=\"bcn-admin-btn\" data-gd-term-detach=\"\" data-astro-cid-i5kl5miz=\"\"\n          ><span\n            class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n            data-astro-cid-5nhxdd72=\"\"\n            ><button\n              class=\"esa-button__native typography-microcopy-2xs\"\n              type=\"button\"\n              aria-label=\"Detach Term\"\n              title=\"Detach Term\"\n              data-astro-cid-i5kl5miz=\"true\"\n              data-astro-cid-5nhxdd72=\"\"\n            >\n              <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\" data-astro-cid-wcwfib5m=\"\"\n                ><svg\n                  width=\"14\"\n                  height=\"14\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                  data-astro-cid-wcwfib5m=\"\"\n                >\n                  <path d=\"M18 6 6 18\"></path>\n                  <path d=\"m6 6 12 12\"></path></svg\n              ></span></button></span></span></esa-tooltip></span></template\n  ><template data-gd-trow-inherited=\"\"\n    ><span class=\"bcn-gd-trow__tools bcn-admin-cue\" data-astro-cid-i5kl5miz=\"\"\n      ><esa-tooltip\n        text=\"ESA admin: Hide on this page\"\n        position=\"above\"\n        delay=\"150\"\n        data-astro-cid-i5kl5miz=\"true\"\n        ><span class=\"bcn-admin-btn\" data-gd-term-hide=\"\" data-astro-cid-i5kl5miz=\"\"\n          ><span\n            class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n            data-astro-cid-5nhxdd72=\"\"\n            ><button\n              class=\"esa-button__native typography-microcopy-2xs\"\n              type=\"button\"\n              aria-label=\"Hide on This Page\"\n              title=\"Hide on This Page\"\n              data-astro-cid-i5kl5miz=\"true\"\n              data-astro-cid-5nhxdd72=\"\"\n            >\n              <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\" data-astro-cid-wcwfib5m=\"\"\n                ><svg\n                  width=\"14\"\n                  height=\"14\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                  data-astro-cid-wcwfib5m=\"\"\n                >\n                  <path d=\"M18 6 6 18\"></path>\n                  <path d=\"m6 6 12 12\"></path></svg\n              ></span></button></span></span></esa-tooltip\n      ><esa-tooltip\n        text=\"ESA admin: Edit on Project\"\n        position=\"above\"\n        delay=\"150\"\n        data-astro-cid-i5kl5miz=\"true\"\n        ><span class=\"bcn-admin-btn\" data-gd-term-parent=\"\" data-astro-cid-i5kl5miz=\"\"\n          ><span\n            class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n            data-astro-cid-5nhxdd72=\"\"\n            ><button\n              class=\"esa-button__native typography-microcopy-2xs\"\n              type=\"button\"\n              aria-label=\"Edit on Project\"\n              title=\"Edit on Project\"\n              data-astro-cid-i5kl5miz=\"true\"\n              data-astro-cid-5nhxdd72=\"\"\n            >\n              <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\" data-astro-cid-wcwfib5m=\"\"\n                ><svg\n                  width=\"14\"\n                  height=\"14\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                  data-astro-cid-wcwfib5m=\"\"\n                >\n                  <path d=\"M15 3h6v6\"></path>\n                  <path d=\"M10 14 21 3\"></path>\n                  <path d=\"M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6\"></path></svg\n              ></span></button></span></span></esa-tooltip></span\n  ></template>\n</section>",
+      "css": ".typography-microcopy-2xs {\n  font-family: var(--typography-microcopy-2xs-font-family);\n  font-size: var(--typography-microcopy-2xs-font-size);\n  font-weight: var(--typography-microcopy-2xs-font-weight);\n  line-height: var(--typography-microcopy-2xs-line-height);\n  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);\n}\n.bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {\n  color: var(--bcn-aldo-600);\n}\n.bcn-aldo-composer__send[data-empty] .esa-button__native {\n  cursor: not-allowed;\n}\n.bcn-admin-cue {\n  border-radius: var(--radius-full);\n  color: #fff;\n  background: var(--bcn-helpbar-bg);\n  backdrop-filter: blur(14px) saturate(1.4);\n  border: 1px solid var(--bcn-helpbar-border);\n  align-items: center;\n  gap: 1px;\n  padding: 1px;\n  display: inline-flex;\n}\n@supports not (backdrop-filter: blur(1px)) {\n  .bcn-admin-cue {\n    background: var(--bcn-helpbar-bg-solid);\n  }\n}\n@media (prefers-reduced-transparency: reduce) {\n  .bcn-admin-cue {\n    background: var(--bcn-helpbar-bg-solid);\n    backdrop-filter: none;\n  }\n}\n.bcn-admin-cue[hidden] {\n  display: none;\n}\n.bcn-admin-btn,\n.bcn-admin-btn .esa-button {\n  display: inline-flex;\n}\n.bcn-admin-btn[hidden] {\n  display: none;\n}\n.bcn-admin-btn .esa-button__native {\n  --focus-ring-color: #fff;\n  border-radius: var(--radius-full);\n  color: #ffffffb8;\n  block-size: 22px;\n  min-block-size: 0;\n  inline-size: 22px;\n  min-inline-size: 0;\n  padding: 0;\n}\n.bcn-admin-btn .esa-button__native:hover,\n.bcn-admin-btn .esa-button__native:focus-visible {\n  color: #fff;\n  background: #ffffff24;\n}\n.bcn-admin-btn .esa-icon {\n  block-size: 14px;\n  inline-size: 14px;\n}\n.bcn-admin-cue esa-tooltip {\n  --color-background-default-knockout: var(--bcn-helpbar-bg-solid);\n  --color-content-default-knockout: var(--bcn-helpbar-fg);\n  display: inline-flex;\n}\n.bcn-gd__section {\n  gap: var(--spacing-300);\n  flex-direction: column;\n  display: flex;\n}\n.bcn-gd__section[hidden] {\n  display: none;\n}\n.bcn-gd__label {\n  align-items: center;\n  gap: var(--spacing-200);\n  font-size: var(--font-size-250);\n  font-weight: var(--typography-font-weight-bold);\n  color: var(--color-content-default);\n  margin: 0;\n  display: flex;\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd__here-head {\n  justify-content: space-between;\n  align-items: center;\n  gap: var(--spacing-200);\n  display: flex;\n}\n.bcn-gd__pick[hidden] {\n  display: none;\n}\n.bcn-gd-trow {\n  position: relative;\n}\n.bcn-gd-trow:is(:hover, :focus-within) .bcn-gd-row {\n  padding-inline-end: calc(var(--_tools-w, 52px) + var(--spacing-200));\n}\n.bcn-gd-trow:hover .bcn-gd-trow__tools,\n.bcn-gd-trow:focus-within .bcn-gd-trow__tools {\n  opacity: 1;\n}\n.bcn-gd-trow__from {\n  font-size: var(--font-size-100);\n  color: var(--color-content-default-tertiary);\n}\n.bcn-gd-trow[data-hidden-here] .bcn-gd-row__title,\n.bcn-gd-trow[data-hidden-here] .bcn-gd-row__sub {\n  color: var(--color-content-default-tertiary);\n}\n.bcn-gd__rows {\n  flex-direction: column;\n  display: flex;\n}\n.bcn-gd__rows:empty {\n  display: none;\n}\n.bcn-gd-row {\n  align-items: center;\n  gap: var(--spacing-300);\n  width: 100%;\n  padding: var(--spacing-300) var(--spacing-100);\n  border: 0;\n  border-bottom: 1px solid var(--color-border-default-subtle);\n  font: inherit;\n  text-align: left;\n  cursor: pointer;\n  background: 0 0;\n  display: flex;\n}\n.bcn-gd-row:hover {\n  background: var(--color-background-elevation-sunken);\n}\n.bcn-gd-row__text {\n  flex-direction: column;\n  flex: 1;\n  gap: 2px;\n  min-width: 0;\n  display: flex;\n}\n.bcn-gd-row__title {\n  font-size: var(--font-size-200);\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default);\n  line-height: 1.35;\n}\n.bcn-gd-row__sub {\n  font-size: var(--font-size-150);\n  font-weight: var(--typography-font-weight-regular);\n  color: var(--color-content-default-secondary);\n  line-height: 1.4;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n@media (prefers-reduced-motion: reduce) {\n  .bcn-disclosure .esa-icon {\n    transition: none;\n  }\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.esa-button {\n  --_btn-pad-y: var(--spacing-300, 0.75rem);\n  --_btn-padding-x: var(--spacing-300, 0.75rem);\n  --_btn-radius: var(--button-radius-md, 0.5rem);\n  --_accent: var(--color-background-brand, #46a758);\n  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);\n  --_on: var(--color-content-default-knockout, #fcfcfc);\n  --_accent-text: var(--_accent);\n  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);\n  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);\n  display: inline-block;\n}\n.esa-button--xs {\n  --_btn-pad-y: var(--spacing-200, 0.5rem);\n  --_btn-padding-x: var(--spacing-200, 0.5rem);\n  --_btn-radius: var(--button-radius-xs, 4px);\n}\n.esa-button--appearance-fill .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent-border, transparent);\n}\n.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-fill.esa-button--active .esa-button__native {\n  background: var(--_accent-hover);\n}\n.esa-button--appearance-outline .esa-button__native,\n.esa-button--appearance-dashed .esa-button__native {\n  color: var(--_accent-text);\n  border-color: var(--_accent);\n  background: 0 0;\n}\n.esa-button--appearance-dashed .esa-button__native {\n  border-style: dashed;\n}\n.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {\n  background: var(--_btn-tint-hover);\n}\n.esa-button--appearance-outline.esa-button--active .esa-button__native,\n.esa-button--appearance-dashed.esa-button--active .esa-button__native {\n  background: var(--_btn-tint-active);\n}\n.esa-button--appearance-soft .esa-button__native {\n  background: color-mix(\n    in srgb,\n    var(--color-background-elevation-sunken, #f0f0f0) 45%,\n    var(--color-background-elevation-raised, #fcfcfc)\n  );\n  color: var(--_accent-text);\n  border-color: var(--color-border-default-strong, #bbb);\n}\n.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-soft.esa-button--active .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent);\n}\n.esa-button--variant-ghost .esa-button__native {\n  color: var(--color-content-default, #202020);\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,\n.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {\n  border-color: var(--color-border-default, #cecece);\n}\n.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),\n.esa-button--variant-ghost.esa-button--active .esa-button__native {\n  background: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-button--variant-chrome .esa-button__native {\n  color: inherit;\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),\n.esa-button--variant-chrome.esa-button--active .esa-button__native,\n.esa-button--variant-chrome.esa-button--current .esa-button__native {\n  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));\n}\n.esa-button--variant-chrome .esa-button__native:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__native {\n  justify-content: center;\n  align-items: center;\n  gap: var(--spacing-200, 8px);\n  width: 100%;\n  padding-block: var(--_btn-pad-y);\n  padding-inline: var(--_btn-padding-x);\n  border: var(--border-width-default, 1px) solid transparent;\n  border-radius: var(--_btn-radius);\n  cursor: pointer;\n  transition:\n    background var(--transition-fast, 0.15s ease),\n    border-color var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n  text-decoration: none;\n  display: inline-flex;\n}\n.esa-button__native:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n}\n.esa-button--icon-only .esa-button__native {\n  padding-inline: var(--_btn-pad-y);\n  aspect-ratio: 1;\n}\nsummary.esa-button {\n  cursor: pointer;\n  list-style: none;\n}\nsummary.esa-button::-webkit-details-marker {\n  display: none;\n}\nsummary.esa-button:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n  border-radius: var(--_btn-radius);\n}\nsummary.esa-button--variant-chrome:focus-visible {\n  outline-color: currentColor;\n}\n.bcn-list-empty .bcn-list-empty__tour .esa-button__native {\n  --bcn-aldo-mark-size: 20px;\n  --bcn-aldo-ring-from: var(--color-teal-7);\n  --bcn-aldo-ring-to: var(--color-teal-9);\n  color: var(--bcn-helpbar-fg);\n  background: var(--bcn-helpbar-bg-solid);\n  border-color: var(--bcn-helpbar-border);\n}\n.bcn-list-empty .bcn-list-empty__tour .esa-button__native:hover {\n  color: var(--bcn-helpbar-fg);\n  background: color-mix(in srgb, var(--bcn-helpbar-bg-solid) 88%, white);\n}\n.bcn-hd__detach .esa-button__native {\n  --focus-ring-color: var(--bcn-helpbar-fg);\n  border-radius: var(--radius-full);\n  block-size: 18px;\n  min-block-size: 0;\n  inline-size: 18px;\n  min-inline-size: 0;\n  padding: 0;\n}\n.bcn-hd__detach .esa-icon {\n  block-size: 12px;\n  inline-size: 12px;\n}\n.bcn-help-dots__band .esa-button {\n  color: var(--bcn-helpbar-fg);\n  --focus-ring-color: var(--bcn-helpbar-fg);\n}\n.typography-microcopy-2xs {\n  font-family: var(--typography-microcopy-2xs-font-family);\n  font-size: var(--typography-microcopy-2xs-font-size);\n  font-weight: var(--typography-microcopy-2xs-font-weight);\n  line-height: var(--typography-microcopy-2xs-line-height);\n  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}",
+      "guide": {
+        "intent": "The glossary terms for this page, then the terms it takes from its parent page (\"From Project\").",
+        "decisions": [
+          "ESA admin only: + Add Term (a typeahead over glossary titles, no tenant aliases exist yet), × to detach a page's own term, and Hide on This Page or Edit on Project for an inherited one. Terms are ESA help content, the same for every tenant (BCN-1513)."
+        ],
+        "acceptance": [
+          "A tenant admin sees no + and no row tools on Terms."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--bcn-aldo-600",
+          "value": "#06736f",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-1000",
+          "value": "#000",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-400",
+          "value": "#989898",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-500",
+          "value": "#7c7c7c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-950",
+          "value": "#292929",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-bg",
+          "value": "#17191bc7",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-bg-solid",
+          "value": "#1f2224",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-border",
+          "value": "#ffffff1f",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-fg",
+          "value": "#ffffffeb",
+          "tier": "component"
+        },
+        {
+          "name": "--border-width-default",
+          "value": "1px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--button-chrome-bg-hover",
+          "value": "color-mix(in srgb, currentColor 14%, transparent)",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-md",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-xs",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-danger",
+          "value": "#ce2c31",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-strong",
+          "value": "#bdbdbd",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-subtle",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-knockout",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-teal-7",
+          "value": "#83cdc1",
+          "tier": "primitive"
+        },
+        {
+          "name": "--color-teal-9",
+          "value": "#12a594",
+          "tier": "primitive"
+        },
+        {
+          "name": "--focus-ring-color",
+          "value": "#3e9b4f",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-offset",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-width",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--font-size-100",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-size-150",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-size-200",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-size-250",
+          "value": "clamp(.8125rem, .71rem + .5vw, 1.0625rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-md",
+          "value": "20px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-sm",
+          "value": "16px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-xs",
+          "value": "14px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-full",
+          "value": "9999px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-bold",
+          "value": "650",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-regular",
+          "value": "400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-semibold",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-2xs-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-2xs-font-size",
+          "value": "clamp(.5rem, .44rem + .3vw, .625rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-2xs-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-2xs-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-2xs-line-height",
+          "value": "1",
+          "tier": "semantic"
+        }
+      ],
+      "components": [
+        {
+          "name": "bcn-gd",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnGuidanceDrawer.astro",
+          "target": null
+        },
+        {
+          "name": "bcn-gd-row",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnGuidanceDrawer.astro",
+          "target": null
+        },
+        {
+          "name": "bcn-gd-trow",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnGuidanceDrawer.astro",
+          "target": null
+        },
+        {
+          "name": "esa-button",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-button.astro",
+          "target": "ui-button"
+        },
+        {
+          "name": "esa-combobox",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-combobox.ts",
+          "target": null
+        },
+        {
+          "name": "esa-icon",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-icon.astro",
+          "target": null
+        },
+        {
+          "name": "esa-tooltip",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-tooltip.ts",
+          "target": null
+        }
+      ],
+      "claudePath": "claude/terms.md",
+      "repoPath": "public/handoff/prototypes-help-dots/claude/terms.md",
+      "parts": [],
+      "shots": {
+        "desktop": "claude/terms.desktop.png",
+        "phone": "claude/terms.phone.png"
+      },
+      "bytes": 25730,
+      "specBytes": 25730,
+      "files": 1,
+      "collapsed": 0
+    },
+    {
+      "label": "Page header",
+      "tag": "section",
+      "selector": ".bcn-gd__here",
+      "apply": [
+        {
+          "click": "[data-help-bar] [data-help-trigger]"
+        },
+        {
+          "click": "[data-help-panel-open]"
+        }
+      ],
+      "html": "<section class=\"bcn-gd__section bcn-gd__here\">\n  <div class=\"bcn-gd__here-head\">\n    <h2 class=\"bcn-gd__label\">\n      <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n        ><svg\n          width=\"16\"\n          height=\"16\"\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          stroke=\"currentColor\"\n          stroke-width=\"2\"\n          stroke-linecap=\"round\"\n          stroke-linejoin=\"round\"\n          focusable=\"false\"\n        >\n          <path\n            d=\"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0\"\n          ></path>\n          <circle cx=\"12\" cy=\"10\" r=\"3\"></circle></svg\n      ></span>\n      <span data-gd-page=\"\">Lists</span>\n    </h2>\n    <span class=\"bcn-admin-cue\" data-gd-here-note=\"\" hidden=\"\"\n      ><esa-tooltip\n        text=\"Edit page description for everyone in DWR\"\n        position=\"above\"\n        delay=\"150\"\n        align=\"center\"\n        ><span class=\"bcn-admin-btn\" data-gd-here-edit=\"\"\n          ><span\n            class=\"esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only\"\n            ><button\n              class=\"esa-button__native typography-microcopy-2xs\"\n              type=\"button\"\n              aria-label=\"Edit Page Description\"\n              title=\"Edit Page Description\"\n            >\n              <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\"\n                ><svg\n                  width=\"14\"\n                  height=\"14\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <path\n                    d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"\n                  ></path>\n                  <path d=\"m15 5 4 4\"></path></svg\n              ></span></button></span></span></esa-tooltip\n    ></span>\n  </div>\n  <p class=\"bcn-gd__here-purpose\" data-gd-purpose=\"\" data-rich-text=\"ActionLists\">\n    Lists are sets of commitments, actions or obligations you want to track and report on together.\n    A commitment can sit on more than one list.\n  </p>\n</section>",
+      "css": ".typography-microcopy-2xs {\n  font-family: var(--typography-microcopy-2xs-font-family);\n  font-size: var(--typography-microcopy-2xs-font-size);\n  font-weight: var(--typography-microcopy-2xs-font-weight);\n  line-height: var(--typography-microcopy-2xs-line-height);\n  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);\n}\n.bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {\n  color: var(--bcn-aldo-600);\n}\n.bcn-aldo-composer__send[data-empty] .esa-button__native {\n  cursor: not-allowed;\n}\n.bcn-admin-cue {\n  border-radius: var(--radius-full);\n  color: #fff;\n  background: var(--bcn-helpbar-bg);\n  backdrop-filter: blur(14px) saturate(1.4);\n  border: 1px solid var(--bcn-helpbar-border);\n  align-items: center;\n  gap: 1px;\n  padding: 1px;\n  display: inline-flex;\n}\n@supports not (backdrop-filter: blur(1px)) {\n  .bcn-admin-cue {\n    background: var(--bcn-helpbar-bg-solid);\n  }\n}\n@media (prefers-reduced-transparency: reduce) {\n  .bcn-admin-cue {\n    background: var(--bcn-helpbar-bg-solid);\n    backdrop-filter: none;\n  }\n}\n.bcn-admin-cue[hidden] {\n  display: none;\n}\n.bcn-admin-btn,\n.bcn-admin-btn .esa-button {\n  display: inline-flex;\n}\n.bcn-admin-btn[hidden] {\n  display: none;\n}\n.bcn-admin-btn .esa-button__native {\n  --focus-ring-color: #fff;\n  border-radius: var(--radius-full);\n  color: #ffffffb8;\n  block-size: 22px;\n  min-block-size: 0;\n  inline-size: 22px;\n  min-inline-size: 0;\n  padding: 0;\n}\n.bcn-admin-btn .esa-button__native:hover,\n.bcn-admin-btn .esa-button__native:focus-visible {\n  color: #fff;\n  background: #ffffff24;\n}\n.bcn-admin-btn .esa-icon {\n  block-size: 14px;\n  inline-size: 14px;\n}\n.bcn-admin-cue esa-tooltip {\n  --color-background-default-knockout: var(--bcn-helpbar-bg-solid);\n  --color-content-default-knockout: var(--bcn-helpbar-fg);\n  display: inline-flex;\n}\n.bcn-gd__section {\n  gap: var(--spacing-300);\n  flex-direction: column;\n  display: flex;\n}\n.bcn-gd__section[hidden] {\n  display: none;\n}\n.bcn-gd__label {\n  align-items: center;\n  gap: var(--spacing-200);\n  font-size: var(--font-size-250);\n  font-weight: var(--typography-font-weight-bold);\n  color: var(--color-content-default);\n  margin: 0;\n  display: flex;\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd__here-head {\n  justify-content: space-between;\n  align-items: center;\n  gap: var(--spacing-200);\n  display: flex;\n}\n.bcn-gd__here-purpose {\n  font-size: var(--font-size-150);\n  color: var(--color-content-default-secondary);\n  margin: 0;\n  line-height: 1.5;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n@media (prefers-reduced-motion: reduce) {\n  .bcn-disclosure .esa-icon {\n    transition: none;\n  }\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.esa-button {\n  --_btn-pad-y: var(--spacing-300, 0.75rem);\n  --_btn-padding-x: var(--spacing-300, 0.75rem);\n  --_btn-radius: var(--button-radius-md, 0.5rem);\n  --_accent: var(--color-background-brand, #46a758);\n  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);\n  --_on: var(--color-content-default-knockout, #fcfcfc);\n  --_accent-text: var(--_accent);\n  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);\n  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);\n  display: inline-block;\n}\n.esa-button--xs {\n  --_btn-pad-y: var(--spacing-200, 0.5rem);\n  --_btn-padding-x: var(--spacing-200, 0.5rem);\n  --_btn-radius: var(--button-radius-xs, 4px);\n}\n.esa-button--appearance-fill .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent-border, transparent);\n}\n.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-fill.esa-button--active .esa-button__native {\n  background: var(--_accent-hover);\n}\n.esa-button--appearance-outline .esa-button__native,\n.esa-button--appearance-dashed .esa-button__native {\n  color: var(--_accent-text);\n  border-color: var(--_accent);\n  background: 0 0;\n}\n.esa-button--appearance-dashed .esa-button__native {\n  border-style: dashed;\n}\n.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {\n  background: var(--_btn-tint-hover);\n}\n.esa-button--appearance-outline.esa-button--active .esa-button__native,\n.esa-button--appearance-dashed.esa-button--active .esa-button__native {\n  background: var(--_btn-tint-active);\n}\n.esa-button--appearance-soft .esa-button__native {\n  background: color-mix(\n    in srgb,\n    var(--color-background-elevation-sunken, #f0f0f0) 45%,\n    var(--color-background-elevation-raised, #fcfcfc)\n  );\n  color: var(--_accent-text);\n  border-color: var(--color-border-default-strong, #bbb);\n}\n.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),\n.esa-button--appearance-soft.esa-button--active .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: var(--_accent);\n}\n.esa-button--variant-ghost .esa-button__native {\n  color: var(--color-content-default, #202020);\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,\n.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {\n  border-color: var(--color-border-default, #cecece);\n}\n.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),\n.esa-button--variant-ghost.esa-button--active .esa-button__native {\n  background: var(--color-background-elevation-sunken, #f0f0f0);\n}\n.esa-button--variant-chrome .esa-button__native {\n  color: inherit;\n  background: 0 0;\n  border-color: #0000;\n}\n.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),\n.esa-button--variant-chrome.esa-button--active .esa-button__native,\n.esa-button--variant-chrome.esa-button--current .esa-button__native {\n  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));\n}\n.esa-button--variant-chrome .esa-button__native:focus-visible {\n  outline-color: currentColor;\n}\n.esa-button__native {\n  justify-content: center;\n  align-items: center;\n  gap: var(--spacing-200, 8px);\n  width: 100%;\n  padding-block: var(--_btn-pad-y);\n  padding-inline: var(--_btn-padding-x);\n  border: var(--border-width-default, 1px) solid transparent;\n  border-radius: var(--_btn-radius);\n  cursor: pointer;\n  transition:\n    background var(--transition-fast, 0.15s ease),\n    border-color var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n  text-decoration: none;\n  display: inline-flex;\n}\n.esa-button__native:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n}\n.esa-button--icon-only .esa-button__native {\n  padding-inline: var(--_btn-pad-y);\n  aspect-ratio: 1;\n}\nsummary.esa-button {\n  cursor: pointer;\n  list-style: none;\n}\nsummary.esa-button::-webkit-details-marker {\n  display: none;\n}\nsummary.esa-button:focus-visible {\n  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);\n  outline-offset: var(--focus-ring-offset, 2px);\n  border-radius: var(--_btn-radius);\n}\nsummary.esa-button--variant-chrome:focus-visible {\n  outline-color: currentColor;\n}\n.bcn-list-empty .bcn-list-empty__tour .esa-button__native {\n  --bcn-aldo-mark-size: 20px;\n  --bcn-aldo-ring-from: var(--color-teal-7);\n  --bcn-aldo-ring-to: var(--color-teal-9);\n  color: var(--bcn-helpbar-fg);\n  background: var(--bcn-helpbar-bg-solid);\n  border-color: var(--bcn-helpbar-border);\n}\n.bcn-list-empty .bcn-list-empty__tour .esa-button__native:hover {\n  color: var(--bcn-helpbar-fg);\n  background: color-mix(in srgb, var(--bcn-helpbar-bg-solid) 88%, white);\n}\n.bcn-hd__detach .esa-button__native {\n  --focus-ring-color: var(--bcn-helpbar-fg);\n  border-radius: var(--radius-full);\n  block-size: 18px;\n  min-block-size: 0;\n  inline-size: 18px;\n  min-inline-size: 0;\n  padding: 0;\n}\n.bcn-hd__detach .esa-icon {\n  block-size: 12px;\n  inline-size: 12px;\n}\n.bcn-help-dots__band .esa-button {\n  color: var(--bcn-helpbar-fg);\n  --focus-ring-color: var(--bcn-helpbar-fg);\n}\n.typography-microcopy-2xs {\n  font-family: var(--typography-microcopy-2xs-font-family);\n  font-size: var(--typography-microcopy-2xs-font-size);\n  font-weight: var(--typography-microcopy-2xs-font-weight);\n  line-height: var(--typography-microcopy-2xs-line-height);\n  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}",
+      "guide": {
+        "intent": "The page name with a map pin, and the page description as plain text under it.",
+        "decisions": [
+          "Tenant admin (and ESA admin): a small pencil at the end of the heading row, tooltip \"Edit page description for everyone in <tenant>\", opens the description in a side panel. The description is the tenant's own custom rich text (ActionLists on Lists), so this is the one help control a tenant admin has."
+        ],
+        "acceptance": [
+          "A tenant admin sees the pencil and no other admin control in the drawer."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--bcn-aldo-600",
+          "value": "#06736f",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-1000",
+          "value": "#000",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-400",
+          "value": "#989898",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-500",
+          "value": "#7c7c7c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-950",
+          "value": "#292929",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-bg",
+          "value": "#17191bc7",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-bg-solid",
+          "value": "#1f2224",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-border",
+          "value": "#ffffff1f",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-fg",
+          "value": "#ffffffeb",
+          "tier": "component"
+        },
+        {
+          "name": "--border-width-default",
+          "value": "1px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--button-chrome-bg-hover",
+          "value": "color-mix(in srgb, currentColor 14%, transparent)",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-md",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--button-radius-xs",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-utility-danger",
+          "value": "#ce2c31",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-strong",
+          "value": "#bdbdbd",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-knockout",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-teal-7",
+          "value": "#83cdc1",
+          "tier": "primitive"
+        },
+        {
+          "name": "--color-teal-9",
+          "value": "#12a594",
+          "tier": "primitive"
+        },
+        {
+          "name": "--focus-ring-color",
+          "value": "#3e9b4f",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-offset",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--focus-ring-width",
+          "value": "2px",
+          "tier": "component"
+        },
+        {
+          "name": "--font-size-150",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-size-250",
+          "value": "clamp(.8125rem, .71rem + .5vw, 1.0625rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-md",
+          "value": "20px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-sm",
+          "value": "16px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-xs",
+          "value": "14px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-full",
+          "value": "9999px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-bold",
+          "value": "650",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-2xs-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-2xs-font-size",
+          "value": "clamp(.5rem, .44rem + .3vw, .625rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-2xs-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-2xs-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-2xs-line-height",
+          "value": "1",
+          "tier": "semantic"
+        }
+      ],
+      "components": [
+        {
+          "name": "bcn-gd",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnGuidanceDrawer.astro",
+          "target": null
+        },
+        {
+          "name": "esa-button",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-button.astro",
+          "target": "ui-button"
+        },
+        {
+          "name": "esa-icon",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-icon.astro",
+          "target": null
+        },
+        {
+          "name": "esa-tooltip",
+          "origin": "hub",
+          "source": "packages/ecology/src/components/esa-tooltip.ts",
+          "target": null
+        }
+      ],
+      "claudePath": "claude/page-header.md",
+      "repoPath": "public/handoff/prototypes-help-dots/claude/page-header.md",
+      "parts": [],
+      "shots": {
+        "desktop": "claude/page-header.desktop.png",
+        "phone": "claude/page-header.phone.png"
+      },
+      "bytes": 16485,
+      "specBytes": 16485,
+      "files": 1,
+      "collapsed": 0
+    }
+  ]
+}

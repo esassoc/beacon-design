@@ -91,6 +91,35 @@ The single-pane upsert — a single-column esa-dialog carrying the prod Edit Sou
   line-height: var(--typography-microcopy-md-line-height);
   letter-spacing: var(--typography-microcopy-md-letter-spacing);
 }
+.bcn-help-bar__tooltip .esa-button__label {
+  line-height: 0;
+  display: inline-flex;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
+.bcn-aldo-composer__send[data-empty] .esa-button__native {
+  cursor: not-allowed;
+}
+.bcn-admin-btn,
+.bcn-admin-btn .esa-button {
+  display: inline-flex;
+}
+.bcn-admin-btn .esa-button__native {
+  --focus-ring-color: #fff;
+  border-radius: var(--radius-full);
+  color: #ffffffb8;
+  block-size: 22px;
+  min-block-size: 0;
+  inline-size: 22px;
+  min-inline-size: 0;
+  padding: 0;
+}
+.bcn-admin-btn .esa-button__native:hover,
+.bcn-admin-btn .esa-button__native:focus-visible {
+  color: #fff;
+  background: #ffffff24;
+}
 #download-coversheet .esa-button {
   justify-content: center;
   width: 100%;
@@ -250,6 +279,7 @@ summary.esa-button:focus-visible {
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--border-width-default` | `1px` | semantic |
 | `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
 | `--button-radius-md` | `.25rem` | component |
@@ -265,6 +295,7 @@ summary.esa-button:focus-visible {
 | `--focus-ring-color` | `#3e9b4f` | component |
 | `--focus-ring-offset` | `2px` | component |
 | `--focus-ring-width` | `2px` | component |
+| `--radius-full` | `9999px` | primitive |
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-200` | `.5rem` | primitive |
 | `--spacing-300` | `.75rem` | primitive |

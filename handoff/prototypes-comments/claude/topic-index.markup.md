@@ -10,7 +10,7 @@
   <div class="bcn-ap" data-aldo-prompt="">
     <div class="bcn-ap__bar">
       <button type="button" class="bcn-ap__open" aria-expanded="false" data-ap-open="">
-        <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
+        <span class="bcn-aldo-mark" data-size="sm" data-variant="badge" aria-hidden="true"
           ><svg
             class="bcn-aldo-mark__glyph"
             viewBox="0 0 64 64"
@@ -57,7 +57,7 @@
       <div class="bcn-ap__shimmer" aria-hidden="true"></div>
       <div class="bcn-ap__head">
         <span data-ap-mark=""
-          ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
+          ><span class="bcn-aldo-mark" data-size="sm" data-variant="badge" aria-hidden="true"
             ><svg
               class="bcn-aldo-mark__glyph"
               viewBox="0 0 64 64"

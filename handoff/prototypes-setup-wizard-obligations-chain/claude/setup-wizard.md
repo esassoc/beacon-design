@@ -33,12 +33,13 @@ _321 repeated elements are collapsed in the markup below; the comments say where
 
 - [setup-wizard.markup-1.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-obligations-chain/claude/setup-wizard.markup-1.md) (47 KB)
 - [setup-wizard.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-obligations-chain/claude/setup-wizard.markup-2.md) (27 KB)
-- [setup-wizard.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-obligations-chain/claude/setup-wizard.styles.md) (30 KB)
+- [setup-wizard.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-obligations-chain/claude/setup-wizard.styles.md) (31 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-1000` | `#000` | component |

@@ -6,4 +6,4 @@ A faithful replica of Jamie's Planning feature on Beacon develop (BCN-1652): the
 
 | Section | What it is | Spec | Screenshots |
 |---|---|---|---|
-| Plan list | The project’s plans, with New plan and Load sample plan. | [plan-list.md](https://esassoc.github.io/beacon-design/handoff/prototypes-plans/claude/plan-list.md) 19 KB | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-plans/claude/plan-list.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-plans/claude/plan-list.phone.png) |
+| Plan list | The project’s plans, with New plan and Load sample plan. | [plan-list.md](https://esassoc.github.io/beacon-design/handoff/prototypes-plans/claude/plan-list.md) 20 KB | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-plans/claude/plan-list.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-plans/claude/plan-list.phone.png) |

@@ -168,6 +168,9 @@ _28 repeated elements are collapsed in the markup below; the comments say where.
   color: var(--color-content-default-tertiary);
   flex: none;
 }
+.bcn-aldo-needs__head .esa-badge {
+  font-variant-numeric: tabular-nums;
+}
 .bcn-help-article {
   gap: var(--spacing-500);
   flex-direction: column;
@@ -350,6 +353,10 @@ _28 repeated elements are collapsed in the markup below; the comments say where.
 .bcn-help-article__related-link:hover {
   color: var(--color-content-link-hover);
   text-decoration: underline;
+}
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
 }
 .bcn-gd-article {
   --z-modal-backdrop: 1302;

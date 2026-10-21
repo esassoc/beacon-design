@@ -25,13 +25,14 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-due-dili
 _20 repeated elements are collapsed in the markup below; the comments say where._
 
 - [project-boundary.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-boundary/claude/project-boundary.markup.md) (26 KB)
-- [project-boundary.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-boundary/claude/project-boundary.styles.md) (23 KB)
+- [project-boundary.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-boundary/claude/project-boundary.styles.md) (24 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
 | `--alert-box-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-200` | `#dcdcdc` | component |

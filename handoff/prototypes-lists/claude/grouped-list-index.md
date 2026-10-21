@@ -44,17 +44,19 @@ _27 repeated elements are collapsed in the markup below; the comments say where.
 
 ```html
 <div class="stack" data-gap="lg" data-list-index="">
-  <div class="bcn-swfr bcn-swfr--panel">
-    <esa-text-field
-      class="bcn-swfr__search"
-      size="sm"
-      name="lists-search"
-      placeholder="Search lists"
-      aria-label="Search lists"
-    ></esa-text-field>
-    <div class="bcn-swfr__verbs"></div>
+  <div data-help-spot="lists.search" data-help-spot-label="Search" class="astro-pielnuq6">
+    <div class="bcn-swfr bcn-swfr--panel">
+      <esa-text-field
+        class="bcn-swfr__search"
+        size="sm"
+        name="lists-search"
+        placeholder="Search lists"
+        aria-label="Search lists"
+      ></esa-text-field>
+      <div class="bcn-swfr__verbs"></div>
+    </div>
+    <!-- script type="module" removed (0 bytes) -->
   </div>
-  <!-- script type="module" removed (0 bytes) -->
   <div class="stack" data-gap="2xl">
     <section
       class="stack"
@@ -64,7 +66,12 @@ _27 repeated elements are collapsed in the markup below; the comments say where.
       data-list-noun="commitment list"
     >
       <div class="bcn-lib__head repel" data-gap="sm">
-        <div class="cluster" data-gap="xs">
+        <div
+          class="cluster"
+          data-gap="xs"
+          data-help-spot="lists.group.commitment"
+          data-help-spot-label="Commitment Lists Heading"
+        >
           <h2 class="bcn-lib__title typography-title-strong" id="lists-commitment">
             Commitment Lists
           </h2>
@@ -82,6 +89,8 @@ _27 repeated elements are collapsed in the markup below; the comments say where.
             class="esa-button__native typography-microcopy-xs"
             type="button"
             data-list-create="commitment"
+            data-help-spot="lists.add.commitment"
+            data-help-spot-label="Add Commitment List Button"
           >
             <span class="esa-icon esa-icon--sm" aria-hidden="true"
               ><svg
@@ -110,7 +119,10 @@ _27 repeated elements are collapsed in the markup below; the comments say where.
                 data-gap="xs"
                 style="--_mark: var(--color-commitment)"
               >
-                <span class="bcn-lc__mark"
+                <span
+                  class="bcn-lc__mark"
+                  data-help-spot="list-row.mark"
+                  data-help-spot-label="Type Mark"
                   ><span class="esa-icon esa-icon--sm" aria-hidden="true"
                     ><svg
                       width="16"
@@ -139,12 +151,30 @@ _27 repeated elements are collapsed in the markup below; the comments say where.
                         class="bcn-lc__name typography-label-sm-strong"
                         href="/beacon-design/prototypes/lists/itp-2081-conditions"
                         data-list-text=""
+                        data-help-spot="list-row.name"
+                        data-help-spot-label="List Name"
                         >ITP 2081 Conditions</a
-                      ><span class="bcn-swcb bcn-swcb--sm" aria-label="294 commitments">294</span>
+                      ><span
+                        class="bcn-swcb bcn-swcb--sm"
+                        aria-label="294 commitments"
+                        data-help-spot="list-row.count"
+                        data-help-spot-label="Member Count"
+                        >294</span
+                      >
                     </div>
-                    <span class="bcn-lc__updated typography-body-xs">Updated Sep 8, 2026</span>
+                    <span
+                      class="bcn-lc__updated typography-body-xs"
+                      data-help-spot="list-row.updated"
+                      data-help-spot-label="Updated Date"
+                      >Updated Sep 8, 2026</span
+                    >
                   </div>
-                  <p class="bcn-lc__desc typography-body-xs" data-list-text="">
+                  <p
+                    class="bcn-lc__desc typography-body-xs"
+                    data-list-text=""
+                    data-help-spot="list-row.description"
+                    data-help-spot-label="List Description"
+                  >
                     Every condition of the incidental take permit, as issued.
                   </p>
                 </div>
@@ -152,6 +182,7 @@ _27 repeated elements are collapsed in the markup below; the comments say where.
             </div>
           </div>
         </article>
+        <!-- script type="module" removed (0 bytes) -->
         <article class="bcn-lc" data-list-row="" data-type="commitment">
           <div class="esa-card esa-card--outlined esa-card--padding-none">
             <div class="esa-card__body typography-body-md">
@@ -160,7 +191,10 @@ _27 repeated elements are collapsed in the markup below; the comments say where.
                 data-gap="xs"
                 style="--_mark: var(--color-commitment)"
               >
-                <span class="bcn-lc__mark"
+                <span
+                  class="bcn-lc__mark"
+                  data-help-spot="list-row.mark"
+                  data-help-spot-label="Type Mark"
                   ><span class="esa-icon esa-icon--sm" aria-hidden="true"
                     ><svg
                       width="16"
@@ -189,12 +223,30 @@ _27 repeated elements are collapsed in the markup below; the comments say where.
                         class="bcn-lc__name typography-label-sm-strong"
                         href="/beacon-design/prototypes/lists/quarterly-agency-briefing"
                         data-list-text=""
+                        data-help-spot="list-row.name"
+                        data-help-spot-label="List Name"
                         >Quarterly Agency Briefing</a
-                      ><span class="bcn-swcb bcn-swcb--sm" aria-label="12 commitments">12</span>
+                      ><span
+                        class="bcn-swcb bcn-swcb--sm"
+                        aria-label="12 commitments"
+                        data-help-spot="list-row.count"
+                        data-help-spot-label="Member Count"
+                        >12</span
+                      >
                     </div>
-                    <span class="bcn-lc__updated typography-body-xs">Updated Sep 4, 2026</span>
+                    <span
+                      class="bcn-lc__updated typography-body-xs"
+                      data-help-spot="list-row.updated"
+                      data-help-spot-label="Updated Date"
+                      >Updated Sep 4, 2026</span
+                    >
                   </div>
-                  <p class="bcn-lc__desc typography-body-xs" data-list-text="">
+                  <p
+                    class="bcn-lc__desc typography-body-xs"
+                    data-list-text=""
+                    data-help-spot="list-row.description"
+                    data-help-spot-label="List Description"
+                  >
                     Read into the quarterly briefing deck for the resource agencies.
                   </p>
                 </div>
@@ -219,7 +271,12 @@ _27 repeated elements are collapsed in the markup below; the comments say where.
       data-list-noun="action list"
     >
       <div class="bcn-lib__head repel" data-gap="sm">
-        <div class="cluster" data-gap="xs">
+        <div
+          class="cluster"
+          data-gap="xs"
+          data-help-spot="lists.group.action"
+          data-help-spot-label="Action Lists Heading"
+        >
           <h2 class="bcn-lib__title typography-title-strong" id="lists-action">Action Lists</h2>
           <span
             class="bcn-swcb"
@@ -235,6 +292,8 @@ _27 repeated elements are collapsed in the markup below; the comments say where.
             class="esa-button__native typography-microcopy-xs"
             type="button"
             data-list-create="action"
+            data-help-spot="lists.add.action"
+            data-help-spot-label="Add Action List Button"
           >
             <span class="esa-icon esa-icon--sm" aria-hidden="true"
               ><svg
@@ -259,7 +318,10 @@ _27 repeated elements are collapsed in the markup below; the comments say where.
           <div class="esa-card esa-card--outlined esa-card--padding-none">
             <div class="esa-card__body typography-body-md">
               <div class="bcn-lc__row cluster" data-gap="xs" style="--_mark: var(--color-action)">
-                <span class="bcn-lc__mark"
+                <span
+                  class="bcn-lc__mark"
+                  data-help-spot="list-row.mark"
+                  data-help-spot-label="Type Mark"
                   ><span class="esa-icon esa-icon--sm" aria-hidden="true"
                     ><svg
                       width="16"
@@ -285,12 +347,30 @@ _27 repeated elements are collapsed in the markup below; the comments say where.
                         class="bcn-lc__name typography-label-sm-strong"
                         href="/beacon-design/prototypes/lists/desktop-actions"
                         data-list-text=""
+                        data-help-spot="list-row.name"
+                        data-help-spot-label="List Name"
                         >Desktop Actions</a
-                      ><span class="bcn-swcb bcn-swcb--sm" aria-label="182 actions">182</span>
+                      ><span
+                        class="bcn-swcb bcn-swcb--sm"
+                        aria-label="182 actions"
+                        data-help-spot="list-row.count"
+                        data-help-spot-label="Member Count"
+                        >182</span
+                      >
                     </div>
-                    <span class="bcn-lc__updated typography-body-xs">Updated Sep 14, 2026</span>
+                    <span
+                      class="bcn-lc__updated typography-body-xs"
+                      data-help-spot="list-row.updated"
+                      data-help-spot-label="Updated Date"
+                      >Updated Sep 14, 2026</span
+                    >
                   </div>
-                  <p class="bcn-lc__desc typography-body-xs" data-list-text="">
+                  <p
+                    class="bcn-lc__desc typography-body-xs"
+                    data-list-text=""
+                    data-help-spot="list-row.description"
+                    data-help-spot-label="List Description"
+                  >
                     Everything completed off site, for the desk-based reviewers.
                   </p>
                 </div>
@@ -302,7 +382,10 @@ _27 repeated elements are collapsed in the markup below; the comments say where.
           <div class="esa-card esa-card--outlined esa-card--padding-none">
             <div class="esa-card__body typography-body-md">
               <div class="bcn-lc__row cluster" data-gap="xs" style="--_mark: var(--color-action)">
-                <span class="bcn-lc__mark"
+                <span
+                  class="bcn-lc__mark"
+                  data-help-spot="list-row.mark"
+                  data-help-spot-label="Type Mark"
                   ><span class="esa-icon esa-icon--sm" aria-hidden="true"
                     ><svg
                       width="16"
@@ -328,12 +411,30 @@ _27 repeated elements are collapsed in the markup below; the comments say where.
                         class="bcn-lc__name typography-label-sm-strong"
                         href="/beacon-design/prototypes/lists/fieldwork-actions"
                         data-list-text=""
+                        data-help-spot="list-row.name"
+                        data-help-spot-label="List Name"
                         >Fieldwork Actions</a
-                      ><span class="bcn-swcb bcn-swcb--sm" aria-label="85 actions">85</span>
+                      ><span
+                        class="bcn-swcb bcn-swcb--sm"
+                        aria-label="85 actions"
+                        data-help-spot="list-row.count"
+                        data-help-spot-label="Member Count"
+                        >85</span
+                      >
                     </div>
-                    <span class="bcn-lc__updated typography-body-xs">Updated Sep 14, 2026</span>
+                    <span
+                      class="bcn-lc__updated typography-body-xs"
+                      data-help-spot="list-row.updated"
+                      data-help-spot-label="Updated Date"
+                      >Updated Sep 14, 2026</span
+                    >
                   </div>
-                  <p class="bcn-lc__desc typography-body-xs" data-list-text="">
+                  <p
+                    class="bcn-lc__desc typography-body-xs"
+                    data-list-text=""
+                    data-help-spot="list-row.description"
+                    data-help-spot-label="List Description"
+                  >
                     Everything completed in the field, by crew.
                   </p>
                 </div>
@@ -403,6 +504,39 @@ _27 repeated elements are collapsed in the markup below; the comments say where.
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
+}
+.bcn-help-bar__tooltip .esa-button__label {
+  line-height: 0;
+  display: inline-flex;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
+.bcn-aldo-composer__send[data-empty] .esa-button__native {
+  cursor: not-allowed;
+}
+.bcn-admin-btn,
+.bcn-admin-btn .esa-button {
+  display: inline-flex;
+}
+.bcn-admin-btn .esa-button__native {
+  --focus-ring-color: #fff;
+  border-radius: var(--radius-full);
+  color: #ffffffb8;
+  block-size: 22px;
+  min-block-size: 0;
+  inline-size: 22px;
+  min-inline-size: 0;
+  padding: 0;
+}
+.bcn-admin-btn .esa-button__native:hover,
+.bcn-admin-btn .esa-button__native:focus-visible {
+  color: #fff;
+  background: #ffffff24;
+}
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -871,6 +1005,7 @@ summary.esa-button:focus-visible {
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-400` | `#989898` | component |
 | `--bcn-gray-500` | `#7c7c7c` | component |
@@ -909,6 +1044,7 @@ summary.esa-button:focus-visible {
 | `--line-height-normal` | `1.6` | primitive |
 | `--radius-100` | `.25rem` | primitive |
 | `--radius-200` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
 | `--radius-md` | `.25rem` | semantic |
 | `--radius-sm` | `.25rem` | semantic |
 | `--spacing-100` | `.25rem` | primitive |

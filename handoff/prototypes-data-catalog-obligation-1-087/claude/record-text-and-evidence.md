@@ -152,6 +152,56 @@ _2 repeated elements are collapsed in the markup below; the comments say where._
   color: var(--color-content-default-tertiary);
   flex: none;
 }
+.bcn-help-bar__tooltip .esa-button__label {
+  line-height: 0;
+  display: inline-flex;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
+.bcn-aldo-needs__head .esa-badge {
+  font-variant-numeric: tabular-nums;
+}
+.bcn-aldo-composer__send[data-empty] .esa-button__native {
+  cursor: not-allowed;
+}
+.bcn-aldo-composer__context .esa-pill[data-auto] {
+  --_pill-bg: transparent;
+  border-style: dashed;
+}
+.bcn-aldo-composer__context .esa-pill {
+  max-width: 100%;
+}
+.bcn-aldo-composer__context .esa-pill__label,
+.bcn-aldo-msg__context .esa-pill__label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 16rem;
+  overflow: hidden;
+}
+.bcn-admin-btn,
+.bcn-admin-btn .esa-button {
+  display: inline-flex;
+}
+.bcn-admin-btn .esa-button__native {
+  --focus-ring-color: #fff;
+  border-radius: var(--radius-full);
+  color: #ffffffb8;
+  block-size: 22px;
+  min-block-size: 0;
+  inline-size: 22px;
+  min-inline-size: 0;
+  padding: 0;
+}
+.bcn-admin-btn .esa-button__native:hover,
+.bcn-admin-btn .esa-button__native:focus-visible {
+  color: #fff;
+  background: #ffffff24;
+}
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
+}
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -780,6 +830,7 @@ summary.esa-button--variant-chrome:focus-visible {
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-content-muted` | `#7c7c7c` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-1000` | `#000` | component |

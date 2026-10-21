@@ -44,12 +44,13 @@ _54 repeated elements are collapsed in the markup below; the comments say where.
 
 - [view-tabs.markup-1.md](https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-feed/claude/view-tabs.markup-1.md) (47 KB)
 - [view-tabs.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-feed/claude/view-tabs.markup-2.md) (23 KB)
-- [view-tabs.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-feed/claude/view-tabs.styles.md) (29 KB)
+- [view-tabs.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-feed/claude/view-tabs.styles.md) (30 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-400` | `#989898` | component |
@@ -95,6 +96,7 @@ _54 repeated elements are collapsed in the markup below; the comments say where.
 | `--icon-size-xs` | `14px` | primitive |
 | `--radius-100` | `.25rem` | primitive |
 | `--radius-200` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
 | `--radius-md` | `.25rem` | semantic |
 | `--spacing-050` | `.125rem` | primitive |
 | `--spacing-100` | `.25rem` | primitive |

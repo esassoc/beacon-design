@@ -80,6 +80,16 @@ The Timing rail module (esa-collapsible): a single one-time deadline rule ("14 d
   color: var(--color-content-default-tertiary);
   flex: none;
 }
+.bcn-aldo-instructions .esa-collapsible__summary {
+  padding-block: var(--_aldo-gap);
+}
+.bcn-aldo-panel__side .bcn-aldo-instructions .esa-collapsible__summary {
+  padding-block: 0 var(--spacing-200);
+}
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
+}
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;

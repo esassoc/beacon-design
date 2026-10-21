@@ -34,7 +34,7 @@ The Library (the page is already Source Documents), dense at 13px with 12px stat
 _11 repeated elements are collapsed in the markup below; the comments say where._
 
 - [library.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step/claude/library.markup.md) (26 KB)
-- [library.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step/claude/library.styles.md) (18 KB)
+- [library.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step/claude/library.styles.md) (19 KB)
 
 ## Tokens
 

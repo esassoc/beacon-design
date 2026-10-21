@@ -25,8 +25,9 @@ A conversation per commitment. The person says what to change in their own words
 
 ## Components
 
-- `bcn-aldo-composer` (spoke) · `src/components/bcn/aldo/aldo-composer.ts`
-- `bcn-aldo-mark` (spoke) · `src/components/bcn/aldo/BcnAldoMark.astro`
+- `bcn-aldo-composer` (spoke) · `src/components/bcn/BcnGuidanceDrawer.astro`
+- `bcn-aldo-mark` (spoke) · `src/components/bcn/BcnHelpDot.astro`
+- `bcn-aldo-msg` (spoke) · `src/components/bcn/BcnGuidanceDrawer.astro`
 - `bcn-aldo-panel` (spoke) · `src/components/bcn/BcnListAldo.astro`
 - `esa-badge` (hub) · `packages/ecology/src/components/esa-badge.astro` → use `ui-badge` in the Beacon app
 - `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
@@ -40,7 +41,7 @@ A conversation per commitment. The person says what to change in their own words
 _10 repeated elements are collapsed in the markup below; the comments say where._
 
 - [aldo.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step-review/claude/aldo.markup.md) (15 KB)
-- [aldo.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step-review/claude/aldo.styles.md) (40 KB)
+- [aldo.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step-review/claude/aldo.styles.md) (41 KB)
 
 ## Tokens
 

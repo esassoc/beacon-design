@@ -28,7 +28,7 @@ Notes the study team keeps on the draft, set as footnotes under the letter after
 
 ## Components
 
-- `bcn-aldo-mark` (spoke) · `src/components/bcn/aldo/BcnAldoMark.astro`
+- `bcn-aldo-mark` (spoke) · `src/components/bcn/BcnHelpDot.astro`
 - `bcn-nc` (spoke) · `src/components/bcn/BcnNoteComposer.astro`
 - `bcn-rn` (spoke) · `src/components/bcn/BcnResponseNotes.astro`
 - `esa-avatar` (hub) · `packages/ecology/src/components/esa-avatar.astro`
@@ -41,7 +41,7 @@ Notes the study team keeps on the draft, set as footnotes under the letter after
 ## Markup and styles
 
 - [internal-notes.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-response/claude/internal-notes.markup.md) (26 KB)
-- [internal-notes.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-response/claude/internal-notes.styles.md) (26 KB)
+- [internal-notes.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-response/claude/internal-notes.styles.md) (27 KB)
 
 ## Tokens
 

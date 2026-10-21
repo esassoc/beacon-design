@@ -36,20 +36,8 @@
   line-height: var(--typography-microcopy-2xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
 }
-.bcn-countchip__num .esa-badge {
-  --badge-radius: var(--radius-full);
-  --badge-bg: var(--color-border-default);
-  --badge-text-color: var(--color-content-default-secondary);
-  box-sizing: border-box;
-  font-variant-numeric: tabular-nums;
-  min-width: 19px;
-  height: 19px;
-  box-shadow: 0 0 0 1.5px var(--color-background-elevation-raised);
-  justify-content: center;
-  align-items: center;
-  padding: 0 4px;
-  font-size: 0.8125rem;
-  line-height: 1;
+.bcn-help-bar__tooltip .esa-button__label {
+  line-height: 0;
   display: inline-flex;
 }
 .bcn-cbadge {
@@ -65,6 +53,56 @@
 .bcn-cbadge--sm {
   padding: 1px var(--spacing-150);
   font-size: 0.75rem;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
+.bcn-aldo-instructions .esa-collapsible__summary {
+  padding-block: var(--_aldo-gap);
+}
+.bcn-aldo-needs__head .esa-badge {
+  font-variant-numeric: tabular-nums;
+}
+.bcn-aldo-composer__send[data-empty] .esa-button__native {
+  cursor: not-allowed;
+}
+.bcn-aldo-panel__side .bcn-aldo-instructions .esa-collapsible__summary {
+  padding-block: 0 var(--spacing-200);
+}
+.bcn-admin-btn,
+.bcn-admin-btn .esa-button {
+  display: inline-flex;
+}
+.bcn-admin-btn .esa-button__native {
+  --focus-ring-color: #fff;
+  border-radius: var(--radius-full);
+  color: #ffffffb8;
+  block-size: 22px;
+  min-block-size: 0;
+  inline-size: 22px;
+  min-inline-size: 0;
+  padding: 0;
+}
+.bcn-admin-btn .esa-button__native:hover,
+.bcn-admin-btn .esa-button__native:focus-visible {
+  color: #fff;
+  background: #ffffff24;
+}
+.bcn-countchip__num .esa-badge {
+  --badge-radius: var(--radius-full);
+  --badge-bg: var(--color-border-default);
+  --badge-text-color: var(--color-content-default-secondary);
+  box-sizing: border-box;
+  font-variant-numeric: tabular-nums;
+  min-width: 19px;
+  height: 19px;
+  box-shadow: 0 0 0 1.5px var(--color-background-elevation-raised);
+  justify-content: center;
+  align-items: center;
+  padding: 0 4px;
+  font-size: 0.8125rem;
+  line-height: 1;
+  display: inline-flex;
 }
 .bcn-ev-attached__mark .esa-badge {
   --badge-bg: var(--color-background-utility-info-subtle);

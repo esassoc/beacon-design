@@ -77,6 +77,9 @@ The full-width table of components the obligation applies at — the positional 
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
+.bcn-aldo-needs__head .esa-badge {
+  font-variant-numeric: tabular-nums;
+}
 .bcn-countchip__num .esa-badge {
   --badge-radius: var(--radius-full);
   --badge-bg: var(--color-border-default);

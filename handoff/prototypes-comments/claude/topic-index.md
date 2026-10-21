@@ -36,7 +36,7 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
 
 ## Components
 
-- `bcn-aldo-mark` (spoke) · `src/components/bcn/aldo/BcnAldoMark.astro`
+- `bcn-aldo-mark` (spoke) · `src/components/bcn/BcnHelpDot.astro`
 - `bcn-ap` (spoke) · `src/components/bcn/BcnAldoPrompt.astro`
 - `bcn-cbt` (spoke) · `src/components/bcn/BcnCommentsByTopic.astro`
 - `bcn-topic-dot` (spoke) · `src/components/bcn/BcnSubmissionInbox.astro`
@@ -53,7 +53,7 @@ The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TO
 _18 repeated elements are collapsed in the markup below; the comments say where._
 
 - [topic-index.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/topic-index.markup.md) (35 KB)
-- [topic-index.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/topic-index.styles.md) (27 KB)
+- [topic-index.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/topic-index.styles.md) (28 KB)
 
 ## Tokens
 

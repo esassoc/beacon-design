@@ -42,7 +42,7 @@ Prod's Details card (detail-facts, ported as BcnDetailFacts) with prod's eight f
 _9 repeated elements are collapsed in the markup below; the comments say where._
 
 - [details-map-report-information.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-daily-report-review/claude/details-map-report-information.markup.md) (36 KB)
-- [details-map-report-information.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-daily-report-review/claude/details-map-report-information.styles.md) (22 KB)
+- [details-map-report-information.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-daily-report-review/claude/details-map-report-information.styles.md) (23 KB)
 
 ## Tokens
 
@@ -51,6 +51,7 @@ _9 repeated elements are collapsed in the markup below; the comments say where._
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-400` | `#989898` | component |

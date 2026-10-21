@@ -32,7 +32,7 @@ _32 repeated elements are collapsed in the markup below; the comments say where.
 
 - [conduct-quarterly-dust-control-monitoring-reporting.markup-1.md](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-action/claude/conduct-quarterly-dust-control-monitoring-reporting.markup-1.md) (47 KB)
 - [conduct-quarterly-dust-control-monitoring-reporting.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-action/claude/conduct-quarterly-dust-control-monitoring-reporting.markup-2.md) (44 KB)
-- [conduct-quarterly-dust-control-monitoring-reporting.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-action/claude/conduct-quarterly-dust-control-monitoring-reporting.styles.md) (34 KB)
+- [conduct-quarterly-dust-control-monitoring-reporting.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-action/claude/conduct-quarterly-dust-control-monitoring-reporting.styles.md) (35 KB)
 
 ## Tokens
 
@@ -41,6 +41,7 @@ _32 repeated elements are collapsed in the markup below; the comments say where.
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-1000` | `#000` | component |

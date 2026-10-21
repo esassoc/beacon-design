@@ -51,7 +51,7 @@ The surface that settles applicability one commitment at a time, brought to prod
 _81 repeated elements are collapsed in the markup below; the comments say where._
 
 - [applicable-commitments-drawer.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/applicable-commitments-drawer.markup.md) (31 KB)
-- [applicable-commitments-drawer.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/applicable-commitments-drawer.styles.md) (29 KB)
+- [applicable-commitments-drawer.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/applicable-commitments-drawer.styles.md) (30 KB)
 
 ## Tokens
 
@@ -61,6 +61,7 @@ _81 repeated elements are collapsed in the markup below; the comments say where.
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-citation-bg` | `#f6f3ed` | component |
 | `--bcn-content-muted` | `#7c7c7c` | component |
 | `--bcn-gray-100` | `#efefef` | component |

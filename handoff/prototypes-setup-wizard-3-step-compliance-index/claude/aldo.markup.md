@@ -4,7 +4,7 @@
 <div class="bcn-aldo-panel bcn-aldo-panel--glow" data-aldo-panel="" data-sw3-index-aldo="true">
   <section class="bcn-aldo-panel__body" aria-label="Aldo">
     <header class="bcn-aldo-panel__head">
-      <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
+      <span class="bcn-aldo-mark" data-size="sm" data-variant="badge" aria-hidden="true"
         ><svg
           class="bcn-aldo-mark__glyph"
           viewBox="0 0 64 64"
@@ -155,7 +155,7 @@
               aria-label="Message Aldo"
               placeholder="Say what to change"
             ></esa-textarea
-            ><span class="bcn-aldo-composer__send"
+            ><span class="bcn-aldo-composer__send" data-empty=""
               ><span
                 class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm esa-button--icon-only"
                 ><button
@@ -164,6 +164,7 @@
                   aria-label="Send"
                   title="Send"
                   data-composer-send="true"
+                  disabled=""
                 >
                   <span class="esa-icon esa-icon--sm" aria-hidden="true"
                     ><svg
@@ -260,7 +261,7 @@
       >
         <path d="m11 17-5-5 5-5"></path>
         <path d="m18 17-5-5 5-5"></path></svg></span
-    ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
+    ><span class="bcn-aldo-mark" data-size="sm" data-variant="badge" aria-hidden="true"
       ><svg
         class="bcn-aldo-mark__glyph"
         viewBox="0 0 64 64"

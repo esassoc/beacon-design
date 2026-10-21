@@ -23,7 +23,7 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-due-dili
 _31 repeated elements are collapsed in the markup below; the comments say where._
 
 - [almond.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-overview/claude/almond.markup.md) (32 KB)
-- [almond.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-overview/claude/almond.styles.md) (33 KB)
+- [almond.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-overview/claude/almond.styles.md) (34 KB)
 
 ## Tokens
 
@@ -38,6 +38,7 @@ _31 repeated elements are collapsed in the markup below; the comments say where.
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-content-muted` | `#7c7c7c` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-100` | `#efefef` | component |

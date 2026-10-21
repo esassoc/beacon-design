@@ -40,6 +40,53 @@
   color: var(--color-content-default-tertiary);
   flex: none;
 }
+.bcn-help-bar__tooltip .esa-button__label {
+  line-height: 0;
+  display: inline-flex;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
+.bcn-aldo-composer__send[data-empty] .esa-button__native {
+  cursor: not-allowed;
+}
+.bcn-aldo-composer__context .esa-pill[data-auto] {
+  --_pill-bg: transparent;
+  border-style: dashed;
+}
+.bcn-aldo-composer__context .esa-pill {
+  max-width: 100%;
+}
+.bcn-aldo-composer__context .esa-pill__label,
+.bcn-aldo-msg__context .esa-pill__label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 16rem;
+  overflow: hidden;
+}
+.bcn-admin-btn,
+.bcn-admin-btn .esa-button {
+  display: inline-flex;
+}
+.bcn-admin-btn .esa-button__native {
+  --focus-ring-color: #fff;
+  border-radius: var(--radius-full);
+  color: #ffffffb8;
+  block-size: 22px;
+  min-block-size: 0;
+  inline-size: 22px;
+  min-inline-size: 0;
+  padding: 0;
+}
+.bcn-admin-btn .esa-button__native:hover,
+.bcn-admin-btn .esa-button__native:focus-visible {
+  color: #fff;
+  background: #ffffff24;
+}
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
+}
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -1741,43 +1788,4 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--color-content-default-secondary);
   display: inline-flex;
 }
-.bcn-readiness__dot {
-  border-radius: var(--radius-full);
-  background: var(--_tone, var(--bcn-content-muted));
-  flex: none;
-  width: 9px;
-  height: 9px;
-}
-.bcn-readiness__dot[data-tone="on-track"] {
-  --_tone: var(--color-background-brand-muted);
-}
-.bcn-readiness__dot[data-tone="complete"] {
-  --_tone: var(--bcn-status-completed);
-}
-.bcn-readiness__dot[data-tone="at-risk"] {
-  --_tone: var(--bcn-status-in-progress);
-}
-.bcn-readiness__dot[data-tone="blocked"] {
-  --_tone: var(--bcn-status-overdue);
-}
-.bcn-readiness__dot[data-tone="not-started"] {
-  --_tone: var(--bcn-content-muted);
-}
-.bcn-readiness__tid {
-  justify-self: start;
-}
-a.bcn-readiness__coa {
-  text-decoration: none;
-}
-a.bcn-readiness__coa:hover {
-  background: color-mix(in srgb, var(--color-commitment) 20%, white);
-}
-.bcn-readiness__coa,
-.bcn-readiness__tid {
-  font-family: var(--typography-font-family-mono);
-  font-size: 0.6875rem;
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-  border-radius: var(--radius-100);
 ```

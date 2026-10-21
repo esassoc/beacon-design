@@ -1,6 +1,41 @@
 # Site Clearance: styles, part 2 of 2
 
 ```css
+.esa-filter-clear-button:hover {
+  color: var(--_clear-text-hover);
+  background: var(--color-background-overlay-hover, #00000008);
+}
+.esa-filter-clear-button:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.esa-filter-clear-button__icon {
+  width: var(--_clear-icon-size);
+  height: var(--_clear-icon-size);
+  flex: none;
+}
+.esa-filter-clear-button__label {
+  white-space: nowrap;
+}
+.esa-empty-state {
+  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
+  --_empty-gap: var(--spacing-200, 0.5rem);
+  text-align: center;
+  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
+  justify-content: center;
+  align-items: center;
+  gap: var(--_empty-gap);
+  flex-direction: column;
+  display: flex;
+}
+.esa-empty-state--sm {
+  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
+  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
+}
+.esa-empty-state__title {
+  color: var(--color-content-default, #202020);
+  margin: 0;
+}
 .esa-empty-state__description {
   color: var(--color-content-default-secondary, #646464);
   max-width: 360px;

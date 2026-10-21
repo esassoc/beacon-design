@@ -66,6 +66,24 @@ _5 repeated elements are collapsed in the markup below; the comments say where._
   color: var(--color-content-default-tertiary);
   flex: none;
 }
+.bcn-aldo-composer__context .esa-pill[data-auto] {
+  --_pill-bg: transparent;
+  border-style: dashed;
+}
+.bcn-aldo-composer__context .esa-pill {
+  max-width: 100%;
+}
+.bcn-aldo-composer__context .esa-pill__label,
+.bcn-aldo-msg__context .esa-pill__label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 16rem;
+  overflow: hidden;
+}
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
+}
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;

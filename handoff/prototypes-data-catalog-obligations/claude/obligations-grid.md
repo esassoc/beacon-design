@@ -46,12 +46,13 @@ _96 repeated elements are collapsed in the markup below; the comments say where.
 
 - [obligations-grid.markup-1.md](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-obligations/claude/obligations-grid.markup-1.md) (47 KB)
 - [obligations-grid.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-obligations/claude/obligations-grid.markup-2.md) (38 KB)
-- [obligations-grid.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-obligations/claude/obligations-grid.styles.md) (14 KB)
+- [obligations-grid.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-obligations/claude/obligations-grid.styles.md) (15 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-content-muted` | `#7c7c7c` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-400` | `#989898` | component |
@@ -85,6 +86,7 @@ _96 repeated elements are collapsed in the markup below; the comments say where.
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-sm` | `16px` | primitive |
 | `--radius-100` | `.25rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
 | `--radius-md` | `.25rem` | semantic |
 | `--spacing-050` | `.125rem` | primitive |
 | `--spacing-100` | `.25rem` | primitive |

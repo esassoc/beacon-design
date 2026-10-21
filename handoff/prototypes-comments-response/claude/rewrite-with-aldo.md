@@ -25,7 +25,7 @@ The whole-letter rewrite: the green Aldo bar opens a composer whose field takes 
 
 ## Components
 
-- `bcn-aldo-mark` (spoke) · `src/components/bcn/aldo/BcnAldoMark.astro`
+- `bcn-aldo-mark` (spoke) · `src/components/bcn/BcnHelpDot.astro`
 - `bcn-ap` (spoke) · `src/components/bcn/BcnAldoPrompt.astro`
 - `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
 - `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
@@ -37,7 +37,7 @@ The whole-letter rewrite: the green Aldo bar opens a composer whose field takes 
   <div class="bcn-ap" data-aldo-prompt="">
     <div class="bcn-ap__bar">
       <button type="button" class="bcn-ap__open" aria-expanded="false" data-ap-open="">
-        <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
+        <span class="bcn-aldo-mark" data-size="sm" data-variant="badge" aria-hidden="true"
           ><svg
             class="bcn-aldo-mark__glyph"
             viewBox="0 0 64 64"
@@ -84,7 +84,7 @@ The whole-letter rewrite: the green Aldo bar opens a composer whose field takes 
       <div class="bcn-ap__shimmer" aria-hidden="true"></div>
       <div class="bcn-ap__head">
         <span data-ap-mark=""
-          ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
+          ><span class="bcn-aldo-mark" data-size="sm" data-variant="badge" aria-hidden="true"
             ><svg
               class="bcn-aldo-mark__glyph"
               viewBox="0 0 64 64"
@@ -275,6 +275,12 @@ The whole-letter rewrite: the green Aldo bar opens a composer whose field takes 
   height: 100%;
   display: block;
 }
+.bcn-aldo-mark[data-variant="rings"] {
+  width: var(--bcn-aldo-mark-size, 24px);
+  height: var(--bcn-aldo-mark-size, 24px);
+  background: 0 0;
+  border-radius: 0;
+}
 .bcn-aldo-mark[data-animated] {
   animation: 2s ease-in-out infinite bcn-aldo-pulse;
 }
@@ -286,6 +292,39 @@ The whole-letter rewrite: the green Aldo bar opens a composer whose field takes 
   .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
     animation: none;
   }
+}
+.bcn-help-bar__tooltip .esa-button__label {
+  line-height: 0;
+  display: inline-flex;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
+.bcn-aldo-composer__send[data-empty] .esa-button__native {
+  cursor: not-allowed;
+}
+.bcn-admin-btn,
+.bcn-admin-btn .esa-button {
+  display: inline-flex;
+}
+.bcn-admin-btn .esa-button__native {
+  --focus-ring-color: #fff;
+  border-radius: var(--radius-full);
+  color: #ffffffb8;
+  block-size: 22px;
+  min-block-size: 0;
+  inline-size: 22px;
+  min-inline-size: 0;
+  padding: 0;
+}
+.bcn-admin-btn .esa-button__native:hover,
+.bcn-admin-btn .esa-button__native:focus-visible {
+  color: #fff;
+  background: #ffffff24;
+}
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);

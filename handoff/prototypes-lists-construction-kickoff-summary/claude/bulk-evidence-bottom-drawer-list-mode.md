@@ -62,7 +62,7 @@ _95 repeated elements are collapsed in the markup below; the comments say where.
 
 - [bulk-evidence-bottom-drawer-list-mode.markup-1.md](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-construction-kickoff-summary/claude/bulk-evidence-bottom-drawer-list-mode.markup-1.md) (47 KB)
 - [bulk-evidence-bottom-drawer-list-mode.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-construction-kickoff-summary/claude/bulk-evidence-bottom-drawer-list-mode.markup-2.md) (18 KB)
-- [bulk-evidence-bottom-drawer-list-mode.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-construction-kickoff-summary/claude/bulk-evidence-bottom-drawer-list-mode.styles.md) (45 KB)
+- [bulk-evidence-bottom-drawer-list-mode.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-construction-kickoff-summary/claude/bulk-evidence-bottom-drawer-list-mode.styles.md) (46 KB)
 
 ## Tokens
 

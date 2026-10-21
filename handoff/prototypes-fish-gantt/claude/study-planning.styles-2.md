@@ -1,6 +1,45 @@
 # Study Planning: styles, part 2 of 2
 
 ```css
+.bcn-readiness__dot {
+  border-radius: var(--radius-full);
+  background: var(--_tone, var(--bcn-content-muted));
+  flex: none;
+  width: 9px;
+  height: 9px;
+}
+.bcn-readiness__dot[data-tone="on-track"] {
+  --_tone: var(--color-background-brand-muted);
+}
+.bcn-readiness__dot[data-tone="complete"] {
+  --_tone: var(--bcn-status-completed);
+}
+.bcn-readiness__dot[data-tone="at-risk"] {
+  --_tone: var(--bcn-status-in-progress);
+}
+.bcn-readiness__dot[data-tone="blocked"] {
+  --_tone: var(--bcn-status-overdue);
+}
+.bcn-readiness__dot[data-tone="not-started"] {
+  --_tone: var(--bcn-content-muted);
+}
+.bcn-readiness__tid {
+  justify-self: start;
+}
+a.bcn-readiness__coa {
+  text-decoration: none;
+}
+a.bcn-readiness__coa:hover {
+  background: color-mix(in srgb, var(--color-commitment) 20%, white);
+}
+.bcn-readiness__coa,
+.bcn-readiness__tid {
+  font-family: var(--typography-font-family-mono);
+  font-size: 0.6875rem;
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  border-radius: var(--radius-100);
   white-space: nowrap;
   padding: 1px 5px;
   line-height: 1.5;

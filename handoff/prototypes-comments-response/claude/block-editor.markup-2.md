@@ -1,6 +1,11 @@
 # Block editor: markup, part 2 of 2
 
 ```html
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
                             focusable="false"
                             data-astro-cid-wcwfib5m=""
                           >

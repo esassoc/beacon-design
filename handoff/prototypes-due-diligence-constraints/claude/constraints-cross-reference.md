@@ -27,12 +27,13 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-due-dili
 _53 repeated elements are collapsed in the markup below; the comments say where._
 
 - [constraints-cross-reference.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-constraints/claude/constraints-cross-reference.markup.md) (39 KB)
-- [constraints-cross-reference.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-constraints/claude/constraints-cross-reference.styles.md) (28 KB)
+- [constraints-cross-reference.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-constraints/claude/constraints-cross-reference.styles.md) (29 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-200` | `#dcdcdc` | component |

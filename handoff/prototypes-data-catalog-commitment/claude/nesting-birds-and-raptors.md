@@ -35,7 +35,7 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-data-cat
 _25 repeated elements are collapsed in the markup below; the comments say where._
 
 - [nesting-birds-and-raptors.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-commitment/claude/nesting-birds-and-raptors.markup.md) (38 KB)
-- [nesting-birds-and-raptors.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-commitment/claude/nesting-birds-and-raptors.styles.md) (38 KB)
+- [nesting-birds-and-raptors.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-commitment/claude/nesting-birds-and-raptors.styles.md) (39 KB)
 
 ## Tokens
 
@@ -44,6 +44,7 @@ _25 repeated elements are collapsed in the markup below; the comments say where.
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-1000` | `#000` | component |

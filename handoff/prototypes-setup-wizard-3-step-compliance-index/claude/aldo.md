@@ -15,8 +15,8 @@ One conversation per subcategory. Before drafting it takes Re-run guidance in pl
 
 ## Components
 
-- `bcn-aldo-composer` (spoke) · `src/components/bcn/aldo/aldo-composer.ts`
-- `bcn-aldo-mark` (spoke) · `src/components/bcn/aldo/BcnAldoMark.astro`
+- `bcn-aldo-composer` (spoke) · `src/components/bcn/BcnGuidanceDrawer.astro`
+- `bcn-aldo-mark` (spoke) · `src/components/bcn/BcnHelpDot.astro`
 - `bcn-aldo-panel` (spoke) · `src/components/bcn/BcnListAldo.astro`
 - `esa-badge` (hub) · `packages/ecology/src/components/esa-badge.astro` → use `ui-badge` in the Beacon app
 - `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
@@ -29,7 +29,7 @@ One conversation per subcategory. Before drafting it takes Re-run guidance in pl
 _10 repeated elements are collapsed in the markup below; the comments say where._
 
 - [aldo.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step-compliance-index/claude/aldo.markup.md) (12 KB)
-- [aldo.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step-compliance-index/claude/aldo.styles.md) (33 KB)
+- [aldo.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step-compliance-index/claude/aldo.styles.md) (34 KB)
 
 ## Tokens
 

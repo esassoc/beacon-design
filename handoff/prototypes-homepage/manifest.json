@@ -77,6 +77,7 @@
         "phone": "claude/nav.phone.png"
       },
       "bytes": 3007,
+      "specBytes": 3007,
       "files": 1,
       "collapsed": 3
     },
@@ -210,6 +211,7 @@
         "phone": "claude/environmental-compliance-can-be-a-knot-beacon-untangles-it.phone.png"
       },
       "bytes": 5828,
+      "specBytes": 5828,
       "files": 1,
       "collapsed": 0
     },
@@ -380,6 +382,7 @@
         "phone": "claude/every-large-project-is-a-compliance-operation.phone.png"
       },
       "bytes": 9414,
+      "specBytes": 9414,
       "files": 1,
       "collapsed": 8
     },
@@ -560,6 +563,7 @@
         "phone": "claude/questions-that-keep-compliance-teams-up-at-night.phone.png"
       },
       "bytes": 9238,
+      "specBytes": 9238,
       "files": 1,
       "collapsed": 4
     },
@@ -790,6 +794,7 @@
         "phone": "claude/spreadsheets-can-t-scale-to-this-complexity.phone.png"
       },
       "bytes": 15794,
+      "specBytes": 15794,
       "files": 1,
       "collapsed": 6
     },
@@ -965,6 +970,7 @@
         "phone": "claude/beacon-brings-structure-to-compliance.phone.png"
       },
       "bytes": 10265,
+      "specBytes": 10265,
       "files": 1,
       "collapsed": 3
     },
@@ -1129,6 +1135,7 @@
         "phone": "claude/built-for-complex-environmental-projects.phone.png"
       },
       "bytes": 8078,
+      "specBytes": 8078,
       "files": 1,
       "collapsed": 4
     },
@@ -1278,6 +1285,7 @@
         "phone": "claude/tracking-compliance-across-california-s-highest-profile-proj.phone.png"
       },
       "bytes": 11530,
+      "specBytes": 11530,
       "files": 1,
       "collapsed": 1372
     },
@@ -1549,6 +1557,7 @@
         "phone": "claude/ready-to-bring-order-to-compliance.phone.png"
       },
       "bytes": 16875,
+      "specBytes": 16875,
       "files": 1,
       "collapsed": 0
     },
@@ -1596,6 +1605,7 @@
         "phone": "claude/footer.phone.png"
       },
       "bytes": 1357,
+      "specBytes": 1357,
       "files": 1,
       "collapsed": 0
     },
@@ -1825,6 +1835,7 @@
       "parts": [],
       "shots": {},
       "bytes": 12578,
+      "specBytes": 12578,
       "files": 1,
       "collapsed": 0
     }

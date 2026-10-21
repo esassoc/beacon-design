@@ -57,12 +57,13 @@ _117 repeated elements are collapsed in the markup below; the comments say where
 - [table.markup-1.md](https://esassoc.github.io/beacon-design/handoff/prototypes-actions/claude/table.markup-1.md) (47 KB)
 - [table.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-actions/claude/table.markup-2.md) (47 KB)
 - [table.markup-3.md](https://esassoc.github.io/beacon-design/handoff/prototypes-actions/claude/table.markup-3.md) (14 KB)
-- [table.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-actions/claude/table.styles.md) (13 KB)
+- [table.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-actions/claude/table.styles.md) (14 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-400` | `#989898` | component |
 | `--bcn-gray-500` | `#7c7c7c` | component |

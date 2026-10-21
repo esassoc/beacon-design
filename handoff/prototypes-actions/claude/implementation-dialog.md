@@ -75,7 +75,7 @@ Prod's action-implementation upsert dialog, ported as-is: summary, referenced re
 _23 repeated elements are collapsed in the markup below; the comments say where._
 
 - [implementation-dialog.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-actions/claude/implementation-dialog.markup.md) (40 KB)
-- [implementation-dialog.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-actions/claude/implementation-dialog.styles.md) (41 KB)
+- [implementation-dialog.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-actions/claude/implementation-dialog.styles.md) (43 KB)
 
 ## Tokens
 
@@ -89,6 +89,7 @@ _23 repeated elements are collapsed in the markup below; the comments say where.
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-400` | `#989898` | component |

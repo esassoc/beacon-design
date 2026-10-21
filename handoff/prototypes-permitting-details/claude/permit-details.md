@@ -28,12 +28,13 @@ _67 repeated elements are collapsed in the markup below; the comments say where.
 - [permit-details.markup-1.md](https://esassoc.github.io/beacon-design/handoff/prototypes-permitting-details/claude/permit-details.markup-1.md) (46 KB)
 - [permit-details.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-permitting-details/claude/permit-details.markup-2.md) (47 KB)
 - [permit-details.markup-3.md](https://esassoc.github.io/beacon-design/handoff/prototypes-permitting-details/claude/permit-details.markup-3.md) (4.2 KB)
-- [permit-details.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-permitting-details/claude/permit-details.styles.md) (23 KB)
+- [permit-details.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-permitting-details/claude/permit-details.styles.md) (24 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-200` | `#dcdcdc` | component |

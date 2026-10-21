@@ -37,12 +37,13 @@ _74 repeated elements are collapsed in the markup below; the comments say where.
 
 - [list-view-grid-footer.markup-1.md](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-compliance-observations/claude/list-view-grid-footer.markup-1.md) (46 KB)
 - [list-view-grid-footer.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-compliance-observations/claude/list-view-grid-footer.markup-2.md) (30 KB)
-- [list-view-grid-footer.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-compliance-observations/claude/list-view-grid-footer.styles.md) (8.8 KB)
+- [list-view-grid-footer.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-compliance-observations/claude/list-view-grid-footer.styles.md) (9.6 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-400` | `#989898` | component |
 | `--bcn-gray-500` | `#7c7c7c` | component |
@@ -71,6 +72,7 @@ _74 repeated elements are collapsed in the markup below; the comments say where.
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-sm` | `16px` | primitive |
 | `--radius-100` | `.25rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
 | `--spacing-150` | `.375rem` | primitive |
 | `--spacing-200` | `.5rem` | primitive |
 | `--spacing-250` | `.625rem` | primitive |

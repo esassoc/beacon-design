@@ -57,6 +57,35 @@ A contextual action bar that appears above the Permits grid when one or more row
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
+.bcn-help-bar__tooltip .esa-button__label {
+  line-height: 0;
+  display: inline-flex;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
+.bcn-aldo-composer__send[data-empty] .esa-button__native {
+  cursor: not-allowed;
+}
+.bcn-admin-btn,
+.bcn-admin-btn .esa-button {
+  display: inline-flex;
+}
+.bcn-admin-btn .esa-button__native {
+  --focus-ring-color: #fff;
+  border-radius: var(--radius-full);
+  color: #ffffffb8;
+  block-size: 22px;
+  min-block-size: 0;
+  inline-size: 22px;
+  min-inline-size: 0;
+  padding: 0;
+}
+.bcn-admin-btn .esa-button__native:hover,
+.bcn-admin-btn .esa-button__native:focus-visible {
+  color: #fff;
+  background: #ffffff24;
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -228,6 +257,7 @@ summary.esa-button:focus-visible {
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--border-width-default` | `1px` | semantic |
 | `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
 | `--button-radius-md` | `.25rem` | component |
@@ -245,6 +275,7 @@ summary.esa-button:focus-visible {
 | `--focus-ring-offset` | `2px` | component |
 | `--focus-ring-width` | `2px` | component |
 | `--radius-200` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
 | `--spacing-200` | `.5rem` | primitive |
 | `--spacing-250` | `.625rem` | primitive |
 | `--spacing-300` | `.75rem` | primitive |

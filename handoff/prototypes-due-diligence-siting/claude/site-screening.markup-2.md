@@ -1,9 +1,6 @@
 # Site Screening: markup, part 2 of 2
 
 ```html
-                                      col-id="county"
-                                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                      tabindex="-1"
                                       aria-colindex="2"
                                       style="left: 150px; width: 150px"
                                     >

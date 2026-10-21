@@ -27,7 +27,7 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-data-cat
 _24 repeated elements are collapsed in the markup below; the comments say where._
 
 - [pre-construction-survey-for-nesting-raptors-and-other-migrat.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-requirement/claude/pre-construction-survey-for-nesting-raptors-and-other-migrat.markup.md) (40 KB)
-- [pre-construction-survey-for-nesting-raptors-and-other-migrat.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-requirement/claude/pre-construction-survey-for-nesting-raptors-and-other-migrat.styles.md) (33 KB)
+- [pre-construction-survey-for-nesting-raptors-and-other-migrat.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-requirement/claude/pre-construction-survey-for-nesting-raptors-and-other-migrat.styles.md) (34 KB)
 
 ## Tokens
 
@@ -36,6 +36,7 @@ _24 repeated elements are collapsed in the markup below; the comments say where.
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-1000` | `#000` | component |

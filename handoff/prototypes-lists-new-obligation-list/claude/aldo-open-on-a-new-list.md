@@ -25,8 +25,9 @@ Starting a list and saying what it is for are one motion: the new list opens wit
 
 ## Components
 
-- `bcn-aldo-composer` (spoke) · `src/components/bcn/aldo/aldo-composer.ts`
-- `bcn-aldo-mark` (spoke) · `src/components/bcn/aldo/BcnAldoMark.astro`
+- `bcn-aldo-composer` (spoke) · `src/components/bcn/BcnGuidanceDrawer.astro`
+- `bcn-aldo-mark` (spoke) · `src/components/bcn/BcnHelpDot.astro`
+- `bcn-aldo-msg` (spoke) · `src/components/bcn/BcnGuidanceDrawer.astro`
 - `bcn-aldo-panel` (spoke) · `src/components/bcn/BcnListAldo.astro`
 - `esa-badge` (hub) · `packages/ecology/src/components/esa-badge.astro` → use `ui-badge` in the Beacon app
 - `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
@@ -38,7 +39,7 @@ Starting a list and saying what it is for are one motion: the new list opens wit
 _10 repeated elements are collapsed in the markup below; the comments say where._
 
 - [aldo-open-on-a-new-list.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-new-obligation-list/claude/aldo-open-on-a-new-list.markup.md) (13 KB)
-- [aldo-open-on-a-new-list.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-new-obligation-list/claude/aldo-open-on-a-new-list.styles.md) (33 KB)
+- [aldo-open-on-a-new-list.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-new-obligation-list/claude/aldo-open-on-a-new-list.styles.md) (35 KB)
 
 ## Tokens
 

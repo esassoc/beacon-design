@@ -55,6 +55,7 @@
         "phone": "claude/header.phone.png"
       },
       "bytes": 2154,
+      "specBytes": 2154,
       "files": 1,
       "collapsed": 0
     },
@@ -540,6 +541,7 @@
         "phone": "claude/decision-first-v2-deep-dive.phone.png"
       },
       "bytes": 74121,
+      "specBytes": 6787,
       "files": 3,
       "collapsed": 10
     },
@@ -605,6 +607,7 @@
         "phone": "claude/how-to-evaluate-v2.phone.png"
       },
       "bytes": 2276,
+      "specBytes": 2276,
       "files": 1,
       "collapsed": 3
     },
@@ -1019,6 +1022,7 @@
         "phone": "claude/round-1-exploration-reference.phone.png"
       },
       "bytes": 68220,
+      "specBytes": 5827,
       "files": 3,
       "collapsed": 21
     }

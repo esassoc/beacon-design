@@ -45,7 +45,7 @@ Details (Stage, Assigned To, Drafted By once handed on, Topic, Comments, Submiss
 _14 repeated elements are collapsed in the markup below; the comments say where._
 
 - [rail.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-response/claude/rail.markup.md) (28 KB)
-- [rail.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-response/claude/rail.styles.md) (30 KB)
+- [rail.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-response/claude/rail.styles.md) (31 KB)
 
 ## Tokens
 
@@ -56,6 +56,7 @@ _14 repeated elements are collapsed in the markup below; the comments say where.
 | `--avatar-font-size-xs` | `clamp(.5rem, .44rem + .3vw, .625rem)` | component |
 | `--avatar-size-md` | `40px` | component |
 | `--avatar-size-xs` | `20px` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-400` | `#989898` | component |
 | `--bcn-gray-500` | `#7c7c7c` | component |
@@ -138,6 +139,7 @@ _14 repeated elements are collapsed in the markup below; the comments say where.
 | `--icon-size-sm` | `16px` | primitive |
 | `--icon-size-xs` | `14px` | primitive |
 | `--radius-100` | `.25rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
 | `--radius-md` | `.25rem` | semantic |
 | `--radius-pill` | `9999px` | semantic |
 | `--radius-sm` | `.25rem` | semantic |

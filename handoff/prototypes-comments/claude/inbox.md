@@ -24,7 +24,7 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
 
 ## Components
 
-- `bcn-aldo-mark` (spoke) · `src/components/bcn/aldo/BcnAldoMark.astro`
+- `bcn-aldo-mark` (spoke) · `src/components/bcn/BcnHelpDot.astro`
 - `bcn-ap` (spoke) · `src/components/bcn/BcnAldoPrompt.astro`
 - `bcn-cbt` (spoke) · `src/components/bcn/BcnCommentsByTopic.astro`
 - `bcn-ri` (spoke) · `src/components/bcn/BcnResponseIndex.astro`
@@ -50,7 +50,7 @@ Every submission as a mail-style inbox grouped by month: unread mark, number, su
 _23 repeated elements are collapsed in the markup below; the comments say where._
 
 - [inbox.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/inbox.markup.md) (12 KB)
-- [inbox.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/inbox.styles.md) (37 KB)
+- [inbox.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/inbox.styles.md) (38 KB)
 
 ## Tokens
 

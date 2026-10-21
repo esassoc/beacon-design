@@ -43,7 +43,7 @@ A compliance concern is a persistent record (prod's Observation) that many DMRs 
 _5 repeated elements are collapsed in the markup below; the comments say where._
 
 - [compliance-concern-persistent-shared-record.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-daily-report-review/claude/compliance-concern-persistent-shared-record.markup.md) (22 KB)
-- [compliance-concern-persistent-shared-record.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-daily-report-review/claude/compliance-concern-persistent-shared-record.styles.md) (25 KB)
+- [compliance-concern-persistent-shared-record.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-daily-report-review/claude/compliance-concern-persistent-shared-record.styles.md) (26 KB)
 
 ## Tokens
 
@@ -53,6 +53,7 @@ _5 repeated elements are collapsed in the markup below; the comments say where._
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-400` | `#989898` | component |

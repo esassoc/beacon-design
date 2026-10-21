@@ -49,7 +49,7 @@ _18 repeated elements are collapsed in the markup below; the comments say where.
 - [work-area-reports.markup-3.md](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-daily-report-review/claude/work-area-reports.markup-3.md) (47 KB)
 - [work-area-reports.markup-4.md](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-daily-report-review/claude/work-area-reports.markup-4.md) (47 KB)
 - [work-area-reports.markup-5.md](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-daily-report-review/claude/work-area-reports.markup-5.md) (22 KB)
-- [work-area-reports.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-daily-report-review/claude/work-area-reports.styles.md) (30 KB)
+- [work-area-reports.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-daily-report-review/claude/work-area-reports.styles.md) (31 KB)
 
 ## Tokens
 
@@ -59,6 +59,7 @@ _18 repeated elements are collapsed in the markup below; the comments say where.
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-400` | `#989898` | component |

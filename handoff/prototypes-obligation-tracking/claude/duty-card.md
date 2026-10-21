@@ -111,6 +111,24 @@ One duty, as a collapsed card: a class tag, the title, and a count badge saying 
   color: var(--color-content-default-tertiary);
   flex: none;
 }
+.bcn-cbadge {
+  font-family: var(--typography-font-family-mono);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  border-radius: var(--radius-100);
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-block;
+}
+.bcn-cbadge--sm {
+  padding: 1px var(--spacing-150);
+  font-size: 0.75rem;
+}
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
+}
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -133,20 +151,6 @@ One duty, as a collapsed card: a class tag, the title, and a count badge saying 
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-cbadge {
-  font-family: var(--typography-font-family-mono);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-  border-radius: var(--radius-100);
-  white-space: nowrap;
-  flex-shrink: 0;
-  display: inline-block;
-}
-.bcn-cbadge--sm {
-  padding: 1px var(--spacing-150);
-  font-size: 0.75rem;
 }
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);

@@ -47,12 +47,13 @@ _79 repeated elements are collapsed in the markup below; the comments say where.
 - [work-areas.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/work-areas.markup-2.md) (46 KB)
 - [work-areas.markup-3.md](https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/work-areas.markup-3.md) (47 KB)
 - [work-areas.markup-4.md](https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/work-areas.markup-4.md) (37 KB)
-- [work-areas.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/work-areas.styles.md) (15 KB)
+- [work-areas.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/work-areas.styles.md) (16 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-content-muted` | `#7c7c7c` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-400` | `#989898` | component |

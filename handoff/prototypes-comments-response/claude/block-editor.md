@@ -29,7 +29,7 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
 
 ## Components
 
-- `bcn-aldo-mark` (spoke) · `src/components/bcn/aldo/BcnAldoMark.astro`
+- `bcn-aldo-mark` (spoke) · `src/components/bcn/BcnHelpDot.astro`
 - `bcn-doc` (spoke) · `src/components/bcn/BcnDocSheet.astro`
 - `bcn-nc` (spoke) · `src/components/bcn/BcnNoteComposer.astro`
 - `bcn-note` (spoke) · `src/components/bcn/BcnResponseEditor.astro`
@@ -47,8 +47,8 @@ The letter of response in a TipTap block editor modeled on WordPress's: paragrap
 _4 repeated elements are collapsed in the markup below; the comments say where._
 
 - [block-editor.markup-1.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-response/claude/block-editor.markup-1.md) (47 KB)
-- [block-editor.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-response/claude/block-editor.markup-2.md) (1.7 KB)
-- [block-editor.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-response/claude/block-editor.styles.md) (34 KB)
+- [block-editor.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-response/claude/block-editor.markup-2.md) (1.9 KB)
+- [block-editor.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-response/claude/block-editor.styles.md) (35 KB)
 
 ## Tokens
 

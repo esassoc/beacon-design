@@ -28,7 +28,7 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 
 ## Components
 
-- `bcn-aldo-mark` (spoke) · `src/components/bcn/aldo/BcnAldoMark.astro`
+- `bcn-aldo-mark` (spoke) · `src/components/bcn/BcnHelpDot.astro`
 - `bcn-kb-hero` (spoke) · `src/components/bcn/BcnKbHero.astro`
 - `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
 - `esa-text-field` (hub) · `packages/ecology/src/components/esa-text-field.ts`
@@ -41,7 +41,12 @@ _28 repeated elements are collapsed in the markup below; the comments say where.
 <section class="bcn-kb-hero" aria-label="Help &amp; Guidance">
   <div class="center bcn-kb-hero__col">
     <div class="stack bcn-kb-hero__intro">
-      <span class="bcn-aldo-mark" data-size="md" data-animated="" aria-hidden="true"
+      <span
+        class="bcn-aldo-mark"
+        data-size="md"
+        data-variant="badge"
+        data-animated=""
+        aria-hidden="true"
         ><svg
           class="bcn-aldo-mark__glyph"
           viewBox="0 0 64 64"
@@ -193,6 +198,12 @@ _28 repeated elements are collapsed in the markup below; the comments say where.
   height: 100%;
   display: block;
 }
+.bcn-aldo-mark[data-variant="rings"] {
+  width: var(--bcn-aldo-mark-size, 24px);
+  height: var(--bcn-aldo-mark-size, 24px);
+  background: 0 0;
+  border-radius: 0;
+}
 .bcn-aldo-mark[data-animated] {
   animation: 2s ease-in-out infinite bcn-aldo-pulse;
 }
@@ -204,6 +215,10 @@ _28 repeated elements are collapsed in the markup below; the comments say where.
   .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
     animation: none;
   }
+}
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);

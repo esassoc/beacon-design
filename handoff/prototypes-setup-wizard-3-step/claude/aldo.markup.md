@@ -9,7 +9,7 @@
 >
   <section class="bcn-aldo-panel__body" aria-label="Aldo">
     <header class="bcn-aldo-panel__head">
-      <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
+      <span class="bcn-aldo-mark" data-size="sm" data-variant="badge" aria-hidden="true"
         ><svg
           class="bcn-aldo-mark__glyph"
           viewBox="0 0 64 64"
@@ -290,7 +290,7 @@ Tell me where to start, or scan Condition 11."
                       ></path></svg
                   ></span></button></span
               ><input type="file" multiple="" hidden="" data-composer-file="" style="" /></span
-            ><span class="bcn-aldo-composer__send"
+            ><span class="bcn-aldo-composer__send" data-empty=""
               ><span
                 class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm esa-button--icon-only"
                 ><button
@@ -299,6 +299,7 @@ Tell me where to start, or scan Condition 11."
                   aria-label="Send"
                   title="Send"
                   data-composer-send="true"
+                  disabled=""
                 >
                   <span class="esa-icon esa-icon--sm" aria-hidden="true"
                     ><svg
@@ -395,7 +396,7 @@ Tell me where to start, or scan Condition 11."
       >
         <path d="m11 17-5-5 5-5"></path>
         <path d="m18 17-5-5 5-5"></path></svg></span
-    ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
+    ><span class="bcn-aldo-mark" data-size="sm" data-variant="badge" aria-hidden="true"
       ><svg
         class="bcn-aldo-mark__glyph"
         viewBox="0 0 64 64"

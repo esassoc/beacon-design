@@ -101,6 +101,10 @@ One obligation linked to the record: a flat Lists slim card with the class chip,
   color: var(--color-content-default-tertiary);
   flex: none;
 }
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
+}
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;

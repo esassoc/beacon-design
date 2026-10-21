@@ -28,7 +28,7 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-settings
 _101 repeated elements are collapsed in the markup below; the comments say where._
 
 - [tenants.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-settings-tenants/claude/tenants.markup.md) (41 KB)
-- [tenants.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-settings-tenants/claude/tenants.styles.md) (36 KB)
+- [tenants.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-settings-tenants/claude/tenants.styles.md) (37 KB)
 
 ## Tokens
 
@@ -37,6 +37,7 @@ _101 repeated elements are collapsed in the markup below; the comments say where
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-1000` | `#000` | component |

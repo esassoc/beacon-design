@@ -20,8 +20,9 @@ On a Compliance Index version (e.g. /prototypes/lists/contractor-field-index), A
 
 ## Components
 
-- `bcn-aldo-composer` (spoke) · `src/components/bcn/aldo/aldo-composer.ts`
-- `bcn-aldo-mark` (spoke) · `src/components/bcn/aldo/BcnAldoMark.astro`
+- `bcn-aldo-composer` (spoke) · `src/components/bcn/BcnGuidanceDrawer.astro`
+- `bcn-aldo-mark` (spoke) · `src/components/bcn/BcnHelpDot.astro`
+- `bcn-aldo-msg` (spoke) · `src/components/bcn/BcnGuidanceDrawer.astro`
 - `bcn-aldo-panel` (spoke) · `src/components/bcn/BcnListAldo.astro`
 - `esa-badge` (hub) · `packages/ecology/src/components/esa-badge.astro` → use `ui-badge` in the Beacon app
 - `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
@@ -33,7 +34,7 @@ On a Compliance Index version (e.g. /prototypes/lists/contractor-field-index), A
 _10 repeated elements are collapsed in the markup below; the comments say where._
 
 - [aldo-on-a-compliance-index-version.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-new-obligation-list/claude/aldo-on-a-compliance-index-version.markup.md) (13 KB)
-- [aldo-on-a-compliance-index-version.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-new-obligation-list/claude/aldo-on-a-compliance-index-version.styles.md) (33 KB)
+- [aldo-on-a-compliance-index-version.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-new-obligation-list/claude/aldo-on-a-compliance-index-version.styles.md) (35 KB)
 
 ## Tokens
 

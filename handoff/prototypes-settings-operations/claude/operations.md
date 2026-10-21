@@ -24,13 +24,14 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-settings
 _83 repeated elements are collapsed in the markup below; the comments say where._
 
 - [operations.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-settings-operations/claude/operations.markup.md) (35 KB)
-- [operations.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-settings-operations/claude/operations.styles.md) (30 KB)
+- [operations.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-settings-operations/claude/operations.styles.md) (31 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
 | `--alert-box-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-200` | `#dcdcdc` | component |
@@ -84,6 +85,7 @@ _83 repeated elements are collapsed in the markup below; the comments say where.
 | `--radius-100` | `.25rem` | primitive |
 | `--radius-200` | `.5rem` | primitive |
 | `--radius-300` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
 | `--radius-md` | `.25rem` | semantic |
 | `--spacing-050` | `.125rem` | primitive |
 | `--spacing-100` | `.25rem` | primitive |

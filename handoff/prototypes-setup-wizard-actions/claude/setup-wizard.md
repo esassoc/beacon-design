@@ -36,7 +36,7 @@ _64 repeated elements are collapsed in the markup below; the comments say where.
 
 - [setup-wizard.markup-1.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-actions/claude/setup-wizard.markup-1.md) (47 KB)
 - [setup-wizard.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-actions/claude/setup-wizard.markup-2.md) (22 KB)
-- [setup-wizard.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-actions/claude/setup-wizard.styles.md) (42 KB)
+- [setup-wizard.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-actions/claude/setup-wizard.styles.md) (43 KB)
 
 ## Tokens
 
@@ -45,6 +45,7 @@ _64 repeated elements are collapsed in the markup below; the comments say where.
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-flag-on-bg` | `#fff3e0` | component |
 | `--bcn-flag-on-color` | `#b05000` | component |
 | `--bcn-gray-0` | `#fff` | component |

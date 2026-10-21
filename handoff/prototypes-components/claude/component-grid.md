@@ -42,12 +42,13 @@ _76 repeated elements are collapsed in the markup below; the comments say where.
 - [component-grid.markup-1.md](https://esassoc.github.io/beacon-design/handoff/prototypes-components/claude/component-grid.markup-1.md) (47 KB)
 - [component-grid.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-components/claude/component-grid.markup-2.md) (47 KB)
 - [component-grid.markup-3.md](https://esassoc.github.io/beacon-design/handoff/prototypes-components/claude/component-grid.markup-3.md) (4.9 KB)
-- [component-grid.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-components/claude/component-grid.styles.md) (15 KB)
+- [component-grid.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-components/claude/component-grid.styles.md) (16 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-content-muted` | `#7c7c7c` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-400` | `#989898` | component |

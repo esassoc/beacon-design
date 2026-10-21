@@ -129,6 +129,10 @@ The global-search affordance in the app bar: a button STYLED as a search input â
     max-width: max-content;
   }
 }
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
+}
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;

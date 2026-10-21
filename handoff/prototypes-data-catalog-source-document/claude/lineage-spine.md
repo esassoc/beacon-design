@@ -131,6 +131,13 @@ _5 repeated elements are collapsed in the markup below; the comments say where._
   color: var(--color-content-default-tertiary);
   flex: none;
 }
+.bcn-aldo-needs__head .esa-badge {
+  font-variant-numeric: tabular-nums;
+}
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
+}
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;

@@ -20,7 +20,7 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-due-dili
 _43 repeated elements are collapsed in the markup below; the comments say where._
 
 - [critical-issues-assessment.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-report/claude/critical-issues-assessment.markup.md) (25 KB)
-- [critical-issues-assessment.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-report/claude/critical-issues-assessment.styles.md) (31 KB)
+- [critical-issues-assessment.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-due-diligence-report/claude/critical-issues-assessment.styles.md) (32 KB)
 
 ## Tokens
 
@@ -30,6 +30,7 @@ _43 repeated elements are collapsed in the markup below; the comments say where.
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-content-muted` | `#7c7c7c` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-100` | `#efefef` | component |

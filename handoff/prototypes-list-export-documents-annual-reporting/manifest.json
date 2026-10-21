@@ -240,6 +240,7 @@
         "phone": "claude/print-route-data.phone.png"
       },
       "bytes": 22861,
+      "specBytes": 22861,
       "files": 1,
       "collapsed": 26
     },
@@ -343,6 +344,7 @@
         "phone": "claude/summary-table.phone.png"
       },
       "bytes": 4658,
+      "specBytes": 4658,
       "files": 1,
       "collapsed": 12
     },
@@ -473,6 +475,7 @@
         "phone": "claude/action-entry-status-lines.phone.png"
       },
       "bytes": 6756,
+      "specBytes": 6756,
       "files": 1,
       "collapsed": 0
     }

@@ -21,12 +21,13 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-evidence
 _31 repeated elements are collapsed in the markup below; the comments say where._
 
 - [attach-evidence-of-compliance.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-evidence-drawer/claude/attach-evidence-of-compliance.markup.md) (22 KB)
-- [attach-evidence-of-compliance.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-evidence-drawer/claude/attach-evidence-of-compliance.styles.md) (24 KB)
+- [attach-evidence-of-compliance.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-evidence-drawer/claude/attach-evidence-of-compliance.styles.md) (25 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-200` | `#dcdcdc` | component |
@@ -71,6 +72,7 @@ _31 repeated elements are collapsed in the markup below; the comments say where.
 | `--icon-size-sm` | `16px` | primitive |
 | `--radius-100` | `.25rem` | primitive |
 | `--radius-200` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
 | `--radius-md` | `.25rem` | semantic |
 | `--spacing-050` | `.125rem` | primitive |
 | `--spacing-100` | `.25rem` | primitive |

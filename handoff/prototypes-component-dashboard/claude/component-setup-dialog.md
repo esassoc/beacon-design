@@ -49,7 +49,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
 _17 repeated elements are collapsed in the markup below; the comments say where._
 
 - [component-setup-dialog.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/component-setup-dialog.markup.md) (9.6 KB)
-- [component-setup-dialog.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/component-setup-dialog.styles.md) (31 KB)
+- [component-setup-dialog.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/component-setup-dialog.styles.md) (32 KB)
 
 ## Tokens
 
@@ -58,6 +58,7 @@ _17 repeated elements are collapsed in the markup below; the comments say where.
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-content-muted` | `#7c7c7c` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-1000` | `#000` | component |

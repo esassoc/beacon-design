@@ -8,7 +8,7 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wi
 
 ## Components
 
-- `bcn-aldo-mark` (spoke) · `src/components/bcn/aldo/BcnAldoMark.astro`
+- `bcn-aldo-mark` (spoke) · `src/components/bcn/BcnHelpDot.astro`
 - `bcn-help-bar` (spoke) · `src/components/bcn/BcnHelpBar.astro`
 - `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
 - `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
@@ -16,8 +16,6 @@ Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wi
 - `esa-tooltip` (hub) · `packages/ecology/src/components/esa-tooltip.ts`
 
 ## Markup
-
-_3 repeated elements are collapsed in the markup below; the comments say where._
 
 ```html
 <div
@@ -27,41 +25,68 @@ _3 repeated elements are collapsed in the markup below; the comments say where._
   role="toolbar"
   aria-label="Help &amp; utilities"
 >
-  <!-- Primary: Guidance — the Aldo mark + visible label; opens the guidance drawer via hook. --><button
-    type="button"
-    class="bcn-help-bar__guidance"
-    data-help-trigger=""
-    aria-haspopup="dialog"
-  >
-    <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-      ><svg
-        class="bcn-aldo-mark__glyph"
-        viewBox="0 0 64 64"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="3.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
-        <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
-        <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
-        <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg></span
-    ><span class="bcn-help-bar__guidance-label">Guidance</span></button
-  ><span class="bcn-help-bar__divider" aria-hidden="true"></span
+  <!-- Primary: Guidance — the Aldo mark alone (the label went 2026-10-21), named by
+       aria-label and the tooltip; opens the guidance drawer via hook. --><esa-tooltip
+    class="bcn-help-bar__tooltip"
+    text="Help &amp; Guidance"
+    position="above"
+    delay="150"
+    align="center"
+    ><button
+      type="button"
+      class="bcn-help-bar__guidance"
+      data-help-trigger=""
+      aria-haspopup="dialog"
+      aria-label="Help &amp; Guidance"
+    >
+      <span class="bcn-aldo-mark" data-size="md" data-variant="rings" aria-hidden="true"
+        ><svg
+          class="bcn-aldo-mark__glyph"
+          viewBox="12 12 40 40"
+          fill="none"
+          stroke="url(#bcn-aldo-ring-ynez2g5)"
+          stroke-width="3.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <defs>
+            <linearGradient
+              id="bcn-aldo-ring-ynez2g5"
+              x1="14"
+              y1="12"
+              x2="52"
+              y2="50"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" class="bcn-aldo-mark__from"></stop>
+              <stop offset="1" class="bcn-aldo-mark__to"></stop>
+            </linearGradient>
+          </defs>
+          <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+          <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+          <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+          <circle
+            cx="33.2"
+            cy="31.1"
+            r="2"
+            fill="url(#bcn-aldo-ring-ynez2g5)"
+            stroke="none"
+          ></circle></svg
+      ></span></button></esa-tooltip
   ><!-- Attach Evidence of Compliance — icon-only; the tooltip host carries the drawer's open hook.
-       GLYPH NOTE: the spoke's committed evidence glyph is the paperclip in global-search's
-       SCOPES (what the ⌘K palette shows for Evidence of Compliance), but esa-icon-button
-       forwards only a registry `name` — no custom `paths` — and the hub registry has no
-       paperclip. Using 'file-text' until paperclip is registered in the hub, the same
-       constraint and the same fix as 'notepad-text' below.
+       GLYPH: the paper clip, as on prod's bar and in global-search's SCOPES (what the ⌘K
+       palette shows for Evidence of Compliance). The hub registry has no paperclip and
+       iconOnly takes only a registry name, so the glyph rides in the lego's default slot
+       as an EsaIcon with `paths`, and the esa-button--icon-only class keeps the square
+       icon-button geometry. Swap to icon="paperclip" once the hub registers it.
        This slot used to hold a duplicate Search button. It was replaced (product meeting
        2026-08-04): search already has the top bar's own field and ⌘K, and this bar is
        where Beacon's bottom affordances live, which is where the global evidence drawer
        belongs. --><esa-tooltip
     class="bcn-help-bar__tooltip"
-    text="Attach Evidence of Compliance"
+    text="Add Evidence"
     position="above"
+    delay="150"
     data-evidence-trigger="true"
     align="center"
     ><span
@@ -69,45 +94,10 @@ _3 repeated elements are collapsed in the markup below; the comments say where._
       ><button
         class="esa-button__native typography-microcopy-md"
         type="button"
-        aria-label="Attach Evidence of Compliance"
-        title="Attach Evidence of Compliance"
+        aria-label="Add Evidence"
       >
-        <span class="esa-icon esa-icon--md" aria-hidden="true"
-          ><svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
-            <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-            <!-- …and 3 more like this (<path>) -->
-          </svg></span
-        >
-      </button></span
-    ></esa-tooltip
-  ><!-- What's new — icon-only trigger + unread dot; esa-popover panel opens above the bar. --><esa-popover
-    class="bcn-help-bar__popover"
-    position="top"
-    trigger="click"
-    offset="12"
-    appearance="default"
-    ><span class="bcn-help-bar__whatsnew" data-whatsnew=""
-      ><span
-        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
-        ><button
-          class="esa-button__native typography-microcopy-md"
-          type="button"
-          aria-label="What's new"
-          title="What's new"
-          aria-expanded="false"
-        >
-          <span class="esa-icon esa-icon--md" aria-hidden="true"
+        <span class="esa-button__label"
+          ><span class="esa-icon esa-icon--md" aria-hidden="true"
             ><svg
               width="20"
               height="20"
@@ -119,67 +109,190 @@ _3 repeated elements are collapsed in the markup below; the comments say where._
               stroke-linejoin="round"
               focusable="false"
             >
-              <path d="M8 2v4"></path>
-              <path d="M12 2v4"></path>
-              <path d="M16 2v4"></path>
-              <rect width="16" height="18" x="4" y="4" rx="2"></rect>
-              <path d="M8 10h6"></path>
-              <path d="M8 14h8"></path>
-              <path d="M8 18h5"></path></svg
-          ></span></button></span
-      ><span class="bcn-help-bar__dot" data-whatsnew-dot="" aria-hidden="true"></span
-    ></span>
+              <path
+                d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+              ></path></svg></span
+        ></span></button></span></esa-tooltip
+  ><!-- What's new — icon-only trigger + unread dot; esa-popover panel opens above the bar. --><esa-popover
+    class="bcn-help-bar__popover"
+    position="top"
+    trigger="click"
+    offset="12"
+    appearance="default"
+    ><esa-tooltip
+      class="bcn-help-bar__tooltip"
+      text="Release Notes"
+      position="above"
+      delay="150"
+      align="center"
+      ><span class="bcn-help-bar__whatsnew" data-whatsnew=""
+        ><span
+          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
+          ><button
+            class="esa-button__native typography-microcopy-md"
+            type="button"
+            aria-label="Release Notes"
+            title="Release Notes"
+            aria-expanded="false"
+          >
+            <span class="esa-icon esa-icon--md" aria-hidden="true"
+              ><svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M8 2v4"></path>
+                <path d="M12 2v4"></path>
+                <path d="M16 2v4"></path>
+                <rect width="16" height="18" x="4" y="4" rx="2"></rect>
+                <path d="M8 10h6"></path>
+                <path d="M8 14h8"></path>
+                <path d="M8 18h5"></path></svg
+            ></span></button></span
+        ><span class="bcn-help-bar__dot" data-whatsnew-dot="" aria-hidden="true"></span></span
+    ></esa-tooltip>
     <div slot="content" class="bcn-help-bar__panel">
       <header class="bcn-help-bar__panel-header">
-        <p class="bcn-help-bar__panel-title">What's new</p>
-        <p class="bcn-help-bar__panel-release">
+        <p class="bcn-help-bar__panel-title typography-label-md-strong">What's New</p>
+        <p class="bcn-help-bar__panel-release typography-label-sm">
           1.33.0 · <time datetime="2026-06-02">Jun 2, 2026</time>
         </p>
       </header>
       <ul class="bcn-help-bar__panel-list">
-        <li class="bcn-help-bar__panel-item">
+        <li>
           <a class="bcn-help-bar__panel-link" href="/beacon-design/prototypes/release-notes#v1-33-0"
-            ><p class="bcn-help-bar__panel-item-title">Commitment Lists</p>
-            <p class="bcn-help-bar__panel-item-blurb">
-              Save a filtered view of commitments as a reusable, named List, then reopen it anytime
-              to scope the grid to just its members.
-            </p></a
-          >
+            ><span class="bcn-help-bar__panel-text"
+              ><span class="bcn-help-bar__panel-item-title typography-label-md-strong"
+                >Commitment Lists</span
+              ><span class="bcn-help-bar__panel-item-blurb typography-body-xs"
+                >Save a filtered set of commitments as a named List and reopen it.</span
+              ></span
+            ><span class="bcn-help-bar__panel-go" aria-hidden="true"
+              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="m9 18 6-6-6-6"></path></svg></span></span
+          ></a>
         </li>
-        <li class="bcn-help-bar__panel-item">
+        <li>
           <a class="bcn-help-bar__panel-link" href="/beacon-design/prototypes/release-notes#v1-33-0"
-            ><p class="bcn-help-bar__panel-item-title">Evidence of Compliance</p>
-            <p class="bcn-help-bar__panel-item-blurb">
-              Every Evidence of Compliance record now lives in one Data Catalog grid with Project,
-              Component, and Work Area scope selectors, instead of separate tabs on each page.
-            </p></a
-          >
+            ><span class="bcn-help-bar__panel-text"
+              ><span class="bcn-help-bar__panel-item-title typography-label-md-strong"
+                >Evidence of Compliance</span
+              ><span class="bcn-help-bar__panel-item-blurb typography-body-xs"
+                >All evidence records now live in one Data Catalog grid.</span
+              ></span
+            ><span class="bcn-help-bar__panel-go" aria-hidden="true"
+              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="m9 18 6-6-6-6"></path></svg></span></span
+          ></a>
         </li>
-        <li class="bcn-help-bar__panel-item">
+        <li>
           <a class="bcn-help-bar__panel-link" href="/beacon-design/prototypes/release-notes#v1-33-0"
-            ><p class="bcn-help-bar__panel-item-title">Commitment Compliance</p>
-            <p class="bcn-help-bar__panel-item-blurb">
-              A new Monitoring Portal section shows which commitments are out of compliance and the
-              field observations driving it, matched by species.
-            </p></a
-          >
+            ><span class="bcn-help-bar__panel-text"
+              ><span class="bcn-help-bar__panel-item-title typography-label-md-strong"
+                >Commitment Compliance</span
+              ><span class="bcn-help-bar__panel-item-blurb typography-body-xs"
+                >A Monitoring Portal view of out-of-compliance commitments and their field
+                observations.</span
+              ></span
+            ><span class="bcn-help-bar__panel-go" aria-hidden="true"
+              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="m9 18 6-6-6-6"></path></svg></span></span
+          ></a>
         </li>
       </ul>
-      <div class="bcn-help-bar__panel-footer">
-        <a class="bcn-help-bar__panel-all" href="/beacon-design/prototypes/release-notes"
-          >All release notes<span class="bcn-help-bar__panel-all-arrow" aria-hidden="true"
-            >→</span
-          ></a
-        >
-      </div>
-    </div></esa-popover
-  >
+      <a
+        class="bcn-help-bar__panel-all typography-label-sm-strong"
+        href="/beacon-design/prototypes/release-notes"
+        >All Release Notes
+        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path></svg></span
+      ></a></div
+  ></esa-popover>
 </div>
 ```
 
 ## Styles
 
 ```css
+.typography-body-xs {
+  font-family: var(--typography-body-xs-font-family);
+  font-size: var(--typography-body-xs-font-size);
+  font-weight: var(--typography-body-xs-font-weight);
+  line-height: var(--typography-body-xs-line-height);
+  letter-spacing: var(--typography-body-xs-letter-spacing);
+}
+.typography-label-sm {
+  font-family: var(--typography-label-sm-font-family);
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  line-height: var(--typography-label-sm-line-height);
+  letter-spacing: var(--typography-label-sm-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+}
+.typography-label-md-strong {
+  font-family: var(--typography-label-md-strong-font-family);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height);
+  letter-spacing: var(--typography-label-md-strong-letter-spacing);
+}
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
   font-size: var(--typography-microcopy-md-font-size);
@@ -217,6 +330,18 @@ _3 repeated elements are collapsed in the markup below; the comments say where._
   width: 100%;
   height: 100%;
   display: block;
+}
+.bcn-aldo-mark[data-variant="rings"] {
+  width: var(--bcn-aldo-mark-size, 24px);
+  height: var(--bcn-aldo-mark-size, 24px);
+  background: 0 0;
+  border-radius: 0;
+}
+.bcn-aldo-mark__from {
+  stop-color: var(--bcn-aldo-ring-from, var(--color-teal-6));
+}
+.bcn-aldo-mark__to {
+  stop-color: var(--bcn-aldo-ring-to, var(--color-teal-9));
 }
 .bcn-aldo-mark[data-animated] {
   animation: 2s ease-in-out infinite bcn-aldo-pulse;
@@ -259,11 +384,9 @@ _3 repeated elements are collapsed in the markup below; the comments say where._
   }
 }
 .bcn-help-bar__guidance {
-  align-items: center;
-  gap: var(--spacing-150);
-  height: 40px;
-  padding: 0 var(--spacing-250, 0.625rem);
   border-radius: var(--radius-200, 8px);
+  width: 40px;
+  height: 40px;
   color: var(--bcn-helpbar-fg);
   font-family: inherit;
   font-size: var(--font-size-200, 0.9375rem);
@@ -272,28 +395,38 @@ _3 repeated elements are collapsed in the markup below; the comments say where._
   transition: background var(--transition-fast, 0.15s ease);
   background: 0 0;
   border: 0;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
   line-height: 1;
   display: inline-flex;
 }
 .bcn-help-bar__guidance:hover {
   background: var(--bcn-helpbar-hover-bg);
 }
+.bcn-help-bar__guidance {
+  --bcn-aldo-mark-size: 20px;
+  --bcn-aldo-ring-from: var(--color-teal-7);
+  --bcn-aldo-ring-to: var(--bcn-aldo);
+}
+.bcn-help-bar__guidance[aria-pressed="true"] {
+  background: var(--bcn-helpbar-hover-bg);
+  box-shadow: inset 0 0 0 1px var(--bcn-aldo);
+}
 .bcn-help-bar__guidance:focus-visible {
   outline: 2px solid var(--bcn-helpbar-fg);
   outline-offset: 2px;
 }
-.bcn-help-bar__guidance-label {
-  white-space: nowrap;
-}
-.bcn-help-bar__divider {
-  width: 1px;
-  height: 22px;
-  margin: 0 var(--spacing-050, 2px);
-  background: var(--bcn-helpbar-divider);
-  flex: none;
-}
 .bcn-help-bar__tooltip,
 .bcn-help-bar__popover {
+  display: inline-flex;
+}
+.bcn-help-bar__tooltip {
+  --color-background-default-knockout: var(--bcn-helpbar-bg-solid);
+  --color-content-default-knockout: var(--bcn-helpbar-fg);
+}
+.bcn-help-bar__tooltip .esa-button__label {
+  line-height: 0;
   display: inline-flex;
 }
 .bcn-help-bar .esa-icon-button {
@@ -309,109 +442,153 @@ _3 repeated elements are collapsed in the markup below; the comments say where._
   position: relative;
 }
 .bcn-help-bar__dot {
-  background: var(--bcn-aldo);
-  width: 8px;
-  height: 8px;
+  background: var(--color-teal-8);
+  width: 6px;
+  height: 6px;
   box-shadow: 0 0 0 2px var(--bcn-helpbar-bg-solid);
   pointer-events: none;
   border-radius: 50%;
   position: absolute;
-  top: 7px;
-  right: 7px;
+  top: 13px;
+  right: 13px;
+  translate: 50% -50%;
+}
+.bcn-help-bar__dot:before,
+.bcn-help-bar__dot:after {
+  content: "";
+  border: 1px solid var(--color-teal-8);
+  opacity: 0;
+  border-radius: 50%;
+  animation: 3.2s cubic-bezier(0.2, 0.6, 0.3, 1) infinite bcn-help-bar-ping;
+  position: absolute;
+  inset: 0;
+}
+.bcn-help-bar__dot:after {
+  animation-delay: 0.5s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bcn-help-bar__dot:before,
+  .bcn-help-bar__dot:after {
+    animation: none;
+  }
 }
 .bcn-help-bar__dot[hidden] {
   display: none;
 }
 .bcn-help-bar__panel {
-  width: 340px;
-  max-width: 84vw;
+  gap: var(--spacing-200);
+  width: min(320px, var(--_room, 320px));
   color: var(--color-content-default);
+  white-space: normal;
+  text-align: start;
+  flex-direction: column;
+  display: flex;
 }
 .bcn-help-bar__panel-header {
   justify-content: space-between;
   align-items: baseline;
   gap: var(--spacing-200);
-  margin: 0 0 var(--spacing-300);
+  border-block-end: 1px solid var(--color-border-default);
+  padding-block-end: var(--spacing-150);
   display: flex;
 }
-.bcn-help-bar__panel-title {
-  font-size: var(--font-size-200, 0.9375rem);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
+.bcn-help-bar__panel-header p {
   margin: 0;
 }
 .bcn-help-bar__panel-release {
-  font-size: var(--font-size-150, 0.875rem);
   color: var(--color-content-default-tertiary);
   white-space: nowrap;
-  margin: 0;
 }
 .bcn-help-bar__panel-list {
-  gap: var(--spacing-200);
+  margin: 0 calc(var(--spacing-150) * -1);
+  gap: var(--spacing-050);
   flex-direction: column;
-  margin: 0;
   padding: 0;
   list-style: none;
   display: flex;
 }
 .bcn-help-bar__panel-link {
-  padding: var(--spacing-150) var(--spacing-150);
-  margin: 0 calc(var(--spacing-150) * -1);
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: var(--spacing-150);
   border-radius: var(--radius-200, 8px);
   color: inherit;
   transition: background var(--transition-fast, 0.15s ease);
   text-decoration: none;
-  display: block;
+  display: flex;
 }
 .bcn-help-bar__panel-link:hover {
   background: var(--color-background-elevation-sunken);
 }
-.bcn-help-bar__panel-link:focus-visible {
+.bcn-help-bar__panel-link:focus-visible,
+.bcn-help-bar__panel-all:focus-visible {
   outline: 2px solid var(--color-content-link);
-  outline-offset: 2px;
+  outline-offset: 1px;
+}
+.bcn-help-bar__panel-text {
+  flex-direction: column;
+  flex: 1;
+  gap: 2px;
+  min-width: 0;
+  display: flex;
 }
 .bcn-help-bar__panel-item-title {
-  font-family: var(--font-decorative);
-  font-size: 1.0625rem;
-  font-weight: var(--typography-font-weight-semibold);
   color: var(--color-content-default);
-  margin: 0 0 2px;
-  line-height: 1.3;
 }
 .bcn-help-bar__panel-item-blurb {
-  font-size: var(--font-size-150, 0.875rem);
-  font-weight: var(--typography-font-weight-regular, 400);
   color: var(--color-content-default-secondary);
-  margin: 0;
-  line-height: 1.45;
 }
-.bcn-help-bar__panel-footer {
-  margin-top: var(--spacing-300);
-  padding-top: var(--spacing-250, 0.625rem);
-  border-top: 1px solid var(--color-border-default);
+.bcn-help-bar__panel-go {
+  color: var(--color-content-default-tertiary);
+  opacity: 0;
+  transition: opacity var(--transition-fast, 0.15s ease);
+  display: inline-flex;
+}
+.bcn-help-bar__panel-link:hover .bcn-help-bar__panel-go,
+.bcn-help-bar__panel-link:focus-visible .bcn-help-bar__panel-go {
+  opacity: 1;
 }
 .bcn-help-bar__panel-all {
-  font-size: var(--font-size-150, 0.875rem);
-  font-weight: var(--typography-font-weight-medium);
-  color: var(--color-content-link);
   align-items: center;
-  gap: 4px;
+  gap: var(--spacing-100);
+  color: var(--color-content-link);
+  border-radius: 2px;
+  align-self: flex-start;
+  padding-block-start: var(--spacing-150);
   text-decoration: none;
   display: inline-flex;
 }
 .bcn-help-bar__panel-all:hover {
   text-decoration: underline;
 }
-.bcn-help-bar__panel-all:focus-visible {
-  outline: 2px solid var(--color-content-link);
-  outline-offset: 2px;
-  border-radius: 2px;
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
 }
-.bcn-help-bar__panel-all-arrow {
-  transition: transform 0.15s;
+.bcn-aldo-composer__send[data-empty] .esa-button__native {
+  cursor: not-allowed;
 }
-.bcn-help-bar__panel-all:hover .bcn-help-bar__panel-all-arrow {
-  transform: translate(2px);
+.bcn-admin-btn,
+.bcn-admin-btn .esa-button {
+  display: inline-flex;
+}
+.bcn-admin-btn .esa-button__native {
+  --focus-ring-color: #fff;
+  border-radius: var(--radius-full);
+  color: #ffffffb8;
+  block-size: 22px;
+  min-block-size: 0;
+  inline-size: 22px;
+  min-inline-size: 0;
+  padding: 0;
+}
+.bcn-admin-btn .esa-button__native:hover,
+.bcn-admin-btn .esa-button__native:focus-visible {
+  color: #fff;
+  background: #ffffff24;
+}
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -594,6 +771,37 @@ summary.esa-button:focus-visible {
 summary.esa-button--variant-chrome:focus-visible {
   outline-color: currentColor;
 }
+.esa-button__label {
+  white-space: nowrap;
+}
+.typography-body-xs {
+  font-family: var(--typography-body-xs-font-family);
+  font-size: var(--typography-body-xs-font-size);
+  font-weight: var(--typography-body-xs-font-weight);
+  line-height: var(--typography-body-xs-line-height);
+  letter-spacing: var(--typography-body-xs-letter-spacing);
+}
+.typography-label-sm {
+  font-family: var(--typography-label-sm-font-family);
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  line-height: var(--typography-label-sm-line-height);
+  letter-spacing: var(--typography-label-sm-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+}
+.typography-label-md-strong {
+  font-family: var(--typography-label-md-strong-font-family);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height);
+  letter-spacing: var(--typography-label-md-strong-letter-spacing);
+}
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
   font-size: var(--typography-microcopy-md-font-size);
@@ -612,6 +820,9 @@ summary.esa-button--variant-chrome:focus-visible {
   justify-content: center;
   align-items: center;
   display: inline-flex;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
 }
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, 20px);
@@ -635,6 +846,7 @@ summary.esa-button--variant-chrome:focus-visible {
 | Token | Value | Tier |
 |---|---|---|
 | `--bcn-aldo` | `#08908b` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-400` | `#989898` | component |
 | `--bcn-gray-500` | `#7c7c7c` | component |
@@ -642,7 +854,6 @@ summary.esa-button--variant-chrome:focus-visible {
 | `--bcn-helpbar-bg` | `#17191bc7` | component |
 | `--bcn-helpbar-bg-solid` | `#1f2224` | component |
 | `--bcn-helpbar-border` | `#ffffff1f` | component |
-| `--bcn-helpbar-divider` | `#ffffff29` | component |
 | `--bcn-helpbar-fg` | `#ffffffeb` | component |
 | `--bcn-helpbar-fg-muted` | `#ffffffb8` | component |
 | `--bcn-helpbar-hover-bg` | `#ffffff1a` | component |
@@ -661,13 +872,16 @@ summary.esa-button--variant-chrome:focus-visible {
 | `--color-content-default-secondary` | `#525252` | semantic |
 | `--color-content-default-tertiary` | `#656565` | semantic |
 | `--color-content-link` | `#005862` | semantic |
+| `--color-teal-6` | `#a1ded2` | primitive |
+| `--color-teal-7` | `#83cdc1` | primitive |
+| `--color-teal-8` | `#53b9ab` | primitive |
+| `--color-teal-9` | `#12a594` | primitive |
 | `--focus-ring-color` | `#3e9b4f` | component |
 | `--focus-ring-offset` | `2px` | component |
 | `--focus-ring-width` | `2px` | component |
-| `--font-decorative` | `"Besley", serif` | component |
-| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
 | `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
 | `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
 | `--radius-200` | `.5rem` | primitive |
 | `--radius-400` | `.75rem` | primitive |
 | `--radius-full` | `9999px` | primitive |
@@ -675,12 +889,29 @@ summary.esa-button--variant-chrome:focus-visible {
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |
 | `--spacing-200` | `.5rem` | primitive |
-| `--spacing-250` | `.625rem` | primitive |
 | `--spacing-300` | `.75rem` | primitive |
 | `--transition-fast` | `.15s ease` | semantic |
+| `--typography-body-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-body-xs-font-weight` | `400` | semantic |
+| `--typography-body-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-body-xs-line-height` | `1.6` | semantic |
 | `--typography-font-weight-medium` | `500` | semantic |
-| `--typography-font-weight-regular` | `400` | semantic |
-| `--typography-font-weight-semibold` | `550` | semantic |
+| `--typography-label-md-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-md-strong-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-md-strong-font-weight` | `550` | semantic |
+| `--typography-label-md-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-label-md-strong-line-height` | `1.6` | semantic |
+| `--typography-label-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-sm-font-weight` | `500` | semantic |
+| `--typography-label-sm-letter-spacing` | `.01em` | semantic |
+| `--typography-label-sm-line-height` | `1.6` | semantic |
+| `--typography-label-sm-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-sm-strong-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-sm-strong-font-weight` | `550` | semantic |
+| `--typography-label-sm-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-label-sm-strong-line-height` | `1.6` | semantic |
 | `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
 | `--typography-microcopy-md-font-weight` | `500` | semantic |

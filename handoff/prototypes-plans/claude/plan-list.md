@@ -182,6 +182,39 @@ The project’s plans, with New plan and Load sample plan. Each row opens that p
   color: var(--color-content-default-tertiary);
   flex: none;
 }
+.bcn-help-bar__tooltip .esa-button__label {
+  line-height: 0;
+  display: inline-flex;
+}
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
+.bcn-aldo-composer__send[data-empty] .esa-button__native {
+  cursor: not-allowed;
+}
+.bcn-admin-btn,
+.bcn-admin-btn .esa-button {
+  display: inline-flex;
+}
+.bcn-admin-btn .esa-button__native {
+  --focus-ring-color: #fff;
+  border-radius: var(--radius-full);
+  color: #ffffffb8;
+  block-size: 22px;
+  min-block-size: 0;
+  inline-size: 22px;
+  min-inline-size: 0;
+  padding: 0;
+}
+.bcn-admin-btn .esa-button__native:hover,
+.bcn-admin-btn .esa-button__native:focus-visible {
+  color: #fff;
+  background: #ffffff24;
+}
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
+}
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -509,6 +542,7 @@ summary.esa-button:focus-visible {
 | Token | Value | Tier |
 |---|---|---|
 | `--animation-spin` | `.75s linear infinite` | semantic |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-400` | `#989898` | component |
 | `--bcn-gray-500` | `#7c7c7c` | component |
@@ -539,6 +573,7 @@ summary.esa-button:focus-visible {
 | `--icon-size-sm` | `16px` | primitive |
 | `--loading-spinner-color` | `#005862` | component |
 | `--loading-spinner-track-color` | `#efefef` | component |
+| `--radius-full` | `9999px` | primitive |
 | `--radius-pill` | `9999px` | semantic |
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-200` | `.5rem` | primitive |

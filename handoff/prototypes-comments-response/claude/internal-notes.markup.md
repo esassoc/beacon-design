@@ -373,7 +373,7 @@
             ><span class="esa-avatar__initials">Y</span></span
           ></span
         ><span class="bcn-nc__who" data-nc-who="aldo" hidden=""
-          ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
+          ><span class="bcn-aldo-mark" data-size="sm" data-variant="badge" aria-hidden="true"
             ><svg
               class="bcn-aldo-mark__glyph"
               viewBox="0 0 64 64"

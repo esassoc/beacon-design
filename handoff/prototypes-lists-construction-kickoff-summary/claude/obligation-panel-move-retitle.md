@@ -130,6 +130,10 @@ The side panel for one obligation ON THIS LIST. It offers exactly three things: 
   color: var(--color-content-default-tertiary);
   flex: none;
 }
+.bcn-admin-btn .esa-icon {
+  block-size: 14px;
+  inline-size: 14px;
+}
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;

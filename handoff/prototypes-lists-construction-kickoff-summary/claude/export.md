@@ -36,7 +36,7 @@ The ways the list leaves Beacon, in the rail: PDF, CSV and Excel file pulls, Wor
 ## Markup and styles
 
 - [export.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-construction-kickoff-summary/claude/export.markup.md) (45 KB)
-- [export.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-construction-kickoff-summary/claude/export.styles.md) (15 KB)
+- [export.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-construction-kickoff-summary/claude/export.styles.md) (16 KB)
 
 ## Tokens
 
@@ -79,6 +79,7 @@ The ways the list leaves Beacon, in the rail: PDF, CSV and Excel file pulls, Wor
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-sm` | `16px` | primitive |
 | `--line-height-normal` | `1.6` | primitive |
+| `--radius-full` | `9999px` | primitive |
 | `--radius-md` | `.25rem` | semantic |
 | `--radius-sm` | `.25rem` | semantic |
 | `--spacing-050` | `.125rem` | primitive |

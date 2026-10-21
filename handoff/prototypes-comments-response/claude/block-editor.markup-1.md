@@ -207,7 +207,11 @@
               >
                 <span class="esa-button__label"
                   ><span class="bcn-sb__aldo"
-                    ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
+                    ><span
+                      class="bcn-aldo-mark"
+                      data-size="sm"
+                      data-variant="badge"
+                      aria-hidden="true"
                       ><svg
                         class="bcn-aldo-mark__glyph"
                         viewBox="0 0 64 64"
@@ -250,7 +254,11 @@
                     ><span class="esa-avatar__initials">Y</span></span
                   ></span
                 ><span class="bcn-nc__who" data-nc-who="aldo" hidden=""
-                  ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
+                  ><span
+                    class="bcn-aldo-mark"
+                    data-size="sm"
+                    data-variant="badge"
+                    aria-hidden="true"
                     ><svg
                       class="bcn-aldo-mark__glyph"
                       viewBox="0 0 64 64"
@@ -337,7 +345,7 @@
             </div>
           </div>
           <span class="bcn-sb__row" data-sb="done" hidden=""
-            ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
+            ><span class="bcn-aldo-mark" data-size="sm" data-variant="badge" aria-hidden="true"
               ><svg
                 class="bcn-aldo-mark__glyph"
                 viewBox="0 0 64 64"
@@ -815,7 +823,7 @@
                   ><span class="esa-avatar__initials">Y</span></span
                 ></span
               ><span class="bcn-nc__who" data-nc-who="aldo" hidden=""
-                ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
+                ><span class="bcn-aldo-mark" data-size="sm" data-variant="badge" aria-hidden="true"
                   ><svg
                     class="bcn-aldo-mark__glyph"
                     viewBox="0 0 64 64"
@@ -1041,9 +1049,4 @@
                             width="16"
                             height="16"
                             viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
 ```

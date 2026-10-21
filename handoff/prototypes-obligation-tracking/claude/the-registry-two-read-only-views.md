@@ -51,12 +51,13 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
 _315 repeated elements are collapsed in the markup below; the comments say where._
 
 - [the-registry-two-read-only-views.markup.md](https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-tracking/claude/the-registry-two-read-only-views.markup.md) (44 KB)
-- [the-registry-two-read-only-views.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-tracking/claude/the-registry-two-read-only-views.styles.md) (28 KB)
+- [the-registry-two-read-only-views.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-tracking/claude/the-registry-two-read-only-views.styles.md) (29 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-1000` | `#000` | component |
 | `--bcn-gray-400` | `#989898` | component |

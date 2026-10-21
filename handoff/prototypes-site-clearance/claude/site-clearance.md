@@ -36,7 +36,7 @@ _352 repeated elements are collapsed in the markup below; the comments say where
 - [site-clearance.markup-1.md](https://esassoc.github.io/beacon-design/handoff/prototypes-site-clearance/claude/site-clearance.markup-1.md) (47 KB)
 - [site-clearance.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-site-clearance/claude/site-clearance.markup-2.md) (39 KB)
 - [site-clearance.styles-1.md](https://esassoc.github.io/beacon-design/handoff/prototypes-site-clearance/claude/site-clearance.styles-1.md) (47 KB)
-- [site-clearance.styles-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-site-clearance/claude/site-clearance.styles-2.md) (2.4 KB)
+- [site-clearance.styles-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-site-clearance/claude/site-clearance.styles-2.md) (3.4 KB)
 
 ## Tokens
 
@@ -45,6 +45,7 @@ _352 repeated elements are collapsed in the markup below; the comments say where
 | `--badge-bg` | `#fcfcfc` | component |
 | `--badge-border-color` | `#dcdcdc` | component |
 | `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-100` | `#efefef` | component |
 | `--bcn-gray-1000` | `#000` | component |

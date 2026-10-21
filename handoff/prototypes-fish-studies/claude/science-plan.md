@@ -32,12 +32,13 @@ _186 repeated elements are collapsed in the markup below; the comments say where
 - [science-plan.markup-1.md](https://esassoc.github.io/beacon-design/handoff/prototypes-fish-studies/claude/science-plan.markup-1.md) (47 KB)
 - [science-plan.markup-2.md](https://esassoc.github.io/beacon-design/handoff/prototypes-fish-studies/claude/science-plan.markup-2.md) (47 KB)
 - [science-plan.markup-3.md](https://esassoc.github.io/beacon-design/handoff/prototypes-fish-studies/claude/science-plan.markup-3.md) (13 KB)
-- [science-plan.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-fish-studies/claude/science-plan.styles.md) (36 KB)
+- [science-plan.styles.md](https://esassoc.github.io/beacon-design/handoff/prototypes-fish-studies/claude/science-plan.styles.md) (37 KB)
 
 ## Tokens
 
 | Token | Value | Tier |
 |---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
 | `--bcn-content-muted` | `#7c7c7c` | component |
 | `--bcn-gray-0` | `#fff` | component |
 | `--bcn-gray-1000` | `#000` | component |
