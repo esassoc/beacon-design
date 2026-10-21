@@ -912,7 +912,7 @@ export const HELP_GENERAL_CONTEXT: Omit<HelpRouteContext, 'pattern'> = {
 // one place. (The real deterministic search lives on the Help & Guidance page.)
 
 export const ALDO_CHAT = {
-  placeholder: 'Ask Aldo a question…',
+  placeholder: 'What is a component?',
   /** Reply intro when matches are found (links follow). */
   found: 'Here’s what I have on that:',
   /** Reply when nothing matches. */

@@ -8,13 +8,13 @@
 // double as the chat's text corpus (read via textContent), so article prose never enters
 // this bundle. Imports stay to the small route map + chat copy.
 import { HELP_ROUTE_CONTEXTS, HELP_GENERAL_CONTEXT, ALDO_CHAT } from '../../data/help-center';
+import { mountComposer } from './aldo/aldo-composer';
+import { aldoParts } from './aldo/aldo-parts';
 
 /** Parent inset while the child reader is stacked on top — a subtle step back. */
 const STACK_INSET = '30px';
 /** A beat before Aldo answers — feel, not fake typing. Content is fully deterministic. */
 const REPLY_DELAY = 300;
-/** Composer grows to this many rows, then scrolls internally. */
-const MAX_ROWS = 5;
 /** Dropped from question tokens so ranking keys on meaningful words. */
 const STOPWORDS = new Set([
   'the', 'and', 'for', 'are', 'how', 'what', 'why', 'does', 'did', 'can', 'with', 'from',
@@ -35,11 +35,8 @@ export function initGuidanceDrawer(): void {
   const termsSection = root.querySelector<HTMLElement>('[data-gd-section="terms"]')!;
   const poolEl = root.querySelector<HTMLElement>('[data-gd-pool]')!;
   const chatEl = root.querySelector<HTMLElement>('[data-gd-chat]')!;
-  const ask = root.querySelector<HTMLTextAreaElement>('[data-gd-ask]')!;
-  const sendBtn = root.querySelector<HTMLButtonElement>('[data-gd-ask-send]')!;
   const browseHref = root.querySelector<HTMLAnchorElement>('[data-gd-browse]')?.getAttribute('href') ?? '#';
 
-  const avatarTpl = document.querySelector<HTMLTemplateElement>('[data-gd-aldo-avatar]');
   const articleTitleEl = child.querySelector<HTMLElement>('[data-gd-article-title]')!;
   const articleKindEl = child.querySelector<HTMLElement>('[data-gd-article-kind]')!;
   const backBtn = child.querySelector<HTMLElement>('[data-gd-article-back]');
@@ -101,61 +98,37 @@ export function initGuidanceDrawer(): void {
     if (opener && root!.contains(opener)) openArticle(opener.dataset.articleId!);
   });
 
-  // ── composer: owned textarea (auto-grow + Enter/Shift+Enter) ──
-  function autoGrow(): void {
-    ask.style.height = 'auto';
-    const s = getComputedStyle(ask);
-    const lineHeight = parseFloat(s.lineHeight) || 22;
-    const pad = parseFloat(s.paddingTop) + parseFloat(s.paddingBottom);
-    const max = lineHeight * MAX_ROWS + pad;
-    ask.style.height = `${Math.min(ask.scrollHeight, max)}px`;
-    ask.style.overflowY = ask.scrollHeight > max ? 'auto' : 'hidden';
-  }
-  function syncSend(): void {
-    sendBtn.disabled = ask.value.trim() === '';
-  }
-  ask.addEventListener('input', () => { autoGrow(); syncSend(); });
-  ask.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitAsk(); }
+  // ── composer: the Aldo kit's (Enter sends, Shift+Enter is a new line) ──
+  const composer = mountComposer(root, aldoParts(root), (text) => {
+    appendMsg('you').textContent = text; // textContent: what the person typed never becomes markup
+    composer.setBusy(true);
+    window.setTimeout(() => {
+      appendAldo(text);
+      composer.setBusy(false);
+    }, REPLY_DELAY);
   });
-  sendBtn.addEventListener('click', () => submitAsk());
-  // Initial height comes from rows="1" (autoGrow can't measure while the footer slot is
-  // unprojected/closed — scrollHeight is 0). autoGrow takes over on the first input.
-  syncSend();
 
-  function submitAsk(): void {
-    const q = ask.value.trim();
-    if (!q) return;
-    appendUser(q);
-    ask.value = '';
-    autoGrow();
-    syncSend();
-    window.setTimeout(() => appendAldo(q), REPLY_DELAY);
-  }
-
-  function appendUser(text: string): void {
-    const msg = el('div', 'bcn-gd-msg bcn-gd-msg--user');
-    const bubble = el('div', 'bcn-gd-msg__bubble');
-    bubble.textContent = text; // textContent — user input never becomes markup
+  /** One message in the kit's grammar: Aldo's a soft gray on the left, the person's white
+   *  with a hairline on the right. Returns the bubble's text box to fill. */
+  function appendMsg(from: 'aldo' | 'you'): HTMLElement {
+    const msg = el('div', 'bcn-aldo-msg');
+    msg.dataset.from = from;
+    const bubble = el('div', 'bcn-aldo-msg__bubble');
+    const text = el('div', 'bcn-aldo-msg__text');
+    bubble.appendChild(text);
     msg.appendChild(bubble);
     chatEl.appendChild(msg);
     scrollToLatest();
+    return text;
   }
 
   function appendAldo(question: string): void {
-    const msg = el('div', 'bcn-gd-msg bcn-gd-msg--aldo');
-    if (avatarTpl) {
-      const avatar = el('div', 'bcn-gd-msg__avatar');
-      avatar.appendChild(avatarTpl.content.cloneNode(true));
-      msg.appendChild(avatar);
-    }
-    const group = el('div', 'bcn-gd-msg__group');
-    const bubble = el('div', 'bcn-gd-msg__bubble');
+    const box = appendMsg('aldo');
     const hits = rank(question);
     if (hits.length) {
       const intro = el('p', 'bcn-gd-msg__text');
       intro.textContent = ALDO_CHAT.found;
-      bubble.appendChild(intro);
+      box.appendChild(intro);
       const links = el('div', 'bcn-gd-msg__links');
       for (const id of hits) {
         const link = el('button', 'bcn-gd-msg__link') as HTMLButtonElement;
@@ -164,19 +137,16 @@ export function initGuidanceDrawer(): void {
         link.textContent = meta.get(id)?.title ?? '';
         links.appendChild(link);
       }
-      bubble.appendChild(links);
+      box.appendChild(links);
     } else {
       const p = el('p', 'bcn-gd-msg__text');
       p.textContent = ALDO_CHAT.fallback;
-      bubble.appendChild(p);
+      box.appendChild(p);
       const browse = el('a', 'bcn-gd-msg__browse') as HTMLAnchorElement;
       browse.href = browseHref;
       browse.textContent = 'Browse all Help & Guidance';
-      bubble.appendChild(browse);
+      box.appendChild(browse);
     }
-    group.appendChild(bubble);
-    msg.appendChild(group);
-    chatEl.appendChild(msg);
     scrollToLatest();
   }
 

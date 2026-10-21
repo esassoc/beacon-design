@@ -3,7 +3,7 @@
 // conversation. The drawer body is ONE continuous scroll stream: Aldo's opening message
 // (the route's "You are here" + "On this page" + "Terms" guidance) sits at the top, and
 // every Q&A exchange appends below it, scrolling the intro up like any older message. A
-// ChatGPT-style composer is pinned in the footer; the stream scrolls behind it.
+// the Aldo kit's composer is pinned in the footer; the stream scrolls behind it.
 //
 // TWO STACKED DIALOGS: the drawer (parent) and a SECOND esa-side-dialog reused as the
 // article reader (child), stacked above it. A row or reply-link opens that article in the
@@ -21,15 +21,15 @@
 // sized through its exposed custom properties; the parent's --side-dialog-inset is
 // re-pointed at runtime for the card-stack (which the lego documents + transitions). Section
 // + row glyphs / the send glyph = esa-icon (off-registry names via its `paths` fallback);
-// header/intro/reply mark = BcnAldoMark; article bodies = BcnHelpArticle. TWO owned
-// primitives, both justified: (1) the article ROW — a two-line button no lego renders;
-// (2) the COMPOSER — esa-textarea was checked but renders its border/focus/background ON
-// the textarea, gives no slot for an embedded send button, and auto-resizes with
-// overflow:hidden (clips, no inner scroll) — the embedded composer needs the SHELL to own
-// the border/ring + hold the button and the textarea to inner-scroll at max, so an owned
-// <textarea> in the shell is used. Everything else is composition glue.
+// header mark = BcnAldoMark (rings); article bodies = BcnHelpArticle; the composer and the
+// replies ARE the Aldo kit's (BcnAldoComposer, bcn-aldo-msg), as in the Setup Wizard and
+// Lists chats (round 10, replacing an owned textarea composer). ONE owned primitive: the
+// article ROW, a two-line button no lego renders. Everything else is composition glue.
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnAldoMark from './aldo/BcnAldoMark.astro';
+import BcnAldoComposer from './aldo/BcnAldoComposer.astro';
+import BcnAldoParts from './aldo/BcnAldoParts.astro';
+import '../../styles/bcn-aldo.css';
 import BcnHelpArticle from './BcnHelpArticle.astro';
 import { HELP_ARTICLES, ALDO_CHAT } from '../../data/help-center';
 import { withBase } from '../../lib/base';
@@ -49,14 +49,13 @@ const ICON_BOOK =
 <!-- ── Drawer (parent) ── -->
 <esa-side-dialog class="bcn-gd" data-gd position="right" heading="Help & Guidance">
   <div slot="header" class="bcn-gd__header">
-    <BcnAldoMark size="md" />
+    <BcnAldoMark variant="rings" />
     <span class="bcn-gd__title">Help &amp; Guidance</span>
   </div>
 
   <!-- The scroll stream: Aldo's intro message, then appended Q&A. -->
   <div class="bcn-gd__stream">
     <div class="bcn-gd-msg bcn-gd-msg--aldo" data-gd-intro>
-      <div class="bcn-gd-msg__avatar"><BcnAldoMark size="sm" /></div>
       <div class="bcn-gd-msg__group">
         <section class="bcn-gd__section">
           <h2 class="bcn-gd__label"><EsaIcon name="map-pin" size="sm" /> You are here</h2>
@@ -81,8 +80,8 @@ const ICON_BOOK =
       </div>
     </div>
 
-    <!-- appended Q&A exchanges -->
-    <div data-gd-chat></div>
+    <!-- appended Q&A exchanges, in the Aldo kit's message grammar (bcn-aldo.css) -->
+    <div class="bcn-aldo-panel bcn-gd__chat" data-gd-chat></div>
 
     <!-- Row pool: every article as a compact row, hidden. The client moves the route's
          rows into the two sections above; the rest stay here (hidden). -->
@@ -114,23 +113,13 @@ const ICON_BOOK =
       Browse all Help &amp; Guidance
       <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"></path></svg>
     </a>
-    <div class="bcn-gd-composer">
-      <textarea
-        class="bcn-gd-composer__input"
-        data-gd-ask
-        rows="1"
-        placeholder={ALDO_CHAT.placeholder}
-        aria-label="Ask Aldo a question"
-      ></textarea>
-      <button type="button" class="bcn-gd-composer__send" data-gd-ask-send aria-label="Send question" disabled>
-        <EsaIcon name="arrow-up" size="sm" />
-      </button>
+    <!-- The Aldo kit's composer, as in the Setup Wizard and Lists chats. -->
+    <div class="bcn-aldo-panel bcn-gd__aldo">
+      <BcnAldoComposer mode="thread" placeholder={ALDO_CHAT.placeholder} label="Ask Aldo a question" attach={false} />
+      <BcnAldoParts />
     </div>
   </div>
 </esa-side-dialog>
-
-<!-- Aldo avatar cloned into each reply message (reuses the real mark). -->
-<template data-gd-aldo-avatar><BcnAldoMark size="sm" /></template>
 
 <!-- ── Article reader (child, stacked above the drawer) ── -->
 <esa-side-dialog class="bcn-gd-article" data-gd-article position="right" heading="Guidance article">
@@ -182,7 +171,18 @@ const ICON_BOOK =
   }
 
   /* ── header (projected into the parent lego's header slot) ── */
-  .bcn-gd__header { display: flex; align-items: center; gap: var(--spacing-300); min-width: 0; }
+  /* One Aldo in the drawer (round 10): the rings-only mark in the Guidance bar's gradient,
+     22px (about 1.5x the title's 15px cap height); its ink centre sits within 0.5px of the
+     cap ink's centre, measured. */
+  .bcn-gd__header {
+    --bcn-aldo-mark-size: 22px;
+    --bcn-aldo-ring-from: var(--color-teal-7);
+    --bcn-aldo-ring-to: var(--bcn-aldo);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250, 0.625rem);
+    min-width: 0;
+  }
   .bcn-gd__title {
     font-family: var(--font-decorative); /* Besley — the guide's own voice */
     font-size: var(--font-size-400);
@@ -194,7 +194,7 @@ const ICON_BOOK =
   /* ── the scroll stream ── */
   .bcn-gd__stream { display: flex; flex-direction: column; gap: var(--spacing-500); }
   /* appended Q&A turns; collapses when empty so the intro carries no trailing gap */
-  [data-gd-chat] { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  [data-gd-chat] { display: flex; flex-direction: column; }
   [data-gd-chat]:empty { display: none; }
 
   /* section (inside the intro group): icon + word with authority over the regular rows */
@@ -261,56 +261,8 @@ const ICON_BOOK =
   }
   .bcn-gd__browse:hover { text-decoration: underline; }
 
-  .bcn-gd-composer {
-    display: flex;
-    align-items: flex-end;
-    gap: var(--spacing-200);
-    padding: var(--spacing-150) var(--spacing-150) var(--spacing-150) var(--spacing-300);
-    background: var(--color-background-elevation-raised);
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-300);
-    transition: border-color 150ms ease, box-shadow 150ms ease;
-  }
-  .bcn-gd-composer:focus-within {
-    border-color: var(--bcn-aldo);
-    box-shadow: 0 0 0 3px var(--bcn-aldo-50);
-  }
-  .bcn-gd-composer__input {
-    flex: 1;
-    min-width: 0;
-    border: 0;
-    outline: 0;
-    background: transparent;
-    resize: none;
-    font-family: inherit;
-    font-size: var(--font-size-200);
-    line-height: 1.5;
-    color: var(--color-content-default);
-    padding: 6px 0;
-    overflow-y: hidden; /* JS grows height to content, then flips to auto at max rows */
-  }
-  .bcn-gd-composer__input::placeholder { color: var(--color-content-default-tertiary); }
-  /* circular send: Aldo-green filled with input, muted when empty */
-  .bcn-gd-composer__send {
-    flex: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border: 0;
-    border-radius: var(--radius-full);
-    background: var(--bcn-aldo);
-    color: var(--color-content-default-knockout);
-    cursor: pointer;
-    transition: background 150ms ease, color 150ms ease;
-  }
-  .bcn-gd-composer__send:hover:not(:disabled) { background: var(--bcn-aldo-600); }
-  .bcn-gd-composer__send:disabled {
-    background: var(--color-background-elevation-sunken);
-    color: var(--color-content-default-tertiary);
-    cursor: default;
-  }
+  /* The kit composer sits on the footer's own padding, not the panel's inset. */
+  .bcn-gd__aldo :global(.bcn-aldo-composer__shell) { margin: 0; }
 
   /* ── article reader header (projected into the child lego's header slot) ── */
   .bcn-gd-article__head { display: flex; flex-direction: column; gap: var(--spacing-200); min-width: 0; }
@@ -359,32 +311,12 @@ const ICON_BOOK =
 </style>
 
 <style is:global>
-  /* Message system — shared by the pre-rendered intro AND the client-built Q&A messages,
-     so the rules are global (contained under .bcn-gd-msg*). A roomy assistant group with a
-     top-left avatar; user turns right-aligned; Aldo bubbles Aldo-50, user bubbles sunken. */
+  /* The intro's group, and the links inside a reply. The replies themselves are the Aldo
+     kit's messages (bcn-aldo-msg in bcn-aldo.css); these rules are global because replies
+     are built at runtime. */
   .bcn-gd-msg { display: flex; gap: var(--spacing-300); align-items: flex-start; }
-  .bcn-gd-msg--user { justify-content: flex-end; }
-  .bcn-gd-msg__avatar { flex: none; margin-top: 2px; }
+  .bcn-gd__chat .bcn-aldo-msg__text { display: flex; flex-direction: column; gap: var(--spacing-150); }
   .bcn-gd-msg__group { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-500); }
-  .bcn-gd-msg__bubble {
-    max-width: 88%;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-200);
-    padding: var(--spacing-250) var(--spacing-300);
-    border-radius: var(--radius-300);
-    font-size: var(--font-size-150);
-    line-height: 1.5;
-  }
-  .bcn-gd-msg--user .bcn-gd-msg__bubble {
-    background: var(--color-background-elevation-sunken);
-    color: var(--color-content-default);
-    white-space: pre-wrap; /* preserve newlines from Shift+Enter, still textContent */
-  }
-  .bcn-gd-msg--aldo .bcn-gd-msg__bubble {
-    background: var(--bcn-aldo-50);
-    color: var(--color-content-default);
-  }
   .bcn-gd-msg__text { margin: 0; }
   .bcn-gd-msg__links { display: flex; flex-direction: column; gap: var(--spacing-100); }
   .bcn-gd-msg__link {

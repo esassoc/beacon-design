@@ -102,6 +102,12 @@ const shot = dot?.shot;
   .bcn-hd:nth-child(3n + 3) .bcn-hd__dot::before { animation-delay: 2.4s; }
   .bcn-hd:nth-child(3n + 3) .bcn-hd__dot::after { animation-delay: 2.95s; }
 
+  /* The mark itself, raised (round 10): the Aldo gradient fill and a lit, lifted edge. */
+  .bcn-hd__dot :global(.bcn-aldo-mark) {
+    background: var(--bcn-aldo-raised-fill);
+    box-shadow: var(--bcn-aldo-raised-shadow);
+  }
+
   .bcn-hd__dot:hover,
   .bcn-hd__dot[aria-expanded='true'] {
     box-shadow: 0 0 0 4px var(--bcn-aldo-100);
