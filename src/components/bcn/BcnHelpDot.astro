@@ -1,5 +1,5 @@
 ---
-// <BcnHelpDot> — one help dot: the Aldo mark with a ring radiating out of it, and the
+// <BcnHelpDot> — one help dot: the Aldo mark with radar pings rippling out of it, and the
 // esa-popover a click opens (a title, a sentence or two, an optional screenshot). Placed
 // and shown by the help-dots controller inside <BcnHelpDots>; a draft dot, which only
 // ESA admins see, is drawn muted and still.
@@ -66,21 +66,50 @@ const shot = dot?.shot;
     z-index: 21;
   }
 
-  /* The dot: the Aldo mark itself, with a ring that radiates out from it twice a
-     cycle — the same Aldo-tinted box-shadow pulse the mark uses when it is at work. */
+  /* The dot: the Aldo mark itself, with radar pings (round 8): two thin Aldo rings that
+     leave the mark one after the other, spread to about three times its size and fade,
+     then a rest, so the page ripples now and then rather than throbbing. The rings are the
+     button's own pseudo-elements, so the hit target stays the mark. */
   .bcn-hd__dot {
+    position: relative;
+    isolation: isolate;
     display: inline-flex;
     padding: 0;
     border: 0;
     border-radius: var(--radius-full);
     background: none;
     cursor: pointer;
-    animation: bcn-help-dot-radiate 1.8s ease-out infinite;
   }
+  .bcn-hd__dot::before,
+  .bcn-hd__dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border: 1.5px solid var(--bcn-aldo);
+    border-radius: var(--radius-full);
+    opacity: 0;
+    pointer-events: none;
+    animation: bcn-help-dot-ping 3.6s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+  }
+  .bcn-hd__dot::after {
+    animation-delay: 0.55s;
+  }
+  /* A dot's own phase, so the dots on a page don't ping in lockstep. */
+  .bcn-hd:nth-child(3n + 2) .bcn-hd__dot::before { animation-delay: 1.2s; }
+  .bcn-hd:nth-child(3n + 2) .bcn-hd__dot::after { animation-delay: 1.75s; }
+  .bcn-hd:nth-child(3n + 3) .bcn-hd__dot::before { animation-delay: 2.4s; }
+  .bcn-hd:nth-child(3n + 3) .bcn-hd__dot::after { animation-delay: 2.95s; }
+
   .bcn-hd__dot:hover,
   .bcn-hd__dot[aria-expanded='true'] {
-    animation: none;
     box-shadow: 0 0 0 4px var(--bcn-aldo-100);
+  }
+  .bcn-hd__dot:hover::before,
+  .bcn-hd__dot:hover::after,
+  .bcn-hd__dot[aria-expanded='true']::before,
+  .bcn-hd__dot[aria-expanded='true']::after {
+    animation: none;
   }
   .bcn-hd__dot:focus-visible {
     outline: var(--focus-ring-width) solid var(--focus-ring-color);
@@ -89,31 +118,26 @@ const shot = dot?.shot;
 
   /* A draft, which only admins see: still, and faded, so it never reads as live help. */
   .bcn-hd[data-status='draft'] .bcn-hd__dot {
-    animation: none;
     opacity: 0.45;
     box-shadow: 0 0 0 3px var(--bcn-aldo-100);
   }
-
-  @keyframes bcn-help-dot-radiate {
-    0% {
-      box-shadow:
-        0 0 0 0 color-mix(in srgb, var(--bcn-aldo) 55%, transparent),
-        0 0 0 0 color-mix(in srgb, var(--bcn-aldo) 35%, transparent);
-    }
-    60% {
-      box-shadow:
-        0 0 0 9px color-mix(in srgb, var(--bcn-aldo) 0%, transparent),
-        0 0 0 5px color-mix(in srgb, var(--bcn-aldo) 15%, transparent);
-    }
-    100% {
-      box-shadow:
-        0 0 0 9px color-mix(in srgb, var(--bcn-aldo) 0%, transparent),
-        0 0 0 14px color-mix(in srgb, var(--bcn-aldo) 0%, transparent);
-    }
+  .bcn-hd[data-status='draft'] .bcn-hd__dot::before,
+  .bcn-hd[data-status='draft'] .bcn-hd__dot::after {
+    animation: none;
   }
+
+  @keyframes bcn-help-dot-ping {
+    0% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(2.8); opacity: 0; }
+    100% { transform: scale(2.8); opacity: 0; }
+  }
+  /* Reduced motion: one still ring. */
   @media (prefers-reduced-motion: reduce) {
-    .bcn-hd__dot {
+    .bcn-hd__dot::before,
+    .bcn-hd__dot::after {
       animation: none;
+    }
+    .bcn-hd__dot {
       box-shadow: 0 0 0 3px var(--bcn-aldo-100);
     }
   }

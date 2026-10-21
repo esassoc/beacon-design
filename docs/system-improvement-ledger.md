@@ -55,3 +55,4 @@ missing, where it bit, the proposed hub fix. Reviewed for promotion to the hub.
 
 - 2026-10-21 (help dots r5): the hub icon registry has no `paperclip`, so BcnHelpBar puts the spoke paper clip in esa-button's default slot with the `esa-button--icon-only` class instead of `icon=`. Register paperclip in the hub, then swap to `icon="paperclip"`.
 - 2026-10-21 (help dots r6): esa-tooltip opens on any mouseenter or focusin, so a tap (compat mouseenter, then focus) leaves it up on touch; its onEnter also stacks show timeouts that onLeave clears only one of. It should open on focus only when the trigger matches :focus-visible, and not for touch pointers. BcnHelpBar works around it by closing a tooltip that opens after a touch pointerdown; drop that once the hub fixes it.
+- 2026-10-21 (help dots r8): esa-popover again, this time the What's New panel over an off-centre bar button ran 12px off a 390px screen; BcnHelpBar caps the panel width to the room beside the trigger.
