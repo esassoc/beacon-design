@@ -9,11 +9,12 @@ The surface that settles applicability one commitment at a time, brought to prod
 - Per-row Apply / Dismiss / Undo by state, each with the optional rationale prompt. Bulk Apply / Dismiss / Undo confirm first, and a bulk rationale warns "This overwrites N existing rationales."
 - The preview shows the commitment text, its source, requirements and added date; "Creates N actions on this component" while the commitment is not applied (prod: IsApplicable !== true); and the Decision with its date and Rationale once decided.
 - With a setup saved, an undecided commitment setup recommends out reads "Recommended not applicable: <reasons>" with "Dismiss with This Reason" in its preview.
+- Every confirm states its effects with real counts, the way prod applies them: actions created by applying; unworked to-dos removed and worked ones kept as not applicable by dismissing or undoing an apply (ADR 0035); field records unlinked by dismissing (ADR 0074). Undo of a setup decision and Dismiss with This Reason confirm first; undo of a hand decision stays one click.
 
 ## Gotchas
-- THE DIAGNOSIS THIS SURFACE EXISTS FOR: ComponentCommitment.IsApplicable is NOT NULL, so there is no stored "pending" state. vComponentCommitmentDecisions manufactures it by LEFT JOINing every component in the project against every commitment in the project and calling the misses Pending. The badge therefore counts the PROJECT, re-inflates whenever any source document gains a commitment, and can never reach zero. Do not port that figure. Full teardown in docs/component-setup-model-comparison.md.
+- UNDECIDED IS NO ROW (ADR 0032). The old vComponentCommitmentDecisions view is retired; ComponentCommitment.SetupSummaryAsync returns the honest, de-duplicated counts. Read those, not anything derived from a project-wide join.
 - REQUIREMENT TYPE AND SPECIES ARE FILTERS ONLY (decided 2026-08-17). They are not shown on the commitment card or in the preview. Do not re-add them to the card.
-- THERE IS NO UNSET PATH TODAY. Once a ComponentCommitment row exists it is applied or dismissed forever. Undo and the setup re-run both need one; resolve what happens to the action implementations a dismissal already deleted.
+- UNDO EXISTS IN PROD: PatchComponentCommitmentDecision(s)Async with IsApplicable empty deletes the row (ADR 0035), removing to-dos nobody has worked and keeping worked ones as not applicable. Undo and the setup re-check both use it.
 - The list and the preview scroll independently, and the bulk bar is static, not at the bottom of the list.
 
 ## Done when

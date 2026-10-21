@@ -4,7 +4,9 @@ A first-time setup that trims the component's Applicable Commitments to what it 
 
 ## Key decisions
 - SOURCE DOCUMENTS ARE THE OUTER LIMIT. Only selected documents' commitments can apply. Selecting none means every document applies, which is prod today, so a tenant that never runs setup sees no change. Each document row says which components it is already mapped to.
-- THE RECOMMENDATION RULE (recommend() in src/data/component-commitments.ts). Tags live on requirements. A requirement misses on a kind only when it carries tags of that kind and none match: species not selected, activities not selected, or no season overlapping the component's start-to-end dates. A requirement with no tags of a kind never misses on it. A commitment is recommended Not Applicable only when EVERY requirement misses on something; the reasons are the distinct misses, species then activity then season.
+- THE RECOMMENDATION RULE (recommend() in src/data/component-commitments.ts). Tags live on requirements. A requirement misses on a kind only when it carries tags of that kind and none match: species not selected, activities not selected, or no season overlapping the component's start-to-end dates. A requirement with no tags of a kind never misses on it, and a tag on a species, activity or season the project has since deleted never misses either. A commitment is recommended Not Applicable only when it has at least one requirement and EVERY requirement misses on something; the reasons are the distinct misses, species then activity then season.
+- The Dates step reads and writes the component's own Start Date and Expected End Date (dbo.Component). A component missing either date, or running a year or more, overlaps every season.
+- SAVE CONFIRMS FIRST, with counts: commitments dismissed and applied, actions created, and field records unlinked from the dismissed commitments on this component (ADR 0074). A row moved by hand adds an optional note field to the confirm.
 - Construction Activities count only once the person has visited that step. Until then every activity is treated as selected, so skipping the step rules nothing out.
 - A span of a year or more overlaps every season. No "Runs N months" line: the season chart simply shows every season overlapping.
 - Season chart: a key above it (blue bar = Season, outlined box = Work dates) and a status per season, green circle-check "Overlaps" or gray circle-minus "No overlap". No summary sentence under it.
@@ -13,11 +15,11 @@ A first-time setup that trims the component's Applicable Commitments to what it 
 - Species and activity names are Title Case data. Species list A–Z (prod orders ProjectSpecies by CommonName); activities keep the project's SortOrder.
 
 ## Gotchas
-- Nothing is written until Save. The setup itself (sources, species, activities, dates) and every decision it makes are saved together; Cancel discards the draft.
+- Nothing is written until the confirm. The setup itself (sources, species, activities, dates) and every decision it makes are saved together in one call; Cancel discards the draft.
 - The rail's answer lines wrap one part per line rather than truncating ("27 not applicable", "10 will apply").
 
 ## Done when
-- In the fixture, with the four Geotech documents selected, the activities Ground Disturbance, Drilling and Boring, Vegetation Removal, Equipment Staging and Haul Truck Traffic, and Oct 5, 2026 – Jan 29, 2027: the review shows 27 Not Applicable (16 from unselected documents, 11 recommended) and 10 Will Apply, and Save reads "Dismiss 27 and Apply 10".
+- In the fixture, with the four Geotech documents selected, the activities Ground Disturbance, Drilling and Boring, Vegetation Removal, Equipment Staging and Haul Truck Traffic, and Oct 5, 2026 – Jan 29, 2027: the review shows 26 Not Applicable (16 from unselected documents, 10 recommended), 11 Will Apply and 5 Already Decided; Save reads "Dismiss 26 and Apply 11", and its confirm says it creates 11 actions and unlinks 3 field records.
 
 ## Markup
 ```html
@@ -530,7 +532,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
                 ><span class="bcn-cs-opt__name" title="Western Pond Turtle"
                   >Western Pond Turtle</span
                 ><span class="bcn-cs-opt__meta" data-cs-hab="WPT"
-                  >No habitat layer</span
+                  >No habitat data</span
                 ></span
               >
             </li>
@@ -6719,7 +6721,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
           </header>
           <ul class="bcn-cs__options">
             <li class="bcn-cs-opt" data-cs-row="back:cc-001" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-1</span
                   ><span
@@ -6731,7 +6733,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-002" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-2</span
                   ><span
@@ -6743,7 +6745,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-003" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-3</span
                   ><span
@@ -6755,7 +6757,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-004" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-4</span
                   ><span
@@ -6767,7 +6769,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-005" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-5</span
                   ><span
@@ -6779,7 +6781,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-006" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-6</span
                   ><span
@@ -6791,7 +6793,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-007" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-7</span
                   ><span
@@ -6803,7 +6805,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-008" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-8</span
                   ><span
@@ -6815,7 +6817,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-009" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-9</span
                   ><span
@@ -6827,7 +6829,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-010" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT-CUL-1</span
                   ><span
@@ -6839,7 +6841,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-011" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT-CUL-2</span
                   ><span
@@ -6851,7 +6853,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-012" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT-HAZ-1</span
                   ><span
@@ -6863,7 +6865,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-013" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT-HAZ-2</span
                   ><span
@@ -6875,7 +6877,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-014" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT-NOI-1</span
                   ><span
@@ -6887,7 +6889,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-015" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT-AIR-1</span
                   ><span
@@ -6899,7 +6901,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-016" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT401-3</span
                   ><span
@@ -6911,7 +6913,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-017" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT401-5</span
                   ><span
@@ -6923,7 +6925,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-018" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT401-7</span
                   ><span
@@ -6935,7 +6937,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-019" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">GT401-9</span
                   ><span
@@ -6947,7 +6949,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-020" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">LSAA-2</span
                   ><span
@@ -6959,7 +6961,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-021" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">LSAA-4</span
                   ><span
@@ -6971,7 +6973,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-022" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">LSAA-6</span
                   ><span
@@ -6983,7 +6985,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-023" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">G408-1</span
                   ><span
@@ -6995,7 +6997,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-024" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">G408-3</span
                   ><span
@@ -7007,7 +7009,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-025" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">G408-5</span
                   ><span
@@ -7019,7 +7021,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-026" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">BIO-03</span
                   ><span
@@ -7031,7 +7033,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-027" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">CUL-02</span
                   ><span
@@ -7043,7 +7045,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-028" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">NOI-03</span
                   ><span
@@ -7055,7 +7057,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-029" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">AIR-04</span
                   ><span
@@ -7067,7 +7069,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-030" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">TRA-11</span
                   ><span
@@ -7079,7 +7081,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-031" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">VEG-06</span
                   ><span
@@ -7091,7 +7093,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-032" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">NOI-12</span
                   ><span
@@ -7103,7 +7105,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-033" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">ITP-6.2</span
                   ><span
@@ -7115,7 +7117,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-034" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">ITP-7.1</span
                   ><span
@@ -7127,7 +7129,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-035" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">ITP-9.4</span
                   ><span
@@ -7139,7 +7141,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-036" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">ITP-11.3</span
                   ><span
@@ -7151,7 +7153,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-037" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">USACE-02</span
                   ><span
@@ -7163,7 +7165,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-038" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">USACE-07</span
                   ><span
@@ -7175,7 +7177,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-039" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">WQ-08</span
                   ><span
@@ -7187,7 +7189,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-040" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">WQ-12</span
                   ><span
@@ -7199,7 +7201,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-041" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">WQ-19</span
                   ><span
@@ -7211,7 +7213,7 @@ A first-time setup that trims the component's Applicable Commitments to what it 
               ></span>
             </li>
             <li class="bcn-cs-opt" data-cs-row="back:cc-042" hidden="">
-              <span class="bcn-cs-opt__body"
+              <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
                 ><span class="bcn-cs-opt__titleline"
                   ><span class="bcn-cbadge bcn-cbadge--sm">WQ-23</span
                   ><span
@@ -7224,517 +7226,522 @@ A first-time setup that trims the component's Applicable Commitments to what it 
             </li>
           </ul>
         </div>
+        <!-- Decisions already made, by hand or by an earlier setup. The save leaves them
+             as they are, so they sit apart from the two columns, collapsed. -->
         <div class="bcn-cs__group" data-cs-group="kept" hidden="">
-          <header class="bcn-cs__panehead">
-            <h3 class="bcn-cs__h">Kept as Decided by Hand</h3>
-            <span class="bcn-cs__count" data-cs-count="kept"></span>
-          </header>
-          <ul class="bcn-cs__options">
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-001" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-1</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Worker environmental awareness training"
-                    >Worker environmental awareness training</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-001"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-002" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-2</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Nesting bird preconstruction survey"
-                    >Nesting bird preconstruction survey</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-002"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-003" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-3</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Swainson’s hawk nest buffer"
-                    >Swainson’s hawk nest buffer</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-003"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-004" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-4</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Giant Garter Snake avoidance"
-                    >Giant Garter Snake avoidance</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-004"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-005" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-5</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Elderberry shrub avoidance"
-                    >Elderberry shrub avoidance</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-005"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-006" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-6</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Western Pond Turtle clearance"
-                    >Western Pond Turtle clearance</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-006"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-007" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-7</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Delta Smelt in-water work window"
-                    >Delta Smelt in-water work window</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-007"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-008" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-8</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="California Tiger Salamander upland survey"
-                    >California Tiger Salamander upland survey</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-008"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-009" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-9</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Non-listed raptor nest buffer"
-                    >Non-listed raptor nest buffer</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-009"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-010" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT-CUL-1</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Inadvertent discovery stop-work protocol"
-                    >Inadvertent discovery stop-work protocol</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-010"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-011" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT-CUL-2</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Tribal monitor notification"
-                    >Tribal monitor notification</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-011"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-012" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT-HAZ-1</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Drilling fluid containment"
-                    >Drilling fluid containment</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-012"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-013" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT-HAZ-2</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Borehole abandonment"
-                    >Borehole abandonment</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-013"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-014" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT-NOI-1</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Nighttime drilling noise limits"
-                    >Nighttime drilling noise limits</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-014"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-015" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT-AIR-1</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Fugitive dust control"
-                    >Fugitive dust control</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-015"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-016" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT401-3</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Turbidity monitoring for over-water borings"
-                    >Turbidity monitoring for over-water borings</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-016"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-017" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT401-5</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Spill prevention and response"
-                    >Spill prevention and response</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-017"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-018" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT401-7</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Dewatering discharge sampling"
-                    >Dewatering discharge sampling</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-018"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-019" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">GT401-9</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Wet-season erosion control"
-                    >Wet-season erosion control</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-019"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-020" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">LSAA-2</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Channel work only when dry"
-                    >Channel work only when dry</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-020"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-021" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">LSAA-4</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Riparian vegetation removal limits"
-                    >Riparian vegetation removal limits</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-021"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-022" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">LSAA-6</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Splittail spawning window"
-                    >Splittail spawning window</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-022"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-023" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">G408-1</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Levee toe setback for borings"
-                    >Levee toe setback for borings</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-023"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-024" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">G408-3</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Levee deformation monitoring"
-                    >Levee deformation monitoring</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-024"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-025" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">G408-5</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Casing installation vibration limits"
-                    >Casing installation vibration limits</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-025"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-026" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">BIO-03</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Nesting bird preconstruction survey"
-                    >Nesting bird preconstruction survey</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-026"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-027" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">CUL-02</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Worker cultural resources awareness training"
-                    >Worker cultural resources awareness training</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-027"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-028" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">NOI-03</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Construction noise monitoring plan"
-                    >Construction noise monitoring plan</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-028"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-029" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">AIR-04</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Construction fugitive dust control"
-                    >Construction fugitive dust control</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-029"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-030" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">TRA-11</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Haul route compliance"
-                    >Haul route compliance</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-030"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-031" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">VEG-06</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Revegetation of temporarily disturbed areas"
-                    >Revegetation of temporarily disturbed areas</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-031"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-032" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">NOI-12</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Vibration limits for adjacent structures"
-                    >Vibration limits for adjacent structures</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-032"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-033" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">ITP-6.2</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Giant Garter Snake active-season restriction"
-                    >Giant Garter Snake active-season restriction</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-033"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-034" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">ITP-7.1</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Swainson’s hawk foraging habitat mitigation"
-                    >Swainson’s hawk foraging habitat mitigation</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-034"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-035" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">ITP-9.4</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Delta Smelt entrainment avoidance"
-                    >Delta Smelt entrainment avoidance</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-035"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-036" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">ITP-11.3</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Tidal marsh restoration monitoring"
-                    >Tidal marsh restoration monitoring</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-036"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-037" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">USACE-02</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Section 404 preconstruction notification"
-                    >Section 404 preconstruction notification</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-037"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-038" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">USACE-07</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Compensatory mitigation accounting"
-                    >Compensatory mitigation accounting</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-038"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-039" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">WQ-08</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Stormwater pollution prevention plan"
-                    >Stormwater pollution prevention plan</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-039"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-040" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">WQ-12</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Quarterly SWPPP inspection"
-                    >Quarterly SWPPP inspection</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-040"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-041" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">WQ-19</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="In-water work turbidity monitoring"
-                    >In-water work turbidity monitoring</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-041"></span
-              ></span>
-            </li>
-            <li class="bcn-cs-opt" data-cs-row="kept:cc-042" hidden="">
-              <span class="bcn-cs-opt__body"
-                ><span class="bcn-cs-opt__titleline"
-                  ><span class="bcn-cbadge bcn-cbadge--sm">WQ-23</span
-                  ><span
-                    class="bcn-cs-opt__name bcn-cs-opt__name--clip"
-                    title="Spill prevention and response plan"
-                    >Spill prevention and response plan</span
-                  ></span
-                ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-042"></span
-              ></span>
-            </li>
-          </ul>
+          <details class="esa-collapsible">
+            <summary class="esa-collapsible__summary typography-label-sm-strong">
+              <span class="esa-collapsible__title">Already Decided</span>
+            </summary>
+            <div class="esa-collapsible__body typography-body-md">
+              <ul class="bcn-cs__options bcn-cs__options--bare">
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-001" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-1</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Worker environmental awareness training"
+                        >Worker environmental awareness training</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-001"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-002" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-2</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Nesting bird preconstruction survey"
+                        >Nesting bird preconstruction survey</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-002"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-003" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-3</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Swainson’s hawk nest buffer"
+                        >Swainson’s hawk nest buffer</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-003"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-004" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-4</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Giant Garter Snake avoidance"
+                        >Giant Garter Snake avoidance</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-004"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-005" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-5</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Elderberry shrub avoidance"
+                        >Elderberry shrub avoidance</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-005"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-006" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-6</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Western Pond Turtle clearance"
+                        >Western Pond Turtle clearance</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-006"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-007" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-7</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Delta Smelt in-water work window"
+                        >Delta Smelt in-water work window</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-007"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-008" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-8</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="California Tiger Salamander upland survey"
+                        >California Tiger Salamander upland survey</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-008"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-009" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-BIO-9</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Non-listed raptor nest buffer"
+                        >Non-listed raptor nest buffer</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-009"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-010" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-CUL-1</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Inadvertent discovery stop-work protocol"
+                        >Inadvertent discovery stop-work protocol</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-010"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-011" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-CUL-2</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Tribal monitor notification"
+                        >Tribal monitor notification</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-011"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-012" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-HAZ-1</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Drilling fluid containment"
+                        >Drilling fluid containment</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-012"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-013" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-HAZ-2</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Borehole abandonment"
+                        >Borehole abandonment</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-013"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-014" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-NOI-1</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Nighttime drilling noise limits"
+                        >Nighttime drilling noise limits</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-014"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-015" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT-AIR-1</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Fugitive dust control"
+                        >Fugitive dust control</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-015"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-016" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT401-3</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Turbidity monitoring for over-water borings"
+                        >Turbidity monitoring for over-water borings</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-016"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-017" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT401-5</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Spill prevention and response"
+                        >Spill prevention and response</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-017"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-018" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT401-7</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Dewatering discharge sampling"
+                        >Dewatering discharge sampling</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-018"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-019" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">GT401-9</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Wet-season erosion control"
+                        >Wet-season erosion control</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-019"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-020" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">LSAA-2</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Channel work only when dry"
+                        >Channel work only when dry</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-020"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-021" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">LSAA-4</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Riparian vegetation removal limits"
+                        >Riparian vegetation removal limits</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-021"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-022" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">LSAA-6</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Splittail spawning window"
+                        >Splittail spawning window</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-022"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-023" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">G408-1</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Levee toe setback for borings"
+                        >Levee toe setback for borings</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-023"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-024" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">G408-3</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Levee deformation monitoring"
+                        >Levee deformation monitoring</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-024"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-025" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">G408-5</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Casing installation vibration limits"
+                        >Casing installation vibration limits</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-025"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-026" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">BIO-03</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Nesting bird preconstruction survey"
+                        >Nesting bird preconstruction survey</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-026"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-027" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">CUL-02</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Worker cultural resources awareness training"
+                        >Worker cultural resources awareness training</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-027"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-028" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">NOI-03</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Construction noise monitoring plan"
+                        >Construction noise monitoring plan</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-028"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-029" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">AIR-04</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Construction fugitive dust control"
+                        >Construction fugitive dust control</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-029"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-030" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">TRA-11</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Haul route compliance"
+                        >Haul route compliance</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-030"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-031" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">VEG-06</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Revegetation of temporarily disturbed areas"
+                        >Revegetation of temporarily disturbed areas</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-031"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-032" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">NOI-12</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Vibration limits for adjacent structures"
+                        >Vibration limits for adjacent structures</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-032"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-033" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">ITP-6.2</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Giant Garter Snake active-season restriction"
+                        >Giant Garter Snake active-season restriction</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-033"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-034" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">ITP-7.1</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Swainson’s hawk foraging habitat mitigation"
+                        >Swainson’s hawk foraging habitat mitigation</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-034"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-035" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">ITP-9.4</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Delta Smelt entrainment avoidance"
+                        >Delta Smelt entrainment avoidance</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-035"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-036" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">ITP-11.3</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Tidal marsh restoration monitoring"
+                        >Tidal marsh restoration monitoring</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-036"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-037" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">USACE-02</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Section 404 preconstruction notification"
+                        >Section 404 preconstruction notification</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-037"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-038" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">USACE-07</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Compensatory mitigation accounting"
+                        >Compensatory mitigation accounting</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-038"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-039" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">WQ-08</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Stormwater pollution prevention plan"
+                        >Stormwater pollution prevention plan</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-039"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-040" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">WQ-12</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Quarterly SWPPP inspection"
+                        >Quarterly SWPPP inspection</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-040"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-041" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">WQ-19</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="In-water work turbidity monitoring"
+                        >In-water work turbidity monitoring</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-041"></span
+                  ></span>
+                </li>
+                <li class="bcn-cs-opt" data-cs-row="kept:cc-042" hidden="">
+                  <span class="bcn-cs-opt__body bcn-cs-opt__body--stack"
+                    ><span class="bcn-cs-opt__titleline"
+                      ><span class="bcn-cbadge bcn-cbadge--sm">WQ-23</span
+                      ><span
+                        class="bcn-cs-opt__name bcn-cs-opt__name--clip"
+                        title="Spill prevention and response plan"
+                        >Spill prevention and response plan</span
+                      ></span
+                    ><span class="bcn-cs-opt__meta" data-cs-reason="kept:cc-042"></span
+                  ></span>
+                </li>
+              </ul>
+            </div>
+          </details>
         </div>
         <div data-cs-review-none="" hidden="">
           <div class="esa-empty-state esa-empty-state--sm">
@@ -8028,6 +8035,10 @@ A first-time setup that trims the component's Applicable Commitments to what it 
 .bcn-cs__dates esa-date-picker{width:13rem}
 .bcn-cs__foot{justify-content:space-between;align-items:center;width:100%;display:flex}
 .bcn-cs__foot [hidden]{display:none}
+.bcn-cs-confirm__body{gap:var(--spacing-300);flex-direction:column;display:flex}
+.bcn-cs-confirm__body p{margin:0}
+.bcn-cs-confirm__effects{color:var(--color-content-default);margin:0;padding-inline-start:var(--spacing-500)}
+.bcn-cs-confirm__effects[hidden],[data-cs-confirm-notewrap][hidden]{display:none}
 .bcn-cs__footacts{gap:var(--spacing-300);margin-left:auto;display:inline-flex}
 .esa-badge{--_badge-bg:var(--badge-bg,var(--color-background-elevation-raised,#fcfcfc));--_badge-text:var(--badge-text-color,var(--color-content-default-secondary,#646464));--_badge-border:var(--badge-border-color,var(--color-border-default,#cecece));--_badge-padding-y:var(--spacing-150,.375rem);--_badge-padding-x:var(--spacing-200,.5rem);min-width:calc(1lh + 2 * var(--_badge-padding-y));padding-block:var(--_badge-padding-y);padding-inline:var(--_badge-padding-x);border-radius:var(--radius-chip,var(--radius-sm,.25rem));background:var(--_badge-bg);color:var(--_badge-text);white-space:nowrap;box-sizing:border-box;justify-content:center;align-items:center;display:inline-flex}
 .esa-badge--xs{--_badge-padding-y:var(--spacing-100,.25rem);--_badge-padding-x:var(--spacing-100,.25rem)}

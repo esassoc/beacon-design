@@ -1,15 +1,16 @@
 # Re-running setup
 
-What happens to earlier decisions when someone edits the setup (Edit Setup) and saves again.
+What happens to earlier setup decisions when anything they rest on changes: the setup (Edit Setup), the component's dates anywhere (Edit Component included), its boundary (the nightly feature-layer reconcile included), or a requirement's tags.
 
 ## Key decisions
 - SETUP DISMISSALS REOPEN when their reason no longer holds: they go back to Needs a decision with "Back from setup: was <reasons>". One whose reason still holds stays dismissed and takes the new reason.
 - Selecting a source document again reopens its "Source document not applicable" commitments, so a person sees them fresh. Unselecting one records its open commitments Not Applicable on the next Save.
 - SETUP APPLIES STAY APPLIED, with their actions, and are FLAGGED (Andy, 2026-10-20: "Flag for review"). In the Applied view the row carries a warning line "Setup now says not applicable: <reason>", and its preview offers "Dismiss with This Reason".
-- Hand decisions, applied or dismissed, are never changed and never flagged. One the new setup disagrees with is listed in the review as Kept as Decided by Hand.
+- A dismissal made with Dismiss with This Reason counts as a setup decision, so it reopens if its reason stops holding.
+- Hand decisions, applied or dismissed, are never changed and never flagged; setup's Will Apply only means it could not rule a commitment out, which is weaker than a person's call.
 
 ## Done when
-- Fixture: shifting the dates to Jan 4 – Apr 30, 2027 reopens 2 dismissals (2 / 13 / 27) and flags only LSAA-4 ("Outside the fall bird migration season"); dismissing it from the preview gives 2 / 12 / 28; selecting Construction MMRP again reopens its 7 (7 / 15 / 20). Totals stay 42.
+- Fixture, after the setup above (0 / 14 / 28): saving Jan 4 – Apr 30, 2027 in Edit Component reopens 2 dismissals with "Back from setup" notes (2 / 14 / 26) and flags only LSAA-4 ("Outside the fall bird migration season"); Dismiss with This Reason confirms, then gives 2 / 13 / 27. Totals stay 42.
 
 ## Markup
 ```html

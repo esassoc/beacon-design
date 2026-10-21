@@ -102,6 +102,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   line-height: var(--typography-body-md-line-height);
   letter-spacing: var(--typography-body-md-letter-spacing);
 }
+.bcn-demo__lede {
+  color: var(--color-content-default-secondary);
+  margin: 0;
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -172,10 +176,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   justify-content: var(--justify);
   flex-wrap: wrap;
   display: flex;
-}
-.bcn-demo__lede {
-  color: var(--color-content-default-secondary);
-  margin: 0;
 }
 ```
 

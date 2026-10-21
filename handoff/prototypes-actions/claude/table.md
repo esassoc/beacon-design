@@ -3473,7 +3473,7 @@ The same filtered implementations as an AG Grid: one row per implementation with
                   </div>
                   <!--AG-FAKE-VERTICAL-SCROLL-->
                   <div
-                    class="ag-body-vertical-scroll ag-scrollbar-invisible"
+                    class="ag-body-vertical-scroll ag-apple-scrollbar ag-scrollbar-invisible"
                     aria-hidden="true"
                     style="width: 16px; max-width: 16px; min-width: 16px"
                   >
@@ -3623,7 +3623,7 @@ The same filtered implementations as an AG Grid: one row per implementation with
                 </div>
                 <!--AG-FAKE-HORIZONTAL-SCROLL-->
                 <div
-                  class="ag-body-horizontal-scroll ag-scrollbar-scrolling ag-scrollbar-invisible"
+                  class="ag-body-horizontal-scroll ag-apple-scrollbar ag-scrollbar-scrolling ag-scrollbar-invisible"
                   aria-hidden="true"
                   style="bottom: 0px; height: 16px; max-height: 16px; min-height: 16px"
                 >
@@ -3880,7 +3880,7 @@ The same filtered implementations as an AG Grid: one row per implementation with
       class="esa-icon esa-icon--xs"
       role="img"
       aria-label="Flagged"
-      data-astro-cid-wcwfib5m=""
+      data-astro-cid-c7ivvrtd=""
       ><svg
         width="14"
         height="14"
@@ -3891,7 +3891,7 @@ The same filtered implementations as an AG Grid: one row per implementation with
         stroke-linecap="round"
         stroke-linejoin="round"
         focusable="false"
-        data-astro-cid-wcwfib5m=""
+        data-astro-cid-c7ivvrtd=""
       >
         <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
         <line x1="4" y1="22" x2="4" y2="15"></line></svg></span
