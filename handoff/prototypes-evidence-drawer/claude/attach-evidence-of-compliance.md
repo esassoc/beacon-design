@@ -3958,8 +3958,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ><li data-astro-cid-qzg7vnux="">
                     <span
                       class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                      data-astro-cid-65ixjgm5=""
-                      ><span class="esa-pill__label" data-astro-cid-65ixjgm5=""></span
+                      data-astro-cid-xtwxlazl=""
+                      ><span class="esa-pill__label" data-astro-cid-xtwxlazl=""></span
                     ></span></li></template
                 ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template data-draft-file-row=""
@@ -3969,19 +3969,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this file from the evidence"
                           title="Remove this file from the evidence"
                           data-astro-cid-qzg7vnux="true"
-                          data-astro-cid-4xhmycw5=""
+                          data-astro-cid-5nhxdd72=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="16"
                               height="16"
@@ -3992,7 +3992,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -9775,27 +9775,27 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-attached__mark" hidden="" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-                        data-astro-cid-sh7ulwla=""
-                        ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
+                        data-astro-cid-yahmuvtj=""
+                        ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
                           >Suggested</span
                         ></span
                       ></span
                     ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this evidence from the action"
                           title="Remove this evidence from the action"
                           data-astro-cid-6zu5gb4v="true"
-                          data-astro-cid-4xhmycw5=""
+                          data-astro-cid-5nhxdd72=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="16"
                               height="16"
@@ -9806,7 +9806,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -9936,6 +9936,200 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.bcn-ev-entries__lede {
+  margin: var(--spacing-200) 0 0;
+  max-width: 78ch;
+  color: var(--color-content-default-secondary);
+}
+.bcn-ev-entries__grid {
+  gap: var(--spacing-400);
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  align-items: start;
+  display: grid;
+}
+.bcn-ev-entry {
+  gap: var(--spacing-300);
+  flex-direction: column;
+  height: 100%;
+  display: flex;
+}
+.bcn-ev-entry__blurb {
+  color: var(--color-content-default-secondary);
+  margin: 0;
+}
+.bcn-ev-entry__demo {
+  padding: var(--spacing-300);
+  border: 1px solid var(--color-border-default-subtle);
+  border-radius: var(--radius-200);
+  background: var(--color-background-default);
+  margin-top: auto;
+}
+.bcn-ev-entry__demo--quiet {
+  color: var(--color-content-default-secondary);
+}
+.bcn-ev-entry__demo--quiet p {
+  margin: 0;
+}
+.bcn-ev-entry__act {
+  margin-top: var(--spacing-100);
+}
+.bcn-ev-entry__mocklabel {
+  margin: 0 0 var(--spacing-200);
+  color: var(--color-content-default-tertiary);
+}
+.bcn-ev-entry__mocktitle {
+  align-items: baseline;
+  gap: var(--spacing-200);
+  font-size: var(--font-size-200, 0.9375rem);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  margin: 0;
+  line-height: 1.35;
+  display: flex;
+}
+.bcn-ev-entry__mockmeta {
+  color: var(--color-content-default-secondary);
+  margin: 2px 0 0;
+}
+.bcn-ev-entry__mockact {
+  margin-top: var(--spacing-300);
+}
+.bcn-ev-entry__rows {
+  gap: var(--spacing-150);
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+.bcn-ev-entry__row {
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+  font-size: var(--font-size-150, 0.875rem);
+  color: var(--color-content-default);
+  display: flex;
+}
+.bcn-ev-entry__check {
+  border-radius: var(--radius-100);
+  background: var(--color-background-brand);
+  width: 16px;
+  height: 16px;
+  color: var(--color-content-default-knockout);
+  flex: none;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.bcn-ev-entry__rowname {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  overflow: hidden;
+}
+.bcn-ev-notes__lede {
+  margin: var(--spacing-200) 0 0;
+  max-width: 78ch;
+  color: var(--color-content-default-secondary);
+}
+.bcn-ev-notes__grid {
+  gap: var(--spacing-400);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  align-items: start;
+  display: grid;
+}
+.bcn-ev-notes__text {
+  margin: 0 0 var(--spacing-300);
+  color: var(--color-content-default-secondary);
+}
+.bcn-ev-notes__layers {
+  border: 1px solid var(--color-border-default-subtle);
+  border-radius: var(--radius-200);
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  overflow: hidden;
+}
+.bcn-ev-notes__layer {
+  padding: var(--spacing-200) var(--spacing-300);
+  background: var(--color-background-elevation-raised);
+  flex-direction: column;
+  gap: 1px;
+  display: flex;
+}
+.bcn-ev-notes__layername {
+  font-size: var(--font-size-150, 0.875rem);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+}
+.bcn-ev-notes__layernote {
+  font-size: var(--font-size-150, 0.875rem);
+  color: var(--color-content-default-secondary);
+}
+.bcn-ev-notes__layer + .bcn-ev-notes__layer {
+  border-top: 1px solid var(--color-border-default-subtle);
+}
+.bcn-ev-notes__layer[data-here] {
+  background: var(--color-background-brand-subtle, var(--color-background-default));
+}
+.bcn-ev-notes__caveat {
+  margin: var(--spacing-300) 0 0;
+  color: var(--color-content-default-tertiary);
+}
+.bcn-ev-notes__list {
+  gap: var(--spacing-250, 0.625rem);
+  flex-direction: column;
+  margin: 0;
+  padding-left: 1.15rem;
+  display: flex;
+}
+.bcn-ev-notes__item {
+  font-size: var(--font-size-150, 0.875rem);
+  color: var(--color-content-default-secondary);
+  line-height: 1.5;
+}
+.bcn-ev-notes__list--numbered {
+  padding-left: 1.35rem;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -10005,13 +10199,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
 .esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
   border-color: var(--color-border-default, #cecece);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
 }
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
@@ -10974,193 +11161,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   gap: var(--gap);
   flex-direction: column;
   display: flex;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
-.bcn-ev-entries__lede {
-  margin: var(--spacing-200) 0 0;
-  max-width: 78ch;
-  color: var(--color-content-default-secondary);
-}
-.bcn-ev-entries__grid {
-  gap: var(--spacing-400);
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  align-items: start;
-  display: grid;
-}
-.bcn-ev-entry {
-  gap: var(--spacing-300);
-  flex-direction: column;
-  height: 100%;
-  display: flex;
-}
-.bcn-ev-entry__blurb {
-  color: var(--color-content-default-secondary);
-  margin: 0;
-}
-.bcn-ev-entry__demo {
-  padding: var(--spacing-300);
-  border: 1px solid var(--color-border-default-subtle);
-  border-radius: var(--radius-200);
-  background: var(--color-background-default);
-  margin-top: auto;
-}
-.bcn-ev-entry__demo--quiet {
-  color: var(--color-content-default-secondary);
-}
-.bcn-ev-entry__demo--quiet p {
-  margin: 0;
-}
-.bcn-ev-entry__act {
-  margin-top: var(--spacing-100);
-}
-.bcn-ev-entry__mocklabel {
-  margin: 0 0 var(--spacing-200);
-  color: var(--color-content-default-tertiary);
-}
-.bcn-ev-entry__mocktitle {
-  align-items: baseline;
-  gap: var(--spacing-200);
-  font-size: var(--font-size-200, 0.9375rem);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-  margin: 0;
-  line-height: 1.35;
-  display: flex;
-}
-.bcn-ev-entry__mockmeta {
-  color: var(--color-content-default-secondary);
-  margin: 2px 0 0;
-}
-.bcn-ev-entry__mockact {
-  margin-top: var(--spacing-300);
-}
-.bcn-ev-entry__rows {
-  gap: var(--spacing-150);
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-}
-.bcn-ev-entry__row {
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-  font-size: var(--font-size-150, 0.875rem);
-  color: var(--color-content-default);
-  display: flex;
-}
-.bcn-ev-entry__check {
-  border-radius: var(--radius-100);
-  background: var(--color-background-brand);
-  width: 16px;
-  height: 16px;
-  color: var(--color-content-default-knockout);
-  flex: none;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.bcn-ev-entry__rowname {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 0;
-  overflow: hidden;
-}
-.bcn-ev-notes__lede {
-  margin: var(--spacing-200) 0 0;
-  max-width: 78ch;
-  color: var(--color-content-default-secondary);
-}
-.bcn-ev-notes__grid {
-  gap: var(--spacing-400);
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  align-items: start;
-  display: grid;
-}
-.bcn-ev-notes__text {
-  margin: 0 0 var(--spacing-300);
-  color: var(--color-content-default-secondary);
-}
-.bcn-ev-notes__layers {
-  border: 1px solid var(--color-border-default-subtle);
-  border-radius: var(--radius-200);
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  overflow: hidden;
-}
-.bcn-ev-notes__layer {
-  padding: var(--spacing-200) var(--spacing-300);
-  background: var(--color-background-elevation-raised);
-  flex-direction: column;
-  gap: 1px;
-  display: flex;
-}
-.bcn-ev-notes__layername {
-  font-size: var(--font-size-150, 0.875rem);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-}
-.bcn-ev-notes__layernote {
-  font-size: var(--font-size-150, 0.875rem);
-  color: var(--color-content-default-secondary);
-}
-.bcn-ev-notes__layer + .bcn-ev-notes__layer {
-  border-top: 1px solid var(--color-border-default-subtle);
-}
-.bcn-ev-notes__layer[data-here] {
-  background: var(--color-background-brand-subtle, var(--color-background-default));
-}
-.bcn-ev-notes__caveat {
-  margin: var(--spacing-300) 0 0;
-  color: var(--color-content-default-tertiary);
-}
-.bcn-ev-notes__list {
-  gap: var(--spacing-250, 0.625rem);
-  flex-direction: column;
-  margin: 0;
-  padding-left: 1.15rem;
-  display: flex;
-}
-.bcn-ev-notes__item {
-  font-size: var(--font-size-150, 0.875rem);
-  color: var(--color-content-default-secondary);
-  line-height: 1.5;
-}
-.bcn-ev-notes__list--numbered {
-  padding-left: 1.35rem;
 }
 ```
 

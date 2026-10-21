@@ -174,7 +174,7 @@ PDF prints this list's outline (list-export-compliance-index-pdf, over the versi
     </div>
   </div>
   <template data-list-export-copied=""
-    ><span class="esa-icon esa-icon--sm" aria-hidden="true" data-astro-cid-c7ivvrtd=""
+    ><span class="esa-icon esa-icon--sm" aria-hidden="true" data-astro-cid-wcwfib5m=""
       ><svg
         width="16"
         height="16"
@@ -185,7 +185,7 @@ PDF prints this list's outline (list-export-compliance-index-pdf, over the versi
         stroke-linecap="round"
         stroke-linejoin="round"
         focusable="false"
-        data-astro-cid-c7ivvrtd=""
+        data-astro-cid-wcwfib5m=""
       >
         <path d="M20 6 9 17l-5-5"></path></svg></span
   ></template>
