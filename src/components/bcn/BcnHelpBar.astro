@@ -3,7 +3,7 @@
 // viewport (Figma-toolbar energy — a dark GLASS surface, deliberately distinct from the white
 // app chrome, with an inner hairline + soft lift). The What's-new popover it opens stays a
 // white content surface. Mounted app-wide in the AppShell chrome. Left → right: the primary "Guidance"
-// affordance (the Aldo mark + label), a hairline divider, an icon-only Search button, and a
+// affordance (the Aldo mark, labelled by its tooltip), a hairline divider, an icon-only Search button, and a
 // "What's new" icon-button with an unread dot that opens a popover of recent release notes.
 //
 // Wiring is by data-* hook, composed BLIND against siblings — this component adds NO open
@@ -34,6 +34,8 @@
 // custom `paths` passthrough), so the glyph was registered in the ecology icon-registry.
 import BcnAldoMark from './aldo/BcnAldoMark.astro';
 import EsaIconButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { scopeIcon } from '../../data/global-search';
 import { WHATS_NEW } from '../../data/help-center';
 import { RELEASES } from '../../data/release-notes';
 import { withBase } from '../../lib/base';
@@ -52,27 +54,31 @@ const fmtLong = (iso: string): string =>
 ---
 
 <div class="bcn-help-bar" data-help-bar data-newest={newestDate} role="toolbar" aria-label="Help &amp; utilities">
-  <!-- Primary: Guidance — the Aldo mark + visible label; opens the guidance drawer via hook. -->
-  <button type="button" class="bcn-help-bar__guidance" data-help-trigger aria-haspopup="dialog">
-    <BcnAldoMark size="sm" />
-    <span class="bcn-help-bar__guidance-label">Guidance</span>
-  </button>
+  <!-- Primary: Guidance — the Aldo mark alone (the label went 2026-10-21), named by
+       aria-label and the tooltip; opens the guidance drawer via hook. -->
+  <esa-tooltip class="bcn-help-bar__tooltip" text="Guidance" position="above">
+    <button type="button" class="bcn-help-bar__guidance" data-help-trigger aria-haspopup="dialog" aria-label="Guidance">
+      <BcnAldoMark size="sm" />
+    </button>
+  </esa-tooltip>
 
 
   <span class="bcn-help-bar__divider" aria-hidden="true"></span>
 
   <!-- Attach Evidence of Compliance — icon-only; the tooltip host carries the drawer's open hook.
-       GLYPH NOTE: the spoke's committed evidence glyph is the paperclip in global-search's
-       SCOPES (what the ⌘K palette shows for Evidence of Compliance), but esa-icon-button
-       forwards only a registry `name` — no custom `paths` — and the hub registry has no
-       paperclip. Using 'file-text' until paperclip is registered in the hub, the same
-       constraint and the same fix as 'notepad-text' below.
+       GLYPH: the paper clip, as on prod's bar and in global-search's SCOPES (what the ⌘K
+       palette shows for Evidence of Compliance). The hub registry has no paperclip and
+       iconOnly takes only a registry name, so the glyph rides in the lego's default slot
+       as an EsaIcon with `paths`, and the esa-button--icon-only class keeps the square
+       icon-button geometry. Swap to icon="paperclip" once the hub registers it.
        This slot used to hold a duplicate Search button. It was replaced (product meeting
        2026-08-04): search already has the top bar's own field and ⌘K, and this bar is
        where Beacon's bottom affordances live, which is where the global evidence drawer
        belongs. -->
   <esa-tooltip class="bcn-help-bar__tooltip" text="Attach Evidence of Compliance" position="above" data-evidence-trigger>
-    <EsaIconButton variant="chrome" iconOnly icon="file-text" label="Attach Evidence of Compliance" size="md" />
+    <EsaIconButton variant="chrome" class="esa-button--icon-only" aria-label="Attach Evidence of Compliance" size="md">
+      <EsaIcon name="paperclip" paths={scopeIcon('evidence')} size="md" />
+    </EsaIconButton>
   </esa-tooltip>
 
   <!-- What's new — icon-only trigger + unread dot; esa-popover panel opens above the bar. -->
@@ -197,9 +203,10 @@ const fmtLong = (iso: string): string =>
   .bcn-help-bar__guidance {
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-150);
+    justify-content: center;
+    width: 40px;
     height: 40px;
-    padding: 0 var(--spacing-250, 0.625rem);
+    padding: 0;
     border: 0;
     border-radius: var(--radius-200, 8px);
     background: transparent;
@@ -222,9 +229,6 @@ const fmtLong = (iso: string): string =>
   .bcn-help-bar__guidance:focus-visible {
     outline: 2px solid var(--bcn-helpbar-fg); /* light foreground — visible on the dark shell, monochrome (no aldo tint) */
     outline-offset: 2px;
-  }
-  .bcn-help-bar__guidance-label {
-    white-space: nowrap;
   }
 
   .bcn-help-bar__divider {
