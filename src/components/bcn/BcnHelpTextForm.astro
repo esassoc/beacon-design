@@ -1,0 +1,62 @@
+---
+// <BcnHelpTextForm> — the side panel a tenant admin edits a page's description in: the
+// tenant's custom rich text the Guidance drawer shows under the page's name (round 13;
+// opened from the heading row's Edit chip since round 17). The field's hint says who sees it.
+// Opens over the drawer, a step above it, as the article reader does. Footer: Save, Cancel.
+//
+// Prod edits custom rich text in a rich-text editor; the prototype takes plain text.
+//
+// Markup only. guidance-drawer.ts fills it, reads it and closes it; every hook is
+// `data-htf-*`.
+//
+// bcn-lego-checked: the frame IS esa-side-dialog, the field IS esa-textarea, the actions
+// ARE esa-button. No esa- rich-text editor exists. Checked Beacon: custom rich text is
+// edited in place on the page in prod, which the house rules replace with a side panel.
+// bcn-help-text-form is the home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+
+interface Props {
+  /** Who sees the text: "Shown to everyone in <tenant>". */
+  tenantName: string;
+}
+const { tenantName } = Astro.props;
+---
+
+<esa-side-dialog class="bcn-htf" data-htf heading="Edit Page Description" position="right" show-close-button>
+  <div class="stack" data-gap="lg">
+    <div class="stack" data-gap="3xs">
+      <span class="bcn-htf__label typography-label-sm-strong">Page</span>
+      <span class="bcn-htf__page typography-body-md" data-htf-page></span>
+    </div>
+    <esa-textarea
+      label="Description"
+      name="htf-text"
+      size="md"
+      rows="5"
+      help-text={`Shown to everyone in ${tenantName}.`}
+      data-htf-text></esa-textarea>
+  </div>
+
+  <div slot="footer" class="bcn-htf__foot cluster" data-gap="xs">
+    <EsaButton variant="primary" size="sm" data-htf-save>Save</EsaButton>
+    <EsaButton variant="ghost" size="sm" data-htf-cancel>Cancel</EsaButton>
+  </div>
+</esa-side-dialog>
+
+<style>
+  /* A step above the guidance drawer (1300/1301), as the dot form sits. */
+  .bcn-htf {
+    --z-modal-backdrop: 1302;
+    --z-modal: 1303;
+    --side-dialog-width: 460px;
+  }
+  .bcn-htf__label {
+    color: var(--color-content-default);
+  }
+  .bcn-htf__page {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-htf__foot {
+    justify-content: flex-end;
+  }
+</style>

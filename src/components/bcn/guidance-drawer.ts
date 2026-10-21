@@ -7,14 +7,16 @@
 // sections) and as a full BODY (hidden in the reader, toggled one at a time). Those bodies
 // double as the chat's text corpus (read via textContent), so article prose never enters
 // this bundle. Imports stay to the small route map + chat copy.
-import { HELP_ROUTE_CONTEXTS, HELP_GENERAL_CONTEXT, ALDO_CHAT } from '../../data/help-center';
+import { HELP_ROUTE_CONTEXTS, HELP_GENERAL_CONTEXT, ALDO_CHAT, routePurpose } from '../../data/help-center';
+import { CUSTOM_RICH_TEXT } from '../../data/custom-rich-text';
+import { mountComposer } from './aldo/aldo-composer';
+import { isEsaAdmin, canEditTenantText } from '../../lib/help-role';
+import { aldoParts } from './aldo/aldo-parts';
 
 /** Parent inset while the child reader is stacked on top — a subtle step back. */
 const STACK_INSET = '30px';
 /** A beat before Aldo answers — feel, not fake typing. Content is fully deterministic. */
 const REPLY_DELAY = 300;
-/** Composer grows to this many rows, then scrolls internally. */
-const MAX_ROWS = 5;
 /** Dropped from question tokens so ranking keys on meaningful words. */
 const STOPWORDS = new Set([
   'the', 'and', 'for', 'are', 'how', 'what', 'why', 'does', 'did', 'can', 'with', 'from',
@@ -35,11 +37,8 @@ export function initGuidanceDrawer(): void {
   const termsSection = root.querySelector<HTMLElement>('[data-gd-section="terms"]')!;
   const poolEl = root.querySelector<HTMLElement>('[data-gd-pool]')!;
   const chatEl = root.querySelector<HTMLElement>('[data-gd-chat]')!;
-  const ask = root.querySelector<HTMLTextAreaElement>('[data-gd-ask]')!;
-  const sendBtn = root.querySelector<HTMLButtonElement>('[data-gd-ask-send]')!;
   const browseHref = root.querySelector<HTMLAnchorElement>('[data-gd-browse]')?.getAttribute('href') ?? '#';
 
-  const avatarTpl = document.querySelector<HTMLTemplateElement>('[data-gd-aldo-avatar]');
   const articleTitleEl = child.querySelector<HTMLElement>('[data-gd-article-title]')!;
   const articleKindEl = child.querySelector<HTMLElement>('[data-gd-article-kind]')!;
   const backBtn = child.querySelector<HTMLElement>('[data-gd-article-back]');
@@ -67,11 +66,145 @@ export function initGuidanceDrawer(): void {
   const path = location.pathname;
   const ctx = HELP_ROUTE_CONTEXTS.find((c) => path.includes(c.pattern)) ?? HELP_GENERAL_CONTEXT;
   pageEl.textContent = ctx.page;
-  purposeEl.textContent = ctx.purpose;
-  for (const id of ctx.howtos) { const r = rowMap.get(id); if (r) howtosEl.appendChild(r); }
-  for (const id of ctx.terms) { const r = rowMap.get(id); if (r) termsEl.appendChild(r); }
-  howtosSection.hidden = howtosEl.childElementCount === 0;
-  termsSection.hidden = termsEl.childElementCount === 0;
+  purposeEl.textContent = routePurpose(ctx);
+
+  // ── the tenant's intro text: an admin edits it in a side panel (round 13) ──
+  // Everything that shows a key's text carries `data-rich-text="<key>"`, so a save repaints
+  // the card and, on Lists, the empty state together. In memory only, like the dots.
+  const richKey = ctx.richText;
+  // Roles (src/lib/help-role.ts): page terms are ESA-authored, so only an ESA admin attaches
+  // or detaches them; the page description is the tenant's own text, which a tenant admin
+  // (or an ESA admin) edits.
+  const admin = isEsaAdmin();
+  const tenantEditor = canEditTenantText();
+  const textForm = document.querySelector<HTMLElement & { show(): void; close(): void }>('[data-htf]');
+  if (richKey) purposeEl.dataset.richText = richKey;
+  if (richKey && tenantEditor && textForm) {
+    const editWrap = root.querySelector<HTMLElement>('[data-gd-here-edit]');
+    const note = root.querySelector<HTMLElement>('[data-gd-here-note]');
+    const field = textForm.querySelector<HTMLElement & { value: string }>('[data-htf-text]');
+    if (editWrap) editWrap.hidden = false;
+    if (note) note.hidden = false;
+    editWrap?.addEventListener('click', () => {
+      textForm.querySelector('[data-htf-page]')!.textContent = ctx.page;
+      if (field) field.value = CUSTOM_RICH_TEXT[richKey];
+      textForm.show();
+    });
+    textForm.querySelector('[data-htf-cancel]')?.addEventListener('click', () => textForm.close());
+    textForm.querySelector('[data-htf-save]')?.addEventListener('click', () => {
+      const text = field?.value.trim() ?? '';
+      if (!text) return;
+      CUSTOM_RICH_TEXT[richKey] = text;
+      document.querySelectorAll<HTMLElement>(`[data-rich-text="${richKey}"]`).forEach((el) => {
+        el.textContent = text;
+      });
+      textForm.close();
+    });
+  }
+  // On a page with help dots the section is the dots alone (round 17: Related is gone, so
+  // the drawer lists no page-attached articles there); without them, the articles are it.
+  const dotsHere = !!document.querySelector('[data-help-dots]');
+  if (!dotsHere) for (const id of ctx.howtos) { const r = rowMap.get(id); if (r) howtosEl.appendChild(r); }
+  howtosSection.hidden = !dotsHere && howtosEl.childElementCount === 0;
+
+  // ── Terms (BCN-1513): the page's own terms, then its parent's. An admin attaches more
+  //    with + Add Term and detaches the page's own with ×; a parent's term can only be
+  //    hidden here (muted for the admin, gone for everyone else) or edited on the parent.
+  //    In memory only, like the dots. ──
+  const attached = [...ctx.terms];
+  const inherited = (ctx.parent?.terms ?? []).filter((id) => !attached.includes(id));
+  const hiddenHere = new Set<string>();
+  const tplAttached = root.querySelector<HTMLTemplateElement>('[data-gd-trow-attached]');
+  const tplInherited = root.querySelector<HTMLTemplateElement>('[data-gd-trow-inherited]');
+  const addWrap = root.querySelector<HTMLElement>('[data-gd-term-add-wrap]');
+  const pick = root.querySelector<HTMLElement>('[data-gd-term-pick]');
+  const combo = root.querySelector<HTMLElement & { options: { value: string; label: string }[]; value: string | string[] | null }>('[data-gd-term-combo]');
+
+  function termRow(id: string, from?: string): HTMLElement | null {
+    const r = rowMap.get(id);
+    if (!r) return null;
+    if (!admin && !from) return r;
+    const wrap = document.createElement('div');
+    wrap.className = 'bcn-gd-trow';
+    wrap.dataset.termId = id;
+    wrap.append(r);
+    if (from) {
+      const sub = r.querySelector('.bcn-gd-row__sub');
+      const note = document.createElement('span');
+      note.className = 'bcn-gd-trow__from';
+      note.textContent = hiddenHere.has(id) ? `From ${from} · Hidden on this page` : `From ${from}`;
+      r.querySelector('.bcn-gd-row__text')?.insertBefore(note, sub);
+      if (hiddenHere.has(id)) wrap.dataset.hiddenHere = '';
+    }
+    const tpl = from ? tplInherited : tplAttached;
+    if (admin && tpl) {
+      wrap.append(tpl.content.cloneNode(true));
+      wrap.style.setProperty('--_tools-w', from ? '49px' : '26px'); // the room its tools take
+    }
+    return wrap;
+  }
+
+  function paintTerms(): void {
+    for (const r of termsEl.querySelectorAll('[data-article-id]')) poolEl.appendChild(r);
+    poolEl.querySelectorAll('.bcn-gd-trow__from').forEach((n) => n.remove());
+    termsEl.replaceChildren();
+    for (const id of attached) { const r = termRow(id); if (r) termsEl.append(r); }
+    for (const id of inherited) {
+      if (!admin && hiddenHere.has(id)) continue;
+      const r = termRow(id, ctx.parent!.page);
+      if (r) termsEl.append(r);
+    }
+    termsSection.hidden = !admin && termsEl.childElementCount === 0;
+    if (combo) {
+      const taken = new Set([...attached, ...inherited]);
+      combo.options = [...meta]
+        .filter(([id, m]) => m.kind === 'glossary' && !taken.has(id))
+        .map(([id, m]) => ({ value: id, label: m.title }));
+    }
+  }
+
+  if (admin) {
+    if (addWrap) addWrap.hidden = false;
+    // The + tooltip steps aside while the typeahead is open (its trigger keeps focus).
+    const addTip = addWrap?.querySelector<HTMLElement & { open: boolean; text: string }>('esa-tooltip');
+    const addTipText = addTip?.text ?? '';
+    const setPick = (show: boolean) => {
+      if (!pick) return;
+      pick.hidden = !show;
+      if (addTip) { addTip.open = false; addTip.text = show ? '' : addTipText; }
+    };
+    root.querySelector('[data-gd-term-add]')?.addEventListener('click', () => {
+      if (!pick) return;
+      setPick(pick.hidden);
+      if (!pick.hidden) requestAnimationFrame(() => (combo?.shadowRoot?.querySelector('.input') as HTMLInputElement | null)?.focus());
+    });
+    combo?.addEventListener('change', (e) => {
+      const v = (e as CustomEvent<{ value: string | string[] }>).detail.value;
+      const id = Array.isArray(v) ? v[0] : v;
+      if (!id) return;
+      attached.push(id);
+      combo.value = null;
+      setPick(false);
+      paintTerms();
+    });
+    pick?.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape') { e.stopPropagation(); setPick(false); }
+    });
+    termsEl.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      const id = t.closest<HTMLElement>('.bcn-gd-trow')?.dataset.termId;
+      if (!id) return;
+      if (t.closest('[data-gd-term-detach]')) {
+        attached.splice(attached.indexOf(id), 1);
+      } else if (t.closest('[data-gd-term-hide]')) {
+        if (hiddenHere.has(id)) hiddenHere.delete(id); else hiddenHere.add(id);
+      } else if (t.closest('[data-gd-term-parent]')) {
+        return; // the parent page's drawer, in the product; nowhere to go in the prototype
+      } else return;
+      paintTerms();
+    });
+  }
+  paintTerms();
 
   // ── the stacked article reader ──
   function openArticle(id: string): void {
@@ -101,61 +234,37 @@ export function initGuidanceDrawer(): void {
     if (opener && root!.contains(opener)) openArticle(opener.dataset.articleId!);
   });
 
-  // ── composer: owned textarea (auto-grow + Enter/Shift+Enter) ──
-  function autoGrow(): void {
-    ask.style.height = 'auto';
-    const s = getComputedStyle(ask);
-    const lineHeight = parseFloat(s.lineHeight) || 22;
-    const pad = parseFloat(s.paddingTop) + parseFloat(s.paddingBottom);
-    const max = lineHeight * MAX_ROWS + pad;
-    ask.style.height = `${Math.min(ask.scrollHeight, max)}px`;
-    ask.style.overflowY = ask.scrollHeight > max ? 'auto' : 'hidden';
-  }
-  function syncSend(): void {
-    sendBtn.disabled = ask.value.trim() === '';
-  }
-  ask.addEventListener('input', () => { autoGrow(); syncSend(); });
-  ask.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitAsk(); }
+  // ── composer: the Aldo kit's (Enter sends, Shift+Enter is a new line) ──
+  const composer = mountComposer(root, aldoParts(root), (text) => {
+    appendMsg('you').textContent = text; // textContent: what the person typed never becomes markup
+    composer.setBusy(true);
+    window.setTimeout(() => {
+      appendAldo(text);
+      composer.setBusy(false);
+    }, REPLY_DELAY);
   });
-  sendBtn.addEventListener('click', () => submitAsk());
-  // Initial height comes from rows="1" (autoGrow can't measure while the footer slot is
-  // unprojected/closed — scrollHeight is 0). autoGrow takes over on the first input.
-  syncSend();
 
-  function submitAsk(): void {
-    const q = ask.value.trim();
-    if (!q) return;
-    appendUser(q);
-    ask.value = '';
-    autoGrow();
-    syncSend();
-    window.setTimeout(() => appendAldo(q), REPLY_DELAY);
-  }
-
-  function appendUser(text: string): void {
-    const msg = el('div', 'bcn-gd-msg bcn-gd-msg--user');
-    const bubble = el('div', 'bcn-gd-msg__bubble');
-    bubble.textContent = text; // textContent — user input never becomes markup
+  /** One message in the kit's grammar: Aldo's a soft gray on the left, the person's white
+   *  with a hairline on the right. Returns the bubble's text box to fill. */
+  function appendMsg(from: 'aldo' | 'you'): HTMLElement {
+    const msg = el('div', 'bcn-aldo-msg');
+    msg.dataset.from = from;
+    const bubble = el('div', 'bcn-aldo-msg__bubble');
+    const text = el('div', 'bcn-aldo-msg__text');
+    bubble.appendChild(text);
     msg.appendChild(bubble);
     chatEl.appendChild(msg);
     scrollToLatest();
+    return text;
   }
 
   function appendAldo(question: string): void {
-    const msg = el('div', 'bcn-gd-msg bcn-gd-msg--aldo');
-    if (avatarTpl) {
-      const avatar = el('div', 'bcn-gd-msg__avatar');
-      avatar.appendChild(avatarTpl.content.cloneNode(true));
-      msg.appendChild(avatar);
-    }
-    const group = el('div', 'bcn-gd-msg__group');
-    const bubble = el('div', 'bcn-gd-msg__bubble');
+    const box = appendMsg('aldo');
     const hits = rank(question);
     if (hits.length) {
       const intro = el('p', 'bcn-gd-msg__text');
       intro.textContent = ALDO_CHAT.found;
-      bubble.appendChild(intro);
+      box.appendChild(intro);
       const links = el('div', 'bcn-gd-msg__links');
       for (const id of hits) {
         const link = el('button', 'bcn-gd-msg__link') as HTMLButtonElement;
@@ -164,19 +273,16 @@ export function initGuidanceDrawer(): void {
         link.textContent = meta.get(id)?.title ?? '';
         links.appendChild(link);
       }
-      bubble.appendChild(links);
+      box.appendChild(links);
     } else {
       const p = el('p', 'bcn-gd-msg__text');
       p.textContent = ALDO_CHAT.fallback;
-      bubble.appendChild(p);
+      box.appendChild(p);
       const browse = el('a', 'bcn-gd-msg__browse') as HTMLAnchorElement;
       browse.href = browseHref;
       browse.textContent = 'Browse all Help & Guidance';
-      bubble.appendChild(browse);
+      box.appendChild(browse);
     }
-    group.appendChild(bubble);
-    msg.appendChild(group);
-    chatEl.appendChild(msg);
     scrollToLatest();
   }
 
@@ -207,7 +313,9 @@ export function initGuidanceDrawer(): void {
   // ── open / reset ──
   document.addEventListener('click', (e) => {
     const trigger = (e.target as HTMLElement).closest('[data-help-trigger]');
-    if (!trigger) return;
+    // A page with help dots claims the trigger: there Guidance turns the dots on and the
+    // dots layer opens this drawer from its own button.
+    if (!trigger || trigger.hasAttribute('data-help-dots-claimed')) return;
     e.preventDefault();
     (root as unknown as { show?: () => void }).show?.();
     // Reopen shows the intro at the top of the stream.

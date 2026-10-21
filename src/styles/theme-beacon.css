@@ -227,6 +227,17 @@
   --bcn-aldo-100: #cfeceb;
   --bcn-aldo-600: #06736f;
 
+  /* Aldo raised: the help dot on a page (round 10) reads as a small raised button, not a
+     flat disc. The fill ramps the hub's teal-9 to Aldo's deep green, lit from the top
+     left; the shadow pairs a crisp contact edge with a soft Aldo-tinted lift, and the
+     insets give a lit top rim and a darker base. */
+  --bcn-aldo-raised-fill: linear-gradient(150deg, var(--color-teal-9) 0%, var(--bcn-aldo-600) 100%);
+  --bcn-aldo-raised-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 1px rgba(0, 40, 38, 0.25),
+    0 1px 2px rgba(16, 24, 32, 0.22),
+    0 3px 8px -2px rgba(8, 144, 139, 0.45);
+
   /* Aldo prompt — the composer a person types guidance into. A floating tool, so it is
      allowed presence: a deep layered shadow with an Aldo-green under-glow, and a faint
      green wash on its bar. Raw values live here per token discipline. */

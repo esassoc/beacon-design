@@ -512,6 +512,13 @@ button.bcn-aldo-needs__text:focus-visible { outline: var(--focus-ring-width, 2px
   display: inline-flex;
   padding-bottom: var(--spacing-100);
 }
+/* Nothing to send yet: a muted, inert control; it turns green with the first character. */
+.bcn-aldo-composer__send[data-empty] {
+  --color-background-brand: var(--color-background-elevation-sunken);
+  --color-background-brand-hover: var(--color-background-elevation-sunken);
+  --color-content-default-knockout: var(--color-content-default-tertiary);
+}
+.bcn-aldo-composer__send[data-empty] .esa-button__native { cursor: not-allowed; }
 /* While Aldo answers, send is Stop: a square, in the default ink, not green. */
 .bcn-aldo-composer__send[data-stop] {
   --color-background-brand: var(--color-content-default);

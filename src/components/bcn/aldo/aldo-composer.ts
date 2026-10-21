@@ -90,11 +90,20 @@ export function mountComposer<A extends AldoAction>(
     // comes back when the surface moves on.
     paintChips();
     closeMenu();
+    syncSend();
     onSend(text, ctx);
     root.dispatchEvent(new CustomEvent('aldo:send', { bubbles: true, detail: { text, context: ctx } }));
   };
+  // Send is muted and inert while the field is empty; Stop (while Aldo answers) never is.
+  const syncSend = () => {
+    const empty = !busy && !(field.value ?? '').trim();
+    sendHost?.toggleAttribute('data-empty', empty);
+    if (sendBtn) sendBtn.disabled = empty;
+  };
+  field.addEventListener('input', syncSend);
   form.addEventListener('submit', (e) => (e.preventDefault(), send()));
   sendBtn?.addEventListener('click', (e) => (e.preventDefault(), send()));
+  syncSend();
 
   // ── Files ──────────────────────────────────────────────────────────────────
   const attachFiles = (files: FileList | null) => {
@@ -176,6 +185,7 @@ export function mountComposer<A extends AldoAction>(
     const end = token.start + 1 + token.query.length;
     const caret = token.start + text.length;
     field.value = v.slice(0, token.start) + text + v.slice(end);
+    syncSend();
     closeMenu();
     await field.updateComplete;
     const n = native();
@@ -264,6 +274,7 @@ export function mountComposer<A extends AldoAction>(
       stop = onStop;
       root.toggleAttribute('data-busy', on);
       sendHost?.toggleAttribute('data-stop', on);
+      syncSend();
       if (sendBtn) {
         sendBtn.setAttribute('aria-label', on ? 'Stop' : 'Send');
         const svg = sendBtn.querySelector('svg');
@@ -275,6 +286,7 @@ export function mountComposer<A extends AldoAction>(
     },
     async setDraft(text, ctx = []) {
       field.value = text;
+      syncSend();
       added = ctx.filter((r) => !r.auto);
       paintChips();
       await field.updateComplete;

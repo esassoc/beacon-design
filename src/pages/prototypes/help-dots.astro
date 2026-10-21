@@ -1,0 +1,78 @@
+---
+// Help dots on the Lists page. On a page that has dots, Guidance on the Guidance bar
+// turns on pulsing Aldo dots at five spots instead of opening the drawer; click one for
+// a popover about that thing. A dark Open Help & Guidance button above the bar opens the
+// drawer. Guidance again, or Esc, and they are gone. No numbers, no order, no tour.
+//
+// The page under the dots is the Lists index Kim shipped (epic BCN-1750; BCN-1753 index,
+// BCN-1755 Add dialog): the search, then Commitment, Action and Obligation lists, each
+// with its count and a ghost Add button, rows with the type's mark, member count,
+// Global/Personal badge on commitment lists, Updated date and one-line description.
+// Built from the same components as /prototypes/lists in their `asBuilt` mode, which
+// leaves out what has not shipped (the Compliance Index list group). Round 12.
+//
+// The info banner is gone by default (round 11): its sentence lives in You Are Here.
+// `?banner=on` brings it back. `?empty=1` is the project with no lists yet.
+//
+// Roles (src/lib/help-role.ts, round 17d): `?as=esa-admin` (alias `?as=admin`) is the ESA
+// admin's view, everything below; `?as=tenant-admin` gets only the page description's
+// pencil in the drawer, as that text is the tenant's own. The ESA admin's view: draft dots show muted, the band above the Guidance
+// bar gains Add Dot and Edit Dots (round 16), and the drawer's On This Page list shows
+// drafts and lost dots with actions inline (round 17). Option/Alt-click anywhere adds one.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+import BcnListIndexBoard from '../../components/bcn/BcnListIndexBoard.astro';
+import BcnQueryFlag from '../../components/bcn/BcnQueryFlag.astro';
+import BcnListEmpty from '../../components/bcn/BcnListEmpty.astro';
+import BcnListCreateDialog from '../../components/bcn/BcnListCreateDialog.astro';
+import BcnHelpDots from '../../components/bcn/BcnHelpDots.astro';
+import BcnHelpDotList from '../../components/bcn/BcnHelpDotList.astro';
+import { helpSpot } from '../../lib/help-spot';
+import { PROJECT } from '../../data/project-dashboard';
+import { LISTS_HELP_DOTS } from '../../data/help-dots';
+---
+
+<!-- manifest:
+  layout: PageLayout > stack(md)                      # SPINE
+  sections:
+    - banner      -> bcn-query-flag > esa-alert-box   # prod's info banner, only with ?banner=on (round 11)
+    - lists index -> bcn-query-flag > bcn-list-index-board  # as built: commitment, action, obligation groups
+    - empty state -> bcn-query-flag > bcn-list-empty  # ?empty=1: no lists yet, Create List and Show Me Around
+    - add list    -> bcn-list-create-dialog           # as built: Type, Name, Description, Sharing / obligation start
+    - help dots   -> bcn-help-dots                    # the dot layer Guidance turns on, its panel button, placing, dragging, and the in-place editor
+    - dot list    -> bcn-help-dot-list                # the drawer's On This Page list, with admin actions inline
+-->
+
+<AppShell
+  title="Lists"
+  tenantName={PROJECT.tenant}
+  projectName="Delta Conveyance"
+  activeNavId="lists"
+  expandedSections={['project']}
+>
+  <PageLayout
+    title="Lists"
+    icon="notepad-text"
+    iconColor="var(--color-content-brand)"
+    breadcrumbs={[{ label: 'Project', href: '#project' }, { label: 'Lists' }]}
+  >
+    <BcnQueryFlag param="banner" value="on">
+      <div {...helpSpot('lists.intro', 'Page Banner')}>
+        <EsaAlertBox variant="info">
+          Lists are sets of commitments, actions or obligations you want to track and report on
+          together. A commitment can sit on more than one list.
+        </EsaAlertBox>
+      </div>
+    </BcnQueryFlag>
+    <BcnQueryFlag param="empty" value="1" unless>
+      <BcnListIndexBoard types={['commitment', 'action', 'obligation']} showScope asBuilt />
+    </BcnQueryFlag>
+    <BcnQueryFlag param="empty" value="1">
+      <BcnListEmpty route="/prototypes/help-dots" />
+    </BcnQueryFlag>
+    <BcnListCreateDialog types={['commitment', 'action', 'obligation']} asBuilt />
+    <BcnHelpDots page={LISTS_HELP_DOTS} />
+    <BcnHelpDotList page={LISTS_HELP_DOTS} />
+  </PageLayout>
+</AppShell>

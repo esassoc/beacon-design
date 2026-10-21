@@ -709,6 +709,15 @@ export const prototypeGroups: PrototypeGroup[] = [
         createdAt: '2026-07-22',
         status: 'in-progress',
       },
+      {
+        slug: 'help-dots',
+        title: 'Help Dots',
+        description:
+          'On the Lists page, Guidance puts pulsing Aldo dots on the page instead of opening the drawer, with a dark button to open Help & Guidance; each dot opens a popover about the thing it marks, one with a screenshot.',
+        route: '/prototypes/help-dots',
+        createdAt: '2026-10-20',
+        status: 'in-progress',
+      },
     ],
   },
   {

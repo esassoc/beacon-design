@@ -1,0 +1,43 @@
+---
+// <BcnQueryFlag> — shows or hides what it wraps by a query parameter, so a prototype can
+// keep a variant one URL away while the default moves on. `?banner=on` brings back a
+// retired banner; `?empty=1` swaps a page for its empty state.
+//
+//   <BcnQueryFlag param="banner" value="on">…</BcnQueryFlag>          shown only with ?banner=on
+//   <BcnQueryFlag param="empty" value="1" unless>…</BcnQueryFlag>     hidden with ?empty=1
+//
+// What it wraps renders in its default state (hidden for a flag, shown for `unless`) and the
+// script flips it on load. The wrapper is display: contents, so the wrapped markup lays out
+// as if the wrapper were not there.
+//
+// bcn-lego-checked: no esa- lego reads the URL; this is prototype plumbing, not UI. Checked
+// Beacon (feature flags are server-side). bcn-query-flag is the reusable home.
+interface Props {
+  param: string;
+  /** The value that switches it. */
+  value: string;
+  /** Shown by default, hidden when the param matches. */
+  unless?: boolean;
+}
+const { param, value, unless = false } = Astro.props;
+---
+
+<div class="bcn-query-flag" data-query-flag={param} data-query-value={value} data-query-unless={unless ? '' : undefined} hidden={!unless}>
+  <slot />
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-query-flag]').forEach((el) => {
+    const on = new URLSearchParams(location.search).get(el.dataset.queryFlag ?? '') === el.dataset.queryValue;
+    el.hidden = el.hasAttribute('data-query-unless') ? on : !on;
+  });
+</script>
+
+<style>
+  .bcn-query-flag {
+    display: contents;
+  }
+  .bcn-query-flag[hidden] {
+    display: none;
+  }
+</style>

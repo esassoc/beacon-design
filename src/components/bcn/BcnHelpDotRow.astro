@@ -1,0 +1,173 @@
+---
+// <BcnHelpDotRow> — one dot in the drawer's On This Page list (<BcnHelpDotList>), in the
+// drawer's own row style (round 17): a small Aldo dot as the leading mark, the dot's title,
+// and its text on one line under it. The row itself opens the dot on the page.
+//
+// Admins also get, inline: a Draft tag (its tooltip says what a Claude draft was drafted
+// from) and, on hover or focus, the actions in the shared admin cue (bcn-admin-cue.css):
+// Publish, Edit and Dismiss on a Claude draft; Edit and Detach on any other dot; Pick Again
+// and Detach on a dot whose spot is gone, which is muted, with an alert mark in place of
+// the dot.
+//
+// Every variant is in the markup and the help-dots controller shows the one the dot's state
+// calls for. Without a `dot` the row renders blank: the template new dots are cloned from.
+//
+// bcn-lego-checked: the row is the drawer's article row (bcn-gd-row, a two-line button no
+// lego renders) with a dot for its mark. The actions ARE esa-button (chrome, iconOnly), the
+// alert mark IS esa-icon, the tooltip IS esa-tooltip. The Draft tag is the drawer article
+// reader's quiet 4px kind badge, as esa-badge takes no tooltip host. Checked Beacon: the
+// drawer rows are Angular markup over the same tokens. bcn-help-dot-row is the home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import '../../styles/bcn-admin-cue.css';
+import BcnAldoMark from './aldo/BcnAldoMark.astro';
+import type { HelpDot } from '../../data/help-dots';
+
+interface Props {
+  dot?: HelpDot;
+}
+const { dot } = Astro.props;
+const from = dot?.draftedFrom ? `Drafted from ${dot.draftedFrom}` : '';
+---
+
+<div class="bcn-hdr" data-hda-row data-dot-id={dot?.id}>
+  <button type="button" class="bcn-hdr__main" data-hda-open>
+    <span class="bcn-hdr__mark" data-hda-mark><BcnAldoMark size="sm" /></span>
+    <span class="bcn-hdr__lost" data-hda-lost hidden><EsaIcon name="circle-alert" size="sm" /></span>
+    <span class="bcn-hdr__text">
+      <span class="bcn-hdr__titlerow">
+        <span class="bcn-hdr__title" data-hda-title>{dot?.title}</span>
+        <span class="bcn-hdr__tag" data-hda-draft hidden>
+          {from ? <esa-tooltip text={from} position="above"><span class="bcn-hdr__tag-text">Draft</span></esa-tooltip> : <span class="bcn-hdr__tag-text">Draft</span>}
+        </span>
+      </span>
+      <span class="bcn-hdr__sub" data-hda-sub>{dot?.text}</span>
+    </span>
+  </button>
+  <span class="bcn-hdr__tools bcn-admin-cue" data-hda-tools hidden>
+    <span class="bcn-admin-btn" data-hda-act="publish"><esa-tooltip text="ESA admin: Publish" position="above" delay="150"><EsaButton variant="chrome" iconOnly icon="check" label="Publish" size="xs" data-hda-publish /></esa-tooltip></span>
+    <span class="bcn-admin-btn" data-hda-act="pickagain"><esa-tooltip text="ESA admin: Pick Again" position="above" delay="150"><EsaButton variant="chrome" iconOnly icon="map-pin" label="Pick Again" size="xs" data-hda-pickagain /></esa-tooltip></span>
+    <span class="bcn-admin-btn" data-hda-act="edit"><esa-tooltip text="ESA admin: Edit" position="above" delay="150"><EsaButton variant="chrome" iconOnly icon="pencil" label="Edit" size="xs" data-hda-edit /></esa-tooltip></span>
+    <span class="bcn-admin-btn" data-hda-act="dismiss"><esa-tooltip text="ESA admin: Dismiss" position="above" delay="150"><EsaButton variant="chrome" iconOnly icon="x" label="Dismiss" size="xs" data-hda-dismiss /></esa-tooltip></span>
+    <span class="bcn-admin-btn" data-hda-act="detach"><esa-tooltip text="ESA admin: Detach from this page" position="above" delay="150"><EsaButton variant="chrome" iconOnly icon="x" label="Detach from This Page" size="xs" data-hda-detach /></esa-tooltip></span>
+  </span>
+</div>
+
+<style>
+  /* The drawer's article row (BcnGuidanceDrawer.astro, .bcn-gd-row). */
+  .bcn-hdr {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-hdr:hover {
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-hdr__main {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    flex: 1;
+    min-width: 0;
+    padding: var(--spacing-300) var(--spacing-100);
+    border: 0;
+    background: transparent;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .bcn-hdr__main:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: -2px;
+  }
+  /* The leading mark: a small raised Aldo dot, the dot on the page in small. */
+  .bcn-hdr__mark,
+  .bcn-hdr__lost {
+    display: inline-flex;
+    flex: none;
+    --bcn-aldo-mark-size: 16px;
+  }
+  .bcn-hdr__mark :global(.bcn-aldo-mark) {
+    background: var(--bcn-aldo-raised-fill);
+    box-shadow: var(--bcn-aldo-raised-shadow);
+  }
+  .bcn-hdr__lost {
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-hdr__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+  }
+  .bcn-hdr__titlerow {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+  .bcn-hdr__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+    line-height: 1.35;
+  }
+  .bcn-hdr__sub {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
+    line-height: 1.4;
+  }
+  /* A dot whose spot is gone: muted. */
+  .bcn-hdr[data-lost] .bcn-hdr__title,
+  .bcn-hdr[data-lost] .bcn-hdr__sub {
+    color: var(--color-content-default-tertiary);
+  }
+  /* The drawer article reader's quiet 4px kind badge. */
+  .bcn-hdr__tag {
+    display: inline-flex;
+    flex: none;
+  }
+  .bcn-hdr__tag-text {
+    padding: 1px 6px;
+    border-radius: var(--radius-100);
+    border: 1px solid var(--color-border-default);
+    background: var(--color-background-elevation-raised);
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
+    line-height: 1.5;
+  }
+  /* Admin actions in the shared admin cue (bcn-admin-cue.css), on hover or focus. */
+  .bcn-hdr__tools {
+    position: absolute;
+    inset-inline-end: var(--spacing-100);
+    inset-block-start: 50%;
+    translate: 0 -50%;
+    opacity: 0;
+  }
+  /* The tools take their own room: while they show, the text truncates short of them. */
+  .bcn-hdr:has(.bcn-hdr__tools:not([hidden])):is(:hover, :focus-within) .bcn-hdr__main {
+    padding-inline-end: calc(var(--_tools-w, 52px) + var(--spacing-200));
+  }
+  .bcn-hdr:hover .bcn-hdr__tools,
+  .bcn-hdr:focus-within .bcn-hdr__tools {
+    opacity: 1;
+  }
+  @media (hover: none) {
+    .bcn-hdr__tools {
+      opacity: 1;
+    }
+  }
+  .bcn-hdr[hidden],
+  .bcn-hdr [hidden] {
+    display: none;
+  }
+</style>

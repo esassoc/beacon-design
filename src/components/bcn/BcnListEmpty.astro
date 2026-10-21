@@ -1,0 +1,72 @@
+---
+// <BcnListEmpty> — the Lists page for a project with no lists yet. esa-empty-state holds
+// the title, the You Are Here text for the route (routePurpose: the tenant's rich text on
+// Lists, the same source the Guidance drawer reads, not a copy), a primary Create List that opens
+// BcnListCreateDialog, and Show Me Around in the dark Guidance style with the Aldo rings,
+// which turns the page's help dots on (`data-help-dots-start`, wired in help-dots.ts).
+//
+// bcn-lego-checked: esa-empty-state is the lego; the only CSS here re-points one
+// esa-button to the Guidance bar's dark tokens. Checked Beacon (no empty Lists state, the
+// page shows empty groups). bcn-list-empty is the reusable home.
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnAldoMark from './aldo/BcnAldoMark.astro';
+import { HELP_ROUTE_CONTEXTS, routePurpose } from '../../data/help-center';
+import { helpSpot } from '../../lib/help-spot';
+
+interface Props {
+  /** The route whose You Are Here sentence explains the page. */
+  route: string;
+}
+const { route } = Astro.props;
+const ctx = HELP_ROUTE_CONTEXTS.find((c) => route.includes(c.pattern));
+const purpose = ctx ? routePurpose(ctx) : undefined;
+---
+
+<div class="bcn-list-empty" data-list-empty data-list-empty-text={ctx?.richText}>
+  <EsaEmptyState title="No Lists Yet" description={purpose} size="lg">
+    <div class="cluster bcn-list-empty__actions">
+      <EsaButton data-list-create="commitment" icon="plus" {...helpSpot('lists.empty.create', 'Create List Button')}>Create List</EsaButton>
+      <EsaButton variant="secondary" class="bcn-list-empty__tour" data-help-dots-start>
+        <BcnAldoMark variant="rings" />
+        Show Me Around
+      </EsaButton>
+    </div>
+  </EsaEmptyState>
+</div>
+
+<script>
+  // The description is the tenant's rich text when the route has one; mark it so an
+  // admin's edit in the Guidance drawer repaints it too (guidance-drawer.ts).
+  document.querySelectorAll<HTMLElement>('[data-list-empty-text]').forEach((el) => {
+    const p = el.querySelector<HTMLElement>('.esa-empty-state__description');
+    if (p && el.dataset.listEmptyText) p.dataset.richText = el.dataset.listEmptyText;
+  });
+</script>
+
+<style>
+  .bcn-list-empty {
+    padding-block: var(--spacing-800, 4rem);
+  }
+  .bcn-list-empty__actions {
+    justify-content: center;
+    gap: var(--spacing-200);
+  }
+  .bcn-list-empty :global(.bcn-list-empty__tour .esa-button__label) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .bcn-list-empty :global(.bcn-list-empty__tour .esa-button__native) {
+    --bcn-aldo-mark-size: 20px; /* the md icon size Create List's plus sits at */
+    --bcn-aldo-ring-from: var(--color-teal-7);
+    --bcn-aldo-ring-to: var(--color-teal-9);
+    color: var(--bcn-helpbar-fg);
+    background: var(--bcn-helpbar-bg-solid);
+    border-color: var(--bcn-helpbar-border);
+  }
+  .bcn-list-empty :global(.bcn-list-empty__tour .esa-button__native:hover) {
+    color: var(--bcn-helpbar-fg);
+    background: color-mix(in srgb, var(--bcn-helpbar-bg-solid) 88%, white);
+  }
+</style>

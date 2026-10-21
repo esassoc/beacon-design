@@ -1,0 +1,333 @@
+---
+// <BcnHelpDots> — the help-dot layer for one page. On a page that mounts it, Guidance on
+// the Guidance bar turns the dots on instead of opening the drawer (round 4): a pulsing Aldo
+// dot (<BcnHelpDot>) on each spot that has a published dot, a popover about that thing on
+// click. A dark button above the bar, Open Help & Guidance, opens the drawer. Guidance
+// again, or Esc, turns the dots off. Pages without this layer keep Guidance opening the
+// drawer.
+//
+// Each dot is placed by measuring its spot's target against this layer, which sits in the
+// page's own scroll container, so dots scroll with the page and need re-measuring only
+// when the layout moves. A dot whose spot is missing from the page is hidden.
+//
+// ESA ADMIN ONLY (`?as=esa-admin`, alias `?as=admin`; round 15, roles split round 17d in
+// src/lib/help-role.ts). Dots are ESA-authored and the same for every tenant (BCN-1513), so
+// a tenant admin sees exactly what a reader sees here. ESA admins also see draft dots, muted, and work the
+// dots by hand on the page:
+//   - Add Dot (the drawer segment's header) or Option/Alt-click anywhere arms placement. A
+//     dot rides the pointer, the part under it is outlined with its name, a click drops the
+//     dot there and opens <BcnHelpDotEditor> beside it.
+//   - Drag any dot onto another part to move it; the editor opens with "Check this text
+//     still fits". Pick Again on a dot whose spot is gone arms the same placement.
+//   - A part is anything carrying a `data-help-spot` id (src/lib/help-spot.ts); the
+//     outline snaps to the nearest one under the pointer.
+// The pick bar along the top says what a click will do and carries Cancel.
+//
+// All behavior lives in the help-dots controller (help-dots.ts). Contract with siblings,
+// all by data-* hook:
+//   - bar (<BcnHelpBar>): the controller sets `data-help-dots-claimed` on `[data-help-trigger]`
+//     so the drawer leaves it alone, and `aria-pressed` while the dots show.
+//   - drawer (<BcnGuidanceDrawer>, `[data-gd]`): `[data-help-dots-list-slot]` in On This
+//     Page receives <BcnHelpDotList>.
+//   - the list (<BcnHelpDotList>): `data-hda-*`. Editor (<BcnHelpDotEditor>, mounted
+//     here): `data-hde-*`.
+//
+// TONE. The popovers take the Guidance bar's dark (round 2). `?popover=light` puts back
+// the light panel for comparison.
+//
+// bcn-lego-checked: the HIGHLIGHT is a positioned outline drawn around a measured box and
+// the carried dot is the Aldo mark following the pointer, which no esa-* lego renders;
+// the band's buttons and orphans chip ARE esa-button, its orphans list IS esa-popover, and
+// each orphan in it is a two-line button (title, spot) no lego renders; the pick bar reuses the Guidance bar's dark
+// glass tokens and its Cancel IS esa-button; so does the panel bar, whose button IS esa-button. Everything else is a lego or a bcn-help-dot.
+// Checked Beacon: nothing places marks on a page. bcn-help-dots is the home.
+import BcnAldoMark from './aldo/BcnAldoMark.astro';
+import BcnHelpDot from './BcnHelpDot.astro';
+import BcnHelpDotEditor from './BcnHelpDotEditor.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import type { HelpDotPage } from '../../data/help-dots';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  page: HelpDotPage;
+}
+const { page } = Astro.props;
+
+// The controller's copy of the page: dots with their image paths resolved, and the base
+// the spot captures sit under.
+const resolve = <T extends { src: string }>(shot: T): T => ({ ...shot, src: withBase(shot.src) });
+const clientPage = {
+  routeKey: page.routeKey,
+  spots: page.spots,
+  dots: page.dots.map((d) => ({ ...d, shot: d.shot ? resolve(d.shot) : undefined })),
+  base: withBase('/'),
+};
+---
+
+<div class="bcn-help-dots" data-help-dots data-route-key={page.routeKey} hidden>
+  {page.dots.map((dot) => <BcnHelpDot dot={dot} />)}
+
+  <BcnHelpDotEditor />
+
+  <template data-help-dot-template>
+    <BcnHelpDot />
+  </template>
+</div>
+
+<div class="bcn-help-dots__highlight bcn-help-dots__highlight--hover" data-help-highlight-hover hidden></div>
+<div class="bcn-help-dots__highlight" data-help-highlight hidden>
+  <span class="bcn-help-dots__highlight-label typography-label-xs-strong" data-help-highlight-label></span>
+</div>
+<div class="bcn-help-dots__carry" data-help-carry hidden>
+  <BcnAldoMark size="sm" />
+</div>
+
+<!-- The band above the Guidance bar while the dots are on. A reader gets Open Help &
+     Guidance. An ESA admin (only: dots are ESA-authored for every tenant, BCN-1513) also
+     gets Add Dot and Edit Dots, set apart as admin tools; in a mode
+     the band says what a click does and carries its way out. -->
+<div class="bcn-help-dots__band" data-help-panelbar hidden>
+  <div class="bcn-help-dots__row" data-help-band-menu>
+    <EsaButton variant="chrome" size="sm" icon="circle-question-mark" data-help-panel-open>Open Help &amp; Guidance</EsaButton>
+    <div class="bcn-help-dots__admin" data-help-band-admin hidden>
+      <esa-tooltip text="ESA admin: add a dot, shown to every tenant" position="above" delay="150"><EsaButton variant="chrome" size="sm" icon="plus" data-help-band-add>Add Dot</EsaButton></esa-tooltip>
+      <esa-tooltip text="ESA admin: move, edit or detach dots for every tenant" position="above" delay="150"><EsaButton variant="chrome" size="sm" icon="pencil" data-help-band-edit>Edit Dots</EsaButton></esa-tooltip>
+    </div>
+  </div>
+  <div class="bcn-help-dots__row bcn-help-dots__state" data-help-pickbar role="status" hidden>
+    <BcnAldoMark size="sm" />
+    <span class="bcn-help-dots__state-text" data-help-pick-text></span>
+    <span class="bcn-help-dots__item" data-help-orphans-wrap hidden>
+      <esa-popover trigger="click" position="top" offset={10} appearance="inverse" label="Needs a New Spot">
+        <esa-tooltip text="ESA admin: dots whose part is gone from this page" position="above" delay="150"><EsaButton variant="chrome" size="sm" icon="circle-alert" data-help-orphans-chip>Need a Spot</EsaButton></esa-tooltip>
+        <div slot="content" class="bcn-help-dots__orphans stack" data-gap="3xs" data-help-orphans></div>
+      </esa-popover>
+    </span>
+    <span class="bcn-help-dots__item" data-help-done-wrap hidden>
+      <EsaButton variant="chrome" size="sm" icon="check" data-help-edit-done>Done</EsaButton>
+    </span>
+    <span class="bcn-help-dots__item" data-help-cancel-wrap hidden>
+      <EsaButton variant="chrome" size="sm" icon="x" data-help-pick-cancel>Cancel</EsaButton>
+    </span>
+  </div>
+</div>
+
+<script type="application/json" data-help-dots-page set:html={JSON.stringify(clientPage)} />
+
+<script>
+  import '@esa/ecology/esa-tooltip';
+  import { setupHelpDots } from './help-dots';
+  import { initTooltipLayer } from './tooltip-layer';
+  import '../../styles/bcn-tooltip-layer.css';
+  setupHelpDots();
+  initTooltipLayer();
+</script>
+
+<style>
+  /* A zero-height box in the page's flow: it scrolls with the page, and each dot and
+     the editor is positioned from its top-left corner. */
+  .bcn-help-dots {
+    position: relative;
+    block-size: 0;
+  }
+
+  /* Placing or dragging: the part the dot would land on, outlined in Aldo green with its
+     name on its top edge. Fixed and click-through, so it never takes the pointer. */
+  .bcn-help-dots__highlight {
+    position: fixed;
+    inset-inline-start: var(--_x, 0);
+    inset-block-start: var(--_y, 0);
+    inline-size: var(--_w, 0);
+    block-size: var(--_h, 0);
+    z-index: 990;
+    border: 2px solid var(--bcn-aldo);
+    border-radius: var(--radius-200);
+    background: color-mix(in srgb, var(--bcn-aldo-50) 45%, transparent);
+    pointer-events: none;
+  }
+  /* The part under the pointer when its dot shows on another, first one: faint. */
+  .bcn-help-dots__highlight--hover {
+    border: 1px dashed color-mix(in srgb, var(--bcn-aldo) 60%, transparent);
+    background: color-mix(in srgb, var(--bcn-aldo-50) 30%, transparent);
+  }
+  .bcn-help-dots__highlight-label {
+    position: absolute;
+    inset-inline-start: -2px;
+    inset-block-end: 100%;
+    padding: 2px var(--spacing-150);
+    border-radius: var(--radius-200) var(--radius-200) 0 0;
+    background: var(--bcn-aldo);
+    color: var(--color-content-default-knockout);
+    white-space: nowrap;
+  }
+  /* The dot being carried to its spot, on the pointer. */
+  .bcn-help-dots__carry {
+    position: fixed;
+    inset-inline-start: var(--_x, 0);
+    inset-block-start: var(--_y, 0);
+    z-index: 995;
+    translate: -50% -50%;
+    line-height: 0;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  }
+  .bcn-help-dots__carry :global(.bcn-aldo-mark) {
+    background: var(--bcn-aldo-raised-fill);
+    box-shadow: var(--bcn-aldo-raised-shadow);
+  }
+  /* While placing, the page under the pointer is a target, not a link. */
+  :global(html[data-help-placing]),
+  :global(html[data-help-placing] *) {
+    cursor: crosshair !important;
+  }
+
+  /* The band: the Guidance bar's dark glass, just above it (20px off the bottom, 58px
+     tall), so it reads as part of it. */
+  .bcn-help-dots__band {
+    position: fixed;
+    inset-inline-start: 50%;
+    inset-block-end: 86px;
+    translate: -50% 0;
+    padding: var(--spacing-075, 3px);
+    color: var(--bcn-helpbar-fg);
+    background: var(--bcn-helpbar-bg);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+    border: 1px solid var(--bcn-helpbar-border);
+    border-radius: var(--radius-400, 14px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28); /* the Guidance bar's lift */
+    white-space: nowrap;
+  }
+  .bcn-help-dots__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-075, 3px);
+  }
+  /* Admin tools: the settings rail's admin cue, quiet. A hairline off the reader's button
+     and a faint inset panel of the same glass, no new colour. */
+  .bcn-help-dots__admin {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-inline-start: var(--spacing-100);
+    padding: 2px;
+    border-radius: var(--radius-300);
+    background: color-mix(in srgb, #ffffff 7%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, #ffffff 14%, transparent);
+  }
+  .bcn-help-dots__state {
+    padding-inline-start: var(--spacing-200);
+    gap: var(--spacing-150);
+  }
+  .bcn-help-dots__state-text {
+    padding-inline-end: var(--spacing-100);
+    font-weight: var(--typography-font-weight-medium);
+  }
+  .bcn-help-dots__item {
+    display: inline-flex;
+  }
+  .bcn-help-dots__band :global(.esa-button) {
+    color: var(--bcn-helpbar-fg);
+    --focus-ring-color: var(--bcn-helpbar-fg);
+  }
+  /* The orphans list opens in the dots' dark popover. */
+  .bcn-help-dots__state esa-popover {
+    --color-background-default-knockout: var(--bcn-helpbar-bg-solid);
+    --color-border-default-knockout: var(--bcn-helpbar-border);
+    --color-content-default-knockout: var(--bcn-helpbar-fg);
+  }
+  .bcn-help-dots__orphans {
+    min-inline-size: 220px;
+    white-space: normal;
+  }
+  .bcn-help-dots__orphans :global(.bcn-help-dots__orphan) {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: var(--spacing-150) var(--spacing-200);
+    border: 0;
+    border-radius: var(--radius-200);
+    background: none;
+    color: var(--bcn-helpbar-fg);
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+  .bcn-help-dots__orphans :global(.bcn-help-dots__orphan:hover),
+  .bcn-help-dots__orphans :global(.bcn-help-dots__orphan:focus-visible) {
+    background: color-mix(in srgb, #ffffff 8%, transparent);
+  }
+  .bcn-help-dots__orphans :global(.bcn-help-dots__orphan-spot) {
+    color: var(--bcn-helpbar-fg-muted);
+  }
+
+  .bcn-help-dots[hidden],
+  .bcn-help-dots__highlight[hidden],
+  .bcn-help-dots__carry[hidden],
+  .bcn-help-dots__band [hidden],
+  .bcn-help-dots__band[hidden] {
+    display: none;
+  }
+
+  /* Motion (round 17). Guidance on: the band slides up from behind the Guidance bar and
+     fades in (220ms, ease-out); off, it drops back behind it, a little faster (160ms).
+     The dots fade and grow in at random: each draws a delay (0 to 350ms) and a length (180
+     to 260ms) every time they come on (--_delay, --_dur, set by the controller), and they
+     leave together. The display flip is held for the exit, so
+     an off mid-entrance simply reverses from wherever it is. Reduced motion: fades only. */
+  .bcn-help-dots__band {
+    z-index: 999; /* just under the Guidance bar, so it rises from behind it */
+    transition:
+      translate 220ms var(--easing-enter),
+      opacity 220ms var(--easing-enter),
+      display 220ms allow-discrete;
+  }
+  .bcn-help-dots__band[hidden] {
+    translate: -50% 66px;
+    opacity: 0;
+    transition-duration: 160ms;
+    transition-timing-function: var(--easing-exit);
+  }
+  @starting-style {
+    .bcn-help-dots__band {
+      translate: -50% 66px;
+      opacity: 0;
+    }
+  }
+  .bcn-help-dots {
+    transition: display 160ms allow-discrete;
+  }
+  .bcn-help-dots :global(.bcn-hd) {
+    transition:
+      opacity var(--_dur, 220ms) var(--easing-enter),
+      scale var(--_dur, 220ms) var(--easing-enter);
+    transition-delay: var(--_delay, 0ms);
+  }
+  .bcn-help-dots[hidden] :global(.bcn-hd) {
+    opacity: 0;
+    scale: 0.6;
+    transition-duration: 160ms;
+    transition-delay: 0ms;
+    transition-timing-function: var(--easing-exit);
+  }
+  @starting-style {
+    .bcn-help-dots :global(.bcn-hd) {
+      opacity: 0;
+      scale: 0.6;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-help-dots__band,
+    .bcn-help-dots__band[hidden] {
+      translate: -50% 0;
+    }
+    .bcn-help-dots :global(.bcn-hd),
+    .bcn-help-dots[hidden] :global(.bcn-hd) {
+      scale: 1;
+    }
+    @starting-style {
+      .bcn-help-dots__band { translate: -50% 0; }
+      .bcn-help-dots :global(.bcn-hd) { scale: 1; }
+    }
+  }
+</style>

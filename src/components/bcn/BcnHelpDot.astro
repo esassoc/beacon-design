@@ -1,0 +1,278 @@
+---
+// <BcnHelpDot> — one help dot: the Aldo mark with radar pings rippling out of it, and the
+// esa-popover a click opens (a title, a sentence or two, an optional screenshot). Placed
+// and shown by the help-dots controller inside <BcnHelpDots>; a draft dot, which only
+// ESA admins see, is drawn muted and still.
+//
+// In the admin view its popover carries Edit, which opens <BcnHelpDotEditor> on the dot.
+// In Edit Dots (the band's mode, round 16) the dot shows its handles: a dashed ring that
+// drags (help-dots.ts moves it), a click that edits, and a small × that detaches.
+//
+// Without a `dot` it renders blank: that is the template new dots are cloned from, so
+// the screenshot slot is always in the markup and the controller fills or hides it.
+//
+// bcn-lego-checked: the dot is a branded affordance (the BcnAldoMark circle with a
+// radiating ring) and esa-icon-button / esa-button only take a registered Lucide icon
+// name, not a custom mark, so the button wrapping the mark is this component's. The
+// popover IS esa-popover (click trigger, Esc, outside-click); the text IS typography
+// composites. Checked Beacon: nothing places marks on a page. bcn-help-dot is the home.
+import BcnAldoMark from './aldo/BcnAldoMark.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import type { HelpDot } from '../../data/help-dots';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  dot?: HelpDot;
+}
+const { dot } = Astro.props;
+const shot = dot?.shot;
+---
+
+<div
+  class="bcn-hd"
+  data-help-dot
+  data-dot-id={dot?.id}
+  data-spot={dot?.spot}
+  data-status={dot?.status}
+  hidden
+>
+  <esa-popover trigger="click" offset={10} label={dot?.title} appearance="inverse">
+    <button type="button" class="bcn-hd__dot" aria-label={`About: ${dot?.title ?? ''}`} data-hd-button>
+      <BcnAldoMark size="sm" />
+    </button>
+    <div slot="content" class="bcn-hd__panel stack" data-gap="xs" data-has-shot={shot ? '' : undefined}>
+      <img
+        class="bcn-hd__shot"
+        alt={shot?.alt ?? ''}
+        src={shot ? withBase(shot.src) : undefined}
+        width={shot?.width}
+        height={shot?.height}
+        loading="lazy"
+        data-hd-shot
+        hidden={!shot}
+      />
+      <p class="bcn-hd__title typography-label-md-strong" data-hd-title>{dot?.title}</p>
+      <p class="bcn-hd__text typography-body-sm" data-hd-text>{dot?.text}</p>
+      <div class="bcn-hd__admin" data-hd-admin hidden>
+        <esa-tooltip text="ESA admin: edit this dot for every tenant" position="above" delay="150"><EsaButton variant="chrome" size="xs" icon="pencil" data-hd-edit>Edit</EsaButton></esa-tooltip>
+      </div>
+    </div>
+  </esa-popover>
+  <!-- Edit Dots only (round 16): detach this dot from the page. -->
+  <span class="bcn-hd__detach" data-hd-detach>
+    <esa-tooltip text="ESA admin: Detach from this page" position="above" delay="150"><EsaButton variant="chrome" iconOnly icon="x" label="Detach from This Page" size="xs" /></esa-tooltip>
+  </span>
+</div>
+
+<style>
+  .bcn-hd {
+    position: absolute;
+    inset-inline-start: var(--_x, 0);
+    inset-block-start: var(--_y, 0);
+    z-index: 20; /* over the page's cards, under the z-1000 Guidance bar */
+    translate: -50% -50%;
+    line-height: 0;
+  }
+  /* The open dot's popover sits over its neighbours' dots. */
+  .bcn-hd:has(esa-popover[open]) {
+    z-index: 21;
+  }
+
+  /* The dot: the Aldo mark itself, with radar pings (round 8): two hairline Aldo rings
+     that leave the mark one after the other, spread to about three times its size and
+     fade, then a rest, so the page ripples now and then rather than throbbing. The rings
+     grow by their inset, not a scale, so the 1px line stays a hairline the whole way out
+     (round 9). They are the button's own pseudo-elements, so the hit target stays the mark. */
+  .bcn-hd__dot {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: none;
+    cursor: pointer;
+  }
+  .bcn-hd__dot::before,
+  .bcn-hd__dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border: 1px solid var(--bcn-aldo);
+    border-radius: var(--radius-full);
+    opacity: 0;
+    pointer-events: none;
+    animation: bcn-help-dot-ping 3.6s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+    animation-delay: var(--_land);
+  }
+  /* The pings wait for the dot to land (round 17): its entrance delay plus its length. */
+  .bcn-hd {
+    --_land: calc(var(--_delay, 0ms) + var(--_dur, 220ms));
+  }
+  .bcn-hd__dot::after {
+    animation-delay: calc(var(--_land) + 0.55s);
+  }
+  /* A dot's own phase, so the dots on a page don't ping in lockstep. */
+  .bcn-hd:nth-child(3n + 2) .bcn-hd__dot::before { animation-delay: calc(var(--_land) + 1.2s); }
+  .bcn-hd:nth-child(3n + 2) .bcn-hd__dot::after { animation-delay: calc(var(--_land) + 1.75s); }
+  .bcn-hd:nth-child(3n + 3) .bcn-hd__dot::before { animation-delay: calc(var(--_land) + 2.4s); }
+  .bcn-hd:nth-child(3n + 3) .bcn-hd__dot::after { animation-delay: calc(var(--_land) + 2.95s); }
+
+  /* The mark itself, raised (round 10): the Aldo gradient fill and a lit, lifted edge. */
+  .bcn-hd__dot :global(.bcn-aldo-mark) {
+    background: var(--bcn-aldo-raised-fill);
+    box-shadow: var(--bcn-aldo-raised-shadow);
+  }
+
+  .bcn-hd__dot:hover,
+  .bcn-hd__dot[aria-expanded='true'] {
+    box-shadow: 0 0 0 4px var(--bcn-aldo-100);
+  }
+  .bcn-hd__dot:hover::before,
+  .bcn-hd__dot:hover::after,
+  .bcn-hd__dot[aria-expanded='true']::before,
+  .bcn-hd__dot[aria-expanded='true']::after {
+    animation: none;
+  }
+  .bcn-hd__dot:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  /* A draft, which only admins see: still, and faded, so it never reads as live help. */
+  .bcn-hd[data-status='draft'] .bcn-hd__dot {
+    opacity: 0.45;
+    box-shadow: 0 0 0 3px var(--bcn-aldo-100);
+  }
+  .bcn-hd[data-status='draft'] .bcn-hd__dot::before,
+  .bcn-hd[data-status='draft'] .bcn-hd__dot::after {
+    animation: none;
+  }
+
+  @keyframes bcn-help-dot-ping {
+    0% { inset: 0; opacity: 0.7; }
+    50% { inset: -18px; opacity: 0; }
+    100% { inset: -18px; opacity: 0; }
+  }
+  /* Reduced motion: one still ring. */
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-hd__dot::before,
+    .bcn-hd__dot::after {
+      animation: none;
+    }
+    .bcn-hd__dot {
+      box-shadow: 0 0 0 3px var(--bcn-aldo-100);
+    }
+  }
+
+  /* Dark tone: the knockout roles esa-popover's `inverse` appearance reads, re-pointed to
+     the Guidance bar's surface. Solid, not the bar's glass: the popover has no backdrop
+     blur, and the bar uses the same solid where blur is missing. The light tone
+     (`?popover=light`) is set on the layer and switches the popover's appearance. */
+  esa-popover {
+    --color-background-default-knockout: var(--bcn-helpbar-bg-solid);
+    --color-border-default-knockout: var(--bcn-helpbar-border);
+    --color-content-default-knockout: var(--bcn-helpbar-fg);
+  }
+
+  /* The popover body: a title and a sentence or two, with a screenshot on top when the
+     dot has one. Narrower without a picture, so a sentence still sets as a short block.
+     On a narrow screen the controller caps it to the room beside the dot (--_room). */
+  .bcn-hd__panel {
+    inline-size: min(280px, var(--_room, 280px));
+    line-height: normal;
+    white-space: normal;
+    text-align: start;
+  }
+  .bcn-hd__panel[data-has-shot] {
+    inline-size: min(320px, var(--_room, 320px));
+  }
+  .bcn-hd__title,
+  .bcn-hd__text {
+    margin: 0;
+  }
+  .bcn-hd__title {
+    color: var(--bcn-helpbar-fg);
+  }
+  .bcn-hd__text {
+    color: var(--bcn-helpbar-fg-muted);
+  }
+  .bcn-hd__shot {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    border: 1px solid var(--bcn-helpbar-border);
+    border-radius: var(--radius-200);
+  }
+  :global([data-tone='light']) .bcn-hd__title {
+    color: var(--color-content-default);
+  }
+  :global([data-tone='light']) .bcn-hd__text {
+    color: var(--color-content-default-secondary);
+  }
+  :global([data-tone='light']) .bcn-hd__shot {
+    border-color: var(--color-border-default);
+  }
+  /* Edit Dots: the dot shows its handles. A dashed Aldo ring says it moves, the pings
+     stop, and the × sits on its top-right. While it drags, it follows the pointer and lets
+     the pointer through to the part under it. */
+  :global([data-edit-mode]) .bcn-hd__dot {
+    cursor: grab;
+    touch-action: none;
+    outline: 1.5px dashed var(--bcn-aldo);
+    outline-offset: 4px;
+  }
+  :global([data-edit-mode]) .bcn-hd__dot::before,
+  :global([data-edit-mode]) .bcn-hd__dot::after {
+    animation: none;
+  }
+  .bcn-hd__detach {
+    position: absolute;
+    inset-block-start: -15px;
+    inset-inline-end: -17px;
+    display: none;
+    border-radius: var(--radius-full);
+    color: var(--bcn-helpbar-fg);
+    background: var(--bcn-helpbar-bg-solid);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    line-height: 0;
+  }
+  :global([data-edit-mode]) .bcn-hd__detach {
+    display: inline-flex;
+  }
+  .bcn-hd__detach :global(.esa-button__native) {
+    --focus-ring-color: var(--bcn-helpbar-fg);
+    inline-size: 18px;
+    block-size: 18px;
+    min-block-size: 0;
+    min-inline-size: 0;
+    padding: 0;
+    border-radius: var(--radius-full);
+  }
+  .bcn-hd__detach :global(.esa-icon) {
+    inline-size: 12px;
+    block-size: 12px;
+  }
+  .bcn-hd[data-dragging] {
+    z-index: 25;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  }
+  .bcn-hd[data-dragging] .bcn-hd__dot::before,
+  .bcn-hd[data-dragging] .bcn-hd__dot::after {
+    animation: none;
+  }
+  .bcn-hd__admin {
+    display: flex;
+    justify-content: flex-end;
+    padding-block-start: var(--spacing-100);
+    border-block-start: 1px solid var(--bcn-helpbar-border);
+    color: var(--bcn-helpbar-fg);
+  }
+  .bcn-hd[hidden],
+  .bcn-hd__admin[hidden],
+  .bcn-hd__shot[hidden] {
+    display: none;
+  }
+</style>

@@ -1,0 +1,54 @@
+/* bcn-tip — the one top-layer tooltip that tooltip-layer.ts draws for every esa-tooltip
+ * (round 17). The lego's own look: knockout fill and ink (read off the anchoring
+ * esa-tooltip, so a dark override carries), small radius, elevation-4, an 8px rotated
+ * arrow, a 150ms fade with a 4px slide from the side it sits on (fade only with reduced
+ * motion).
+ *
+ * bcn-lego-checked: esa-tooltip IS the tooltip; it has no collision handling and draws
+ * inside its anchor, so overflow containers clip it. This is only its placement layer.
+ * Checked Beacon: prod's tooltip is the CDK overlay, a body-level layer, as here.
+ */
+.bcn-tip {
+  position: fixed;
+  inset: auto;
+  inset-inline-start: var(--_x, 0);
+  inset-block-start: var(--_y, 0);
+  margin: 0;
+  inline-size: max-content;
+  max-inline-size: calc(100vw - 16px); /* one line, wrapping only on a narrow screen */
+  padding: var(--spacing-150, 0.375rem) var(--spacing-250, 0.625rem);
+  border: 0;
+  border-radius: var(--radius-sm, 0.25rem);
+  overflow: visible;
+  background: var(--_bg, var(--color-background-default-knockout));
+  color: var(--_fg, var(--color-content-default-knockout, #fcfcfc));
+  box-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  pointer-events: none;
+  transition:
+    opacity var(--duration-150) var(--easing-enter),
+    translate var(--duration-150) var(--easing-enter);
+}
+.bcn-tip[data-in] { opacity: 0; transition: none; }
+.bcn-tip[data-in][data-side='above'] { translate: 0 4px; }
+.bcn-tip[data-in][data-side='below'] { translate: 0 -4px; }
+.bcn-tip[data-in][data-side='left'] { translate: 4px 0; }
+.bcn-tip[data-in][data-side='right'] { translate: -4px 0; }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-tip[data-in] { translate: none; }
+}
+.bcn-tip__arrow {
+  position: absolute;
+  inline-size: 8px;
+  block-size: 8px;
+  margin: -4px;
+  background: inherit;
+  rotate: 45deg;
+}
+.bcn-tip[data-side='above'] .bcn-tip__arrow { inset-block-start: 100%; inset-inline-start: var(--_ax, 50%); }
+.bcn-tip[data-side='below'] .bcn-tip__arrow { inset-block-start: 0; inset-inline-start: var(--_ax, 50%); }
+.bcn-tip[data-side='left'] .bcn-tip__arrow { inset-inline-start: 100%; inset-block-start: var(--_ay, 50%); }
+.bcn-tip[data-side='right'] .bcn-tip__arrow { inset-inline-start: 0; inset-block-start: var(--_ay, 50%); }
+@media (forced-colors: active) {
+  .bcn-tip { border: 1px solid CanvasText; }
+  .bcn-tip__arrow { display: none; }
+}

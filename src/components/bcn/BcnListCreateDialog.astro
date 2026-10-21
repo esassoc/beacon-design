@@ -45,15 +45,46 @@ import {
   LIST_GROUP_ORDER,
   LIST_TYPE_BASIS,
   LIST_TYPE_LABEL,
+  LIST_SCOPE_LABEL,
+  LIST_SCOPE_DIALOG_HINT,
   addListLabel,
   type ListType,
 } from '../../data/lists';
+
+interface Props {
+  /** Which types the Type toggle offers, in LIST_GROUP_ORDER. Default: all of them. */
+  types?: ListType[];
+  /**
+   * Match the dialog Kim shipped (BCN-1755, Beacon.Web pages/lists/add-list-dialog):
+   * a Sharing toggle on a commitment list, "Start with every approved obligation" on an
+   * obligation list, and the shipped cue lines.
+   */
+  asBuilt?: boolean;
+}
+const { types = LIST_GROUP_ORDER, asBuilt = false } = Astro.props;
+
+// The shipped cue lines (add-list-dialog.component.ts `cue`), where they differ from
+// LIST_TYPE_BASIS: the obligation line leaves out the exports, which ship later.
+const BASIS: Record<ListType, string> = asBuilt
+  ? { ...LIST_TYPE_BASIS, obligation: "Standing duties from the project's Compliance Index." }
+  : LIST_TYPE_BASIS;
+
+// Shared with the scope badge's tooltip (BcnListCard), as prod shares
+// commitment-list-scope-options.ts.
+const SHARING = [
+  { label: LIST_SCOPE_LABEL.personal, value: 'personal' },
+  { label: LIST_SCOPE_LABEL.global, value: 'global' },
+];
 
 // Labels and basis strings are read off the data module. Nothing here is typed by hand,
 // and the segments run in LIST_GROUP_ORDER, so the types sit in the same order here as
 // they do behind the dialog. A new Compliance Index list starts as a copy of the
 // canonical index.
-const TYPES = LIST_GROUP_ORDER.map((value) => ({ label: LIST_TYPE_LABEL[value], value }));
+// Prod's segments are Title Case ("Commitment List", add-list-dialog.component.ts).
+const TYPES = LIST_GROUP_ORDER.filter((t) => types.includes(t)).map((value) => ({
+  label: asBuilt ? LIST_TYPE_LABEL[value].replace(/ list$/, ' List') : LIST_TYPE_LABEL[value],
+  value,
+}));
 const DEFAULT_TYPE: ListType = TYPES[0].value;
 
 // The heading is the verb that was pressed, so the dialog names the thing it is about to
@@ -82,18 +113,37 @@ const HEADINGS = Object.fromEntries(
         size="sm"
         value={DEFAULT_TYPE}
         data-options={JSON.stringify(TYPES)}
-        data-basis={JSON.stringify(LIST_TYPE_BASIS)}></esa-button-toggle>
+        data-basis={JSON.stringify(BASIS)}></esa-button-toggle>
       <p
         class="bcn-list-create__basis typography-body-md"
         data-list-create-basis
         aria-live="polite"
       >
-        {LIST_TYPE_BASIS[DEFAULT_TYPE]}
+        {BASIS[DEFAULT_TYPE]}
       </p>
     </div>
 
     <esa-text-field data-list-create-name label="Name" size="md" required></esa-text-field>
     <esa-textarea data-list-create-description label="Description" size="md" rows="3"></esa-textarea>
+    {asBuilt && (
+      <div data-list-create-only="commitment" hidden={DEFAULT_TYPE !== 'commitment'}>
+        <esa-button-toggle
+          data-list-create-sharing
+          label="Sharing"
+          size="sm"
+          value="personal"
+          help-text={LIST_SCOPE_DIALOG_HINT}
+          data-options={JSON.stringify(SHARING)}></esa-button-toggle>
+      </div>
+    )}
+    {asBuilt && (
+      <div data-list-create-only="obligation" hidden={DEFAULT_TYPE !== 'obligation'}>
+        <div class="stack" data-gap="2xs">
+          <esa-checkbox label="Start with every approved obligation" size="md"></esa-checkbox>
+          <p class="bcn-list-create__hint typography-body-sm">Then remove what doesn't apply. Unticked, the list starts empty.</p>
+        </div>
+      </div>
+    )}
   </div>
 
   {/* Windows order: primary left of Cancel, the pair pushed to the trailing edge. */}
@@ -108,6 +158,7 @@ const HEADINGS = Object.fromEntries(
   import '@esa/ecology/esa-button-toggle';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-checkbox';
 
   type Dialog = HTMLElement & { show(): void; close(): void };
   type Toggle = HTMLElement & { options: unknown[]; value: string };
@@ -130,14 +181,26 @@ const HEADINGS = Object.fromEntries(
 
     // `options` is a Lit array property, so it is handed over after upgrade; the value is
     // re-set behind it so the default segment is the selected one on first paint.
+    const sharing = dialog.querySelector<Toggle>('[data-list-create-sharing]');
     customElements.whenDefined('esa-button-toggle').then(() => {
+      if (sharing) {
+        sharing.options = JSON.parse(sharing.dataset.options ?? '[]');
+        sharing.value = 'personal';
+      }
       if (!toggle) return;
       toggle.options = JSON.parse(toggle.dataset.options ?? '[]');
       toggle.value = initialType;
     });
 
+    // Fields that belong to one type only (the as-built Sharing and obligation start).
+    const showOnly = (type: string) =>
+      dialog!.querySelectorAll<HTMLElement>('[data-list-create-only]').forEach((el) => {
+        el.hidden = el.dataset.listCreateOnly !== type;
+      });
+
     toggle?.addEventListener('change', () => {
       if (basisLine) basisLine.textContent = basis[toggle.value] ?? '';
+      showOnly(toggle.value);
     });
 
     // The validation message is the answer to an empty field, so it goes as soon as the
@@ -163,6 +226,7 @@ const HEADINGS = Object.fromEntries(
       if (toggle) toggle.value = type;
       if (basisLine) basisLine.textContent = basis[type] ?? '';
       if (headings[type]) dialog!.setAttribute('heading', headings[type]);
+      showOnly(type);
     }
 
     // The trigger's value IS the type. Every add button on the index carries one; a
@@ -200,7 +264,8 @@ const HEADINGS = Object.fromEntries(
 
 <style>
   /* Composition glue only. Every control in here is a lego at its own defaults. */
-  .bcn-list-create__basis {
+  .bcn-list-create__basis,
+  .bcn-list-create__hint {
     margin: 0;
     color: var(--color-content-default-secondary);
   }

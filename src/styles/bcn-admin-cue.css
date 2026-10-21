@@ -1,0 +1,79 @@
+/* bcn-admin-cue — the one look for admin-only controls (round 17).
+ *
+ * The settings rail's ESA Admin panel (BcnSettingsNav.astro, `.bcn-settings-nav__block--esa`)
+ * is the source, measured: fill --bcn-helpbar-bg (rgba(23, 25, 27, 0.78)) with
+ * blur(14px) saturate(1.4), a 1px --bcn-helpbar-border (rgba(255, 255, 255, 0.12)), white
+ * ink. The same fallbacks: solid --bcn-helpbar-bg-solid without backdrop-filter or with
+ * reduced transparency.
+ *
+ *   .bcn-admin-cue   the surface: put it on a chip or a group of admin buttons.
+ *   .bcn-admin-btn   an icon-only admin button inside it (EsaButton chrome iconOnly xs):
+ *                    a 22px round hit area, a 14px glyph, quiet until hover or focus.
+ *
+ * bcn-lego-checked: no esa- lego or token marks admin-only territory; this restates the
+ * settings rail's admin panel as a shared class instead of per control. The buttons ARE
+ * esa-button. Promotion candidate (docs/system-improvement-ledger.md).
+ */
+
+.bcn-admin-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  padding: 1px;
+  border-radius: var(--radius-full);
+  color: #ffffff;
+  background: var(--bcn-helpbar-bg);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border: 1px solid var(--bcn-helpbar-border);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .bcn-admin-cue {
+    background: var(--bcn-helpbar-bg-solid);
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .bcn-admin-cue {
+    background: var(--bcn-helpbar-bg-solid);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+.bcn-admin-cue[hidden] {
+  display: none;
+}
+
+.bcn-admin-btn {
+  display: inline-flex;
+}
+.bcn-admin-btn .esa-button {
+  display: inline-flex; /* no line-box strut under the 22px native button */
+}
+.bcn-admin-btn[hidden] {
+  display: none;
+}
+.bcn-admin-btn .esa-button__native {
+  --focus-ring-color: #ffffff;
+  inline-size: 22px;
+  block-size: 22px;
+  min-inline-size: 0;
+  min-block-size: 0;
+  padding: 0;
+  border-radius: var(--radius-full);
+  color: color-mix(in srgb, #ffffff 72%, transparent);
+}
+.bcn-admin-btn .esa-button__native:hover,
+.bcn-admin-btn .esa-button__native:focus-visible {
+  color: #ffffff;
+  background: color-mix(in srgb, #ffffff 14%, transparent);
+}
+.bcn-admin-btn .esa-icon {
+  inline-size: 14px;
+  block-size: 14px;
+}
+/* Its tooltips in the same dark, as the Guidance bar's are. */
+.bcn-admin-cue esa-tooltip {
+  display: inline-flex; /* no line-box strut: the chip hugs its 22px buttons */
+  --color-background-default-knockout: var(--bcn-helpbar-bg-solid);
+  --color-content-default-knockout: var(--bcn-helpbar-fg);
+}

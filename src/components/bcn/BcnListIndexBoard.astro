@@ -80,11 +80,26 @@ import {
   type ProjectList,
 } from '../../data/lists';
 import { withBase } from '../../lib/base';
+import { helpSpot } from '../../lib/help-spot';
 
 // Every list type has its detail page now (2026-09-23): one route, three bodies.
 const hrefFor = (list: ProjectList): string => withBase(`/prototypes/lists/${list.id}`);
 
-const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
+interface Props {
+  /** Which groups to show, in LIST_GROUP_ORDER. Default: all of them. */
+  types?: ListType[];
+  /** Pass through to every row: show its Global/Personal badge. */
+  showScope?: boolean;
+  /**
+   * Match the index Kim shipped (BCN-1753, Beacon.Web pages/lists/lists.component.html):
+   * a plain ghost Add button with no outline, an empty group that names its type in
+   * Title Case ("No Action Lists"), and the scope badge's tooltip.
+   */
+  asBuilt?: boolean;
+}
+const { types = LIST_GROUP_ORDER, showScope = false, asBuilt = false } = Astro.props;
+
+const GROUPS = LIST_GROUP_ORDER.filter((type) => types.includes(type)).map((type: ListType) => ({
   type,
   label: LIST_GROUP_LABEL[type],
   // "commitment list" — the singular the badge's accessible name is rebuilt from when a
@@ -95,7 +110,9 @@ const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
 ---
 
 <div class="stack" data-gap="lg" data-list-index>
-  <BcnSwFilterRow panel searchPlaceholder="Search lists" searchName="lists-search" />
+  <div {...helpSpot('lists.search', 'Search')}>
+    <BcnSwFilterRow panel searchPlaceholder="Search lists" searchName="lists-search" />
+  </div>
 
   <div class="stack" data-gap="2xl">
     {
@@ -108,7 +125,7 @@ const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
           data-list-noun={group.noun}
         >
           <div class="bcn-lib__head repel" data-gap="sm">
-            <div class="cluster" data-gap="xs">
+            <div class="cluster" data-gap="xs" {...helpSpot(`lists.group.${group.type}`, `${group.label} Heading`)}>
               <h2 class="bcn-lib__title typography-title-strong" id={`lists-${group.type}`}>
                 {group.label}
               </h2>
@@ -121,10 +138,11 @@ const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
             </div>
             <EsaButton
               variant="ghost"
-              appearance="outline"
+              appearance={asBuilt ? 'fill' : 'outline'}
               size="sm"
               icon="plus"
               data-list-create={group.type}
+              {...helpSpot(`lists.add.${group.type}`, `${addListLabel(group.type)} Button`)}
             >
               {addListLabel(group.type)}
             </EsaButton>
@@ -132,11 +150,11 @@ const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
 
           <div class="stack" data-gap="xs">
             {group.lists.map((list) => (
-              <BcnListCard list={list} href={hrefFor(list)} />
+              <BcnListCard list={list} href={hrefFor(list)} showScope={showScope} scopeHint={asBuilt} />
             ))}
             <div class="bcn-lib__empty" data-group-empty hidden={group.lists.length > 0}>
               <EsaEmptyState
-                title={group.lists.length > 0 ? 'No lists match' : `No ${group.noun}s`}
+                title={group.lists.length > 0 ? 'No lists match' : asBuilt ? `No ${group.label}` : `No ${group.noun}s`}
                 size="sm"
               />
             </div>

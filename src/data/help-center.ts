@@ -14,6 +14,8 @@
 // bodies are rendered at build time and searched via the DOM, so the JS bundle
 // never carries the full content.
 
+import { CUSTOM_RICH_TEXT, type CustomRichTextKey } from './custom-rich-text';
+
 /** One renderable chunk of an article body. */
 export type HelpBlock =
   | { kind: 'p'; text: string }
@@ -796,13 +798,36 @@ export interface HelpRouteContext {
   page: string;
   /** One-line purpose of the page, in plain words — "You are here" body text. */
   purpose: string;
+  /**
+   * The tenant's custom rich text that stands in for `purpose` when set: the page's
+   * intro is tenant-editable in prod, so You Are Here reads it (round 13).
+   */
+  richText?: CustomRichTextKey;
   /** Ordered how-to article ids — the “On this page” lead section. */
   howtos: string[];
   /** Glossary ids for “Terms on this page.” */
   terms: string[];
+  /**
+   * The page this one sits under and the terms it passes down (BCN-1513): they show here
+   * with a "From <page>" note and are edited there, not detached here.
+   */
+  parent?: { page: string; terms: string[] };
 }
 
+/** What You Are Here says: the tenant's rich text when the route has one, else `purpose`. */
+export const routePurpose = (ctx: HelpRouteContext): string =>
+  ctx.richText ? CUSTOM_RICH_TEXT[ctx.richText] : ctx.purpose;
+
 export const HELP_ROUTE_CONTEXTS: HelpRouteContext[] = [
+  {
+    pattern: '/prototypes/help-dots',
+    page: 'Lists',
+    richText: 'ActionLists',
+    purpose: 'Every list on the project, filed by type, to track and report on a set of commitments, actions or obligations together.',
+    howtos: ['global-search-tips'],
+    terms: ['what-is-a-commitment', 'what-is-an-action'],
+    parent: { page: 'Project', terms: ['what-is-a-component'] },
+  },
   {
     pattern: '/prototypes/permit-tracking',
     page: 'Permit Tracking',
@@ -905,7 +930,7 @@ export const HELP_GENERAL_CONTEXT: Omit<HelpRouteContext, 'pattern'> = {
 // one place. (The real deterministic search lives on the Help & Guidance page.)
 
 export const ALDO_CHAT = {
-  placeholder: 'Ask Aldo a question…',
+  placeholder: 'What is a component?',
   /** Reply intro when matches are found (links follow). */
   found: 'Here’s what I have on that:',
   /** Reply when nothing matches. */
@@ -932,21 +957,21 @@ export const WHATS_NEW: WhatsNewEntry[] = [
   {
     date: '2026-06-02',
     title: 'Commitment Lists',
-    blurb: 'Save a filtered view of commitments as a reusable, named List, then reopen it anytime to scope the grid to just its members.',
+    blurb: 'Save a filtered set of commitments as a named List and reopen it.',
     icon: 'folder',
     anchor: 'v1-33-0',
   },
   {
     date: '2026-06-02',
     title: 'Evidence of Compliance',
-    blurb: 'Every Evidence of Compliance record now lives in one Data Catalog grid with Project, Component, and Work Area scope selectors, instead of separate tabs on each page.',
+    blurb: 'All evidence records now live in one Data Catalog grid.',
     icon: 'file-text',
     anchor: 'v1-33-0',
   },
   {
     date: '2026-06-02',
     title: 'Commitment Compliance',
-    blurb: 'A new Monitoring Portal section shows which commitments are out of compliance and the field observations driving it, matched by species.',
+    blurb: 'A Monitoring Portal view of out-of-compliance commitments and their field observations.',
     icon: 'activity',
     anchor: 'v1-33-0',
   },
