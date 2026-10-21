@@ -544,19 +544,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       ><span class="esa-collapsible__title">Details</span>
                     </summary>
                     <div class="esa-collapsible__body typography-body-md">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Type</span
                         ><span class="bcn-key-value__val">Monitoring</span>
                       </div>
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Responsible Party</span
                         ><span class="bcn-key-value__val">QSP / Inspector</span>
                       </div>
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Default Assignee</span
                         ><span class="bcn-key-value__val">Maria Chen</span>
                       </div>
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Scope</span
                         ><span class="bcn-key-value__val">Component</span
                         ><span class="bcn-key-value__hint">Tracked per component</span>
@@ -582,15 +582,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       ><span class="esa-collapsible__title">Timing</span>
                     </summary>
                     <div class="esa-collapsible__body typography-body-md">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Frequency</span
                         ><span class="bcn-key-value__val">Recurring</span>
                       </div>
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Deadline</span
                         ><span class="bcn-key-value__val">Every 3 months, after milestone</span>
                       </div>
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Milestone</span
                         ><span class="bcn-key-value__val">Building Permit</span>
                       </div>
@@ -1792,7 +1792,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </div>
                             <!--AG-FAKE-VERTICAL-SCROLL-->
                             <div
-                              class="ag-body-vertical-scroll ag-scrollbar-invisible ag-hidden"
+                              class="ag-body-vertical-scroll ag-apple-scrollbar ag-scrollbar-invisible ag-hidden"
                               aria-hidden="true"
                               style="width: 16px; max-width: 16px; min-width: 16px"
                             >
@@ -1942,7 +1942,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           </div>
                           <!--AG-FAKE-HORIZONTAL-SCROLL-->
                           <div
-                            class="ag-body-horizontal-scroll ag-scrollbar-invisible ag-invisible ag-scrollbar-scrolling"
+                            class="ag-body-horizontal-scroll ag-apple-scrollbar ag-scrollbar-invisible ag-invisible"
                             aria-hidden="true"
                             style="bottom: 0px; height: 16px; max-height: 16px; min-height: 16px"
                           >
@@ -3026,7 +3026,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.B0-2TFz8.js"
+    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.BWpiHCjJ.js"
   ></script>
   <!-- Aldo — help & guidance, app-wide like the palette above: the floating
          bottom-center utility bar and the route-aware guidance drawer it opens.
@@ -3045,23 +3045,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       aria-haspopup="dialog"
     >
       <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-        ><span class="bcn-aldo-mark__glyph"
-          ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-            ><svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path
-                d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-              ></path>
-              <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+        ><svg
+          class="bcn-aldo-mark__glyph"
+          viewBox="0 0 64 64"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+          <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+          <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+          <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg></span
       ><span class="bcn-help-bar__guidance-label">Guidance</span></button
     ><span class="bcn-help-bar__divider" aria-hidden="true"></span
     ><!-- Attach Evidence of Compliance — icon-only; the tooltip host carries the drawer's open hook.
@@ -3078,6 +3074,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       text="Attach Evidence of Compliance"
       position="above"
       data-evidence-trigger="true"
+      align="center"
       ><span
         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
         ><button
@@ -3196,7 +3193,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.rnozUMkB.js"
+    src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.BrGmwhrs.js"
   ></script>
   <!-- ── Drawer (parent) ── --><esa-side-dialog
     class="bcn-gd"
@@ -3206,46 +3203,38 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     size="md"
     ><div slot="header" class="bcn-gd__header">
       <span class="bcn-aldo-mark" data-size="md" aria-hidden="true"
-        ><span class="bcn-aldo-mark__glyph"
-          ><span class="esa-icon esa-icon--md" aria-hidden="true"
-            ><svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path
-                d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-              ></path>
-              <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+        ><svg
+          class="bcn-aldo-mark__glyph"
+          viewBox="0 0 64 64"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+          <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+          <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+          <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg></span
       ><span class="bcn-gd__title">Help &amp; Guidance</span>
     </div>
     <div class="bcn-gd__stream">
       <div class="bcn-gd-msg bcn-gd-msg--aldo" data-gd-intro="">
         <div class="bcn-gd-msg__avatar">
           <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-            ><span class="bcn-aldo-mark__glyph"
-              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                ><svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path
-                    d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                  ></path>
-                  <circle cx="12" cy="12" r="10"></circle></svg></span></span
+            ><svg
+              class="bcn-aldo-mark__glyph"
+              viewBox="0 0 64 64"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+              <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+              <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+              <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg
           ></span>
         </div>
         <div class="bcn-gd-msg__group">
@@ -4212,25 +4201,28 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       </div></div></esa-side-dialog
   ><!-- Aldo avatar cloned into each reply message (reuses the real mark). --><template
     data-gd-aldo-avatar=""
-    ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-breadewf=""
-      ><span class="bcn-aldo-mark__glyph" data-astro-cid-breadewf=""
-        ><span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-i4i7akh4=""
-          ><svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-            data-astro-cid-i4i7akh4=""
-          >
-            <path
-              d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-            ></path>
-            <circle cx="12" cy="12" r="10"></circle></svg></span></span></span></template
+    ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-lgb5fntv=""
+      ><svg
+        class="bcn-aldo-mark__glyph"
+        viewBox="0 0 64 64"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        data-astro-cid-lgb5fntv=""
+      >
+        <path d="M47.59 23A18 18 0 1 1 31.37 14.01" data-astro-cid-lgb5fntv=""></path>
+        <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41" data-astro-cid-lgb5fntv=""></path>
+        <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8" data-astro-cid-lgb5fntv=""></path>
+        <circle
+          cx="33.2"
+          cy="31.1"
+          r="2"
+          fill="currentColor"
+          stroke="none"
+          data-astro-cid-lgb5fntv=""
+        ></circle></svg></span></template
   ><!-- ── Article reader (child, stacked above the drawer) ── --><esa-side-dialog
     class="bcn-gd-article"
     data-gd-article="true"
@@ -4404,7 +4396,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span></span
                 ><span class="bcn-help-article__video-duration"
                   ><span
-                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                     ><span class="esa-badge__text">4:32</span></span
                   ></span
                 >
@@ -4659,7 +4651,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span></span
                 ><span class="bcn-help-article__video-duration"
                   ><span
-                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                     ><span class="esa-badge__text">2:47</span></span
                   ></span
                 >
@@ -5935,8 +5927,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ><li data-astro-cid-qzg7vnux="">
                     <span
                       class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                      data-astro-cid-uydgtvqr=""
-                      ><span class="esa-pill__label" data-astro-cid-uydgtvqr=""></span
+                      data-astro-cid-65ixjgm5=""
+                      ><span class="esa-pill__label" data-astro-cid-65ixjgm5=""></span
                     ></span></li></template
                 ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template data-draft-file-row=""
@@ -5946,19 +5938,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-wz6b6gp5=""
+                        data-astro-cid-4xhmycw5=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this file from the evidence"
                           title="Remove this file from the evidence"
                           data-astro-cid-qzg7vnux="true"
-                          data-astro-cid-wz6b6gp5=""
+                          data-astro-cid-4xhmycw5=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-i4i7akh4=""
+                            data-astro-cid-c7ivvrtd=""
                             ><svg
                               width="16"
                               height="16"
@@ -5969,7 +5961,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-i4i7akh4=""
+                              data-astro-cid-c7ivvrtd=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -6074,6 +6066,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -6098,7 +6091,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -6256,6 +6249,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -6280,7 +6274,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -6421,6 +6415,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -6445,7 +6440,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -6587,6 +6582,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -6611,7 +6607,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -6769,6 +6765,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -6793,7 +6790,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -6934,6 +6931,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -6958,7 +6956,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -7100,6 +7098,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7124,7 +7123,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -7265,6 +7264,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7289,7 +7289,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -7430,6 +7430,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7454,7 +7455,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -7595,6 +7596,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7619,7 +7621,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -7767,6 +7769,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7791,7 +7794,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -7918,6 +7921,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7942,7 +7946,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -8069,6 +8073,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8093,7 +8098,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -8220,6 +8225,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8244,7 +8250,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -8370,7 +8376,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
                       <circle cx="12" cy="12" r="2"></circle>
                       <path d="m13.41 10.59 5.66-5.66"></path></svg></span
-                  >Actions<span
+                  ><span data-targets-title-text="">Actions</span
+                  ><span
                     class="bcn-ev-targets__count"
                     data-targets-count=""
                     aria-hidden="true"
@@ -8384,7 +8391,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
        else. Component and Phase are the dimensions the Setup Wizard's Actions step filters
        on; all three are guarded while associations are unsaved (see evidence-drawer.ts). -->
               <div class="bcn-ev-targets__filters">
-                <span class="bcn-ev-targets__filter"
+                <span class="bcn-ev-targets__filter" data-targets-component-filter=""
                   ><span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-component">Component</span
                   ><esa-select
                     data-evidence-component="true"
@@ -8392,14 +8399,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     searchable="true"
                     aria-labelledby="bcn-ev-flabel-component"
                   ></esa-select></span
-                ><span class="bcn-ev-targets__filter"
+                ><span class="bcn-ev-targets__filter" data-targets-scope-only=""
                   ><span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-phase">Phase</span
                   ><esa-select
                     data-targets-phase="true"
                     size="sm"
                     aria-labelledby="bcn-ev-flabel-phase"
                   ></esa-select></span
-                ><span class="bcn-ev-targets__filter"
+                ><span class="bcn-ev-targets__filter" data-targets-scope-only=""
                   ><span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-type">Type</span
                   ><esa-select
                     data-targets-type="true"
@@ -8408,7 +8415,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ></esa-select
                 ></span>
               </div>
-              <div class="bcn-ev-targets__search">
+              <div class="bcn-ev-targets__search" data-targets-scope-only="">
                 <div class="bcn-ev-search">
                   <span class="bcn-ev-search__icon" aria-hidden="true"
                     ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -8513,6 +8520,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8532,7 +8540,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -8543,10 +8551,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -8654,6 +8662,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8673,7 +8682,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -8684,10 +8693,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -8795,6 +8804,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8814,7 +8824,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -8825,10 +8835,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -8936,6 +8946,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8955,7 +8966,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -8966,10 +8977,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text"
                                       >Implementation Planning</span
                                     ></span
@@ -9106,6 +9117,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9125,7 +9137,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -9136,10 +9148,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -9277,6 +9289,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9296,7 +9309,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -9307,10 +9320,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -9448,6 +9461,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9467,7 +9481,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -9478,10 +9492,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Reporting</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -9589,6 +9603,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9608,7 +9623,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -9619,10 +9634,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -9730,6 +9745,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9749,7 +9765,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -9760,10 +9776,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -9895,6 +9911,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9914,7 +9931,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -9925,10 +9942,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -10036,6 +10053,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -10055,7 +10073,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -10066,10 +10084,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -10177,6 +10195,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -10196,7 +10215,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -10207,10 +10226,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text"
                                       >Implementation Planning</span
                                     ></span
@@ -10320,6 +10339,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -10339,7 +10359,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -10350,10 +10370,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -10461,6 +10481,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -10480,7 +10501,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -10491,10 +10512,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -10629,6 +10650,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -10648,7 +10670,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -10659,10 +10681,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -10770,6 +10792,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -10789,7 +10812,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -10800,10 +10823,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -10911,6 +10934,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -10930,7 +10954,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -10941,10 +10965,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Reporting</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -11052,6 +11076,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -11071,7 +11096,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -11082,10 +11107,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -11193,6 +11218,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -11212,7 +11238,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -11223,10 +11249,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -11334,6 +11360,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -11353,7 +11380,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -11364,10 +11391,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text"
                                       >Implementation Planning</span
                                     ></span
@@ -11477,6 +11504,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -11496,7 +11524,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -11507,10 +11535,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -11618,6 +11646,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -11637,7 +11666,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -11648,10 +11677,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -11714,28 +11743,28 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <span class="bcn-ev-attached__name" data-astro-cid-6zu5gb4v=""></span
                     ><span class="bcn-ev-attached__mark" hidden="" data-astro-cid-6zu5gb4v=""
                       ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        data-astro-cid-bnhbuysz=""
-                        ><span class="esa-badge__text" data-astro-cid-bnhbuysz=""
+                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                        data-astro-cid-sh7ulwla=""
+                        ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
                           >Suggested</span
                         ></span
                       ></span
                     ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-wz6b6gp5=""
+                        data-astro-cid-4xhmycw5=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this evidence from the action"
                           title="Remove this evidence from the action"
                           data-astro-cid-6zu5gb4v="true"
-                          data-astro-cid-wz6b6gp5=""
+                          data-astro-cid-4xhmycw5=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-i4i7akh4=""
+                            data-astro-cid-c7ivvrtd=""
                             ><svg
                               width="16"
                               height="16"
@@ -11746,13 +11775,32 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-i4i7akh4=""
+                              data-astro-cid-c7ivvrtd=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span
                     ></span></li></template
-                ><!-- Nothing on the list yet. -->
+                ><!-- LIST MODE (a list page's "Add evidence", see evidence-drawer.ts): the column
+         holds that list's members instead of a component's actions. Every member is a
+         target by default; the x leaves one out of this attach, and Restore brings the
+         left-out back. Each row is the list page's OWN slim card (.bcn-loc, from
+         bcn-obligation-card.css) cloned off its master tree and pared to chip, title and
+         the remove verb, so the drawer shows the member exactly as the page does. -->
+                <div class="bcn-ev-targets__listmode" data-targets-listmode="" hidden="">
+                  <p
+                    class="bcn-ev-targets__leftout typography-body-sm"
+                    data-listmode-leftout=""
+                    hidden=""
+                  >
+                    <span data-listmode-leftout-text=""></span
+                    ><button type="button" class="bcn-ev-targets__restore" data-listmode-restore="">
+                      Restore
+                    </button>
+                  </p>
+                  <ul class="bcn-ev-targets__list" data-listmode-rows=""></ul>
+                </div>
+                <!-- Nothing on the list yet. -->
                 <div class="bcn-ev-targets__empty" data-targets-empty="">
                   <div class="esa-empty-state esa-empty-state--sm">
                     <h3 class="esa-empty-state__title typography-label-sm-strong">
@@ -11816,6 +11864,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       </div>
       <footer class="bcn-bottom-drawer__foot">
         <div class="bcn-ev__foot">
+          <!-- List mode only: what Save is still waiting on, or what it will write. -->
+          <p
+            class="bcn-ev__status typography-body-sm"
+            data-evidence-status=""
+            role="status"
+            hidden=""
+          ></p>
           <div class="bcn-ev__actions">
             <span data-evidence-save=""
               ><span
@@ -11843,13 +11898,263 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   >
   <script
     type="module"
-    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DSCvyJLV.js"
+    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.BYzphbTU.js"
   ></script>
 </div>
 ```
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+.ag-paging-panel{align-items:center;border-top:var(--ag-footer-row-border);display:flex;flex-wrap:wrap-reverse;gap:calc(var(--ag-spacing)*4);justify-content:flex-end;min-height:var(--ag-pagination-panel-height);padding:calc(var(--ag-spacing)*.5) var(--ag-cell-horizontal-padding);row-gap:calc(var(--ag-spacing)*.5);@container (width < 600px){justify-content:center}
+.typography-microcopy-md{font-family:var(--typography-microcopy-md-font-family);font-size:var(--typography-microcopy-md-font-size);font-weight:var(--typography-microcopy-md-font-weight);line-height:var(--typography-microcopy-md-line-height);letter-spacing:var(--typography-microcopy-md-letter-spacing)}
+.typography-microcopy-xs-strong{font-family:var(--typography-microcopy-xs-strong-font-family);font-size:var(--typography-microcopy-xs-strong-font-size);font-weight:var(--typography-microcopy-xs-strong-font-weight);line-height:var(--typography-microcopy-xs-strong-line-height);letter-spacing:var(--typography-microcopy-xs-strong-letter-spacing)}
+.typography-label-sm-strong{font-family:var(--typography-label-sm-strong-font-family);font-size:var(--typography-label-sm-strong-font-size);font-weight:var(--typography-label-sm-strong-font-weight);line-height:var(--typography-label-sm-strong-line-height);letter-spacing:var(--typography-label-sm-strong-letter-spacing)}
+.typography-body-md{font-family:var(--typography-body-md-font-family);font-size:var(--typography-body-md-font-size);font-weight:var(--typography-body-md-font-weight);line-height:var(--typography-body-md-line-height);letter-spacing:var(--typography-body-md-letter-spacing)}
+.typography-microcopy-2xs{font-family:var(--typography-microcopy-2xs-font-family);font-size:var(--typography-microcopy-2xs-font-size);font-weight:var(--typography-microcopy-2xs-font-weight);line-height:var(--typography-microcopy-2xs-line-height);letter-spacing:var(--typography-microcopy-2xs-letter-spacing)}
+:where(.ag-theme-columnDropStyle-2) {
+.ag-column-drop-vertical-empty-message{align-items:center;border:dashed var(--ag-border-width);border-color:var(--ag-border-color);display:flex;inset:0;justify-content:center;margin:calc(var(--ag-spacing)*1.5) calc(var(--ag-spacing)*2);overflow:hidden;padding:calc(var(--ag-spacing)*2);position:absolute}
+:where(.ag-theme-checkboxStyle-4) {
+.ag-checkbox-input-wrapper,.ag-radio-button-input-wrapper{background-color:var(--ag-checkbox-unchecked-background-color);border:solid var(--ag-checkbox-border-width) var(--ag-checkbox-unchecked-border-color);flex:none;height:var(--ag-icon-size);position:relative;width:var(--ag-icon-size);&:where(.ag-checked){background-color:var(--ag-checkbox-checked-background-color);border-color:var(--ag-checkbox-checked-border-color)}
+&:where(.ag-disabled){filter:grayscale();opacity:.5}
+.ag-cell-editing-error .ag-checkbox-input-wrapper:focus-within{box-shadow:var(--ag-focus-error-shadow)}
+.modern-layout{flex-direction:column;height:100vh;display:flex}
+.topbar{background:var(--bcn-gray-100);border-bottom:1px solid var(--bcn-gray-300);z-index:1100;height:52px;padding:0 var(--spacing-200);grid-template-columns:auto 1fr auto;align-items:center;display:grid;position:fixed;top:0;left:0;right:0}
+.topbar{padding:0 var(--spacing-400)}
+.topbar__left{align-items:center;gap:var(--spacing-200);display:flex}
+.sidebar-toggle{border-radius:var(--spacing-050);width:32px;height:32px;color:var(--bcn-gray-600);cursor:pointer;background:0 0;border:none;justify-content:center;align-items:center;padding:0;transition:background .15s,color .15s;display:flex}
+.sidebar-toggle__icon{transition:transform .15s}
+.tenant-trigger{align-items:center;gap:var(--spacing-100);padding:var(--spacing-100) var(--spacing-200);border-radius:var(--spacing-050);color:var(--bcn-gray-900);cursor:pointer;background:0 0;border:none;font-size:.875rem;font-weight:600;transition:background .15s;display:flex}
+.topbar__center{justify-content:center;align-items:center;gap:var(--spacing-400);min-width:0;padding:0 var(--spacing-400);display:flex}
+.bcn-search-trigger{align-items:center;gap:var(--spacing-200);width:100%;max-width:520px;padding:var(--spacing-150) var(--spacing-300);background:var(--color-background-elevation-raised);border:1px solid var(--color-border-default);border-radius:var(--radius-200);cursor:text;margin:0 auto;transition:border-color .15s,background .15s;display:flex}
+.bcn-search-trigger .esa-icon{color:var(--color-content-default-tertiary);flex:none}
+.bcn-search-trigger__placeholder{text-align:left;text-overflow:ellipsis;white-space:nowrap;min-width:0;font-size:var(--font-size-200);color:var(--color-content-default-tertiary);flex:1;overflow:hidden}
+.bcn-search-trigger__kbd{flex:none;gap:2px;display:inline-flex}
+.bcn-search-trigger__kbd kbd{min-width:18px;height:18px;font-family:inherit;font-size:11px;font-weight:var(--typography-font-weight-medium);color:var(--color-content-default-tertiary);background:var(--color-background-elevation-sunken);border:1px solid var(--color-border-default);border-radius:4px;justify-content:center;align-items:center;padding:0 4px;display:inline-flex}
+.topbar__right{justify-content:flex-end;align-items:center;gap:var(--spacing-100);display:flex}
+.qa-warning{align-items:center;gap:var(--spacing-100);padding:var(--spacing-050) var(--spacing-200);background:var(--color-background-accent);color:var(--color-background-elevation-raised);border-radius:var(--spacing-100);white-space:nowrap;font-size:.8125rem;font-weight:600;display:inline-flex}
+.icon-button{border-radius:var(--spacing-050);width:32px;height:32px;color:var(--color-content-default-secondary);cursor:pointer;background:0 0;border:none;justify-content:center;align-items:center;padding:0;text-decoration:none;transition:background .15s,color .15s;display:flex}
+.user-menu{position:relative}
+.user-menu-trigger{cursor:pointer;background:0 0;border:none;border-radius:9999px;justify-content:center;align-items:center;width:44px;height:44px;padding:0;transition:transform .15s;display:flex}
+.user-menu-trigger__avatar{object-fit:cover;border:2px solid var(--bcn-gray-200);border-radius:9999px;width:32px;height:32px;transition:border-color .15s}
+.user-menu-trigger__avatar--fallback{background:var(--bcn-gray-200);color:var(--bcn-gray-500);justify-content:center;align-items:center;display:flex}
+.user-panel{top:calc(100% + var(--spacing-200));background:var(--color-background-elevation-raised);border-radius:var(--spacing-200);border:1px solid var(--bcn-gray-200);z-index:1200;min-width:280px;position:absolute;right:0;box-shadow:0 4px 24px #0000001f}
+.user-panel[hidden]{display:none}
+.modern-layout__body{flex:1;padding-top:52px;display:flex;overflow:hidden}
+.side-nav{background-color:var(--bcn-gray-50);border-right:1px solid var(--bcn-gray-200);flex-direction:column;flex-shrink:0;width:280px;height:100%;font-size:.875rem;transition:width .2s ease-in-out;display:flex;overflow:visible}
+.sidebar-header{padding:var(--spacing-300) var(--spacing-400);flex-shrink:0;transition:padding .2s ease-in-out}
+.site-logo{padding:var(--spacing-200);border-radius:var(--spacing-050);align-items:center;text-decoration:none;transition:background .15s;display:inline-flex}
+.site-logo__img{width:var(--spacing-700);object-fit:contain;object-position:left center;height:3.75rem;transition:all .2s ease-in-out}
+.project-switcher-container{padding:0 var(--spacing-400) var(--spacing-300);flex-shrink:0;min-width:0;transition:padding .2s ease-in-out}
+.project-switcher__trigger{align-items:center;gap:var(--spacing-200);box-sizing:border-box;width:100%;min-width:0;padding:var(--spacing-200) var(--spacing-300);background:var(--color-background-elevation-raised);border:1px solid var(--bcn-gray-200);border-radius:var(--spacing-200);cursor:pointer;color:var(--bcn-gray-950);font-size:.875rem;font-weight:500;transition:all .15s;display:flex}
+.project-switcher__trigger>.esa-icon:first-child{color:var(--bcn-gray-500);flex-shrink:0}
+.project-switcher__name{text-align:left;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;overflow:hidden}
+.main-nav{padding:0 var(--spacing-400);gap:var(--spacing-050);scrollbar-width:none;-ms-overflow-style:none;flex-direction:column;flex:1;transition:padding .2s ease-in-out;display:flex;overflow:visible auto}
+.nav-section{flex-direction:column;display:flex;position:relative}
+.nav-section__header{align-items:center;gap:var(--spacing-300);padding:var(--spacing-250) var(--spacing-200);color:var(--bcn-gray-950);border-radius:var(--spacing-050);white-space:nowrap;text-align:left;cursor:pointer;background:0 0;border:none;width:100%;font-size:.9375rem;font-weight:550;text-decoration:none;transition:all .15s;display:flex}
+.nav-section__header:hover .esa-icon,.nav-section--active .nav-section__header,.nav-section--active .nav-section__header .esa-icon{color:var(--color-background-brand)}
+.nav-section__header>.esa-icon:first-child{color:var(--bcn-gray-950);flex-shrink:0;transition:color .15s}
+.nav-section__title{flex:1;transition:opacity .2s ease-in-out;overflow:hidden}
+.nav-section__header>.esa-icon:last-child{color:var(--bcn-gray-400);flex-shrink:0;transition:transform .15s,opacity .2s ease-in-out}
+.nav-section__items{opacity:1;flex-direction:column;max-height:500px;margin:0;padding:0;list-style:none;transition:max-height .2s ease-in-out,opacity .2s ease-in-out;display:flex;overflow:hidden}
+.nav-item{padding:0 0 0 2.5rem}
+.nav-sublink{padding:var(--spacing-200);color:var(--bcn-gray-950);border-radius:var(--spacing-050);font-size:.8125rem;line-height:1.2;text-decoration:none;transition:all .15s;display:block}
+.nav-item+.nav-item{margin-top:var(--spacing-050)}
+.nav-sublink.active{color:var(--color-background-brand);background:#0000000a}
+.modern-layout__content{flex:1;min-width:0;overflow-y:auto}
+.bcn-omni{z-index:1300;padding:var(--spacing-500);justify-content:center;align-items:center;display:flex;position:fixed;inset:0}
+.bcn-omni[hidden]{display:none}
+.bcn-help-bar{z-index:1000;align-items:center;gap:var(--spacing-100);padding:var(--spacing-100) var(--spacing-150);color:var(--bcn-helpbar-fg);background:var(--bcn-helpbar-bg);backdrop-filter:blur(14px)saturate(1.4);border:1px solid var(--bcn-helpbar-border);border-radius:var(--radius-400,14px);display:flex;position:fixed;bottom:20px;left:50%;transform:translate(-50%);box-shadow:0 8px 24px #00000047}
+.bcn-help-bar__guidance{align-items:center;gap:var(--spacing-150);height:40px;padding:0 var(--spacing-250,.625rem);border-radius:var(--radius-200,8px);color:var(--bcn-helpbar-fg);font-family:inherit;font-size:var(--font-size-200,.9375rem);font-weight:var(--typography-font-weight-medium);cursor:pointer;transition:background var(--transition-fast,.15s ease);background:0 0;border:0;line-height:1;display:inline-flex}
+.bcn-aldo-mark{border-radius:var(--radius-full);background:var(--bcn-aldo);color:var(--color-content-default-knockout);flex-shrink:0;justify-content:center;align-items:center;line-height:0;display:inline-flex}
+.bcn-aldo-mark[data-size=sm]{width:20px;height:20px}
+.bcn-aldo-mark__glyph{width:100%;height:100%;display:block}
+.bcn-help-bar__guidance-label{white-space:nowrap}
+.bcn-help-bar__divider{width:1px;height:22px;margin:0 var(--spacing-050,2px);background:var(--bcn-helpbar-divider);flex:none}
+.bcn-help-bar__tooltip,.bcn-help-bar__popover{display:inline-flex}
+.bcn-help-bar__whatsnew{display:inline-flex;position:relative}
+.bcn-help-bar__dot{background:var(--bcn-aldo);width:8px;height:8px;box-shadow:0 0 0 2px var(--bcn-helpbar-bg-solid);pointer-events:none;border-radius:50%;position:absolute;top:7px;right:7px}
+.bcn-help-bar__panel{width:340px;max-width:84vw;color:var(--color-content-default)}
+.bcn-help-bar__panel-header{justify-content:space-between;align-items:baseline;gap:var(--spacing-200);margin:0 0 var(--spacing-300);display:flex}
+.bcn-help-bar__panel-title{font-size:var(--font-size-200,.9375rem);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default);margin:0}
+.bcn-help-bar__panel-release{font-size:var(--font-size-150,.875rem);color:var(--color-content-default-tertiary);white-space:nowrap;margin:0}
+.bcn-help-bar__panel-list{gap:var(--spacing-200);flex-direction:column;margin:0;padding:0;list-style:none;display:flex}
+.bcn-help-bar__panel-link{padding:var(--spacing-150) var(--spacing-150);margin:0 calc(var(--spacing-150) * -1);border-radius:var(--radius-200,8px);color:inherit;transition:background var(--transition-fast,.15s ease);text-decoration:none;display:block}
+.bcn-help-bar__panel-item-title{font-family:var(--font-decorative);font-size:1.0625rem;font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default);margin:0 0 2px;line-height:1.3}
+.bcn-help-bar__panel-item-blurb{font-size:var(--font-size-150,.875rem);font-weight:var(--typography-font-weight-regular,400);color:var(--color-content-default-secondary);margin:0;line-height:1.45}
+.bcn-help-bar__panel-footer{margin-top:var(--spacing-300);padding-top:var(--spacing-250,.625rem);border-top:1px solid var(--color-border-default)}
+.bcn-help-bar__panel-all{font-size:var(--font-size-150,.875rem);font-weight:var(--typography-font-weight-medium);color:var(--color-content-link);align-items:center;gap:4px;text-decoration:none;display:inline-flex}
+.bcn-help-bar__panel-all-arrow{transition:transform .15s}
+.bcn-gd{--z-modal-backdrop:1300;--z-modal:1301;--side-dialog-width:460px;--side-dialog-backdrop-filter:blur(2px)}
+.bcn-gd__header{align-items:center;gap:var(--spacing-300);min-width:0;display:flex}
+.bcn-aldo-mark[data-size=md]{width:40px;height:40px}
+.bcn-gd__title{font-family:var(--font-decorative);font-size:var(--font-size-400);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default);line-height:1.2}
+.bcn-gd__stream{gap:var(--spacing-500);flex-direction:column;display:flex}
+.bcn-gd-msg{gap:var(--spacing-300);align-items:flex-start;display:flex}
+.bcn-gd-msg__avatar{flex:none;margin-top:2px}
+.bcn-gd-msg__group{gap:var(--spacing-500);flex-direction:column;flex:1;min-width:0;display:flex}
+.bcn-gd__section{gap:var(--spacing-300);flex-direction:column;display:flex}
+.bcn-gd__label{align-items:center;gap:var(--spacing-200);font-size:var(--font-size-250);font-weight:var(--typography-font-weight-bold);color:var(--color-content-default);margin:0;display:flex}
+.bcn-gd__label .esa-icon{color:var(--color-content-default-tertiary);flex:none}
+.bcn-gd__here{padding:var(--spacing-300) var(--spacing-400);background:var(--bcn-aldo-50);border:1px solid var(--bcn-aldo-100);border-radius:var(--radius-200);flex-direction:column;gap:4px;display:flex}
+.bcn-gd__here-page{font-size:var(--font-size-250);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default)}
+.bcn-gd__here-purpose{font-size:var(--font-size-150);color:var(--color-content-default-secondary);line-height:1.5}
+.bcn-gd__rows{flex-direction:column;display:flex}
+.bcn-gd__foot{gap:var(--spacing-250);flex-direction:column;display:flex}
+.bcn-gd__browse{align-self:flex-end;align-items:center;gap:var(--spacing-150);font-size:var(--font-size-150);font-weight:var(--typography-font-weight-medium);color:var(--color-background-brand);text-decoration:none;display:inline-flex}
+.bcn-gd-composer{align-items:flex-end;gap:var(--spacing-200);padding:var(--spacing-150) var(--spacing-150) var(--spacing-150) var(--spacing-300);background:var(--color-background-elevation-raised);border:1px solid var(--color-border-default);border-radius:var(--radius-300);transition:border-color .15s,box-shadow .15s;display:flex}
+.bcn-gd-composer__input{resize:none;min-width:0;font-family:inherit;font-size:var(--font-size-200);color:var(--color-content-default);background:0 0;border:0;outline:0;flex:1;padding:6px 0;line-height:1.5;overflow-y:hidden}
+.bcn-gd-composer__input::placeholder{color:var(--color-content-default-tertiary)}
+.bcn-gd-composer__send{border-radius:var(--radius-full);background:var(--bcn-aldo);width:32px;height:32px;color:var(--color-content-default-knockout);cursor:pointer;border:0;flex:none;justify-content:center;align-items:center;transition:background .15s,color .15s;display:inline-flex}
+.bcn-gd-composer__send:disabled{background:var(--color-background-elevation-sunken);color:var(--color-content-default-tertiary);cursor:default}
+.bcn-gd-article{--z-modal-backdrop:1302;--z-modal:1303;--side-dialog-width:460px;--side-dialog-backdrop-filter:blur(2px)}
+.bcn-gd-article__head{gap:var(--spacing-200);flex-direction:column;min-width:0;display:flex}
+.bcn-gd-article__back{align-items:center;gap:var(--spacing-100);font:inherit;font-size:var(--font-size-150);font-weight:var(--typography-font-weight-medium);color:var(--color-content-default-secondary);cursor:pointer;background:0 0;border:0;align-self:flex-start;padding:0;display:inline-flex}
+.bcn-gd-article__titlerow{align-items:center;gap:var(--spacing-200);min-width:0;display:flex}
+.bcn-gd-article__title{font-family:var(--font-decorative);font-size:var(--font-size-300);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default);line-height:1.25}
+.bcn-gd-article__kind{border-radius:var(--radius-100);border:1px solid var(--color-border-default);background:var(--color-background-elevation-raised);font-size:var(--font-size-100);font-weight:var(--typography-font-weight-medium);color:var(--color-content-default-secondary);white-space:nowrap;flex:none;padding:1px 6px;line-height:1.5}
+.bcn-gd-article__panel[hidden]{display:none}
+.bcn-bottom-drawer{--_width:var(--bcn-bottom-drawer-width,90vw);--_height:var(--bcn-bottom-drawer-height,80vh);--_inset:var(--bcn-bottom-drawer-inset,0px);--_z:var(--bcn-bottom-drawer-z,1400);display:contents}
+.bcn-bottom-drawer__backdrop{background:var(--color-background-overlay-backdrop,#00000080);backdrop-filter:blur(2px);z-index:var(--_z);animation:.15s bcn-bd-fade;position:fixed;inset:0}
+.bcn-bottom-drawer:not([open]):not([closing]) .bcn-bottom-drawer__backdrop,.bcn-bottom-drawer:not([open]):not([closing]) .bcn-bottom-drawer__panel{display:none}
+.bcn-bottom-drawer__panel{left:50%;bottom:var(--_inset);width:min(var(--_width), calc(100vw - var(--_inset) * 2));height:var(--_height);background:var(--color-background-elevation-raised);border-radius:var(--radius-300) var(--radius-300) 0 0;z-index:calc(var(--_z) + 1);outline:none;flex-direction:column;animation:.3s cubic-bezier(.16,1,.3,1) bcn-bd-up;display:flex;position:fixed;overflow:hidden;transform:translate(-50%);box-shadow:0 -12px 48px -12px #00000052}
+:where(.ag-theme-tabStyle-6) {
+.ag-tabs-header{background-color:var(--ag-tab-bar-background-color);border-bottom:var(--ag-tab-bar-border);display:flex;flex:1;gap:var(--ag-tab-spacing);padding:var(--ag-tab-bar-top-padding) var(--ag-tab-bar-horizontal-padding) 0}
+:where(.ag-ltr) .ag-tabs-close-button-wrapper{border-right:solid var(--ag-border-width) var(--ag-border-color)}
+:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:first-of-type)){border-left-color:var(--ag-tab-selected-border-color)}
+:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:last-of-type)){border-right-color:var(--ag-tab-selected-border-color)}
+.esa-collapsible{border:var(--border-width-default,1px) solid var(--color-border-default,#cecece);border-radius:var(--radius-md,.5rem);background:var(--color-background-elevation-raised,#fcfcfc)}
+.esa-collapsible__summary{align-items:center;gap:var(--spacing-200,.5rem);padding:var(--spacing-300,.75rem) var(--spacing-400,1rem);color:var(--color-content-default,#202020);cursor:pointer;list-style:none;display:flex}
+.esa-collapsible__summary .esa-icon{color:var(--color-content-default-secondary,#646464);flex-shrink:0}
+.esa-collapsible__summary:after{content:"";border-right:2px solid var(--color-content-default-secondary,#646464);border-bottom:2px solid var(--color-content-default-secondary,#646464);width:8px;height:8px;margin-left:auto;transition:transform .15s;transform:rotate(-45deg)}
+.esa-collapsible[open]>.esa-collapsible__summary:after{transform:rotate(45deg)}
+.esa-collapsible__body{gap:var(--spacing-400,1rem);padding:0 var(--spacing-400,1rem) var(--spacing-400,1rem);flex-direction:column;display:flex}
+.bcn-key-value{flex-direction:column;gap:2px;display:flex}
+.bcn-key-value__key{font-size:var(--typography-label-md-font-size);font-weight:var(--typography-font-weight-medium);color:var(--form-label-color)}
+.bcn-key-value__key{align-items:center;gap:var(--spacing-100);display:inline-flex}
+.bcn-key-value__val{font-size:var(--typography-label-md-font-size);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default)}
+.bcn-key-value__hint{color:var(--color-content-default-tertiary);font-size:.75rem}
+.page-layout__title{display:none!important}
+.bcn-action{gap:var(--spacing-600);flex-direction:column;display:flex}
+.bcn-action__head{justify-content:space-between;align-items:flex-start;gap:var(--spacing-400);padding-bottom:var(--spacing-400);border-bottom:1px solid var(--color-border-default);display:flex}
+.bcn-action__identity{align-items:flex-start;gap:var(--spacing-100);flex-direction:column;min-width:0;display:flex}
+.bcn-action__badge{border-radius:var(--radius-100);font-size:var(--font-size-100);font-weight:var(--typography-font-weight-semibold);white-space:nowrap;flex-shrink:0;padding:.125rem .375rem;line-height:1.4}
+.bcn-action__badge--commitment{color:var(--color-commitment);background:color-mix(in srgb, var(--color-commitment) 12%, white)}
+.bcn-action__title-row{align-items:center;gap:var(--spacing-200);flex-wrap:wrap;min-width:0;display:flex}
+.bcn-action__title{font-family:var(--font-decorative);font-size:1.5rem;font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default);margin:0;line-height:1.2}
+.bcn-action__badge--type{color:var(--color-content-default-secondary);background:var(--color-background-elevation-sunken);transform:translateY(2px)}
+.bcn-action__head-actions{align-items:center;gap:var(--spacing-200);flex-shrink:0;display:inline-flex}
+.bcn-btn-ico{align-items:center;gap:var(--spacing-150);display:inline-flex}
+.bcn-action__body{gap:var(--spacing-600);grid-template-columns:minmax(0,1fr) 360px;align-items:start;display:grid}
+.bcn-action__main{gap:var(--spacing-600);flex-direction:column;min-width:0;display:flex}
+.bcn-action__section{gap:var(--spacing-300);flex-direction:column;display:flex}
+.bcn-section-title{align-items:center;gap:var(--spacing-200);font-size:var(--font-size-300);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default);margin:0;display:flex}
+.bcn-req-read{gap:var(--spacing-200);flex-direction:column;margin:0;padding:0;list-style:none;display:flex}
+.bcn-req-read__row{align-items:center;gap:var(--spacing-250);padding:var(--spacing-150) var(--spacing-300);border:1px solid var(--color-border-default);border-radius:var(--radius-200);background:var(--color-background-elevation-raised);display:flex}
+.bcn-req-read__badge{border-radius:var(--radius-100);font-size:.6875rem;font-weight:var(--typography-font-weight-semibold);color:var(--color-commitment);background:color-mix(in srgb, var(--color-commitment) 12%, white);white-space:nowrap;flex-shrink:0;padding:.0625rem .375rem}
+.bcn-req-read__name{min-width:0;font-size:var(--typography-label-md-font-size);color:var(--color-content-default);flex:1;text-decoration:none}
+.bcn-prose{font-size:var(--typography-label-md-font-size);color:var(--color-content-default);margin:0;line-height:1.6}
+.bcn-action__section--evidence{gap:var(--spacing-500)}
+.bcn-subfield{gap:var(--spacing-250);flex-direction:column;display:flex}
+.bcn-subfield__label{font-size:var(--typography-label-md-font-size);font-weight:var(--typography-font-weight-medium);color:var(--color-content-default-secondary)}
+.bcn-subfield esa-file-list{margin-top:var(--spacing-100)}
+.bcn-action__rail{gap:var(--spacing-500);flex-direction:column;min-width:0;display:flex}
+.bcn-action__rail .esa-collapsible__title{font-size:var(--font-size-300);font-weight:var(--typography-font-weight-semibold)}
+.bcn-lists{align-items:flex-start;gap:var(--spacing-150);flex-direction:column;margin:0;padding:0;list-style:none;display:flex}
+.bcn-list-link{font-size:var(--typography-label-md-font-size);font-weight:var(--typography-font-weight-medium);color:var(--color-background-brand);text-decoration:none}
+.bcn-triggers{gap:var(--spacing-200);flex-direction:column;margin:0;padding:0;list-style:none;display:flex}
+.bcn-trigger-row{align-items:center;gap:var(--spacing-250);font-size:var(--typography-label-md-font-size);display:flex}
+.bcn-trigger-row .esa-icon{color:var(--color-background-brand);flex-shrink:0}
+.bcn-trigger-row__name{color:var(--color-content-default);font-weight:var(--typography-font-weight-medium)}
+.bcn-trigger-row__rule{color:var(--color-content-default-secondary);text-align:right;margin-left:auto}
+.bcn-action__impl{gap:var(--spacing-300);flex-direction:column;display:flex}
+.bcn-impl-grid{width:100%}
+.bcn-editor__head{align-items:center;gap:var(--spacing-200);display:flex}
+.bcn-editor__head-title{font-family:var(--font-decorative);font-size:var(--font-size-300);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default)}
+.bcn-editor{height:calc(86vh - 8.5rem);margin:calc(-1 * var(--_dialog-padding,1.5rem));grid-template-columns:minmax(0,3fr) minmax(0,2fr);align-items:stretch;display:grid;overflow:hidden}
+.bcn-reqs{border-right:1px solid var(--color-border-default);flex-direction:column;min-width:0;height:100%;display:flex;overflow:hidden}
+.bcn-reqs__region{gap:var(--spacing-300);min-height:0;padding:var(--spacing-500);flex-direction:column;flex:1 1 0;display:flex}
+.bcn-reqs__assigned,.bcn-reqs__browse{gap:var(--spacing-150);flex-direction:column;flex:1 1 0;min-height:0;margin:0;padding:0;list-style:none;display:flex;overflow-y:auto}
+.bcn-req-row{align-items:center;gap:var(--spacing-200);padding:var(--spacing-100) var(--spacing-250);border:1px solid var(--color-border-default);border-radius:var(--radius-200);background:var(--color-background-elevation-raised);display:flex}
+.bcn-req-row--assigned{background:var(--color-background-default)}
+.bcn-req-row__badge{border-radius:var(--radius-100);font-size:.6875rem;font-weight:var(--typography-font-weight-semibold);color:var(--color-commitment);background:color-mix(in srgb, var(--color-commitment) 12%, white);white-space:nowrap;flex-shrink:0;padding:.0625rem .375rem}
+.bcn-req-row__name{min-width:0;font-size:var(--typography-label-md-font-size);color:var(--color-content-default);text-overflow:ellipsis;white-space:nowrap;flex:1;overflow:hidden}
+.bcn-req-row__act{flex-shrink:0}
+.bcn-reqs__region--browse{border-top:1px solid var(--color-border-default);background:var(--color-background-default)}
+.bcn-reqs__filters{gap:var(--spacing-200);flex-direction:column;display:flex}
+.bcn-reqs__filter-row{gap:var(--spacing-200);flex-wrap:wrap;display:flex}
+.bcn-reqs__filter-row esa-select{flex:1;min-width:0}
+.bcn-config{min-width:0;min-height:0;overflow-y:auto}
+.bcn-config esa-tab-layout{--_tab-padding-x:var(--spacing-500);display:block}
+.bcn-form{gap:var(--spacing-400);padding:var(--spacing-300) var(--spacing-500) var(--spacing-500);flex-direction:column;display:flex}
+.bcn-field{gap:var(--spacing-150);flex-direction:column;display:flex}
+.bcn-field__label{font-size:var(--typography-label-md-font-size);font-weight:var(--typography-font-weight-medium);color:var(--form-label-color)}
+.bcn-field__hint{color:var(--color-content-default-tertiary);font-size:.75rem}
+.bcn-grid-3{gap:var(--spacing-300);grid-template-columns:repeat(3,minmax(0,1fr));display:grid}
+.bcn-notif{gap:var(--spacing-400)}
+.bcn-ncard{gap:var(--spacing-250);padding:var(--spacing-400);border:1px solid var(--color-border-default);border-radius:var(--radius-200);background:var(--color-background-elevation-raised);flex-direction:column;display:flex}
+.bcn-ncard__title{font-size:.875rem;font-weight:var(--typography-font-weight-bold);letter-spacing:.03em;text-transform:uppercase;color:var(--color-content-default);margin:0}
+.bcn-note{align-items:flex-start;gap:var(--spacing-200);padding:var(--spacing-300);border-radius:var(--radius-200);background:color-mix(in srgb, var(--color-background-brand) 8%, white);color:var(--color-content-default-secondary);font-size:var(--typography-label-md-font-size);line-height:1.45;display:flex}
+.bcn-note .esa-icon{color:var(--color-background-brand);flex-shrink:0;margin-top:2px}
+.bcn-ncard__date{font-size:var(--font-size-300);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default);margin:0}
+.bcn-ncard__hint{font-size:var(--typography-label-md-font-size);color:var(--color-content-default-secondary);margin:0;line-height:1.45}
+.bcn-ntoggle{gap:var(--spacing-300);padding:var(--spacing-400);border:1px solid var(--color-border-default);border-radius:var(--radius-200);background:var(--color-background-elevation-raised);flex-direction:column;display:flex}
+.bcn-ntoggle__head{justify-content:space-between;align-items:center;gap:var(--spacing-300);display:flex}
+.bcn-ntoggle__title{align-items:center;gap:var(--spacing-250);font-weight:var(--typography-font-weight-semibold);color:var(--color-background-brand);display:inline-flex}
+.bcn-ntoggle__title .esa-icon{color:var(--color-content-default)}
+.bcn-ntoggle__body{gap:var(--spacing-200);flex-direction:column;align-items:flex-start;display:flex}
+.bcn-ntoggle__body esa-text-field{max-width:240px}
+.bcn-check{align-items:center;gap:var(--spacing-200);font-size:var(--typography-label-md-font-size);color:var(--color-content-default);cursor:pointer;display:inline-flex}
+.bcn-check input{width:1rem;height:1rem;accent-color:var(--color-background-brand)}
+.bcn-nsched__test{align-items:center;gap:var(--spacing-300);margin-top:var(--spacing-200);display:flex}
+.bcn-nsched__test[hidden]{display:none}
+.bcn-editor__foot{gap:var(--spacing-300);justify-content:flex-end;width:100%;display:flex}
+.ag-cell.bcn-grid-status-cell{align-items:center;display:flex}
+.bcn-grid-chip{align-items:center;gap:var(--spacing-150);padding:1px var(--spacing-200);border-radius:var(--radius-100);font-size:.75rem;line-height:1.5;font-weight:var(--typography-font-weight-semibold);white-space:nowrap;background:color-mix(in srgb, var(--_chip) 16%, transparent);color:color-mix(in srgb, var(--_chip) 70%, #1a1a1a);display:inline-flex}
+.bcn-grid-chip__dot{background:var(--_chip);border-radius:50%;flex-shrink:0;width:7px;height:7px}
+.page-layout{min-height:calc(100vh - 52px);padding:var(--spacing-600);background:var(--bcn-gray-50);box-sizing:border-box;flex-direction:column;display:flex}
+.page-layout__bleed,.page-layout section{width:100%}
+.breadcrumbs{padding:var(--spacing-400) 0;justify-content:space-between;align-items:center;gap:var(--spacing-400);display:flex}
+.breadcrumbs__items{gap:var(--spacing-100);flex-wrap:wrap;align-items:center;display:flex}
+.breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
+.breadcrumb-item{color:var(--bcn-gray-600);text-transform:capitalize;font-size:.875rem}
+a.breadcrumb-item{text-decoration:none}
+.page-layout__container{flex-direction:column;display:flex}
+.page-layout__title{border-bottom:1px solid var(--bcn-gray-200);padding:var(--spacing-500) 0;box-sizing:border-box;justify-content:space-between;align-items:center;display:flex}
+.page-layout__content{padding:var(--spacing-500) 0;min-height:70vh;position:relative}
+:where(.ag-theme-buttonStyle-1) {
+:where(.ag-button){background:none;border:none;color:inherit;cursor:pointer;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;margin:0;padding:0;text-indent:inherit;text-shadow:inherit;text-transform:inherit;word-spacing:inherit;&:disabled{cursor:default}
+.ag-pinned-left-header,.ag-pinned-right-header{display:inline-block;height:100%;overflow:hidden;position:relative}
+.ag-pinned-left-header{border-right:var(--ag-pinned-column-border)}
+.ag-pinned-right-header{border-left:var(--ag-pinned-column-border)}
+.ag-pinned-left-floating-bottom,.ag-pinned-left-floating-top,.ag-pinned-right-floating-bottom,.ag-pinned-right-floating-top{min-width:0;overflow:hidden;position:relative}
+.ag-pinned-left-sticky-top,.ag-pinned-right-sticky-top{height:100%;overflow:hidden;position:relative}
+.ag-sticky-bottom-full-width-container,.ag-sticky-top-full-width-container{height:100%;overflow:hidden;width:100%}
+.ag-body-horizontal-scroll:not(.ag-scrollbar-invisible){.ag-horizontal-left-spacer:not(.ag-scroller-corner){border-right:var(--ag-pinned-column-border)}
+.ag-horizontal-right-spacer:not(.ag-scroller-corner){border-left:var(--ag-pinned-column-border)}
+.ag-measurement-container{height:0;overflow:hidden;visibility:hidden;width:0}
+.ag-measurement-element-border{display:inline-block}
+.ag-measurement-element-border:before{border-left:var(--ag-internal-measurement-border);content:"";display:block}
+.ag-chart,.ag-dnd-ghost,.ag-external,.ag-popup,.ag-root-wrapper{cursor:default;line-height:normal;white-space:normal;-webkit-font-smoothing:antialiased;background-color:var(--ag-wrapper-background-color);color:var(--ag-text-color);color-scheme:var(--ag-browser-color-scheme);font-family:var(--ag-font-family);font-size:var(--ag-font-size);font-weight:var(--ag-font-weight);--ag-indentation-level:0}
+.ag-tab-guard{display:block;height:0;position:absolute;width:0}
+.ag-tab-guard-top{top:1px}
+.ag-invisible{visibility:hidden!important}
+.ag-hidden{display:none!important}
+.ag-tab-guard-bottom{bottom:1px}
+html,.modern-layout__content{scroll-behavior:smooth}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.ag-overlay{inset:0;pointer-events:none;position:absolute;z-index:2}
+.esa-badge{--_badge-bg:var(--badge-bg,var(--color-background-elevation-raised,#fcfcfc));--_badge-text:var(--badge-text-color,var(--color-content-default-secondary,#646464));--_badge-border:var(--badge-border-color,var(--color-border-default,#cecece));--_badge-padding-y:var(--spacing-150,.375rem);--_badge-padding-x:var(--spacing-200,.5rem);min-width:calc(1lh + 2 * var(--_badge-padding-y));padding-block:var(--_badge-padding-y);padding-inline:var(--_badge-padding-x);border-radius:var(--radius-chip,var(--radius-sm,.25rem));background:var(--_badge-bg);color:var(--_badge-text);white-space:nowrap;box-sizing:border-box;justify-content:center;align-items:center;display:inline-flex}
+.esa-badge--sm{--_badge-padding-y:var(--spacing-100,.25rem);--_badge-padding-x:var(--spacing-150,.375rem)}
+.esa-badge--secondary{--_badge-bg:var(--color-background-brand-muted,#e9f6e9);--_badge-text:var(--color-content-on-brand-muted,#203c25)}
+:where(.ag-theme-batchEditStyle-3) {
+.ag-cell-batch-edit{background-color:var(--ag-cell-batch-edit-background-color);color:var(--ag-cell-batch-edit-text-color);display:inherit}
+.ag-row-batch-edit{background-color:var(--ag-row-batch-edit-background-color);color:var(--ag-row-batch-edit-text-color)}
 :where(.ag-theme-iconSet-5) {
 .ag-icon-aggregation::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M18%207V4H6l6%208-6%208h12v-3%22%2F%3E%3C%2Fsvg%3E'); }
 .ag-icon-arrows::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpolyline%20points%3D%225%209%202%2012%205%2015%22%2F%3E%3Cpolyline%20points%3D%229%205%2012%202%2015%205%22%2F%3E%3Cpolyline%20points%3D%2215%2019%2012%2022%209%2019%22%2F%3E%3Cpolyline%20points%3D%2219%209%2022%2012%2019%2015%22%2F%3E%3Cline%20x1%3D%222%22%20x2%3D%2222%22%20y1%3D%2212%22%20y2%3D%2212%22%2F%3E%3Cline%20x1%3D%2212%22%20x2%3D%2212%22%20y1%3D%222%22%20y2%3D%2222%22%2F%3E%3C%2Fsvg%3E'); }
@@ -11916,49 +12221,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .ag-icon-small-down::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22black%22%20stroke%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M7.334%2010.667%2016%2021.334l8.667-10.667H7.334Z%22%2F%3E%3C%2Fsvg%3E'); }
 .ag-icon-small-up::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22black%22%20stroke%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M7.334%2021.333%2016%2010.666l8.667%2010.667H7.334Z%22%2F%3E%3C%2Fsvg%3E'); }
 .ag-icon-un-pin::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20class%3D%22ag-icon%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M8%2011a.75.75%200%200%200-.75.75v3.333a.75.75%200%201%200%201.5%200V11.75A.75.75%200%200%200%208%2011Z%22%2F%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M13.11%201.436a.75.75%200%200%200-1.22-.872l-10%2014a.75.75%200%201%200%201.22.872L5.207%2012.5h7.376a.75.75%200%200%200%20.75-.75v-1.174a2.08%202.08%200%200%200-1.153-1.863l-1.185-.599-.005-.002a.58.58%200%200%201-.323-.522V5.165a2.083%202.083%200%200%200%201.854-2.904l.589-.825Zm-3.943%205.52v.634a2.08%202.08%200%200%200%201.153%201.863l1.185.6.005.002a.58.58%200%200%201%20.323.522V11H6.28l2.887-4.044ZM9.277%201H5.25a2.084%202.084%200%200%200-.083%204.165v1.676l1.5-2.132v-.292a.75.75%200%200%200-.75-.75H5.25a.584.584%200%200%201%200-1.167h2.972L9.277%201Z%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-overlay{inset:0;pointer-events:none;position:absolute;z-index:2}
-.page-layout{min-height:calc(100vh - 52px);padding:var(--spacing-600);background:var(--bcn-gray-50);box-sizing:border-box;flex-direction:column;display:flex}
-.page-layout__bleed,.page-layout section{width:100%}
-.breadcrumbs{padding:var(--spacing-400) 0;justify-content:space-between;align-items:center;gap:var(--spacing-400);display:flex}
-.breadcrumbs__items{gap:var(--spacing-100);flex-wrap:wrap;align-items:center;display:flex}
-.breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
-.breadcrumb-item{color:var(--bcn-gray-600);text-transform:capitalize;font-size:.875rem}
-a.breadcrumb-item{text-decoration:none}
-.page-layout__container{flex-direction:column;display:flex}
-.page-layout__title{border-bottom:1px solid var(--bcn-gray-200);padding:var(--spacing-500) 0;box-sizing:border-box;justify-content:space-between;align-items:center;display:flex}
-.page-layout__content{padding:var(--spacing-500) 0;min-height:70vh;position:relative}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-:where(.ag-theme-inputStyle-7) {
-:where(.ag-input-field-input[type=number]:not(.ag-number-field-input-stepper)){-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield;&::-webkit-inner-spin-button,&::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}
-:where(.ag-ltr) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding-left:var(--ag-input-padding-start)}
-&:where(.ag-ltr,.ag-rtl) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding:0 var(--ag-input-padding-start)}
-:where(.ag-ltr) :where(.ag-column-select-header-filter-wrapper),:where(.ag-ltr) :where(.ag-filter-add-select),:where(.ag-ltr) :where(.ag-filter-filter),:where(.ag-ltr) :where(.ag-filter-toolpanel-search),:where(.ag-ltr) :where(.ag-floating-filter-search-icon),:where(.ag-ltr) :where(.ag-mini-filter){.ag-input-wrapper:before{margin-left:var(--ag-spacing)}
-:where(.ag-theme-tabStyle-6) {
-.ag-tabs-header{background-color:var(--ag-tab-bar-background-color);border-bottom:var(--ag-tab-bar-border);display:flex;flex:1;gap:var(--ag-tab-spacing);padding:var(--ag-tab-bar-top-padding) var(--ag-tab-bar-horizontal-padding) 0}
-:where(.ag-ltr) .ag-tabs-close-button-wrapper{border-right:solid var(--ag-border-width) var(--ag-border-color)}
-:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:first-of-type)){border-left-color:var(--ag-tab-selected-border-color)}
-:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:last-of-type)){border-right-color:var(--ag-tab-selected-border-color)}
-.esa-collapsible{border:var(--border-width-default,1px) solid var(--color-border-default,#cecece);border-radius:var(--radius-md,.5rem);background:var(--color-background-elevation-raised,#fcfcfc)}
-.esa-collapsible__summary{align-items:center;gap:var(--spacing-200,.5rem);padding:var(--spacing-300,.75rem) var(--spacing-400,1rem);color:var(--color-content-default,#202020);cursor:pointer;list-style:none;display:flex}
-.esa-collapsible__summary .esa-icon{color:var(--color-content-default-secondary,#646464);flex-shrink:0}
-.esa-collapsible__summary:after{content:"";border-right:2px solid var(--color-content-default-secondary,#646464);border-bottom:2px solid var(--color-content-default-secondary,#646464);width:8px;height:8px;margin-left:auto;transition:transform .15s;transform:rotate(-45deg)}
-.esa-collapsible[open]>.esa-collapsible__summary:after{transform:rotate(45deg)}
-.esa-collapsible__body{gap:var(--spacing-400,1rem);padding:0 var(--spacing-400,1rem) var(--spacing-400,1rem);flex-direction:column;display:flex}
-.bcn-key-value{flex-direction:column;gap:2px;display:flex}
-.bcn-key-value__key{font-size:var(--typography-label-md-font-size);font-weight:var(--typography-font-weight-medium);color:var(--form-label-color)}
-.bcn-key-value__val{font-size:var(--typography-label-md-font-size);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default)}
-.bcn-key-value__hint{color:var(--color-content-default-tertiary);font-size:.75rem}
-:where(.ag-theme-buttonStyle-1) {
-:where(.ag-button){background:none;border:none;color:inherit;cursor:pointer;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;margin:0;padding:0;text-indent:inherit;text-shadow:inherit;text-transform:inherit;word-spacing:inherit;&:disabled{cursor:default}
-:where(.ag-theme-batchEditStyle-3) {
-.ag-cell-batch-edit{background-color:var(--ag-cell-batch-edit-background-color);color:var(--ag-cell-batch-edit-text-color);display:inherit}
-.ag-row-batch-edit{background-color:var(--ag-row-batch-edit-background-color);color:var(--ag-row-batch-edit-text-color)}
+.esa-icon{--_icon-size:var(--icon-size-md,20px);width:var(--_icon-size);height:var(--_icon-size);color:inherit;justify-content:center;align-items:center;display:inline-flex}
+.esa-icon--xs{--_icon-size:var(--icon-size-xs,14px)}
+.esa-icon svg{width:var(--_icon-size);height:var(--_icon-size);display:block}
+.esa-icon--sm{--_icon-size:var(--icon-size-sm,16px)}
+.esa-icon--md{--_icon-size:var(--icon-size-md,20px)}
 :where(.ag-theme-part-8) {
 .ag-icon-filter::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
 ;
@@ -12054,25 +12321,12 @@ a.breadcrumb-item{text-decoration:none}
 :where(.ag-ltr) .ag-right-aligned-cell{text-align:right}
 .ag-row-odd{background-color:var(--ag-odd-row-background-color)}
 &:where(.ag-scrollbar-invisible){bottom:0;position:absolute;&:where(.ag-apple-scrollbar){opacity:0;transition:opacity .4s;visibility:hidden;&:where(.ag-scrollbar-active),&:where(.ag-scrollbar-scrolling){opacity:1;visibility:visible}
+&:where(.ag-apple-scrollbar){opacity:0;transition:opacity .4s;visibility:hidden;&:where(.ag-scrollbar-active),&:where(.ag-scrollbar-scrolling){opacity:1;visibility:visible}
 &:where(.ag-scrollbar-invisible){top:0;z-index:10}
 &:where(.ag-scrollbar-invisible){right:0}
 &:where(.ag-scrollbar-invisible){left:0;right:0}
 :where(.ag-body-vertical-content-no-gap>div>div>div,.ag-body-vertical-content-no-gap>div>div>div>div)>.ag-row-last{border-bottom-color:transparent}
 :where(.ag-ltr) :where(.ag-body-horizontal-content-no-gap) .ag-column-last{border-right-color:transparent}
-.ag-paging-panel{align-items:center;border-top:var(--ag-footer-row-border);display:flex;flex-wrap:wrap-reverse;gap:calc(var(--ag-spacing)*4);justify-content:flex-end;min-height:var(--ag-pagination-panel-height);padding:calc(var(--ag-spacing)*.5) var(--ag-cell-horizontal-padding);row-gap:calc(var(--ag-spacing)*.5);@container (width < 600px){justify-content:center}
-.ag-measurement-container{height:0;overflow:hidden;visibility:hidden;width:0}
-.ag-measurement-element-border{display:inline-block}
-.ag-measurement-element-border:before{border-left:var(--ag-internal-measurement-border);content:"";display:block}
-.ag-chart,.ag-dnd-ghost,.ag-external,.ag-popup,.ag-root-wrapper{cursor:default;line-height:normal;white-space:normal;-webkit-font-smoothing:antialiased;background-color:var(--ag-wrapper-background-color);color:var(--ag-text-color);color-scheme:var(--ag-browser-color-scheme);font-family:var(--ag-font-family);font-size:var(--ag-font-size);font-weight:var(--ag-font-weight);--ag-indentation-level:0}
-.ag-tab-guard{display:block;height:0;position:absolute;width:0}
-.ag-tab-guard-top{top:1px}
-.ag-invisible{visibility:hidden!important}
-.ag-hidden{display:none!important}
-.ag-tab-guard-bottom{bottom:1px}
-:where(.ag-theme-checkboxStyle-4) {
-.ag-checkbox-input-wrapper,.ag-radio-button-input-wrapper{background-color:var(--ag-checkbox-unchecked-background-color);border:solid var(--ag-checkbox-border-width) var(--ag-checkbox-unchecked-border-color);flex:none;height:var(--ag-icon-size);position:relative;width:var(--ag-icon-size);&:where(.ag-checked){background-color:var(--ag-checkbox-checked-background-color);border-color:var(--ag-checkbox-checked-border-color)}
-&:where(.ag-disabled){filter:grayscale();opacity:.5}
-.ag-cell-editing-error .ag-checkbox-input-wrapper:focus-within{box-shadow:var(--ag-focus-error-shadow)}
 :has(> :where(.ag-theme-params-1)):not(:where(.ag-theme-params-1)) {
 	--ag-inherited-accent-color: var(--ag-accent-color);
 	--ag-inherited-advanced-filter-builder-button-bar-border: var(--ag-advanced-filter-builder-button-bar-border);
@@ -12687,102 +12941,7 @@ a.breadcrumb-item{text-decoration:none}
 	--ag-browser-color-scheme: var(--ag-inherited-browser-color-scheme, light);
 	--ag-chrome-background-color: var(--ag-inherited-chrome-background-color, color-mix(in srgb, var(--ag-background-color), var(--ag-foreground-color) 2%));
 }
-:where(.ag-theme-columnDropStyle-2) {
-.ag-column-drop-vertical-empty-message{align-items:center;border:dashed var(--ag-border-width);border-color:var(--ag-border-color);display:flex;inset:0;justify-content:center;margin:calc(var(--ag-spacing)*1.5) calc(var(--ag-spacing)*2);overflow:hidden;padding:calc(var(--ag-spacing)*2);position:absolute}
-.esa-icon{--_icon-size:var(--icon-size-md,20px);width:var(--_icon-size);height:var(--_icon-size);color:inherit;justify-content:center;align-items:center;display:inline-flex}
-.esa-icon--xs{--_icon-size:var(--icon-size-xs,14px)}
-.esa-icon svg{width:var(--_icon-size);height:var(--_icon-size);display:block}
-.esa-icon--sm{--_icon-size:var(--icon-size-sm,16px)}
-.esa-icon--md{--_icon-size:var(--icon-size-md,20px)}
-.esa-badge{--_badge-bg:var(--badge-bg,var(--color-background-brand,#46a758));--_badge-text:var(--badge-text-color,var(--color-content-default-knockout,#fcfcfc));--_badge-padding-y:var(--spacing-150,.375rem);--_badge-padding-x:var(--spacing-200,.5rem);min-width:calc(1lh + 2 * var(--_badge-padding-y));padding-block:var(--_badge-padding-y);padding-inline:var(--_badge-padding-x);border-radius:var(--radius-chip,var(--radius-sm,.25rem));background:var(--_badge-bg);color:var(--_badge-text);white-space:nowrap;box-sizing:border-box;justify-content:center;align-items:center;display:inline-flex}
-.esa-badge--sm{--_badge-padding-y:var(--spacing-100,.25rem);--_badge-padding-x:var(--spacing-150,.375rem)}
-.esa-badge--secondary{--_badge-bg:var(--color-background-brand-muted,#e9f6e9);--_badge-text:var(--color-content-on-brand-muted,#203c25)}
-.ag-pinned-left-header,.ag-pinned-right-header{display:inline-block;height:100%;overflow:hidden;position:relative}
-.ag-pinned-left-header{border-right:var(--ag-pinned-column-border)}
-.ag-pinned-right-header{border-left:var(--ag-pinned-column-border)}
-.ag-pinned-left-floating-bottom,.ag-pinned-left-floating-top,.ag-pinned-right-floating-bottom,.ag-pinned-right-floating-top{min-width:0;overflow:hidden;position:relative}
-.ag-pinned-left-sticky-top,.ag-pinned-right-sticky-top{height:100%;overflow:hidden;position:relative}
-.ag-sticky-bottom-full-width-container,.ag-sticky-top-full-width-container{height:100%;overflow:hidden;width:100%}
-.ag-body-horizontal-scroll:not(.ag-scrollbar-invisible){.ag-horizontal-left-spacer:not(.ag-scroller-corner){border-right:var(--ag-pinned-column-border)}
-.ag-horizontal-right-spacer:not(.ag-scroller-corner){border-left:var(--ag-pinned-column-border)}
-.page-layout__title{display:none!important}
-.bcn-action{gap:var(--spacing-600);flex-direction:column;display:flex}
-.bcn-action__head{justify-content:space-between;align-items:flex-start;gap:var(--spacing-400);padding-bottom:var(--spacing-400);border-bottom:1px solid var(--color-border-default);display:flex}
-.bcn-action__identity{align-items:flex-start;gap:var(--spacing-100);flex-direction:column;min-width:0;display:flex}
-.bcn-action__badge{border-radius:var(--radius-100);font-size:var(--font-size-100);font-weight:var(--typography-font-weight-semibold);white-space:nowrap;flex-shrink:0;padding:.125rem .375rem;line-height:1.4}
-.bcn-action__badge--commitment{color:var(--color-commitment);background:color-mix(in srgb, var(--color-commitment) 12%, white)}
-.bcn-action__title-row{align-items:center;gap:var(--spacing-200);flex-wrap:wrap;min-width:0;display:flex}
-.bcn-action__title{font-family:var(--font-decorative);font-size:1.5rem;font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default);margin:0;line-height:1.2}
-.bcn-action__badge--type{color:var(--color-content-default-secondary);background:var(--color-background-elevation-sunken);transform:translateY(2px)}
-.bcn-action__head-actions{align-items:center;gap:var(--spacing-200);flex-shrink:0;display:inline-flex}
-.bcn-btn-ico{align-items:center;gap:var(--spacing-150);display:inline-flex}
-.bcn-action__body{gap:var(--spacing-600);grid-template-columns:minmax(0,1fr) 360px;align-items:start;display:grid}
-.bcn-action__main{gap:var(--spacing-600);flex-direction:column;min-width:0;display:flex}
-.bcn-action__section{gap:var(--spacing-300);flex-direction:column;display:flex}
-.bcn-section-title{align-items:center;gap:var(--spacing-200);font-size:var(--font-size-300);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default);margin:0;display:flex}
-.bcn-req-read{gap:var(--spacing-200);flex-direction:column;margin:0;padding:0;list-style:none;display:flex}
-.bcn-req-read__row{align-items:center;gap:var(--spacing-250);padding:var(--spacing-150) var(--spacing-300);border:1px solid var(--color-border-default);border-radius:var(--radius-200);background:var(--color-background-elevation-raised);display:flex}
-.bcn-req-read__badge{border-radius:var(--radius-100);font-size:.6875rem;font-weight:var(--typography-font-weight-semibold);color:var(--color-commitment);background:color-mix(in srgb, var(--color-commitment) 12%, white);white-space:nowrap;flex-shrink:0;padding:.0625rem .375rem}
-.bcn-req-read__name{min-width:0;font-size:var(--typography-label-md-font-size);color:var(--color-content-default);flex:1;text-decoration:none}
-.bcn-prose{font-size:var(--typography-label-md-font-size);color:var(--color-content-default);margin:0;line-height:1.6}
-.bcn-action__section--evidence{gap:var(--spacing-500)}
-.bcn-subfield{gap:var(--spacing-250);flex-direction:column;display:flex}
-.bcn-subfield__label{font-size:var(--typography-label-md-font-size);font-weight:var(--typography-font-weight-medium);color:var(--color-content-default-secondary)}
-.bcn-subfield esa-file-list{margin-top:var(--spacing-100)}
-.bcn-action__rail{gap:var(--spacing-500);flex-direction:column;min-width:0;display:flex}
-.bcn-action__rail .esa-collapsible__title{font-size:var(--font-size-300);font-weight:var(--typography-font-weight-semibold)}
-.bcn-lists{align-items:flex-start;gap:var(--spacing-150);flex-direction:column;margin:0;padding:0;list-style:none;display:flex}
-.bcn-list-link{font-size:var(--typography-label-md-font-size);font-weight:var(--typography-font-weight-medium);color:var(--color-background-brand);text-decoration:none}
-.bcn-triggers{gap:var(--spacing-200);flex-direction:column;margin:0;padding:0;list-style:none;display:flex}
-.bcn-trigger-row{align-items:center;gap:var(--spacing-250);font-size:var(--typography-label-md-font-size);display:flex}
-.bcn-trigger-row .esa-icon{color:var(--color-background-brand);flex-shrink:0}
-.bcn-trigger-row__name{color:var(--color-content-default);font-weight:var(--typography-font-weight-medium)}
-.bcn-trigger-row__rule{color:var(--color-content-default-secondary);text-align:right;margin-left:auto}
-.bcn-action__impl{gap:var(--spacing-300);flex-direction:column;display:flex}
-.bcn-impl-grid{width:100%}
-.bcn-editor__head{align-items:center;gap:var(--spacing-200);display:flex}
-.bcn-editor__head-title{font-family:var(--font-decorative);font-size:var(--font-size-300);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default)}
-.bcn-editor{height:calc(86vh - 8.5rem);margin:calc(-1 * var(--_dialog-padding,1.5rem));grid-template-columns:minmax(0,3fr) minmax(0,2fr);align-items:stretch;display:grid;overflow:hidden}
-.bcn-reqs{border-right:1px solid var(--color-border-default);flex-direction:column;min-width:0;height:100%;display:flex;overflow:hidden}
-.bcn-reqs__region{gap:var(--spacing-300);min-height:0;padding:var(--spacing-500);flex-direction:column;flex:1 1 0;display:flex}
-.bcn-reqs__assigned,.bcn-reqs__browse{gap:var(--spacing-150);flex-direction:column;flex:1 1 0;min-height:0;margin:0;padding:0;list-style:none;display:flex;overflow-y:auto}
-.bcn-req-row{align-items:center;gap:var(--spacing-200);padding:var(--spacing-100) var(--spacing-250);border:1px solid var(--color-border-default);border-radius:var(--radius-200);background:var(--color-background-elevation-raised);display:flex}
-.bcn-req-row--assigned{background:var(--color-background-default)}
-.bcn-req-row__badge{border-radius:var(--radius-100);font-size:.6875rem;font-weight:var(--typography-font-weight-semibold);color:var(--color-commitment);background:color-mix(in srgb, var(--color-commitment) 12%, white);white-space:nowrap;flex-shrink:0;padding:.0625rem .375rem}
-.bcn-req-row__name{min-width:0;font-size:var(--typography-label-md-font-size);color:var(--color-content-default);text-overflow:ellipsis;white-space:nowrap;flex:1;overflow:hidden}
-.bcn-req-row__act{flex-shrink:0}
-.bcn-reqs__region--browse{border-top:1px solid var(--color-border-default);background:var(--color-background-default)}
-.bcn-reqs__filters{gap:var(--spacing-200);flex-direction:column;display:flex}
-.bcn-reqs__filter-row{gap:var(--spacing-200);flex-wrap:wrap;display:flex}
-.bcn-reqs__filter-row esa-select{flex:1;min-width:0}
-.bcn-config{min-width:0;min-height:0;overflow-y:auto}
-.bcn-config esa-tab-layout{--_tab-padding-x:var(--spacing-500);display:block}
-.bcn-form{gap:var(--spacing-400);padding:var(--spacing-300) var(--spacing-500) var(--spacing-500);flex-direction:column;display:flex}
-.bcn-field{gap:var(--spacing-150);flex-direction:column;display:flex}
-.bcn-field__label{font-size:var(--typography-label-md-font-size);font-weight:var(--typography-font-weight-medium);color:var(--form-label-color)}
-.bcn-field__hint{color:var(--color-content-default-tertiary);font-size:.75rem}
-.bcn-grid-3{gap:var(--spacing-300);grid-template-columns:repeat(3,minmax(0,1fr));display:grid}
-.bcn-notif{gap:var(--spacing-400)}
-.bcn-ncard{gap:var(--spacing-250);padding:var(--spacing-400);border:1px solid var(--color-border-default);border-radius:var(--radius-200);background:var(--color-background-elevation-raised);flex-direction:column;display:flex}
-.bcn-ncard__title{font-size:.875rem;font-weight:var(--typography-font-weight-bold);letter-spacing:.03em;text-transform:uppercase;color:var(--color-content-default);margin:0}
-.bcn-note{align-items:flex-start;gap:var(--spacing-200);padding:var(--spacing-300);border-radius:var(--radius-200);background:color-mix(in srgb, var(--color-background-brand) 8%, white);color:var(--color-content-default-secondary);font-size:var(--typography-label-md-font-size);line-height:1.45;display:flex}
-.bcn-note .esa-icon{color:var(--color-background-brand);flex-shrink:0;margin-top:2px}
-.bcn-ncard__date{font-size:var(--font-size-300);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default);margin:0}
-.bcn-ncard__hint{font-size:var(--typography-label-md-font-size);color:var(--color-content-default-secondary);margin:0;line-height:1.45}
-.bcn-ntoggle{gap:var(--spacing-300);padding:var(--spacing-400);border:1px solid var(--color-border-default);border-radius:var(--radius-200);background:var(--color-background-elevation-raised);flex-direction:column;display:flex}
-.bcn-ntoggle__head{justify-content:space-between;align-items:center;gap:var(--spacing-300);display:flex}
-.bcn-ntoggle__title{align-items:center;gap:var(--spacing-250);font-weight:var(--typography-font-weight-semibold);color:var(--color-background-brand);display:inline-flex}
-.bcn-ntoggle__title .esa-icon{color:var(--color-content-default)}
-.bcn-ntoggle__body{gap:var(--spacing-200);flex-direction:column;align-items:flex-start;display:flex}
-.bcn-ntoggle__body esa-text-field{max-width:240px}
-.bcn-check{align-items:center;gap:var(--spacing-200);font-size:var(--typography-label-md-font-size);color:var(--color-content-default);cursor:pointer;display:inline-flex}
-.bcn-check input{width:1rem;height:1rem;accent-color:var(--color-background-brand)}
-.bcn-nsched__test{align-items:center;gap:var(--spacing-300);margin-top:var(--spacing-200);display:flex}
-.bcn-nsched__test[hidden]{display:none}
-.bcn-editor__foot{gap:var(--spacing-300);justify-content:flex-end;width:100%;display:flex}
-.ag-cell.bcn-grid-status-cell{align-items:center;display:flex}
-.bcn-grid-chip{align-items:center;gap:var(--spacing-150);padding:1px var(--spacing-200);border-radius:var(--radius-100);font-size:.75rem;line-height:1.5;font-weight:var(--typography-font-weight-semibold);white-space:nowrap;background:color-mix(in srgb, var(--_chip) 16%, transparent);color:color-mix(in srgb, var(--_chip) 70%, #1a1a1a);display:inline-flex}
-.bcn-grid-chip__dot{background:var(--_chip);border-radius:50%;flex-shrink:0;width:7px;height:7px}
+.ag-cell,.ag-header-cell,.ag-header-group-cell,.ag-row,.ag-spanned-cell-wrapper{visibility:hidden}
 .esa-button{--_btn-pad-y:var(--spacing-300,.75rem);--_btn-padding-x:var(--spacing-300,.75rem);--_btn-radius:var(--button-radius-md,.5rem);--_accent:var(--color-background-brand,#46a758);--_accent-hover:var(--color-background-brand-hover,#3e9b4f);--_on:var(--color-content-default-knockout,#fcfcfc);--_accent-text:var(--_accent);--_btn-tint-hover:color-mix(in srgb, var(--_accent) 8%, transparent);--_btn-tint-active:color-mix(in srgb, var(--_accent) 14%, transparent);display:inline-block}
 .esa-button__native{justify-content:center;align-items:center;gap:var(--spacing-200,8px);width:100%;padding-block:var(--_btn-pad-y);padding-inline:var(--_btn-padding-x);border:var(--border-width-default,1px) solid transparent;border-radius:var(--_btn-radius);cursor:pointer;transition:background var(--transition-fast,.15s ease), border-color var(--transition-fast,.15s ease);-webkit-appearance:none;appearance:none;text-decoration:none;display:inline-flex}
 .esa-button--appearance-fill .esa-button__native{background:var(--_accent);color:var(--_on);border-color:var(--_accent-border,transparent)}
@@ -12794,113 +12953,11 @@ a.breadcrumb-item{text-decoration:none}
 .esa-button--appearance-outline .esa-button__native,.esa-button--appearance-dashed .esa-button__native{color:var(--_accent-text);border-color:var(--_accent);background:0 0}
 .esa-button--variant-ghost .esa-button__native{color:var(--color-content-default,#202020);background:0 0;border-color:#0000}
 .esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native{border-color:var(--color-border-default,#cecece)}
-.ag-cell,.ag-header-cell,.ag-header-group-cell,.ag-row,.ag-spanned-cell-wrapper{visibility:hidden}
-.typography-microcopy-md{font-family:var(--typography-microcopy-md-font-family);font-size:var(--typography-microcopy-md-font-size);font-weight:var(--typography-microcopy-md-font-weight);line-height:var(--typography-microcopy-md-line-height);letter-spacing:var(--typography-microcopy-md-letter-spacing)}
-.typography-microcopy-xs-strong{font-family:var(--typography-microcopy-xs-strong-font-family);font-size:var(--typography-microcopy-xs-strong-font-size);font-weight:var(--typography-microcopy-xs-strong-font-weight);line-height:var(--typography-microcopy-xs-strong-line-height);letter-spacing:var(--typography-microcopy-xs-strong-letter-spacing)}
-.typography-label-sm-strong{font-family:var(--typography-label-sm-strong-font-family);font-size:var(--typography-label-sm-strong-font-size);font-weight:var(--typography-label-sm-strong-font-weight);line-height:var(--typography-label-sm-strong-line-height);letter-spacing:var(--typography-label-sm-strong-letter-spacing)}
-.typography-body-md{font-family:var(--typography-body-md-font-family);font-size:var(--typography-body-md-font-size);font-weight:var(--typography-body-md-font-weight);line-height:var(--typography-body-md-line-height);letter-spacing:var(--typography-body-md-letter-spacing)}
-.typography-microcopy-2xs{font-family:var(--typography-microcopy-2xs-font-family);font-size:var(--typography-microcopy-2xs-font-size);font-weight:var(--typography-microcopy-2xs-font-weight);line-height:var(--typography-microcopy-2xs-line-height);letter-spacing:var(--typography-microcopy-2xs-letter-spacing)}
-html,.modern-layout__content{scroll-behavior:smooth}
-.modern-layout{flex-direction:column;height:100vh;display:flex}
-.topbar{background:var(--bcn-gray-100);border-bottom:1px solid var(--bcn-gray-300);z-index:1100;height:52px;padding:0 var(--spacing-200);grid-template-columns:auto 1fr auto;align-items:center;display:grid;position:fixed;top:0;left:0;right:0}
-.topbar{padding:0 var(--spacing-400)}
-.topbar__left{align-items:center;gap:var(--spacing-200);display:flex}
-.sidebar-toggle{border-radius:var(--spacing-050);width:32px;height:32px;color:var(--bcn-gray-600);cursor:pointer;background:0 0;border:none;justify-content:center;align-items:center;padding:0;transition:background .15s,color .15s;display:flex}
-.sidebar-toggle__icon{transition:transform .15s}
-.tenant-trigger{align-items:center;gap:var(--spacing-100);padding:var(--spacing-100) var(--spacing-200);border-radius:var(--spacing-050);color:var(--bcn-gray-900);cursor:pointer;background:0 0;border:none;font-size:.875rem;font-weight:600;transition:background .15s;display:flex}
-.topbar__center{justify-content:center;align-items:center;gap:var(--spacing-400);min-width:0;padding:0 var(--spacing-400);display:flex}
-.bcn-search-trigger{align-items:center;gap:var(--spacing-200);width:100%;max-width:520px;padding:var(--spacing-150) var(--spacing-300);background:var(--color-background-elevation-raised);border:1px solid var(--color-border-default);border-radius:var(--radius-200);cursor:text;margin:0 auto;transition:border-color .15s,background .15s;display:flex}
-.bcn-search-trigger .esa-icon{color:var(--color-content-default-tertiary);flex:none}
-.bcn-search-trigger__placeholder{text-align:left;text-overflow:ellipsis;white-space:nowrap;min-width:0;font-size:var(--font-size-200);color:var(--color-content-default-tertiary);flex:1;overflow:hidden}
-.bcn-search-trigger__kbd{flex:none;gap:2px;display:inline-flex}
-.bcn-search-trigger__kbd kbd{min-width:18px;height:18px;font-family:inherit;font-size:11px;font-weight:var(--typography-font-weight-medium);color:var(--color-content-default-tertiary);background:var(--color-background-elevation-sunken);border:1px solid var(--color-border-default);border-radius:4px;justify-content:center;align-items:center;padding:0 4px;display:inline-flex}
-.topbar__right{justify-content:flex-end;align-items:center;gap:var(--spacing-100);display:flex}
-.qa-warning{align-items:center;gap:var(--spacing-100);padding:var(--spacing-050) var(--spacing-200);background:var(--color-background-accent);color:var(--color-background-elevation-raised);border-radius:var(--spacing-100);white-space:nowrap;font-size:.8125rem;font-weight:600;display:inline-flex}
-.icon-button{border-radius:var(--spacing-050);width:32px;height:32px;color:var(--color-content-default-secondary);cursor:pointer;background:0 0;border:none;justify-content:center;align-items:center;padding:0;text-decoration:none;transition:background .15s,color .15s;display:flex}
-.user-menu{position:relative}
-.user-menu-trigger{cursor:pointer;background:0 0;border:none;border-radius:9999px;justify-content:center;align-items:center;width:44px;height:44px;padding:0;transition:transform .15s;display:flex}
-.user-menu-trigger__avatar{object-fit:cover;border:2px solid var(--bcn-gray-200);border-radius:9999px;width:32px;height:32px;transition:border-color .15s}
-.user-menu-trigger__avatar--fallback{background:var(--bcn-gray-200);color:var(--bcn-gray-500);justify-content:center;align-items:center;display:flex}
-.user-panel{top:calc(100% + var(--spacing-200));background:var(--color-background-elevation-raised);border-radius:var(--spacing-200);border:1px solid var(--bcn-gray-200);z-index:1200;min-width:280px;position:absolute;right:0;box-shadow:0 4px 24px #0000001f}
-.user-panel[hidden]{display:none}
-.modern-layout__body{flex:1;padding-top:52px;display:flex;overflow:hidden}
-.side-nav{background-color:var(--bcn-gray-50);border-right:1px solid var(--bcn-gray-200);flex-direction:column;flex-shrink:0;width:280px;height:100%;font-size:.875rem;transition:width .2s ease-in-out;display:flex;overflow:visible}
-.sidebar-header{padding:var(--spacing-300) var(--spacing-400);flex-shrink:0;transition:padding .2s ease-in-out}
-.site-logo{padding:var(--spacing-200);border-radius:var(--spacing-050);align-items:center;text-decoration:none;transition:background .15s;display:inline-flex}
-.site-logo__img{width:var(--spacing-700);object-fit:contain;object-position:left center;height:3.75rem;transition:all .2s ease-in-out}
-.project-switcher-container{padding:0 var(--spacing-400) var(--spacing-300);flex-shrink:0;min-width:0;transition:padding .2s ease-in-out}
-.project-switcher__trigger{align-items:center;gap:var(--spacing-200);box-sizing:border-box;width:100%;min-width:0;padding:var(--spacing-200) var(--spacing-300);background:var(--color-background-elevation-raised);border:1px solid var(--bcn-gray-200);border-radius:var(--spacing-200);cursor:pointer;color:var(--bcn-gray-950);font-size:.875rem;font-weight:500;transition:all .15s;display:flex}
-.project-switcher__trigger>.esa-icon:first-child{color:var(--bcn-gray-500);flex-shrink:0}
-.project-switcher__name{text-align:left;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;overflow:hidden}
-.main-nav{padding:0 var(--spacing-400);gap:var(--spacing-050);scrollbar-width:none;-ms-overflow-style:none;flex-direction:column;flex:1;transition:padding .2s ease-in-out;display:flex;overflow:visible auto}
-.nav-section{flex-direction:column;display:flex;position:relative}
-.nav-section__header{align-items:center;gap:var(--spacing-300);padding:var(--spacing-250) var(--spacing-200);color:var(--bcn-gray-950);border-radius:var(--spacing-050);white-space:nowrap;text-align:left;cursor:pointer;background:0 0;border:none;width:100%;font-size:.9375rem;font-weight:550;text-decoration:none;transition:all .15s;display:flex}
-.nav-section__header:hover .esa-icon,.nav-section--active .nav-section__header,.nav-section--active .nav-section__header .esa-icon{color:var(--color-background-brand)}
-.nav-section__header>.esa-icon:first-child{color:var(--bcn-gray-950);flex-shrink:0;transition:color .15s}
-.nav-section__title{flex:1;transition:opacity .2s ease-in-out;overflow:hidden}
-.nav-section__header>.esa-icon:last-child{color:var(--bcn-gray-400);flex-shrink:0;transition:transform .15s,opacity .2s ease-in-out}
-.nav-section__items{opacity:1;flex-direction:column;max-height:500px;margin:0;padding:0;list-style:none;transition:max-height .2s ease-in-out,opacity .2s ease-in-out;display:flex;overflow:hidden}
-.nav-item{padding:0 0 0 2.5rem}
-.nav-sublink{padding:var(--spacing-200);color:var(--bcn-gray-950);border-radius:var(--spacing-050);font-size:.8125rem;line-height:1.2;text-decoration:none;transition:all .15s;display:block}
-.nav-item+.nav-item{margin-top:var(--spacing-050)}
-.nav-sublink.active{color:var(--color-background-brand);background:#0000000a}
-.modern-layout__content{flex:1;min-width:0;overflow-y:auto}
-.bcn-omni{z-index:1300;padding:var(--spacing-500);justify-content:center;align-items:center;display:flex;position:fixed;inset:0}
-.bcn-omni[hidden]{display:none}
-.bcn-help-bar{z-index:1000;align-items:center;gap:var(--spacing-100);padding:var(--spacing-100) var(--spacing-150);color:var(--bcn-helpbar-fg);background:var(--bcn-helpbar-bg);backdrop-filter:blur(14px)saturate(1.4);border:1px solid var(--bcn-helpbar-border);border-radius:var(--radius-400,14px);display:flex;position:fixed;bottom:20px;left:50%;transform:translate(-50%);box-shadow:0 8px 24px #00000047}
-.bcn-help-bar__guidance{align-items:center;gap:var(--spacing-150);height:40px;padding:0 var(--spacing-250,.625rem);border-radius:var(--radius-200,8px);color:var(--bcn-helpbar-fg);font-family:inherit;font-size:var(--font-size-200,.9375rem);font-weight:var(--typography-font-weight-medium);cursor:pointer;transition:background var(--transition-fast,.15s ease);background:0 0;border:0;line-height:1;display:inline-flex}
-.bcn-aldo-mark{border-radius:var(--radius-full);background:var(--bcn-aldo);color:var(--color-content-default-knockout);flex-shrink:0;justify-content:center;align-items:center;line-height:0;display:inline-flex}
-.bcn-aldo-mark[data-size=sm]{--icon-size-xs:12px;width:20px;height:20px}
-.bcn-aldo-mark__glyph{justify-content:center;align-items:center;line-height:0;display:inline-flex}
-.bcn-help-bar__guidance-label{white-space:nowrap}
-.bcn-help-bar__divider{width:1px;height:22px;margin:0 var(--spacing-050,2px);background:var(--bcn-helpbar-divider);flex:none}
-.bcn-help-bar__tooltip,.bcn-help-bar__popover{display:inline-flex}
-.bcn-help-bar__whatsnew{display:inline-flex;position:relative}
-.bcn-help-bar__dot{background:var(--bcn-aldo);width:8px;height:8px;box-shadow:0 0 0 2px var(--bcn-helpbar-bg-solid);pointer-events:none;border-radius:50%;position:absolute;top:7px;right:7px}
-.bcn-help-bar__panel{width:340px;max-width:84vw;color:var(--color-content-default)}
-.bcn-help-bar__panel-header{justify-content:space-between;align-items:baseline;gap:var(--spacing-200);margin:0 0 var(--spacing-300);display:flex}
-.bcn-help-bar__panel-title{font-size:var(--font-size-200,.9375rem);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default);margin:0}
-.bcn-help-bar__panel-release{font-size:var(--font-size-150,.875rem);color:var(--color-content-default-tertiary);white-space:nowrap;margin:0}
-.bcn-help-bar__panel-list{gap:var(--spacing-200);flex-direction:column;margin:0;padding:0;list-style:none;display:flex}
-.bcn-help-bar__panel-link{padding:var(--spacing-150) var(--spacing-150);margin:0 calc(var(--spacing-150) * -1);border-radius:var(--radius-200,8px);color:inherit;transition:background var(--transition-fast,.15s ease);text-decoration:none;display:block}
-.bcn-help-bar__panel-item-title{font-family:var(--font-decorative);font-size:1.0625rem;font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default);margin:0 0 2px;line-height:1.3}
-.bcn-help-bar__panel-item-blurb{font-size:var(--font-size-150,.875rem);font-weight:var(--typography-font-weight-regular,400);color:var(--color-content-default-secondary);margin:0;line-height:1.45}
-.bcn-help-bar__panel-footer{margin-top:var(--spacing-300);padding-top:var(--spacing-250,.625rem);border-top:1px solid var(--color-border-default)}
-.bcn-help-bar__panel-all{font-size:var(--font-size-150,.875rem);font-weight:var(--typography-font-weight-medium);color:var(--color-content-link);align-items:center;gap:4px;text-decoration:none;display:inline-flex}
-.bcn-help-bar__panel-all-arrow{transition:transform .15s}
-.bcn-gd{--z-modal-backdrop:1300;--z-modal:1301;--side-dialog-width:460px;--side-dialog-backdrop-filter:blur(2px)}
-.bcn-gd__header{align-items:center;gap:var(--spacing-300);min-width:0;display:flex}
-.bcn-aldo-mark[data-size=md]{width:40px;height:40px}
-.bcn-gd__title{font-family:var(--font-decorative);font-size:var(--font-size-400);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default);line-height:1.2}
-.bcn-gd__stream{gap:var(--spacing-500);flex-direction:column;display:flex}
-.bcn-gd-msg{gap:var(--spacing-300);align-items:flex-start;display:flex}
-.bcn-gd-msg__avatar{flex:none;margin-top:2px}
-.bcn-gd-msg__group{gap:var(--spacing-500);flex-direction:column;flex:1;min-width:0;display:flex}
-.bcn-gd__section{gap:var(--spacing-300);flex-direction:column;display:flex}
-.bcn-gd__label{align-items:center;gap:var(--spacing-200);font-size:var(--font-size-250);font-weight:var(--typography-font-weight-bold);color:var(--color-content-default);margin:0;display:flex}
-.bcn-gd__label .esa-icon{color:var(--color-content-default-tertiary);flex:none}
-.bcn-gd__here{padding:var(--spacing-300) var(--spacing-400);background:var(--bcn-aldo-50);border:1px solid var(--bcn-aldo-100);border-radius:var(--radius-200);flex-direction:column;gap:4px;display:flex}
-.bcn-gd__here-page{font-size:var(--font-size-250);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default)}
-.bcn-gd__here-purpose{font-size:var(--font-size-150);color:var(--color-content-default-secondary);line-height:1.5}
-.bcn-gd__rows{flex-direction:column;display:flex}
-.bcn-gd__foot{gap:var(--spacing-250);flex-direction:column;display:flex}
-.bcn-gd__browse{align-self:flex-end;align-items:center;gap:var(--spacing-150);font-size:var(--font-size-150);font-weight:var(--typography-font-weight-medium);color:var(--color-background-brand);text-decoration:none;display:inline-flex}
-.bcn-gd-composer{align-items:flex-end;gap:var(--spacing-200);padding:var(--spacing-150) var(--spacing-150) var(--spacing-150) var(--spacing-300);background:var(--color-background-elevation-raised);border:1px solid var(--color-border-default);border-radius:var(--radius-300);transition:border-color .15s,box-shadow .15s;display:flex}
-.bcn-gd-composer__input{resize:none;min-width:0;font-family:inherit;font-size:var(--font-size-200);color:var(--color-content-default);background:0 0;border:0;outline:0;flex:1;padding:6px 0;line-height:1.5;overflow-y:hidden}
-.bcn-gd-composer__input::placeholder{color:var(--color-content-default-tertiary)}
-.bcn-gd-composer__send{border-radius:var(--radius-full);background:var(--bcn-aldo);width:32px;height:32px;color:var(--color-content-default-knockout);cursor:pointer;border:0;flex:none;justify-content:center;align-items:center;transition:background .15s,color .15s;display:inline-flex}
-.bcn-gd-composer__send:disabled{background:var(--color-background-elevation-sunken);color:var(--color-content-default-tertiary);cursor:default}
-.bcn-gd-article{--z-modal-backdrop:1302;--z-modal:1303;--side-dialog-width:460px;--side-dialog-backdrop-filter:blur(2px)}
-.bcn-gd-article__head{gap:var(--spacing-200);flex-direction:column;min-width:0;display:flex}
-.bcn-gd-article__back{align-items:center;gap:var(--spacing-100);font:inherit;font-size:var(--font-size-150);font-weight:var(--typography-font-weight-medium);color:var(--color-content-default-secondary);cursor:pointer;background:0 0;border:0;align-self:flex-start;padding:0;display:inline-flex}
-.bcn-gd-article__titlerow{align-items:center;gap:var(--spacing-200);min-width:0;display:flex}
-.bcn-gd-article__title{font-family:var(--font-decorative);font-size:var(--font-size-300);font-weight:var(--typography-font-weight-semibold);color:var(--color-content-default);line-height:1.25}
-.bcn-gd-article__kind{border-radius:var(--radius-100);border:1px solid var(--color-border-default);background:var(--color-background-elevation-raised);font-size:var(--font-size-100);font-weight:var(--typography-font-weight-medium);color:var(--color-content-default-secondary);white-space:nowrap;flex:none;padding:1px 6px;line-height:1.5}
-.bcn-gd-article__panel[hidden]{display:none}
-.bcn-bottom-drawer{--_width:var(--bcn-bottom-drawer-width,90vw);--_height:var(--bcn-bottom-drawer-height,80vh);--_inset:var(--bcn-bottom-drawer-inset,0px);--_z:var(--bcn-bottom-drawer-z,1400);display:contents}
-.bcn-bottom-drawer__backdrop{background:var(--color-background-overlay-backdrop,#00000080);backdrop-filter:blur(2px);z-index:var(--_z);animation:.15s bcn-bd-fade;position:fixed;inset:0}
-.bcn-bottom-drawer:not([open]):not([closing]) .bcn-bottom-drawer__backdrop,.bcn-bottom-drawer:not([open]):not([closing]) .bcn-bottom-drawer__panel{display:none}
-.bcn-bottom-drawer__panel{left:50%;bottom:var(--_inset);width:min(var(--_width), calc(100vw - var(--_inset) * 2));height:var(--_height);background:var(--color-background-elevation-raised);border-radius:var(--radius-300) var(--radius-300) 0 0;z-index:calc(var(--_z) + 1);outline:none;flex-direction:column;animation:.3s cubic-bezier(.16,1,.3,1) bcn-bd-up;display:flex;position:fixed;overflow:hidden;transform:translate(-50%);box-shadow:0 -12px 48px -12px #00000052}
+:where(.ag-theme-inputStyle-7) {
+:where(.ag-input-field-input[type=number]:not(.ag-number-field-input-stepper)){-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield;&::-webkit-inner-spin-button,&::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}
+:where(.ag-ltr) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding-left:var(--ag-input-padding-start)}
+&:where(.ag-ltr,.ag-rtl) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding:0 var(--ag-input-padding-start)}
+:where(.ag-ltr) :where(.ag-column-select-header-filter-wrapper),:where(.ag-ltr) :where(.ag-filter-add-select),:where(.ag-ltr) :where(.ag-filter-filter),:where(.ag-ltr) :where(.ag-filter-toolpanel-search),:where(.ag-ltr) :where(.ag-floating-filter-search-icon),:where(.ag-ltr) :where(.ag-mini-filter){.ag-input-wrapper:before{margin-left:var(--ag-spacing)}
 ```
 
 ## Tokens
@@ -12908,8 +12965,9 @@ html,.modern-layout__content{scroll-behavior:smooth}
 |---|---|---|
 | `--ag-internal-hover-color` | `rgba(0, 0, 0, 0)` | component |
 | `--ag-internal-moving-color` | `rgba(0, 0, 0, 0)` | component |
-| `--badge-bg` | `#43608a` | component |
-| `--badge-text-color` | `#fcfcfc` | component |
+| `--badge-bg` | `#fcfcfc` | component |
+| `--badge-border-color` | `#dcdcdc` | component |
+| `--badge-text-color` | `#525252` | component |
 | `--bcn-aldo` | `#08908b` | component |
 | `--bcn-aldo-100` | `#cfeceb` | component |
 | `--bcn-aldo-50` | `#e8f6f5` | component |
@@ -12931,6 +12989,8 @@ html,.modern-layout__content{scroll-behavior:smooth}
 | `--button-radius-md` | `.25rem` | component |
 | `--button-radius-xs` | `.25rem` | component |
 | `--color-background-accent` | `#f76b15` | semantic |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
 | `--color-background-brand-muted` | `#eef5f4` | semantic |
 | `--color-background-default` | `#fafafa` | semantic |
 | `--color-background-elevation-raised` | `#fcfcfc` | semantic |
@@ -12938,10 +12998,12 @@ html,.modern-layout__content{scroll-behavior:smooth}
 | `--color-background-overlay-backdrop` | `#00000080` | semantic |
 | `--color-border-default` | `#dcdcdc` | semantic |
 | `--color-commitment` | `#58508d` | component |
+| `--color-content-brand` | `#005862` | semantic |
 | `--color-content-default` | `#3d3d3d` | semantic |
 | `--color-content-default-knockout` | `#fcfcfc` | semantic |
 | `--color-content-default-secondary` | `#525252` | semantic |
 | `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-link` | `#005862` | semantic |
 | `--color-content-on-brand-muted` | `#203c25` | semantic |
 | `--font-decorative` | `"Besley", serif` | component |
 | `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
@@ -12975,12 +13037,12 @@ html,.modern-layout__content{scroll-behavior:smooth}
 | `--transition-fast` | `.15s ease` | semantic |
 | `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
-| `--typography-body-md-font-weight` | `350` | semantic |
+| `--typography-body-md-font-weight` | `400` | semantic |
 | `--typography-body-md-letter-spacing` | `.01em` | semantic |
 | `--typography-body-md-line-height` | `1.6` | semantic |
 | `--typography-font-weight-bold` | `650` | semantic |
 | `--typography-font-weight-medium` | `500` | semantic |
-| `--typography-font-weight-regular` | `350` | semantic |
+| `--typography-font-weight-regular` | `400` | semantic |
 | `--typography-font-weight-semibold` | `550` | semantic |
 | `--typography-label-md-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |

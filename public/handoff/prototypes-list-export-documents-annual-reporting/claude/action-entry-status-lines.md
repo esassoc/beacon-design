@@ -54,9 +54,9 @@ One action in the detail: title with commitment codes at the right margin, descr
       </dd>
     </div>
     <div class="bcn-doc-occ__line">
-      <dt>Bouldin Island Launch Shaft</dt>
+      <dt>Bouldin Island Geotechnical Exploration</dt>
       <dd>
-        In Progress<span class="bcn-doc-occ__aside">Due 2027-03-10</span
+        In Progress<span class="bcn-doc-occ__aside">Due 2026-06-25</span
         ><span class="bcn-doc-occ__aside">1 of 3 done</span>
       </dd>
     </div>
@@ -154,6 +154,22 @@ One action in the detail: title with commitment codes at the right margin, descr
 }
 .bcn-doc-entry__facts {
   margin-block-start: var(--spacing-150);
+}
+.bcn-doc-entry__reqs {
+  margin: var(--spacing-150) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.bcn-doc-entry__req + .bcn-doc-entry__req {
+  margin-block-start: var(--spacing-150);
+}
+.bcn-doc-entry__req-name {
+  font-weight: var(--typography-font-weight-medium);
+  margin: 0;
+}
+.bcn-doc-entry__req-text {
+  margin: var(--spacing-050) 0 0;
+  max-inline-size: 46em;
 }
 ```
 

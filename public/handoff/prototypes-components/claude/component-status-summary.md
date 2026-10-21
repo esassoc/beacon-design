@@ -37,7 +37,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
         <div
           class="bcn-summary__bar"
           role="img"
-          aria-label="4 not started, 7 in progress, 2 on hold, 3 complete"
+          aria-label="4 not started, 8 in progress, 2 on hold, 2 complete"
         >
           <span
             class="bcn-summary__seg"
@@ -45,7 +45,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
           ></span
           ><span
             class="bcn-summary__seg"
-            style="--_c: var(--color-background-utility-warning); width: 43.75%"
+            style="--_c: var(--color-background-utility-warning); width: 50%"
           ></span
           ><span
             class="bcn-summary__seg"
@@ -53,7 +53,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
           ></span
           ><span
             class="bcn-summary__seg"
-            style="--_c: var(--color-background-utility-success); width: 18.75%"
+            style="--_c: var(--color-background-utility-success); width: 12.5%"
           ></span>
         </div>
         <ul class="bcn-summary__legend">
@@ -69,7 +69,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
               class="bcn-summary__dot"
               style="--_c: var(--color-background-utility-warning)"
             ></span
-            >In progress<span class="bcn-summary__legend-count">7</span>
+            >In progress<span class="bcn-summary__legend-count">8</span>
           </li>
           <li class="bcn-summary__legend-item">
             <span class="bcn-summary__dot" style="--_c: var(--bcn-status-on-hold)"></span
@@ -80,7 +80,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
               class="bcn-summary__dot"
               style="--_c: var(--color-background-utility-success)"
             ></span
-            >Complete<span class="bcn-summary__legend-count">3</span>
+            >Complete<span class="bcn-summary__legend-count">2</span>
           </li>
         </ul>
       </div>
@@ -98,7 +98,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
       <div class="bcn-summary__attention">
         <div style="--stat-value-color: var(--color-content-utility-danger)">
           <div class="esa-stat">
-            <div class="esa-stat__value typography-display-sm">5</div>
+            <div class="esa-stat__value typography-display-sm">6</div>
             <div class="esa-stat__label typography-label-md">
               Components with overdue actions
             </div>
@@ -116,10 +116,11 @@ A project-wide roll-up above the list: how many components exist, how they distr
             ><span class="bcn-summary__att-flag">3 overdue</span>
           </li>
           <li class="bcn-summary__att-row">
-            <span class="bcn-summary__att-name">Intake B — North Delta</span
-            ><span class="bcn-summary__att-flag">2 overdue</span>
+            <span class="bcn-summary__att-name"
+              >Bouldin Island Geotechnical Exploration</span
+            ><span class="bcn-summary__att-flag">3 overdue</span>
           </li>
-          <li class="bcn-summary__att-more">+2 more</li>
+          <li class="bcn-summary__att-more">+3 more</li>
         </ul>
       </div>
     </div>
@@ -511,12 +512,14 @@ A project-wide roll-up above the list: how many components exist, how they distr
 - `--card-bg`: #fcfcfc _(component)_
 - `--card-border-color`: #dcdcdc _(component)_
 - `--card-header-bg`: transparent _(component)_
+- `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
@@ -539,12 +542,12 @@ A project-wide roll-up above the list: how many components exist, how they distr
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-700`: 3rem _(primitive)_
-- `--stat-accent-color`: #3a7c59 _(component)_
+- `--stat-accent-color`: #005862 _(component)_
 - `--stat-value-color`: #3d3d3d _(component)_
 - `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_

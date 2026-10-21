@@ -517,6 +517,9 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -768,7 +771,7 @@ summary.esa-button--variant-chrome:focus-visible {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding-top: 4px;
+  padding-top: 6px;
   transition: background-color 0.16s;
   display: flex;
   position: relative;
@@ -791,12 +794,12 @@ summary.esa-button--variant-chrome:focus-visible {
   display: flex;
 }
 .bcn-scrub__track .bcn-scrub__pip {
-  border: 1.5px solid var(--color-background-elevation-raised);
+  border: 1.25px solid var(--color-background-elevation-raised);
   cursor: pointer;
   background: 0 0;
   border-radius: 50%;
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   animation: 0.22s ease-out bcn-scrub-pop;
   display: block;
 }
@@ -998,9 +1001,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3tools .esa-button,
 .bcn-sw3tools esa-dropdown-menu {
   flex: none;
-}
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);

@@ -1341,7 +1341,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                             <span class="bcn-cg__ident"
                               ><span
                                 class="bcn-cg__mark"
-                                style="--_mark: var(--bcn-mark-emerald)"
+                                style="--_mark: var(--bcn-mark-cyan)"
                                 ><svg
                                   viewBox="0 0 24 24"
                                   width="15"
@@ -1354,13 +1354,22 @@ The default view and the page's real job: sixteen rows a person can scan to find
                                   aria-hidden="true"
                                 >
                                   <path
-                                    d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
+                                    d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"
                                   ></path>
-                                  <circle cx="12" cy="10" r="3"></circle></svg></span
+                                  <path
+                                    d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"
+                                  ></path>
+                                  <path
+                                    d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"
+                                  ></path>
+                                  <path d="M10 6h4"></path>
+                                  <path d="M10 10h4"></path>
+                                  <path d="M10 14h4"></path>
+                                  <path d="M10 18h4"></path></svg></span
                               ><a
                                 class="bcn-cg__name"
                                 href="/beacon-design/prototypes/component-dashboard"
-                                >Intake B — North Delta</a
+                                >Bouldin Island Geotechnical Exploration</a
                               ></span
                             >
                           </div>
@@ -1373,7 +1382,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                             aria-colindex="2"
                             style="left: 280px; width: 190px"
                           >
-                            Screened intake · Sacramento River
+                            Geotechnical exploration
                           </div>
                           <div
                             role="gridcell"
@@ -1397,7 +1406,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                             aria-colindex="4"
                             style="left: 628px; width: 132px"
                           >
-                            9
+                            14
                           </div>
                           <div
                             role="gridcell"
@@ -1408,7 +1417,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                             aria-colindex="5"
                             style="left: 760px; width: 118px"
                           >
-                            2
+                            3
                           </div>
                           <div
                             role="gridcell"
@@ -1419,7 +1428,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                             aria-colindex="6"
                             style="left: 878px; width: 126px"
                           >
-                            5
+                            35
                           </div>
                           <div
                             role="gridcell"
@@ -1430,7 +1439,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                             aria-colindex="7"
                             style="left: 1004px; width: 148px"
                           >
-                            8 / 12
+                            4 / 9
                           </div>
                         </div>
                         <div
@@ -1468,15 +1477,13 @@ The default view and the page's real job: sixteen rows a person can scan to find
                                   aria-hidden="true"
                                 >
                                   <path
-                                    d="M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35Z"
+                                    d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
                                   ></path>
-                                  <path d="M6 18h12"></path>
-                                  <path d="M6 14h12"></path>
-                                  <path d="M6 22V10h12v12"></path></svg></span
+                                  <circle cx="12" cy="10" r="3"></circle></svg></span
                               ><a
                                 class="bcn-cg__name"
                                 href="/beacon-design/prototypes/component-dashboard"
-                                >Twin Cities Complex</a
+                                >Intake B — North Delta</a
                               ></span
                             >
                           </div>
@@ -1489,7 +1496,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                             aria-colindex="2"
                             style="left: 280px; width: 190px"
                           >
-                            Tunnel shaft · Staging
+                            Screened intake · Sacramento River
                           </div>
                           <div
                             role="gridcell"
@@ -1500,7 +1507,9 @@ The default view and the page's real job: sixteen rows a person can scan to find
                             aria-colindex="3"
                             style="left: 470px; width: 158px"
                           >
-                            <span class="bcn-cg__chip" data-tone="on-hold">On hold</span>
+                            <span class="bcn-cg__chip" data-tone="in-progress"
+                              >In progress</span
+                            >
                           </div>
                           <div
                             role="gridcell"
@@ -1511,7 +1520,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                             aria-colindex="4"
                             style="left: 628px; width: 132px"
                           >
-                            5
+                            9
                           </div>
                           <div
                             role="gridcell"
@@ -1522,7 +1531,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                             aria-colindex="5"
                             style="left: 760px; width: 118px"
                           >
-                            1
+                            2
                           </div>
                           <div
                             role="gridcell"
@@ -1533,7 +1542,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                             aria-colindex="6"
                             style="left: 878px; width: 126px"
                           >
-                            3
+                            5
                           </div>
                           <div
                             role="gridcell"
@@ -1544,7 +1553,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                             aria-colindex="7"
                             style="left: 1004px; width: 148px"
                           >
-                            4 / 10
+                            8 / 12
                           </div>
                         </div>
                         <div
@@ -1560,6 +1569,120 @@ The default view and the page's real job: sixteen rows a person can scan to find
                           <div
                             role="gridcell"
                             comp-id="93"
+                            col-id="name"
+                            class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                            tabindex="-1"
+                            aria-colindex="1"
+                            style="left: 0px; width: 280px"
+                          >
+                            <span class="bcn-cg__ident"
+                              ><span
+                                class="bcn-cg__mark"
+                                style="--_mark: var(--bcn-mark-emerald)"
+                                ><svg
+                                  viewBox="0 0 24 24"
+                                  width="15"
+                                  height="15"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  aria-hidden="true"
+                                >
+                                  <path
+                                    d="M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35Z"
+                                  ></path>
+                                  <path d="M6 18h12"></path>
+                                  <path d="M6 14h12"></path>
+                                  <path d="M6 22V10h12v12"></path></svg></span
+                              ><a
+                                class="bcn-cg__name"
+                                href="/beacon-design/prototypes/component-dashboard"
+                                >Twin Cities Complex</a
+                              ></span
+                            >
+                          </div>
+                          <div
+                            role="gridcell"
+                            comp-id="94"
+                            col-id="type"
+                            class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                            tabindex="-1"
+                            aria-colindex="2"
+                            style="left: 280px; width: 190px"
+                          >
+                            Tunnel shaft · Staging
+                          </div>
+                          <div
+                            role="gridcell"
+                            comp-id="95"
+                            col-id="statusLabel"
+                            class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                            tabindex="-1"
+                            aria-colindex="3"
+                            style="left: 470px; width: 158px"
+                          >
+                            <span class="bcn-cg__chip" data-tone="on-hold">On hold</span>
+                          </div>
+                          <div
+                            role="gridcell"
+                            comp-id="96"
+                            col-id="openActions"
+                            class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-cg__num"
+                            tabindex="-1"
+                            aria-colindex="4"
+                            style="left: 628px; width: 132px"
+                          >
+                            5
+                          </div>
+                          <div
+                            role="gridcell"
+                            comp-id="97"
+                            col-id="overdueActions"
+                            class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-cg__danger bcn-cg__num"
+                            tabindex="-1"
+                            aria-colindex="5"
+                            style="left: 760px; width: 118px"
+                          >
+                            1
+                          </div>
+                          <div
+                            role="gridcell"
+                            comp-id="98"
+                            col-id="workAreas"
+                            class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-cg__num"
+                            tabindex="-1"
+                            aria-colindex="6"
+                            style="left: 878px; width: 126px"
+                          >
+                            3
+                          </div>
+                          <div
+                            role="gridcell"
+                            comp-id="99"
+                            col-id="reqMet"
+                            class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-cg__num"
+                            tabindex="-1"
+                            aria-colindex="7"
+                            style="left: 1004px; width: 148px"
+                          >
+                            4 / 10
+                          </div>
+                        </div>
+                        <div
+                          role="row"
+                          comp-id="100"
+                          tabindex="0"
+                          row-index="5"
+                          class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                          aria-rowindex="7"
+                          row-id="5"
+                          style="transform: translateY(230px); height: 46px"
+                        >
+                          <div
+                            role="gridcell"
+                            comp-id="101"
                             col-id="name"
                             class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
                             tabindex="-1"
@@ -1591,7 +1714,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                           </div>
                           <div
                             role="gridcell"
-                            comp-id="94"
+                            comp-id="102"
                             col-id="type"
                             class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                             tabindex="-1"
@@ -1602,7 +1725,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                           </div>
                           <div
                             role="gridcell"
-                            comp-id="95"
+                            comp-id="103"
                             col-id="statusLabel"
                             class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                             tabindex="-1"
@@ -1615,7 +1738,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                           </div>
                           <div
                             role="gridcell"
-                            comp-id="96"
+                            comp-id="104"
                             col-id="openActions"
                             class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-cg__num"
                             tabindex="-1"
@@ -1626,7 +1749,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                           </div>
                           <div
                             role="gridcell"
-                            comp-id="97"
+                            comp-id="105"
                             col-id="overdueActions"
                             class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-cg__danger bcn-cg__num"
                             tabindex="-1"
@@ -1637,7 +1760,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                           </div>
                           <div
                             role="gridcell"
-                            comp-id="98"
+                            comp-id="106"
                             col-id="workAreas"
                             class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-cg__num"
                             tabindex="-1"
@@ -1648,7 +1771,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                           </div>
                           <div
                             role="gridcell"
-                            comp-id="99"
+                            comp-id="107"
                             col-id="reqMet"
                             class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-cg__num"
                             tabindex="-1"
@@ -1660,17 +1783,17 @@ The default view and the page's real job: sixteen rows a person can scan to find
                         </div>
                         <div
                           role="row"
-                          comp-id="100"
+                          comp-id="108"
                           tabindex="0"
-                          row-index="5"
-                          class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
-                          aria-rowindex="7"
-                          row-id="5"
-                          style="transform: translateY(230px); height: 46px"
+                          row-index="6"
+                          class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                          aria-rowindex="8"
+                          row-id="6"
+                          style="transform: translateY(276px); height: 46px"
                         >
                           <div
                             role="gridcell"
-                            comp-id="101"
+                            comp-id="109"
                             col-id="name"
                             class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
                             tabindex="-1"
@@ -1710,7 +1833,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                           </div>
                           <div
                             role="gridcell"
-                            comp-id="102"
+                            comp-id="110"
                             col-id="type"
                             class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                             tabindex="-1"
@@ -1721,7 +1844,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                           </div>
                           <div
                             role="gridcell"
-                            comp-id="103"
+                            comp-id="111"
                             col-id="statusLabel"
                             class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                             tabindex="-1"
@@ -1734,7 +1857,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                           </div>
                           <div
                             role="gridcell"
-                            comp-id="104"
+                            comp-id="112"
                             col-id="openActions"
                             class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-cg__num"
                             tabindex="-1"
@@ -1742,124 +1865,6 @@ The default view and the page's real job: sixteen rows a person can scan to find
                             style="left: 628px; width: 132px"
                           >
                             12
-                          </div>
-                          <div
-                            role="gridcell"
-                            comp-id="105"
-                            col-id="overdueActions"
-                            class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-cg__quiet bcn-cg__num"
-                            tabindex="-1"
-                            aria-colindex="5"
-                            style="left: 760px; width: 118px"
-                          >
-                            —
-                          </div>
-                          <div
-                            role="gridcell"
-                            comp-id="106"
-                            col-id="workAreas"
-                            class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-cg__num"
-                            tabindex="-1"
-                            aria-colindex="6"
-                            style="left: 878px; width: 126px"
-                          >
-                            5
-                          </div>
-                          <div
-                            role="gridcell"
-                            comp-id="107"
-                            col-id="reqMet"
-                            class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-cg__num"
-                            tabindex="-1"
-                            aria-colindex="7"
-                            style="left: 1004px; width: 148px"
-                          >
-                            6 / 12
-                          </div>
-                        </div>
-                        <div
-                          role="row"
-                          comp-id="108"
-                          tabindex="0"
-                          row-index="6"
-                          class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
-                          aria-rowindex="8"
-                          row-id="6"
-                          style="transform: translateY(276px); height: 46px"
-                        >
-                          <div
-                            role="gridcell"
-                            comp-id="109"
-                            col-id="name"
-                            class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                            tabindex="-1"
-                            aria-colindex="1"
-                            style="left: 0px; width: 280px"
-                          >
-                            <span class="bcn-cg__ident"
-                              ><span
-                                class="bcn-cg__mark"
-                                style="--_mark: var(--bcn-mark-slate)"
-                                ><svg
-                                  viewBox="0 0 24 24"
-                                  width="15"
-                                  height="15"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  aria-hidden="true"
-                                >
-                                  <path d="M16 7h.01"></path>
-                                  <path
-                                    d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"
-                                  ></path>
-                                  <path d="m20 7 2 .5-2 .5"></path>
-                                  <path d="M10 18v3"></path>
-                                  <path d="M14 17.75V21"></path>
-                                  <path d="M7 18a6 6 0 0 0 3.84-10.61"></path></svg></span
-                              ><a
-                                class="bcn-cg__name"
-                                href="/beacon-design/prototypes/component-dashboard"
-                                >Bouldin Island Launch Shaft</a
-                              ></span
-                            >
-                          </div>
-                          <div
-                            role="gridcell"
-                            comp-id="110"
-                            col-id="type"
-                            class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                            tabindex="-1"
-                            aria-colindex="2"
-                            style="left: 280px; width: 190px"
-                          >
-                            Tunnel launch shaft
-                          </div>
-                          <div
-                            role="gridcell"
-                            comp-id="111"
-                            col-id="statusLabel"
-                            class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                            tabindex="-1"
-                            aria-colindex="3"
-                            style="left: 470px; width: 158px"
-                          >
-                            <span class="bcn-cg__chip" data-tone="complete"
-                              >Complete</span
-                            >
-                          </div>
-                          <div
-                            role="gridcell"
-                            comp-id="112"
-                            col-id="openActions"
-                            class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-cg__quiet bcn-cg__num"
-                            tabindex="-1"
-                            aria-colindex="4"
-                            style="left: 628px; width: 132px"
-                          >
-                            —
                           </div>
                           <div
                             role="gridcell"
@@ -1881,7 +1886,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                             aria-colindex="6"
                             style="left: 878px; width: 126px"
                           >
-                            4
+                            5
                           </div>
                           <div
                             role="gridcell"
@@ -1892,7 +1897,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                             aria-colindex="7"
                             style="left: 1004px; width: 148px"
                           >
-                            9 / 9
+                            6 / 12
                           </div>
                         </div>
                         <div
@@ -2949,7 +2954,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                   </div>
                   <!--AG-FAKE-VERTICAL-SCROLL-->
                   <div
-                    class="ag-body-vertical-scroll ag-scrollbar-invisible"
+                    class="ag-body-vertical-scroll ag-apple-scrollbar ag-scrollbar-invisible"
                     aria-hidden="true"
                     style="width: 16px; max-width: 16px; min-width: 16px"
                   >
@@ -3099,7 +3104,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                 </div>
                 <!--AG-FAKE-HORIZONTAL-SCROLL-->
                 <div
-                  class="ag-body-horizontal-scroll ag-scrollbar-invisible"
+                  class="ag-body-horizontal-scroll ag-apple-scrollbar ag-scrollbar-invisible"
                   aria-hidden="true"
                   style="bottom: 0px; height: 16px; max-height: 16px; min-height: 16px"
                 >
@@ -3372,6 +3377,23 @@ The default view and the page's real job: sixteen rows a person can scan to find
         "updated": "2 days ago"
       },
       {
+        "name": "Bouldin Island Geotechnical Exploration",
+        "href": "/beacon-design/prototypes/component-dashboard",
+        "markPaths": "<path d=\"M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z\"/><path d=\"M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2\"/><path d=\"M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2\"/><path d=\"M10 6h4\"/><path d=\"M10 10h4\"/><path d=\"M10 14h4\"/><path d=\"M10 18h4\"/>",
+        "markColor": "var(--bcn-mark-cyan)",
+        "type": "Geotechnical exploration",
+        "status": "in-progress",
+        "statusLabel": "In progress",
+        "statusRank": 1,
+        "openActions": 14,
+        "overdueActions": 3,
+        "workAreas": 35,
+        "reqMet": 4,
+        "reqTotal": 9,
+        "lastMonitoring": "Jul 1",
+        "updated": "1 week ago"
+      },
+      {
         "name": "Intake B — North Delta",
         "href": "/beacon-design/prototypes/component-dashboard",
         "markPaths": "<path d=\"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/>",
@@ -3438,23 +3460,6 @@ The default view and the page's real job: sixteen rows a person can scan to find
         "reqTotal": 12,
         "lastMonitoring": "Jun 30",
         "updated": "5 days ago"
-      },
-      {
-        "name": "Bouldin Island Launch Shaft",
-        "href": "/beacon-design/prototypes/component-dashboard",
-        "markPaths": "<path d=\"M16 7h.01\"/><path d=\"M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20\"/><path d=\"m20 7 2 .5-2 .5\"/><path d=\"M10 18v3\"/><path d=\"M14 17.75V21\"/><path d=\"M7 18a6 6 0 0 0 3.84-10.61\"/>",
-        "markColor": "var(--bcn-mark-slate)",
-        "type": "Tunnel launch shaft",
-        "status": "complete",
-        "statusLabel": "Complete",
-        "statusRank": 3,
-        "openActions": 0,
-        "overdueActions": 0,
-        "workAreas": 4,
-        "reqMet": 9,
-        "reqTotal": 9,
-        "lastMonitoring": "Jul 1",
-        "updated": "1 week ago"
       },
       {
         "name": "Bethany Reservoir Aqueduct",
@@ -4742,11 +4747,6 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 .typography-microcopy-xs-strong{font-family:var(--typography-microcopy-xs-strong-font-family);font-size:var(--typography-microcopy-xs-strong-font-size);font-weight:var(--typography-microcopy-xs-strong-font-weight);line-height:var(--typography-microcopy-xs-strong-line-height);letter-spacing:var(--typography-microcopy-xs-strong-letter-spacing)}
 .typography-title-sm-strong{font-family:var(--typography-title-sm-strong-font-family);font-size:var(--typography-title-sm-strong-font-size);font-weight:var(--typography-title-sm-strong-font-weight);line-height:var(--typography-title-sm-strong-line-height);letter-spacing:var(--typography-title-sm-strong-letter-spacing)}
 .typography-meta{font-family:var(--typography-meta-font-family);font-size:var(--typography-meta-font-size);font-weight:var(--typography-meta-font-weight);line-height:var(--typography-meta-line-height);letter-spacing:var(--typography-meta-letter-spacing)}
-.bcn-gchrome__search{align-items:center;gap:var(--spacing-100);min-inline-size:15rem;display:inline-flex}
-.bcn-gchrome__search esa-text-field{inline-size:100%}
-.bcn-gfoot__count{font-size:var(--font-size-150);color:var(--color-content-default-secondary);font-variant-numeric:tabular-nums}
-.bcn-gfoot__filtered{color:var(--color-content-default-tertiary)}
-.bcn-gfoot__filtered[hidden]{display:none}
 .esa-icon{--_icon-size:var(--icon-size-md,20px);width:var(--_icon-size);height:var(--_icon-size);color:inherit;justify-content:center;align-items:center;display:inline-flex}
 .esa-icon--xs{--_icon-size:var(--icon-size-xs,14px)}
 .esa-icon--sm{--_icon-size:var(--icon-size-sm,16px)}
@@ -4754,6 +4754,11 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 .esa-icon--lg{--_icon-size:var(--icon-size-lg,24px)}
 .esa-icon--xl{--_icon-size:var(--icon-size-xl,28px)}
 .esa-icon svg{width:var(--_icon-size);height:var(--_icon-size);display:block}
+.bcn-gchrome__search{align-items:center;gap:var(--spacing-100);min-inline-size:15rem;display:inline-flex}
+.bcn-gchrome__search esa-text-field{inline-size:100%}
+.bcn-gfoot__count{font-size:var(--font-size-150);color:var(--color-content-default-secondary);font-variant-numeric:tabular-nums}
+.bcn-gfoot__filtered{color:var(--color-content-default-tertiary)}
+.bcn-gfoot__filtered[hidden]{display:none}
 .breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
 .page-layout__title h1 .esa-icon{color:var(--page-title-icon-color,var(--bcn-gray-1000));flex-shrink:0}
 .cluster{--gap:var(--spacing-300,.75rem);--align:center;--justify:flex-start;gap:var(--gap);align-items:var(--align);justify-content:var(--justify);flex-wrap:wrap;display:flex}
@@ -4786,6 +4791,8 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 - `--card-header-bg`: transparent _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
@@ -4802,10 +4809,12 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--color-content-link`: #005862 _(semantic)_
 - `--color-content-on-brand`: #fcfcfc _(semantic)_
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-on-utility-success`: #fcfcfc _(semantic)_
@@ -4841,7 +4850,7 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
@@ -4859,7 +4868,7 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 - `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
 - `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-meta-font-weight`: 350 _(semantic)_
+- `--typography-meta-font-weight`: 400 _(semantic)_
 - `--typography-meta-letter-spacing`: .01em _(semantic)_
 - `--typography-meta-line-height`: 1.6 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -4874,7 +4883,7 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_

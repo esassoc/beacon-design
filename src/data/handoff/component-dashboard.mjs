@@ -17,11 +17,14 @@
 //      invented its own information architecture would make the two surfaces
 //      disagree for no reason. `rollupOver()` is deliberately the SAME function
 //      the project dashboard uses, bound to a narrower action set.
-//   2. A COMPONENT OWNS ALMOST NOTHING. Its record fields, its milestone date
-//      overrides, its work areas, and its commitment-applicability decisions.
-//      That is the entire list. The rail is four rows against the project's six
-//      because species, seasons, and construction activities are project-level;
-//      a component copy would imply an override the data model does not have.
+//   2. A COMPONENT OWNS LITTLE. Its record fields, its milestone date overrides,
+//      its work areas, its commitment-applicability decisions, and its Component
+//      Setup answers (selected source documents, species ticks, construction
+//      activities). Setup's answers are INPUTS. Production already ships species
+//      and sources panels whose lists are DERIVED from the component's applied
+//      commitments (component-species-panel, component-sources-panel). The two
+//      have opposite causes, so name them apart ("Setup Species", not
+//      "Species") and never let one write the other.
 //   3. THE MARK REPLACES THE COVER. No hero photo. The identity is a glyph and a
 //      color from closed sets — a landmark that separates two dozen components
 //      at a glance, and a question every user can answer.
@@ -29,9 +32,35 @@
 // PRECONDITIONS worth confirming before slicing:
 //   · Per-user starring (BCN-1576, PR #1279) is the parent surface's model and
 //     is NOT yet merged. This page's star must use it, not a second mechanism.
-//   · Component boundary geometry (BCN-1582/1583/1584) has not started. The map
-//     here draws WORK AREAS, whose geometry the work-areas endpoint already
-//     returns and every current surface discards.
+//   · Component.Boundary (GEOGRAPHY, BCN-1587) is the footprint Component Setup
+//     intersects with each ProjectSpecies habitat layer. The dashboard's inset
+//     map still draws WORK AREAS, whose geometry the work-areas endpoint
+//     already returns and every current surface discards.
+//   · Component Setup's NEW DATA AND ENDPOINTS, none of which exist on
+//     origin/develop:
+//       - The setup record: selected documents, species ticks, activities and
+//         whether that step was opened, where the footprint came from, and a
+//         "set up" marker. Name it as setup's answers, apart from the derived
+//         species and sources panels.
+//       - Decision source on dbo.ComponentCommitment: setup, moved by hand, or
+//         by hand, plus who. Today it has only IsApplicable, Rationale and
+//         DecisionDate, and the re-check depends on the source.
+//       - A reopened decision's old reason (undecided is no row, ADR 0032, so
+//         the Back from Setup note needs a home), and the flagged state worked
+//         out on the server so the card, the drawer and the save agree.
+//       - A per-row mixed save: PUT components/{id}/setup that applies and
+//         dismisses in one transaction with a reason per row. Today's bulk
+//         endpoint takes one IsApplicable and one Rationale for the whole batch.
+//       - A server-side habitat intersect. ProjectSpecies.HabitatLayerID points
+//         at an ArcGIS layer reference, not geometry, and
+//         TenantAgolHttpClient.QueryFeaturesAsync has no spatial filter.
+//   · OPEN for slicing: which link records a component's documents.
+//     dbo.SourceWorkArea (BCN-1352) already links a permit to work areas and
+//     drives scoped users' permit access (BCN-1370), so reusing it changes what
+//     a scoped user sees; a new component-level link means two links that mean
+//     different things.
+//   · Start and expected end dates are already on dbo.Component. Setup's Dates
+//     step reads and writes them; it does not keep its own copy.
 //
 // Field shapes: src/data/component-detail.ts (the component, its work areas,
 // milestones, layers, modules), src/data/component-commitments.ts (applicability
@@ -138,41 +167,141 @@ export default {
       label: 'Component setup card',
       selector: '.bcn-csc',
       intent:
-        'How much of this component\'s commitment applicability is settled, and the door into the surface that settles it. It occupies the slot the project dashboard gives its Setup Wizard card, for the same reason: setup is a pipeline with a state, not a fourth work area.',
+        'How much of this component\'s commitment applicability is settled, and the two doors into it: Start Setup (the first-time setup dialog) and Review Commitments (the Applicable Commitments drawer). It occupies the slot the project dashboard gives its Setup Wizard card, for the same reason: setup is a pipeline with a state, not a fourth work area.',
       decisions: [
-        'The figures replace prod\'s tab percentage, which is derived from a cross product of every component against every commitment in the project — so it measures the project, drifts whenever a source document gains a commitment, and never reaches 100.',
-        'Three figures, each scoped to this component and each naming a list the user can open: how many need a decision, how many arrived since the last review, and how many are decided out of the total.',
-        '"N actions waiting" states the consequence up front — applying commitments materializes actions onto this component, and that is what fills the tracker.',
-      ],
-      gotchas: [
-        'The card carried two doors while a decision workspace and a triage queue were compared in context. The workspace was chosen on 2026-08-14 and the queue was deleted; one door is the shipping shape. The comparison is kept in docs/component-setup-model-comparison.md.',
+        'The figures replace prod\'s tab percentage, which is derived from a cross product of every component against every commitment in the project, so it measures the project, drifts whenever a source document gains a commitment, and never reaches 100.',
+        'Figures: Need a decision (with "N actions waiting", the consequence of applying), Decided N / M, and the progress bar. Each is scoped to this component and matches the drawer it opens.',
+        'Before setup: Start Setup is primary and Review Commitments is the outline secondary. After setup: Review Commitments becomes primary, Edit Setup replaces Start Setup, and the card lists the setup\'s answers one fact per row (Source documents, Species, Construction Activities, Dates).',
       ],
       acceptance: [
-        'Every figure is scoped to this component and matches the list it opens; the progress bar agrees with the decided figure; the new-since badge appears only when something arrived after the last decision.',
+        'Every figure is scoped to this component and equals the drawer\'s; after setup, the drawer\'s total is every commitment (42 of 42 in the fixture) because nothing is left outside the list.',
+      ],
+    },
+    {
+      label: 'Component Setup dialog',
+      selector: '.bcn-cs',
+      intent:
+        'A first-time setup that trims the component\'s Applicable Commitments to what it actually needs. Five steps in a vertical rail: Source Documents, Location and Species, Construction Activities, Dates, Recommendations. Each step\'s answer shows under its name in the rail, and the tally under the rail says what saving would do. Setup only recommends; the person decides, and one Save writes it.',
+      decisions: [
+        'SOURCE DOCUMENTS ARE THE OUTER LIMIT. Only selected documents\' commitments can apply. Selecting none means every document applies, which is prod today, so a tenant that never runs setup sees no change. Each document row says which components it is already mapped to.',
+        'THE RECOMMENDATION RULE (recommend() in src/data/component-commitments.ts). Tags live on requirements. A requirement misses on a kind only when it carries tags of that kind and none match: species not selected, activities not selected, or no season overlapping the component\'s start-to-end dates. A requirement with no tags of a kind never misses on it, and a tag on a species, activity or season the project has since deleted never misses either. A commitment is recommended Not Applicable only when it has at least one requirement and EVERY requirement misses on something; the reasons are the distinct misses, species then activity then season.',
+        'The Dates step reads and writes the component\'s own Start Date and Expected End Date (dbo.Component). A component missing either date, or running a year or more, overlaps every season.',
+        'SAVE CONFIRMS FIRST, with counts: commitments dismissed and applied, actions created, and field records unlinked from the dismissed commitments on this component (ADR 0074). A row moved by hand adds an optional note field to the confirm.',
+        'Construction Activities count only once the person has visited that step. Until then every activity is treated as selected, so skipping the step rules nothing out.',
+        'A span of a year or more overlaps every season. No "Runs N months" line: the season chart simply shows every season overlapping.',
+        'Season chart: a key above it (blue bar = Season, outlined box = Work dates) and a status per season, green circle-check "Overlaps" or gray circle-minus "No overlap". No summary sentence under it.',
+        'Step circles follow the Setup Wizard step nav: 20px circle, 12px digit, current is the brand fill, done is a brand check.',
+        'The header shows the component\'s mark and name (BcnEntityLogo), not a badge.',
+        'Species and activity names are Title Case data. Species list A–Z (prod orders ProjectSpecies by CommonName); activities keep the project\'s SortOrder.',
+      ],
+      gotchas: [
+        'Nothing is written until the confirm. The setup itself (sources, species, activities, dates) and every decision it makes are saved together in one call; Cancel discards the draft.',
+        'The rail\'s answer lines wrap one part per line rather than truncating ("26 not applicable", "11 will apply").',
+      ],
+      acceptance: [
+        'In the fixture, with the four Geotech documents selected, the activities Ground Disturbance, Drilling and Boring, Vegetation Removal, Equipment Staging and Haul Truck Traffic, and Oct 5, 2026 – Jan 29, 2027: the review shows 26 Not Applicable (16 from unselected documents, 10 recommended), 11 Will Apply and 5 Already Decided; Save reads "Dismiss 26 and Apply 11", and its confirm says it creates 11 actions and unlinks 3 field records.',
+      ],
+    },
+    {
+      label: 'Location and species (habitat map)',
+      selector: '[data-bcn-hmap]',
+      intent:
+        'The component\'s footprint drawn over the project\'s species habitat layers, and the species list beside it, pre-ticked from the intersection. In the first build (Andy, 2026-10-20).',
+      decisions: [
+        'THE FOOTPRINT, in order: the stored boundary (Component.Boundary), else the union of the component\'s work areas, else one drawn here (polygon or rectangle; marker drawing is off). Point and line layers, like an elderberry survey, count as touched within the component\'s buffer (ComponentBuffer, BCN-1454).',
+        'A SPECIES STARTS CHECKED unless its layer was queried and the footprint does not touch it. No layer, a failed query, or no footprint yet reads "No habitat data" and stays checked: missing data never recommends anything out.',
+        'A species with a field record on this component stays checked whatever the map says, and reads "Seen on this component". Dismissing its commitments would unlink the record (ADR 0074).',
+        'Each species reads "In habitat", "Not in habitat", "Seen on this component" or "No habitat data". A species the person ticks or unticks keeps their answer; the map no longer overrides it.',
+        'The map fits to the footprint plus the habitat polygons it touches.',
+      ],
+      gotchas: [
+        'OPEN: where a footprint drawn in setup is saved. The prototype keeps it in setup state only (ComponentSetup.drawn). The existing set-boundary endpoint can save it, and clears the source link.',
+        'The intersect is a NEW server-side dependency: an ArcGIS geometry query per habitat layer (one layer can serve several species), with its own latency and failure mode. A failed query is No habitat data, not Not in habitat.',
+        'Habitat only changes the reason\'s wording ("Not in Giant Garter Snake habitat" vs "Giant Garter Snake not selected"). The rule reads the species selection, not the map.',
+      ],
+      acceptance: [
+        'The fixture footprint intersects only Swainson\'s Hawk and Valley Elderberry Longhorn Beetle habitat; California Tiger Salamander is outside its habitat but has a field record, so it reads Seen on this component and stays checked; Western Pond Turtle has no layer and is checked; the rest are unchecked and read Not in habitat. Switching to Draw Footprint with nothing drawn turns every species to No habitat data, all checked.',
+      ],
+    },
+    {
+      label: 'Recommendations: two-column review',
+      selector: '[data-cs-transfer]',
+      intent:
+        'The last step: every commitment with no decision yet lands in one of two columns, Not Applicable or Will Apply, and the person moves rows between them before the one Save.',
+      decisions: [
+        'TWO COLUMNS, ONE SAVE. Save dismisses the Not Applicable column and applies the Will Apply column, creating their actions (Andy, 2026-10-20: "Apply on save"). The label says both numbers, e.g. "Dismiss 26 and Apply 11". There is no third "leave undecided" place; the drawer still allows Undo afterwards.',
+        'THE SAVE CONFIRMS FIRST with what it will do on the component: commitments dismissed and applied, actions created, and field records unlinked from the dismissed commitments (fixture: "Dismisses 26 commitments and applies 11 on this component. Creates 11 actions. Unlinks 3 field records from this component."). When rows were moved by hand, the confirm adds an optional note for them.',
+        'ONLY UNDECIDED COMMITMENTS ARE IN THE COLUMNS. Decisions already made, by hand or by an earlier setup, are listed apart under a collapsed "Already Decided (N)", and the save does not touch them.',
+        'A move arrow on every row. A row moved against setup\'s placement shows "Moved by Hand"; moving it back clears that. It saves as Moved by Hand with the person, the date and the optional note from the confirm.',
+        'Not Applicable lists the recommendations first, then ONE COLLAPSED GROUP PER UNSELECTED SOURCE DOCUMENT ("Construction MMRP (7)"), so the recommendations stay easy to scan. Rows inside a group move like any other.',
+        'Will Apply rows show what speaks for them, then the actions they create ("Ground Disturbance, Drilling and Boring · Creates 1 action").',
+        'Below the columns, when setup is re-run: Back to Needs a Decision (setup dismissals whose reason no longer holds), then Already Decided.',
+      ],
+      gotchas: [
+        'No transfer-list lego exists in the hub or in prod; logged in docs/system-improvement-ledger.md. Do not take the bcn- markup as a pattern to copy into Angular without checking for one first.',
+      ],
+      acceptance: [
+        'The column counts, the save label and the rail summary agree; moving a row updates all three; after Save the drawer reads 0 need a decision, 14 applied, 28 dismissed (42) in the fixture.',
       ],
     },
     {
       label: 'Applicable Commitments drawer',
       selector: '.bcn-sw',
       intent:
-        'The surface that actually settles applicability: a wide side drawer listing the project commitments not yet decided for THIS component, with a preview beside the list, filters that work, and decisions that stage before they commit. It replaces the Component Setup tab, and it is the largest single piece of new design in this epic.',
+        'The surface that settles applicability one commitment at a time, brought to prod\'s behavior: three views (Needs a decision / Applied / Dismissed), a preview beside the list, filters, and decisions written on click with one plain Close. Every decided row says why.',
       decisions: [
-        'DECISIONS STAGE, THEY DO NOT FIRE. Apply and Dismiss mark a commitment and update the pending-changes summary; nothing is written until Save. That is what makes bulk action safe to offer — prod applies immediately, one PATCH per click, with no way back.',
-        'Every count is scoped to this component and agrees with the list it labels. The view chips (Needs a decision / New since review / Applied / Dismissed) each carry their own figure, so the number and the list can never disagree the way prod\'s tab badge does.',
-        'A decision names its CONSEQUENCE before it is made — applying materializes action implementations onto the component, which is what fills the tracker. Prod never states this anywhere.',
-        'Filters are keyword search plus Source document / Requirement type / Species. Selecting one does NOT spawn a chip row: the control already shows its own state, and chips restating it were removed at review (2026-08-14).',
-        'Rationale is captured per commitment. A batch rationale must warn, naming how many existing rationales it would overwrite — prod overwrites silently.',
-        'Clicking anywhere on a commitment card except the checkbox and the action buttons opens its preview. The checkbox owns generous space of its own so it reads as the separate, actionable thing it is.',
+        'WRITES ON CLICK, as prod does (BCN-1636 overrode staging). Apply, Dismiss and Undo write immediately; there is no Save and no Cancel, just Close. Undo is the safety net.',
+        'Figures and the View toggle share one header band: Need a decision, Decided N of M, progress. Each view chip carries its own count and matches its list.',
+        'Filters on one unlabelled row: keyword search, Source Document, Requirement Type, Species, with Clear all shown only while a filter is on. Options read A–Z, as prod\'s drawer sorts them. Search hits are highlighted in the rows.',
+        'Per-row Apply / Dismiss / Undo by state, each with the optional rationale prompt. Bulk Apply / Dismiss / Undo confirm first, and a bulk rationale warns "This overwrites N existing rationales."',
+        'The preview shows the commitment text, its source, requirements and added date; "Creates N actions on this component" while the commitment is not applied (prod: IsApplicable !== true); and the Decision with its date and Rationale once decided.',
+        'With a setup saved, an undecided commitment setup recommends out reads "Recommended not applicable: <reasons>" with "Dismiss with This Reason" in its preview.',
+        'Every confirm states its effects with real counts, the way prod applies them: actions created by applying; unworked to-dos removed and worked ones kept as not applicable by dismissing or undoing an apply (ADR 0035); field records unlinked by dismissing (ADR 0074). Undo of a setup decision and Dismiss with This Reason confirm first; undo of a hand decision stays one click.',
       ],
       gotchas: [
-        'THE DIAGNOSIS THIS SURFACE EXISTS FOR: ComponentCommitment.IsApplicable is NOT NULL, so there is no stored "pending" state. vComponentCommitmentDecisions manufactures it by LEFT JOINing every component in the project against every commitment in the project and calling the misses Pending. The badge therefore counts the PROJECT, re-inflates whenever any source document gains a commitment, and can never reach zero. Do not port that figure. Full teardown, including the seven defects it produces, is in docs/component-setup-model-comparison.md.',
-        'REQUIREMENT TYPE AND SPECIES ARE FILTERS ONLY — decided 2026-08-17. They are deliberately NOT shown on the commitment card or in the preview. An earlier pass carried them as a meta line under each row; it was cut as tagline noise, and after review the decision is to leave them off rather than restore them. They remain useful for narrowing a large set and are not useful as per-row decoration. Do not re-add them to the card as part of "completing" it.',
-        'THERE IS NO UNSET PATH TODAY. Once a ComponentCommitment row exists it is applied or dismissed forever. This surface assumes undo is possible; it does NOT show what happens to the action implementations a dismissal already deleted. Resolve that before slicing — it is one of the three open questions in the model-comparison doc.',
-        'A "Suggested" affordance was prototyped and REMOVED (2026-08-14). It matched on shared species or requirement type with commitments already applied here, which is a weak signal on a decision with real consequences, and the prototype was authoring it by hand rather than deriving it. Do not reintroduce it without a real signal behind it.',
-        'The list and the preview scroll INDEPENDENTLY, and the bulk action bar is static rather than living at the bottom of the list — a user acting on several items should not have to scroll to the end of the list to find the controls.',
+        'UNDECIDED IS NO ROW (ADR 0032). The old vComponentCommitmentDecisions view is retired; ComponentCommitment.SetupSummaryAsync returns the honest, de-duplicated counts. Read those, not anything derived from a project-wide join.',
+        'REQUIREMENT TYPE AND SPECIES ARE FILTERS ONLY (decided 2026-08-17). They are not shown on the commitment card or in the preview. Do not re-add them to the card.',
+        'UNDO EXISTS IN PROD: PatchComponentCommitmentDecision(s)Async with IsApplicable empty deletes the row (ADR 0035), removing to-dos nobody has worked and keeping worked ones as not applicable. Undo and the setup re-check both use it.',
+        'The list and the preview scroll independently, and the bulk bar is static, not at the bottom of the list.',
       ],
       acceptance: [
-        'Opening the drawer shows the undecided set with counts that match each view; filters and keyword search narrow the list; selecting a card opens its preview; Apply/Dismiss stage a decision and update a pending-changes summary without writing; Save commits and Cancel discards; a batch rationale warns before overwriting existing ones; nothing on the surface shows requirement type or species outside the filter controls.',
+        'Each view\'s count matches its list; filters narrow it; selecting a card opens its preview; Apply/Dismiss/Undo write at once and move the row between views; a bulk rationale warns before overwriting; Close is the only footer action.',
+      ],
+    },
+    {
+      label: 'Rationales',
+      selector: '.bcn-sw-prev__decision',
+      intent:
+        'Every applicability decision carries one rationale, shown the same way on the drawer row (Applied and Dismissed views), in its preview, and in the setup review, so anyone can later see why a commitment was marked (product meeting 2026-10-20; one-to-one, an applicability and its rationale).',
+      decisions: [
+        'Setup dismissals: setup\'s reasons ("Not in Giant Garter Snake habitat", "Outside the nesting bird season", "No In-Water Work").',
+        'Commitments from an unselected source document: "Source document not applicable".',
+        'Setup applies: the tags that speak for the commitment ("In Valley Elderberry Longhorn Beetle habitat · Ground Disturbance, Equipment Staging"), or "Recommended by setup" when its matching requirement has no tags.',
+        'Rows moved by hand in the review: "Moved by Hand · <person> · <date>", then the optional note.',
+        'Hand decisions outside setup: "Set by Hand · <decision date>", then the person\'s own rationale if they gave one.',
+        'Whenever a reason changes, its decision date changes with it.',
+      ],
+      gotchas: [
+        'Store the rationale with the decision, and store setup\'s reasons as data alongside it (the prototype keeps reasons[]), because the re-run needs the reasons to decide what reopens.',
+      ],
+      acceptance: [
+        'No decided row is without a rationale line; the row, the preview and the setup review show the same text.',
+      ],
+    },
+    {
+      label: 'Re-running setup',
+      selector: '.bcn-sw-row__flag',
+      intent:
+        'What happens to earlier setup decisions when anything they rest on changes: the setup (Edit Setup), the component\'s dates anywhere (Edit Component included), its boundary (the nightly feature-layer reconcile included), or a requirement\'s tags.',
+      decisions: [
+        'SETUP DISMISSALS REOPEN when their reason no longer holds: they go back to Needs a decision with "Back from setup: was <reasons>". One whose reason still holds stays dismissed and takes the new reason.',
+        'Selecting a source document again reopens its "Source document not applicable" commitments, so a person sees them fresh. Unselecting one records its open commitments Not Applicable on the next Save.',
+        'SETUP APPLIES STAY APPLIED, with their actions, and are FLAGGED (Andy, 2026-10-20: "Flag for review"). In the Applied view the row carries a warning line "Setup now says not applicable: <reason>", and its preview offers "Dismiss with This Reason".',
+        'A dismissal made with Dismiss with This Reason counts as a setup decision, so it reopens if its reason stops holding.',
+        'Hand decisions, applied or dismissed, are never changed and never flagged; setup\'s Will Apply only means it could not rule a commitment out, which is weaker than a person\'s call.',
+      ],
+      acceptance: [
+        'Fixture, after the setup above (0 / 14 / 28): saving Jan 4 – Apr 30, 2027 in Edit Component reopens 2 dismissals with "Back from setup" notes (2 / 14 / 26) and flags only LSAA-4 ("Outside the fall bird migration season"); Dismiss with This Reason confirms, then gives 2 / 13 / 27. Totals stay 42.',
       ],
     },
     {
@@ -181,15 +310,15 @@ export default {
       intent:
         'The quiet utility rail: four links that open component-data side panels via the ?data=<key> URL contract, the same contract the project dashboard established.',
       decisions: [
-        'FOUR keys, not six: component info, milestones, source documents, footprint layers. Species, seasons and construction activities are project-level. Offering component copies would imply an override the data model does not have — this asymmetry is deliberate and a future reader should not "fix" it.',
+        'The prototype rail has four keys: component info, milestones, source documents, footprint layers. Production already ships more (component-species-panel and component-commitments-panel among them), whose species and sources are derived from applied commitments; keep those. Setup\'s answers are a different thing and must not be shown as, or written into, those derived lists.',
         'Milestones is the only genuinely editable one, matching production, where it is a component\'s single edit tab.',
-        'Source documents and footprint layers are read-only here. Sources reach a component through commitments, not by assignment; layers are managed in the Spatial Library zone.',
+        'Source documents and footprint layers are read-only here. Which documents apply is chosen in Component Setup; layers are managed in the Spatial Library zone.',
       ],
       gotchas: [
         'Panel state must ride the URL so panels are bookmarkable and the browser Back button closes them — honored on first load AND on popstate, not just on click.',
       ],
       acceptance: [
-        'Each row opens its panel; ?data=<key> deep-links to an open panel; Back closes it; no species / seasons / construction-activity row exists.',
+        'Each row opens its panel; ?data=<key> deep-links to an open panel; Back closes it.',
       ],
     },
     {
@@ -209,7 +338,7 @@ export default {
         'Footer actions are right-aligned with Save LEFT of Cancel — Windows order, house rule.',
       ],
       acceptance: [
-        'Milestone rows show both dates; setting an override updates the header count; clearing it restores "Inherited"; component info saves and its danger zone confirms before deleting; sources and layers offer no Add.',
+        'Milestone rows show both dates; setting an override updates the header count; clearing it restores "Inherited"; component info saves and its danger zone confirms before deleting; sources and layers offer no Add. Saving new dates in component info re-checks the setup\'s season dismissals.',
       ],
     },
     {
@@ -218,7 +347,7 @@ export default {
       intent:
         'Where this component actually is: an inset map of its work areas, colored by clearance status, expanding to an interactive modal with a legend.',
       decisions: [
-        'The map draws WORK AREAS, not a component boundary, because Component has no geometry column and the boundary epic (BCN-1582) has not started. Work-area coordinates are real, already returned by the work-areas endpoint, and currently discarded by every surface — Site Clearance collapses them to a centroid dot. Drawing them is exactly what BCN-1583 slice 1 proposes, with no schema change.',
+        'This inset draws WORK AREAS, colored by clearance status. Component.Boundary now exists on origin/develop (BCN-1587) and is what Component Setup intersects with habitat; this map was designed before it and still reads the work areas, whose coordinates the work-areas endpoint already returns and every other surface discards (Site Clearance collapses them to a centroid dot). Whether the inset also outlines the boundary is a slicing question.',
         'The boundary source renders as a FIELD, not a caption, so it can name an uploaded file once BCN-1584 lands.',
         'Basemap is grayscale — containers stay neutral, color lives in the data.',
         'Every DOM id is namespaced by an idPrefix, so the same component serves the rail inset here and the full map on the component index.',

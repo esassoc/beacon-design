@@ -35,6 +35,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: beacon-design
+          # History back to the push's `before`, so the guidance gate can diff it.
+          fetch-depth: 0
 
       # Must land beside the spoke: the file: deps resolve through ../ecology.
       # Public repo — no token required.
@@ -82,12 +84,12 @@ jobs:
         run: npm run handoff:all
 
       # Runs AFTER regeneration so the bundle-existence check sees real manifests.
-      # This is the gate that makes authored guidance non-optional: a prototype
-      # added without a spec fails the deploy here instead of silently shipping on
-      # the fallback capture with no intent / decisions / gotchas / acceptance.
+      # Scoped to the routes this push touched: a prototype added without a spec
+      # fails its own deploy, and an older one without a spec no longer fails
+      # everyone else's.
       - name: Check handoff guidance
         working-directory: beacon-design
-        run: npm run handoff:check
+        run: npx handoff check --changed --base ${{ github.event.before }}
 
       - name: Build
         working-directory: beacon-design

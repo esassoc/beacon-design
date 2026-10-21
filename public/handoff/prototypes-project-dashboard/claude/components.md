@@ -113,7 +113,7 @@ The components the user works in, as portal cards into their component dashboard
       <a
         class="bcn-stc__portal"
         href="/beacon-design/prototypes/component-dashboard"
-        aria-label="Open the Bouldin Island Launch Shaft component dashboard"
+        aria-label="Open the Bouldin Island Geotechnical Exploration component dashboard"
       ></a
       ><span class="bcn-stc__star" data-star-toggle=""
         ><span
@@ -121,8 +121,8 @@ The components the user works in, as portal cards into their component dashboard
           ><button
             class="esa-button__native typography-microcopy-xs"
             type="button"
-            aria-label="Unstar Bouldin Island Launch Shaft"
-            title="Unstar Bouldin Island Launch Shaft"
+            aria-label="Unstar Bouldin Island Geotechnical Exploration"
+            title="Unstar Bouldin Island Geotechnical Exploration"
             aria-pressed="true"
           >
             <span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -163,8 +163,10 @@ The components the user works in, as portal cards into their component dashboard
                 <path d="M3.29 7 12 12l8.71-5"></path>
                 <path d="M12 22V12"></path></svg></span></span
           ><span class="bcn-stc__ident"
-            ><span class="bcn-stc__name">Bouldin Island Launch Shaft</span
-            ><span class="bcn-stc__type">Tunnel launch shaft — Bouldin Island</span></span
+            ><span class="bcn-stc__name">Bouldin Island Geotechnical Exploration</span
+            ><span class="bcn-stc__type"
+              >Geotechnical exploration — Bouldin Island</span
+            ></span
           >
         </div>
       </div>
@@ -1031,6 +1033,8 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--button-radius-xs`: .25rem _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
@@ -1047,6 +1051,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
@@ -1099,6 +1104,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

@@ -1,0 +1,301 @@
+---
+// <BcnHabitatMap> — where a component sits, drawn against the project's species
+// habitat layers, so setup can say which species' habitat it is in.
+//
+// The location is ONE footprint polygon for the whole component (prod:
+// Component.Boundary, GEOGRAPHY), never its individual work areas:
+//   · Stored footprint — drawn as-is; the species check runs it against habitat.
+//   · No footprint — the person draws one (polygon or rectangle) right here, and
+//     the drawn shape stands in until a stored one exists. A component with a
+//     footprint can also redraw it (the "Draw footprint" side of the toggle).
+//
+// DUMB ON PURPOSE, the contract BcnBoundaryDrawMap keeps: the map draws and
+// announces; the HOST intersects and decides. Every change dispatches one bubbling
+//
+//   bcn-habitat-location   detail = { method: 'footprint' | 'drawn', drawn: [lat, lon][] | null }
+//
+// and the host can call root._bcnHabitatHighlight(codes) to strengthen the layers of
+// the species it has selected, and root._bcnHabitatRefit() after it is revealed.
+//
+// The intersection itself (pointInRing / ringsIntersect in component-commitments.ts)
+// is plain browser geometry, exactly the kind Site Clearance already runs against
+// observation buffers. Prod has nothing that intersects habitat with a component on
+// the server today; this is the piece of new spatial work.
+//
+// bcn-lego-checked: Ecology has no map, geo or draw lego (`ls
+// node_modules/@esa/ecology/src/components/`, rechecked 2026-10-19). Beacon prod's map
+// is a page, not a ui-* control. The spoke's maps don't fit: BcnFootprintMap and
+// BcnObservationMap are display-only, and BcnBoundaryDrawMap captures ONE project
+// boundary with measurement and upload, no reference layers and no point input.
+// bcn-habitat-map is the reusable home for "a location against reference layers".
+// The method switch IS esa-button-toggle; the drawing is Leaflet.draw. The CSS is
+// the map surface and its legend.
+import '../../styles/beacon-map.css';
+import { PROJECT_SPECIES } from '../../data/component-commitments';
+
+interface Props {
+  idPrefix: string;
+  /** The component's stored footprint as a [lat, lon] ring, or null when it has none. */
+  footprint: [number, number][] | null;
+  height?: string;
+}
+const { idPrefix, footprint, height = '100%' } = Astro.props;
+
+const layers = PROJECT_SPECIES.filter((s) => s.habitat).map((s) => ({
+  code: s.code,
+  name: s.habitat!.layerName,
+  rings: s.habitat!.rings,
+}));
+const payload = { footprint, layers };
+---
+
+<div class="bcn-hmap" data-bcn-hmap data-prefix={idPrefix}>
+  <div class="bcn-hmap__bar">
+    {footprint && <esa-button-toggle data-hmap-method size="sm" label="Footprint"></esa-button-toggle>}
+  </div>
+  <div class="bcn-hmap__surface" data-hmap-surface style={`height: ${height};`} role="region" aria-label="Component location against habitat layers"></div>
+  <div class="bcn-hmap__legend" aria-hidden="true">
+    <span class="bcn-hmap__key"><span class="bcn-hmap__swatch bcn-hmap__swatch--foot"></span>Component footprint</span>
+    <span class="bcn-hmap__key"><span class="bcn-hmap__swatch bcn-hmap__swatch--hab"></span>Habitat layer</span>
+    <span class="bcn-hmap__key"><span class="bcn-hmap__swatch bcn-hmap__swatch--sel"></span>Selected species' habitat</span>
+  </div>
+</div>
+<script type="application/json" data-bcn-hmap-data={idPrefix} set:html={JSON.stringify(payload)} />
+
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+  import 'leaflet-draw/dist/leaflet.draw.css';
+  import '@esa/ecology/esa-button-toggle';
+  import { BASEMAP_TILE_URL, BASEMAP_ATTRIBUTION } from '../../lib/basemap';
+
+  type Ring = [number, number][];
+  interface Payload {
+    footprint: Ring | null;
+    layers: { code: string; name: string; rings: Ring[] }[];
+  }
+  type Root = HTMLElement & {
+    _ready?: boolean;
+    _bcnHabitatHighlight?: (codes: string[]) => void;
+    _bcnHabitatRefit?: () => void;
+  };
+  type ToggleEl = HTMLElement & { options: { label: string; value: string }[]; value: string };
+
+  const css = () => getComputedStyle(document.documentElement);
+  const token = (name: string, fallback: string) => css().getPropertyValue(name).trim() || fallback;
+
+  function build(root: Root, data: Payload) {
+    if (root._ready) return;
+    root._ready = true;
+    const surface = root.querySelector<HTMLElement>('[data-hmap-surface]')!;
+    const ink = token('--color-content-default', '#202020');
+    const hab = token('--color-background-utility-info', '#2f6fb0');
+    const sel = token('--color-background-brand', '#005862');
+
+    const map = L.map(surface, { zoomControl: true, zoomSnap: 0.25 }).setView([38.13, -121.45], 11);
+    L.tileLayer(BASEMAP_TILE_URL, { attribution: BASEMAP_ATTRIBUTION, maxZoom: 19 }).addTo(map);
+
+    // Habitat layers first, so points and shapes sit on top.
+    const polys = new Map<string, L.Polygon[]>();
+    for (const layer of data.layers) {
+      polys.set(
+        layer.code,
+        layer.rings.map((ring) =>
+          L.polygon(ring as L.LatLngExpression[], { color: hab, weight: 1, fillColor: hab, fillOpacity: 0.12 })
+            .bindTooltip(layer.name, { sticky: true })
+            .addTo(map),
+        ),
+      );
+    }
+    let highlighted: string[] = [];
+    root._bcnHabitatHighlight = (codes) => {
+      highlighted = codes;
+      for (const [code, list] of polys) {
+        const on = codes.includes(code);
+        list.forEach((p) => p.setStyle({ color: on ? sel : hab, fillColor: on ? sel : hab, fillOpacity: on ? 0.22 : 0.1, weight: on ? 2 : 1 }));
+      }
+    };
+
+    const foot = data.footprint
+      ? L.polygon(data.footprint as L.LatLngExpression[], { color: ink, weight: 2, fillColor: ink, fillOpacity: 0.06 })
+          .bindTooltip('Component footprint', { sticky: true })
+          .addTo(map)
+      : null;
+    const footBounds = foot ? foot.getBounds() : L.latLngBounds([]);
+
+    // The drawn footprint: one shape, ever.
+    const drawn = new L.FeatureGroup().addTo(map);
+    const shape = { color: sel, weight: 2, fillColor: sel, fillOpacity: 0.12 };
+    const drawControl = new L.Control.Draw({
+      position: 'topleft',
+      edit: { featureGroup: drawn, remove: true },
+      draw: {
+        polyline: false,
+        circle: false,
+        circlemarker: false,
+        marker: false,
+        polygon: { shapeOptions: shape, showArea: false, allowIntersection: false },
+        rectangle: { shapeOptions: shape, showArea: false },
+      },
+    } as L.Control.DrawConstructorOptions);
+
+    let method: 'footprint' | 'drawn' = data.footprint ? 'footprint' : 'drawn';
+    const ringOf = (layer: L.Layer): Ring | null => {
+      if (layer instanceof L.Polygon) {
+        const raw = layer.getLatLngs() as L.LatLng[] | L.LatLng[][];
+        const ring = (Array.isArray(raw[0]) ? raw[0] : raw) as L.LatLng[];
+        return ring.map((p) => [p.lat, p.lng]);
+      }
+      return null;
+    };
+    const announce = () => {
+      const layer = drawn.getLayers()[0];
+      root.dispatchEvent(
+        new CustomEvent('bcn-habitat-location', {
+          detail: { method, drawn: method === 'drawn' && layer ? ringOf(layer) : null },
+          bubbles: true,
+        }),
+      );
+    };
+    const fitAll = () => {
+      const b = L.latLngBounds(footBounds);
+      polys.forEach((list) => list.forEach((p) => b.extend(p.getBounds())));
+      if (method === 'footprint' && footBounds.isValid()) {
+        // The footprint and the habitat shapes it touches, nothing wider.
+        const near = L.latLngBounds(footBounds);
+        polys.forEach((list) => list.forEach((p) => p.getBounds().intersects(footBounds) && near.extend(p.getBounds())));
+        map.fitBounds(near, { padding: [24, 24] });
+      }
+      else if (b.isValid()) map.fitBounds(b, { padding: [20, 20] });
+    };
+    root._bcnHabitatRefit = () => {
+      map.invalidateSize();
+      fitAll();
+    };
+
+    map.on(L.Draw.Event.CREATED, (e) => {
+      drawn.clearLayers();
+      const layer = (e as L.DrawEvents.Created).layer;
+      if ('setStyle' in layer) (layer as L.Path).setStyle(shape);
+      drawn.addLayer(layer);
+      announce();
+    });
+    map.on(L.Draw.Event.EDITED, announce);
+    map.on(L.Draw.Event.DELETED, announce);
+
+    const toggle = root.querySelector<ToggleEl>('[data-hmap-method]');
+    if (toggle) {
+      toggle.options = [
+        { value: 'footprint', label: 'Stored Footprint' },
+        { value: 'drawn', label: 'Draw Footprint' },
+      ];
+      toggle.value = method;
+      toggle.addEventListener('change', (ev) => {
+        method = ((ev as CustomEvent).detail?.value as typeof method) ?? 'footprint';
+        applyMethod();
+        announce();
+      });
+    }
+    function applyMethod() {
+      if (method === 'drawn') {
+        map.addControl(drawControl);
+        drawn.addTo(map);
+        foot?.setStyle({ opacity: 0.35, fillOpacity: 0 });
+      } else {
+        map.removeControl(drawControl);
+        drawn.remove();
+        foot?.setStyle({ opacity: 1, fillOpacity: 0.06 });
+      }
+      fitAll();
+    }
+    applyMethod();
+    root._bcnHabitatHighlight(highlighted);
+
+    // A map inside a dialog step gains its size late: keep it honest whenever the box moves.
+    new ResizeObserver(() => map.invalidateSize()).observe(surface);
+  }
+
+  async function boot() {
+    (window as unknown as { L: typeof L }).L = L;
+    await import('leaflet-draw');
+    (L as unknown as { Draw: { Polyline: { prototype: Record<string, unknown> } } }).Draw.Polyline.prototype._onTouch =
+      L.Util.falseFn;
+
+    document.querySelectorAll<Root>('[data-bcn-hmap]').forEach((root) => {
+      const el = document.querySelector(`[data-bcn-hmap-data="${root.dataset.prefix}"]`);
+      const data = JSON.parse(el?.textContent || '{"footprint":null,"layers":[]}') as Payload;
+      const surface = root.querySelector<HTMLElement>('[data-hmap-surface]')!;
+      const tryBuild = () => {
+        if (surface.clientWidth > 0 && surface.clientHeight > 0) {
+          build(root, data);
+          return true;
+        }
+        return false;
+      };
+      if (tryBuild()) return;
+      const ro = new ResizeObserver(() => {
+        if (tryBuild()) {
+          ro.disconnect();
+          root._bcnHabitatRefit?.();
+        }
+      });
+      ro.observe(surface);
+    });
+  }
+  boot();
+</script>
+
+<style>
+  .bcn-hmap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    height: 100%;
+    min-height: 0;
+  }
+  .bcn-hmap__bar {
+    flex: none;
+  }
+  .bcn-hmap__surface {
+    flex: 1;
+    min-height: 320px;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    overflow: hidden;
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-hmap__surface :global(.leaflet-container) {
+    height: 100%;
+    font-family: inherit;
+  }
+  .bcn-hmap__legend {
+    flex: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-200) var(--spacing-500);
+    font-size: 0.8125rem;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-hmap__key {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .bcn-hmap__swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+  }
+  .bcn-hmap__swatch--foot {
+    border: 2px solid var(--color-content-default);
+    background: color-mix(in srgb, var(--color-content-default) 6%, transparent);
+  }
+  .bcn-hmap__swatch--hab {
+    background: color-mix(in srgb, var(--color-background-utility-info) 18%, transparent);
+    border: 1px solid var(--color-background-utility-info);
+  }
+  .bcn-hmap__swatch--sel {
+    background: color-mix(in srgb, var(--color-background-brand) 25%, transparent);
+    border: 2px solid var(--color-background-brand);
+  }
+</style>

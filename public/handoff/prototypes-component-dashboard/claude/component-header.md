@@ -22,7 +22,10 @@ The component's identity band: a full-width white bar carrying its mark, its nam
 
 ## Markup
 ```html
-<section class="bcn-chd" aria-label="Bouldin Island Launch Shaft — component home">
+<section
+  class="bcn-chd"
+  aria-label="Bouldin Island Geotechnical Exploration — component home"
+>
   <!-- WAYFINDING MOVED OUT (review, 2026-08-13). Both the way back up the tree and
        the prev/next walk now live in the breadcrumb bar above this band: the trail
        carries the hierarchy (project › All Components › this one) and bcn-sibling-nav
@@ -45,7 +48,7 @@ The component's identity band: a full-width white bar carrying its mark, its nam
         ><span
           class="esa-icon esa-icon--xl"
           role="img"
-          aria-label="Bouldin Island Launch Shaft mark"
+          aria-label="Bouldin Island Geotechnical Exploration mark"
           ><svg
             width="28"
             height="28"
@@ -93,7 +96,9 @@ The component's identity band: a full-width white bar carrying its mark, its nam
     ></span>
     <div class="bcn-chd__ident">
       <div class="bcn-chd__title-row">
-        <h1 class="bcn-chd__name typography-heading-lg">Bouldin Island Launch Shaft</h1>
+        <h1 class="bcn-chd__name typography-heading-lg">
+          Bouldin Island Geotechnical Exploration
+        </h1>
         <span
           class="bcn-status-chip"
           data-status="active"
@@ -112,14 +117,14 @@ The component's identity band: a full-width white bar carrying its mark, its nam
           class="bcn-chd__star"
           data-star-toggle=""
           data-pressed="true"
-          data-name="Bouldin Island Launch Shaft"
+          data-name="Bouldin Island Geotechnical Exploration"
           ><span
             class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
             ><button
               class="esa-button__native typography-microcopy-md"
               type="button"
-              aria-label="Unstar Bouldin Island Launch Shaft"
-              title="Unstar Bouldin Island Launch Shaft"
+              aria-label="Unstar Bouldin Island Geotechnical Exploration"
+              title="Unstar Bouldin Island Geotechnical Exploration"
               aria-pressed="true"
             >
               <span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -275,72 +280,6 @@ The component's identity band: a full-width white bar carrying its mark, its nam
 }
 .bcn-mod__link .esa-icon {
   color: var(--bcn-content-muted);
-}
-.bcn-entity-logo {
-  background: color-mix(in srgb, var(--_c) 12%, transparent);
-  color: var(--_c);
-  border: 1px solid color-mix(in srgb, var(--_c) 30%, transparent);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  line-height: 0;
-  display: inline-flex;
-  overflow: hidden;
-}
-.bcn-entity-logo[data-style="fill"] {
-  background: var(--_c);
-  color: var(--color-content-default-knockout);
-  border-color: #0000;
-}
-.bcn-entity-logo[data-style="image"] {
-  background: var(--color-background-elevation-sunken);
-  border-color: var(--color-border-default-subtle);
-}
-.bcn-entity-logo__img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-.bcn-entity-logo[data-size="sm"] {
-  width: 24px;
-  height: 24px;
-}
-.bcn-entity-logo[data-size="md"] {
-  --icon-size-sm: 18px;
-  width: 32px;
-  height: 32px;
-}
-.bcn-entity-logo[data-size="lg"] {
-  width: 48px;
-  height: 48px;
-}
-.bcn-entity-logo[data-size="xl"] {
-  --icon-size-xl: 36px;
-  width: 72px;
-  height: 72px;
-}
-.bcn-entity-logo[data-size="2xl"] {
-  --icon-size-xl: 44px;
-  width: 92px;
-  height: 92px;
-}
-.bcn-entity-logo[data-shape="rounded"][data-size="sm"],
-.bcn-entity-logo[data-shape="rounded"][data-size="md"] {
-  border-radius: var(--radius-200);
-}
-.bcn-entity-logo[data-shape="rounded"][data-size="lg"],
-.bcn-entity-logo[data-shape="rounded"][data-size="xl"],
-.bcn-entity-logo[data-shape="rounded"][data-size="2xl"] {
-  border-radius: var(--radius-400);
-}
-.bcn-entity-logo[data-shape="circle"] {
-  border-radius: var(--radius-full);
-}
-.bcn-entity-logo[data-variant="seal"] {
-  border: var(--bcn-seal-ring-width) solid var(--bcn-seal-ring-color);
-  box-shadow: var(--bcn-seal-shadow);
-  box-sizing: content-box;
 }
 .bcn-chd {
   gap: var(--spacing-300);
@@ -681,6 +620,76 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-md-strong-line-height);
   letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
 }
+.bcn-entity-logo {
+  background: color-mix(in srgb, var(--_c) 12%, transparent);
+  color: var(--_c);
+  border: 1px solid color-mix(in srgb, var(--_c) 30%, transparent);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+  display: inline-flex;
+  overflow: hidden;
+}
+.bcn-entity-logo[data-style="fill"] {
+  background: var(--_c);
+  color: var(--color-content-default-knockout);
+  border-color: #0000;
+}
+.bcn-entity-logo[data-style="image"] {
+  background: var(--color-background-elevation-sunken);
+  border-color: var(--color-border-default-subtle);
+}
+.bcn-entity-logo__img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.bcn-entity-logo[data-size="sm"] {
+  width: 24px;
+  height: 24px;
+}
+.bcn-entity-logo[data-size="md"] {
+  --icon-size-sm: 18px;
+  width: 32px;
+  height: 32px;
+}
+.bcn-entity-logo[data-size="lg"] {
+  width: 48px;
+  height: 48px;
+}
+.bcn-entity-logo[data-size="xl"] {
+  --icon-size-xl: 36px;
+  width: 72px;
+  height: 72px;
+}
+.bcn-entity-logo[data-size="2xl"] {
+  --icon-size-xl: 44px;
+  width: 92px;
+  height: 92px;
+}
+.bcn-entity-logo[data-shape="rounded"][data-size="sm"],
+.bcn-entity-logo[data-shape="rounded"][data-size="md"] {
+  border-radius: var(--radius-200);
+}
+.bcn-entity-logo[data-shape="rounded"][data-size="lg"],
+.bcn-entity-logo[data-shape="rounded"][data-size="xl"],
+.bcn-entity-logo[data-shape="rounded"][data-size="2xl"] {
+  border-radius: var(--radius-400);
+}
+.bcn-entity-logo[data-shape="circle"] {
+  border-radius: var(--radius-full);
+}
+.bcn-entity-logo[data-variant="seal"] {
+  border: var(--bcn-seal-ring-width) solid var(--bcn-seal-ring-color);
+  box-shadow: var(--bcn-seal-shadow);
+  box-sizing: content-box;
+}
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -709,6 +718,9 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
+}
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
@@ -760,6 +772,8 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--button-radius-xs`: .25rem _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
@@ -776,6 +790,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
@@ -827,7 +842,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -842,6 +857,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

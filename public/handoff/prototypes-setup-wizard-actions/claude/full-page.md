@@ -364,7 +364,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </button>
           <ul class="nav-section__items">
             <li class="nav-item"><a href="#dashboard" class="nav-sublink">Dashboard</a></li>
-            <li class="nav-item"><a href="#action-lists" class="nav-sublink">Action Lists</a></li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/lists" class="nav-sublink">Lists</a>
+            </li>
             <li class="nav-item">
               <a href="#document-reviews" class="nav-sublink">Document Reviews</a>
             </li>
@@ -475,6 +477,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <li class="nav-item">
               <a href="/beacon-design/prototypes/site-clearance" class="nav-sublink"
                 >Site Clearance</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/monitoring/field-documentation" class="nav-sublink"
+                >Notifications &amp; Daily Logs</a
               >
             </li>
             <li class="nav-item">
@@ -1065,7 +1072,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                         <script
                           type="module"
-                          src="/beacon-design/_astro/BcnSwFilterRow.astro_astro_type_script_index_0_lang.EHzWe1vC.js"
+                          src="/beacon-design/_astro/BcnSwFilterRow.astro_astro_type_script_index_0_lang.BBU0UrEC.js"
                         ></script>
                       </div>
                     </section>
@@ -3571,11 +3578,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             size="md"
                           ></esa-text-field>
                           <div class="bcn-swaed__pairs">
-                            <div class="bcn-key-value">
+                            <div class="bcn-key-value" data-size="md" data-layout="stack">
                               <span class="bcn-key-value__key">Requirement type</span
                               ><span class="bcn-key-value__val">Monitoring</span>
                             </div>
-                            <div class="bcn-key-value">
+                            <div class="bcn-key-value" data-size="md" data-layout="stack">
                               <span class="bcn-key-value__key">Deliverable type</span
                               ><span class="bcn-key-value__val">Report</span>
                             </div>
@@ -3666,7 +3673,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 >
                 <script
                   type="module"
-                  src="/beacon-design/_astro/BcnSwActionsEditDialog.astro_astro_type_script_index_0_lang.C0bdExls.js"
+                  src="/beacon-design/_astro/BcnSwActionsEditDialog.astro_astro_type_script_index_0_lang.D1woqMih.js"
                 ></script>
               </div>
             </div>
@@ -3757,7 +3764,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.B0-2TFz8.js"
+    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.BWpiHCjJ.js"
   ></script>
   <!-- Aldo — help & guidance, app-wide like the palette above: the floating
          bottom-center utility bar and the route-aware guidance drawer it opens.
@@ -3776,23 +3783,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       aria-haspopup="dialog"
     >
       <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-        ><span class="bcn-aldo-mark__glyph"
-          ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-            ><svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path
-                d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-              ></path>
-              <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+        ><svg
+          class="bcn-aldo-mark__glyph"
+          viewBox="0 0 64 64"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+          <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+          <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+          <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg></span
       ><span class="bcn-help-bar__guidance-label">Guidance</span></button
     ><span class="bcn-help-bar__divider" aria-hidden="true"></span
     ><!-- Attach Evidence of Compliance — icon-only; the tooltip host carries the drawer's open hook.
@@ -3809,6 +3812,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       text="Attach Evidence of Compliance"
       position="above"
       data-evidence-trigger="true"
+      align="center"
       ><span
         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
         ><button
@@ -3927,7 +3931,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.rnozUMkB.js"
+    src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.BrGmwhrs.js"
   ></script>
   <!-- ── Drawer (parent) ── --><esa-side-dialog
     class="bcn-gd"
@@ -3937,46 +3941,38 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     size="md"
     ><div slot="header" class="bcn-gd__header">
       <span class="bcn-aldo-mark" data-size="md" aria-hidden="true"
-        ><span class="bcn-aldo-mark__glyph"
-          ><span class="esa-icon esa-icon--md" aria-hidden="true"
-            ><svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path
-                d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-              ></path>
-              <circle cx="12" cy="12" r="10"></circle></svg></span></span></span
+        ><svg
+          class="bcn-aldo-mark__glyph"
+          viewBox="0 0 64 64"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+          <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+          <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+          <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg></span
       ><span class="bcn-gd__title">Help &amp; Guidance</span>
     </div>
     <div class="bcn-gd__stream">
       <div class="bcn-gd-msg bcn-gd-msg--aldo" data-gd-intro="">
         <div class="bcn-gd-msg__avatar">
           <span class="bcn-aldo-mark" data-size="sm" aria-hidden="true"
-            ><span class="bcn-aldo-mark__glyph"
-              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                ><svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path
-                    d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                  ></path>
-                  <circle cx="12" cy="12" r="10"></circle></svg></span></span
+            ><svg
+              class="bcn-aldo-mark__glyph"
+              viewBox="0 0 64 64"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
+              <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
+              <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
+              <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg
           ></span>
         </div>
         <div class="bcn-gd-msg__group">
@@ -4944,25 +4940,28 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       </div></div></esa-side-dialog
   ><!-- Aldo avatar cloned into each reply message (reuses the real mark). --><template
     data-gd-aldo-avatar=""
-    ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-breadewf=""
-      ><span class="bcn-aldo-mark__glyph" data-astro-cid-breadewf=""
-        ><span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-i4i7akh4=""
-          ><svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-            data-astro-cid-i4i7akh4=""
-          >
-            <path
-              d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-            ></path>
-            <circle cx="12" cy="12" r="10"></circle></svg></span></span></span></template
+    ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-lgb5fntv=""
+      ><svg
+        class="bcn-aldo-mark__glyph"
+        viewBox="0 0 64 64"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        data-astro-cid-lgb5fntv=""
+      >
+        <path d="M47.59 23A18 18 0 1 1 31.37 14.01" data-astro-cid-lgb5fntv=""></path>
+        <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41" data-astro-cid-lgb5fntv=""></path>
+        <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8" data-astro-cid-lgb5fntv=""></path>
+        <circle
+          cx="33.2"
+          cy="31.1"
+          r="2"
+          fill="currentColor"
+          stroke="none"
+          data-astro-cid-lgb5fntv=""
+        ></circle></svg></span></template
   ><!-- ── Article reader (child, stacked above the drawer) ── --><esa-side-dialog
     class="bcn-gd-article"
     data-gd-article="true"
@@ -5136,7 +5135,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span></span
                 ><span class="bcn-help-article__video-duration"
                   ><span
-                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                     ><span class="esa-badge__text">4:32</span></span
                   ></span
                 >
@@ -5391,7 +5390,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span></span
                 ><span class="bcn-help-article__video-duration"
                   ><span
-                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                     ><span class="esa-badge__text">2:47</span></span
                   ></span
                 >
@@ -6667,8 +6666,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ><li data-astro-cid-qzg7vnux="">
                     <span
                       class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                      data-astro-cid-uydgtvqr=""
-                      ><span class="esa-pill__label" data-astro-cid-uydgtvqr=""></span
+                      data-astro-cid-65ixjgm5=""
+                      ><span class="esa-pill__label" data-astro-cid-65ixjgm5=""></span
                     ></span></li></template
                 ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template data-draft-file-row=""
@@ -6678,19 +6677,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-wz6b6gp5=""
+                        data-astro-cid-4xhmycw5=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this file from the evidence"
                           title="Remove this file from the evidence"
                           data-astro-cid-qzg7vnux="true"
-                          data-astro-cid-wz6b6gp5=""
+                          data-astro-cid-4xhmycw5=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-i4i7akh4=""
+                            data-astro-cid-c7ivvrtd=""
                             ><svg
                               width="16"
                               height="16"
@@ -6701,7 +6700,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-i4i7akh4=""
+                              data-astro-cid-c7ivvrtd=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -6806,6 +6805,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -6830,7 +6830,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -6988,6 +6988,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7012,7 +7013,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -7153,6 +7154,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7177,7 +7179,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -7319,6 +7321,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7343,7 +7346,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -7501,6 +7504,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7525,7 +7529,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -7666,6 +7670,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7690,7 +7695,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -7832,6 +7837,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -7856,7 +7862,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -7997,6 +8003,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8021,7 +8028,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -8162,6 +8169,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8186,7 +8194,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -8327,6 +8335,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8351,7 +8360,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -8499,6 +8508,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8523,7 +8533,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -8650,6 +8660,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8674,7 +8685,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -8801,6 +8812,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8825,7 +8837,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -8952,6 +8964,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 position="below"
                                 data-staging-attached=""
                                 hidden=""
+                                align="center"
                                 ><span class="bcn-countchip__stack"
                                   ><span class="bcn-countchip__icon" aria-hidden="true"
                                     ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -8976,7 +8989,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
                                   ><span class="bcn-countchip__num" aria-hidden="true"
                                     ><span
-                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                      class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     ></span
                                   ><span class="bcn-countchip__sr">On 0 actions</span></span
@@ -9102,7 +9115,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
                       <circle cx="12" cy="12" r="2"></circle>
                       <path d="m13.41 10.59 5.66-5.66"></path></svg></span
-                  >Actions<span
+                  ><span data-targets-title-text="">Actions</span
+                  ><span
                     class="bcn-ev-targets__count"
                     data-targets-count=""
                     aria-hidden="true"
@@ -9116,7 +9130,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
        else. Component and Phase are the dimensions the Setup Wizard's Actions step filters
        on; all three are guarded while associations are unsaved (see evidence-drawer.ts). -->
               <div class="bcn-ev-targets__filters">
-                <span class="bcn-ev-targets__filter"
+                <span class="bcn-ev-targets__filter" data-targets-component-filter=""
                   ><span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-component">Component</span
                   ><esa-select
                     data-evidence-component="true"
@@ -9124,14 +9138,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     searchable="true"
                     aria-labelledby="bcn-ev-flabel-component"
                   ></esa-select></span
-                ><span class="bcn-ev-targets__filter"
+                ><span class="bcn-ev-targets__filter" data-targets-scope-only=""
                   ><span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-phase">Phase</span
                   ><esa-select
                     data-targets-phase="true"
                     size="sm"
                     aria-labelledby="bcn-ev-flabel-phase"
                   ></esa-select></span
-                ><span class="bcn-ev-targets__filter"
+                ><span class="bcn-ev-targets__filter" data-targets-scope-only=""
                   ><span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-type">Type</span
                   ><esa-select
                     data-targets-type="true"
@@ -9140,7 +9154,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ></esa-select
                 ></span>
               </div>
-              <div class="bcn-ev-targets__search">
+              <div class="bcn-ev-targets__search" data-targets-scope-only="">
                 <div class="bcn-ev-search">
                   <span class="bcn-ev-search__icon" aria-hidden="true"
                     ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -9245,6 +9259,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9264,7 +9279,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -9275,10 +9290,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -9386,6 +9401,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9405,7 +9421,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -9416,10 +9432,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -9527,6 +9543,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9546,7 +9563,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -9557,10 +9574,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -9668,6 +9685,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9687,7 +9705,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -9698,10 +9716,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text"
                                       >Implementation Planning</span
                                     ></span
@@ -9838,6 +9856,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -9857,7 +9876,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -9868,10 +9887,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -10009,6 +10028,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -10028,7 +10048,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -10039,10 +10059,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -10180,6 +10200,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -10199,7 +10220,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -10210,10 +10231,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Reporting</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -10321,6 +10342,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -10340,7 +10362,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -10351,10 +10373,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -10462,6 +10484,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -10481,7 +10504,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -10492,10 +10515,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -10627,6 +10650,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -10646,7 +10670,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -10657,10 +10681,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -10768,6 +10792,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -10787,7 +10812,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -10798,10 +10823,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -10909,6 +10934,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -10928,7 +10954,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -10939,10 +10965,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text"
                                       >Implementation Planning</span
                                     ></span
@@ -11052,6 +11078,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -11071,7 +11098,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -11082,10 +11109,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -11193,6 +11220,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -11212,7 +11240,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -11223,10 +11251,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -11361,6 +11389,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -11380,7 +11409,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -11391,10 +11420,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -11502,6 +11531,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -11521,7 +11551,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -11532,10 +11562,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -11643,6 +11673,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -11662,7 +11693,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -11673,10 +11704,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Reporting</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -11784,6 +11815,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -11803,7 +11835,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -11814,10 +11846,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -11925,6 +11957,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -11944,7 +11977,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -11955,10 +11988,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Construction</span></span
                                   ></span
                                 >
@@ -12066,6 +12099,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -12085,7 +12119,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -12096,10 +12130,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text"
                                       >Implementation Planning</span
                                     ></span
@@ -12209,6 +12243,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -12228,7 +12263,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -12239,10 +12274,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Tracking</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -12350,6 +12385,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     position="below"
                                     data-action-evcount=""
                                     hidden="true"
+                                    align="center"
                                     ><span class="bcn-countchip__stack"
                                       ><span class="bcn-countchip__icon" aria-hidden="true"
                                         ><span class="esa-icon esa-icon--md" aria-hidden="true"
@@ -12369,7 +12405,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                             ></path></svg></span></span
                                       ><span class="bcn-countchip__num" aria-hidden="true"
                                         ><span
-                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                          class="esa-badge esa-badge--neutral esa-badge--xs typography-microcopy-2xs-strong"
                                           ><span class="esa-badge__text">0</span></span
                                         ></span
                                       ><span class="bcn-countchip__sr"
@@ -12380,10 +12416,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ><span class="bcn-ev-row__spacer" aria-hidden="true"></span
                                 ><span class="bcn-ev-row__tags"
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Monitoring</span></span
                                   ><span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
                                     ><span class="esa-badge__text">Pre-Construction</span></span
                                   ></span
                                 >
@@ -12446,28 +12482,28 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <span class="bcn-ev-attached__name" data-astro-cid-6zu5gb4v=""></span
                     ><span class="bcn-ev-attached__mark" hidden="" data-astro-cid-6zu5gb4v=""
                       ><span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        data-astro-cid-bnhbuysz=""
-                        ><span class="esa-badge__text" data-astro-cid-bnhbuysz=""
+                        class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+                        data-astro-cid-sh7ulwla=""
+                        ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
                           >Suggested</span
                         ></span
                       ></span
                     ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-wz6b6gp5=""
+                        data-astro-cid-4xhmycw5=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this evidence from the action"
                           title="Remove this evidence from the action"
                           data-astro-cid-6zu5gb4v="true"
-                          data-astro-cid-wz6b6gp5=""
+                          data-astro-cid-4xhmycw5=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-i4i7akh4=""
+                            data-astro-cid-c7ivvrtd=""
                             ><svg
                               width="16"
                               height="16"
@@ -12478,13 +12514,32 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-i4i7akh4=""
+                              data-astro-cid-c7ivvrtd=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
                           ></span></button></span
                     ></span></li></template
-                ><!-- Nothing on the list yet. -->
+                ><!-- LIST MODE (a list page's "Add evidence", see evidence-drawer.ts): the column
+         holds that list's members instead of a component's actions. Every member is a
+         target by default; the x leaves one out of this attach, and Restore brings the
+         left-out back. Each row is the list page's OWN slim card (.bcn-loc, from
+         bcn-obligation-card.css) cloned off its master tree and pared to chip, title and
+         the remove verb, so the drawer shows the member exactly as the page does. -->
+                <div class="bcn-ev-targets__listmode" data-targets-listmode="" hidden="">
+                  <p
+                    class="bcn-ev-targets__leftout typography-body-sm"
+                    data-listmode-leftout=""
+                    hidden=""
+                  >
+                    <span data-listmode-leftout-text=""></span
+                    ><button type="button" class="bcn-ev-targets__restore" data-listmode-restore="">
+                      Restore
+                    </button>
+                  </p>
+                  <ul class="bcn-ev-targets__list" data-listmode-rows=""></ul>
+                </div>
+                <!-- Nothing on the list yet. -->
                 <div class="bcn-ev-targets__empty" data-targets-empty="">
                   <div class="esa-empty-state esa-empty-state--sm">
                     <h3 class="esa-empty-state__title typography-label-sm-strong">
@@ -12548,6 +12603,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       </div>
       <footer class="bcn-bottom-drawer__foot">
         <div class="bcn-ev__foot">
+          <!-- List mode only: what Save is still waiting on, or what it will write. -->
+          <p
+            class="bcn-ev__status typography-body-sm"
+            data-evidence-status=""
+            role="status"
+            hidden=""
+          ></p>
           <div class="bcn-ev__actions">
             <span data-evidence-save=""
               ><span
@@ -12575,7 +12637,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   >
   <script
     type="module"
-    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DSCvyJLV.js"
+    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.BYzphbTU.js"
   ></script>
 </div>
 ```
@@ -12585,8 +12647,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 :root,
 [data-theme="beacon"] {
   --animation-overlay-enter: 0.25s ease-out;
-  --badge-bg: #005862;
-  --badge-text-color: #fcfcfc;
+  --badge-bg: #fcfcfc;
+  --badge-border-color: #dcdcdc;
+  --badge-text-color: #525252;
   --bcn-aldo: #08908b;
   --bcn-aldo-100: #cfeceb;
   --bcn-aldo-50: #e8f6f5;
@@ -12677,14 +12740,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --transition-fast: 0.15s ease;
   --typography-body-sm-font-family: "DM Sans", sans-serif;
   --typography-body-sm-font-size: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
-  --typography-body-sm-font-weight: 350;
+  --typography-body-sm-font-weight: 400;
   --typography-body-sm-letter-spacing: 0.01em;
   --typography-body-sm-line-height: 1.6;
   --typography-font-family-mono: "Roboto Mono", ui-monospace, monospace;
   --typography-font-family-sans: "DM Sans", sans-serif;
   --typography-font-weight-bold: 650;
   --typography-font-weight-medium: 500;
-  --typography-font-weight-regular: 350;
+  --typography-font-weight-regular: 400;
   --typography-font-weight-semibold: 550;
   --typography-label-md-font-family: "DM Sans", sans-serif;
   --typography-label-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
@@ -12718,28 +12781,370 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --typography-title-strong-line-height: 1.6;
 }
 
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+:host {
+  --_width: var(--side-dialog-width, 400px);
+}
+:host([size="lg"]) {
+  --_width: var(--side-dialog-width-lg, 520px);
+}
+dialog.panel {
+  --_inset: var(--side-dialog-inset, 16px);
+  position: fixed;
+  top: var(--_inset);
+  bottom: var(--_inset);
+  inset-inline: auto;
+  height: auto;
+  margin: 0;
+  border: none;
+  padding: 0;
+  width: min(var(--_width), calc(100vw - var(--_inset) * 2));
+  max-width: none;
+  max-height: none;
+  background: var(--color-background-elevation-raised, #fcfcfc);
+  color: var(--color-content-default, #202020);
+  border-radius: var(--radius-md, 0.5rem);
+  box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
+  outline: none;
+  overflow: hidden;
+  /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
+         second dialog on top) — ease the reposition instead of jumping. */
+  transition:
+    top 220ms ease,
+    right 220ms ease,
+    bottom 220ms ease,
+    left 220ms ease;
+}
+:host([position="right"]) dialog.panel {
+  right: var(--_inset);
+  animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
+}
+*,
+:before,
+:after {
+  box-sizing: border-box;
+}
+body {
+  font-family: var(--typography-font-family-sans, system-ui, sans-serif);
+  font-weight: var(--typography-font-weight-regular, 350);
+  color: var(--color-content-default, #3d3d3d);
+  background: var(--color-background-elevation-raised, #fff);
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+}
+button {
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+  font-family: inherit;
+}
+a {
+  color: var(--color-content-link, #005862);
+  text-decoration: none;
+}
+img {
+  max-width: 100%;
+  display: block;
+}
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+  margin: 0;
+}
+.page-layout {
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+  flex-direction: column;
+  display: flex;
+}
+.page-layout__container {
+  flex-direction: column;
+  display: flex;
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+.page-layout__bleed,
+.page-layout section {
+  width: 100%;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  gap: var(--gap);
+  flex-direction: column;
+  display: flex;
+}
+[data-gap="md"] {
+  --gap: var(--spacing-400, 1rem);
+}
+.bcn-swf {
+  flex-direction: column;
+  min-height: 100%;
+  display: flex;
+}
+.bcn-swf__head {
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-200) 0 var(--spacing-400);
+  flex-wrap: wrap;
+  display: flex;
+}
+.bcn-swf__home {
+  align-items: center;
+  gap: var(--spacing-300);
   color: inherit;
+  border-radius: var(--radius-200);
+  text-decoration: none;
+  display: inline-flex;
+}
+.bcn-swf__mark {
+  border-radius: var(--radius-full);
+  background: var(--bcn-teal-600, var(--color-background-brand));
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+}
+.bcn-swf__title {
+  font-family: var(--font-decorative, var(--typography-font-family-sans));
+  font-size: var(--font-size-300);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  margin: 0;
+  line-height: 1.2;
+}
+.bcn-swf__sub {
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
+  margin: 0;
+  line-height: 1;
+}
+.bcn-swf__nav {
+  padding: 0 0 var(--spacing-500);
+}
+.bcn-swf__steps {
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+.bcn-swf__item {
+  flex: 1;
+  align-items: center;
+  min-width: 0;
+  display: flex;
+}
+.bcn-swf__step {
+  align-items: center;
+  gap: var(--spacing-200);
+  padding: var(--spacing-200) var(--spacing-300);
+  border-radius: var(--radius-200);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  white-space: nowrap;
+  text-decoration: none;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+  display: inline-flex;
+}
+.bcn-swf__icon {
+  color: var(--_step);
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-swf__label {
+  line-height: 1;
+}
+.bcn-swf__check {
+  margin-left: var(--spacing-100);
+  color: var(--_step);
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-swf__connector {
+  height: 0;
+  margin: 0 var(--spacing-200);
+  border-top: 2px dotted var(--color-border-default);
+  flex: 1;
+}
+.bcn-swf__item--fork,
+.bcn-swf__item:last-child {
+  flex: none;
+}
+.bcn-swf__branches {
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+.bcn-swf__branch {
+  align-items: center;
+  display: flex;
+}
+.bcn-swf__tine {
+  width: 28px;
+  margin-right: var(--spacing-200);
+  flex: none;
+  align-self: stretch;
+  position: relative;
+}
+.bcn-swf__tine:before {
+  content: "";
+  border-top: 2px dotted var(--color-border-default);
+  height: 0;
+  position: absolute;
+  inset: 50% 0 auto;
+}
+.bcn-swf__tine:after {
+  content: "";
+  border-left: 2px dotted var(--color-border-default);
+  width: 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+.bcn-swf__branch:first-child .bcn-swf__tine:after {
+  top: 50%;
+}
+.bcn-swf__step:hover,
+.bcn-swf__step[data-active] {
+  background: var(--_step);
+  color: var(--color-content-default-knockout);
+}
+.bcn-swf__branch .bcn-swf__step {
+  margin: var(--spacing-150) 0;
+  flex: 1;
+}
+.bcn-swf__step:hover .bcn-swf__icon,
+.bcn-swf__step:hover .bcn-swf__check,
+.bcn-swf__step[data-active] .bcn-swf__icon,
+.bcn-swf__step[data-active] .bcn-swf__check {
+  color: var(--color-content-default-knockout);
+}
+.bcn-swf__branch:last-child .bcn-swf__tine:after {
+  bottom: 50%;
+}
+.bcn-swf__body {
+  flex: 1;
+  min-width: 0;
+}
+.bcn-swsc {
+  align-items: center;
+  gap: var(--spacing-100);
+  padding: 2px var(--spacing-200);
+  background: color-mix(in srgb, var(--color-content-default) 5%, transparent);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  line-height: inherit;
+  cursor: pointer;
+  border: 1px solid #0000;
+  border-radius: 6px;
+  transition: background 0.12s;
+  display: inline-flex;
+}
+.bcn-swsc__label {
+  text-align: left;
+  min-width: 0;
+}
+.bcn-swsc__chevron {
+  color: var(--color-content-default-tertiary);
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.bcn-swsp {
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-200);
+  flex-shrink: 0;
+}
+.bcn-swsp__header {
+  padding: var(--spacing-400) var(--spacing-500);
+}
+.bcn-swsp__row {
+  align-items: center;
+  gap: var(--spacing-300);
+  flex-wrap: wrap;
+  display: flex;
+}
+.bcn-swsp__num {
+  border-radius: var(--radius-full);
+  background: var(--_step);
+  width: 28px;
+  height: 28px;
+  color: var(--color-content-default-knockout);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: inline-flex;
+}
+.bcn-swsp__title {
+  align-items: center;
+  gap: var(--spacing-150);
+  font-family: var(--font-decorative);
+  color: var(--color-content-default);
+  flex-wrap: wrap;
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  display: inline-flex;
+}
+.bcn-swsp__actions {
+  align-items: center;
+  gap: var(--spacing-200);
+  margin-left: auto;
+  display: inline-flex;
+}
+.bcn-swsp__actions:empty {
+  display: none;
+}
+.bcn-swsp__intro {
+  margin: var(--spacing-200) 0 0;
+  color: var(--color-content-default);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
+  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
   justify-content: center;
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
 }
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
+.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+  --_badge-text: var(--color-content-on-brand-muted, #203c25);
 }
 .modern-layout {
   flex-direction: column;
@@ -13191,15 +13596,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   display: inline-flex;
 }
 .bcn-aldo-mark[data-size="sm"] {
-  --icon-size-xs: 12px;
   width: 20px;
   height: 20px;
 }
 .bcn-aldo-mark__glyph {
-  justify-content: center;
-  align-items: center;
-  line-height: 0;
-  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .bcn-help-bar__guidance-label {
   white-space: nowrap;
@@ -13562,218 +13965,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   transform: translate(-50%);
   box-shadow: 0 -12px 48px -12px #00000052;
 }
-.bcn-swsp {
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  flex-shrink: 0;
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
 }
-.bcn-swsp__header {
-  padding: var(--spacing-400) var(--spacing-500);
+:host {
+  display: inline-block;
 }
-.bcn-swsp__row {
-  align-items: center;
-  gap: var(--spacing-300);
-  flex-wrap: wrap;
-  display: flex;
-}
-.bcn-swsp__num {
-  border-radius: var(--radius-full);
-  background: var(--_step);
-  width: 28px;
-  height: 28px;
-  color: var(--color-content-default-knockout);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.875rem;
-  font-weight: 600;
-  display: inline-flex;
-}
-.bcn-swsp__title {
-  align-items: center;
-  gap: var(--spacing-150);
-  font-family: var(--font-decorative);
-  color: var(--color-content-default);
-  flex-wrap: wrap;
-  margin: 0;
-  font-size: 1.125rem;
-  font-weight: 600;
-  line-height: 1.2;
-  display: inline-flex;
-}
-.bcn-swsp__actions {
-  align-items: center;
-  gap: var(--spacing-200);
-  margin-left: auto;
-  display: inline-flex;
-}
-.bcn-swsp__actions:empty {
-  display: none;
-}
-.bcn-swsp__intro {
-  margin: var(--spacing-200) 0 0;
-  color: var(--color-content-default);
-  font-size: 0.875rem;
-  line-height: 1.4;
-}
-.bcn-swf {
-  flex-direction: column;
-  min-height: 100%;
-  display: flex;
-}
-.bcn-swf__head {
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-200) 0 var(--spacing-400);
-  flex-wrap: wrap;
-  display: flex;
-}
-.bcn-swf__home {
-  align-items: center;
-  gap: var(--spacing-300);
-  color: inherit;
-  border-radius: var(--radius-200);
-  text-decoration: none;
-  display: inline-flex;
-}
-.bcn-swf__mark {
-  border-radius: var(--radius-full);
-  background: var(--bcn-teal-600, var(--color-background-brand));
-  width: 20px;
-  height: 20px;
-  color: var(--color-content-default-knockout);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.bcn-swf__title {
-  font-family: var(--font-decorative, var(--typography-font-family-sans));
-  font-size: var(--font-size-300);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-  margin: 0;
-  line-height: 1.2;
-}
-.bcn-swf__sub {
-  font-size: var(--font-size-150);
-  color: var(--color-content-default-secondary);
-  margin: 0;
-  line-height: 1;
-}
-.bcn-swf__nav {
-  padding: 0 0 var(--spacing-500);
-}
-.bcn-swf__steps {
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-}
-.bcn-swf__item {
-  flex: 1;
-  align-items: center;
-  min-width: 0;
-  display: flex;
-}
-.bcn-swf__step {
-  align-items: center;
-  gap: var(--spacing-200);
-  padding: var(--spacing-200) var(--spacing-300);
-  border-radius: var(--radius-200);
-  font-size: var(--font-size-100);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-  white-space: nowrap;
-  text-decoration: none;
-  transition:
-    background-color 0.15s,
-    color 0.15s;
-  display: inline-flex;
-}
-.bcn-swf__icon {
-  color: var(--_step);
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-swf__label {
-  line-height: 1;
-}
-.bcn-swf__check {
-  margin-left: var(--spacing-100);
-  color: var(--_step);
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-swf__connector {
-  height: 0;
-  margin: 0 var(--spacing-200);
-  border-top: 2px dotted var(--color-border-default);
-  flex: 1;
-}
-.bcn-swf__item--fork {
-  flex: none;
-}
-.bcn-swf__branches {
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-}
-.bcn-swf__branch {
-  align-items: center;
-  display: flex;
-}
-.bcn-swf__tine {
-  width: 28px;
-  margin-right: var(--spacing-200);
-  flex: none;
-  align-self: stretch;
+.esa-tooltip-anchor {
   position: relative;
-}
-.bcn-swf__tine:before {
-  content: "";
-  border-top: 2px dotted var(--color-border-default);
-  height: 0;
-  position: absolute;
-  inset: 50% 0 auto;
-}
-.bcn-swf__tine:after {
-  content: "";
-  border-left: 2px dotted var(--color-border-default);
-  width: 0;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-}
-.bcn-swf__branch:first-child .bcn-swf__tine:after {
-  top: 50%;
-}
-.bcn-swf__step:hover,
-.bcn-swf__step[data-active] {
-  background: var(--_step);
-  color: var(--color-content-default-knockout);
-}
-.bcn-swf__branch .bcn-swf__step {
-  margin: var(--spacing-150) 0;
-  flex: 1;
-}
-.bcn-swf__step:hover .bcn-swf__icon,
-.bcn-swf__step:hover .bcn-swf__check,
-.bcn-swf__step[data-active] .bcn-swf__icon,
-.bcn-swf__step[data-active] .bcn-swf__check {
-  color: var(--color-content-default-knockout);
-}
-.bcn-swf__branch:last-child .bcn-swf__tine:after {
-  bottom: 50%;
-}
-.bcn-swf__body {
-  flex: 1;
-  min-width: 0;
+  display: inline-flex;
 }
 :host {
   --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
@@ -13789,16 +13993,184 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   position: relative;
   display: inline-block;
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
 }
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
+.esa-button__native {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  display: inline-flex;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+.esa-button--xs {
+  --_btn-pad-y: var(--spacing-200, 0.5rem);
+  --_btn-padding-x: var(--spacing-200, 0.5rem);
+  --_btn-radius: var(--button-radius-xs, 4px);
+}
+.esa-button--variant-ghost .esa-button__native {
+  color: var(--color-content-default, #202020);
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--variant-danger {
+  --_accent: var(--color-background-utility-danger);
+  --_accent-hover: var(--color-background-utility-danger-hover);
+  --_accent-text: var(--color-content-utility-danger);
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+  background: 0 0;
+}
+.esa-button--variant-secondary {
+  --_accent: var(--color-background-brand-muted);
+  --_accent-hover: var(--color-background-brand-muted-hover);
+  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
+  --_accent-text: var(--color-content-brand);
+  --_accent-border: var(--color-border-default-strong, #bbb);
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.bcn-swcb {
+  min-width: 22px;
+  padding: 2px var(--spacing-150);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default-subtle);
+  color: var(--color-content-default-tertiary);
+  font-family: var(--typography-font-family-sans);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1;
+  display: inline-flex;
+}
+.bcn-key-value {
+  flex-direction: column;
+  gap: 2px;
+  display: flex;
+}
+.bcn-key-value__key {
   font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--form-label-color);
+}
+.bcn-key-value__key {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
+.bcn-key-value__val {
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-2xs {
+  font-family: var(--typography-microcopy-2xs-font-family);
+  font-size: var(--typography-microcopy-2xs-font-size);
+  font-weight: var(--typography-microcopy-2xs-font-weight);
+  line-height: var(--typography-microcopy-2xs-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
+}
+.typography-title-strong {
+  font-family: var(--typography-title-strong-font-family);
+  font-size: var(--typography-title-strong-font-size);
+  font-weight: var(--typography-title-strong-font-weight);
+  line-height: var(--typography-title-strong-line-height);
+  letter-spacing: var(--typography-title-strong-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-label-md-strong {
+  font-family: var(--typography-label-md-strong-font-family);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height);
+  letter-spacing: var(--typography-label-md-strong-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
 }
 .bcn-swai {
   border-top: 1px solid
@@ -14268,319 +14640,15 @@ html,
   gap: var(--spacing-200);
   display: flex;
 }
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-2xs {
-  font-family: var(--typography-microcopy-2xs-font-family);
-  font-size: var(--typography-microcopy-2xs-font-size);
-  font-weight: var(--typography-microcopy-2xs-font-weight);
-  line-height: var(--typography-microcopy-2xs-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
-}
-.typography-title-strong {
-  font-family: var(--typography-title-strong-font-family);
-  font-size: var(--typography-title-strong-font-size);
-  font-weight: var(--typography-title-strong-font-weight);
-  line-height: var(--typography-title-strong-line-height);
-  letter-spacing: var(--typography-title-strong-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.bcn-swsc {
-  align-items: center;
-  gap: var(--spacing-100);
-  padding: 2px var(--spacing-200);
-  background: color-mix(in srgb, var(--color-content-default) 5%, transparent);
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  color: inherit;
-  line-height: inherit;
-  cursor: pointer;
-  border: 1px solid #0000;
-  border-radius: 6px;
-  transition: background 0.12s;
-  display: inline-flex;
-}
-.bcn-swsc__label {
-  text-align: left;
-  min-width: 0;
-}
-.bcn-swsc__chevron {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-swcb {
-  min-width: 22px;
-  padding: 2px var(--spacing-150);
-  border-radius: var(--radius-100);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default-subtle);
-  color: var(--color-content-default-tertiary);
-  font-family: var(--typography-font-family-sans);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  line-height: 1;
-  display: inline-flex;
-}
-:host {
-  display: inline-block;
-}
-.esa-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
-}
-:host([size="lg"]) {
-  --_width: var(--side-dialog-width-lg, 520px);
-}
-dialog.panel {
-  --_inset: var(--side-dialog-inset, 16px);
-  position: fixed;
-  top: var(--_inset);
-  bottom: var(--_inset);
-  inset-inline: auto;
-  height: auto;
-  margin: 0;
-  border: none;
-  padding: 0;
-  width: min(var(--_width), calc(100vw - var(--_inset) * 2));
-  max-width: none;
-  max-height: none;
-  background: var(--color-background-elevation-raised, #fcfcfc);
-  color: var(--color-content-default, #202020);
-  border-radius: var(--radius-md, 0.5rem);
-  box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
-  outline: none;
-  overflow: hidden;
-  /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
-         second dialog on top) — ease the reposition instead of jumping. */
-  transition:
-    top 220ms ease,
-    right 220ms ease,
-    bottom 220ms ease,
-    left 220ms ease;
-}
-:host([position="right"]) dialog.panel {
-  right: var(--_inset);
-  animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
-}
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.bcn-key-value {
-  flex-direction: column;
-  gap: 2px;
-  display: flex;
-}
-.bcn-key-value__key {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-medium);
-  color: var(--form-label-color);
-}
-.bcn-key-value__val {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-}
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-  text-decoration: none;
-  display: inline-flex;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button--variant-chrome .esa-button__native {
-  color: inherit;
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
-.esa-button--variant-ghost .esa-button__native {
-  color: var(--color-content-default, #202020);
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  color: var(--_accent-text);
-  border-color: var(--_accent);
-  background: 0 0;
-}
-.esa-button--variant-secondary {
-  --_accent: var(--color-background-brand-muted);
-  --_accent-hover: var(--color-background-brand-muted-hover);
-  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
-  --_accent-text: var(--color-content-brand);
-  --_accent-border: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-*,
-:before,
-:after {
-  box-sizing: border-box;
-}
-body {
-  font-family: var(--typography-font-family-sans, system-ui, sans-serif);
-  font-weight: var(--typography-font-weight-regular, 350);
-  color: var(--color-content-default, #3d3d3d);
-  background: var(--color-background-elevation-raised, #fff);
-  -webkit-font-smoothing: antialiased;
-  margin: 0;
-}
-button {
-  cursor: pointer;
-  background: 0 0;
-  border: 0;
-  font-family: inherit;
-}
-a {
-  color: var(--color-content-link, #005862);
-  text-decoration: none;
-}
-img {
-  max-width: 100%;
-  display: block;
-}
-:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-  margin: 0;
-}
-.page-layout {
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-  flex-direction: column;
-  display: flex;
-}
-.page-layout__container {
-  flex-direction: column;
-  display: flex;
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-.page-layout__bleed,
-.page-layout section {
-  width: 100%;
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  gap: var(--gap);
-  flex-direction: column;
-  display: flex;
-}
-[data-gap="md"] {
-  --gap: var(--spacing-400, 1rem);
-}
 ```
 
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
 | `--animation-overlay-enter` | `.25s ease-out` | semantic |
-| `--badge-bg` | `#005862` | component |
-| `--badge-text-color` | `#fcfcfc` | component |
+| `--badge-bg` | `#fcfcfc` | component |
+| `--badge-border-color` | `#dcdcdc` | component |
+| `--badge-text-color` | `#525252` | component |
 | `--bcn-aldo` | `#08908b` | component |
 | `--bcn-aldo-100` | `#cfeceb` | component |
 | `--bcn-aldo-50` | `#e8f6f5` | component |
@@ -14671,14 +14739,14 @@ img {
 | `--transition-fast` | `.15s ease` | semantic |
 | `--typography-body-sm-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
-| `--typography-body-sm-font-weight` | `350` | semantic |
+| `--typography-body-sm-font-weight` | `400` | semantic |
 | `--typography-body-sm-letter-spacing` | `.01em` | semantic |
 | `--typography-body-sm-line-height` | `1.6` | semantic |
 | `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` | semantic |
 | `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
 | `--typography-font-weight-bold` | `650` | semantic |
 | `--typography-font-weight-medium` | `500` | semantic |
-| `--typography-font-weight-regular` | `350` | semantic |
+| `--typography-font-weight-regular` | `400` | semantic |
 | `--typography-font-weight-semibold` | `550` | semantic |
 | `--typography-label-md-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |

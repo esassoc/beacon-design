@@ -80,15 +80,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <p class="drawer__sub">Roads · 2024-2029 Geotechnical Activities</p>
           </header>
           <div class="band">
-            <div class="bcn-key-value">
+            <div class="bcn-key-value" data-size="md" data-layout="stack">
               <span class="bcn-key-value__key">Notification</span
               ><span class="bcn-key-value__val">May 15, 2026</span>
             </div>
-            <div class="bcn-key-value">
+            <div class="bcn-key-value" data-size="md" data-layout="stack">
               <span class="bcn-key-value__key">Clearance visit</span
               ><span class="bcn-key-value__val">Jun 15, 2026</span>
             </div>
-            <div class="bcn-key-value">
+            <div class="bcn-key-value" data-size="md" data-layout="stack">
               <span class="bcn-key-value__key">Planned start</span
               ><span class="bcn-key-value__val">Jun 29, 2026</span>
             </div>
@@ -351,15 +351,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <p class="drawer__sub">Rail Alignment · 2024-2029 Geotechnical Activities</p>
           </header>
           <div class="band">
-            <div class="bcn-key-value">
+            <div class="bcn-key-value" data-size="md" data-layout="stack">
               <span class="bcn-key-value__key">Notification</span
               ><span class="bcn-key-value__val">—</span>
             </div>
-            <div class="bcn-key-value">
+            <div class="bcn-key-value" data-size="md" data-layout="stack">
               <span class="bcn-key-value__key">Clearance visit</span
               ><span class="bcn-key-value__val">—</span>
             </div>
-            <div class="bcn-key-value">
+            <div class="bcn-key-value" data-size="md" data-layout="stack">
               <span class="bcn-key-value__key">Planned start</span
               ><span class="bcn-key-value__val">Jun 17, 2026</span>
             </div>
@@ -642,19 +642,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <p class="drawer__sub">Tunnel Reach 2 · 2024-2029 Geotechnical Activities</p>
           </header>
           <div class="band band--4">
-            <div class="bcn-key-value">
+            <div class="bcn-key-value" data-size="md" data-layout="stack">
               <span class="bcn-key-value__key">Notification</span
               ><span class="bcn-key-value__val">—</span>
             </div>
-            <div class="bcn-key-value">
+            <div class="bcn-key-value" data-size="md" data-layout="stack">
               <span class="bcn-key-value__key">Clearance visit</span
               ><span class="bcn-key-value__val">May 18, 2026</span>
             </div>
-            <div class="bcn-key-value">
+            <div class="bcn-key-value" data-size="md" data-layout="stack">
               <span class="bcn-key-value__key">Planned start</span
               ><span class="bcn-key-value__val">—</span>
             </div>
-            <div class="bcn-key-value">
+            <div class="bcn-key-value" data-size="md" data-layout="stack">
               <span class="bcn-key-value__key">Blocked until</span
               ><span class="band__alert">Jul 24, 2026</span>
             </div>
@@ -1299,15 +1299,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </summary>
                   <div class="esa-collapsible__body typography-body-md">
                     <div class="dates">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Notification</span
                         ><span class="bcn-key-value__val">May 15, 2026</span>
                       </div>
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Clearance visit</span
                         ><span class="bcn-key-value__val">Jun 15, 2026</span>
                       </div>
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned start</span
                         ><span class="bcn-key-value__val">Jun 29, 2026</span>
                       </div>
@@ -1583,15 +1583,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </summary>
                   <div class="esa-collapsible__body typography-body-md">
                     <div class="dates">
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Notification</span
                         ><span class="bcn-key-value__val">—</span>
                       </div>
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Clearance visit</span
                         ><span class="bcn-key-value__val">—</span>
                       </div>
-                      <div class="bcn-key-value">
+                      <div class="bcn-key-value" data-size="md" data-layout="stack">
                         <span class="bcn-key-value__key">Planned start</span
                         ><span class="bcn-key-value__val">Jun 17, 2026</span>
                       </div>
@@ -1756,24 +1756,24 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
      chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
      style block already documents. --><span class="disc-panel__when">Reviewed Jun 3, 2026</span>
                 </div>
-                <div class="bcn-key-value">
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
                   <span class="bcn-key-value__key">Reviewer</span
                   ><span class="bcn-key-value__val">C. Anderson (ESA)</span>
                 </div>
-                <div class="bcn-key-value">
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
                   <span class="bcn-key-value__key">Determination note</span
                   ><span class="kv-text"
                     >Highly disturbed gravel work pad; elderberry shrubs &gt;165 ft from
                     access.</span
                   >
                 </div>
-                <div class="bcn-key-value">
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
                   <span class="bcn-key-value__key">Survey record</span
                   ><a class="survey__link" href="#" onclick="return false;"
                     >Pre-construction clearance survey · Jun 3, 2026</a
                   >
                 </div>
-                <div class="bcn-key-value">
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
                   <span class="bcn-key-value__key">Field note (verbatim)</span>
                   <blockquote class="note note--sm">
                     6/3 email: This DH is located in a gravel work pad. It was moved slightly to be
@@ -1833,17 +1833,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     >Review scheduled Jun 20, 2026 (in 9 days)</span
                   >
                 </div>
-                <div class="bcn-key-value">
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
                   <span class="bcn-key-value__key">Reviewer</span
                   ><span class="bcn-key-value__val">Not assigned</span>
                 </div>
-                <div class="bcn-key-value">
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
                   <span class="bcn-key-value__key">Determination note</span
                   ><span class="kv-text"
                     >Potential noise issue raised near receptors; acoustic review pending.</span
                   >
                 </div>
-                <div class="bcn-key-value">
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
                   <span class="bcn-key-value__key">Survey record</span
                   ><span class="bcn-key-value__val">No noise survey on record</span>
                 </div>
@@ -1877,17 +1877,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     >Review scheduled Jun 18, 2026 (in 7 days)</span
                   >
                 </div>
-                <div class="bcn-key-value">
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
                   <span class="bcn-key-value__key">Reviewer</span
                   ><span class="bcn-key-value__val">Not assigned</span>
                 </div>
-                <div class="bcn-key-value">
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
                   <span class="bcn-key-value__key">Determination note</span
                   ><span class="kv-text"
                     >Site relocated — pending geologist confirmation of the new position.</span
                   >
                 </div>
-                <div class="bcn-key-value">
+                <div class="bcn-key-value" data-size="md" data-layout="stack">
                   <span class="bcn-key-value__key">Survey record</span
                   ><span class="bcn-key-value__val">No geology survey on record</span>
                 </div>
@@ -2295,6 +2295,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   font-weight: var(--typography-font-weight-medium);
   color: var(--form-label-color);
 }
+.bcn-key-value__key {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
 .bcn-key-value__val {
   font-size: var(--typography-label-md-font-size);
   font-weight: var(--typography-font-weight-semibold);
@@ -2337,9 +2342,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   transition: transform 0.15s;
   transform: rotate(-45deg);
 }
+.esa-collapsible[open] > .esa-collapsible__summary:after {
+  transform: rotate(45deg);
+}
+.esa-collapsible__body {
+  gap: var(--spacing-400, 1rem);
+  padding: 0 var(--spacing-400, 1rem) var(--spacing-400, 1rem);
+  flex-direction: column;
+  display: flex;
+}
 .esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
+  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
   --_badge-padding-y: var(--spacing-150, 0.375rem);
   --_badge-padding-x: var(--spacing-200, 0.5rem);
   min-width: calc(1lh + 2 * var(--_badge-padding-y));
@@ -2361,131 +2376,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-badge--secondary {
   --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
   --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.esa-collapsible[open] > .esa-collapsible__summary:after {
-  transform: rotate(45deg);
-}
-.esa-collapsible__body {
-  gap: var(--spacing-400, 1rem);
-  padding: 0 var(--spacing-400, 1rem) var(--spacing-400, 1rem);
-  flex-direction: column;
-  display: flex;
-}
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button--sm {
-  --_btn-pad-y: var(--spacing-250, 0.625rem);
-  --_btn-padding-x: var(--spacing-250, 0.625rem);
-  --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button__native {
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-  text-decoration: none;
-  display: inline-flex;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  color: var(--_accent-text);
-  border-color: var(--_accent);
-  background: 0 0;
-}
-.esa-button--variant-ghost .esa-button__native {
-  color: var(--color-content-default, #202020);
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border-default, #cecece);
-}
-.esa-button--variant-chrome .esa-button__native {
-  color: inherit;
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  gap: var(--gap);
-  flex-direction: column;
-  display: flex;
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
 }
 .spec {
   max-width: 1480px;
@@ -3488,6 +3378,47 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .check__act {
   grid-area: 1/3;
 }
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  gap: var(--gap);
+  flex-direction: column;
+  display: flex;
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -3505,17 +3436,96 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   height: var(--_icon-size);
   display: block;
 }
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button--sm {
+  --_btn-pad-y: var(--spacing-250, 0.625rem);
+  --_btn-padding-x: var(--spacing-250, 0.625rem);
+  --_btn-radius: var(--button-radius-sm, 4px);
+}
+.esa-button--variant-danger {
+  --_accent: var(--color-background-utility-danger);
+  --_accent-hover: var(--color-background-utility-danger-hover);
+  --_accent-text: var(--color-content-utility-danger);
+}
+.esa-button__native {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  display: inline-flex;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+  background: 0 0;
+}
+.esa-button--variant-ghost .esa-button__native {
+  color: var(--color-content-default, #202020);
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border-default, #cecece);
+}
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
 ```
 
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
-| `--badge-bg` | `#43608a` | component |
-| `--badge-text-color` | `#fcfcfc` | component |
+| `--badge-bg` | `#fcfcfc` | component |
+| `--badge-border-color` | `#dcdcdc` | component |
+| `--badge-text-color` | `#525252` | component |
 | `--border-width-default` | `1px` | semantic |
 | `--button-radius-md` | `.25rem` | component |
 | `--button-radius-sm` | `.25rem` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
 | `--color-background-brand-muted` | `#eef5f4` | semantic |
+| `--color-background-brand-subtle` | `#effefb` | semantic |
 | `--color-background-default` | `#fafafa` | semantic |
 | `--color-background-elevation-raised` | `#fcfcfc` | semantic |
 | `--color-background-utility-danger` | `#ce2c31` | semantic |
@@ -3523,6 +3533,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--color-border-default` | `#dcdcdc` | semantic |
 | `--color-border-default-strong` | `#bdbdbd` | semantic |
 | `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
 | `--color-content-default` | `#3d3d3d` | semantic |
 | `--color-content-default-knockout` | `#fcfcfc` | semantic |
 | `--color-content-default-secondary` | `#525252` | semantic |
@@ -3559,12 +3570,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--transition-fast` | `.15s ease` | semantic |
 | `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
-| `--typography-body-md-font-weight` | `350` | semantic |
+| `--typography-body-md-font-weight` | `400` | semantic |
 | `--typography-body-md-letter-spacing` | `.01em` | semantic |
 | `--typography-body-md-line-height` | `1.6` | semantic |
 | `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` | semantic |
 | `--typography-font-weight-medium` | `500` | semantic |
-| `--typography-font-weight-regular` | `350` | semantic |
+| `--typography-font-weight-regular` | `400` | semantic |
 | `--typography-font-weight-semibold` | `550` | semantic |
 | `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
 | `--typography-label-sm-strong-font-family` | `"DM Sans", sans-serif` | semantic |

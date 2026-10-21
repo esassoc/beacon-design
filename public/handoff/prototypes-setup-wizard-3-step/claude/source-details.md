@@ -385,6 +385,9 @@ Selecting a source (not one of its files) shows prod's source view in the main p
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -704,9 +707,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3tools .esa-button,
 .bcn-sw3tools esa-dropdown-menu {
   flex: none;
-}
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
 }
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);

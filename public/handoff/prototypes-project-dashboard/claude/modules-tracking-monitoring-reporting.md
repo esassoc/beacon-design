@@ -227,7 +227,7 @@ The three work areas as a row of equal cards ABOVE the components, each owning i
                 ><span class="bcn-cbadge bcn-cbadge--sm">BIO-03</span>Nesting-bird
                 preconstruction survey</span
               ><span class="bcn-mod__action-meta"
-                >Bouldin Island Launch Shaft · 1d overdue</span
+                >Bouldin Island Geotechnical Exploration · 1d overdue</span
               ></span
             ></a
           >
@@ -747,6 +747,35 @@ The three work areas as a row of equal cards ABOVE the components, each owning i
   line-height: var(--typography-label-md-strong-line-height);
   letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
 .esa-stat {
   --_stat-value-color: var(--stat-value-color, var(--color-content-default, #202020));
   --_stat-value-font: var(
@@ -803,35 +832,6 @@ The three work areas as a row of equal cards ABOVE the components, each owning i
   font-size: var(--_stat-sub-size);
   color: var(--_stat-sub-color);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -852,6 +852,8 @@ The three work areas as a row of equal cards ABOVE the components, each owning i
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
 - `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
@@ -860,6 +862,7 @@ The three work areas as a row of equal cards ABOVE the components, each owning i
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-commitment`: #58508d _(component)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
@@ -887,7 +890,7 @@ The three work areas as a row of equal cards ABOVE the components, each owning i
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
-- `--stat-accent-color`: #3a7c59 _(component)_
+- `--stat-accent-color`: #005862 _(component)_
 - `--stat-value-color`: #3d3d3d _(component)_
 - `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_

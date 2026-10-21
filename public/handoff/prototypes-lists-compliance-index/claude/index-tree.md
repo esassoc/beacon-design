@@ -198,7 +198,7 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           </li>
           <li
             class="bcn-loc__req bcn-loc__impl"
-            data-list-impl="act_01M2G6Y3EPKKKVFDBN1YQGB0HT|bouldin-island-launch-shaft"
+            data-list-impl="act_01M2G6Y3EPKKKVFDBN1YQGB0HT|bouldin-island-geotechnical-exploration"
             data-status="on-hold"
             data-evidence="0"
           >
@@ -219,10 +219,10 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
      style block already documents. --><button
               type="button"
               class="bcn-loc__req-name"
-              data-list-text="Bouldin Island Launch Shaft"
+              data-list-text="Bouldin Island Geotechnical Exploration"
             >
-              Bouldin Island Launch Shaft</button
-            ><span class="bcn-loc__comments" hidden="">0 comments</span
+              Bouldin Island Geotechnical Exploration</button
+            ><span class="bcn-loc__comments">1 comment</span
             ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
               >No evidence</span
             >
@@ -574,16 +574,16 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
         <ul class="bcn-loc__reqs bcn-loc__impls" data-list-impls="action">
           <li
             class="bcn-loc__req bcn-loc__impl"
-            data-list-impl="act_01M2G6Y34X89RDDJZVZVMK8Y0D|bouldin-island-launch-shaft"
-            data-status="in-progress"
+            data-list-impl="act_01M2G6Y34X89RDDJZVZVMK8Y0D|bouldin-island-geotechnical-exploration"
+            data-status="not-started"
             data-evidence="0"
           >
             <span
               class="bcn-status-chip"
-              data-status="in-progress"
-              style="--_chip: var(--st-in-progress, var(--bcn-status-in-progress))"
+              data-status="not-started"
+              style="--_chip: var(--st-not-started, var(--bcn-status-not-started))"
               ><span class="bcn-status-chip__dot"></span
-              ><span class="bcn-status-chip__label">In Progress</span></span
+              ><span class="bcn-status-chip__label">Not Started</span></span
             ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
      client script rebuilds its By Status list after applying saved overrides) hand-builds
      the SAME markup via innerHTML rather than re-invoking this component â€” Astro's scoped
@@ -595,9 +595,9 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
      style block already documents. --><button
               type="button"
               class="bcn-loc__req-name"
-              data-list-text="Bouldin Island Launch Shaft"
+              data-list-text="Bouldin Island Geotechnical Exploration"
             >
-              Bouldin Island Launch Shaft</button
+              Bouldin Island Geotechnical Exploration</button
             ><span class="bcn-loc__comments" hidden="">0 comments</span
             ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
               >No evidence</span
@@ -1138,16 +1138,16 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
         <ul class="bcn-loc__reqs bcn-loc__impls" data-list-impls="action">
           <li
             class="bcn-loc__req bcn-loc__impl"
-            data-list-impl="act_01M2G6Y34X89RDDJZVZVMK8Y0N|bouldin-island-launch-shaft"
-            data-status="overdue"
-            data-evidence="0"
+            data-list-impl="act_01M2G6Y34X89RDDJZVZVMK8Y0N|bouldin-island-geotechnical-exploration"
+            data-status="on-hold"
+            data-evidence="4"
           >
             <span
               class="bcn-status-chip"
-              data-status="overdue"
-              style="--_chip: var(--st-overdue, var(--bcn-status-overdue))"
+              data-status="on-hold"
+              style="--_chip: var(--st-on-hold, var(--bcn-status-on-hold))"
               ><span class="bcn-status-chip__dot"></span
-              ><span class="bcn-status-chip__label">Overdue</span></span
+              ><span class="bcn-status-chip__label">On Hold</span></span
             ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
      client script rebuilds its By Status list after applying saved overrides) hand-builds
      the SAME markup via innerHTML rather than re-invoking this component â€” Astro's scoped
@@ -1159,13 +1159,11 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
      style block already documents. --><button
               type="button"
               class="bcn-loc__req-name"
-              data-list-text="Bouldin Island Launch Shaft"
+              data-list-text="Bouldin Island Geotechnical Exploration"
             >
-              Bouldin Island Launch Shaft</button
-            ><span class="bcn-loc__comments" hidden="">0 comments</span
-            ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
-              >No evidence</span
-            >
+              Bouldin Island Geotechnical Exploration</button
+            ><span class="bcn-loc__comments">3 comments</span
+            ><span class="bcn-loc__evidence" data-list-evidence="">4 evidence</span>
           </li>
           <li
             class="bcn-loc__req bcn-loc__impl"
@@ -1328,16 +1326,16 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
         <ul class="bcn-loc__reqs bcn-loc__impls" data-list-impls="action">
           <li
             class="bcn-loc__req bcn-loc__impl"
-            data-list-impl="act_01M2G6Y34YSP53SW383CFT2CZN|bouldin-island-launch-shaft"
-            data-status="not-started"
+            data-list-impl="act_01M2G6Y34YSP53SW383CFT2CZN|bouldin-island-geotechnical-exploration"
+            data-status="in-progress"
             data-evidence="0"
           >
             <span
               class="bcn-status-chip"
-              data-status="not-started"
-              style="--_chip: var(--st-not-started, var(--bcn-status-not-started))"
+              data-status="in-progress"
+              style="--_chip: var(--st-in-progress, var(--bcn-status-in-progress))"
               ><span class="bcn-status-chip__dot"></span
-              ><span class="bcn-status-chip__label">Not Started</span></span
+              ><span class="bcn-status-chip__label">In Progress</span></span
             ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
      client script rebuilds its By Status list after applying saved overrides) hand-builds
      the SAME markup via innerHTML rather than re-invoking this component â€” Astro's scoped
@@ -1349,9 +1347,9 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
      style block already documents. --><button
               type="button"
               class="bcn-loc__req-name"
-              data-list-text="Bouldin Island Launch Shaft"
+              data-list-text="Bouldin Island Geotechnical Exploration"
             >
-              Bouldin Island Launch Shaft</button
+              Bouldin Island Geotechnical Exploration</button
             ><span class="bcn-loc__comments" hidden="">0 comments</span
             ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
               >No evidence</span
@@ -1545,16 +1543,16 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           </li>
           <li
             class="bcn-loc__req bcn-loc__impl"
-            data-list-impl="act_01M2G6Y34YSP53SW383CFT2CZD|bouldin-island-launch-shaft"
-            data-status="not-started"
+            data-list-impl="act_01M2G6Y34YSP53SW383CFT2CZD|bouldin-island-geotechnical-exploration"
+            data-status="in-progress"
             data-evidence="0"
           >
             <span
               class="bcn-status-chip"
-              data-status="not-started"
-              style="--_chip: var(--st-not-started, var(--bcn-status-not-started))"
+              data-status="in-progress"
+              style="--_chip: var(--st-in-progress, var(--bcn-status-in-progress))"
               ><span class="bcn-status-chip__dot"></span
-              ><span class="bcn-status-chip__label">Not Started</span></span
+              ><span class="bcn-status-chip__label">In Progress</span></span
             ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
      client script rebuilds its By Status list after applying saved overrides) hand-builds
      the SAME markup via innerHTML rather than re-invoking this component â€” Astro's scoped
@@ -1566,10 +1564,10 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
      style block already documents. --><button
               type="button"
               class="bcn-loc__req-name"
-              data-list-text="Bouldin Island Launch Shaft"
+              data-list-text="Bouldin Island Geotechnical Exploration"
             >
-              Bouldin Island Launch Shaft</button
-            ><span class="bcn-loc__comments">3 comments</span
+              Bouldin Island Geotechnical Exploration</button
+            ><span class="bcn-loc__comments" hidden="">0 comments</span
             ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
               >No evidence</span
             >
@@ -1764,16 +1762,16 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           </li>
           <li
             class="bcn-loc__req bcn-loc__impl"
-            data-list-impl="act_01M2G6Y34YSP53SW383CFT2CZK|bouldin-island-launch-shaft"
-            data-status="completed"
-            data-evidence="6"
+            data-list-impl="act_01M2G6Y34YSP53SW383CFT2CZK|bouldin-island-geotechnical-exploration"
+            data-status="in-progress"
+            data-evidence="0"
           >
             <span
               class="bcn-status-chip"
-              data-status="completed"
-              style="--_chip: var(--st-completed, var(--bcn-status-completed))"
+              data-status="in-progress"
+              style="--_chip: var(--st-in-progress, var(--bcn-status-in-progress))"
               ><span class="bcn-status-chip__dot"></span
-              ><span class="bcn-status-chip__label">Completed</span></span
+              ><span class="bcn-status-chip__label">In Progress</span></span
             ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
      client script rebuilds its By Status list after applying saved overrides) hand-builds
      the SAME markup via innerHTML rather than re-invoking this component â€” Astro's scoped
@@ -1785,11 +1783,13 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
      style block already documents. --><button
               type="button"
               class="bcn-loc__req-name"
-              data-list-text="Bouldin Island Launch Shaft"
+              data-list-text="Bouldin Island Geotechnical Exploration"
             >
-              Bouldin Island Launch Shaft</button
+              Bouldin Island Geotechnical Exploration</button
             ><span class="bcn-loc__comments" hidden="">0 comments</span
-            ><span class="bcn-loc__evidence" data-list-evidence="">6 evidence</span>
+            ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
+              >No evidence</span
+            >
           </li>
         </ul>
       </details>
@@ -2268,7 +2268,7 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           </li>
           <li
             class="bcn-loc__req bcn-loc__impl"
-            data-list-impl="act_01M2G6Y34YSP53SW383CFT2CZJ|bouldin-island-launch-shaft"
+            data-list-impl="act_01M2G6Y34YSP53SW383CFT2CZJ|bouldin-island-geotechnical-exploration"
             data-status="not-started"
             data-evidence="0"
           >
@@ -2289,10 +2289,10 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
      style block already documents. --><button
               type="button"
               class="bcn-loc__req-name"
-              data-list-text="Bouldin Island Launch Shaft"
+              data-list-text="Bouldin Island Geotechnical Exploration"
             >
-              Bouldin Island Launch Shaft</button
-            ><span class="bcn-loc__comments">1 comment</span
+              Bouldin Island Geotechnical Exploration</button
+            ><span class="bcn-loc__comments" hidden="">0 comments</span
             ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
               >No evidence</span
             >
@@ -2831,16 +2831,16 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           </li>
           <li
             class="bcn-loc__req bcn-loc__impl"
-            data-list-impl="act_01M2G6Y34TCYX1R0179FZ33YWM|bouldin-island-launch-shaft"
-            data-status="on-hold"
-            data-evidence="6"
+            data-list-impl="act_01M2G6Y34TCYX1R0179FZ33YWM|bouldin-island-geotechnical-exploration"
+            data-status="not-started"
+            data-evidence="0"
           >
             <span
               class="bcn-status-chip"
-              data-status="on-hold"
-              style="--_chip: var(--st-on-hold, var(--bcn-status-on-hold))"
+              data-status="not-started"
+              style="--_chip: var(--st-not-started, var(--bcn-status-not-started))"
               ><span class="bcn-status-chip__dot"></span
-              ><span class="bcn-status-chip__label">On Hold</span></span
+              ><span class="bcn-status-chip__label">Not Started</span></span
             ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
      client script rebuilds its By Status list after applying saved overrides) hand-builds
      the SAME markup via innerHTML rather than re-invoking this component â€” Astro's scoped
@@ -2852,11 +2852,13 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
      style block already documents. --><button
               type="button"
               class="bcn-loc__req-name"
-              data-list-text="Bouldin Island Launch Shaft"
+              data-list-text="Bouldin Island Geotechnical Exploration"
             >
-              Bouldin Island Launch Shaft</button
+              Bouldin Island Geotechnical Exploration</button
             ><span class="bcn-loc__comments" hidden="">0 comments</span
-            ><span class="bcn-loc__evidence" data-list-evidence="">6 evidence</span>
+            ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
+              >No evidence</span
+            >
           </li>
           <li
             class="bcn-loc__req bcn-loc__impl"
@@ -3770,16 +3772,16 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
           </li>
           <li
             class="bcn-loc__req bcn-loc__impl"
-            data-list-impl="act_01M2G6Y3NNJMTS3JZDQQZNRKES|bouldin-island-launch-shaft"
-            data-status="not-started"
+            data-list-impl="act_01M2G6Y3NNJMTS3JZDQQZNRKES|bouldin-island-geotechnical-exploration"
+            data-status="in-progress"
             data-evidence="0"
           >
             <span
               class="bcn-status-chip"
-              data-status="not-started"
-              style="--_chip: var(--st-not-started, var(--bcn-status-not-started))"
+              data-status="in-progress"
+              style="--_chip: var(--st-in-progress, var(--bcn-status-in-progress))"
               ><span class="bcn-status-chip__dot"></span
-              ><span class="bcn-status-chip__label">Not Started</span></span
+              ><span class="bcn-status-chip__label">In Progress</span></span
             ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
      client script rebuilds its By Status list after applying saved overrides) hand-builds
      the SAME markup via innerHTML rather than re-invoking this component â€” Astro's scoped
@@ -3791,9 +3793,9 @@ Every action and obligation on the project, category â€º subcategory, Unfiled â€
      style block already documents. --><button
               type="button"
               class="bcn-loc__req-name"
-              data-list-text="Bouldin Island Launch Shaft"
+              data-list-text="Bouldin Island Geotechnical Exploration"
             >
-              Bouldin Island Launch Shaft</button
+              Bouldin Island Geotechnical Exploration</button
             ><span class="bcn-loc__comments" hidden="">0 comments</span
             ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
               >No evidence</span

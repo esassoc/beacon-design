@@ -59,6 +59,32 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
 .bcn-mkt-hero {
   background-image:
     linear-gradient(180deg, #002832d9 0%, #003c46b3 40%, #005862d9 100%), var(--_hero-image);
@@ -132,37 +158,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   opacity: 1;
   transform: translateY(0);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
 ```
 
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
+| `--color-background-brand` | `#005862` | semantic |
 | `--font-decorative` | `"Besley", serif` | component |
 | `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
 | `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |

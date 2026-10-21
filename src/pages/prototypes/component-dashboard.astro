@@ -75,7 +75,7 @@ import {
   WORK_AREA_ACRES,
   WORK_AREA_COUNT,
 } from '../../data/component-detail';
-import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmtDate } from '../../data/component-commitments';
+import BcnComponentSetup from '../../components/bcn/BcnComponentSetup.astro';
 ---
 
 <!-- manifest:
@@ -85,13 +85,14 @@ import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmt
     - timeline              -> bcn-project-timeline       # 30/60/90d, scoped to this component's actions
     - modules               -> bcn-modules                # Tracking / Monitoring / Reporting, scoped
     - work areas            -> bcn-work-area-board        # the retired tab's grid + its bulk actions
-    - component setup       -> bcn-component-setup-card   # applicable-commitment progress; opens the wide drawer
+    - component setup       -> bcn-component-setup-card   # applicability figures + the setup's answers; opens setup and the drawer
     - component data rail   -> bcn-link-row-card          # four rows, not six; opens panels via ?data=<key>
     - component map         -> bcn-footprint-map          # work-area footprint, inset -> modal
     - component details     -> bcn-project-facts          # Component-record fields + files
     - component data panel  -> bcn-component-data-panel   # the ?data= side panels
     - logo picker           -> bcn-logo-picker            # glyph x color mark editor
     - commitments drawer    -> bcn-setup-workspace        # faceted decision workspace (overlay)
+    - setup dialog          -> bcn-component-setup        # first-time setup: sources, location + species, activities, dates, recommendations
 -->
 
 <AppShell
@@ -153,16 +154,7 @@ import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmt
         <div class="stack" data-gap="xl">
           <BcnModules modules={COMPONENT_MODULES} actions={COMPONENT_ACTIONS} idPrefix="" />
           <BcnWorkAreaBoard workAreas={WORK_AREAS} acres={WORK_AREA_ACRES} />
-          <BcnComponentSetupCard
-            undecided={SETUP_TOTALS.undecided}
-            newSince={SETUP_TOTALS.newSince}
-            decided={SETUP_TOTALS.decided}
-            total={SETUP_TOTALS.total}
-            percent={DECIDED_PERCENT}
-            lastReviewed={fmtDate(LAST_REVIEWED)}
-            pendingActions={PENDING_ACTION_COUNT}
-            opensPrimary="bcn-setup-workspace"
-          />
+          <BcnComponentSetupCard opensDrawer="bcn-setup-workspace" opensSetup="bcn-component-setup" />
         </div>
       </div>
     </div>
@@ -171,6 +163,7 @@ import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmt
   <BcnComponentDataPanel />
   <BcnLogoPicker mark={COMPONENT.mark} entityName={COMPONENT.name} heading="Component logo" />
   <BcnSetupWorkspace id="bcn-setup-workspace" componentName={COMPONENT.name} />
+  <BcnComponentSetup id="bcn-component-setup" componentName={COMPONENT.name} mark={COMPONENT.mark} />
 </AppShell>
 
 <script>

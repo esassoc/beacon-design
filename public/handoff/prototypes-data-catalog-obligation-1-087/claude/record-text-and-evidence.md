@@ -809,6 +809,104 @@ The main reading column: what the duty says (Standard), what a monitor would obs
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
+  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-badge--xs {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-100, 0.25rem);
+}
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-badge--lg {
+  --_badge-padding-y: var(--spacing-250, 0.625rem);
+  --_badge-padding-x: var(--spacing-300, 0.75rem);
+}
+.esa-badge--primary {
+  --_badge-bg: var(--color-background-brand, #46a758);
+  --_badge-text: var(--color-content-default-knockout, #fcfcfc);
+}
+.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+}
+.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
+  --_badge-text: var(--color-content-utility-success, #218358);
+  --_badge-border: var(--color-border-utility-success, #adddc0);
+}
+.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
+  --_badge-text: var(--color-content-utility-warning, #ab6400);
+  --_badge-border: var(--color-border-utility-warning, #f3d673);
+}
+.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
+  --_badge-text: var(--color-content-utility-danger, #ce2c31);
+  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
+}
+.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
+  --_badge-text: var(--color-content-utility-info, #0d74ce);
+  --_badge-border: var(--color-border-utility-info, #acd8fc);
+}
+.esa-badge--neutral:not(.esa-badge--dot),
+.esa-badge--success:not(.esa-badge--dot),
+.esa-badge--warning:not(.esa-badge--dot),
+.esa-badge--danger:not(.esa-badge--dot),
+.esa-badge--info:not(.esa-badge--dot) {
+  border: 1px solid var(--_badge-border, transparent);
+}
+.esa-badge--dot {
+  border-radius: var(--radius-pill, 9999px);
+  width: 8px;
+  min-width: 8px;
+  height: 8px;
+  padding: 0;
+}
+.esa-badge--dot.esa-badge--neutral {
+  --_badge-bg: var(--color-content-default-secondary, #646464);
+}
+.esa-badge--dot.esa-badge--primary {
+  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
+}
+.esa-badge--dot.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand, #46a758);
+}
+.esa-badge--dot.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
+}
+.esa-badge--dot.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
+}
+.esa-badge--dot.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
+}
+.esa-badge--dot.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
+}
+.esa-badge--dot {
+  background: canvastext;
+  border: 0;
+  outline: 1px solid canvastext;
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -1125,34 +1223,8 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--color-content-default-secondary, #646464);
   flex-shrink: 0;
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
 }
 .esa-pill {
   --_pill-bg: var(--color-background-elevation-sunken, #f0f0f0);
@@ -1361,94 +1433,34 @@ summary.esa-button--variant-chrome:focus-visible {
   flex-wrap: wrap;
   display: flex;
 }
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
   justify-content: center;
   align-items: center;
   display: inline-flex;
 }
-.esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
 }
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
 }
-.esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
 }
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
 }
-.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
 }
-.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
-}
-.esa-badge--success:not(.esa-badge--dot),
-.esa-badge--warning:not(.esa-badge--dot),
-.esa-badge--danger:not(.esa-badge--dot),
-.esa-badge--info:not(.esa-badge--dot) {
-  border: 1px solid var(--_badge-border, transparent);
-}
-.esa-badge--dot {
-  border-radius: var(--radius-pill, 9999px);
-  width: 8px;
-  min-width: 8px;
-  height: 8px;
-  padding: 0;
-}
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
-}
-.esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-}
-.esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
-}
-.esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
-}
-.esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
-}
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  background: canvastext;
-  border: 0;
-  outline: 1px solid canvastext;
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
@@ -1489,8 +1501,9 @@ summary.esa-button--variant-chrome:focus-visible {
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #43608a _(component)_
-- `--badge-text-color`: #fcfcfc _(component)_
+- `--badge-bg`: #fcfcfc _(component)_
+- `--badge-border-color`: #dcdcdc _(component)_
+- `--badge-text-color`: #525252 _(component)_
 - `--bcn-content-muted`: #7c7c7c _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000 _(component)_
@@ -1514,8 +1527,11 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-accent`: #f76b15 _(semantic)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
+- `--color-background-brand-subtle`: #effefb _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-overlay-heavy-hover`: #0000001a _(semantic)_
@@ -1546,6 +1562,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-border-utility-success`: #adddc0 _(semantic)_
 - `--color-border-utility-warning`: #f3d673 _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
@@ -1596,17 +1613,17 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-lg-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-lg-font-size`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(semantic)_
-- `--typography-body-lg-font-weight`: 350 _(semantic)_
+- `--typography-body-lg-font-weight`: 400 _(semantic)_
 - `--typography-body-lg-letter-spacing`: .01em _(semantic)_
 - `--typography-body-lg-line-height`: 1.8 _(semantic)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-font-weight`: 400 _(semantic)_
 - `--typography-body-md-letter-spacing`: .01em _(semantic)_
 - `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-font-weight`: 400 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
@@ -1630,7 +1647,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
@@ -1645,7 +1662,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
 - `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_

@@ -215,6 +215,9 @@ Edit requirement: Beacon's Requirement record (name, type, notes) and its links 
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -465,9 +468,6 @@ summary.esa-button--variant-chrome:focus-visible {
   gap: var(--spacing-200);
   margin-left: auto;
   display: flex;
-}
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);

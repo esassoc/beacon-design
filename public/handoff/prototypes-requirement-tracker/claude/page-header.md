@@ -168,34 +168,6 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
-.bcn-disc__head .esa-icon {
-  color: var(--color-content-default-secondary);
-  flex-shrink: 0;
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
-.bcn-evidence-card__lead .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  transition: transform 0.15s;
-}
-.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
-  transform: rotate(90deg);
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-evidence-card__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
 .bcn-list-link .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
@@ -236,9 +208,20 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
   --_icon-size: 12px;
   opacity: 0.75;
 }
-.esa-collapsible__summary .esa-icon {
-  color: var(--color-content-default-secondary, #646464);
+.bcn-key-value__key .esa-icon {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-disc__head .esa-icon {
+  color: var(--color-content-default-secondary);
   flex-shrink: 0;
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -362,6 +345,22 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
+.bcn-evidence-card__lead .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
+  transform: rotate(90deg);
+}
+.bcn-evidence-card__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-evidence-card__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -393,6 +392,10 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
   color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
+}
 ```
 
 ## Tokens
@@ -405,7 +408,9 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
 - `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
 - `--border-width-default`: 1px _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
+- `--color-background-brand-subtle`: #effefb _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-overlay-heavy-hover`: #0000001a _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
@@ -422,6 +427,7 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
 - `--color-border-utility-info`: #acd8fc _(semantic)_
 - `--color-border-utility-success`: #adddc0 _(semantic)_
 - `--color-border-utility-warning`: #f3d673 _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
@@ -471,6 +477,6 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

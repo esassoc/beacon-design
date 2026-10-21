@@ -50,7 +50,7 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
       ><span
         class="bcn-component-picker"
         data-component-picker=""
-        data-components='["Southern Forebay &amp; Pumping Plant","Intake B — North Delta","Twin Cities Complex","Intake C — North Delta","Bouldin Island Launch Shaft","Bethany Reservoir Aqueduct","Byron Tract Forebay"]'
+        data-components='["Southern Forebay &amp; Pumping Plant","Intake B — North Delta","Twin Cities Complex","Intake C — North Delta","Bouldin Island Geotechnical Exploration","Bethany Reservoir Aqueduct","Byron Tract Forebay"]'
         data-storage-key="beacon.activeComponent"
         data-default="Southern Forebay &amp; Pumping Plant"
         ><esa-popover
@@ -193,7 +193,7 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
                     <path d="m17.66 6.34 1.41-1.41"></path></svg></span></span></span
             ><span
               class="bcn-component-picker__tmark"
-              data-component-picker-tmark="Bouldin Island Launch Shaft"
+              data-component-picker-tmark="Bouldin Island Geotechnical Exploration"
               hidden=""
               ><span
                 class="bcn-entity-logo"
@@ -201,9 +201,9 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
                 data-variant="seal"
                 data-shape="circle"
                 data-style="fill"
-                data-glyph="bird"
-                data-color="slate"
-                style="--_c: var(--bcn-mark-slate)"
+                data-glyph="building-2"
+                data-color="cyan"
+                style="--_c: var(--bcn-mark-cyan)"
                 ><span class="esa-icon esa-icon--xs" aria-hidden="true"
                   ><svg
                     width="14"
@@ -216,12 +216,13 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
                     stroke-linejoin="round"
                     focusable="false"
                   >
-                    <path d="M16 7h.01"></path>
-                    <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"></path>
-                    <path d="m20 7 2 .5-2 .5"></path>
-                    <path d="M10 18v3"></path>
-                    <path d="M14 17.75V21"></path>
-                    <path d="M7 18a6 6 0 0 0 3.84-10.61"></path></svg></span></span></span
+                    <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+                    <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+                    <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+                    <path d="M10 6h4"></path>
+                    <path d="M10 10h4"></path>
+                    <path d="M10 14h4"></path>
+                    <path d="M10 18h4"></path></svg></span></span></span
             ><span
               class="bcn-component-picker__tmark"
               data-component-picker-tmark="Bethany Reservoir Aqueduct"
@@ -509,7 +510,7 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
               type="button"
               role="option"
               class="bcn-component-picker__opt"
-              data-component-picker-opt="Bouldin Island Launch Shaft"
+              data-component-picker-opt="Bouldin Island Geotechnical Exploration"
               aria-selected="false"
             >
               <span
@@ -518,9 +519,9 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
                 data-variant="seal"
                 data-shape="circle"
                 data-style="fill"
-                data-glyph="bird"
-                data-color="slate"
-                style="--_c: var(--bcn-mark-slate)"
+                data-glyph="building-2"
+                data-color="cyan"
+                style="--_c: var(--bcn-mark-cyan)"
                 ><span class="esa-icon esa-icon--xs" aria-hidden="true"
                   ><svg
                     width="14"
@@ -533,14 +534,15 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
                     stroke-linejoin="round"
                     focusable="false"
                   >
-                    <path d="M16 7h.01"></path>
-                    <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"></path>
-                    <path d="m20 7 2 .5-2 .5"></path>
-                    <path d="M10 18v3"></path>
-                    <path d="M14 17.75V21"></path>
-                    <path d="M7 18a6 6 0 0 0 3.84-10.61"></path></svg></span></span
+                    <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+                    <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+                    <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+                    <path d="M10 6h4"></path>
+                    <path d="M10 10h4"></path>
+                    <path d="M10 14h4"></path>
+                    <path d="M10 18h4"></path></svg></span></span
               ><span class="bcn-component-picker__optname"
-                >Bouldin Island Launch Shaft</span
+                >Bouldin Island Geotechnical Exploration</span
               ><span class="bcn-component-picker__check"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
                   ><svg
@@ -783,18 +785,6 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
 .side-nav.collapsed .nav-section__title,
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
-}
-.bcn-disc__head .esa-icon {
-  color: var(--color-content-default-secondary);
-  flex-shrink: 0;
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -1126,6 +1116,34 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-component-picker__opt[aria-selected="true"] .bcn-component-picker__check {
   visibility: visible;
 }
+.bcn-disc__head .esa-icon {
+  color: var(--color-content-default-secondary);
+  flex-shrink: 0;
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
+.bcn-evidence-card__lead .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
+  transform: rotate(90deg);
+}
+.bcn-evidence-card__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-evidence-card__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
 .bcn-entity-logo {
   background: color-mix(in srgb, var(--_c) 12%, transparent);
   color: var(--_c);
@@ -1263,22 +1281,6 @@ summary.esa-button--variant-chrome:focus-visible {
   gap: var(--spacing-200);
   display: flex;
 }
-.bcn-evidence-card__lead .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  transition: transform 0.15s;
-}
-.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
-  transform: rotate(90deg);
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-evidence-card__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
 ```
 
 ## Tokens
@@ -1370,6 +1372,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
 - `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

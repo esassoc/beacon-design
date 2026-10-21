@@ -1,0 +1,781 @@
+---
+// <BcnComponentSetup> — a component's first-time setup: five short answers that trim
+// its Applicable Commitments list to what the component actually needs.
+//
+//   1. Source documents  — the outer limit. Only these documents' commitments can apply.
+//   2. Location          — the component against the project's habitat layers; the
+//                          species list pre-fills from what the map finds.
+//   3. Construction Activities   — what the work involves.
+//   4. Dates             — the component's start and expected end, against the seasons.
+//   5. Recommendations   — the commitments none of whose requirements match, each with
+//                          its reason, checked to dismiss. Nothing is dismissed until
+//                          the person saves.
+//
+// The step rail carries every answer as it is given, and the tally under it (in scope,
+// recommended not applicable) moves with each click, so the person watches the list
+// shrink as they answer. Edit setup reopens the same dialog with the saved answers, and
+// step 5 then also shows what the change will do to decisions already made: setup
+// dismissals whose reason no longer holds go back to Needs a decision, and hand
+// decisions stay as they are.
+//
+// One instance per page. The answers live in a draft until Save; the shared
+// applicability store holds what was saved. Behavior is in component-setup.ts.
+//
+// bcn-lego-checked: the shell is esa-dialog size="lg" with --dialog-width-lg re-pointed,
+// the same XL dialog geometry as bcn-config-dialog (approved). Every control is a lego:
+// esa-checkbox, esa-date-picker, esa-button, esa-badge; the map is bcn-habitat-map, the
+// season chart bcn-season-overlap, each code BcnCommitmentBadge. No esa- stepper exists
+// (rechecked 2026-10-19; bcn-due-diligence-steps is a horizontal pipeline card, not a
+// dialog rail). What is built here: the vertical step rail with its answers and tally,
+// and the option rows of each step. bcn-component-setup is their home.
+// The Recommendations step is a two-column transfer (Not Applicable / Will Apply, a move
+// button per row). No transfer list exists in the hub, this spoke or Beacon prod
+// (searched 2026-10-20; logged in the improvement ledger), so the columns live here too.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnEntityLogo from './BcnEntityLogo.astro';
+import type { EntityMark } from '../../data/entity-marks';
+import { STEP_GLYPH } from '../../data/setup-wizard';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnHabitatMap from './BcnHabitatMap.astro';
+import BcnSeasonOverlap from './BcnSeasonOverlap.astro';
+import {
+  SETUP_SOURCES,
+  SETUP_COMMITMENTS,
+  PROJECT_SPECIES,
+  CONSTRUCTION_ACTIVITIES,
+  COMPONENT_FOOTPRINT,
+} from '../../data/component-commitments';
+
+interface Props {
+  id?: string;
+  componentName: string;
+  /** The component's identity mark, worn beside its name as it is in the picker. */
+  mark: EntityMark;
+}
+const { id = 'bcn-component-setup', componentName, mark } = Astro.props;
+
+const STEPS = [
+  { key: 'sources', label: 'Source Documents' },
+  { key: 'location', label: 'Location and Species' },
+  { key: 'activities', label: 'Construction Activities' },
+  { key: 'dates', label: 'Dates' },
+  { key: 'review', label: 'Recommendations' },
+];
+
+const plural = (n: number, one: string, many = `${one}s`) => (n === 1 ? one : many);
+const countFor = (sourceId: string) => SETUP_COMMITMENTS.filter((c) => c.sourceId === sourceId).length;
+const activityCount = (id: string) =>
+  SETUP_COMMITMENTS.filter((c) => c.requirements.some((q) => q.activities.includes(id))).length;
+const mappedText = (names: string[]) =>
+  names.length === 0 ? 'Not mapped to any component' : names.length <= 2 ? `Mapped to ${names.join(', ')}` : `Mapped to ${names.slice(0, 2).join(', ')} +${names.length - 2}`;
+/** The two transfer columns, then the rows setup changes but does not place. */
+const COLUMNS = [
+  { key: 'na', title: 'Not Applicable', move: 'Move to Will Apply', icon: 'arrow-right' },
+  { key: 'apply', title: 'Will Apply', move: 'Move to Not Applicable', icon: 'arrow-left' },
+] as const;
+---
+
+<esa-dialog
+  id={id}
+  class="bcn-cs"
+  data-component-setup
+  heading="Component setup"
+  size="lg"
+  show-close-button
+  style="--dialog-width-lg: min(1320px, 94vw);"
+>
+  <div slot="header" class="bcn-cs__head">
+    <h2 class="bcn-cs__title">Component Setup</h2>
+    <span class="bcn-cs__entity">
+      <BcnEntityLogo mark={mark} size="sm" variant="seal" />
+      <span class="bcn-cs__entityname">{componentName}</span>
+    </span>
+  </div>
+
+  <div class="bcn-cs__frame">
+    <nav class="bcn-cs__rail" aria-label="Setup steps">
+      <ol class="bcn-cs__steps">
+        {
+          STEPS.map((s, i) => (
+            <li>
+              <button type="button" class="bcn-cs__step" data-cs-goto={s.key}>
+                <span class="bcn-cs__num" aria-hidden="true">
+                  <span class="bcn-cs__digit">{i + 1}</span>
+                  <span class="bcn-cs__tick"><EsaIcon name="check" size="xs" paths={STEP_GLYPH.check} /></span>
+                </span>
+                <span class="bcn-cs__stepbody">
+                  <span class="bcn-cs__steplabel">{s.label}</span>
+                  <span class="bcn-cs__stepsum" data-cs-sum={s.key}></span>
+                </span>
+              </button>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="bcn-cs__tally">
+        <p class="bcn-cs__fig"><span class="bcn-cs__figval" data-cs-tally="source"></span><span class="bcn-cs__figlabel">Source document not applicable</span></p>
+        <p class="bcn-cs__fig"><span class="bcn-cs__figval" data-cs-tally="out"></span><span class="bcn-cs__figlabel">Recommended not applicable</span></p>
+      </div>
+    </nav>
+
+    <div class="bcn-cs__panel">
+      {/* ── 1. Source documents ── */}
+      <section class="bcn-cs__pane" data-cs-pane="sources">
+        <header class="bcn-cs__panehead">
+          <h3 class="bcn-cs__h">Which source documents apply to this component?</h3>
+          <span class="bcn-cs__count" data-cs-count="sources"></span>
+        </header>
+        <ul class="bcn-cs__options">
+          {
+            SETUP_SOURCES.map((s) => (
+              <li class="bcn-cs-opt">
+                <esa-checkbox size="sm" data-cs-source={s.id} aria-label={s.name} />
+                <span class="bcn-cs-opt__body">
+                  <span class="bcn-cs-opt__name">{s.name}</span>
+                  <span class="bcn-cs-opt__meta">{mappedText(s.mappedTo)}</span>
+                </span>
+                <span class="bcn-cs-opt__end">{`${countFor(s.id)} ${plural(countFor(s.id), 'commitment')}`}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      {/* ── 2. Location and species ── */}
+      <section class="bcn-cs__pane bcn-cs__pane--split" data-cs-pane="location" hidden>
+        <div class="bcn-cs__map">
+          <BcnHabitatMap idPrefix={`${id}-hmap`} footprint={COMPONENT_FOOTPRINT} />
+        </div>
+        <div class="bcn-cs__side">
+          <header class="bcn-cs__panehead">
+            <h3 class="bcn-cs__h">Species</h3>
+            <span class="bcn-cs__count" data-cs-count="species"></span>
+          </header>
+          <ul class="bcn-cs__options">
+            {
+              PROJECT_SPECIES.map((s) => (
+                <li class="bcn-cs-opt">
+                  <esa-checkbox size="sm" data-cs-species={s.code} aria-label={s.name} />
+                  <span class="bcn-cs-opt__body">
+                    <span class="bcn-cs-opt__name" title={s.name}>{s.name}</span>
+                    <span class="bcn-cs-opt__meta" data-cs-hab={s.code}>{s.habitat ? s.habitat.layerName : 'No habitat data'}</span>
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </section>
+
+      {/* ── 3. Construction Activities ── */}
+      <section class="bcn-cs__pane" data-cs-pane="activities" hidden>
+        <header class="bcn-cs__panehead">
+          <h3 class="bcn-cs__h">What does the work involve?</h3>
+          <span class="bcn-cs__count" data-cs-count="activities"></span>
+        </header>
+        <ul class="bcn-cs__options bcn-cs__options--grid">
+          {
+            CONSTRUCTION_ACTIVITIES.map((a) => (
+              <li class="bcn-cs-opt">
+                <esa-checkbox size="sm" data-cs-activity={a.id} aria-label={a.name} />
+                <span class="bcn-cs-opt__body">
+                  <span class="bcn-cs-opt__name">{a.name}</span>
+                </span>
+                <span class="bcn-cs-opt__end">{`${activityCount(a.id)} ${plural(activityCount(a.id), 'commitment')}`}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      {/* ── 4. Dates ── */}
+      <section class="bcn-cs__pane" data-cs-pane="dates" hidden>
+        <header class="bcn-cs__panehead">
+          <h3 class="bcn-cs__h">When does the work run?</h3>
+        </header>
+        <div class="bcn-cs__dates cluster" data-gap="md">
+          <esa-date-picker data-cs-date="start" label="Start Date" size="sm"></esa-date-picker>
+          <esa-date-picker data-cs-date="end" label="Expected End Date" size="sm"></esa-date-picker>
+        </div>
+        <BcnSeasonOverlap idPrefix={`${id}-so`} />
+      </section>
+
+      {/* ── 5. Recommendations ── */}
+      <section class="bcn-cs__pane" data-cs-pane="review" hidden>
+        <div class="bcn-cs__transfer" data-cs-transfer>
+          {
+            COLUMNS.map((col) => (
+              <div class="bcn-cs__col" data-cs-col={col.key}>
+                <header class="bcn-cs__panehead">
+                  <h3 class="bcn-cs__h">{col.title}</h3>
+                  <span class="bcn-cs__count" data-cs-count={col.key}></span>
+                </header>
+                <ul class="bcn-cs__options">
+                  {SETUP_COMMITMENTS.map((c) => (
+                    <li class="bcn-cs-opt" data-cs-row={`${col.key}:${c.id}`} hidden>
+                      <span class="bcn-cs-opt__body bcn-cs-opt__body--stack">
+                        <span class="bcn-cs-opt__titleline">
+                          <BcnCommitmentBadge code={c.code} size="sm" />
+                          <span class="bcn-cs-opt__name bcn-cs-opt__name--clip" title={c.title}>{c.title}</span>
+                        </span>
+                        <span class="bcn-cs-opt__metaline">
+                          <span data-cs-hand={`${col.key}:${c.id}`} hidden>
+                            <EsaBadge value="Moved by Hand" variant="secondary" size="xs" />
+                          </span>
+                          <span class="bcn-cs-opt__meta" data-cs-reason={`${col.key}:${c.id}`}></span>
+                        </span>
+                      </span>
+                      <EsaButton variant="chrome" iconOnly icon={col.icon} label={`${col.move}: ${c.code}`} size="xs" data-cs-move={c.id} data-cs-to={col.key === 'na' ? 'apply' : 'na'} />
+                    </li>
+                  ))}
+                  <li class="bcn-cs-opt bcn-cs-opt--none" data-cs-col-none={col.key} hidden>
+                    <span class="bcn-cs-opt__meta">None</span>
+                  </li>
+                </ul>
+                {col.key === 'na' && (
+                  <div class="bcn-cs__srcgroups" data-cs-srcgroups hidden>
+                    {SETUP_SOURCES.map((s) => (
+                      <div data-cs-srcgrp={s.id} data-cs-srcname={s.short} hidden>
+                        <EsaCollapsible title={s.short}>
+                          <ul class="bcn-cs__options bcn-cs__options--bare">
+                            {SETUP_COMMITMENTS.filter((c) => c.sourceId === s.id).map((c) => (
+                              <li class="bcn-cs-opt" data-cs-row={`src:${c.id}`} hidden>
+                                <span class="bcn-cs-opt__body bcn-cs-opt__body--stack">
+                                  <span class="bcn-cs-opt__titleline">
+                                    <BcnCommitmentBadge code={c.code} size="sm" />
+                                    <span class="bcn-cs-opt__name bcn-cs-opt__name--clip" title={c.title}>{c.title}</span>
+                                  </span>
+                                  <span class="bcn-cs-opt__metaline">
+                                    <span data-cs-hand={`src:${c.id}`} hidden />
+                                    <span class="bcn-cs-opt__meta" data-cs-reason={`src:${c.id}`}></span>
+                                  </span>
+                                </span>
+                                <EsaButton variant="chrome" iconOnly icon="arrow-right" label={`Move to Will Apply: ${c.code}`} size="xs" data-cs-move={c.id} data-cs-to="apply" />
+                              </li>
+                            ))}
+                          </ul>
+                        </EsaCollapsible>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))
+          }
+        </div>
+        <div class="bcn-cs__group" data-cs-group="back" hidden>
+          <header class="bcn-cs__panehead">
+            <h3 class="bcn-cs__h">Back to Needs a Decision</h3>
+            <span class="bcn-cs__count" data-cs-count="back"></span>
+          </header>
+          <ul class="bcn-cs__options">
+                {SETUP_COMMITMENTS.map((c) => (
+                  <li class="bcn-cs-opt" data-cs-row={`back:${c.id}`} hidden>
+                    <span class="bcn-cs-opt__body bcn-cs-opt__body--stack">
+                      <span class="bcn-cs-opt__titleline">
+                        <BcnCommitmentBadge code={c.code} size="sm" />
+                        <span class="bcn-cs-opt__name bcn-cs-opt__name--clip" title={c.title}>{c.title}</span>
+                      </span>
+                      <span class="bcn-cs-opt__meta" data-cs-reason={`back:${c.id}`}></span>
+                    </span>
+                  </li>
+                ))}
+          </ul>
+        </div>
+        <!-- Decisions already made, by hand or by an earlier setup. The save leaves them
+             as they are, so they sit apart from the two columns, collapsed. -->
+        <div class="bcn-cs__group" data-cs-group="kept" hidden>
+          <EsaCollapsible title="Already Decided">
+            <ul class="bcn-cs__options bcn-cs__options--bare">
+                {SETUP_COMMITMENTS.map((c) => (
+                  <li class="bcn-cs-opt" data-cs-row={`kept:${c.id}`} hidden>
+                    <span class="bcn-cs-opt__body bcn-cs-opt__body--stack">
+                      <span class="bcn-cs-opt__titleline">
+                        <BcnCommitmentBadge code={c.code} size="sm" />
+                        <span class="bcn-cs-opt__name bcn-cs-opt__name--clip" title={c.title}>{c.title}</span>
+                      </span>
+                      <span class="bcn-cs-opt__meta" data-cs-reason={`kept:${c.id}`}></span>
+                    </span>
+                  </li>
+                ))}
+            </ul>
+          </EsaCollapsible>
+        </div>
+        <div data-cs-review-none hidden>
+          <EsaEmptyState title="Nothing recommended out" size="sm" />
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div slot="footer" class="bcn-cs__foot">
+    <span data-cs-back>
+      <EsaButton variant="ghost" appearance="outline">Back</EsaButton>
+    </span>
+    <span class="bcn-cs__footacts">
+      <span data-cs-next><EsaButton variant="primary">Next</EsaButton></span>
+      <span data-cs-save hidden>
+        <EsaButton variant="primary"><span data-cs-save-label>Save Setup</span></EsaButton>
+      </span>
+      <span data-cs-cancel><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+    </span>
+  </div>
+</esa-dialog>
+
+<!-- The save's confirm: what saving does on the component, counted before it happens. -->
+<esa-dialog class="bcn-cs-confirm" heading="Save Setup" size="sm" data-cs-confirm>
+  <div class="bcn-cs-confirm__body">
+    <p class="typography-body-md" data-cs-confirm-what></p>
+    <ul class="bcn-cs-confirm__effects typography-body-md" data-cs-confirm-effects></ul>
+    <span data-cs-confirm-notewrap hidden>
+      <esa-textarea data-cs-confirm-note label="Note on rows moved by hand (optional)" rows="2"></esa-textarea>
+    </span>
+  </div>
+  <div slot="footer" class="bcn-cs__footacts">
+    <span data-cs-confirm-ok><EsaButton variant="primary"><span data-cs-confirm-label>Save Setup</span></EsaButton></span>
+    <span data-cs-confirm-cancel><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+  </div>
+</esa-dialog>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-textarea';
+  import { initComponentSetup } from './component-setup';
+  initComponentSetup();
+</script>
+
+<style>
+  .bcn-cs {
+    --dialog-bg: var(--color-background-elevation-raised);
+  }
+  .bcn-cs__head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    min-width: 0;
+  }
+  .bcn-cs__title {
+    margin: 0;
+    font-size: var(--font-size-400);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+    white-space: nowrap;
+  }
+  .bcn-cs__entity {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+  .bcn-cs__entityname {
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* A fixed frame (~70vh): it never resizes as steps change. */
+  .bcn-cs__frame {
+    display: grid;
+    grid-template-columns: 15.5rem minmax(0, 1fr);
+    gap: var(--spacing-500);
+    height: min(calc(85vh - 11rem), 680px);
+    min-height: 0;
+  }
+
+  /* ── The rail ── */
+  .bcn-cs__rail {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    min-height: 0;
+    padding-right: var(--spacing-400);
+    border-right: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-cs__steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .bcn-cs__step {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-200);
+    padding: var(--spacing-150) var(--spacing-200);
+    border: 1px solid transparent;
+    border-radius: var(--radius-200);
+    background: none;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    color: var(--color-content-default);
+  }
+  .bcn-cs__step:hover {
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-cs__step:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: 1px;
+  }
+  .bcn-cs__step[aria-current='step'] {
+    border-color: var(--color-border-default);
+    background: var(--color-background-elevation-sunken);
+  }
+  /* Step marks follow the Setup Wizard nav (prod setup-wizard-step-nav): a done step
+     carries its check, the current step is filled. Brand, never black. */
+  .bcn-cs__num {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 1px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border-default-strong);
+    font-size: var(--font-size-100);
+    line-height: 1;
+    font-weight: var(--typography-font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-cs__digit,
+  .bcn-cs__tick {
+    grid-area: 1 / 1;
+    display: inline-flex;
+  }
+  .bcn-cs__tick {
+    display: none;
+  }
+  .bcn-cs__step[data-done] .bcn-cs__num {
+    border-color: var(--color-background-brand);
+    color: var(--color-content-brand);
+  }
+  .bcn-cs__step[data-done] .bcn-cs__digit {
+    display: none;
+  }
+  .bcn-cs__step[data-done] .bcn-cs__tick {
+    display: inline-flex;
+  }
+  .bcn-cs__step[aria-current='step'] .bcn-cs__num {
+    border-color: var(--color-background-brand);
+    background: var(--color-background-brand);
+    color: var(--color-content-default-knockout);
+  }
+  .bcn-cs__step[aria-current='step'] .bcn-cs__digit {
+    display: inline-flex;
+  }
+  .bcn-cs__step[aria-current='step'] .bcn-cs__tick {
+    display: none;
+  }
+  .bcn-cs__stepbody {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
+  }
+  .bcn-cs__steplabel {
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  /* Each part of a step's answer on its own line, so nothing truncates. */
+  .bcn-cs__stepsum {
+    font-size: 0.8125rem;
+    color: var(--color-content-default-secondary);
+    white-space: pre-line;
+  }
+  .bcn-cs__tally {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-cs__fig {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+  }
+  .bcn-cs__figval {
+    font-size: 0.8125rem;
+    font-weight: var(--typography-font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-content-default);
+  }
+  .bcn-cs__figlabel {
+    font-size: 0.8125rem;
+    color: var(--color-content-default-secondary);
+  }
+
+  /* ── The panel ── */
+  .bcn-cs__panel {
+    min-height: 0;
+    min-width: 0;
+    overflow-y: auto;
+  }
+  .bcn-cs__pane {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-cs__pane[hidden],
+  .bcn-cs__group[hidden],
+  [data-cs-review-none][hidden] {
+    display: none;
+  }
+  .bcn-cs__pane--split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 19rem;
+    gap: var(--spacing-500);
+    height: 100%;
+  }
+  .bcn-cs__pane--split[hidden] {
+    display: none;
+  }
+  .bcn-cs__map {
+    min-height: 0;
+    height: 100%;
+  }
+  .bcn-cs__side {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    min-height: 0;
+    overflow-y: auto;
+  }
+  .bcn-cs__panehead {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-cs__h {
+    margin: 0;
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  .bcn-cs__count {
+    margin-left: auto;
+    font-size: 0.8125rem;
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .bcn-cs__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  /* Two transfer columns, equal: each holds the same kind of row, so neither leads. */
+  .bcn-cs__transfer {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-400);
+    align-items: start;
+  }
+  .bcn-cs__col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+  .bcn-cs-opt__body.bcn-cs-opt__body--stack {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-050);
+  }
+  .bcn-cs-opt__body--stack .bcn-cs-opt__titleline {
+    max-width: none;
+  }
+  .bcn-cs-opt__metaline {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    min-width: 0;
+  }
+  .bcn-cs-opt__metaline .bcn-cs-opt__meta {
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* One collapsed group per unselected document, under the recommendations. */
+  .bcn-cs__srcgroups {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-cs__srcgroups[hidden],
+  [data-cs-srcgrp][hidden],
+  .bcn-cs__options[hidden] {
+    display: none;
+  }
+  .bcn-cs__srcgroups :global(.esa-collapsible__summary) {
+    padding: var(--spacing-200) var(--spacing-300);
+  }
+  .bcn-cs__srcgroups :global(.esa-collapsible__body) {
+    padding: 0;
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-cs__options--bare {
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+  [data-cs-hand][hidden] {
+    display: none;
+  }
+  .bcn-cs__transfer + .bcn-cs__group,
+  .bcn-cs__group + .bcn-cs__group {
+    padding-top: var(--spacing-400);
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+
+  /* ── Option rows: dense, one line plus a meta line ── */
+  .bcn-cs__options {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised);
+    overflow: hidden;
+  }
+  .bcn-cs__options--grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    gap: var(--spacing-150);
+    border: 0;
+    background: none;
+    overflow: visible;
+  }
+  .bcn-cs-opt {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250);
+    padding: var(--spacing-150) var(--spacing-300);
+  }
+  .bcn-cs-opt + .bcn-cs-opt {
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-cs__options--grid .bcn-cs-opt {
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-cs-opt[hidden] {
+    display: none;
+  }
+  /* One line per row: name, then its meta in secondary text, the count at the end. */
+  .bcn-cs-opt__body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-300);
+  }
+  .bcn-cs-opt__body > * {
+    min-width: 0;
+  }
+  .bcn-cs-opt__titleline {
+    flex: none;
+    max-width: 60%;
+  }
+  .bcn-cs-opt__titleline {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+  .bcn-cs-opt__name {
+    flex: none;
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
+    white-space: nowrap;
+  }
+  /* Species rows: the habitat status is the point of the row, so the name gives way. */
+  .bcn-cs-opt__body:has([data-cs-hab]) .bcn-cs-opt__name {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bcn-cs-opt__body:has([data-cs-hab]) .bcn-cs-opt__meta {
+    flex: none;
+  }
+  .bcn-cs-opt__name--clip {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-cs-opt__meta {
+    font-size: 0.8125rem;
+    color: var(--color-content-default-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-cs-opt__meta:empty {
+    display: none;
+  }
+  .bcn-cs-opt__end {
+    flex: none;
+    font-size: 0.8125rem;
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bcn-cs__dates :global(esa-date-picker) {
+    width: 13rem;
+  }
+
+  .bcn-cs__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .bcn-cs__foot [hidden] {
+    display: none;
+  }
+  .bcn-cs-confirm__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-cs-confirm__body p {
+    margin: 0;
+  }
+  .bcn-cs-confirm__effects {
+    margin: 0;
+    padding-inline-start: var(--spacing-500);
+    color: var(--color-content-default);
+  }
+  .bcn-cs-confirm__effects[hidden],
+  [data-cs-confirm-notewrap][hidden] {
+    display: none;
+  }
+  .bcn-cs__footacts {
+    margin-left: auto;
+    display: inline-flex;
+    gap: var(--spacing-300);
+  }
+</style>

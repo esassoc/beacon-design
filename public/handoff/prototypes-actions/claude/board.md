@@ -5888,21 +5888,6 @@ The Kanban. All actions is the merged board: one column per backbone category (N
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
-.bcn-disc__head .esa-icon {
-  color: var(--color-content-default-secondary);
-  flex-shrink: 0;
-}
-.bcn-disc__node .esa-avatar {
-  --_avatar-bg: var(--_node-color, var(--color-background-brand-muted));
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
 .typography-body-sm {
   font-family: var(--typography-body-sm-font-family);
   font-size: var(--typography-body-sm-font-size);
@@ -5927,6 +5912,37 @@ The Kanban. All actions is the merged board: one column per backbone category (N
 .bcn-component-picker__trigger > .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
+}
+.bcn-disc__head .esa-icon {
+  color: var(--color-content-default-secondary);
+  flex-shrink: 0;
+}
+.bcn-disc__node .esa-avatar {
+  --_avatar-bg: var(--_node-color, var(--color-background-brand-muted));
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
+.bcn-evidence-card__lead .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
+  transform: rotate(90deg);
+}
+.bcn-evidence-card__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-evidence-card__actions .esa-icon {
+  width: 15px;
+  height: 15px;
 }
 .esa-avatar {
   --_avatar-size: var(--avatar-size-md, 40px);
@@ -6042,22 +6058,6 @@ The Kanban. All actions is the merged board: one column per backbone category (N
   color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
-.bcn-evidence-card__lead .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  transition: transform 0.15s;
-}
-.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
-  transform: rotate(90deg);
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-evidence-card__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
 ```
 
 ## Tokens
@@ -6122,7 +6122,7 @@ The Kanban. All actions is the merged board: one column per backbone category (N
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-font-weight`: 400 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_

@@ -57,14 +57,14 @@ export interface ComponentRecord {
   sources: { name: string; href: string }[];
 }
 
-const COMPONENT_NAME = 'Bouldin Island Launch Shaft';
+const COMPONENT_NAME = 'Bouldin Island Geotechnical Exploration';
 
 export const COMPONENT: ComponentRecord = {
   name: COMPONENT_NAME,
-  description: 'Tunnel launch shaft — Bouldin Island',
+  description: 'Geotechnical exploration — Bouldin Island',
   status: 'Active',
-  startDate: '2025-09-02',
-  expectedEndDate: '2029-11-30',
+  startDate: '2026-10-05',
+  expectedEndDate: '2027-01-29',
   project: { name: 'Delta Conveyance Project', href: '/prototypes/project-dashboard' },
   // A shaft on an island in the Delta: the anchor glyph on deep sky reads as a
   // place, and no sibling component in the fixture uses either axis.
@@ -72,7 +72,7 @@ export const COMPONENT: ComponentRecord = {
   customFields: [
     { label: 'Reach', value: 'Central Delta — Reach 3' },
     { label: 'Lead discipline', value: 'Geotechnical' },
-    { label: 'Shaft type', value: 'Launch' },
+    { label: 'Exploration program', value: 'Phase 2 borings and CPTs' },
   ],
   sources: [
     { name: 'Delta Conveyance Project Final EIR', href: '/prototypes/data-catalog-source-document' },
@@ -99,8 +99,8 @@ export const COMPONENT: ComponentRecord = {
  * opening a panel — so they are on the page, just not restated inside this card.
  */
 export const COMPONENT_FACTS: { label: string; value: string }[] = [
-  { label: 'Start Date', value: 'Sep 2, 2025' },
-  { label: 'Expected End Date', value: 'Nov 30, 2029' },
+  { label: 'Start Date', value: 'Oct 5, 2026' },
+  { label: 'Expected End Date', value: 'Jan 29, 2027' },
   ...COMPONENT.customFields,
 ];
 

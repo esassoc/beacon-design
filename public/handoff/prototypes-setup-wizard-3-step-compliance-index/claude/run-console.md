@@ -81,6 +81,9 @@ Build index and the Draft run, each as a session. Build index is two tool calls:
   line-height: var(--typography-microcopy-2xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
 }
+.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
+  color: var(--bcn-aldo-600);
+}
 .bcn-console {
   --_mono: var(--typography-font-family-mono, ui-monospace, monospace);
   --_indent: 2.75ch;
@@ -572,9 +575,6 @@ summary.esa-button--variant-chrome:focus-visible {
   border-right-color: #0000;
   border-radius: 50%;
   display: inline-block;
-}
-.bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
-  color: var(--bcn-aldo-600);
 }
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
