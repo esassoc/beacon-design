@@ -1,22 +1,41 @@
 # Category-scoped reading pane
 
+Help category page · source prototype: https://esassoc.github.io/beacon-design/prototypes/help/tracking/
+
+![Category-scoped reading pane, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-help-tracking/claude/category-scoped-reading-pane.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-help-tracking/claude/category-scoped-reading-pane.phone.png
+
 The same reading pane the help home uses, but SCOPED to this category and landing on its first article — so a category page is readable the moment it loads rather than showing an empty reader.
 
 ## Key decisions
+
 - ONE component, two behaviors, chosen by props — not two components. bcn-kb-browser takes `articles` (scoping the reader to this category's subset) and `defaultOnLoad` (true here, false on the home).
 - With no hash, the category page lands on its FIRST article and does NOT scroll — the list must stay in view, because the list is the point of this page. The home, by contrast, collapses the pane to nothing.
 - The default article id is resolved at build time into data-kb-default, so the controller reads a value rather than re-deriving the default.
 - Scoping is genuine: only this category's articles are pre-rendered here, so a stray #article-<id> from another category does not resolve on this route — that is the home's job, and the home passes every article precisely so external deep links always land somewhere.
 
 ## Gotchas
+
 - The home is the ONLY page that can resolve any #article-<id>. Drawer rows and article "Related" links therefore point at /prototypes/help#article-<id>, never at a category route — keep that contract when porting, or related links break depending on which page the user is on.
 - Landing on the first article must not scroll. Reusing the home's scroll-into-view behavior here pushes the list off screen on load, which reads as a broken page.
 - The pane's empty-collapse :has() rule still applies, but on this route it should never trigger — if it does, defaultOnLoad or the default id is not reaching the controller.
 
 ## Done when
+
 - Loading the route with no hash shows the category's first article with the list still visible above it; clicking any row swaps the pane to that article; an #article-<id> from a different category does not resolve here.
 
+## Components
+
+- `bcn-help-article` (spoke) · `src/components/bcn/BcnHelpArticle.astro`
+- `bcn-kb` (spoke) · `src/components/bcn/BcnKbBrowser.astro`
+- `esa-badge` (hub) · `packages/ecology/src/components/esa-badge.astro` → use `ui-badge` in the Beacon app
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+
 ## Markup
+
+_5 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <div class="bcn-kb__pane" data-kb-pane="" data-kb-default="actions-vs-implementations">
   <article
@@ -27,23 +46,20 @@ The same reading pane the help home uses, but SCOPED to this category and landin
     <article id="article-actions-vs-implementations" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title typography-title">Implementation</h2>
-        <span
-          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+        <span class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
           ><span class="esa-badge__text">Glossary</span></span
         >
       </header>
       <div class="bcn-help-article__body">
         <p class="bcn-help-article__p typography-body-md">
-          An Implementation is the tracked execution of an action: its status, assignee,
-          tasks, comments, and evidence. The action defines what must be done; the
-          implementation records doing it. In daily use, implementations are what teams
-          refer to as the actions.
+          An Implementation is the tracked execution of an action: its status, assignee, tasks,
+          comments, and evidence. The action defines what must be done; the implementation records
+          doing it. In daily use, implementations are what teams refer to as the actions.
         </p>
         <p class="bcn-help-article__p typography-body-md">
           The number of implementations an action generates is determined by its scope and
           frequency. A one-time, project-scoped submission generates one implementation. A
-          recurring, component-scoped inspection generates one per component, per
-          occurrence.
+          recurring, component-scoped inspection generates one per component, per occurrence.
         </p>
       </div>
     </article>
@@ -57,358 +73,30 @@ The same reading pane the help home uses, but SCOPED to this category and landin
     <article id="article-what-is-a-component" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title typography-title">Component</h2>
-        <span
-          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+        <span class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
           ><span class="esa-badge__text">Glossary</span></span
         >
       </header>
       <div class="bcn-help-article__body">
         <p class="bcn-help-article__p typography-body-md">
-          A Component is a discrete location or work package within a project — a launch
-          shaft, an intake site, a construction segment. Components exist because the same
-          obligation frequently applies independently at each location.
+          A Component is a discrete location or work package within a project — a launch shaft, an
+          intake site, a construction segment. Components exist because the same obligation
+          frequently applies independently at each location.
         </p>
         <p class="bcn-help-article__p typography-body-md">
-          A component maps to the commitments that apply to it, may carry its own
-          milestone dates, and receives its own implementations of component-scoped
-          actions. A Work Area subdivides a component further when field tracking requires
-          finer grain.
+          A component maps to the commitments that apply to it, may carry its own milestone dates,
+          and receives its own implementations of component-scoped actions. A Work Area subdivides a
+          component further when field tracking requires finer grain.
         </p>
       </div>
     </article>
   </article>
-  <article
-    class="bcn-kb__article"
-    data-article-id="permit"
-    data-category="tracking"
-    hidden=""
-  >
-    <article id="article-permit" class="bcn-help-article">
-      <header class="bcn-help-article__head">
-        <h2 class="bcn-help-article__title typography-title">Permit</h2>
-        <span
-          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-          ><span class="esa-badge__text">Glossary</span></span
-        >
-      </header>
-      <div class="bcn-help-article__body">
-        <p class="bcn-help-article__p typography-body-md">
-          A Permit is an authorization or approval a project must secure from a regulatory
-          agency before or during construction. Beacon tracks each permit through its
-          acquisition pipeline — from not yet applied, through agency review, to issued.
-        </p>
-        <p class="bcn-help-article__p typography-body-md">
-          An issued permit typically becomes a source document: its conditions are
-          extracted as commitments and enter the catalog alongside every other obligation.
-        </p>
-      </div>
-    </article>
-  </article>
-  <article
-    class="bcn-kb__article"
-    data-article-id="reading-permit-tracking"
-    data-category="tracking"
-    hidden=""
-  >
-    <article id="article-reading-permit-tracking" class="bcn-help-article">
-      <header class="bcn-help-article__head">
-        <h2 class="bcn-help-article__title typography-title">
-          Reading the Permit Tracking board
-        </h2>
-        <span
-          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-          ><span class="esa-badge__text">How-to</span></span
-        >
-      </header>
-      <div class="bcn-help-article__body">
-        <p class="bcn-help-article__p typography-body-md">
-          Permit Tracking lists every permit and approval a project needs, each with its
-          current status in the acquisition pipeline — from not yet applied, through
-          agency review, to issued.
-        </p>
-        <ol class="bcn-help-article__steps">
-          <li class="bcn-help-article__step typography-body-md">
-            Each row is one permit; the status lozenge shows where it sits in the
-            pipeline.
-          </li>
-          <li class="bcn-help-article__step typography-body-md">
-            The date column shows the next deadline — a submittal window, an agency
-            response due, or an expiration to renew.
-          </li>
-          <li class="bcn-help-article__step typography-body-md">
-            Open a permit to see its conditions, responsible contacts, and the source
-            document it will become once issued.
-          </li>
-        </ol>
-        <figure class="bcn-help-article__video">
-          <div class="bcn-help-article__video-frame">
-            <span class="bcn-help-article__video-play"
-              ><span class="esa-icon esa-icon--md" aria-hidden="true"
-                ><svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span></span
-            ><span class="bcn-help-article__video-duration"
-              ><span
-                class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-                ><span class="esa-badge__text">2:47</span></span
-              ></span
-            >
-          </div>
-          <figcaption class="bcn-help-article__caption typography-meta">
-            Watch: a permit’s life in Beacon
-          </figcaption>
-        </figure>
-        <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
-          <span class="bcn-help-article__callout-icon"
-            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-              ><svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path
-                  d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
-                ></path>
-                <path d="M9 18h6"></path>
-                <path d="M10 22h4"></path></svg></span
-          ></span>
-          <div class="bcn-help-article__callout-body">
-            <span class="bcn-help-article__callout-label">Tip</span>
-            <p class="bcn-help-article__callout-text typography-body-md">
-              An issued permit becomes a source document: its conditions are extracted as
-              commitments and join the catalog like any other obligation.
-            </p>
-          </div>
-        </aside>
-      </div>
-      <nav class="bcn-help-article__related" aria-label="Related articles">
-        <span class="bcn-help-article__related-label">Related</span>
-        <ul class="bcn-help-article__related-list">
-          <li>
-            <a
-              class="bcn-help-article__related-link"
-              href="/beacon-design/prototypes/help#article-permit"
-              >Permit</a
-            >
-          </li>
-          <li>
-            <a
-              class="bcn-help-article__related-link"
-              href="/beacon-design/prototypes/help#article-what-is-a-source"
-              >Source Document</a
-            >
-          </li>
-          <li>
-            <a
-              class="bcn-help-article__related-link"
-              href="/beacon-design/prototypes/help#article-what-is-a-commitment"
-              >Commitment</a
-            >
-          </li>
-        </ul>
-      </nav>
-    </article>
-  </article>
-  <article
-    class="bcn-kb__article"
-    data-article-id="starring-components"
-    data-category="tracking"
-    hidden=""
-  >
-    <article id="article-starring-components" class="bcn-help-article">
-      <header class="bcn-help-article__head">
-        <h2 class="bcn-help-article__title typography-title">
-          Starring components on your dashboard
-        </h2>
-        <span
-          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-          ><span class="esa-badge__text">How-to</span></span
-        >
-      </header>
-      <div class="bcn-help-article__body">
-        <p class="bcn-help-article__p typography-body-md">
-          A project may have dozens of components, though most people work in a few.
-          Starring pins a component to the project dashboard as a card showing its
-          Tracking, Monitoring, and Reporting pulse — the entry point into that
-          component’s own dashboard.
-        </p>
-        <ol class="bcn-help-article__steps">
-          <li class="bcn-help-article__step typography-body-md">
-            Star a component from the all-components list, or from the star in its own
-            header.
-          </li>
-          <li class="bcn-help-article__step typography-body-md">
-            Starred components appear on the project dashboard in the Components section,
-            below the project-wide row.
-          </li>
-          <li class="bcn-help-article__step typography-body-md">
-            Un-star from either place; the component itself is unaffected.
-          </li>
-        </ol>
-        <p class="bcn-help-article__p typography-body-md">
-          Stars are yours alone — starring a component does not change what anyone else
-          sees. The Components section always leads with a project-wide row for actions
-          that belong to the project rather than to any one component.
-        </p>
-      </div>
-      <nav class="bcn-help-article__related" aria-label="Related articles">
-        <span class="bcn-help-article__related-label">Related</span>
-        <ul class="bcn-help-article__related-list">
-          <li>
-            <a
-              class="bcn-help-article__related-link"
-              href="/beacon-design/prototypes/help#article-what-is-a-component"
-              >Component</a
-            >
-          </li>
-          <li>
-            <a
-              class="bcn-help-article__related-link"
-              href="/beacon-design/prototypes/help#article-reading-critical-now"
-              >How the dashboard decides what needs attention</a
-            >
-          </li>
-        </ul>
-      </nav>
-    </article>
-  </article>
-  <article
-    class="bcn-kb__article"
-    data-article-id="reading-critical-now"
-    data-category="tracking"
-    hidden=""
-  >
-    <article id="article-reading-critical-now" class="bcn-help-article">
-      <header class="bcn-help-article__head">
-        <h2 class="bcn-help-article__title typography-title">
-          How the dashboard decides what needs attention
-        </h2>
-        <span
-          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-          ><span class="esa-badge__text">How-to</span></span
-        >
-      </header>
-      <div class="bcn-help-article__body">
-        <p class="bcn-help-article__p typography-body-md">
-          Everything urgent on the dashboard is an action with a due date. Each action
-          belongs to one of the three zones by its type — tracking, monitoring, or
-          reporting — so a lapsed survey is a monitoring action and an agency submittal is
-          a reporting action. There is no separate list of critical items to maintain.
-        </p>
-        <p class="bcn-help-article__p typography-body-md">
-          The Tracking, Monitoring, and Reporting modules each count their own overdue
-          actions and the ones due within the next fourteen days, then list the most
-          urgent of them. Red means past due; amber means due soon. Clicking any of them
-          opens the action itself.
-        </p>
-        <p class="bcn-help-article__p typography-body-md">
-          An action leaves the surface when it is completed or its due date moves. There
-          is nothing to configure — the modules read the same action records you work with
-          in each zone.
-        </p>
-      </div>
-      <nav class="bcn-help-article__related" aria-label="Related articles">
-        <span class="bcn-help-article__related-label">Related</span>
-        <ul class="bcn-help-article__related-list">
-          <li>
-            <a
-              class="bcn-help-article__related-link"
-              href="/beacon-design/prototypes/help#article-starring-components"
-              >Starring components on your dashboard</a
-            >
-          </li>
-          <li>
-            <a
-              class="bcn-help-article__related-link"
-              href="/beacon-design/prototypes/help#article-reading-project-timeline"
-              >Reading the project timeline</a
-            >
-          </li>
-        </ul>
-      </nav>
-    </article>
-  </article>
-  <article
-    class="bcn-kb__article"
-    data-article-id="reading-project-timeline"
-    data-category="tracking"
-    hidden=""
-  >
-    <article id="article-reading-project-timeline" class="bcn-help-article">
-      <header class="bcn-help-article__head">
-        <h2 class="bcn-help-article__title typography-title">
-          Reading the project timeline
-        </h2>
-        <span
-          class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
-          ><span class="esa-badge__text">How-to</span></span
-        >
-      </header>
-      <div class="bcn-help-article__body">
-        <p class="bcn-help-article__p typography-body-md">
-          The timeline across the top of the dashboard plots three things on one date
-          axis: action due dates, season windows, and project milestones. It opens a week
-          before today so anything already overdue stays in view.
-        </p>
-        <ol class="bcn-help-article__steps">
-          <li class="bcn-help-article__step typography-body-md">
-            Switch the window between 30, 60, and 90 days to look further ahead.
-          </li>
-          <li class="bcn-help-article__step typography-body-md">
-            Click any mark — a dot, a season bar, or a milestone — to pin its details
-            open.
-          </li>
-          <li class="bcn-help-article__step typography-body-md">
-            Seasons show the ones starting or ending inside the window first; use “Show
-            all” when a project carries many.
-          </li>
-        </ol>
-        <p class="bcn-help-article__p typography-body-md">
-          Action dots follow the same colors as the modules: red for past due, amber for
-          due soon, gray for later. Milestones are shown in blue because they mark
-          schedule rather than urgency.
-        </p>
-      </div>
-      <nav class="bcn-help-article__related" aria-label="Related articles">
-        <span class="bcn-help-article__related-label">Related</span>
-        <ul class="bcn-help-article__related-list">
-          <li>
-            <a
-              class="bcn-help-article__related-link"
-              href="/beacon-design/prototypes/help#article-reading-critical-now"
-              >How the dashboard decides what needs attention</a
-            >
-          </li>
-          <li>
-            <a
-              class="bcn-help-article__related-link"
-              href="/beacon-design/prototypes/help#article-starring-components"
-              >Starring components on your dashboard</a
-            >
-          </li>
-        </ul>
-      </nav>
-    </article>
-  </article>
+  <!-- …and 5 more like this (<article class="bcn-kb__article">) -->
 </div>
 ```
 
 ## Styles
+
 ```css
 .typography-title {
   font-family: var(--typography-title-font-family);
@@ -431,20 +119,6 @@ The same reading pane the help home uses, but SCOPED to this category and landin
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
-.typography-title-strong {
-  font-family: var(--typography-title-strong-font-family);
-  font-size: var(--typography-title-strong-font-size);
-  font-weight: var(--typography-title-strong-font-weight);
-  line-height: var(--typography-title-strong-line-height);
-  letter-spacing: var(--typography-title-strong-letter-spacing);
-}
-.typography-title-sm-strong {
-  font-family: var(--typography-title-sm-strong-font-family);
-  font-size: var(--typography-title-sm-strong-font-size);
-  font-weight: var(--typography-title-sm-strong-font-weight);
-  line-height: var(--typography-title-sm-strong-line-height);
-  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
-}
 .typography-meta {
   font-family: var(--typography-meta-font-family);
   font-size: var(--typography-meta-font-size);
@@ -456,21 +130,10 @@ The same reading pane the help home uses, but SCOPED to this category and landin
   color: var(--color-content-default-tertiary);
   flex: none;
 }
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
-}
 .bcn-help-article {
   gap: var(--spacing-500);
   flex-direction: column;
   display: flex;
-}
-.bcn-help-article--compact {
-  gap: var(--spacing-400);
 }
 .bcn-help-article__head {
   align-items: center;
@@ -558,33 +221,6 @@ The same reading pane the help home uses, but SCOPED to this category and landin
 .bcn-help-article__callout-text {
   color: var(--color-content-default);
   margin: 0;
-}
-.bcn-help-article__figure {
-  gap: var(--spacing-200);
-  flex-direction: column;
-  margin: 0;
-  display: flex;
-}
-.bcn-help-article__figure-frame {
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-height: 8.5rem;
-  padding: var(--spacing-500);
-  border: 1px dashed var(--color-border-default-strong);
-  border-radius: var(--radius-200);
-  background: var(--color-background-elevation-sunken);
-  text-align: center;
-  flex-direction: column;
-  display: flex;
-}
-.bcn-help-article__figure-icon {
-  color: var(--color-content-default-tertiary);
-}
-.bcn-help-article__figure-label {
-  font-size: 0.875rem;
-  font-weight: var(--typography-font-weight-medium);
-  color: var(--color-content-default-secondary);
 }
 .bcn-help-article__video {
   gap: var(--spacing-200);
@@ -674,6 +310,11 @@ The same reading pane the help home uses, but SCOPED to this category and landin
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-countchip__num .esa-badge {
   --badge-radius: var(--radius-full);
   --badge-bg: var(--color-border-default);
@@ -701,24 +342,19 @@ The same reading pane the help home uses, but SCOPED to this category and landin
 .bcn-ev-attached__mark .esa-badge {
   --badge-bg: var(--color-background-utility-info-subtle);
   --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
   font-weight: var(--typography-font-weight-medium);
 }
 .bcn-ev-row__mark .esa-badge {
   --badge-bg: var(--color-background-utility-info-subtle);
   --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
   font-weight: var(--typography-font-weight-medium);
 }
 .bcn-ev-row__tags .esa-badge {
   --badge-bg: var(--bcn-gray-100);
   --badge-text-color: var(--bcn-gray-700);
   font-weight: var(--typography-font-weight-medium);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -772,45 +408,9 @@ The same reading pane the help home uses, but SCOPED to this category and landin
   align-items: center;
   display: inline-flex;
 }
-.esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
-}
 .esa-badge--sm {
   --_badge-padding-y: var(--spacing-100, 0.25rem);
   --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
-}
-.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-  --_badge-text: var(--color-content-default-knockout, #fcfcfc);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
-}
-.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
 }
 .esa-badge--neutral:not(.esa-badge--dot),
 .esa-badge--success:not(.esa-badge--dot),
@@ -819,38 +419,13 @@ The same reading pane the help home uses, but SCOPED to this category and landin
 .esa-badge--info:not(.esa-badge--dot) {
   border: 1px solid var(--_badge-border, transparent);
 }
-.esa-badge--dot {
-  border-radius: var(--radius-pill, 9999px);
-  width: 8px;
-  min-width: 8px;
-  height: 8px;
-  padding: 0;
-}
 .esa-badge--dot.esa-badge--neutral {
   --_badge-bg: var(--color-content-default-secondary, #646464);
 }
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
-}
-.esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-}
-.esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
-}
-.esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
-}
-.esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
-}
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  background: canvastext;
-  border: 0;
-  outline: 1px solid canvastext;
+@media (forced-colors: active) {
+  .esa-badge {
+    border: 1px solid canvastext;
+  }
 }
 .typography-title {
   font-family: var(--typography-title-font-family);
@@ -872,20 +447,6 @@ The same reading pane the help home uses, but SCOPED to this category and landin
   font-weight: var(--typography-microcopy-xs-strong-font-weight);
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-title-strong {
-  font-family: var(--typography-title-strong-font-family);
-  font-size: var(--typography-title-strong-font-size);
-  font-weight: var(--typography-title-strong-font-weight);
-  line-height: var(--typography-title-strong-line-height);
-  letter-spacing: var(--typography-title-strong-letter-spacing);
-}
-.typography-title-sm-strong {
-  font-family: var(--typography-title-sm-strong-font-family);
-  font-size: var(--typography-title-sm-strong-font-size);
-  font-weight: var(--typography-title-sm-strong-font-weight);
-  line-height: var(--typography-title-sm-strong-line-height);
-  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
 .typography-meta {
   font-family: var(--typography-meta-font-family);
@@ -920,20 +481,11 @@ The same reading pane the help home uses, but SCOPED to this category and landin
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
 }
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -950,100 +502,64 @@ The same reading pane the help home uses, but SCOPED to this category and landin
 ```
 
 ## Tokens
-- `--badge-bg`: #fcfcfc _(component)_
-- `--badge-border-color`: #dcdcdc _(component)_
-- `--badge-text-color`: #525252 _(component)_
-- `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-700`: #525252 _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-danger-muted`: #feebec _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
-- `--color-background-utility-info-subtle`: #fbfdff _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-border-utility-danger`: #fdbdbe _(semantic)_
-- `--color-border-utility-info`: #acd8fc _(semantic)_
-- `--color-border-utility-success`: #adddc0 _(semantic)_
-- `--color-border-utility-warning`: #f3d673 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-link`: #005862 _(semantic)_
-- `--color-content-link-hover`: #00474f _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--radius-chip`: .25rem _(semantic)_
-- `--radius-full`: 9999px _(primitive)_
-- `--radius-pill`: 9999px _(semantic)_
-- `--radius-sm`: .25rem _(semantic)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--spacing-600`: 2rem _(primitive)_
-- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
-- `--typography-body-md-letter-spacing`: .01em _(semantic)_
-- `--typography-body-md-line-height`: 1.6 _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-meta-font-weight`: 400 _(semantic)_
-- `--typography-meta-letter-spacing`: .01em _(semantic)_
-- `--typography-meta-line-height`: 1.6 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-title-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
-- `--typography-title-font-weight`: 500 _(semantic)_
-- `--typography-title-letter-spacing`: .01em _(semantic)_
-- `--typography-title-line-height`: 1.6 _(semantic)_
-- `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-sm-strong-font-size`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(semantic)_
-- `--typography-title-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-title-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-title-sm-strong-line-height`: 1.6 _(semantic)_
-- `--typography-title-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-strong-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
-- `--typography-title-strong-font-weight`: 550 _(semantic)_
-- `--typography-title-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-title-strong-line-height`: 1.6 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--badge-bg` | `#fcfcfc` | component |
+| `--badge-border-color` | `#dcdcdc` | component |
+| `--badge-text-color` | `#525252` | component |
+| `--bcn-gray-100` | `#efefef` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-700` | `#525252` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-background-utility-info` | `#228be6` | semantic |
+| `--color-background-utility-info-subtle` | `#fbfdff` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-link` | `#005862` | semantic |
+| `--color-content-link-hover` | `#00474f` | semantic |
+| `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--radius-200` | `.5rem` | primitive |
+| `--radius-chip` | `.25rem` | semantic |
+| `--radius-full` | `9999px` | primitive |
+| `--radius-sm` | `.25rem` | semantic |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--spacing-600` | `2rem` | primitive |
+| `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-body-md-font-weight` | `400` | semantic |
+| `--typography-body-md-letter-spacing` | `.01em` | semantic |
+| `--typography-body-md-line-height` | `1.6` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
+| `--typography-meta-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-meta-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-meta-font-weight` | `400` | semantic |
+| `--typography-meta-letter-spacing` | `.01em` | semantic |
+| `--typography-meta-line-height` | `1.6` | semantic |
+| `--typography-microcopy-xs-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-strong-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-strong-font-weight` | `550` | semantic |
+| `--typography-microcopy-xs-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-strong-line-height` | `1` | semantic |
+| `--typography-title-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-title-font-size` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | semantic |
+| `--typography-title-font-weight` | `500` | semantic |
+| `--typography-title-letter-spacing` | `.01em` | semantic |
+| `--typography-title-line-height` | `1.6` | semantic |

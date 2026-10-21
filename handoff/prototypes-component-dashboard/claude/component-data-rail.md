@@ -1,19 +1,36 @@
 # Component data rail
 
+Component Dashboard · source prototype: https://esassoc.github.io/beacon-design/prototypes/component-dashboard/
+
+![Component data rail, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/component-data-rail.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/component-data-rail.phone.png
+
 The quiet utility rail: four links that open component-data side panels via the ?data=<key> URL contract, the same contract the project dashboard established.
 
 ## Key decisions
+
 - The prototype rail has four keys: component info, milestones, source documents, footprint layers. Production already ships more (component-species-panel and component-commitments-panel among them), whose species and sources are derived from applied commitments; keep those. Setup's answers are a different thing and must not be shown as, or written into, those derived lists.
 - Milestones is the only genuinely editable one, matching production, where it is a component's single edit tab.
 - Source documents and footprint layers are read-only here. Which documents apply is chosen in Component Setup; layers are managed in the Spatial Library zone.
 
 ## Gotchas
+
 - Panel state must ride the URL so panels are bookmarkable and the browser Back button closes them — honored on first load AND on popstate, not just on click.
 
 ## Done when
+
 - Each row opens its panel; ?data=<key> deep-links to an open panel; Back closes it.
 
+## Components
+
+- `bcn-lrc` (spoke) · `src/components/bcn/BcnLinkRowCard.astro`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+
 ## Markup
+
+_2 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <ul class="bcn-lrc">
   <li>
@@ -55,62 +72,16 @@ The quiet utility rail: four links that open component-data side panels via the 
             <path d="m9 18 6-6-6-6"></path></svg></span></span
     ></a>
   </li>
-  <li>
-    <a class="bcn-lrc__row" href="?data=sources"
-      ><span class="bcn-lrc__label">Source documents</span
-      ><span class="bcn-lrc__right"
-        ><span class="bcn-lrc__meta">3</span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg></span></span
-    ></a>
-  </li>
-  <li>
-    <a class="bcn-lrc__row" href="?data=layers"
-      ><span class="bcn-lrc__label">Footprint layers</span
-      ><span class="bcn-lrc__right"
-        ><span class="bcn-lrc__meta">2 of 4</span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg></span></span
-    ></a>
-  </li>
+  <!-- …and 2 more like this (<li>) -->
 </ul>
 ```
 
 ## Styles
+
 ```css
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -126,6 +97,11 @@ The quiet utility rail: four links that open component-data side panels via the 
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -133,9 +109,6 @@ The quiet utility rail: four links that open component-data side panels via the 
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -214,27 +187,8 @@ The quiet utility rail: four links that open component-data side panels via the 
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
-.bcn-lrc__chev {
-  color: var(--bcn-content-muted);
-}
 .bcn-lrc__row:hover .bcn-lrc__chev {
   color: var(--color-background-brand);
-}
-.bcn-lrc__footer {
-  align-items: center;
-  gap: var(--spacing-100);
-  margin-top: var(--spacing-100);
-  padding-top: var(--spacing-250);
-  border-top: 1px solid var(--color-border-default-subtle);
-  width: 100%;
-  font-size: var(--font-size-150);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-background-brand);
-  text-decoration: none;
-  display: inline-flex;
-}
-.bcn-lrc__footer:hover {
-  color: var(--color-background-brand-hover);
 }
 .bcn-sw__head .esa-icon {
   color: var(--color-content-default-secondary);
@@ -252,20 +206,8 @@ The quiet utility rail: four links that open component-data side panels via the 
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -285,30 +227,24 @@ The quiet utility rail: four links that open component-data side panels via the 
 ```
 
 ## Tokens
-- `--bcn-content-muted`: #7c7c7c _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-content-muted` | `#7c7c7c` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--typography-font-weight-medium` | `500` | semantic |

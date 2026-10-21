@@ -1,23 +1,35 @@
 # Component footprint map
 
+Components (index) · source prototype: https://esassoc.github.io/beacon-design/prototypes/components/
+
 The second view, asked for explicitly on the design call: where the components ARE. Components overlap on it, and that is correct — they are areas over areas over time in the same place, and color separates them the way species habitat layers do ("if we color code them, that's what the species habitat layers look like, it's fine").
 
 ## Key decisions
+
 - Each shape is a FOOTPRINT derived from the component's WORK AREAS — the convex hull of its work-area points, buffered outward. It is labelled as a derivation on the surface, not presented as a boundary.
 - Fills are translucent (18%) with a solid edge, and hovering brings one shape forward at 36%. Sixteen overlapping footprints have to stay legible where they stack, and the outline is what keeps each shape readable through the pile.
 - Footprints are colored by lifecycle status from the same STATUS_META the grid and summary read, with a legend keyed to it.
 - Basemap is grayscale. House rule: containers stay neutral, color lives in the data.
 
 ## Gotchas
+
 - COMPONENT HAS NO STORED GEOMETRY. There is no geography column on dbo.Component, and BCN-1584 (which adds one, with shapefile upload) is Ready-for-Dev with zero commits. Work areas are the only real geometry a component owns today. When BCN-1584 lands, an uploaded boundary REPLACES the hull and this derivation is deleted rather than extended.
 - An earlier pass drew one DOT per component at an invented coordinate. That was worse than nothing — a point implies a location the data does not have, and nobody could tell what the dots meant (cut at review 2026-08-14). Do not ship a component location the data model cannot produce.
 - Do not hull the work areas without buffering first. Geotech borings sit in a LINE along the alignment, so their bare convex hull collapses to a sliver a few pixels wide that reads as a rendering artefact. Buffer each point into a disc, then hull the cloud: a line of sites becomes a lozenge and a single site becomes a circle.
 - A Leaflet map built inside a hidden container measures 0x0, so fitBounds resolves against nothing and the map opens zoomed to the middle of the ocean. This map is built inside a hidden view panel. The component watches its own box with a ResizeObserver and re-measures + re-fits the first time it has real size — do not make the caller remember to poke it on reveal.
 
 ## Done when
+
 - Every component draws one filled footprint colored by its status; overlapping shapes remain individually distinguishable and hover isolates one; the legend matches the grid's status colors; switching to the map from the grid shows a correctly fitted view with no grey box and no ocean; the surface states that footprints are derived from work areas.
 
+## Components
+
+- `bcn-fmap` (spoke) · `src/components/bcn/BcnBoundaryDrawMap.astro`
+
 ## Markup
+
+_17 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <div
   class="bcn-fmap"
@@ -35,10 +47,7 @@ The second view, asked for explicitly on the design call: where the components A
       tabindex="0"
       style="position: relative"
     >
-      <div
-        class="leaflet-pane leaflet-map-pane"
-        style="transform: translate3d(0px, 0px, 0px)"
-      >
+      <div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px)">
         <div class="leaflet-pane leaflet-tile-pane">
           <div class="leaflet-layer" style="z-index: 1; opacity: 1">
             <div
@@ -93,181 +102,14 @@ The second view, asked for explicitly on the design call: where the components A
                 fill-rule="evenodd"
                 d="M0 0"
               ></path>
-              <path
-                class="leaflet-interactive"
-                stroke="#656565"
-                stroke-opacity="0.85"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                fill="#656565"
-                fill-opacity="0.18"
-                fill-rule="evenodd"
-                d="M0 0"
-              ></path>
-              <path
-                class="leaflet-interactive"
-                stroke="#f59e0b"
-                stroke-opacity="0.85"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                fill="#f59e0b"
-                fill-opacity="0.18"
-                fill-rule="evenodd"
-                d="M0 0"
-              ></path>
-              <path
-                class="leaflet-interactive"
-                stroke="#f59e0b"
-                stroke-opacity="0.85"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                fill="#f59e0b"
-                fill-opacity="0.18"
-                fill-rule="evenodd"
-                d="M0 0"
-              ></path>
-              <path
-                class="leaflet-interactive"
-                stroke="#bdbdbd"
-                stroke-opacity="0.85"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                fill="#bdbdbd"
-                fill-opacity="0.18"
-                fill-rule="evenodd"
-                d="M0 0"
-              ></path>
-              <path
-                class="leaflet-interactive"
-                stroke="#bdbdbd"
-                stroke-opacity="0.85"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                fill="#bdbdbd"
-                fill-opacity="0.18"
-                fill-rule="evenodd"
-                d="M0 0"
-              ></path>
-              <path
-                class="leaflet-interactive"
-                stroke="#f59e0b"
-                stroke-opacity="0.85"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                fill="#f59e0b"
-                fill-opacity="0.18"
-                fill-rule="evenodd"
-                d="M0 0"
-              ></path>
-              <path
-                class="leaflet-interactive"
-                stroke="#f59e0b"
-                stroke-opacity="0.85"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                fill="#f59e0b"
-                fill-opacity="0.18"
-                fill-rule="evenodd"
-                d="M0 0"
-              ></path>
-              <path
-                class="leaflet-interactive"
-                stroke="#f59e0b"
-                stroke-opacity="0.85"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                fill="#f59e0b"
-                fill-opacity="0.18"
-                fill-rule="evenodd"
-                d="M0 0"
-              ></path>
-              <path
-                class="leaflet-interactive"
-                stroke="#2e7571"
-                stroke-opacity="0.85"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                fill="#2e7571"
-                fill-opacity="0.18"
-                fill-rule="evenodd"
-                d="M0 0"
-              ></path>
-              <path
-                class="leaflet-interactive"
-                stroke="#656565"
-                stroke-opacity="0.85"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                fill="#656565"
-                fill-opacity="0.18"
-                fill-rule="evenodd"
-                d="M0 0"
-              ></path>
-              <path
-                class="leaflet-interactive"
-                stroke="#bdbdbd"
-                stroke-opacity="0.85"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                fill="#bdbdbd"
-                fill-opacity="0.18"
-                fill-rule="evenodd"
-                d="M0 0"
-              ></path>
-              <path
-                class="leaflet-interactive"
-                stroke="#bdbdbd"
-                stroke-opacity="0.85"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                fill="#bdbdbd"
-                fill-opacity="0.18"
-                fill-rule="evenodd"
-                d="M0 0"
-              ></path>
-              <path
-                class="leaflet-interactive"
-                stroke="#2e7571"
-                stroke-opacity="0.85"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                fill="#2e7571"
-                fill-opacity="0.18"
-                fill-rule="evenodd"
-                d="M0 0"
-              ></path>
-              <path
-                class="leaflet-interactive"
-                stroke="#f59e0b"
-                stroke-opacity="0.85"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                fill="#f59e0b"
-                fill-opacity="0.18"
-                fill-rule="evenodd"
-                d="M0 0"
-              ></path>
+              <!-- …and 14 more like this (<path class="[object SVGAnimatedString]">) -->
             </g>
           </svg>
         </div>
         <div class="leaflet-pane leaflet-shadow-pane"></div>
         <div class="leaflet-pane leaflet-marker-pane"></div>
         <div class="leaflet-pane leaflet-tooltip-pane"></div>
-        <div class="leaflet-pane leaflet-popup-pane"></div>
+        <!-- …and 1 more like this (<div class="leaflet-pane leaflet-tile-pane">) -->
         <div
           class="leaflet-proxy leaflet-zoom-animated"
           style="transform: translate3d(681854px, 1.61652e6px, 0px) scale(8192)"
@@ -299,9 +141,7 @@ The second view, asked for explicitly on the design call: where the components A
         <div class="leaflet-bottom leaflet-left"></div>
         <div class="leaflet-bottom leaflet-right">
           <div class="leaflet-control-attribution leaflet-control">
-            <a
-              href="https://leafletjs.com"
-              title="A JavaScript library for interactive maps"
+            <a href="https://leafletjs.com" title="A JavaScript library for interactive maps"
               ><svg
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
@@ -343,24 +183,7 @@ The second view, asked for explicitly on the design call: where the components A
           ></span
           >In progress
         </li>
-        <li class="bcn-fmap__legend-row">
-          <span
-            class="bcn-fmap__key"
-            data-shape="area"
-            style="--_cmap-key: var(--bcn-status-on-hold)"
-            aria-hidden="true"
-          ></span
-          >On hold
-        </li>
-        <li class="bcn-fmap__legend-row">
-          <span
-            class="bcn-fmap__key"
-            data-shape="area"
-            style="--_cmap-key: var(--color-background-utility-success)"
-            aria-hidden="true"
-          ></span
-          >Complete
-        </li>
+        <!-- …and 2 more like this (<li class="bcn-fmap__legend-row">) -->
       </ul>
       <p class="bcn-fmap__source">
         <span class="bcn-fmap__source-label">Geometry source</span
@@ -372,466 +195,8 @@ The second view, asked for explicitly on the design call: where the components A
 ```
 
 ## Styles
+
 ```css
-.leaflet-pane,
-.leaflet-tile,
-.leaflet-marker-icon,
-.leaflet-marker-shadow,
-.leaflet-tile-container,
-.leaflet-pane > svg,
-.leaflet-pane > canvas,
-.leaflet-zoom-box,
-.leaflet-image-layer,
-.leaflet-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.leaflet-container {
-  overflow: hidden;
-}
-.leaflet-tile,
-.leaflet-marker-icon,
-.leaflet-marker-shadow {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-.leaflet-tile::selection {
-  background: 0 0;
-}
-.leaflet-safari .leaflet-tile {
-  image-rendering: -webkit-optimize-contrast;
-}
-.leaflet-safari .leaflet-tile-container {
-  -webkit-transform-origin: 0 0;
-  width: 1600px;
-  height: 1600px;
-}
-.leaflet-container .leaflet-overlay-pane svg {
-  max-width: none !important;
-  max-height: none !important;
-}
-.leaflet-container .leaflet-marker-pane img,
-.leaflet-container .leaflet-shadow-pane img,
-.leaflet-container .leaflet-tile-pane img,
-.leaflet-container img.leaflet-image-layer,
-.leaflet-container .leaflet-tile {
-  width: auto;
-  padding: 0;
-  max-width: none !important;
-  max-height: none !important;
-}
-.leaflet-container img.leaflet-tile {
-  mix-blend-mode: plus-lighter;
-}
-.leaflet-container.leaflet-touch-zoom {
-  -ms-touch-action: pan-x pan-y;
-  touch-action: pan-x pan-y;
-}
-.leaflet-container.leaflet-touch-drag {
-  -ms-touch-action: pinch-zoom;
-  touch-action: none;
-  touch-action: pinch-zoom;
-}
-.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
-  -ms-touch-action: none;
-  touch-action: none;
-}
-.leaflet-container {
-  -webkit-tap-highlight-color: transparent;
-}
-.leaflet-container a {
-  -webkit-tap-highlight-color: #33b5e566;
-}
-.leaflet-tile {
-  filter: inherit;
-  visibility: hidden;
-}
-.leaflet-tile-loaded {
-  visibility: inherit;
-}
-.leaflet-overlay-pane svg {
-  -moz-user-select: none;
-}
-.leaflet-pane {
-  z-index: 400;
-}
-.leaflet-tile-pane {
-  z-index: 200;
-}
-.leaflet-overlay-pane {
-  z-index: 400;
-}
-.leaflet-shadow-pane {
-  z-index: 500;
-}
-.leaflet-marker-pane {
-  z-index: 600;
-}
-.leaflet-tooltip-pane {
-  z-index: 650;
-}
-.leaflet-popup-pane {
-  z-index: 700;
-}
-.leaflet-map-pane canvas {
-  z-index: 100;
-}
-.leaflet-map-pane svg {
-  z-index: 200;
-}
-.leaflet-control {
-  z-index: 800;
-  pointer-events: visiblePainted;
-  pointer-events: auto;
-  position: relative;
-}
-.leaflet-top,
-.leaflet-bottom {
-  z-index: 1000;
-  pointer-events: none;
-  position: absolute;
-}
-.leaflet-top {
-  top: 0;
-}
-.leaflet-right {
-  right: 0;
-}
-.leaflet-bottom {
-  bottom: 0;
-}
-.leaflet-left {
-  left: 0;
-}
-.leaflet-control {
-  float: left;
-  clear: both;
-}
-.leaflet-right .leaflet-control {
-  float: right;
-}
-.leaflet-top .leaflet-control {
-  margin-top: 10px;
-}
-.leaflet-bottom .leaflet-control {
-  margin-bottom: 10px;
-}
-.leaflet-left .leaflet-control {
-  margin-left: 10px;
-}
-.leaflet-right .leaflet-control {
-  margin-right: 10px;
-}
-.leaflet-fade-anim .leaflet-popup {
-  opacity: 0;
-  -webkit-transition: opacity 0.2s linear;
-  -moz-transition: opacity 0.2s linear;
-  transition: opacity 0.2s linear;
-}
-.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
-  opacity: 1;
-}
-.leaflet-zoom-animated {
-  -webkit-transform-origin: 0 0;
-  -ms-transform-origin: 0 0;
-  transform-origin: 0 0;
-}
-svg.leaflet-zoom-animated {
-  will-change: transform;
-}
-.leaflet-zoom-anim .leaflet-zoom-animated {
-  -webkit-transition: -webkit-transform 0.25s cubic-bezier(0, 0, 0.25, 1);
-  -moz-transition: -moz-transform 0.25s cubic-bezier(0, 0, 0.25, 1);
-  transition: transform 0.25s cubic-bezier(0, 0, 0.25, 1);
-}
-.leaflet-zoom-anim .leaflet-tile,
-.leaflet-pan-anim .leaflet-tile {
-  -webkit-transition: none;
-  -moz-transition: none;
-  transition: none;
-}
-.leaflet-interactive {
-  cursor: pointer;
-}
-.leaflet-grab {
-  cursor: -webkit-grab;
-  cursor: -moz-grab;
-  cursor: grab;
-}
-.leaflet-crosshair,
-.leaflet-crosshair .leaflet-interactive {
-  cursor: crosshair;
-}
-.leaflet-popup-pane,
-.leaflet-control {
-  cursor: auto;
-}
-.leaflet-dragging .leaflet-grab,
-.leaflet-dragging .leaflet-grab .leaflet-interactive,
-.leaflet-dragging .leaflet-marker-draggable {
-  cursor: move;
-  cursor: -webkit-grabbing;
-  cursor: -moz-grabbing;
-  cursor: grabbing;
-}
-.leaflet-marker-icon,
-.leaflet-marker-shadow,
-.leaflet-image-layer,
-.leaflet-pane > svg path,
-.leaflet-tile-container {
-  pointer-events: none;
-}
-.leaflet-marker-icon.leaflet-interactive,
-.leaflet-image-layer.leaflet-interactive,
-.leaflet-pane > svg path.leaflet-interactive,
-svg.leaflet-image-layer.leaflet-interactive path {
-  pointer-events: visiblePainted;
-  pointer-events: auto;
-}
-.leaflet-container {
-  outline-offset: 1px;
-  background: #ddd;
-}
-.leaflet-container a {
-  color: #0078a8;
-}
-.leaflet-container {
-  font-family:
-    Helvetica Neue,
-    Arial,
-    Helvetica,
-    sans-serif;
-  font-size: 0.75rem;
-  line-height: 1.5;
-}
-.leaflet-bar {
-  border-radius: 4px;
-  box-shadow: 0 1px 5px #000000a6;
-}
-.leaflet-bar a {
-  text-align: center;
-  color: #000;
-  background-color: #fff;
-  border-bottom: 1px solid #ccc;
-  width: 26px;
-  height: 26px;
-  line-height: 26px;
-  text-decoration: none;
-  display: block;
-}
-.leaflet-bar a,
-.leaflet-control-layers-toggle {
-  background-position: 50%;
-  background-repeat: no-repeat;
-  display: block;
-}
-.leaflet-bar a:hover,
-.leaflet-bar a:focus {
-  background-color: #f4f4f4;
-}
-.leaflet-bar a:first-child {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-}
-.leaflet-bar a:last-child {
-  border-bottom: none;
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-.leaflet-bar a.leaflet-disabled {
-  cursor: default;
-  color: #bbb;
-  background-color: #f4f4f4;
-}
-.leaflet-touch .leaflet-bar a {
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-}
-.leaflet-touch .leaflet-bar a:first-child {
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-}
-.leaflet-touch .leaflet-bar a:last-child {
-  border-bottom-right-radius: 2px;
-  border-bottom-left-radius: 2px;
-}
-.leaflet-control-zoom-in,
-.leaflet-control-zoom-out {
-  text-indent: 1px;
-  font:
-    700 18px Lucida Console,
-    Monaco,
-    monospace;
-}
-.leaflet-touch .leaflet-control-zoom-in,
-.leaflet-touch .leaflet-control-zoom-out {
-  font-size: 22px;
-}
-.leaflet-control-layers {
-  background: #fff;
-  border-radius: 5px;
-  box-shadow: 0 1px 5px #0006;
-}
-.leaflet-control-layers-toggle {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAQAAAADQ4RFAAACf0lEQVR4AY1UM3gkARTePdvdoTxXKc+qTl3aU5U6b2Kbkz3Gtq3Zw6ziLGNPzrYx7946Tr6/ee/XeCQ4D3ykPtL5tHno4n0d/h3+xfuWHGLX81cn7r0iTNzjr7LrlxCqPtkbTQEHeqOrTy4Yyt3VCi/IOB0v7rVC7q45Q3Gr5K6jt+3Gl5nCoDD4MtO+j96Wu8atmhGqcNGHObuf8OM/x3AMx38+4Z2sPqzCxRFK2aF2e5Jol56XTLyggAMTL56XOMoS1W4pOyjUcGGQdZxU6qRh7B9Zp+PfpOFlqt0zyDZckPi1ttmIp03jX8gyJ8a/PG2yutpS/Vol7peZIbZcKBAEEheEIAgFbDkz5H6Zrkm2hVWGiXKiF4Ycw0RWKdtC16Q7qe3X4iOMxruonzegJzWaXFrU9utOSsLUmrc0YjeWYjCW4PDMADElpJSSQ0vQvA1Tm6/JlKnqFs1EGyZiFCqnRZTEJJJiKRYzVYzJck2Rm6P4iH+cmSY0YzimYa8l0EtTODFWhcMIMVqdsI2uiTvKmTisIDHJ3od5GILVhBCarCfVRmo4uTjkhrhzkiBV7SsaqS+TzrzM1qpGGUFt28pIySQHR6h7F6KSwGWm97ay+Z+ZqMcEjEWebE7wxCSQwpkhJqoZA5ivCdZDjJepuJ9IQjGGUmuXJdBFUygxVqVsxFsLMbDe8ZbDYVCGKxs+W080max1hFCarCfV+C1KATwcnvE9gRRuMP2prdbWGowm1KB1y+zwMMENkM755cJ2yPDtqhTI6ED1M/82yIDtC/4j4BijjeObflpO9I9MwXTCsSX8jWAFeHr05WoLTJ5G8IQVS/7vwR6ohirYM7f6HzYpogfS3R2OAAAAAElFTkSuQmCC);
-  width: 36px;
-  height: 36px;
-}
-.leaflet-retina .leaflet-control-layers-toggle {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAQAAABvcdNgAAAEsklEQVR4AWL4TydIhpZK1kpWOlg0w3ZXP6D2soBtG42jeI6ZmQTHzAxiTbSJsYLjO9HhP+WOmcuhciVnmHVQcJnp7DFvScowZorad/+V/fVzMdMT2g9Cv9guXGv/7pYOrXh2U+RRR3dSd9JRx6bIFc/ekqHI29JC6pJ5ZEh1yWkhkbcFeSjxgx3L2m1cb1C7bceyxA+CNjT/Ifff+/kDk2u/w/33/IeCMOSaWZ4glosqT3DNnNZQ7Cs58/3Ce5HL78iZH/vKVIaYlqzfdLu8Vi7dnvUbEza5Idt36tquZFldl6N5Z/POLof0XLK61mZCmJSWjVF9tEjUluu74IUXvgttuVIHE7YxSkaYhJZam7yiM9Pv82JYfl9nptxZaxMJE4YSPty+vF0+Y2up9d3wwijfjZbabqm/3bZ9ecKHsiGmRflnn1MW4pjHf9oLufyn2z3y1D6n8g8TZhxyzipLNPnAUpsOiuWimg52psrTZYnOWYNDTMuWBWa0tJb4rgq1UvmutpaYEbZlwU3CLJm/ayYjHW5/h7xWLn9Hh1vepDkyf7dE7MtT5LR4e7yYpHrkhOUpEfssBLq2pPhAqoSWKUkk7EDqkmK6RrCEzqDjhNDWNE+XSMvkJRDWlZTmCW0l0PHQGRZY5t1L83kT0Y3l2SItk5JAWHl2dCOBm+fPu3fo5/3v61RMCO9Jx2EEYYhb0rmNQMX/vm7gqOEJLcXTGw3CAuRNeyaPWwjR8PRqKQ1PDA/dpv+on9Shox52WFnx0KY8onHayrJzm87i5h9xGw/tfkev0jGsQizqezUKjk12hBMKJ4kbCqGPVNXudyyrShovGw5CgxsRICxF6aRmSjlBnHRzg7Gx8fKqEubI2rahQYdR1YgDIRQO7JvQyD52hoIQx0mxa0ODtW2Iozn1le2iIRdzwWewedyZzewidueOGqlsn1MvcnQpuVwLGG3/IR1hIKxCjelIDZ8ldqWz25jWAsnldEnK0Zxro19TGVb2ffIZEsIO89EIEDvKMPrzmBOQcKQ+rroye6NgRRxqR4U8EAkz0CL6uSGOm6KQCdWjvjRiSP1BPalCRS5iQYiEIvxuBMJEWgzSoHADcVMuN7IuqqTeyUPq22qFimFtxDyBBJEwNyt6TM88blFHao/6tWWhuuOM4SAK4EI4QmFHA+SEyWlp4EQoJ13cYGzMu7yszEIBOm2rVmHUNqwAIQabISNMRstmdhNWcFLsSm+0tjJH1MdRxO5Nx0WDMhCtgD6OKgZeljJqJKc9po8juskR9XN0Y1lZ3mWjLR9JCO1jRDMd0fpYC2VnvjBSEFg7wBENc0R9HFlb0xvF1+TBEpF68d+DHR6IOWVv2BECtxo46hOFUBd/APU57WIoEwJhIi2CdpyZX0m93BZicktMj1AS9dClteUFAUNUIEygRZCtik5zSxI9MubTBH1GOiHsiLJ3OCoSZkILa9PxiN0EbvhsAo8tdAf9Seepd36lGWHmtNANTv5Jd0z4QYyeo/UEJqxKRpg5LZx6btLPsOaEmdMyxYdlc8LMaJnikDlhclqmPiQnTEpLUIZEwkRagjYkEibQErwhkTAKCLQEbUgkzJQWc/0PstHHcfEdQ+UAAAAASUVORK5CYII=);
-  background-size: 26px 26px;
-}
-.leaflet-touch .leaflet-control-layers-toggle {
-  width: 44px;
-  height: 44px;
-}
-.leaflet-control-layers .leaflet-control-layers-list,
-.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
-  display: none;
-}
-.leaflet-control-layers-expanded .leaflet-control-layers-list {
-  display: block;
-  position: relative;
-}
-.leaflet-control-layers-expanded {
-  color: #333;
-  background: #fff;
-  padding: 6px 10px 6px 6px;
-}
-.leaflet-control-layers-scrollbar {
-  padding-right: 5px;
-  overflow: hidden scroll;
-}
-.leaflet-control-layers-selector {
-  margin-top: 2px;
-  position: relative;
-  top: 1px;
-}
-.leaflet-control-layers label {
-  font-size: 1.08333em;
-  display: block;
-}
-.leaflet-control-layers-separator {
-  border-top: 1px solid #ddd;
-  height: 0;
-  margin: 5px -10px 5px -6px;
-}
-.leaflet-container .leaflet-control-attribution {
-  background: #fffc;
-  margin: 0;
-}
-.leaflet-control-attribution,
-.leaflet-control-scale-line {
-  color: #333;
-  padding: 0 5px;
-  line-height: 1.4;
-}
-.leaflet-control-attribution a {
-  text-decoration: none;
-}
-.leaflet-control-attribution a:hover,
-.leaflet-control-attribution a:focus {
-  text-decoration: underline;
-}
-.leaflet-attribution-flag {
-  width: 1em;
-  height: 0.6669em;
-  vertical-align: baseline !important;
-  display: inline !important;
-}
-.leaflet-left .leaflet-control-scale {
-  margin-left: 5px;
-}
-.leaflet-bottom .leaflet-control-scale {
-  margin-bottom: 5px;
-}
-.leaflet-control-scale-line {
-  white-space: nowrap;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  text-shadow: 1px 1px #fff;
-  background: #fffc;
-  border: 2px solid #777;
-  border-top: none;
-  padding: 2px 5px 1px;
-  line-height: 1.1;
-}
-.leaflet-control-scale-line:not(:first-child) {
-  border-top: 2px solid #777;
-  border-bottom: none;
-  margin-top: -2px;
-}
-.leaflet-control-scale-line:not(:first-child):not(:last-child) {
-  border-bottom: 2px solid #777;
-}
-.leaflet-touch .leaflet-control-attribution,
-.leaflet-touch .leaflet-control-layers,
-.leaflet-touch .leaflet-bar {
-  box-shadow: none;
-}
-.leaflet-touch .leaflet-control-layers,
-.leaflet-touch .leaflet-bar {
-  background-clip: padding-box;
-  border: 2px solid #0003;
-}
-.leaflet-container a.leaflet-popup-close-button {
-  text-align: center;
-  color: #757575;
-  background: 0 0;
-  border: none;
-  width: 24px;
-  height: 24px;
-  font:
-    16px/24px Tahoma,
-    Verdana,
-    sans-serif;
-  text-decoration: none;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-.leaflet-container a.leaflet-popup-close-button:hover,
-.leaflet-container a.leaflet-popup-close-button:focus {
-  color: #585858;
-}
-.leaflet-oldie .leaflet-control-zoom,
-.leaflet-oldie .leaflet-control-layers,
-.leaflet-oldie .leaflet-popup-content-wrapper,
-.leaflet-oldie .leaflet-popup-tip {
-  border: 1px solid #999;
-}
-.leaflet-tooltip.leaflet-interactive {
-  cursor: pointer;
-  pointer-events: auto;
-}
-.leaflet-container .leaflet-tooltip {
-  font-family: var(--typography-font-family-sans, inherit);
-  font-size: 0.9375rem;
-  font-weight: var(--typography-font-weight-semibold, 600);
-  color: var(--color-content-default, #3d3d3d);
-  background: var(--color-background-elevation-raised, #fff);
-  border: 1px solid var(--color-border-default, #dcdcdc);
-  border-radius: var(--radius-100, 4px);
-  box-shadow: var(--elevation-4, 0 6px 24px -6px #00000012);
-  padding: 6px 12px;
-  line-height: 1.4;
-}
-.leaflet-container .leaflet-tooltip-top:before {
-  border-top-color: var(--color-background-elevation-raised, #fff);
-}
-.leaflet-container .leaflet-tooltip-bottom:before {
-  border-bottom-color: var(--color-background-elevation-raised, #fff);
-}
-.leaflet-container .leaflet-tooltip-left:before {
-  border-left-color: var(--color-background-elevation-raised, #fff);
-}
-.leaflet-container .leaflet-tooltip-right:before {
-  border-right-color: var(--color-background-elevation-raised, #fff);
-}
 .bcn-fmap__surface {
   border-radius: var(--radius-200);
   border: 1px solid var(--color-border-default);
@@ -839,21 +204,12 @@ svg.leaflet-image-layer.leaflet-interactive path {
   width: 100%;
   overflow: hidden;
 }
-.bcn-fmap__surface--inset {
-  height: 180px;
-}
 .bcn-fmap__surface--full {
   height: min(64vh, 560px);
-}
-.bcn-fmap__surface--modal {
-  height: min(70vh, 620px);
 }
 .bcn-fmap__surface .leaflet-container {
   font-family: var(--typography-font-family-sans, inherit);
   background: var(--color-background-elevation-sunken);
-}
-.bcn-fmap__surface--inset .leaflet-container {
-  cursor: default;
 }
 .bcn-fmap__surface .leaflet-interactive {
   cursor: pointer;
@@ -877,14 +233,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
   align-items: flex-end;
   gap: var(--spacing-400);
   flex-wrap: wrap;
-  display: flex;
-}
-.bcn-fmap__modal-foot {
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-400);
-  flex-wrap: wrap;
-  width: 100%;
   display: flex;
 }
 .bcn-fmap__legend {
@@ -949,21 +297,20 @@ svg.leaflet-image-layer.leaflet-interactive path {
 ```
 
 ## Tokens
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--elevation-4`: 0 6px 24px -6px #00000012 _(semantic)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--gap`: 1.5rem _(component)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--radius-full`: 9999px _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--gap` | `1.5rem` | component |
+| `--radius-200` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |

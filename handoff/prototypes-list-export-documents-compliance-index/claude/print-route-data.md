@@ -1,8 +1,15 @@
 # Print route + data
 
+Compliance Index PDF · source prototype: https://esassoc.github.io/beacon-design/prototypes/list-export-documents/compliance-index/
+
+![Print route + data, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-compliance-index/claude/print-route-data.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-compliance-index/claude/print-route-data.phone.png
+
 The project's whole Compliance Index as one document: every category › subcategory, and inside each subcategory its actions, then its obligations. Items with no subcategory print last under Unfiled.
 
 ## Key decisions
+
 - Print route: `compliance-index-list/:complianceIndexListID` in print.routes.ts, a child of PrintLayoutComponent, guarded by printAuthGuard.
 - Data: a NEW read, `GET /projects/{projectID}/compliance-index/export-data`, on ComplianceIndexController. The existing `GET /projects/{projectID}/compliance-index` returns the categories and subcategories without the obligations, so it cannot feed this document.
 - The new DTO: categories in their SortOrder, each with subcategories in theirs, each with Actions (by Action.ComplianceIndexSubcategoryID: Name, Text, RequirementType, FrequencyName, commitment codes, implementations) and Obligations (by their subcategory: title, description, ObligationClass, audience, TriggerText, commitment codes). Plus the project name and the two totals.
@@ -12,15 +19,25 @@ The project's whole Compliance Index as one document: every category › subcate
 - Summary columns: Item 56%, Type 24% (an action's RequirementType, an obligation's class), Commitments.
 
 ## Gotchas
+
 - It is long. About 600 items print as roughly 137 Letter pages (28 of them the summary). GeneratePdfFromAngularRoute waits for NetworkIdle with a fixed navigation timeout; measure on a full project, and if it runs close, move the export to the event consumer path ReportPackageZipConsumer uses rather than raising the timeout.
 - Action entries in the index show their Type in the facts row (the group is a subcategory, not a type); obligation entries show Class, Audience, Applies When.
 - Entry titles here sit under three headings (category, subcategory, the kind label), so they are one level deeper than in the list PDFs.
 
 ## Done when
+
 - On the canonical index, every action and every obligation on the project appears exactly once in the summary and once in the detail. On a version, every item of every subcategory it draws from appears once, even where two of those subcategories are merged.
 - The title block's Actions and Obligations counts equal the rows printed of each kind.
 
+## Components
+
+- `bcn-doc` (spoke) · `src/components/bcn/BcnDocSheet.astro`
+- `bcn-doc-facts` (spoke) · `src/components/bcn/BcnDocFacts.astro`
+
 ## Markup
+
+_2 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <header class="bcn-doc__head">
   <img class="bcn-doc__logo" src="/beacon-design/images/dcp/dwr-logo.png" alt="DWR" />
@@ -35,20 +52,14 @@ The project's whole Compliance Index as one document: every category › subcate
         <dt>Exported</dt>
         <dd>2026-10-19</dd>
       </div>
-      <div class="bcn-doc-facts__pair">
-        <dt>Actions</dt>
-        <dd>267</dd>
-      </div>
-      <div class="bcn-doc-facts__pair">
-        <dt>Obligations</dt>
-        <dd>333</dd>
-      </div>
+      <!-- …and 2 more like this (<div class="bcn-doc-facts__pair">) -->
     </dl>
   </div>
 </header>
 ```
 
 ## Styles
+
 ```css
 .bcn-doc-facts {
   flex-wrap: wrap;
@@ -58,10 +69,6 @@ The project's whole Compliance Index as one document: every category › subcate
 .bcn-doc-facts--title {
   gap: var(--spacing-100) var(--spacing-500);
   font-size: var(--bcn-print-font-size-body);
-}
-.bcn-doc-facts--entry {
-  gap: var(--spacing-050) var(--spacing-500);
-  font-size: var(--bcn-print-font-size-meta);
 }
 .bcn-doc-facts__pair {
   gap: var(--spacing-150);
@@ -103,17 +110,18 @@ The project's whole Compliance Index as one document: every category › subcate
 ```
 
 ## Tokens
-- `--bcn-print-font-size-body`: 9pt _(component)_
-- `--bcn-print-font-size-meta`: 8pt _(component)_
-- `--bcn-print-font-size-title`: 20pt _(component)_
-- `--bcn-print-logo-height`: 54px _(component)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--line-height-tight`: 1.3 _(primitive)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-print-font-size-body` | `9pt` | component |
+| `--bcn-print-font-size-title` | `20pt` | component |
+| `--bcn-print-logo-height` | `54px` | component |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--line-height-tight` | `1.3` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |

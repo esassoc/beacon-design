@@ -1,20 +1,35 @@
 # Lists search
 
+Lists · source prototype: https://esassoc.github.io/beacon-design/prototypes/lists/
+
+![Lists search, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-lists/claude/lists-search.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-lists/claude/lists-search.phone.png
+
 One keyword search across every list on the project, in the page-level filter panel. It narrows the groups below live and marks every hit.
 
 ## Key decisions
+
 - It searches exactly what a row shows, the list NAME and DESCRIPTION, so nothing is matched on text the reader cannot see.
 - Same control and behaviour as the setup wizard's obligations search (bcn-sw-filter-row in its `panel` presentation): type → rows narrow on every keystroke, hits wrapped in a yellow <mark>.
 - There is deliberately NO type picker, owner, or date facet: the type is the grouping axis itself (see the next section).
 
 ## Gotchas
+
 - Highlighting injects <mark> at runtime into sibling rows, so its CSS must be global (or component-level in Angular) — a scoped rule renders the browser-default yellow.
 - HTML-escape the row text before re-inserting it with marks; the <mark> wrappers are the only injected markup.
 
 ## Done when
+
 - Typing narrows rows in every group at once, marks the matches in name and description, and clearing restores every row with no stale marks.
 
+## Components
+
+- `bcn-swfr` (spoke) · `src/components/bcn/BcnSwFilterRow.astro`
+- `esa-text-field` (hub) · `packages/ecology/src/components/esa-text-field.ts`
+
 ## Markup
+
 ```html
 <div class="bcn-swfr bcn-swfr--panel">
   <esa-text-field
@@ -29,6 +44,7 @@ One keyword search across every list on the project, in the page-level filter pa
 ```
 
 ## Styles
+
 ```css
 .bcn-swfr {
   align-items: center;
@@ -39,9 +55,6 @@ One keyword search across every list on the project, in the page-level filter pa
   flex-wrap: wrap;
   font-size: 0.8125rem;
   display: flex;
-}
-.bcn-swfr--inset {
-  border-top: none;
 }
 .bcn-swfr--panel {
   padding: var(--spacing-250) var(--spacing-400);
@@ -57,10 +70,6 @@ One keyword search across every list on the project, in the page-level filter pa
   flex: 180px;
   max-width: 360px;
 }
-.bcn-swfr__picker {
-  flex: 0 180px;
-  min-width: 140px;
-}
 .bcn-swfr__verbs {
   align-items: center;
   gap: var(--spacing-200);
@@ -73,14 +82,17 @@ One keyword search across every list on the project, in the page-level filter pa
 ```
 
 ## Tokens
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--radius-200`: .5rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--radius-200` | `.5rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |

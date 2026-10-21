@@ -1,0 +1,13 @@
+# Submissions
+
+Source prototype: https://esassoc.github.io/beacon-design/prototypes/comments/
+
+One comment period: its dates, response format and burn-down, then every submission By date (a mail-style inbox where untouched submissions read bold) or By topic (topic > subtopic > each comment as a highlighted quote).
+
+| Section | What it is | Spec | Screenshots |
+|---|---|---|---|
+| Export | How the period's comments and responses leave the system: an Export menu (esa-dropdown-menu on an outline esa-button) in the page utilities, with Word and Exce… | [export.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/export.md) 12 KB | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/export.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/export.phone.png) |
+| Period facts + burn-down | This page IS one comment period: its name is the H1. | [period-facts-burn-down.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/period-facts-burn-down.md) 36 KB | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/period-facts-burn-down.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/period-facts-burn-down.phone.png) |
+| Inbox | Every submission as a mail-style inbox grouped by month: unread mark, number, submitter, the opening of the text, its topics as overlapping dots, and the date. | [inbox.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/inbox.md) 62 KB in 3 files | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/inbox.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/inbox.phone.png) |
+| Topic Index | The topic hierarchy, drawn like the Compliance Index: one panel of 13px rows, TOPIC › SUBTOPIC › COMMENT. | [topic-index.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/topic-index.md) 74 KB in 3 files | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/topic-index.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/topic-index.phone.png) |
+| Responses | The third tab: every response in the period as a slim row, Final Review first, then Drafts, then Accepted. | [responses.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/responses.md) 28 KB | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/responses.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-comments/claude/responses.phone.png) |

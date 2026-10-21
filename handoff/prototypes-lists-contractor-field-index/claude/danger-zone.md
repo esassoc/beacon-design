@@ -1,14 +1,28 @@
 # Danger Zone
 
+Custom Compliance Index list · source prototype: https://esassoc.github.io/beacon-design/prototypes/lists/contractor-field-index/
+
+![Danger Zone, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-contractor-field-index/claude/danger-zone.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-lists-contractor-field-index/claude/danger-zone.phone.png
+
 Delete this Compliance Index List, behind the danger confirm every list uses. The items stay in the project and in the canonical index.
 
 ## Key decisions
+
 - The canonical index has no Danger Zone: every version starts from it.
 
 ## Done when
+
 - Deleting a version leaves the canonical index and every other version unchanged.
 
+## Components
+
+- `bcn-danger-zone` (spoke) · `src/components/bcn/BcnDangerZone.astro`
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+
 ## Markup
+
 ```html
 <section class="bcn-danger-zone" aria-labelledby="bcn-danger-zone-1">
   <h2 class="bcn-danger-zone__heading" id="bcn-danger-zone-1">Danger Zone</h2>
@@ -17,8 +31,8 @@ Delete this Compliance Index List, behind the danger confirm every list uses. Th
       <div class="bcn-danger-zone__text">
         <h3 class="bcn-danger-zone__title">Delete this Compliance Index List</h3>
         <p class="bcn-danger-zone__desc">
-          Once you delete this list, it will delete all of its metadata and relationships
-          to associated items. There is no going back. Please be certain.
+          Once you delete this list, it will delete all of its metadata and relationships to
+          associated items. There is no going back. Please be certain.
         </p>
       </div>
       <div class="bcn-danger-zone__action">
@@ -37,6 +51,7 @@ Delete this Compliance Index List, behind the danger confirm every list uses. Th
 ```
 
 ## Styles
+
 ```css
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
@@ -44,20 +59,6 @@ Delete this Compliance Index List, behind the danger confirm every list uses. Th
   font-weight: var(--typography-microcopy-md-font-weight);
   line-height: var(--typography-microcopy-md-line-height);
   letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
 }
 .bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
   color: var(--bcn-aldo-600);
@@ -74,57 +75,10 @@ Delete this Compliance Index List, behind the danger confirm every list uses. Th
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
-.esa-button--sm {
-  --_btn-pad-y: var(--spacing-250, 0.625rem);
-  --_btn-padding-x: var(--spacing-250, 0.625rem);
-  --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.esa-button--variant-secondary {
-  --_accent: var(--color-background-brand-muted);
-  --_accent-hover: var(--color-background-brand-muted-hover);
-  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
-  --_accent-text: var(--color-content-brand);
-  --_accent-border: var(--color-border-default-strong, #bbb);
-}
 .esa-button--variant-danger {
   --_accent: var(--color-background-utility-danger);
   --_accent-hover: var(--color-background-utility-danger-hover);
   --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -188,10 +142,7 @@ Delete this Compliance Index List, behind the danger confirm every list uses. Th
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -218,11 +169,6 @@ Delete this Compliance Index List, behind the danger confirm every list uses. Th
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -239,28 +185,8 @@ summary.esa-button:focus-visible {
   outline-offset: var(--focus-ring-offset, 2px);
   border-radius: var(--_btn-radius);
 }
-summary.esa-button--variant-chrome:focus-visible {
-  outline-color: currentColor;
-}
 .esa-button__label {
   white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
 }
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
@@ -268,20 +194,6 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-microcopy-md-font-weight);
   line-height: var(--typography-microcopy-md-line-height);
   letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
 }
 .bcn-danger-zone {
   gap: var(--spacing-300);
@@ -326,74 +238,49 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-danger-zone__action {
   flex-shrink: 0;
 }
+@media (width<=640px) {
+  .bcn-danger-zone__item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--bcn-aldo-600`: #06736f _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-size-250`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-md-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-line-height`: 1 _(semantic)_
-- `--typography-microcopy-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-background-utility-danger-hover` | `#641723` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-utility-danger` | `#ce2c31` | semantic |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--font-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` | primitive |
+| `--radius-200` | `.5rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-microcopy-md-font-weight` | `500` | semantic |
+| `--typography-microcopy-md-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-md-line-height` | `1` | semantic |

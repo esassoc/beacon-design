@@ -1,20 +1,32 @@
 # Clear-to-build timeline
 
+Permit Tracking · source prototype: https://esassoc.github.io/beacon-design/prototypes/permit-tracking/
+
+![Clear-to-build timeline, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-permit-tracking/claude/clear-to-build-timeline.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-permit-tracking/claude/clear-to-build-timeline.phone.png
+
 A horizontal timeline of segments ordered by projected clear-to-build date against a Today tick — the planning companion to the mileage strip (the two headline figures read together). Each row is a segment; its bar runs from Today to the projected clear date, colored by derived status. Clicking a row opens the segment dossier.
 
 ## Key decisions
+
 - Projected clear date = the latest actual/estimated approval among the segment's gating permits (the segment is buildable only once its slowest permit lands).
 - Rows are sorted by that date so leadership reads "what frees up next" top-to-bottom; a Today tick anchors the axis.
 - JS-rendered from the same store as the map (renderTimeline at boot), so it re-derives after every permit edit.
 
 ## Gotchas
+
 - Segments with no dated gating permit have no bar (clear date "—"); render the row without a bar rather than dropping it, so the backlog stays visible.
 - The whole row is the click target → segment dossier (.ctb-row click → openSegment); preserve that affordance.
 
 ## Done when
+
 - Segments listed by projected clear date with bars from Today to that date, colored by status; clicking a row opens the segment dossier.
 
 ## Markup
+
+_21 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <section class="ctb" aria-label="Clear-to-build timeline">
   <div class="ctb__head">
@@ -26,27 +38,18 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
     <div class="ctb__axis" id="ctb-axis">
       <span class="ctb-tick" style="left: 0%">Jun ’26</span
       ><span class="ctb-tick" style="left: 16.3934%">Jul</span
-      ><span class="ctb-tick" style="left: 33.3333%">Aug</span
-      ><span class="ctb-tick" style="left: 50.2732%">Sep</span
-      ><span class="ctb-tick" style="left: 66.6667%">Oct</span
-      ><span class="ctb-tick" style="left: 83.6066%">Nov</span
-      ><span class="ctb-tick ctb-tick--today" style="left: 77.5956%">Today</span>
+      ><span class="ctb-tick ctb-tick--today" style="left: 77.5956%">Today</span
+      ><!-- …and 4 more like this (<span class="ctb-tick">) -->
     </div>
     <span></span>
   </div>
   <ul class="ctb__rows" id="ctb-rows">
     <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 1E<span class="ctb-row__sub">Path 1</span></span
-      >
+      <span class="ctb-row__name">Segment 1E<span class="ctb-row__sub">Path 1</span></span>
       <span class="ctb-row__track"
         ><span
           class="ctb-row__bar"
-          style="
-            left: 0.546448087431694%;
-            width: 77.04918032786884%;
-            background: var(--st-cleared);
-          "
+          style="left: 0.546448087431694%; width: 77.04918032786884%; background: var(--st-cleared)"
         ></span>
         <span
           class="ctb-row__dot"
@@ -56,17 +59,11 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
       <span class="ctb-row__meta">Jun 2, 2026</span>
     </li>
     <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 1F<span class="ctb-row__sub">Path 1</span></span
-      >
+      <span class="ctb-row__name">Segment 1F<span class="ctb-row__sub">Path 1</span></span>
       <span class="ctb-row__track"
         ><span
           class="ctb-row__bar"
-          style="
-            left: 0.546448087431694%;
-            width: 77.04918032786884%;
-            background: var(--st-cleared);
-          "
+          style="left: 0.546448087431694%; width: 77.04918032786884%; background: var(--st-cleared)"
         ></span>
         <span
           class="ctb-row__dot"
@@ -75,351 +72,13 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
       ></span>
       <span class="ctb-row__meta">Jun 2, 2026</span>
     </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 3G<span class="ctb-row__sub">Path 3</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 0.546448087431694%;
-            width: 77.04918032786884%;
-            background: var(--st-cleared);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 0.546448087431694%; background: var(--st-cleared)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Jun 2, 2026</span>
-    </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 3F<span class="ctb-row__sub">Path 3</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 26.775956284153008%;
-            width: 50.81967213114753%;
-            background: var(--st-in-preparation);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 26.775956284153008%; background: var(--st-in-preparation)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Jul 20, 2026</span>
-    </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 1B<span class="ctb-row__sub">Path 1</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 43.71584699453552%;
-            width: 33.87978142076502%;
-            background: var(--st-under-review);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 43.71584699453552%; background: var(--st-under-review)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Aug 20, 2026</span>
-    </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Easements Reach<span class="ctb-row__sub">Path 1</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 49.18032786885246%;
-            width: 28.41530054644808%;
-            background: var(--st-under-review);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 49.18032786885246%; background: var(--st-under-review)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Aug 30, 2026</span>
-    </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 2B<span class="ctb-row__sub">Path 2</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 49.18032786885246%;
-            width: 28.41530054644808%;
-            background: var(--st-under-review);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 49.18032786885246%; background: var(--st-under-review)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Aug 30, 2026</span>
-    </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 4A<span class="ctb-row__sub">Path 4</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 52.459016393442624%;
-            width: 25.136612021857914%;
-            background: var(--st-submitted);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 52.459016393442624%; background: var(--st-submitted)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Sep 5, 2026</span>
-    </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 1A<span class="ctb-row__sub">Path 1</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 55.19125683060109%;
-            width: 22.404371584699447%;
-            background: var(--st-submitted);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 55.19125683060109%; background: var(--st-submitted)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Sep 10, 2026</span>
-    </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 3B<span class="ctb-row__sub">Path 3</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 55.19125683060109%;
-            width: 22.404371584699447%;
-            background: var(--st-submitted);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 55.19125683060109%; background: var(--st-submitted)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Sep 10, 2026</span>
-    </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 1C<span class="ctb-row__sub">Path 1</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 63.387978142076506%;
-            width: 14.207650273224033%;
-            background: var(--st-in-preparation);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 63.387978142076506%; background: var(--st-in-preparation)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Sep 25, 2026</span>
-    </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 2A<span class="ctb-row__sub">Path 2</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 63.387978142076506%;
-            width: 14.207650273224033%;
-            background: var(--st-in-preparation);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 63.387978142076506%; background: var(--st-in-preparation)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Sep 25, 2026</span>
-    </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 3A<span class="ctb-row__sub">Path 3</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 63.387978142076506%;
-            width: 14.207650273224033%;
-            background: var(--st-in-preparation);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 63.387978142076506%; background: var(--st-in-preparation)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Sep 25, 2026</span>
-    </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 3H<span class="ctb-row__sub">Path 3</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 74.31693989071039%;
-            width: 3.2786885245901516%;
-            background: var(--st-not-started);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 74.31693989071039%; background: var(--st-not-started)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Oct 15, 2026</span>
-    </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 3I<span class="ctb-row__sub">Path 3</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 74.31693989071039%;
-            width: 3.2786885245901516%;
-            background: var(--st-not-started);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 74.31693989071039%; background: var(--st-not-started)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Oct 15, 2026</span>
-    </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 3J<span class="ctb-row__sub">Path 3</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 74.31693989071039%;
-            width: 3.2786885245901516%;
-            background: var(--st-not-started);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 74.31693989071039%; background: var(--st-not-started)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Oct 15, 2026</span>
-    </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 3C<span class="ctb-row__sub">Path 3</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 77.59562841530054%;
-            width: 6.010928961748647%;
-            background: var(--st-not-started);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 83.60655737704919%; background: var(--st-not-started)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Nov 1, 2026</span>
-    </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 3D<span class="ctb-row__sub">Path 3</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 77.59562841530054%;
-            width: 6.010928961748647%;
-            background: var(--st-not-started);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 83.60655737704919%; background: var(--st-not-started)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Nov 1, 2026</span>
-    </li>
-    <li class="ctb-row">
-      <span class="ctb-row__name"
-        >Segment 3E<span class="ctb-row__sub">Path 3</span></span
-      >
-      <span class="ctb-row__track"
-        ><span
-          class="ctb-row__bar"
-          style="
-            left: 77.59562841530054%;
-            width: 6.010928961748647%;
-            background: var(--st-not-started);
-          "
-        ></span>
-        <span
-          class="ctb-row__dot"
-          style="left: 83.60655737704919%; background: var(--st-not-started)"
-        ></span
-      ></span>
-      <span class="ctb-row__meta">Nov 1, 2026</span>
-    </li>
+    <!-- …and 17 more like this (<li class="ctb-row">) -->
   </ul>
 </section>
 ```
 
 ## Styles
+
 ```css
 .ctb {
   gap: var(--spacing-200);
@@ -542,18 +201,21 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
 ```
 
 ## Tokens
-- `--bcn-gray-100`: #efefef _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--grid-row-bg-hover`: #efefef _(component)_
-- `--radius-300`: .5rem _(primitive)_
-- `--radius-full`: 9999px _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--typography-font-weight-regular`: 400 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-gray-100` | `#efefef` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--grid-row-bg-hover` | `#efefef` | component |
+| `--radius-300` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--typography-font-weight-regular` | `400` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |

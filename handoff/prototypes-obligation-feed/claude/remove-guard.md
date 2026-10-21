@@ -1,14 +1,23 @@
 # Remove guard
 
+Obligations (feed) · source prototype: https://esassoc.github.io/beacon-design/prototypes/obligation-feed/
+
 The confirm behind the x: "Remove from this record?" with the line "<obligation> comes off this record. The record and the obligation both stay."
 
 ## Key decisions
+
 - Unlinking removes the link only; it deletes neither the record nor the obligation.
 
 ## Done when
+
 - Confirming removes the card from every view of the record and updates the count; cancelling changes nothing.
 
+## Components
+
+- `esa-confirm-dialog` (hub) · `packages/ecology/src/components/esa-confirm-dialog.ts`
+
 ## Markup
+
 ```html
 <esa-confirm-dialog
   data-fwl-confirm="true"

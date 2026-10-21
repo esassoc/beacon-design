@@ -1,21 +1,31 @@
 # Merge
 
+Step 3: Compliance Index · source prototype: https://esassoc.github.io/beacon-design/prototypes/setup-wizard-3-step/compliance-index/
+
 Two columns. Left, the ticked drafts as they read, numbered: class, who reads it, title, Applies when (or an action's scope, party, frequency and deadline), and each requirement with its excerpt. Right, the merged draft as it will be made: the title, the first draft's fields, and every requirement and monitor sign of every draft, each marked with the numbers of the drafts it came from. Pressing a draft's title makes it the merged title; the title stays editable. Merge, then Cancel.
 
 ## Key decisions
+
 - The preview is what merge() keeps: the union of requirements (one row per requirement and excerpt) and of monitor signs. That a merge loses no source is shown by the numbers on each row, not said.
 - The merged draft takes the first ticked draft's class, audience and Applies when, whichever title is picked; the preview shows it.
 
 ## Done when
+
 - Merging two Compliance staff drafts in Take and injury reporting shows Requirements (2) marked 1 and 2, and Monitor signs (4) on the merged draft.
 
+## Components
+
+- `bcn-sw3im` (spoke) · `src/components/bcn/BcnSw3IndexMerge.astro`
+- `bcn-sw3im-dialog` (spoke) · `src/components/bcn/BcnSw3IndexMerge.astro`
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-button-toggle` (hub) · `packages/ecology/src/components/esa-button-toggle.ts`
+- `esa-dialog` (hub) · `packages/ecology/src/components/esa-dialog.ts`
+- `esa-textarea` (hub) · `packages/ecology/src/components/esa-textarea.ts`
+
 ## Markup
+
 ```html
-<esa-dialog
-  heading="Merge drafts"
-  size="lg"
-  class="bcn-sw3im-dialog"
-  data-sw3-index-merge="true"
+<esa-dialog heading="Merge drafts" size="lg" class="bcn-sw3im-dialog" data-sw3-index-merge="true"
   ><form class="bcn-sw3im" id="sw3-im-form" data-im-form="">
     <section class="bcn-sw3im__sources" aria-labelledby="sw3-im-src-h">
       <h3 class="bcn-sw3im__h" id="sw3-im-src-h" data-im-src-h="">Drafts</h3>
@@ -67,8 +77,7 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
     </section>
   </form>
   <div slot="footer" class="bcn-sw3im__foot">
-    <span
-      class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+    <span class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
       ><button
         class="esa-button__native typography-microcopy-xs"
         type="submit"
@@ -92,6 +101,7 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
 ```
 
 ## Styles
+
 ```css
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -100,22 +110,19 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
 .bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
   color: var(--bcn-aldo-600);
+}
+@container (width<=640px) {
+  .bcn-sw3c__group [data-c-tool] .esa-button__label {
+    display: none;
+  }
+}
+@container (width<=540px) {
+  .bcn-sw3c__group [data-c-pages] .esa-button__label,
+  .bcn-sw3c__rule {
+    display: none;
+  }
 }
 .bcn-console__more .esa-button__native {
   font-family: var(--_mono);
@@ -142,6 +149,11 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
   align-items: start;
   font-size: 0.875rem;
   display: grid;
+}
+@media (width<=52rem) {
+  .bcn-sw3im {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 .bcn-sw3im__sources,
 .bcn-sw3im__result {
@@ -224,10 +236,7 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
   display: grid;
 }
 .bcn-sw3im .bcn-sw3im__pick:hover {
-  background: var(
-    --color-background-default-hover,
-    var(--color-background-elevation-sunken)
-  );
+  background: var(--color-background-default-hover, var(--color-background-elevation-sunken));
 }
 .bcn-sw3im .bcn-sw3im__pick:focus-visible {
   outline: var(--focus-ring-width, 2px) solid var(--color-border-focus);
@@ -350,6 +359,11 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
   width: 100%;
   display: flex;
 }
+@container (width<=720px) {
+  .bcn-sw3ip__toolkeys :is([data-ip-merge], [data-ip-discard-all]) .esa-button__label {
+    display: none;
+  }
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -362,20 +376,10 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
 .esa-button--sm {
   --_btn-pad-y: var(--spacing-250, 0.625rem);
   --_btn-padding-x: var(--spacing-250, 0.625rem);
   --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
 }
 .esa-button--variant-primary {
   --_accent-text: var(--color-content-brand);
@@ -386,33 +390,6 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
   --_on: var(--color-content-on-brand-muted, var(--color-content-default));
   --_accent-text: var(--color-content-brand);
   --_accent-border: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -476,10 +453,7 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -506,11 +480,6 @@ Two columns. Left, the ticked drafts as they read, numbered: class, who reads it
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -527,28 +496,8 @@ summary.esa-button:focus-visible {
   outline-offset: var(--focus-ring-offset, 2px);
   border-radius: var(--_btn-radius);
 }
-summary.esa-button--variant-chrome:focus-visible {
-  outline-color: currentColor;
-}
 .esa-button__label {
   white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -557,100 +506,58 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--bcn-aldo-600`: #06736f _(component)_
-- `--bcn-console-fg`: #ffffffed _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-brand-subtle`: #effefb _(semantic)_
-- `--color-background-default`: #fafafa _(semantic)_
-- `--color-background-default-hover`: #e8e8e8 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-border-brand`: #b9d6d2 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-focus`: #3e9b4f _(component)_
-- `--color-border-subtle`: #efefef _(component)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--color-content-warning`: #ab6400 _(component)_
-- `--elevation-2`: 0 2px 12px 0 #0000000a _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-decorative`: "Besley", serif _(component)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--radius-full`: 9999px _(primitive)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
+| `--bcn-console-fg` | `#ffffffed` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
+| `--color-background-brand-muted-hover` | `#b9d6d2` | semantic |
+| `--color-background-brand-subtle` | `#effefb` | semantic |
+| `--color-background-default` | `#fafafa` | semantic |
+| `--color-background-default-hover` | `#e8e8e8` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-border-brand` | `#b9d6d2` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-focus` | `#3e9b4f` | component |
+| `--color-border-subtle` | `#efefef` | component |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-on-brand-muted` | `#203c25` | semantic |
+| `--color-content-warning` | `#ab6400` | component |
+| `--elevation-2` | `0 2px 12px 0 #0000000a` | semantic |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--font-decorative` | `"Besley", serif` | component |
+| `--radius-100` | `.25rem` | primitive |
+| `--radius-200` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |

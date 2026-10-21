@@ -1,14 +1,29 @@
 # Summary table
 
+Commitment list PDF · source prototype: https://esassoc.github.io/beacon-design/prototypes/list-export-documents/quarterly-agency-briefing/
+
+![Summary table, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/summary-table.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/summary-table.phone.png
+
 One line per commitment: Commitment (its code), Title, and how many requirements it holds, under full-width permit-section rows.
 
 ## Key decisions
+
 - Same single-table build as the other list PDFs: one <thead> that repeats on every page.
 
 ## Done when
+
 - The requirement count on each line equals the requirements printed under that commitment in the detail.
 
+## Components
+
+- `bcn-doc-summary` (spoke) · `src/components/bcn/BcnDocSummary.astro`
+
 ## Markup
+
+_6 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <table class="bcn-doc-summary">
   <colgroup>
@@ -47,36 +62,7 @@ One line per commitment: Commitment (its code), Title, and how many requirements
       <td>Reporting Approved Habitat Maps</td>
       <td>1</td>
     </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">COA 10.12</th>
-      <td>Monthly Compliance Report</td>
-      <td>1</td>
-    </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">COA 10.13</th>
-      <td>Annual Status Report</td>
-      <td>1</td>
-    </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">COA 10.15</th>
-      <td>Final Mitigation Report</td>
-      <td>1</td>
-    </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">COA 10.15.1</th>
-      <td>Mitigation Status Report Before ITP Expiration</td>
-      <td>1</td>
-    </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">COA 10.18.1</th>
-      <td>Monitoring Plan and Report Review and Finalization Process</td>
-      <td>1</td>
-    </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">COA 10.27.3</th>
-      <td>Hydraulic Testing Reports</td>
-      <td>1</td>
-    </tr>
+    <!-- …and 6 more like this (<tr class="bcn-doc-summary__row">) -->
   </tbody>
   <tbody>
     <tr class="bcn-doc-summary__group">
@@ -102,6 +88,7 @@ One line per commitment: Commitment (its code), Title, and how many requirements
 ```
 
 ## Styles
+
 ```css
 .bcn-doc-summary {
   border-collapse: collapse;
@@ -125,20 +112,6 @@ One line per commitment: Commitment (its code), Title, and how many requirements
   font-weight: var(--typography-font-weight-semibold);
   color: var(--color-content-default);
   border-block-end: 1px solid var(--color-border-default-strong);
-}
-.bcn-doc-summary__section th {
-  padding: var(--spacing-250) 0 var(--spacing-100);
-  text-align: start;
-  font-size: var(--bcn-print-font-size-entry);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-}
-.bcn-doc-summary__run th {
-  padding: var(--spacing-150) 0 var(--spacing-050);
-  text-align: start;
-  font-size: var(--bcn-print-font-size-meta);
-  font-weight: var(--typography-font-weight-medium);
-  color: var(--color-content-default-secondary);
 }
 .bcn-doc-summary__group,
 .bcn-doc-summary__section,
@@ -167,20 +140,19 @@ One line per commitment: Commitment (its code), Title, and how many requirements
 ```
 
 ## Tokens
-- `--bcn-print-font-size-body`: 9pt _(component)_
-- `--bcn-print-font-size-entry`: 9.5pt _(component)_
-- `--bcn-print-font-size-meta`: 8pt _(component)_
-- `--bcn-print-font-size-subgroup`: 10.5pt _(component)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-regular`: 400 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-print-font-size-body` | `9pt` | component |
+| `--bcn-print-font-size-meta` | `8pt` | component |
+| `--bcn-print-font-size-subgroup` | `10.5pt` | component |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-regular` | `400` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |

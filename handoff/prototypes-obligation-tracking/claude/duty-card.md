@@ -1,8 +1,15 @@
 # Duty card
 
+Obligation Tracking · source prototype: https://esassoc.github.io/beacon-design/prototypes/obligation-tracking/
+
+![Duty card, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-tracking/claude/duty-card.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-tracking/claude/duty-card.phone.png
+
 One duty, as a collapsed card: a class tag, the title, and a count badge saying how many requirements it was drafted from. Folding it open lists those requirements, each with its commitment code, its name, and a faint "also in n actions" where it is shared.
 
 ## Key decisions
+
 - THIS IS THE SETUP WIZARD’S OWN CARD, not a tracking-page one. bcn-sw-obligation-card, mode="browse" — the same component the registry tree and setup step 5 render. A duty therefore looks identical in the feed, in the registry tab and in the wizard, and the commitment codes come along for free.
 - THE WRAPPER WAS DELETED (2026-09-16). A bcn-tracking-duty existed to add a Trigger marker and a prose reason to the card; both were removed as the page was pruned, at which point the wrapper only forwarded props and added a margin. A component that only forwards props is deleted, not kept.
 - mode="browse" IS A PROP, NOT A SECOND COMPONENT. It drops the grips, the drag hooks, the pencil/× verbs and the per-row duplicate/unlink — everything that decides something — and leaves the reading surface. Everything else, including the class tag’s per-class hue, is shared.
@@ -10,18 +17,28 @@ One duty, as a collapsed card: a class tag, the title, and a count badge saying 
 - NO LINK ON THE TITLE. In browse mode the title is a static span, not a button. These are fixture obligations with no detail route, and a title that looks clickable but does nothing is worse than one that does not.
 
 ## Gotchas
+
 - THE REQUIREMENT LIST IS UNCAPPED — it is a fold, not a chip row, so a duty drafted from twelve requirements lists twelve. The card ships collapsed; the pane’s Expand all / Collapse all pair drives every card in that pane at once.
 - CLASS DOES CARRY COLOUR HERE. The card tints the class tag per class (adhere --color-obligation, monitor #ff7c43, notify #ffa600, roster --color-action, mixed at 14% on white for the fill). It is a categorical facet, not a status — no class is worse than another.
 - THE CLASS TAG IS THE ONLY CLASS SIGNAL LEFT. The feed’s own class badge, its trigger quote and its "Raised on X" line are all gone (the badge repeated its group heading 209 times); a feed row states its basis only where that basis DIFFERS from the pane’s dominant one.
 - The component’s own header comment still says the browse title "links to the duty’s record". It does not — the code renders a static span. Trust the code.
 
 ## Done when
+
 - A card renders in the feed, in the registry tree and in setup step 5, and is visibly the same component in all three.
 - In browse mode: no grip, no drag, no pencil, no ×, no duplicate, no unlink, and the title is not a control.
 - Every card shows a class tag and a requirement count; opening it lists that many requirement rows, each with a commitment code.
 - No card renders a link, a deadline badge, a status or a filing verb.
 
+## Components
+
+- `bcn-cbadge` (spoke) · `src/components/bcn/BcnCommitmentBadge.astro`
+- `bcn-swcb` (spoke) · `src/components/bcn/BcnSwCountBadge.astro`
+- `bcn-swoc` (spoke) · `src/components/bcn/BcnSwObligationCard.astro`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+
 ## Markup
+
 ```html
 <li
   class="bcn-swoc"
@@ -88,18 +105,11 @@ One duty, as a collapsed card: a class tag, the title, and a count badge saying 
 ```
 
 ## Styles
+
 ```css
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -115,6 +125,11 @@ One duty, as a collapsed card: a class tag, the title, and a count badge saying 
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -129,25 +144,13 @@ One duty, as a collapsed card: a class tag, the title, and a count badge saying 
   flex-shrink: 0;
   display: inline-block;
 }
-.bcn-cbadge--md {
-  font-size: var(--font-size-100);
-  padding: 1px var(--spacing-200);
-}
 .bcn-cbadge--sm {
   padding: 1px var(--spacing-150);
   font-size: 0.75rem;
 }
-.bcn-cbadge--neutral {
-  font-family: var(--typography-font-family-sans);
-  color: var(--bcn-gray-700);
-  background: var(--bcn-gray-100);
-}
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -330,25 +333,6 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-loc esa-tooltip {
   display: inline-flex;
 }
-.bcn-swoc__verb,
-.bcn-loc__verb {
-  border-radius: var(--radius-100);
-  width: 22px;
-  height: 22px;
-  color: var(--color-content-default-tertiary);
-  cursor: pointer;
-  opacity: 0;
-  background: 0 0;
-  border: none;
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  transition:
-    opacity 0.12s,
-    color 0.12s,
-    background-color 0.12s;
-  display: inline-flex;
-}
 .bcn-swoc__main:hover .bcn-swoc__verb,
 .bcn-swoc__req:hover .bcn-swoc__verb,
 .bcn-swoc__verb:focus-visible,
@@ -356,25 +340,10 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-loc__verb:focus-visible {
   opacity: 1;
 }
-.bcn-swoc__verb:hover,
-.bcn-loc__verb:hover {
-  background: var(--bcn-gray-100);
-  color: var(--color-content-default);
-}
-.bcn-swoc__verb:focus-visible,
-.bcn-loc__verb:focus-visible {
-  outline: 2px solid var(--color-obligation);
-  outline-offset: 1px;
-}
-.bcn-swoc__verb--danger:hover,
-.bcn-loc__verb--danger:hover {
-  color: var(--color-background-utility-danger);
-}
 .bcn-swoc__reqs,
 .bcn-loc__reqs,
 .bcn-ciitem__reqs {
-  padding: 0 var(--spacing-300) var(--spacing-150)
-    calc(var(--spacing-300) + var(--_req-indent));
+  padding: 0 var(--spacing-300) var(--spacing-150) calc(var(--spacing-300) + var(--_req-indent));
   flex-direction: column;
   margin: 0;
   list-style: none;
@@ -404,13 +373,6 @@ details[open] > summary .bcn-loc__chevron {
   min-width: 0;
   overflow: hidden;
 }
-.bcn-swoc__also,
-.bcn-loc__also {
-  color: var(--color-content-default-tertiary);
-  white-space: nowrap;
-  flex-shrink: 0;
-  font-size: 0.6875rem;
-}
 .bcn-swcb {
   min-width: 22px;
   padding: 2px var(--spacing-150);
@@ -427,11 +389,6 @@ details[open] > summary .bcn-loc__chevron {
   line-height: 1;
   display: inline-flex;
 }
-.bcn-swcb--sm {
-  min-width: 18px;
-  padding: 2px var(--spacing-100);
-  font-size: var(--font-size-050);
-}
 .bcn-swoc__title--static {
   cursor: default;
   text-align: left;
@@ -442,15 +399,6 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-swoc__main.is-over {
   box-shadow: inset 0 0 0 2px var(--color-obligation);
   background: color-mix(in srgb, var(--color-obligation) 6%, transparent);
-}
-.bcn-swoc__grip {
-  color: var(--bcn-gray-400);
-  cursor: grab;
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-swoc__grip:active {
-  cursor: grabbing;
 }
 .bcn-swoc__reqs:empty:after {
   content: "No requirements — drop one here or remove this obligation.";
@@ -474,20 +422,8 @@ details[open] > summary .bcn-loc__chevron {
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -504,41 +440,33 @@ details[open] > summary .bcn-loc__chevron {
 ```
 
 ## Tokens
-- `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-700`: #525252 _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-action`: #d45087 _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-default`: #fafafa _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-commitment`: #58508d _(component)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-obligation`: #f95d6a _(component)_
-- `--font-size-050`: clamp(.5rem, .44rem + .3vw, .625rem) _(primitive)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--color-action` | `#d45087` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-default` | `#fafafa` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-commitment` | `#58508d` | component |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-obligation` | `#f95d6a` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--radius-100` | `.25rem` | primitive |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` | semantic |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |

@@ -1,20 +1,32 @@
 # Insight — blocking the most mileage
 
+Permit Tracking · source prototype: https://esassoc.github.io/beacon-design/prototypes/permit-tracking/
+
+![Insight — blocking the most mileage, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-permit-tracking/claude/insight-blocking-the-most-mileage.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-permit-tracking/claude/insight-blocking-the-most-mileage.phone.png
+
 The right insight card: the actionable one — pending permits ranked by the route-miles they gate, so leadership sees exactly which approvals would unlock the most construction. Each row is clickable and jumps straight to that permit's editor.
 
 ## Key decisions
+
 - Ranks by route-miles gated, not by permit age or count — it answers "what is the single highest-leverage approval to chase?"
 - Only pending (not-yet-cleared) permits appear; an issued permit blocks nothing.
 - Each row carries data-ins-permit and opens the permit editor on click (delegated on .insights) — the insight is a launch point for action, not a dead readout.
 
 ## Gotchas
+
 - The mileage a permit gates counts only segments where it is the GATING (least-advanced) permit — a permit behind an even-less-advanced one on the same segment is not what is blocking that segment.
 - Keep the row → editor jump (openPermit); without it the card is just a chart and loses its point.
 
 ## Done when
+
 - Pending permits ranked by gated route-miles; clicking a row opens that permit's editor drawer.
 
 ## Markup
+
+_3 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <section class="ins-card" aria-label="Blocking the most mileage">
   <h3 class="ins-card__title">Blocking the most mileage</h3>
@@ -38,38 +50,13 @@ The right insight card: the actionable one — pending permits ranked by the rou
       >
       <span class="ins-row__val">79.6 mi<span class="ins-row__sub">gated</span></span>
     </li>
-    <li class="ins-row" data-ins-permit="or-dsl" tabindex="0" role="button">
-      <span class="ins-dot" style="background: var(--st-in-preparation)"></span>
-      <span class="ins-row__label"
-        >Removal–Fill Permit<span class="ins-row__sub"
-          >Oregon Dept. of State Lands · 3 segments</span
-        ></span
-      >
-      <span class="ins-row__val">69.7 mi<span class="ins-row__sub">gated</span></span>
-    </li>
-    <li class="ins-row" data-ins-permit="benton-row" tabindex="0" role="button">
-      <span class="ins-dot" style="background: var(--st-not-started)"></span>
-      <span class="ins-row__label"
-        >County Right-of-Way Permit<span class="ins-row__sub"
-          >Benton County Public Works · 3 segments</span
-        ></span
-      >
-      <span class="ins-row__val">31.1 mi<span class="ins-row__sub">gated</span></span>
-    </li>
-    <li class="ins-row" data-ins-permit="ecology-stormwater" tabindex="0" role="button">
-      <span class="ins-dot" style="background: var(--st-in-preparation)"></span>
-      <span class="ins-row__label"
-        >Construction Stormwater (NPDES)<span class="ins-row__sub"
-          >WA Dept. of Ecology · 2 segments</span
-        ></span
-      >
-      <span class="ins-row__val">29.9 mi<span class="ins-row__sub">gated</span></span>
-    </li>
+    <!-- …and 3 more like this (<li class="ins-row">) -->
   </ul>
 </section>
 ```
 
 ## Styles
+
 ```css
 .ins-card {
   gap: var(--spacing-200);
@@ -149,16 +136,19 @@ The right insight card: the actionable one — pending permits ranked by the rou
 ```
 
 ## Tokens
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--grid-row-bg-hover`: #efefef _(component)_
-- `--radius-200`: .5rem _(primitive)_
-- `--radius-300`: .5rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--grid-row-bg-hover` | `#efefef` | component |
+| `--radius-200` | `.5rem` | primitive |
+| `--radius-300` | `.5rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--typography-font-weight-semibold` | `550` | semantic |

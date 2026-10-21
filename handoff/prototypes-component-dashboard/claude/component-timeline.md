@@ -1,21 +1,37 @@
 # Component timeline
 
+Component Dashboard · source prototype: https://esassoc.github.io/beacon-design/prototypes/component-dashboard/
+
+![Component timeline, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/component-timeline.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/component-timeline.phone.png
+
 The same 30/60/90-day near-term timeline as the project dashboard, scoped to this component's actions and its milestone dates. It answers "what lands on me soon" without the rest of the project's noise.
 
 ## Key decisions
+
 - The component reuses the project timeline component outright, parameterized — it is not a second timeline. Defaults preserve the project dashboard's rendering exactly.
 - A milestone's effective date here is the COMPONENT'S override when one exists, otherwise the project estimate, because the timeline answers "when does this land for me". An overridden mark is labelled as a component date so it is never mistaken for the project schedule.
 - Seasons stay project-level and are shown unchanged — a component does not get its own nesting season.
 
 ## Gotchas
+
 - TODAY now travels in the serialized JSON payload. It used to be hardcoded a SECOND time inside the client script, mirrored from the fixture; that duplicate is gone and must not come back.
 - The popover is appended to document.body because esa-card sets overflow:hidden. That is a workaround, not an accident — do not "fix" it.
 - DOM ids are namespaced by idPrefix so the component and project timelines could coexist on one page. The default reproduces the project dashboard's original ids.
 
 ## Done when
+
 - Only this component's actions plot; overridden milestones show the component date and say so; the 30/60/90 toggle re-lays the marks; the project dashboard's timeline is byte-for-byte unchanged.
 
+## Components
+
+- `bcn-tl` (spoke) · `src/components/bcn/BcnProjectTimeline.astro`
+
 ## Markup
+
+_6 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <div class="bcn-tl" data-bcn-timeline="" data-tl-id="cmp-tl">
   <!-- Axis -->
@@ -26,9 +42,7 @@ The same 30/60/90-day near-term timeline as the project dashboard, scoped to thi
         ><span class="bcn-tl__today-flag">Today</span></span
       ><span class="bcn-tl__tick" style="left: 0%">Mar 18</span
       ><span class="bcn-tl__tick" style="left: 37.8378%">Apr 1</span
-      ><span class="bcn-tl__tick" style="left: 56.7568%">Apr 8</span
-      ><span class="bcn-tl__tick" style="left: 75.6757%">Apr 15</span
-      ><span class="bcn-tl__tick" style="left: 94.5946%">Apr 22</span>
+      ><!-- …and 3 more like this (<span class="bcn-tl__tick">) -->
     </div>
   </div>
   <!-- Actions -->
@@ -69,11 +83,7 @@ The same 30/60/90-day near-term timeline as the project dashboard, scoped to thi
   <!-- Seasons -->
   <div class="bcn-tl__row bcn-tl__row--bars">
     <span class="bcn-tl__lane-label">Seasons</span>
-    <div
-      class="bcn-tl__track bcn-tl__track--bars"
-      data-tl-lane="seasons"
-      style="height: 88px"
-    >
+    <div class="bcn-tl__track bcn-tl__track--bars" data-tl-lane="seasons" style="height: 88px">
       <button
         class="bcn-tl__bar"
         type="button"
@@ -90,65 +100,22 @@ The same 30/60/90-day near-term timeline as the project dashboard, scoped to thi
       >
         <span class="bcn-tl__bar-label">Bat maternity roost season</span
         ><span class="bcn-tl__bar-dates">Apr 1 – Aug 31</span></button
-      ><button
-        class="bcn-tl__bar"
-        type="button"
-        data-tl-mark="season"
-        style="left: 0%; width: 100%; top: 44px"
-      >
-        <span class="bcn-tl__bar-label">Raptor nesting season</span
-        ><span class="bcn-tl__bar-dates">Feb 1 – Sep 15</span></button
-      ><button
-        class="bcn-tl__bar"
-        type="button"
-        data-tl-mark="season"
-        style="left: 0%; width: 100%; top: 66px"
-      >
-        <span class="bcn-tl__bar-label">Passerine nesting season</span
-        ><span class="bcn-tl__bar-dates">Mar 15 – Sep 1</span>
-      </button>
+      ><!-- …and 2 more like this (<button class="bcn-tl__bar">) -->
     </div>
   </div>
   <div class="bcn-tl__row bcn-tl__row--more">
     <span class="bcn-tl__lane-label"></span
-    ><button class="bcn-tl__showall" type="button" data-tl-showall="">
-      Show all 11 seasons
-    </button>
+    ><button class="bcn-tl__showall" type="button" data-tl-showall="">Show all 11 seasons</button>
   </div>
-  <!-- Milestones -->
-  <div class="bcn-tl__row">
-    <span class="bcn-tl__lane-label">Milestones</span>
-    <div class="bcn-tl__track bcn-tl__track--items" data-tl-lane="milestones">
-      <span class="bcn-tl__rule"></span>
-    </div>
-  </div>
-  <p class="bcn-tl__empty" data-tl-empty="" hidden="">
-    Nothing scheduled in this window.
-  </p>
+  <!-- …and 1 more like this (<div class="bcn-tl__row bcn-tl__row--axis">) --><!-- Milestones -->
+  <p class="bcn-tl__empty" data-tl-empty="" hidden="">Nothing scheduled in this window.</p>
   <!-- One click-pinned popover, repositioned per mark. -->
 </div>
 ```
 
 ## Styles
+
 ```css
-.bcn-tl__head {
-  align-items: center;
-  gap: var(--spacing-400);
-  display: inline-flex;
-}
-.bcn-tl__full {
-  align-items: center;
-  gap: var(--spacing-100);
-  font-size: var(--font-size-150);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-background-brand);
-  white-space: nowrap;
-  text-decoration: none;
-  display: inline-flex;
-}
-.bcn-tl__full:hover {
-  color: var(--color-background-brand-hover);
-}
 .bcn-tl {
   gap: var(--spacing-250);
   flex-direction: column;
@@ -325,128 +292,36 @@ The same 30/60/90-day near-term timeline as the project dashboard, scoped to thi
   margin-left: auto;
   font-size: 0.75rem;
 }
-.bcn-tl__pop {
-  z-index: 5;
-  gap: var(--spacing-250);
-  width: 19rem;
-  max-width: calc(100% - 16px);
-  padding: var(--spacing-350, var(--spacing-300)) var(--spacing-400);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  box-shadow: var(--elevation-4, 0 8px 24px -6px #0000002e);
-  flex-direction: column;
-  display: flex;
-  position: fixed;
-}
-.bcn-tl__pop[hidden] {
-  display: none;
-}
-.bcn-tl__pop-head {
-  align-items: center;
-  gap: var(--spacing-200);
-  display: flex;
-}
-.bcn-tl__pop-type {
-  font-size: 0.75rem;
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default-tertiary);
-  text-transform: capitalize;
-}
-.bcn-tl__pop-title {
-  font-size: var(--font-size-200);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-  line-height: var(--line-height-tight);
-  margin: 0;
-}
-.bcn-tl__pop-facts {
-  gap: var(--spacing-200);
-  flex-direction: column;
-  margin: 0;
-  display: flex;
-}
-.bcn-tl__pop-facts div {
-  gap: var(--spacing-200);
-  grid-template-columns: 6.5rem 1fr;
-  display: grid;
-}
-.bcn-tl__pop-facts dt {
-  color: var(--color-content-default-tertiary);
-  font-size: 0.8125rem;
-}
-.bcn-tl__pop-facts dd {
-  color: var(--color-content-default);
-  margin: 0;
-  font-size: 0.8125rem;
-}
-.bcn-tl__pop-late {
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-background-utility-danger);
-}
-.bcn-tl__pop-species {
-  gap: var(--spacing-150);
-  flex-wrap: wrap;
-  display: flex;
-}
-.bcn-tl__pop-chip {
-  padding: 1px var(--spacing-200);
-  color: var(--color-content-default-secondary);
-  background: var(--color-background-elevation-sunken);
-  border: 1px solid var(--color-border-default-subtle);
-  border-radius: var(--radius-100);
-  font-size: 0.75rem;
-}
-.bcn-tl__pop-link {
-  font-size: 0.8125rem;
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-background-brand);
-  align-self: flex-start;
-  text-decoration: none;
-}
-.bcn-tl__pop .bcn-cbadge {
-  font-family: var(--typography-font-family-mono);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-  border-radius: var(--radius-100);
-  padding: 1px var(--spacing-150);
-  font-size: 0.75rem;
-  display: inline-block;
+@media (width<=720px) {
+  .bcn-tl__row {
+    grid-template-columns: 4rem 1fr;
+  }
 }
 ```
 
 ## Tokens
-- `--bcn-content-muted`: #7c7c7c _(component)_
-- `--bcn-teal-800`: #0a6562 _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-commitment`: #58508d _(component)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--elevation-4`: 0 6px 24px -6px #00000012 _(semantic)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
-- `--line-height-tight`: 1.3 _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--radius-full`: 9999px _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-content-muted` | `#7c7c7c` | component |
+| `--bcn-teal-800` | `#0a6562` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
+| `--color-background-brand-muted-hover` | `#b9d6d2` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-background-utility-info` | `#228be6` | semantic |
+| `--color-background-utility-warning` | `#f59e0b` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--radius-100` | `.25rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--typography-font-weight-semibold` | `550` | semantic |

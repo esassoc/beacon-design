@@ -1,27 +1,69 @@
 # Title + component switcher
 
+Actions · source prototype: https://esassoc.github.io/beacon-design/prototypes/actions/
+
+![Title + component switcher, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-actions/claude/title-component-switcher.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-actions/claude/title-component-switcher.phone.png
+
 The H1 "Actions" (radar glyph in brand green) with the component switcher beside it, and Configure board, a small outline button, at the right of the title row.
 
 ## Key decisions
+
 - The switcher shows each component's identity seal: a coloured circle, white glyph and white ring, Kim's component-identity-mark from prod (seal variant, fill weight). Marks come from the same assignment the Component Dashboard grid uses, so a component looks the same on both pages.
 - The trigger seal is 20px beside a 14px / 550 name. The open list is a listbox of rows: 24px seal, name, and a check on the selected row.
 - The choice is one session-wide value (localStorage beacon.activeComponent), shared with Obligations, Monitoring and Reporting.
 - Configure board sits in the title row, not above the board, so the filter bar can own the pivots.
 
 ## Gotchas
+
 - esa-popover centres its bottom position and has no start alignment yet; the prototype shims the panel to left-align under the trigger. Use a start-aligned overlay in prod.
 - esa-popover's anchor wraps its own panel, so a click on an option bubbles back as a trigger click and reopens the list. Stop the option click at the panel.
 
 ## Done when
+
 - Picking a component closes the list, swaps the trigger seal and name, and re-scopes the board, table and timeline.
 - Arrow keys, Home and End walk the list; a keyboard open focuses the selected row, a pointer open does not.
 
+## Components
+
+- `bcn-component-picker` (spoke) · `src/components/bcn/BcnComponentPicker.astro`
+- `bcn-entity-logo` (spoke) · `src/components/bcn/BcnComponentPicker.astro`
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+- `esa-popover` (hub) · `packages/ecology/src/components/esa-popover.ts`
+
+## Data
+
+- Fixture: `src/data/action-tracking.ts`
+- Client store: `src/lib/action-board.ts`
+- category is prod's ActionImplementationStatusDtoEnum.
+
+| Field | Meaning |
+|---|---|
+| `id` | ActionImplementationID, `<actionId>|<componentId>` |
+| `name` | Action name |
+| `type` | RequirementType; the Type tabs group these into workflows |
+| `codes` | ClientCommitmentIDs, in code order (the card's commitment badges) |
+| `sequence` | SequenceNumber, the occurrence for recurring and as-needed work |
+| `dueDate` | ISO, or null when unscheduled (prod "Not set") |
+| `completedDate` | ISO, Completed only |
+| `columnId` | The workflow column the card sits in |
+| `category` | The status backbone the column maps to |
+| `notApplicable` | IsNotApplicable; the N/A switch hides these |
+| `evidence` | Evidence count on the card |
+| `comments` | Comment count; hidden at zero |
+
+`category`: `NotStarted` · `InProgress` · `Completed`
+
+`frequency`: `Onetime` · `Recurring` · `AsNeeded` · `Ongoing`
+
 ## Markup
+
+_22 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
-<section
-  class="page-layout__title"
-  style="--page-title-icon-color: var(--color-content-brand)"
->
+<section class="page-layout__title" style="--page-title-icon-color: var(--color-content-brand)">
   <div class="page-layout__title-main">
     <h1>
       <span class="esa-icon esa-icon--lg" aria-hidden="true"
@@ -38,10 +80,7 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
         >
           <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
           <path d="M4 6h.01"></path>
-          <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
-          <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
-          <path d="M12 18h.01"></path>
-          <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+          <!-- …and 4 more like this (<path>) -->
           <circle cx="12" cy="12" r="2"></circle>
           <path d="m13.41 10.59 5.66-5.66"></path></svg></span
       >Actions
@@ -93,10 +132,10 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
                   >
                     <path d="M16 7h.01"></path>
                     <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"></path>
-                    <path d="m20 7 2 .5-2 .5"></path>
-                    <path d="M10 18v3"></path>
-                    <path d="M14 17.75V21"></path>
-                    <path d="M7 18a6 6 0 0 0 3.84-10.61"></path></svg></span></span></span
+                    <!-- …and 4 more like this (<path>) -->
+                  </svg></span
+                ></span
+              ></span
             ><span
               class="bcn-component-picker__tmark"
               data-component-picker-tmark="Intake B — North Delta"
@@ -126,162 +165,9 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
                       d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
                     ></path>
                     <circle cx="12" cy="10" r="3"></circle></svg></span></span></span
-            ><span
-              class="bcn-component-picker__tmark"
-              data-component-picker-tmark="Twin Cities Complex"
-              hidden=""
-              ><span
-                class="bcn-entity-logo"
-                data-size="sm"
-                data-variant="seal"
-                data-shape="circle"
-                data-style="fill"
-                data-glyph="warehouse"
-                data-color="emerald"
-                style="--_c: var(--bcn-mark-emerald)"
-                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path
-                      d="M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35Z"
-                    ></path>
-                    <path d="M6 18h12"></path>
-                    <path d="M6 14h12"></path>
-                    <path d="M6 22V10h12v12"></path></svg></span></span></span
-            ><span
-              class="bcn-component-picker__tmark"
-              data-component-picker-tmark="Intake C — North Delta"
-              hidden=""
-              ><span
-                class="bcn-entity-logo"
-                data-size="sm"
-                data-variant="seal"
-                data-shape="circle"
-                data-style="fill"
-                data-glyph="sun"
-                data-color="teal"
-                style="--_c: var(--bcn-mark-teal)"
-                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <circle cx="12" cy="12" r="4"></circle>
-                    <path d="M12 2v2"></path>
-                    <path d="m4.93 4.93 1.41 1.41"></path>
-                    <path d="M2 12h2"></path>
-                    <path d="m4.93 19.07 1.41-1.41"></path>
-                    <path d="M12 20v2"></path>
-                    <path d="m17.66 17.66 1.41 1.41"></path>
-                    <path d="M20 12h2"></path>
-                    <path d="m17.66 6.34 1.41-1.41"></path></svg></span></span></span
-            ><span
-              class="bcn-component-picker__tmark"
-              data-component-picker-tmark="Bouldin Island Geotechnical Exploration"
-              hidden=""
-              ><span
-                class="bcn-entity-logo"
-                data-size="sm"
-                data-variant="seal"
-                data-shape="circle"
-                data-style="fill"
-                data-glyph="building-2"
-                data-color="cyan"
-                style="--_c: var(--bcn-mark-cyan)"
-                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
-                    <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
-                    <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
-                    <path d="M10 6h4"></path>
-                    <path d="M10 10h4"></path>
-                    <path d="M10 14h4"></path>
-                    <path d="M10 18h4"></path></svg></span></span></span
-            ><span
-              class="bcn-component-picker__tmark"
-              data-component-picker-tmark="Bethany Reservoir Aqueduct"
-              hidden=""
-              ><span
-                class="bcn-entity-logo"
-                data-size="sm"
-                data-variant="seal"
-                data-shape="circle"
-                data-style="fill"
-                data-glyph="home"
-                data-color="indigo"
-                style="--_c: var(--bcn-mark-indigo)"
-                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <path d="M9 22V12h6v10"></path></svg></span></span></span
-            ><span
-              class="bcn-component-picker__tmark"
-              data-component-picker-tmark="Byron Tract Forebay"
-              hidden=""
-              ><span
-                class="bcn-entity-logo"
-                data-size="sm"
-                data-variant="seal"
-                data-shape="circle"
-                data-style="fill"
-                data-glyph="paw-print"
-                data-color="orange"
-                style="--_c: var(--bcn-mark-orange)"
-                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <circle cx="11" cy="4" r="2"></circle>
-                    <circle cx="18" cy="8" r="2"></circle>
-                    <circle cx="20" cy="16" r="2"></circle>
-                    <path
-                      d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"
-                    ></path></svg></span></span></span
-            ><span class="bcn-component-picker__label" data-component-picker-label=""
+            ><!-- …and 5 more like this (<span class="bcn-component-picker__tmark">) --><span
+              class="bcn-component-picker__label"
+              data-component-picker-label=""
               >Southern Forebay &amp; Pumping Plant</span
             ><span class="esa-icon esa-icon--sm" aria-hidden="true"
               ><svg
@@ -334,10 +220,9 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
                   >
                     <path d="M16 7h.01"></path>
                     <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"></path>
-                    <path d="m20 7 2 .5-2 .5"></path>
-                    <path d="M10 18v3"></path>
-                    <path d="M14 17.75V21"></path>
-                    <path d="M7 18a6 6 0 0 0 3.84-10.61"></path></svg></span></span
+                    <!-- …and 4 more like this (<path>) -->
+                  </svg></span
+                ></span
               ><span class="bcn-component-picker__optname"
                 >Southern Forebay &amp; Pumping Plant</span
               ><span class="bcn-component-picker__check"
@@ -403,265 +288,11 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
                   >
                     <path d="M20 6 9 17l-5-5"></path></svg></span
               ></span></button
-            ><button
-              type="button"
-              role="option"
-              class="bcn-component-picker__opt"
-              data-component-picker-opt="Twin Cities Complex"
-              aria-selected="false"
-            >
-              <span
-                class="bcn-entity-logo"
-                data-size="sm"
-                data-variant="seal"
-                data-shape="circle"
-                data-style="fill"
-                data-glyph="warehouse"
-                data-color="emerald"
-                style="--_c: var(--bcn-mark-emerald)"
-                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path
-                      d="M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35Z"
-                    ></path>
-                    <path d="M6 18h12"></path>
-                    <path d="M6 14h12"></path>
-                    <path d="M6 22V10h12v12"></path></svg></span></span
-              ><span class="bcn-component-picker__optname">Twin Cities Complex</span
-              ><span class="bcn-component-picker__check"
-                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                  ><svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="M20 6 9 17l-5-5"></path></svg></span
-              ></span></button
-            ><button
-              type="button"
-              role="option"
-              class="bcn-component-picker__opt"
-              data-component-picker-opt="Intake C — North Delta"
-              aria-selected="false"
-            >
-              <span
-                class="bcn-entity-logo"
-                data-size="sm"
-                data-variant="seal"
-                data-shape="circle"
-                data-style="fill"
-                data-glyph="sun"
-                data-color="teal"
-                style="--_c: var(--bcn-mark-teal)"
-                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <circle cx="12" cy="12" r="4"></circle>
-                    <path d="M12 2v2"></path>
-                    <path d="m4.93 4.93 1.41 1.41"></path>
-                    <path d="M2 12h2"></path>
-                    <path d="m4.93 19.07 1.41-1.41"></path>
-                    <path d="M12 20v2"></path>
-                    <path d="m17.66 17.66 1.41 1.41"></path>
-                    <path d="M20 12h2"></path>
-                    <path d="m17.66 6.34 1.41-1.41"></path></svg></span></span
-              ><span class="bcn-component-picker__optname">Intake C — North Delta</span
-              ><span class="bcn-component-picker__check"
-                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                  ><svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="M20 6 9 17l-5-5"></path></svg></span
-              ></span></button
-            ><button
-              type="button"
-              role="option"
-              class="bcn-component-picker__opt"
-              data-component-picker-opt="Bouldin Island Geotechnical Exploration"
-              aria-selected="false"
-            >
-              <span
-                class="bcn-entity-logo"
-                data-size="sm"
-                data-variant="seal"
-                data-shape="circle"
-                data-style="fill"
-                data-glyph="building-2"
-                data-color="cyan"
-                style="--_c: var(--bcn-mark-cyan)"
-                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
-                    <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
-                    <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
-                    <path d="M10 6h4"></path>
-                    <path d="M10 10h4"></path>
-                    <path d="M10 14h4"></path>
-                    <path d="M10 18h4"></path></svg></span></span
-              ><span class="bcn-component-picker__optname"
-                >Bouldin Island Geotechnical Exploration</span
-              ><span class="bcn-component-picker__check"
-                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                  ><svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="M20 6 9 17l-5-5"></path></svg></span
-              ></span></button
-            ><button
-              type="button"
-              role="option"
-              class="bcn-component-picker__opt"
-              data-component-picker-opt="Bethany Reservoir Aqueduct"
-              aria-selected="false"
-            >
-              <span
-                class="bcn-entity-logo"
-                data-size="sm"
-                data-variant="seal"
-                data-shape="circle"
-                data-style="fill"
-                data-glyph="home"
-                data-color="indigo"
-                style="--_c: var(--bcn-mark-indigo)"
-                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <path d="M9 22V12h6v10"></path></svg></span></span
-              ><span class="bcn-component-picker__optname"
-                >Bethany Reservoir Aqueduct</span
-              ><span class="bcn-component-picker__check"
-                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                  ><svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="M20 6 9 17l-5-5"></path></svg></span
-              ></span></button
-            ><button
-              type="button"
-              role="option"
-              class="bcn-component-picker__opt"
-              data-component-picker-opt="Byron Tract Forebay"
-              aria-selected="false"
-            >
-              <span
-                class="bcn-entity-logo"
-                data-size="sm"
-                data-variant="seal"
-                data-shape="circle"
-                data-style="fill"
-                data-glyph="paw-print"
-                data-color="orange"
-                style="--_c: var(--bcn-mark-orange)"
-                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <circle cx="11" cy="4" r="2"></circle>
-                    <circle cx="18" cy="8" r="2"></circle>
-                    <circle cx="20" cy="16" r="2"></circle>
-                    <path
-                      d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"
-                    ></path></svg></span></span
-              ><span class="bcn-component-picker__optname">Byron Tract Forebay</span
-              ><span class="bcn-component-picker__check"
-                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                  ><svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="M20 6 9 17l-5-5"></path></svg></span
-              ></span>
-            </button></div></esa-popover
-      ></span>
-      <script
-        type="module"
-        src="/beacon-design/_astro/BcnComponentPicker.astro_astro_type_script_index_0_lang.B8KqPPxD.js"
-      ></script
-    ></span>
+            ><!-- …and 5 more like this (<button class="bcn-component-picker__opt">) -->
+          </div></esa-popover
+        ></span
+      ><!-- script type="module" removed (0 bytes) --></span
+    >
   </div>
   <div class="page-layout__utilities">
     <span data-aboard-configure=""
@@ -681,7 +312,7 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
               focusable="false"
             >
               <path
-                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 … [565 characters]"
               ></path>
               <circle cx="12" cy="12" r="3"></circle></svg></span
           ><span class="esa-button__label">Configure board</span>
@@ -693,6 +324,7 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
 ```
 
 ## Styles
+
 ```css
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -701,31 +333,9 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -741,6 +351,11 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -748,9 +363,6 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -798,57 +410,10 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
 .esa-button--sm {
   --_btn-pad-y: var(--spacing-250, 0.625rem);
   --_btn-padding-x: var(--spacing-250, 0.625rem);
   --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.esa-button--variant-secondary {
-  --_accent: var(--color-background-brand-muted);
-  --_accent-hover: var(--color-background-brand-muted-hover);
-  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
-  --_accent-text: var(--color-content-brand);
-  --_accent-border: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -912,10 +477,7 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -942,11 +504,6 @@ The H1 "Actions" (radar glyph in brand green) with the component switcher beside
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -963,28 +520,8 @@ summary.esa-button:focus-visible {
   outline-offset: var(--focus-ring-offset, 2px);
   border-radius: var(--_btn-radius);
 }
-summary.esa-button--variant-chrome:focus-visible {
-  outline-color: currentColor;
-}
 .esa-button__label {
   white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -992,20 +529,6 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-microcopy-xs-font-weight);
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
 .bcn-component-picker {
   align-self: center;
@@ -1120,10 +643,6 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--color-content-default-secondary);
   flex-shrink: 0;
 }
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
 .bcn-disc__actions .esa-icon {
   width: 15px;
   height: 15px;
@@ -1135,10 +654,6 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
   transform: rotate(90deg);
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
 }
 .bcn-evidence-card__actions .esa-icon {
   width: 15px;
@@ -1163,12 +678,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-entity-logo[data-style="image"] {
   background: var(--color-background-elevation-sunken);
   border-color: var(--color-border-default-subtle);
-}
-.bcn-entity-logo__img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  display: block;
 }
 .bcn-entity-logo[data-size="sm"] {
   width: 24px;
@@ -1225,14 +734,8 @@ summary.esa-button--variant-chrome:focus-visible {
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
 }
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
 .esa-icon--lg {
   --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -1284,94 +787,59 @@ summary.esa-button--variant-chrome:focus-visible {
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-200`: #dcdcdc _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--bcn-seal-ring-color`: #fcfcfc _(component)_
-- `--bcn-seal-ring-width`: 3px _(component)_
-- `--bcn-seal-shadow`: 0 2px 12px 0 #00000014 _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-default`: #fafafa _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-decorative`: "Besley", serif _(component)_
-- `--font-size-500`: clamp(1.125rem, .98rem + .72vw, 1.5rem) _(primitive)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--page-title-icon-color`: #005862 _(component)_
-- `--radius-200`: .5rem _(primitive)_
-- `--radius-400`: .75rem _(primitive)_
-- `--radius-full`: 9999px _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-200` | `#dcdcdc` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--bcn-seal-ring-color` | `#fcfcfc` | component |
+| `--bcn-seal-ring-width` | `3px` | component |
+| `--bcn-seal-shadow` | `0 2px 12px 0 #00000014` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-default` | `#fafafa` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--font-decorative` | `"Besley", serif` | component |
+| `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
+| `--icon-size-lg` | `24px` | primitive |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--icon-size-xs` | `14px` | primitive |
+| `--page-title-icon-color` | `#005862` | component |
+| `--radius-200` | `.5rem` | primitive |
+| `--radius-400` | `.75rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |

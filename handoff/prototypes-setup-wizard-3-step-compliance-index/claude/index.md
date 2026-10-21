@@ -1,8 +1,15 @@
 # Index
 
+Step 3: Compliance Index · source prototype: https://esassoc.github.io/beacon-design/prototypes/setup-wizard-3-step/compliance-index/
+
+![Index, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step-compliance-index/claude/index.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step-compliance-index/claude/index.phone.png
+
 The sidebar, as develop keeps it. Category and subcategory rows with tools on hover: rename in place, lock or unlock, delete, drag within the parent; + Subcategory on a category; Expand all, Lock all and + Category over the tree. Each category has a hue, a dot on its row and its subcategories' rows. Once drafted, each subcategory carries develop's marks: a dot when it has drafts and was never opened, the count to review, a check when every draft is decided (muted when all were discarded). A category gets Approve category. Folded, the index is a rail that reads Index sideways, as the library and Aldo do.
 
 ## Key decisions
+
 - Categories and subcategories only. Drafts are read on the subcategory's page, not listed in the index.
 - Row tools lie over the end of the row on hover, so the row never moves.
 - Renaming locks the row. Names are unique among siblings.
@@ -10,7 +17,15 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
 - A bin that holds drafts is kept on Re-run; its lock is shown disabled with the reason.
 - Delete names what goes: items from N requirements go back to be filed on the next Draft run, and the drafts filed there are deleted. A bin holding approved actions cannot be deleted.
 
+## Components
+
+- `bcn-sw3it` (spoke) · `src/components/bcn/BcnSw3IndexTree.astro`
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-confirm-dialog` (hub) · `packages/ecology/src/components/esa-confirm-dialog.ts`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+
 ## Markup
+
 ```html
 <nav class="bcn-sw3it" aria-label="Compliance Index" data-sw3-index-tree="">
   <div class="bcn-sw3it__head">
@@ -149,11 +164,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
   ></esa-confirm-dialog
   ><template data-it-tpl="cat"
     ><li class="bcn-sw3it__cat" data-it-cat="" data-astro-cid-2k46mond="">
-      <div
-        class="bcn-sw3it__row bcn-sw3it__row--cat"
-        data-it-row=""
-        data-astro-cid-2k46mond=""
-      >
+      <div class="bcn-sw3it__row bcn-sw3it__row--cat" data-it-row="" data-astro-cid-2k46mond="">
         <span data-it-toggle="" data-astro-cid-2k46mond=""
           ><span
             class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
@@ -166,10 +177,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
               data-astro-cid-2k46mond="true"
               data-astro-cid-5nhxdd72=""
             >
-              <span
-                class="esa-icon esa-icon--xs"
-                aria-hidden="true"
-                data-astro-cid-wcwfib5m=""
+              <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
                 ><svg
                   width="14"
                   height="14"
@@ -185,12 +193,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                   <path d="m6 9 6 6 6-6"></path></svg
               ></span></button></span></span
         ><span class="bcn-sw3it__hue" aria-hidden="true" data-astro-cid-2k46mond=""></span
-        ><a
-          class="bcn-sw3it__name"
-          href="#"
-          data-it-name=""
-          data-astro-cid-2k46mond=""
-        ></a
+        ><a class="bcn-sw3it__name" href="#" data-it-name="" data-astro-cid-2k46mond=""></a
         ><span class="bcn-sw3it__lockmark" data-it-lockmark="" data-astro-cid-2k46mond=""
           ><span
             class="esa-icon esa-icon--xs"
@@ -224,10 +227,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                 data-astro-cid-2k46mond="true"
                 data-astro-cid-5nhxdd72=""
               >
-                <span
-                  class="esa-icon esa-icon--xs"
-                  aria-hidden="true"
-                  data-astro-cid-wcwfib5m=""
+                <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -255,10 +255,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                 data-astro-cid-2k46mond="true"
                 data-astro-cid-5nhxdd72=""
               >
-                <span
-                  class="esa-icon esa-icon--xs"
-                  aria-hidden="true"
-                  data-astro-cid-wcwfib5m=""
+                <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -286,10 +283,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                 data-astro-cid-2k46mond="true"
                 data-astro-cid-5nhxdd72=""
               >
-                <span
-                  class="esa-icon esa-icon--xs"
-                  aria-hidden="true"
-                  data-astro-cid-wcwfib5m=""
+                <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -319,10 +313,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                 data-astro-cid-2k46mond="true"
                 data-astro-cid-5nhxdd72=""
               >
-                <span
-                  class="esa-icon esa-icon--xs"
-                  aria-hidden="true"
-                  data-astro-cid-wcwfib5m=""
+                <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -348,10 +339,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                 data-astro-cid-2k46mond="true"
                 data-astro-cid-5nhxdd72=""
               >
-                <span
-                  class="esa-icon esa-icon--xs"
-                  aria-hidden="true"
-                  data-astro-cid-wcwfib5m=""
+                <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -382,10 +370,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                 data-astro-cid-2k46mond="true"
                 data-astro-cid-5nhxdd72=""
               >
-                <span
-                  class="esa-icon esa-icon--xs"
-                  aria-hidden="true"
-                  data-astro-cid-wcwfib5m=""
+                <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -401,21 +386,12 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                 ></span></button></span></span
         ></span>
       </div>
-      <ol
-        class="bcn-sw3it__subs"
-        data-it-subs=""
-        data-astro-cid-2k46mond=""
-      ></ol></li></template
+      <ol class="bcn-sw3it__subs" data-it-subs="" data-astro-cid-2k46mond=""></ol></li></template
   ><template data-it-tpl="sub"
     ><li class="bcn-sw3it__sub" data-it-sub="" data-astro-cid-2k46mond="">
       <div class="bcn-sw3it__row" data-it-row="" data-astro-cid-2k46mond="">
         <span class="bcn-sw3it__hue" aria-hidden="true" data-astro-cid-2k46mond=""></span
-        ><a
-          class="bcn-sw3it__name"
-          href="#"
-          data-it-name=""
-          data-astro-cid-2k46mond=""
-        ></a
+        ><a class="bcn-sw3it__name" href="#" data-it-name="" data-astro-cid-2k46mond=""></a
         ><span class="bcn-sw3it__lockmark" data-it-lockmark="" data-astro-cid-2k46mond=""
           ><span
             class="esa-icon esa-icon--xs"
@@ -482,10 +458,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                 data-astro-cid-2k46mond="true"
                 data-astro-cid-5nhxdd72=""
               >
-                <span
-                  class="esa-icon esa-icon--xs"
-                  aria-hidden="true"
-                  data-astro-cid-wcwfib5m=""
+                <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -515,10 +488,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                 data-astro-cid-2k46mond="true"
                 data-astro-cid-5nhxdd72=""
               >
-                <span
-                  class="esa-icon esa-icon--xs"
-                  aria-hidden="true"
-                  data-astro-cid-wcwfib5m=""
+                <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -544,10 +514,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                 data-astro-cid-2k46mond="true"
                 data-astro-cid-5nhxdd72=""
               >
-                <span
-                  class="esa-icon esa-icon--xs"
-                  aria-hidden="true"
-                  data-astro-cid-wcwfib5m=""
+                <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -578,10 +545,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
                 data-astro-cid-2k46mond="true"
                 data-astro-cid-5nhxdd72=""
               >
-                <span
-                  class="esa-icon esa-icon--xs"
-                  aria-hidden="true"
-                  data-astro-cid-wcwfib5m=""
+                <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
                   ><svg
                     width="14"
                     height="14"
@@ -602,6 +566,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
 ```
 
 ## Styles
+
 ```css
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
@@ -610,38 +575,9 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
   line-height: var(--typography-microcopy-2xs-line-height);
   letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
 }
-.typography-microcopy-2xs-subtle {
-  font-family: var(--typography-microcopy-2xs-subtle-font-family);
-  font-size: var(--typography-microcopy-2xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-2xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-2xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
-}
-.typography-microcopy-2xs-strong {
-  font-family: var(--typography-microcopy-2xs-strong-font-family);
-  font-size: var(--typography-microcopy-2xs-strong-font-size);
-  font-weight: var(--typography-microcopy-2xs-strong-font-weight);
-  line-height: var(--typography-microcopy-2xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -657,21 +593,10 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
-.bcn-countchip__num .esa-badge {
-  --badge-radius: var(--radius-full);
-  --badge-bg: var(--color-border-default);
-  --badge-text-color: var(--color-content-default-secondary);
-  box-sizing: border-box;
-  font-variant-numeric: tabular-nums;
-  min-width: 19px;
-  height: 19px;
-  box-shadow: 0 0 0 1.5px var(--color-background-elevation-raised);
-  justify-content: center;
-  align-items: center;
-  padding: 0 4px;
-  font-size: 0.8125rem;
-  line-height: 1;
-  display: inline-flex;
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
 }
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -680,28 +605,6 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-ev-attached__mark .esa-badge {
-  --badge-bg: var(--color-background-utility-info-subtle);
-  --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
-  font-weight: var(--typography-font-weight-medium);
-}
-.bcn-ev-row__mark .esa-badge {
-  --badge-bg: var(--color-background-utility-info-subtle);
-  --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
-  font-weight: var(--typography-font-weight-medium);
-}
-.bcn-ev-row__tags .esa-badge {
-  --badge-bg: var(--bcn-gray-100);
-  --badge-text-color: var(--bcn-gray-700);
-  font-weight: var(--typography-font-weight-medium);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -739,9 +642,6 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
 }
 .bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
   color: var(--bcn-aldo-600);
-}
-.bcn-aldo-needs__head .esa-badge {
-  font-variant-numeric: tabular-nums;
 }
 .bcn-console__more .esa-button__native {
   font-family: var(--_mono);
@@ -958,104 +858,6 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
   font-size: 0.8125rem;
   font-weight: 600;
 }
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-secondary, #646464));
-  --_badge-border: var(--badge-border-color, var(--color-border-default, #cecece));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
-}
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
-}
-.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-  --_badge-text: var(--color-content-default-knockout, #fcfcfc);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
-}
-.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
-}
-.esa-badge--neutral:not(.esa-badge--dot),
-.esa-badge--success:not(.esa-badge--dot),
-.esa-badge--warning:not(.esa-badge--dot),
-.esa-badge--danger:not(.esa-badge--dot),
-.esa-badge--info:not(.esa-badge--dot) {
-  border: 1px solid var(--_badge-border, transparent);
-}
-.esa-badge--dot {
-  border-radius: var(--radius-pill, 9999px);
-  width: 8px;
-  min-width: 8px;
-  height: 8px;
-  padding: 0;
-}
-.esa-badge--dot.esa-badge--neutral {
-  --_badge-bg: var(--color-content-default-secondary, #646464);
-}
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
-}
-.esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-}
-.esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
-}
-.esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
-}
-.esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
-}
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  background: canvastext;
-  border: 0;
-  outline: 1px solid canvastext;
-}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -1072,53 +874,6 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
   --_btn-pad-y: var(--spacing-200, 0.5rem);
   --_btn-padding-x: var(--spacing-200, 0.5rem);
   --_btn-radius: var(--button-radius-xs, 4px);
-}
-.esa-button--sm {
-  --_btn-pad-y: var(--spacing-250, 0.625rem);
-  --_btn-padding-x: var(--spacing-250, 0.625rem);
-  --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.esa-button--variant-secondary {
-  --_accent: var(--color-background-brand-muted);
-  --_accent-hover: var(--color-background-brand-muted-hover);
-  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
-  --_accent-text: var(--color-content-brand);
-  --_accent-border: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -1182,10 +937,7 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -1212,11 +964,6 @@ The sidebar, as develop keeps it. Category and subcategory rows with tools on ho
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -1236,53 +983,12 @@ summary.esa-button:focus-visible {
 summary.esa-button--variant-chrome:focus-visible {
   outline-color: currentColor;
 }
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
-}
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
   font-size: var(--typography-microcopy-2xs-font-size);
   font-weight: var(--typography-microcopy-2xs-font-weight);
   line-height: var(--typography-microcopy-2xs-line-height);
   letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
-}
-.typography-microcopy-2xs-subtle {
-  font-family: var(--typography-microcopy-2xs-subtle-font-family);
-  font-size: var(--typography-microcopy-2xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-2xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-2xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-subtle-letter-spacing);
-}
-.typography-microcopy-2xs-strong {
-  font-family: var(--typography-microcopy-2xs-strong-font-family);
-  font-size: var(--typography-microcopy-2xs-strong-font-size);
-  font-weight: var(--typography-microcopy-2xs-strong-font-weight);
-  line-height: var(--typography-microcopy-2xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-strong-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -1298,15 +1004,6 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -1327,108 +1024,48 @@ summary.esa-button--variant-chrome:focus-visible {
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #fcfcfc _(component)_
-- `--badge-border-color`: #dcdcdc _(component)_
-- `--badge-text-color`: #525252 _(component)_
-- `--bcn-aldo-600`: #06736f _(component)_
-- `--bcn-console-fg`: #ffffffed _(component)_
-- `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-700`: #525252 _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-danger-muted`: #feebec _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
-- `--color-background-utility-info-subtle`: #fbfdff _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-focus`: #3e9b4f _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-utility-danger`: #fdbdbe _(semantic)_
-- `--color-border-utility-info`: #acd8fc _(semantic)_
-- `--color-border-utility-success`: #adddc0 _(semantic)_
-- `--color-border-utility-warning`: #f3d673 _(semantic)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-success`: #218358 _(component)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-chip`: .25rem _(semantic)_
-- `--radius-full`: 9999px _(primitive)_
-- `--radius-pill`: 9999px _(semantic)_
-- `--radius-sm`: .25rem _(semantic)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-2xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-2xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-2xs-strong-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-2xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-2xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-microcopy-2xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-2xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-2xs-subtle-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
+| `--bcn-console-fg` | `#ffffffed` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--button-radius-xs` | `.25rem` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-focus` | `#3e9b4f` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-success` | `#218358` | component |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--icon-size-xs` | `14px` | primitive |
+| `--radius-100` | `.25rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-microcopy-2xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-2xs-font-size` | `clamp(.5rem, .44rem + .3vw, .625rem)` | semantic |
+| `--typography-microcopy-2xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-2xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-2xs-line-height` | `1` | semantic |

@@ -1,8 +1,15 @@
 # Version rail
 
+Release Notes · source prototype: https://esassoc.github.io/beacon-design/prototypes/release-notes/
+
+![Version rail, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-release-notes/claude/version-rail.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-release-notes/claude/version-rail.phone.png
+
 The slim sticky rail that makes a long changelog navigable: one row per release — the version number as an anchor link, a short human date beneath it, and a quiet "Latest" marker on the newest entry. A scroll-spy mirrors whichever release is in view into an active highlight.
 
 ## Key decisions
+
 - PROGRESSIVE BY CONSTRUCTION: the rows are plain in-page anchor links that jump to each release with no JS. The IntersectionObserver only mirrors the in-view release into an active class — nothing about navigation depends on it.
 - Active = the topmost release currently inside a thin band just under the topbar (rootMargin -68px top / -55% bottom). When the scroll sits between bands the last active row stays lit, so the rail never blanks out mid-scroll.
 - The active state is an INK SHIFT, never a color fill: the version darkens to primary and gains weight; the row keeps its neutral background. Hover adds at most a sunken wash.
@@ -12,6 +19,7 @@ The slim sticky rail that makes a long changelog navigable: one row per release 
 - The initial highlight comes from the URL hash when it names a known release, else the newest — so arriving from the What's-new popover lights the right row immediately.
 
 ## Gotchas
+
 - The rail sticks INSIDE the .modern-layout__content scroll container, which already begins below the fixed 52px topbar (AppShell's body carries the padding-top). Its sticky `top` is therefore a small breathing gap, NOT the topbar height — adding the header offset again double-counts it.
 - align-self:start is required: without it the flex item stretches to full height and the sticky element has no slack to move in.
 - esa-sidebar-nav is the wrong lego here — it is a route/section nav behind a shadow-DOM, property-driven boundary, its group headings are the banned ornamental micro-label (11px uppercase letter-spaced), and its per-item hint can only be a filled badge pill, not the quiet 14px date meta this rail needs.
@@ -19,9 +27,15 @@ The slim sticky rail that makes a long changelog navigable: one row per release 
 - On narrow viewports the .sidebar primitive folds the rail above the stream — drop sticky and the height cap there, or it reads as a stuck fragment.
 
 ## Done when
+
 - Every release has a row with version, date, and — on the newest only — a "Latest" marker; clicking a row jumps to that release with landing room below the topbar; scrolling moves the active ink down the rail; arriving with #v1-33-0 lights that row on load.
 
+## Components
+
+- `bcn-release-nav` (spoke) · `src/components/bcn/BcnReleaseNav.astro`
+
 ## Markup
+
 ```html
 <nav class="bcn-release-nav" aria-label="Releases" data-release-nav="">
   <h2 class="bcn-release-nav__heading">Releases</h2>
@@ -54,6 +68,7 @@ The slim sticky rail that makes a long changelog navigable: one row per release 
 ```
 
 ## Styles
+
 ```css
 .bcn-omni-rail__item.is-active {
   background: var(--color-background-brand);
@@ -141,26 +156,36 @@ The slim sticky rail that makes a long changelog navigable: one row per release 
   font-size: 0.875rem;
   line-height: 1.35;
 }
+@media (width<=48rem) {
+  .bcn-release-nav {
+    max-block-size: none;
+    position: static;
+    overflow: visible;
+  }
+}
 ```
 
 ## Tokens
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-link`: #005862 _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-decorative`: "Besley", serif _(component)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--spacing-900`: 6rem _(primitive)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-link` | `#005862` | semantic |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--font-decorative` | `"Besley", serif` | component |
+| `--radius-100` | `.25rem` | primitive |
+| `--radius-200` | `.5rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--spacing-900` | `6rem` | primitive |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |

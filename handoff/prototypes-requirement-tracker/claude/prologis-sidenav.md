@@ -1,8 +1,15 @@
 # Prologis sidenav
 
+Requirement Tracker · source prototype: https://esassoc.github.io/beacon-design/prototypes/requirement-tracker/
+
+![Prologis sidenav, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-requirement-tracker/claude/prologis-sidenav.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-requirement-tracker/claude/prologis-sidenav.phone.png
+
 The Prologis-specific, trimmed sidenav — what their tenant sees under the planned Simplified aliasing. Per-prototype: passed as navSections to the shared AppShell, not the global default.
 
 ## Key decisions
+
 - Globally (AppShell default), Data Catalog is an EXPANDED section (Source Documents · Commitments · Requirements · Actions · All Data). For Prologis, Actions is removed — their "Requirements" will route to the Actions catalog under the Simplified fork.
 - Prologis trims Project (Organize Actions / Action Lists / Document Reviews / Spatial Library Layers gone), Tracking (All Components gone), and Reporting (Progress Report gone).
 - Separators sit after the Project group and after Reporting — placement ported verbatim from esassoc/Beacon (dividerAfter on those two sections).
@@ -10,13 +17,22 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 - AppShell resolves a section's icon paths from its own glyph registry by name, so a per-prototype nav declares icon names only (icon: "radar") — no raw SVG threading.
 
 ## Gotchas
+
 - The trimmed tree is Prologis-only (passed via navSections); the global default keeps the full Project/Tracking/Reporting items and an Actions entry in Data Catalog.
 - Divider placement is after Project and after Reporting — not directly under Setup Wizard (Setup + Project read as one top cluster in Beacon).
 
 ## Done when
+
 - Tracking is the only expanded section; Data Catalog shows no "Actions"; separators sit below Project and above Data Catalog.
 
+## Components
+
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+
 ## Markup
+
+_11 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <nav class="side-nav" id="side-nav">
   <div class="sidebar-header">
@@ -99,8 +115,8 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
           >
             <rect width="7" height="9" x="3" y="3" rx="1"></rect>
             <rect width="7" height="5" x="14" y="3" rx="1"></rect>
-            <rect width="7" height="9" x="14" y="12" rx="1"></rect>
-            <rect width="7" height="5" x="3" y="16" rx="1"></rect></svg></span
+            <!-- …and 2 more like this (<rect>) -->
+          </svg></span
         ><span class="nav-section__title">Project</span
         ><span class="esa-icon esa-icon--sm" aria-hidden="true"
           ><svg
@@ -138,10 +154,7 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
           >
             <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
             <path d="M4 6h.01"></path>
-            <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
-            <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
-            <path d="M12 18h.01"></path>
-            <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+            <!-- …and 4 more like this (<path>) -->
             <circle cx="12" cy="12" r="2"></circle>
             <path d="m13.41 10.59 5.66-5.66"></path></svg></span
         ><span class="nav-section__title">Tracking</span
@@ -228,9 +241,8 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
               d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
             ></path>
             <path d="M12 11h4"></path>
-            <path d="M12 16h4"></path>
-            <path d="M8 11h.01"></path>
-            <path d="M8 16h.01"></path></svg></span
+            <!-- …and 3 more like this (<path>) -->
+          </svg></span
         ><span class="nav-section__title">Reporting</span
         ><span class="esa-icon esa-icon--sm" aria-hidden="true"
           ><svg
@@ -248,9 +260,7 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
         ></span>
       </button>
       <ul class="nav-section__items">
-        <li class="nav-item">
-          <a href="#report-center" class="nav-sublink">Report Center</a>
-        </li>
+        <li class="nav-item"><a href="#report-center" class="nav-sublink">Report Center</a></li>
       </ul>
     </div>
     <hr class="nav-divider" aria-hidden="true" />
@@ -291,17 +301,8 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
         <li class="nav-item">
           <a href="#dc-source-documents" class="nav-sublink">Source Documents</a>
         </li>
-        <li class="nav-item">
-          <a href="#dc-commitments" class="nav-sublink">Commitments</a>
-        </li>
-        <li class="nav-item">
-          <a
-            href="/beacon-design/prototypes/data-catalog-requirements-streamlined"
-            class="nav-sublink"
-            >Requirements</a
-          >
-        </li>
-        <li class="nav-item"><a href="#dc-all-data" class="nav-sublink">All Data</a></li>
+        <li class="nav-item"><a href="#dc-commitments" class="nav-sublink">Commitments</a></li>
+        <!-- …and 2 more like this (<li class="nav-item">) -->
       </ul>
     </div>
   </div>
@@ -309,18 +310,11 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 ```
 
 ## Styles
+
 ```css
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -336,6 +330,11 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -343,9 +342,6 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -608,10 +604,6 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   color: var(--color-content-default-secondary);
   flex-shrink: 0;
 }
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
 .bcn-disc__actions .esa-icon {
   width: 15px;
   height: 15px;
@@ -625,20 +617,8 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -652,10 +632,6 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 }
 .bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
   transform: rotate(90deg);
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
 }
 .bcn-evidence-card__actions .esa-icon {
   width: 15px;
@@ -675,31 +651,28 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 ```
 
 ## Tokens
-- `--bcn-gray-0`: #fff _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-200`: #dcdcdc _(component)_
-- `--bcn-gray-300`: #bdbdbd _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-50`: #fafafa _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-700`: 3rem _(primitive)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-gray-0` | `#fff` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-200` | `#dcdcdc` | component |
+| `--bcn-gray-300` | `#bdbdbd` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-50` | `#fafafa` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-700` | `3rem` | primitive |

@@ -1,20 +1,39 @@
 # Modules (Tracking / Monitoring / Reporting)
 
+Component Dashboard · source prototype: https://esassoc.github.io/beacon-design/prototypes/component-dashboard/
+
+![Modules (Tracking / Monitoring / Reporting), desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/modules-tracking-monitoring-reporting.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-component-dashboard/claude/modules-tracking-monitoring-reporting.phone.png
+
 The three work areas as equal cards, each rolling up this component's actions of that type into overdue and due-soon counts plus its most urgent actions as links. Criticality lives inside the module that owns the work — there is no separate "most critical" section, here or on the project dashboard.
 
 ## Key decisions
+
 - Rollups are computed by rollupOver(), the SAME function the project dashboard uses, bound to this component's action set. Two implementations of "overdue" would eventually disagree, and urgency has to mean exactly one thing across both dashboards.
 - Sub-surface links are component-scoped. Sending a user who is deep in one component out to a project-wide list undoes the scoping the page exists to provide.
 - Urgency stays derived from due date over incomplete actions, never stored.
 
 ## Gotchas
+
 - Same slice caveat as the project dashboard: the Monitoring rollup needs an observation-to-action relationship that does not exist yet, and Reporting needs report-to-action. Those are data dependencies, not sequencing preferences.
 - Section ids are opt-in via idPrefix. This page passes an empty prefix to get bare #tracking / #monitoring / #reporting anchors, because the header pulse rows link to them. Omitting the prop emits no ids at all, preserving the project dashboard markup.
 
 ## Done when
+
 - Each module shows counts derived only from this component's actions; the header pulse rows scroll to their module; no action from another component appears.
 
+## Components
+
+- `bcn-cbadge` (spoke) · `src/components/bcn/BcnCommitmentBadge.astro`
+- `bcn-mod` (spoke) · `src/components/bcn/BcnModules.astro`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+- `esa-stat` (hub) · `packages/ecology/src/components/esa-stat.astro`
+
 ## Markup
+
+_7 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <section class="bcn-mod" id="modules" aria-label="Tracking, Monitoring, and Reporting">
   <div class="bcn-mod__grid">
@@ -40,10 +59,7 @@ The three work areas as equal cards, each rolling up this component's actions of
             >
               <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
               <path d="M4 6h.01"></path>
-              <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
-              <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
-              <path d="M12 18h.01"></path>
-              <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+              <!-- …and 4 more like this (<path>) -->
               <circle cx="12" cy="12" r="2"></circle>
               <path d="m13.41 10.59 5.66-5.66"></path></svg></span></span
         ><span class="bcn-mod__name">Tracking</span>
@@ -67,8 +83,8 @@ The three work areas as equal cards, each rolling up this component's actions of
             ><span class="bcn-mod__dot" aria-hidden="true"></span
             ><span class="bcn-mod__action-body"
               ><span class="bcn-mod__action-name"
-                ><span class="bcn-cbadge bcn-cbadge--sm">CUL-02</span>Cultural resources
-                worker training</span
+                ><span class="bcn-cbadge bcn-cbadge--sm">CUL-02</span>Cultural resources worker
+                training</span
               ><span class="bcn-mod__action-meta"
                 >Bouldin Island Geotechnical Exploration · Due Mar 30</span
               ></span
@@ -174,8 +190,8 @@ The three work areas as equal cards, each rolling up this component's actions of
             ><span class="bcn-mod__dot" aria-hidden="true"></span
             ><span class="bcn-mod__action-body"
               ><span class="bcn-mod__action-name"
-                ><span class="bcn-cbadge bcn-cbadge--sm">BIO-03</span>Nesting-bird
-                preconstruction survey</span
+                ><span class="bcn-cbadge bcn-cbadge--sm">BIO-03</span>Nesting-bird preconstruction
+                survey</span
               ><span class="bcn-mod__action-meta"
                 >Bouldin Island Geotechnical Exploration · 1d overdue</span
               ></span
@@ -269,9 +285,9 @@ The three work areas as equal cards, each rolling up this component's actions of
                 d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
               ></path>
               <path d="M12 11h4"></path>
-              <path d="M12 16h4"></path>
-              <path d="M8 11h.01"></path>
-              <path d="M8 16h.01"></path></svg></span></span
+              <!-- …and 3 more like this (<path>) -->
+            </svg></span
+          ></span
         ><span class="bcn-mod__name">Reporting</span>
       </div>
       <div class="bcn-mod__rollup">
@@ -324,6 +340,7 @@ The three work areas as equal cards, each rolling up this component's actions of
 ```
 
 ## Styles
+
 ```css
 .typography-display-sm {
   font-family: var(--typography-display-sm-font-family);
@@ -339,24 +356,9 @@ The three work areas as equal cards, each rolling up this component's actions of
   line-height: var(--typography-label-md-line-height);
   letter-spacing: var(--typography-label-md-letter-spacing);
 }
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -372,6 +374,11 @@ The three work areas as equal cards, each rolling up this component's actions of
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -386,25 +393,13 @@ The three work areas as equal cards, each rolling up this component's actions of
   flex-shrink: 0;
   display: inline-block;
 }
-.bcn-cbadge--md {
-  font-size: var(--font-size-100);
-  padding: 1px var(--spacing-200);
-}
 .bcn-cbadge--sm {
   padding: 1px var(--spacing-150);
   font-size: 0.75rem;
 }
-.bcn-cbadge--neutral {
-  font-family: var(--typography-font-family-sans);
-  color: var(--bcn-gray-700);
-  background: var(--bcn-gray-100);
-}
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -454,6 +449,11 @@ The three work areas as equal cards, each rolling up this component's actions of
   gap: var(--spacing-400);
   grid-template-columns: repeat(3, minmax(0, 1fr));
   display: grid;
+}
+@media (width<=900px) {
+  .bcn-mod__grid {
+    grid-template-columns: 1fr;
+  }
 }
 .bcn-mod__card {
   gap: var(--spacing-300);
@@ -568,17 +568,6 @@ The three work areas as equal cards, each rolling up this component's actions of
   font-size: 0.8125rem;
   overflow: hidden;
 }
-.bcn-mod__more {
-  z-index: 1;
-  font-size: 0.8125rem;
-  font-weight: var(--typography-font-weight-medium);
-  color: var(--color-content-default-secondary);
-  text-decoration: none;
-  position: relative;
-}
-.bcn-mod__more:hover {
-  color: var(--color-background-brand);
-}
 .bcn-mod__links {
   z-index: 1;
   gap: var(--spacing-100);
@@ -634,13 +623,6 @@ The three work areas as equal cards, each rolling up this component's actions of
   line-height: var(--typography-label-md-line-height);
   letter-spacing: var(--typography-label-md-letter-spacing);
 }
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
 .esa-collapsible__summary .esa-icon {
   color: var(--color-content-default-secondary, #646464);
   flex-shrink: 0;
@@ -654,20 +636,11 @@ The three work areas as equal cards, each rolling up this component's actions of
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
 }
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -729,10 +702,6 @@ The three work areas as equal cards, each rolling up this component's actions of
   font-weight: var(--_stat-label-weight);
   color: var(--_stat-label-color);
 }
-.esa-stat__sub {
-  font-size: var(--_stat-sub-size);
-  color: var(--_stat-sub-color);
-}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -743,76 +712,64 @@ The three work areas as equal cards, each rolling up this component's actions of
 ```
 
 ## Tokens
-- `--bcn-content-muted`: #7c7c7c _(component)_
-- `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-700`: #525252 _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-commitment`: #58508d _(component)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--elevation-1`: 0 1px 4px 0 #00000008 _(semantic)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
-- `--font-size-300`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(primitive)_
-- `--font-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
-- `--font-size-700`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(primitive)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--line-height-tight`: 1.3 _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--radius-300`: .5rem _(primitive)_
-- `--radius-full`: 9999px _(primitive)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--stat-accent-color`: #005862 _(component)_
-- `--stat-value-color`: #3d3d3d _(component)_
-- `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-display-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-display-sm-font-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(semantic)_
-- `--typography-display-sm-font-weight`: 650 _(semantic)_
-- `--typography-display-sm-letter-spacing`: -.01em _(semantic)_
-- `--typography-display-sm-line-height`: 1.3 _(semantic)_
-- `--typography-font-family-display`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-font-weight`: 500 _(semantic)_
-- `--typography-label-md-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-line-height`: 1.6 _(semantic)_
-- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-content-muted` | `#7c7c7c` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-background-utility-warning` | `#f59e0b` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-commitment` | `#58508d` | component |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--elevation-1` | `0 1px 4px 0 #00000008` | semantic |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
+| `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
+| `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
+| `--font-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--line-height-tight` | `1.3` | primitive |
+| `--radius-100` | `.25rem` | primitive |
+| `--radius-200` | `.5rem` | primitive |
+| `--radius-300` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--stat-accent-color` | `#005862` | component |
+| `--stat-value-color` | `#3d3d3d` | component |
+| `--stat-value-size` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | component |
+| `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-display-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-display-sm-font-size` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | semantic |
+| `--typography-display-sm-font-weight` | `650` | semantic |
+| `--typography-display-sm-letter-spacing` | `-.01em` | semantic |
+| `--typography-display-sm-line-height` | `1.3` | semantic |
+| `--typography-font-family-display` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` | semantic |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
+| `--typography-label-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-md-font-weight` | `500` | semantic |
+| `--typography-label-md-letter-spacing` | `.01em` | semantic |
+| `--typography-label-md-line-height` | `1.6` | semantic |

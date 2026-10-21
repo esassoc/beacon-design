@@ -1,8 +1,13 @@
 # Page and boxes
 
+Step 1 — Source Documents · source prototype: https://esassoc.github.io/beacon-design/prototypes/setup-wizard-3-step/
+
+![Page and boxes, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step/claude/page-and-boxes.desktop.png)
+
 The page in view, rendered from the PDF by pdf.js, with a box per commitment: dashed where Aldo drew it, solid where a person did, under a toolbar pinned across the pane. Select (V) and Mark (M) are the modes; Edit ID and name (Enter) and Delete act on the selection; More tools holds Split (S), Merge, Continue on next page and Hide Aldo's boxes (B); then Follow (F), zoom and Undo / Redo. A selected box wears its ID and name; eight handles resize it, a drag moves it, arrows nudge (Shift for a bigger step), Shift+click adds another box to the selection, Escape lets go. Every edit and undo is recorded as a steer with its page. Requirement spans are not drawn in step 1: they are step 2's.
 
 ## Key decisions
+
 - Boxes are PdfBoundingBoxDto (page, x, y, width, height as page fractions); an edit sends the new rect for that commitment and page.
 - Boxes come from anchoring against the text layer (PdfPig words), not from model citations.
 - Manual work never pauses the run; it stops the view following the scan, and Follow brings it back.
@@ -11,16 +16,23 @@ The page in view, rendered from the PDF by pdf.js, with a box per commitment: da
 - Undo puts the record of finds back; the conversation stays append-only, so an undo is itself a steer ("Undid: ...").
 
 ## Gotchas
+
 - Assign table words to rows by y with a few points of slack: a cell's first line can sit a hundredth of a point above the row's code.
 - A flattened form (the NOD) has drawn labels and image text; the text layer misses them, so the page needs OCR or a vision pass.
 
 ## Done when
+
 - Mark, then drag over a passage: a solid box appears selected, wearing No ID; Delete removes it, and both edits are in the conversation.
 - Select 11.1 and 11.2 (Shift+click), More tools, Merge: one commitment, 11.1, with both boxes; Cmd+Z puts them back, and "Undid: Merged 11.2 into COA 11.1" is in the conversation.
 - Select a box, Split (S), click across its middle: the box ends there and the lower part is a new passage.
 - Drag a box's corner handle: the box resizes and Aldo records "Adjusted".
 
+## Components
+
+- `bcn-pv` (spoke) · `src/components/bcn/BcnPageView.astro`
+
 ## Markup
+
 ```html
 <div class="bcn-pv" data-page-view="">
   <div class="bcn-pv__sheet" data-pv-sheet="" style="aspect-ratio: 612 / 792">
@@ -40,6 +52,7 @@ The page in view, rendered from the PDF by pdf.js, with a box per commitment: da
 ```
 
 ## Styles
+
 ```css
 .bcn-pv {
   justify-content: center;
@@ -178,8 +191,7 @@ The page in view, rendered from the PDF by pdf.js, with a box per commitment: da
   left: -6px;
   overflow: hidden;
 }
-.bcn-pv[data-hide-aldo]
-  .bcn-pv__box[data-kind="find"]:not([data-mine]):not([data-selected]) {
+.bcn-pv[data-hide-aldo] .bcn-pv__box[data-kind="find"]:not([data-mine]):not([data-selected]) {
   visibility: hidden;
 }
 .bcn-pv__boxes .bcn-pv__box[data-splitting] {
@@ -200,14 +212,22 @@ The page in view, rendered from the PDF by pdf.js, with a box per commitment: da
   pointer-events: none;
   position: absolute;
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-pv__boxes .bcn-pv__box {
+    animation: none;
+  }
+}
 ```
 
 ## Tokens
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-commitment`: #58508d _(component)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-requirement`: #a05195 _(component)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--radius-050`: .125rem _(primitive)_
-- `--shadow-200`: 0 4px 20px -4px #0000000f _(component)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-commitment` | `#58508d` | component |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-requirement` | `#a05195` | component |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--radius-050` | `.125rem` | primitive |
+| `--shadow-200` | `0 4px 20px -4px #0000000f` | component |

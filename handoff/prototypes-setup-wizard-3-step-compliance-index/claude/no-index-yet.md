@@ -1,15 +1,28 @@
 # No index yet
 
+Step 3: Compliance Index · source prototype: https://esassoc.github.io/beacon-design/prototypes/setup-wizard-3-step/compliance-index/
+
+![No index yet, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step-compliance-index/claude/no-index-yet.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step-compliance-index/claude/no-index-yet.phone.png
+
 Where step 3 starts: the three panes stand from the start, without data. The Index pane is empty but for its + Category and fold keys, Aldo's conversation is empty, and the center reads "No index yet" and how many approved requirements it builds from. Its keys are in the console: Build index and + Category. Build index runs ProposeComplianceIndex over every approved requirement and streams in the run console as it goes (the key reads Building until it lands; the center is blank meanwhile); + Category starts the index by hand.
 
 ## Key decisions
+
 - A hand-made category or subcategory is locked from the start, as prod makes it, so a later Re-run leaves it alone.
 
 ## Done when
+
 - On a fresh step 3 the Index, center and Aldo panes all show, empty.
 - Build index streams in the run console for about 12 seconds, then shows the proposal: 17 categories and 75 subcategories.
 
+## Components
+
+- `esa-empty-state` (hub) · `packages/ecology/src/components/esa-empty-state.astro`
+
 ## Markup
+
 ```html
 <div data-ix-empty="">
   <div class="esa-empty-state esa-empty-state--md">
@@ -23,32 +36,8 @@ Where step 3 starts: the three panes stand from the start, without data. The Ind
 ```
 
 ## Styles
+
 ```css
-/* Type comes from .typography-body-sm on the element.
-
-       Both nodes are always in the DOM (the live region has to pre-exist its content),
-       so the gap is opt-IN via .is-shown rather than collapsed with :empty — Lit's
-       template whitespace defeats :empty in engines that follow Selectors L3. */
-.help,
-.error {
-  margin: 0;
-}
-/* Type comes from .typography-body-sm — help and error are one size at every
-       control step, so they name the composite directly rather than mapping. */
-/* Both nodes are ALWAYS in the DOM (see render()), so the gap is opt-IN rather
-       than collapsed away. Deliberately not display:none when empty — that removes
-       the node from the accessibility tree, and a live region that is not in the tree
-       cannot announce anything. An empty <p> with no margin occupies no space.
-
-       .is-shown rather than :empty: Lit's template whitespace leaves a text node
-       inside the element, and browsers still disagree about whether :empty ignores
-       whitespace-only children (Selectors L4 says yes, L3 says no). A class is
-       deterministic; :empty here would silently leave 4px of dead space under every
-       clean field in some engines and not others. */
-.help,
-.error {
-  margin: 0;
-}
 .typography-body-sm {
   font-family: var(--typography-body-sm-font-family);
   font-size: var(--typography-body-sm-font-size);
@@ -102,27 +91,6 @@ Where step 3 starts: the three panes stand from the start, without data. The Ind
   flex-direction: column;
   display: flex;
 }
-.esa-empty-state--xs {
-  --_empty-icon-size: var(--empty-state-icon-size-xs, 24px);
-  padding: var(--spacing-300, 0.75rem) var(--spacing-200, 0.5rem);
-}
-.esa-empty-state--sm {
-  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
-  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
-}
-.esa-empty-state--lg {
-  --_empty-icon-size: var(--empty-state-icon-size-lg, 64px);
-  padding: var(--spacing-800, 4rem) var(--spacing-400, 1rem);
-}
-.esa-empty-state__icon {
-  color: var(--color-content-default-secondary, #646464);
-  margin-bottom: var(--spacing-100, 0.25rem);
-  display: inline-flex;
-}
-.esa-empty-state__icon svg {
-  width: var(--_empty-icon-size);
-  height: var(--_empty-icon-size);
-}
 .esa-empty-state__title {
   color: var(--color-content-default, #202020);
   margin: 0;
@@ -141,30 +109,27 @@ Where step 3 starts: the three panes stand from the start, without data. The Ind
 ```
 
 ## Tokens
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--empty-state-icon-size-lg`: 64px _(component)_
-- `--empty-state-icon-size-md`: 48px _(component)_
-- `--empty-state-icon-size-sm`: 32px _(component)_
-- `--empty-state-icon-size-xs`: 24px _(component)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-600`: 2rem _(primitive)_
-- `--spacing-800`: 4rem _(primitive)_
-- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
-- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-body-sm-line-height`: 1.6 _(semantic)_
-- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-font-weight`: 500 _(semantic)_
-- `--typography-label-md-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-line-height`: 1.6 _(semantic)_
-- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--empty-state-icon-size-md` | `48px` | component |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-600` | `2rem` | primitive |
+| `--typography-body-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-body-sm-font-weight` | `400` | semantic |
+| `--typography-body-sm-letter-spacing` | `.01em` | semantic |
+| `--typography-body-sm-line-height` | `1.6` | semantic |
+| `--typography-label-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-md-font-weight` | `500` | semantic |
+| `--typography-label-md-letter-spacing` | `.01em` | semantic |
+| `--typography-label-md-line-height` | `1.6` | semantic |
+| `--typography-label-md-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-md-strong-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-md-strong-font-weight` | `550` | semantic |
+| `--typography-label-md-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-label-md-strong-line-height` | `1.6` | semantic |

@@ -1,8 +1,15 @@
 # Add list dialog
 
+Lists · source prototype: https://esassoc.github.io/beacon-design/prototypes/lists/
+
+![Add list dialog, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-lists/claude/add-list-dialog.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-lists/claude/add-list-dialog.phone.png
+
 The "Add list" modal, in the order the decision is made: which kind of list it is, what it is called, what it is for.
 
 ## Key decisions
+
 - The type comes first and all four options stay on screen as a segmented control (esa-button-toggle), because the type is the one irreversible choice: a list is a subset of ONE registry forever, and a Compliance Index list is always a version of the index.
 - A Compliance Index list starts as a copy of the canonical index's outline; its cue line says so. The dialog is the large size so the four segments fit on one row.
 - The trigger presets it: data-list-create="<type>" on the heading's button opens the dialog already on that type, with a matching heading ("Add Action List"). The toggle stays changeable.
@@ -10,13 +17,25 @@ The "Add list" modal, in the order the decision is made: which kind of list it i
 - Name is required; description is optional.
 
 ## Gotchas
+
 - esa-radio-group has no per-option description field, which is why this is a toggle plus one cue line rather than described radios.
 - "Create list" validates Name, then lands on the new, empty list, named as typed. (Aldo opening on it is the separate Aldo epic, lists-new-list.) The prototype writes no row: the name and description ride in the URL. In the app it creates the list and lands on its detail page the same way.
 
 ## Done when
+
 - Each heading's add button opens the dialog preset to that type; changing the toggle updates heading and cue; Create is refused with an empty Name.
 
+## Components
+
+- `bcn-list-create` (spoke) · `src/components/bcn/BcnListCreateDialog.astro`
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-button-toggle` (hub) · `packages/ecology/src/components/esa-button-toggle.ts`
+- `esa-dialog` (hub) · `packages/ecology/src/components/esa-dialog.ts`
+- `esa-text-field` (hub) · `packages/ecology/src/components/esa-text-field.ts`
+- `esa-textarea` (hub) · `packages/ecology/src/components/esa-textarea.ts`
+
 ## Markup
+
 ```html
 <esa-dialog
   data-list-create-dialog="true"
@@ -44,12 +63,7 @@ The "Add list" modal, in the order the decision is made: which kind of list it i
         Actions tracked together on the Tracker pages.
       </p>
     </div>
-    <esa-text-field
-      data-list-create-name="true"
-      label="Name"
-      size="md"
-      required=""
-    ></esa-text-field
+    <esa-text-field data-list-create-name="true" label="Name" size="md" required=""></esa-text-field
     ><esa-textarea
       data-list-create-description="true"
       label="Description"
@@ -58,8 +72,7 @@ The "Add list" modal, in the order the decision is made: which kind of list it i
     ></esa-textarea>
   </div>
   <div class="cluster bcn-list-create__foot" slot="footer" data-gap="sm">
-    <span
-      class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+    <span class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
       ><button
         class="esa-button__native typography-microcopy-xs"
         type="button"
@@ -82,6 +95,7 @@ The "Add list" modal, in the order the decision is made: which kind of list it i
 ```
 
 ## Styles
+
 ```css
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
@@ -97,20 +111,6 @@ The "Add list" modal, in the order the decision is made: which kind of list it i
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -123,57 +123,13 @@ The "Add list" modal, in the order the decision is made: which kind of list it i
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
 .esa-button--sm {
   --_btn-pad-y: var(--spacing-250, 0.625rem);
   --_btn-padding-x: var(--spacing-250, 0.625rem);
   --_btn-radius: var(--button-radius-sm, 4px);
 }
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
-}
 .esa-button--variant-primary {
   --_accent-text: var(--color-content-brand);
-}
-.esa-button--variant-secondary {
-  --_accent: var(--color-background-brand-muted);
-  --_accent-hover: var(--color-background-brand-muted-hover);
-  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
-  --_accent-text: var(--color-content-brand);
-  --_accent-border: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -237,10 +193,7 @@ The "Add list" modal, in the order the decision is made: which kind of list it i
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -267,11 +220,6 @@ The "Add list" modal, in the order the decision is made: which kind of list it i
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -288,28 +236,8 @@ summary.esa-button:focus-visible {
   outline-offset: var(--focus-ring-offset, 2px);
   border-radius: var(--_btn-radius);
 }
-summary.esa-button--variant-chrome:focus-visible {
-  outline-color: currentColor;
-}
 .esa-button__label {
   white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
 }
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
@@ -324,20 +252,6 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-microcopy-xs-font-weight);
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
 .bcn-list-create__basis {
   color: var(--color-content-default-secondary);
@@ -368,69 +282,38 @@ summary.esa-button--variant-chrome:focus-visible {
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
-- `--typography-body-md-letter-spacing`: .01em _(semantic)_
-- `--typography-body-md-line-height`: 1.6 _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-body-md-font-weight` | `400` | semantic |
+| `--typography-body-md-letter-spacing` | `.01em` | semantic |
+| `--typography-body-md-line-height` | `1.6` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |

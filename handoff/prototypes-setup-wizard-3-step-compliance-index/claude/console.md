@@ -1,8 +1,15 @@
 # Console
 
+Step 3: Compliance Index · source prototype: https://esassoc.github.io/beacon-design/prototypes/setup-wizard-3-step/compliance-index/
+
+![Console, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step-compliance-index/claude/console.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step-compliance-index/claude/console.phone.png
+
 The foot of the step's panel, as step 1 carries its scan console: the header carries no keys. A sunken tray across the panel under the header rule, every key neutral: Prev at its left end, Next at its right, the step's keys centered between, by phase. No index yet: Build index and + Category (no Prev or Next). Built: Re-run and Draft actions & obligations. During a run: the run's key, disabled. After it: Start over (the undo glyph), Draft again (its title names what is outstanding), Suggest Subcategories (while something fits no subcategory), View Log (the run's record in the console lightbox) and Approve All. Under the tray, once there is an index, every subcategory in index order, step 2's scrubber, a rule and the category's name where each category starts, a band of the category's hue along the foot of its cells and its name marked in the same hue. Drafted: darker gray for drafts never opened, light gray for opened with drafts to review, its category's hue once every draft is decided, so a finished index reads as the categories' colors. A dot at the top of a cell when the subcategory holds actions, and one at its foot when it holds obligations, so a cell carries one or two; each is dim while any of its drafts is left to review. No amber: nothing on the strip reads as alarm.
 
 ## Key decisions
+
 - Reset the prototype, under the workspace as on step 1, starts step 3 over after a confirm: no index, no drafts, no talk with Aldo.
 - The strip is step 1's: 50 cells, 32px tall, the same gaps and the same color logic (light gray undecided, darker gray wants a look, the step's color done).
 - Start over is PR #1520's: once a Draft run exists it replaces Re-run, and it deletes the index and every draft back to "No index yet". Prod refuses it while a run is live or an approved record has evidence.
@@ -10,7 +17,19 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
 - No position line and no Next to review: Prev and Next, or the arrow keys, step one subcategory at a time; the thumb is where you are.
 - Opened is not reviewed. Prod sets FirstOpenedDate the first time a bin with drafts is opened.
 
+## Components
+
+- `bcn-cscrub` (spoke) · `src/components/bcn/BcnCommitmentScrubber.astro`
+- `bcn-sw3ia` (spoke) · `src/components/bcn/BcnSw3IndexActions.astro`
+- `bcn-swsn` (spoke) · `src/components/bcn/BcnSwStepNav.astro`
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-confirm-dialog` (hub) · `packages/ecology/src/components/esa-confirm-dialog.ts`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+
 ## Markup
+
+_55 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <div class="bcn-swsn" data-ix-nav="" style="--_done: var(--color-obligation)">
   <div class="bcn-swsn__console">
@@ -92,209 +111,7 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
               ><span class="esa-button__label">Category</span>
             </button></span
           ></span
-        ><span data-ia-built="" hidden=""
-          ><span
-            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-            ><button
-              class="esa-button__native typography-microcopy-xs"
-              type="button"
-              data-ia-rerun="true"
-            >
-              <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                  <path d="M3 3v5h5"></path></svg></span
-              ><span class="esa-button__label">Re-run</span>
-            </button></span
-          ></span
-        ><span data-ia-drafted="" hidden=""
-          ><span
-            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-            ><button
-              class="esa-button__native typography-microcopy-xs"
-              type="button"
-              data-ico="undo-2"
-              data-ia-start-over="true"
-              title=""
-            >
-              <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                  data-ico="undo-2"
-                >
-                  <path d="M9 14 4 9l5-5"></path>
-                  <path
-                    d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"
-                  ></path></svg></span
-              ><span class="esa-button__label">Start over</span>
-            </button></span
-          ></span
-        ><span data-ia-again-wrap="" hidden=""
-          ><span
-            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-            ><button
-              class="esa-button__native typography-microcopy-xs"
-              type="button"
-              data-ico="play"
-              data-ia-again="true"
-              title="Draft again"
-            >
-              <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                  data-ico="play"
-                >
-                  <polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span
-              ><span class="esa-button__label">Draft again</span>
-            </button></span
-          ></span
-        ><span data-ia-draft-wrap="" hidden=""
-          ><span
-            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-            ><button
-              class="esa-button__native typography-microcopy-xs"
-              type="button"
-              data-ico="play"
-              data-ia-draft="true"
-            >
-              <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                  data-ico="play"
-                >
-                  <polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span
-              ><span class="esa-button__label">Draft actions &amp; obligations</span>
-            </button></span
-          ></span
-        ><span data-ia-suggest-wrap="" hidden=""
-          ><span
-            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-            ><button
-              class="esa-button__native typography-microcopy-xs"
-              type="button"
-              data-ico="square-dashed"
-              data-ia-suggest="true"
-            >
-              <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                  data-ico="square-dashed"
-                >
-                  <path d="M5 3a2 2 0 0 0-2 2"></path>
-                  <path d="M19 3a2 2 0 0 1 2 2"></path>
-                  <path d="M21 19a2 2 0 0 1-2 2"></path>
-                  <path d="M5 21a2 2 0 0 1-2-2"></path>
-                  <path d="M9 3h1"></path>
-                  <path d="M9 21h1"></path>
-                  <path d="M14 3h1"></path>
-                  <path d="M14 21h1"></path>
-                  <path d="M3 9v1"></path>
-                  <path d="M21 9v1"></path>
-                  <path d="M3 14v1"></path>
-                  <path d="M21 14v1"></path></svg></span
-              ><span class="esa-button__label">Suggest Subcategories</span>
-            </button></span
-          ></span
-        ><span data-ia-log-wrap="" hidden=""
-          ><span
-            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-            ><button
-              class="esa-button__native typography-microcopy-xs"
-              type="button"
-              data-ia-log="true"
-            >
-              <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path
-                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                  ></path>
-                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                  <path d="M10 9H8"></path>
-                  <path d="M16 13H8"></path>
-                  <path d="M16 17H8"></path></svg></span
-              ><span class="esa-button__label">View Log</span>
-            </button></span
-          ></span
-        ><span data-ia-approve-wrap="" hidden=""
-          ><span
-            class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
-            ><button
-              class="esa-button__native typography-microcopy-xs"
-              type="button"
-              data-ia-approve="true"
-              disabled=""
-              title=""
-            >
-              <span class="esa-icon esa-icon--sm" aria-hidden="true"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="m9 12 2 2 4-4"></path></svg></span
-              ><span class="esa-button__label">Approve All</span>
-            </button></span
-          ></span
-        ><esa-confirm-dialog
+        ><!-- …and 7 more like this (<span>) --><esa-confirm-dialog
           heading="Start over?"
           variant="danger"
           confirm-label="Start over"
@@ -309,10 +126,7 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
           variant="default"
         ></esa-confirm-dialog>
       </div>
-      <script
-        type="module"
-        src="/beacon-design/_astro/BcnSw3IndexActions.astro_astro_type_script_index_0_lang.Ch3nHx6e.js"
-      ></script></span
+      <!-- script type="module" removed (0 bytes) --></span
     ><span class="bcn-swsn__end bcn-swsn__end--next" data-ix-step="" hidden=""
       ><span
         class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
@@ -377,31 +191,11 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
         data-cs-track=""
       >
         <span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__cell"></span><span class="bcn-cscrub__cell"></span
-        ><span class="bcn-cscrub__thumb" data-cs-thumb="" aria-hidden="true"></span>
+        ><!-- …and 48 more like this (<span class="bcn-cscrub__cell">) --><span
+          class="bcn-cscrub__thumb"
+          data-cs-thumb=""
+          aria-hidden="true"
+        ></span>
       </div>
       <span data-cs-next=""
         ><span
@@ -440,6 +234,7 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
 ```
 
 ## Styles
+
 ```css
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -448,31 +243,9 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -488,6 +261,11 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -495,9 +273,6 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -761,6 +536,17 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
 .bcn-swsn__scrub:empty {
   display: none;
 }
+@container (width<=640px) {
+  .bcn-sw3c__group [data-c-tool] .esa-button__label {
+    display: none;
+  }
+}
+@container (width<=540px) {
+  .bcn-sw3c__group [data-c-pages] .esa-button__label,
+  .bcn-sw3c__rule {
+    display: none;
+  }
+}
 .bcn-sw3ia {
   align-items: center;
   gap: var(--spacing-200);
@@ -782,6 +568,11 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
 .bcn-console__more .esa-button__native:hover {
   color: var(--bcn-console-fg);
 }
+@container (width<=720px) {
+  .bcn-sw3ip__toolkeys :is([data-ip-merge], [data-ip-discard-all]) .esa-button__label {
+    display: none;
+  }
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -794,23 +585,10 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
 .esa-button--sm {
   --_btn-pad-y: var(--spacing-250, 0.625rem);
   --_btn-padding-x: var(--spacing-250, 0.625rem);
   --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
 }
 .esa-button--variant-secondary {
   --_accent: var(--color-background-brand-muted);
@@ -818,33 +596,6 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
   --_on: var(--color-content-on-brand-muted, var(--color-content-default));
   --_accent-text: var(--color-content-brand);
   --_accent-border: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -908,10 +659,7 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -938,11 +686,6 @@ The foot of the step's panel, as step 1 carries its scan console: the header car
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -965,43 +708,12 @@ summary.esa-button--variant-chrome:focus-visible {
 .esa-button__label {
   white-space: nowrap;
 }
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
-}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
   font-weight: var(--typography-microcopy-xs-font-weight);
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -1012,20 +724,8 @@ summary.esa-button--variant-chrome:focus-visible {
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -1046,88 +746,54 @@ summary.esa-button--variant-chrome:focus-visible {
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--bcn-aldo-600`: #06736f _(component)_
-- `--bcn-console-fg`: #ffffffed _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-inverse`: #202020 _(component)_
-- `--color-background-success`: #2e7571 _(component)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-success`: #218358 _(component)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--shadow-300`: 0 6px 24px -6px #00000012 _(component)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
+| `--bcn-console-fg` | `#ffffffed` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-brand-muted` | `#fcfcfc` | semantic |
+| `--color-background-brand-muted-hover` | `#efefef` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-inverse` | `#202020` | component |
+| `--color-background-success` | `#2e7571` | component |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-on-brand-muted` | `#3d3d3d` | semantic |
+| `--color-content-success` | `#218358` | component |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--radius-100` | `.25rem` | primitive |
+| `--radius-200` | `.5rem` | primitive |
+| `--shadow-300` | `0 6px 24px -6px #00000012` | component |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |

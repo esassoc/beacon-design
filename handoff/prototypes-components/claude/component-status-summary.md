@@ -1,20 +1,38 @@
 # Component status summary
 
+Components (index) · source prototype: https://esassoc.github.io/beacon-design/prototypes/components/
+
+![Component status summary, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-components/claude/component-status-summary.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-components/claude/component-status-summary.phone.png
+
 A project-wide roll-up above the list: how many components exist, how they distribute across the lifecycle, and which ones have overdue actions. It answers "is anything wrong" before the user has to read any rows, which is the only question this page can usefully answer beyond routing.
 
 ## Key decisions
+
 - The status breakdown is a single proportional bar plus a legend with counts, not four stat cards. The distribution IS the information; four cards would spend a quarter of the page saying what one bar says.
 - The "Needs attention" lane lists components by overdue action count, most-overdue first, and links straight to each. It is the one place this page earns its keep as more than a router.
 - Lifecycle colors come from STATUS_META in src/data/component-dashboard.ts, which re-points onto the Beacon status-color standard in theme-beacon.css. Nothing here carries a literal hex.
 
 ## Gotchas
+
 - on-hold is deliberately DARKER than not-started. A paused component is a decision; not-started is an absence, and the palette should say which is which. --bcn-status-on-hold was added for exactly this surface — the first one to render all four lifecycle states side by side.
 - The count rule this page follows: a bare number means "the contents of this list". Anything narrower must say "N of M". A bare number over a filtered set is the bug this whole epic exists to stop repeating.
 
 ## Done when
+
 - The bar segments and legend counts sum to the total; the attention lane lists only components with overdue actions and each row navigates to that component; every color resolves through a token, and the four lifecycle states are visually distinguishable from one another.
 
+## Components
+
+- `bcn-summary` (spoke) · `src/components/bcn/BcnComponentSummary.astro`
+- `esa-card` (hub) · `packages/ecology/src/components/esa-card.astro`
+- `esa-stat` (hub) · `packages/ecology/src/components/esa-stat.astro`
+
 ## Markup
+
+_4 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <section class="bcn-summary" aria-label="Component status summary">
   <div class="esa-card">
@@ -47,22 +65,12 @@ A project-wide roll-up above the list: how many components exist, how they distr
             class="bcn-summary__seg"
             style="--_c: var(--color-background-utility-warning); width: 50%"
           ></span
-          ><span
-            class="bcn-summary__seg"
-            style="--_c: var(--bcn-status-on-hold); width: 12.5%"
-          ></span
-          ><span
-            class="bcn-summary__seg"
-            style="--_c: var(--color-background-utility-success); width: 12.5%"
-          ></span>
+          ><!-- …and 2 more like this (<span class="bcn-summary__seg">) -->
         </div>
         <ul class="bcn-summary__legend">
           <li class="bcn-summary__legend-item">
-            <span
-              class="bcn-summary__dot"
-              style="--_c: var(--bcn-status-not-started)"
-            ></span
-            >Not started<span class="bcn-summary__legend-count">4</span>
+            <span class="bcn-summary__dot" style="--_c: var(--bcn-status-not-started)"></span>Not
+            started<span class="bcn-summary__legend-count">4</span>
           </li>
           <li class="bcn-summary__legend-item">
             <span
@@ -71,17 +79,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
             ></span
             >In progress<span class="bcn-summary__legend-count">8</span>
           </li>
-          <li class="bcn-summary__legend-item">
-            <span class="bcn-summary__dot" style="--_c: var(--bcn-status-on-hold)"></span
-            >On hold<span class="bcn-summary__legend-count">2</span>
-          </li>
-          <li class="bcn-summary__legend-item">
-            <span
-              class="bcn-summary__dot"
-              style="--_c: var(--color-background-utility-success)"
-            ></span
-            >Complete<span class="bcn-summary__legend-count">2</span>
-          </li>
+          <!-- …and 2 more like this (<li class="bcn-summary__legend-item">) -->
         </ul>
       </div>
     </div>
@@ -99,16 +97,14 @@ A project-wide roll-up above the list: how many components exist, how they distr
         <div style="--stat-value-color: var(--color-content-utility-danger)">
           <div class="esa-stat">
             <div class="esa-stat__value typography-display-sm">6</div>
-            <div class="esa-stat__label typography-label-md">
-              Components with overdue actions
-            </div>
+            <div class="esa-stat__label typography-label-md">Components with overdue actions</div>
           </div>
         </div>
         <ul class="bcn-summary__att-list">
           <li class="bcn-summary__att-row">
             <span class="bcn-summary__att-name"
-              >Southern Tunnel Reach — King Island to Bethany Complex Launch Shaft
-              Transition Zone</span
+              >Southern Tunnel Reach — King Island to Bethany Complex Launch Shaft Transition
+              Zone</span
             ><span class="bcn-summary__att-flag">6 overdue</span>
           </li>
           <li class="bcn-summary__att-row">
@@ -116,8 +112,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
             ><span class="bcn-summary__att-flag">3 overdue</span>
           </li>
           <li class="bcn-summary__att-row">
-            <span class="bcn-summary__att-name"
-              >Bouldin Island Geotechnical Exploration</span
+            <span class="bcn-summary__att-name">Bouldin Island Geotechnical Exploration</span
             ><span class="bcn-summary__att-flag">3 overdue</span>
           </li>
           <li class="bcn-summary__att-more">+3 more</li>
@@ -129,6 +124,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
 ```
 
 ## Styles
+
 ```css
 .typography-display-sm {
   font-family: var(--typography-display-sm-font-family);
@@ -150,13 +146,6 @@ A project-wide roll-up above the list: how many components exist, how they distr
   font-weight: var(--typography-label-md-font-weight);
   line-height: var(--typography-label-md-line-height);
   letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
 .typography-title-sm-strong {
   font-family: var(--typography-title-sm-strong-font-family);
@@ -182,32 +171,12 @@ A project-wide roll-up above the list: how many components exist, how they distr
   display: block;
   overflow: hidden;
 }
-.esa-card--outlined {
-  --_card-border: var(--color-border-default, #cecece);
-}
-.esa-card--elevated {
-  --_card-border: transparent;
-  box-shadow: var(--elevation-2, 0 2px 12px 0 #0000000a);
-}
-.esa-card--filled {
-  --_card-bg: var(--color-background-elevation-sunken, #f0f0f0);
-  --_card-border: transparent;
-}
 .esa-card--header-primary .esa-card__header {
   --_card-header-bg: var(--color-background-brand, #46a758);
   --_card-header-color: var(--color-content-default-knockout, #fcfcfc);
 }
 .esa-card--header-muted .esa-card__header {
   --_card-header-bg: var(--color-background-elevation-sunken, #f0f0f0);
-}
-.esa-card--padding-none {
-  --_card-padding: 0;
-}
-.esa-card--padding-compact {
-  --_card-padding: var(--spacing-300, 0.75rem);
-}
-.esa-card--padding-spacious {
-  --_card-padding: var(--spacing-700, 3rem);
 }
 .esa-card__header {
   padding: var(--spacing-400, 1rem) var(--_card-padding);
@@ -233,42 +202,6 @@ A project-wide roll-up above the list: how many components exist, how they distr
   color: inherit;
   margin: 0;
 }
-.esa-card__subtitle {
-  color: var(--color-content-default-secondary, #646464);
-  margin: 0;
-}
-.esa-card--header-primary .esa-card__subtitle {
-  color: var(--color-content-on-brand, #fffc);
-}
-.esa-card__meta {
-  gap: var(--spacing-100, 0.25rem) var(--spacing-500, 1.5rem);
-  margin: var(--spacing-050, 0.125rem) 0 0;
-  flex-wrap: wrap;
-  display: flex;
-}
-.esa-card__meta-pair {
-  align-items: baseline;
-  gap: var(--spacing-100, 0.25rem);
-  min-width: 0;
-  display: flex;
-}
-.esa-card__meta dt {
-  font-size: var(--_card-meta-label-size);
-  font-weight: var(--font-weight-medium, 500);
-  color: var(--_card-meta-label-color);
-}
-.esa-card__meta dd {
-  font-size: var(--_card-meta-value-size);
-  color: inherit;
-  margin: 0;
-}
-.esa-card--header-primary .esa-card__meta dt {
-  color: #fffc;
-}
-.esa-card__icon {
-  color: inherit;
-  flex-shrink: 0;
-}
 .esa-card__actions {
   align-items: center;
   gap: var(--spacing-200, 0.5rem);
@@ -276,11 +209,6 @@ A project-wide roll-up above the list: how many components exist, how they distr
 }
 .esa-card__body {
   padding: var(--_card-padding);
-}
-.esa-card__footer {
-  padding: var(--spacing-300, 0.75rem) var(--_card-padding);
-  border-top: var(--border-width-default, 1px) solid var(--_card-header-border);
-  background: var(--color-background-elevation-sunken, #f0f0f0);
 }
 .bcn-ev-staging__item .esa-card {
   overflow: visible;
@@ -300,6 +228,11 @@ A project-wide roll-up above the list: how many components exist, how they distr
   grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr);
   align-items: stretch;
   display: grid;
+}
+@media (width<=860px) {
+  .bcn-summary {
+    grid-template-columns: 1fr;
+  }
 }
 .bcn-summary > .esa-card {
   height: 100%;
@@ -406,13 +339,6 @@ A project-wide roll-up above the list: how many components exist, how they distr
   font-size: var(--font-size-100);
   color: var(--bcn-content-muted);
 }
-.bcn-summary__att-clear {
-  margin: var(--spacing-400) 0 0;
-  padding: var(--spacing-400) 0 0;
-  border-top: 1px solid var(--color-border-default-subtle);
-  font-size: var(--font-size-150);
-  color: var(--color-content-default-secondary);
-}
 .typography-display-sm {
   font-family: var(--typography-display-sm-font-family);
   font-size: var(--typography-display-sm-font-size);
@@ -433,13 +359,6 @@ A project-wide roll-up above the list: how many components exist, how they distr
   font-weight: var(--typography-label-md-font-weight);
   line-height: var(--typography-label-md-line-height);
   letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
 .typography-title-sm-strong {
   font-family: var(--typography-title-sm-strong-font-family);
@@ -500,79 +419,69 @@ A project-wide roll-up above the list: how many components exist, how they distr
   font-weight: var(--_stat-label-weight);
   color: var(--_stat-label-color);
 }
-.esa-stat__sub {
-  font-size: var(--_stat-sub-size);
-  color: var(--_stat-sub-color);
-}
 ```
 
 ## Tokens
-- `--bcn-content-muted`: #7c7c7c _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--card-bg`: #fcfcfc _(component)_
-- `--card-border-color`: #dcdcdc _(component)_
-- `--card-header-bg`: transparent _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-on-brand`: #fcfcfc _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--elevation-2`: 0 2px 12px 0 #0000000a _(semantic)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
-- `--font-size-700`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(primitive)_
-- `--font-weight-medium`: 500 _(component)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-full`: 9999px _(primitive)_
-- `--radius-md`: .25rem _(semantic)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--spacing-700`: 3rem _(primitive)_
-- `--stat-accent-color`: #005862 _(component)_
-- `--stat-value-color`: #3d3d3d _(component)_
-- `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
-- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
-- `--typography-body-md-letter-spacing`: .01em _(semantic)_
-- `--typography-body-md-line-height`: 1.6 _(semantic)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-display-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-display-sm-font-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(semantic)_
-- `--typography-display-sm-font-weight`: 650 _(semantic)_
-- `--typography-display-sm-letter-spacing`: -.01em _(semantic)_
-- `--typography-display-sm-line-height`: 1.3 _(semantic)_
-- `--typography-font-family-display`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-font-weight`: 500 _(semantic)_
-- `--typography-label-md-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-line-height`: 1.6 _(semantic)_
-- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
-- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-sm-strong-font-size`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(semantic)_
-- `--typography-title-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-title-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-title-sm-strong-line-height`: 1.6 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-content-muted` | `#7c7c7c` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--card-bg` | `#fcfcfc` | component |
+| `--card-border-color` | `#dcdcdc` | component |
+| `--card-header-bg` | `transparent` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-utility-danger` | `#ce2c31` | semantic |
+| `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
+| `--font-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
+| `--radius-100` | `.25rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--radius-md` | `.25rem` | semantic |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--stat-accent-color` | `#005862` | component |
+| `--stat-value-color` | `#3d3d3d` | component |
+| `--stat-value-size` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | component |
+| `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-body-md-font-weight` | `400` | semantic |
+| `--typography-body-md-letter-spacing` | `.01em` | semantic |
+| `--typography-body-md-line-height` | `1.6` | semantic |
+| `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-display-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-display-sm-font-size` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | semantic |
+| `--typography-display-sm-font-weight` | `650` | semantic |
+| `--typography-display-sm-letter-spacing` | `-.01em` | semantic |
+| `--typography-display-sm-line-height` | `1.3` | semantic |
+| `--typography-font-family-display` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
+| `--typography-label-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-md-font-weight` | `500` | semantic |
+| `--typography-label-md-letter-spacing` | `.01em` | semantic |
+| `--typography-label-md-line-height` | `1.6` | semantic |
+| `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-title-sm-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-title-sm-strong-font-size` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` | semantic |
+| `--typography-title-sm-strong-font-weight` | `550` | semantic |
+| `--typography-title-sm-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-title-sm-strong-line-height` | `1.6` | semantic |

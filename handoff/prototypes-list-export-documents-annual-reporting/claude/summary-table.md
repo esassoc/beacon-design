@@ -1,16 +1,31 @@
 # Summary table
 
+Action list PDF · source prototype: https://esassoc.github.io/beacon-design/prototypes/list-export-documents/annual-reporting/
+
+![Summary table, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-annual-reporting/claude/summary-table.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-annual-reporting/claude/summary-table.phone.png
+
 One line per action: Action, Frequency, Commitments, under full-width type rows.
 
 ## Key decisions
+
 - Same single-table build as the obligation list: one <thead> that repeats on every page, groups as `th colspan` rows.
 - No Type column: the type is the group row.
 - Column widths: Action 62%, Commitments 22%.
 
 ## Done when
+
 - Page 2 of a long list starts with the column header.
 
+## Components
+
+- `bcn-doc-summary` (spoke) · `src/components/bcn/BcnDocSummary.astro`
+
 ## Markup
+
+_12 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <table class="bcn-doc-summary">
   <colgroup>
@@ -54,71 +69,13 @@ One line per action: Action, Frequency, Commitments, under full-width type rows.
       <td>One time</td>
       <td>COA 10.15</td>
     </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">Notify CDFW of Likely Impact Exceedance and Revised Schedule</th>
-      <td>As needed</td>
-      <td>COA 10.9</td>
-    </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">Notify CDFW of TRBL Colony or Roost Disturbance</th>
-      <td>As needed</td>
-      <td>COA 11.86, COA 11.88</td>
-    </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">Report Construction-Phase CBB and MALI Survey Results</th>
-      <td>Recurring</td>
-      <td>COA 11.97, COA 11.105</td>
-    </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">Report Habitat Disturbance Acreage and GIS Layers to CDFW</th>
-      <td>Recurring</td>
-      <td>COA 10.3, COA 10.5</td>
-    </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">Report Hydroacoustic and Pile Driving Monitoring Results</th>
-      <td>Recurring</td>
-      <td>COA 11.33</td>
-    </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">Report Intake Sediment Deposition Assessment to CDFW</th>
-      <td>Recurring</td>
-      <td>COA 10.29</td>
-    </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">Report Mercury Monitoring Results to CDFW</th>
-      <td>Recurring</td>
-      <td>COA 11.30</td>
-    </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">Submit Covered Species Observations to CNDDB</th>
-      <td>As needed</td>
-      <td>COA 10.14</td>
-    </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">Submit Phase 2 Project Operations Report to CDFW</th>
-      <td>One time</td>
-      <td>COA 7.5</td>
-    </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">Submit Photo Monitoring Documentation Report</th>
-      <td>Recurring</td>
-      <td>COA 10.6</td>
-    </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">Submit Restoration Monitoring Reports to CDFW</th>
-      <td>Recurring</td>
-      <td>COA 12.3.4</td>
-    </tr>
-    <tr class="bcn-doc-summary__row">
-      <th scope="row">Upload Stormwater Forms and Records to SMARTS</th>
-      <td>Recurring</td>
-      <td>COA 11.25</td>
-    </tr>
+    <!-- …and 12 more like this (<tr class="bcn-doc-summary__row">) -->
   </tbody>
 </table>
 ```
 
 ## Styles
+
 ```css
 .bcn-doc-summary {
   border-collapse: collapse;
@@ -142,20 +99,6 @@ One line per action: Action, Frequency, Commitments, under full-width type rows.
   font-weight: var(--typography-font-weight-semibold);
   color: var(--color-content-default);
   border-block-end: 1px solid var(--color-border-default-strong);
-}
-.bcn-doc-summary__section th {
-  padding: var(--spacing-250) 0 var(--spacing-100);
-  text-align: start;
-  font-size: var(--bcn-print-font-size-entry);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-}
-.bcn-doc-summary__run th {
-  padding: var(--spacing-150) 0 var(--spacing-050);
-  text-align: start;
-  font-size: var(--bcn-print-font-size-meta);
-  font-weight: var(--typography-font-weight-medium);
-  color: var(--color-content-default-secondary);
 }
 .bcn-doc-summary__group,
 .bcn-doc-summary__section,
@@ -184,20 +127,19 @@ One line per action: Action, Frequency, Commitments, under full-width type rows.
 ```
 
 ## Tokens
-- `--bcn-print-font-size-body`: 9pt _(component)_
-- `--bcn-print-font-size-entry`: 9.5pt _(component)_
-- `--bcn-print-font-size-meta`: 8pt _(component)_
-- `--bcn-print-font-size-subgroup`: 10.5pt _(component)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-regular`: 400 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-print-font-size-body` | `9pt` | component |
+| `--bcn-print-font-size-meta` | `8pt` | component |
+| `--bcn-print-font-size-subgroup` | `10.5pt` | component |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-regular` | `400` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |

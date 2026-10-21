@@ -1,21 +1,33 @@
 # Readiness strip
 
+Site Clearance — Biological · source prototype: https://esassoc.github.io/beacon-design/prototypes/site-clearance-bio/
+
+![Readiness strip, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-site-clearance-bio/claude/readiness-strip.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-site-clearance-bio/claude/readiness-strip.phone.png
+
 The census figure below the map (Map tab ONLY — never repeated on Data or Activity): the "Ready to work N of M work areas" headline over a single stacked "Work areas by clearance status" bar, with a per-status legend carrying live counts. It answers "how close is the program to clear?" at a glance and is scoped by the same Map filters as the markers.
 
 ## Key decisions
+
 - One horizontal stacked bar, segments in STATUS_ORDER (worst → best), each sized by its share of the total — the bar reads as a progression toward "ready".
 - "Ready to work" counts Cleared only — Inaccessible and every flavor of red are not workable.
 - Provisional-block gets a red/white DIAGONAL STRIPE (repeating-linear-gradient), not a solid fill — same "not solidified" story as the hollow markers.
 - Counts (bar segments, headline, legend) all derive from statusCounts() over the filtered set — one computation feeds every number so they can never disagree.
 
 ## Gotchas
+
 - The strip is scoped by the Map facets, so its numbers are of the FILTERED set, not the whole component — the denominator must stay honest when a filter is active.
 - The strip hides entirely for an empty component (a census of nothing reads wrong); the map's empty state carries that story instead.
 
 ## Done when
+
 - The bar sums to the (filtered) total; provisional-block renders as a diagonal stripe; the "Ready to work N of M" headline counts Cleared only; every legend count agrees with the bar and updates when a Map facet changes.
 
 ## Markup
+
+_6 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <section class="readiness" aria-label="Work areas by clearance status">
   <div class="readiness__head">
@@ -25,12 +37,7 @@ The census figure below the map (Map tab ONLY — never repeated on Data or Acti
       ><span id="rs-total">of 231 work areas</span></span
     >
   </div>
-  <div
-    class="readiness__bar"
-    id="rs-bar"
-    role="img"
-    aria-label="8 of 231 work areas ready"
-  >
+  <div class="readiness__bar" id="rs-bar" role="img" aria-label="8 of 231 work areas ready">
     <div
       title="Blocked: 3"
       style="height: 100%; flex: 0 0 1.2987%; background: var(--st-blocked)"
@@ -47,18 +54,7 @@ The census figure below the map (Map tab ONLY — never repeated on Data or Acti
         );
       "
     ></div>
-    <div
-      title="Inaccessible: 2"
-      style="height: 100%; flex: 0 0 0.865801%; background: var(--st-inaccessible)"
-    ></div>
-    <div
-      title="Not Surveyed: 200"
-      style="height: 100%; flex: 0 0 86.5801%; background: var(--st-not-surveyed)"
-    ></div>
-    <div
-      title="Cleared: 8"
-      style="height: 100%; flex: 0 0 3.4632%; background: var(--st-cleared)"
-    ></div>
+    <!-- …and 3 more like this (<div>) -->
   </div>
   <ul class="readiness__legend">
     <li class="readiness__legend-item" data-rs-item="blocked" data-empty="false">
@@ -66,11 +62,7 @@ The census figure below the map (Map tab ONLY — never repeated on Data or Acti
       ><span class="readiness__legend-label">Blocked</span
       ><span class="readiness__legend-count" data-rs-count="blocked">3</span>
     </li>
-    <li
-      class="readiness__legend-item"
-      data-rs-item="provisional-block"
-      data-empty="false"
-    >
+    <li class="readiness__legend-item" data-rs-item="provisional-block" data-empty="false">
       <span
         class="readiness__swatch"
         style="
@@ -82,26 +74,13 @@ The census figure below the map (Map tab ONLY — never repeated on Data or Acti
       ><span class="readiness__legend-label">Provisional Block</span
       ><span class="readiness__legend-count" data-rs-count="provisional-block">18</span>
     </li>
-    <li class="readiness__legend-item" data-rs-item="inaccessible" data-empty="false">
-      <span class="readiness__swatch" style="background: var(--st-inaccessible)"></span
-      ><span class="readiness__legend-label">Inaccessible</span
-      ><span class="readiness__legend-count" data-rs-count="inaccessible">2</span>
-    </li>
-    <li class="readiness__legend-item" data-rs-item="not-surveyed" data-empty="false">
-      <span class="readiness__swatch" style="background: var(--st-not-surveyed)"></span
-      ><span class="readiness__legend-label">Not Surveyed</span
-      ><span class="readiness__legend-count" data-rs-count="not-surveyed">200</span>
-    </li>
-    <li class="readiness__legend-item" data-rs-item="cleared" data-empty="false">
-      <span class="readiness__swatch" style="background: var(--st-cleared)"></span
-      ><span class="readiness__legend-label">Cleared</span
-      ><span class="readiness__legend-count" data-rs-count="cleared">8</span>
-    </li>
+    <!-- …and 3 more like this (<li class="readiness__legend-item">) -->
   </ul>
 </section>
 ```
 
 ## Styles
+
 ```css
 .readiness {
   gap: var(--spacing-200);
@@ -175,26 +154,31 @@ The census figure below the map (Map tab ONLY — never repeated on Data or Acti
   color: var(--color-content-default);
   font-variant-numeric: tabular-nums;
 }
-.readiness {
-  break-inside: avoid;
-  border-color: var(--color-border-default, #ccc);
+@media print {
+  .readiness {
+    break-inside: avoid;
+    border-color: var(--color-border-default, #ccc);
+  }
 }
 ```
 
 ## Tokens
-- `--color-background-default`: #fafafa _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--radius-050`: .125rem _(primitive)_
-- `--radius-300`: .5rem _(primitive)_
-- `--radius-full`: 9999px _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--st-cleared`: #1a9850 _(component)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--color-background-default` | `#fafafa` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--radius-050` | `.125rem` | primitive |
+| `--radius-300` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--st-cleared` | `#1a9850` | component |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |

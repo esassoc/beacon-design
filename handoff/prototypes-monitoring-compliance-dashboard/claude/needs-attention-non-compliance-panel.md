@@ -1,8 +1,15 @@
 # Needs Attention & Non-Compliance panel
 
+Compliance Dashboard · source prototype: https://esassoc.github.io/beacon-design/prototypes/monitoring/compliance-dashboard/
+
+![Needs Attention & Non-Compliance panel, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-compliance-dashboard/claude/needs-attention-non-compliance-panel.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-compliance-dashboard/claude/needs-attention-non-compliance-panel.phone.png
+
 BcnAttentionPanel — one card answering the three questions a compliance lead asks in sequence: WHERE the active issues are (a non-interactive map inset), WHAT is still outstanding (the item list, worst first, each row routing into its Observations detail), and HOW to get it off-platform (spreadsheet and KMZ export).
 
 ## Key decisions
+
 - The component never sorts, filters, or reasons about severity — the caller hands it a list already ordered worst-first, and it only renders and derives map pins from what it is given. Keeping the ordering policy in the page is what lets the same panel serve a differently-configured project.
 - The map inset is BcnObservationMap with interactive={false}: it reads as a picture of where the issues are, not a map you work in. The interactive instance of the same component is the Observations page map.
 - It does NOT repeat the category breakdown — that lives in the severity overview above, split by severity. Two widgets showing the same counts in different groupings is how dashboards start disagreeing with themselves.
@@ -10,16 +17,31 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
 - Everything else is a lego: esa-card shell with actions and footer slots, esa-button for all four actions, esa-badge for the age, esa-empty-state for the zero case, bcn-status-chip for the severity colour.
 
 ## Gotchas
+
 - The registry has no `download` or `map` icon, and EsaButton does not forward a paths override, so the export buttons use `arrow-down` and `map-pin`, which read slightly off-label. Logged in the ledger — swap them the moment the registry grows.
 - The export buttons live in the esa-card actions slot, so they sit in the card HEADER, not next to the list. Do not re-parent them into the body when porting; the slot placement is what keeps the card header pattern consistent with the other trackers.
 - The map inset derives its pins from the same outstanding array the list renders. Feeding the two from different sources will silently desynchronise the picture from the list.
 
 ## Done when
+
 - The card shows a map inset, an outstanding list ordered worst-first, and four actions; each list row opens that observation in the Observations page.
 - Export spreadsheet and Export KMZ both download a file client-side covering exactly the rows shown.
 - With no outstanding items the list is replaced by an esa-empty-state and the map inset renders with no pins.
 
+## Components
+
+- `bcn-apanel` (spoke) · `src/components/bcn/BcnAttentionPanel.astro`
+- `bcn-obsmap` (spoke) · `src/components/bcn/BcnDmrDetails.astro`
+- `bcn-status-chip` (spoke) · `src/components/bcn/BcnActionTable.astro`
+- `esa-badge` (hub) · `packages/ecology/src/components/esa-badge.astro` → use `ui-badge` in the Beacon app
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-card` (hub) · `packages/ecology/src/components/esa-card.astro`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+
 ## Markup
+
+_19 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <div class="esa-card">
   <div class="esa-card__header">
@@ -97,10 +119,7 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
           aria-label="Observation map — 10 observations plotted by severity"
           data-bcn-obsmap-ready="true"
         >
-          <div
-            class="leaflet-pane leaflet-map-pane"
-            style="transform: translate3d(0px, 0px, 0px)"
-          >
+          <div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px)">
             <div class="leaflet-pane leaflet-tile-pane">
               <div class="leaflet-layer" style="z-index: 1; opacity: 1">
                 <div
@@ -127,27 +146,7 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
                       transform: translate3d(130px, -137px, 0px);
                       opacity: 1;
                     "
-                  /><img
-                    alt=""
-                    src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/13/1379/3235?access_token=undefined"
-                    class="leaflet-tile"
-                    style="
-                      width: 256px;
-                      height: 256px;
-                      transform: translate3d(-126px, 119px, 0px);
-                      opacity: 1;
-                    "
-                  /><img
-                    alt=""
-                    src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/13/1380/3235?access_token=undefined"
-                    class="leaflet-tile"
-                    style="
-                      width: 256px;
-                      height: 256px;
-                      transform: translate3d(130px, 119px, 0px);
-                      opacity: 1;
-                    "
-                  />
+                  /><!-- …and 2 more like this (<img class="leaflet-tile">) -->
                 </div>
               </div>
             </div>
@@ -185,109 +184,14 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
                     fill-rule="evenodd"
                     d="M126,181a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
                   ></path>
-                  <path
-                    class="leaflet-interactive"
-                    stroke="#fcfcfc"
-                    stroke-opacity="1"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    fill="#ce2c31"
-                    fill-opacity="0.9"
-                    fill-rule="evenodd"
-                    d="M162,226a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                  ></path>
-                  <path
-                    class="leaflet-interactive"
-                    stroke="#fcfcfc"
-                    stroke-opacity="1"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    fill="#f59e0b"
-                    fill-opacity="0.9"
-                    fill-rule="evenodd"
-                    d="M90,70a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                  ></path>
-                  <path
-                    class="leaflet-interactive"
-                    stroke="#fcfcfc"
-                    stroke-opacity="1"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    fill="#f59e0b"
-                    fill-opacity="0.9"
-                    fill-rule="evenodd"
-                    d="M238,201a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                  ></path>
-                  <path
-                    class="leaflet-interactive"
-                    stroke="#fcfcfc"
-                    stroke-opacity="1"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    fill="#f59e0b"
-                    fill-opacity="0.9"
-                    fill-rule="evenodd"
-                    d="M192,143a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                  ></path>
-                  <path
-                    class="leaflet-interactive"
-                    stroke="#fcfcfc"
-                    stroke-opacity="1"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    fill="#f59e0b"
-                    fill-opacity="0.9"
-                    fill-rule="evenodd"
-                    d="M212,134a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                  ></path>
-                  <path
-                    class="leaflet-interactive"
-                    stroke="#fcfcfc"
-                    stroke-opacity="1"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    fill="#f59e0b"
-                    fill-opacity="0.9"
-                    fill-rule="evenodd"
-                    d="M175,123a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                  ></path>
-                  <path
-                    class="leaflet-interactive"
-                    stroke="#fcfcfc"
-                    stroke-opacity="1"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    fill="#f59e0b"
-                    fill-opacity="0.9"
-                    fill-rule="evenodd"
-                    d="M90,70a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                  ></path>
-                  <path
-                    class="leaflet-interactive"
-                    stroke="#fcfcfc"
-                    stroke-opacity="1"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    fill="#f59e0b"
-                    fill-opacity="0.9"
-                    fill-rule="evenodd"
-                    d="M143,32a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                  ></path>
+                  <!-- …and 8 more like this (<path class="[object SVGAnimatedString]">) -->
                 </g>
               </svg>
             </div>
             <div class="leaflet-pane leaflet-shadow-pane"></div>
             <div class="leaflet-pane leaflet-marker-pane"></div>
             <div class="leaflet-pane leaflet-tooltip-pane"></div>
-            <div class="leaflet-pane leaflet-popup-pane"></div>
+            <!-- …and 1 more like this (<div class="leaflet-pane leaflet-tile-pane">) -->
             <div
               class="leaflet-proxy leaflet-zoom-animated"
               style="transform: translate3d(353302px, 828170px, 0px) scale(4096)"
@@ -300,84 +204,7 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
             <div class="leaflet-bottom leaflet-right"></div>
           </div>
         </div>
-        <script type="application/json" data-bcn-obsmap-data="attention-panel">
-          [
-            {
-              "id": "obs-0121",
-              "lat": 35.3572,
-              "lng": -119.3678,
-              "label": "obs-0121 — Cultural Resources Protection",
-              "hex": "var(--color-background-utility-danger)"
-            },
-            {
-              "id": "obs-0139",
-              "lat": 35.3445,
-              "lng": -119.3549,
-              "label": "obs-0139 — Spill Prevention & Response",
-              "hex": "var(--color-background-utility-danger)"
-            },
-            {
-              "id": "obs-0142",
-              "lat": 35.3382,
-              "lng": -119.3488,
-              "label": "obs-0142 — Stormwater / BMP Maintenance",
-              "hex": "var(--color-background-utility-danger)"
-            },
-            {
-              "id": "obs-0113",
-              "lat": 35.3601,
-              "lng": -119.3612,
-              "label": "obs-0113 — Access & Traffic Control",
-              "hex": "var(--color-background-utility-warning)"
-            },
-            {
-              "id": "obs-0118",
-              "lat": 35.3418,
-              "lng": -119.3357,
-              "label": "obs-0118 — Stormwater / BMP Maintenance",
-              "hex": "var(--color-background-utility-warning)"
-            },
-            {
-              "id": "obs-0126",
-              "lat": 35.3499,
-              "lng": -119.3437,
-              "label": "obs-0126 — Noise Management",
-              "hex": "var(--color-background-utility-warning)"
-            },
-            {
-              "id": "obs-0130",
-              "lat": 35.3511,
-              "lng": -119.3402,
-              "label": "obs-0130 — Vegetation & Habitat Protection",
-              "hex": "var(--color-background-utility-warning)"
-            },
-            {
-              "id": "obs-0136",
-              "lat": 35.3527,
-              "lng": -119.3465,
-              "label": "obs-0136 — Waste Management",
-              "hex": "var(--color-background-utility-warning)"
-            },
-            {
-              "id": "obs-0140",
-              "lat": 35.3601,
-              "lng": -119.3612,
-              "label": "obs-0140 — Access & Traffic Control",
-              "hex": "var(--color-background-utility-warning)"
-            },
-            {
-              "id": "obs-0144",
-              "lat": 35.3654,
-              "lng": -119.3521,
-              "label": "obs-0144 — Erosion & Sediment Control",
-              "hex": "var(--color-background-utility-warning)"
-            }
-          ]
-        </script>
-        <script
-          type="module"
-          src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.BpV6USJW.js"
-        ></script>
+        <!-- script type="application/json" removed (1 KB) --><!-- script type="module" removed (0 bytes) -->
       </div>
       <section class="bcn-apanel__outstanding stack" data-gap="sm">
         <h4 class="bcn-apanel__heading typography-label-xs">Outstanding items (10)</h4>
@@ -390,9 +217,7 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
             ><span
               class="bcn-status-chip"
               data-status="non-compliance"
-              style="
-                --_chip: var(--st-non-compliance, var(--color-background-utility-danger));
-              "
+              style="--_chip: var(--st-non-compliance, var(--color-background-utility-danger))"
               ><span class="bcn-status-chip__dot"></span
               ><span class="bcn-status-chip__label">Non-Compliance</span></span
             ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
@@ -403,13 +228,10 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
      unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
      specific to this one component) that this trades a hairline collision risk for the
      chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span
-              class="bcn-apanel__category typography-body-sm"
+     style block already documents. --><span class="bcn-apanel__category typography-body-sm"
               >Cultural Resources Protection</span
-            ><span class="bcn-apanel__area typography-body-sm"
-              >Perimeter Fence Line — West</span
-            ><span
-              class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
+            ><span class="bcn-apanel__area typography-body-sm">Perimeter Fence Line — West</span
+            ><span class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
               ><span class="esa-badge__text">25d active</span></span
             >
           </li>
@@ -421,9 +243,7 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
             ><span
               class="bcn-status-chip"
               data-status="non-compliance"
-              style="
-                --_chip: var(--st-non-compliance, var(--color-background-utility-danger));
-              "
+              style="--_chip: var(--st-non-compliance, var(--color-background-utility-danger))"
               ><span class="bcn-status-chip__dot"></span
               ><span class="bcn-status-chip__label">Non-Compliance</span></span
             ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
@@ -434,280 +254,14 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
      unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
      specific to this one component) that this trades a hairline collision risk for the
      chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span
-              class="bcn-apanel__category typography-body-sm"
+     style block already documents. --><span class="bcn-apanel__category typography-body-sm"
               >Spill Prevention &amp; Response</span
-            ><span class="bcn-apanel__area typography-body-sm"
-              >Laydown / Staging Yard</span
-            ><span
-              class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
+            ><span class="bcn-apanel__area typography-body-sm">Laydown / Staging Yard</span
+            ><span class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
               ><span class="esa-badge__text">12d active</span></span
             >
           </li>
-          <li class="bcn-apanel__row">
-            <a
-              class="bcn-apanel__id"
-              href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0142"
-              >obs-0142</a
-            ><span
-              class="bcn-status-chip"
-              data-status="non-compliance"
-              style="
-                --_chip: var(--st-non-compliance, var(--color-background-utility-danger));
-              "
-              ><span class="bcn-status-chip__dot"></span
-              ><span class="bcn-status-chip__label">Non-Compliance</span></span
-            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span
-              class="bcn-apanel__category typography-body-sm"
-              >Stormwater / BMP Maintenance</span
-            ><span class="bcn-apanel__area typography-body-sm">South Array — Block B</span
-            ><span
-              class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
-              ><span class="esa-badge__text">7d active</span></span
-            >
-          </li>
-          <li class="bcn-apanel__row">
-            <a
-              class="bcn-apanel__id"
-              href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0113"
-              >obs-0113</a
-            ><span
-              class="bcn-status-chip"
-              data-status="needs-attention"
-              style="
-                --_chip: var(
-                  --st-needs-attention,
-                  var(--color-background-utility-warning)
-                );
-              "
-              ><span class="bcn-status-chip__dot"></span
-              ><span class="bcn-status-chip__label">Needs Attention</span></span
-            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span
-              class="bcn-apanel__category typography-body-sm"
-              >Access &amp; Traffic Control</span
-            ><span class="bcn-apanel__area typography-body-sm"
-              >Main Access Road (Hwy 58 Spur)</span
-            ><span
-              class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
-              ><span class="esa-badge__text">33d active</span></span
-            >
-          </li>
-          <li class="bcn-apanel__row">
-            <a
-              class="bcn-apanel__id"
-              href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0118"
-              >obs-0118</a
-            ><span
-              class="bcn-status-chip"
-              data-status="needs-attention"
-              style="
-                --_chip: var(
-                  --st-needs-attention,
-                  var(--color-background-utility-warning)
-                );
-              "
-              ><span class="bcn-status-chip__dot"></span
-              ><span class="bcn-status-chip__label">Needs Attention</span></span
-            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span
-              class="bcn-apanel__category typography-body-sm"
-              >Stormwater / BMP Maintenance</span
-            ><span class="bcn-apanel__area typography-body-sm"
-              >Cottonwood Wash Crossing</span
-            ><span
-              class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
-              ><span class="esa-badge__text">28d active</span></span
-            >
-          </li>
-          <li class="bcn-apanel__row">
-            <a
-              class="bcn-apanel__id"
-              href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0126"
-              >obs-0126</a
-            ><span
-              class="bcn-status-chip"
-              data-status="needs-attention"
-              style="
-                --_chip: var(
-                  --st-needs-attention,
-                  var(--color-background-utility-warning)
-                );
-              "
-              ><span class="bcn-status-chip__dot"></span
-              ><span class="bcn-status-chip__label">Needs Attention</span></span
-            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span
-              class="bcn-apanel__category typography-body-sm"
-              >Noise Management</span
-            ><span class="bcn-apanel__area typography-body-sm">BESS Pad</span
-            ><span
-              class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
-              ><span class="esa-badge__text">22d active</span></span
-            >
-          </li>
-          <li class="bcn-apanel__row">
-            <a
-              class="bcn-apanel__id"
-              href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0130"
-              >obs-0130</a
-            ><span
-              class="bcn-status-chip"
-              data-status="needs-attention"
-              style="
-                --_chip: var(
-                  --st-needs-attention,
-                  var(--color-background-utility-warning)
-                );
-              "
-              ><span class="bcn-status-chip__dot"></span
-              ><span class="bcn-status-chip__label">Needs Attention</span></span
-            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span
-              class="bcn-apanel__category typography-body-sm"
-              >Vegetation &amp; Habitat Protection</span
-            ><span class="bcn-apanel__area typography-body-sm">Substation Yard</span
-            ><span
-              class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
-              ><span class="esa-badge__text">20d active</span></span
-            >
-          </li>
-          <li class="bcn-apanel__row">
-            <a
-              class="bcn-apanel__id"
-              href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0136"
-              >obs-0136</a
-            ><span
-              class="bcn-status-chip"
-              data-status="needs-attention"
-              style="
-                --_chip: var(
-                  --st-needs-attention,
-                  var(--color-background-utility-warning)
-                );
-              "
-              ><span class="bcn-status-chip__dot"></span
-              ><span class="bcn-status-chip__label">Needs Attention</span></span
-            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span
-              class="bcn-apanel__category typography-body-sm"
-              >Waste Management</span
-            ><span class="bcn-apanel__area typography-body-sm">O&amp;M Building Area</span
-            ><span
-              class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
-              ><span class="esa-badge__text">16d active</span></span
-            >
-          </li>
-          <li class="bcn-apanel__row">
-            <a
-              class="bcn-apanel__id"
-              href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0140"
-              >obs-0140</a
-            ><span
-              class="bcn-status-chip"
-              data-status="needs-attention"
-              style="
-                --_chip: var(
-                  --st-needs-attention,
-                  var(--color-background-utility-warning)
-                );
-              "
-              ><span class="bcn-status-chip__dot"></span
-              ><span class="bcn-status-chip__label">Needs Attention</span></span
-            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span
-              class="bcn-apanel__category typography-body-sm"
-              >Access &amp; Traffic Control</span
-            ><span class="bcn-apanel__area typography-body-sm"
-              >Main Access Road (Hwy 58 Spur)</span
-            ><span
-              class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
-              ><span class="esa-badge__text">9d active</span></span
-            >
-          </li>
-          <li class="bcn-apanel__row">
-            <a
-              class="bcn-apanel__id"
-              href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0144"
-              >obs-0144</a
-            ><span
-              class="bcn-status-chip"
-              data-status="needs-attention"
-              style="
-                --_chip: var(
-                  --st-needs-attention,
-                  var(--color-background-utility-warning)
-                );
-              "
-              ><span class="bcn-status-chip__dot"></span
-              ><span class="bcn-status-chip__label">Needs Attention</span></span
-            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span
-              class="bcn-apanel__category typography-body-sm"
-              >Erosion &amp; Sediment Control</span
-            ><span class="bcn-apanel__area typography-body-sm">North Array — Block A</span
-            ><span
-              class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
-              ><span class="esa-badge__text">4d active</span></span
-            >
-          </li>
+          <!-- …and 8 more like this (<li class="bcn-apanel__row">) -->
         </ul>
       </section>
     </div>
@@ -737,6 +291,7 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
 ```
 
 ## Styles
+
 ```css
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
@@ -766,33 +321,12 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
   line-height: var(--typography-label-md-line-height);
   letter-spacing: var(--typography-label-md-letter-spacing);
 }
-.typography-label-xs-strong {
-  font-family: var(--typography-label-xs-strong-font-family);
-  font-size: var(--typography-label-xs-strong-font-size);
-  font-weight: var(--typography-label-xs-strong-font-weight);
-  line-height: var(--typography-label-xs-strong-line-height);
-  letter-spacing: var(--typography-label-xs-strong-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
   font-weight: var(--typography-microcopy-xs-font-weight);
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
@@ -819,14 +353,6 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
   color: var(--color-content-default-tertiary);
   flex: none;
 }
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
-}
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -852,32 +378,12 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
   display: block;
   overflow: hidden;
 }
-.esa-card--outlined {
-  --_card-border: var(--color-border-default, #cecece);
-}
-.esa-card--elevated {
-  --_card-border: transparent;
-  box-shadow: var(--elevation-2, 0 2px 12px 0 #0000000a);
-}
-.esa-card--filled {
-  --_card-bg: var(--color-background-elevation-sunken, #f0f0f0);
-  --_card-border: transparent;
-}
 .esa-card--header-primary .esa-card__header {
   --_card-header-bg: var(--color-background-brand, #46a758);
   --_card-header-color: var(--color-content-default-knockout, #fcfcfc);
 }
 .esa-card--header-muted .esa-card__header {
   --_card-header-bg: var(--color-background-elevation-sunken, #f0f0f0);
-}
-.esa-card--padding-none {
-  --_card-padding: 0;
-}
-.esa-card--padding-compact {
-  --_card-padding: var(--spacing-300, 0.75rem);
-}
-.esa-card--padding-spacious {
-  --_card-padding: var(--spacing-700, 3rem);
 }
 .esa-card__header {
   padding: var(--spacing-400, 1rem) var(--_card-padding);
@@ -903,42 +409,6 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
   color: inherit;
   margin: 0;
 }
-.esa-card__subtitle {
-  color: var(--color-content-default-secondary, #646464);
-  margin: 0;
-}
-.esa-card--header-primary .esa-card__subtitle {
-  color: var(--color-content-on-brand, #fffc);
-}
-.esa-card__meta {
-  gap: var(--spacing-100, 0.25rem) var(--spacing-500, 1.5rem);
-  margin: var(--spacing-050, 0.125rem) 0 0;
-  flex-wrap: wrap;
-  display: flex;
-}
-.esa-card__meta-pair {
-  align-items: baseline;
-  gap: var(--spacing-100, 0.25rem);
-  min-width: 0;
-  display: flex;
-}
-.esa-card__meta dt {
-  font-size: var(--_card-meta-label-size);
-  font-weight: var(--font-weight-medium, 500);
-  color: var(--_card-meta-label-color);
-}
-.esa-card__meta dd {
-  font-size: var(--_card-meta-value-size);
-  color: inherit;
-  margin: 0;
-}
-.esa-card--header-primary .esa-card__meta dt {
-  color: #fffc;
-}
-.esa-card__icon {
-  color: inherit;
-  flex-shrink: 0;
-}
 .esa-card__actions {
   align-items: center;
   gap: var(--spacing-200, 0.5rem);
@@ -957,6 +427,11 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
 }
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
 }
 .bcn-countchip__num .esa-badge {
   --badge-radius: var(--radius-full);
@@ -995,8 +470,7 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
 .bcn-ev-attached__mark .esa-badge {
   --badge-bg: var(--color-background-utility-info-subtle);
   --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
   font-weight: var(--typography-font-weight-medium);
 }
 .bcn-ev-targets__item .esa-card {
@@ -1005,8 +479,7 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
 .bcn-ev-row__mark .esa-badge {
   --badge-bg: var(--color-background-utility-info-subtle);
   --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
   font-weight: var(--typography-font-weight-medium);
 }
 .bcn-ev-row__tags .esa-badge {
@@ -1014,52 +487,11 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
   --badge-text-color: var(--bcn-gray-700);
   font-weight: var(--typography-font-weight-medium);
 }
-.sidebar-toggle {
-  border-radius: var(--spacing-050);
-  width: 32px;
-  height: 32px;
-  color: var(--bcn-gray-600);
-  cursor: pointer;
-  background: 0 0;
-  border: none;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  transition:
-    background 0.15s,
-    color 0.15s;
-  display: flex;
-}
-.sidebar-toggle:hover {
-  background: var(--bcn-gray-200);
-  color: var(--color-background-brand);
-}
-.sidebar-toggle:focus-visible {
-  outline: 2px solid var(--color-background-brand);
-  outline-offset: 2px;
-}
-.sidebar-toggle__icon {
-  transition: transform 0.15s;
-}
-.sidebar-toggle--collapsed .sidebar-toggle__icon {
-  transform: scaleX(-1);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
-}
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
 }
 .user-panel__item--danger .esa-icon {
   color: var(--color-background-utility-danger);
-}
-.sidebar-header {
-  padding: var(--spacing-300) var(--spacing-400);
-  flex-shrink: 0;
-  transition: padding 0.2s ease-in-out;
-}
-.side-nav.collapsed .sidebar-header {
-  padding: var(--spacing-300) var(--spacing-200);
 }
 .project-switcher__trigger > .esa-icon:first-child {
   color: var(--bcn-gray-500);
@@ -1088,290 +520,6 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
 .side-nav.collapsed .nav-section__title,
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
-}
-.leaflet-pane,
-.leaflet-tile,
-.leaflet-marker-icon,
-.leaflet-marker-shadow,
-.leaflet-tile-container,
-.leaflet-pane > svg,
-.leaflet-pane > canvas,
-.leaflet-zoom-box,
-.leaflet-image-layer,
-.leaflet-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.leaflet-container {
-  overflow: hidden;
-}
-.leaflet-tile,
-.leaflet-marker-icon,
-.leaflet-marker-shadow {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-.leaflet-tile::selection {
-  background: 0 0;
-}
-.leaflet-safari .leaflet-tile {
-  image-rendering: -webkit-optimize-contrast;
-}
-.leaflet-safari .leaflet-tile-container {
-  -webkit-transform-origin: 0 0;
-  width: 1600px;
-  height: 1600px;
-}
-.leaflet-container .leaflet-overlay-pane svg {
-  max-width: none !important;
-  max-height: none !important;
-}
-.leaflet-container .leaflet-marker-pane img,
-.leaflet-container .leaflet-shadow-pane img,
-.leaflet-container .leaflet-tile-pane img,
-.leaflet-container img.leaflet-image-layer,
-.leaflet-container .leaflet-tile {
-  width: auto;
-  padding: 0;
-  max-width: none !important;
-  max-height: none !important;
-}
-.leaflet-container img.leaflet-tile {
-  mix-blend-mode: plus-lighter;
-}
-.leaflet-container.leaflet-touch-zoom {
-  -ms-touch-action: pan-x pan-y;
-  touch-action: pan-x pan-y;
-}
-.leaflet-container.leaflet-touch-drag {
-  -ms-touch-action: pinch-zoom;
-  touch-action: none;
-  touch-action: pinch-zoom;
-}
-.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
-  -ms-touch-action: none;
-  touch-action: none;
-}
-.leaflet-container {
-  -webkit-tap-highlight-color: transparent;
-}
-.leaflet-container a {
-  -webkit-tap-highlight-color: #33b5e566;
-}
-.leaflet-tile {
-  filter: inherit;
-  visibility: hidden;
-}
-.leaflet-tile-loaded {
-  visibility: inherit;
-}
-.leaflet-overlay-pane svg {
-  -moz-user-select: none;
-}
-.leaflet-pane {
-  z-index: 400;
-}
-.leaflet-tile-pane {
-  z-index: 200;
-}
-.leaflet-overlay-pane {
-  z-index: 400;
-}
-.leaflet-shadow-pane {
-  z-index: 500;
-}
-.leaflet-marker-pane {
-  z-index: 600;
-}
-.leaflet-tooltip-pane {
-  z-index: 650;
-}
-.leaflet-popup-pane {
-  z-index: 700;
-}
-.leaflet-map-pane canvas {
-  z-index: 100;
-}
-.leaflet-map-pane svg {
-  z-index: 200;
-}
-.leaflet-top,
-.leaflet-bottom {
-  z-index: 1000;
-  pointer-events: none;
-  position: absolute;
-}
-.leaflet-top {
-  top: 0;
-}
-.leaflet-right {
-  right: 0;
-}
-.leaflet-bottom {
-  bottom: 0;
-}
-.leaflet-left {
-  left: 0;
-}
-.leaflet-right .leaflet-control {
-  float: right;
-}
-.leaflet-top .leaflet-control {
-  margin-top: 10px;
-}
-.leaflet-bottom .leaflet-control {
-  margin-bottom: 10px;
-}
-.leaflet-left .leaflet-control {
-  margin-left: 10px;
-}
-.leaflet-right .leaflet-control {
-  margin-right: 10px;
-}
-.leaflet-fade-anim .leaflet-popup {
-  opacity: 0;
-  -webkit-transition: opacity 0.2s linear;
-  -moz-transition: opacity 0.2s linear;
-  transition: opacity 0.2s linear;
-}
-.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
-  opacity: 1;
-}
-.leaflet-zoom-animated {
-  -webkit-transform-origin: 0 0;
-  -ms-transform-origin: 0 0;
-  transform-origin: 0 0;
-}
-svg.leaflet-zoom-animated {
-  will-change: transform;
-}
-.leaflet-zoom-anim .leaflet-zoom-animated {
-  -webkit-transition: -webkit-transform 0.25s cubic-bezier(0, 0, 0.25, 1);
-  -moz-transition: -moz-transform 0.25s cubic-bezier(0, 0, 0.25, 1);
-  transition: transform 0.25s cubic-bezier(0, 0, 0.25, 1);
-}
-.leaflet-zoom-anim .leaflet-tile,
-.leaflet-pan-anim .leaflet-tile {
-  -webkit-transition: none;
-  -moz-transition: none;
-  transition: none;
-}
-.leaflet-interactive {
-  cursor: pointer;
-}
-.leaflet-crosshair,
-.leaflet-crosshair .leaflet-interactive {
-  cursor: crosshair;
-}
-.leaflet-popup-pane,
-.leaflet-control {
-  cursor: auto;
-}
-.leaflet-dragging .leaflet-grab,
-.leaflet-dragging .leaflet-grab .leaflet-interactive,
-.leaflet-dragging .leaflet-marker-draggable {
-  cursor: move;
-  cursor: -webkit-grabbing;
-  cursor: -moz-grabbing;
-  cursor: grabbing;
-}
-.leaflet-marker-icon,
-.leaflet-marker-shadow,
-.leaflet-image-layer,
-.leaflet-pane > svg path,
-.leaflet-tile-container {
-  pointer-events: none;
-}
-.leaflet-marker-icon.leaflet-interactive,
-.leaflet-image-layer.leaflet-interactive,
-.leaflet-pane > svg path.leaflet-interactive,
-svg.leaflet-image-layer.leaflet-interactive path {
-  pointer-events: visiblePainted;
-  pointer-events: auto;
-}
-.leaflet-container {
-  outline-offset: 1px;
-  background: #ddd;
-}
-.leaflet-container a {
-  color: #0078a8;
-}
-.leaflet-container {
-  font-family:
-    Helvetica Neue,
-    Arial,
-    Helvetica,
-    sans-serif;
-  font-size: 0.75rem;
-  line-height: 1.5;
-}
-.leaflet-touch .leaflet-bar a {
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-}
-.leaflet-touch .leaflet-bar a:first-child {
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-}
-.leaflet-touch .leaflet-bar a:last-child {
-  border-bottom-right-radius: 2px;
-  border-bottom-left-radius: 2px;
-}
-.leaflet-touch .leaflet-control-zoom-in,
-.leaflet-touch .leaflet-control-zoom-out {
-  font-size: 22px;
-}
-.leaflet-touch .leaflet-control-layers-toggle {
-  width: 44px;
-  height: 44px;
-}
-.leaflet-container .leaflet-control-attribution {
-  background: #fffc;
-  margin: 0;
-}
-.leaflet-left .leaflet-control-scale {
-  margin-left: 5px;
-}
-.leaflet-bottom .leaflet-control-scale {
-  margin-bottom: 5px;
-}
-.leaflet-touch .leaflet-control-attribution,
-.leaflet-touch .leaflet-control-layers,
-.leaflet-touch .leaflet-bar {
-  box-shadow: none;
-}
-.leaflet-touch .leaflet-control-layers,
-.leaflet-touch .leaflet-bar {
-  background-clip: padding-box;
-  border: 2px solid #0003;
-}
-.leaflet-container a.leaflet-popup-close-button {
-  text-align: center;
-  color: #757575;
-  background: 0 0;
-  border: none;
-  width: 24px;
-  height: 24px;
-  font:
-    16px/24px Tahoma,
-    Verdana,
-    sans-serif;
-  text-decoration: none;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-.leaflet-container a.leaflet-popup-close-button:hover,
-.leaflet-container a.leaflet-popup-close-button:focus {
-  color: #585858;
-}
-.leaflet-tooltip.leaflet-interactive {
-  cursor: pointer;
-  pointer-events: auto;
 }
 .bcn-apanel__body {
   --sidebar-width: 19rem;
@@ -1421,9 +569,17 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .bcn-apanel__area {
   color: var(--color-content-default-secondary);
 }
-.bcn-apanel__category,
-.bcn-apanel__area {
-  grid-column: 1/-1;
+@media (width<=40rem) {
+  .bcn-apanel__row {
+    row-gap: var(--spacing-100);
+    grid-template-columns: auto 1fr;
+  }
+}
+@media (width<=40rem) {
+  .bcn-apanel__category,
+  .bcn-apanel__area {
+    grid-column: 1/-1;
+  }
 }
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-background-elevation-raised, #fcfcfc));
@@ -1443,30 +599,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
   align-items: center;
   display: inline-flex;
 }
-.esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
-}
 .esa-badge--sm {
   --_badge-padding-y: var(--spacing-100, 0.25rem);
   --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
-}
-.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-  --_badge-text: var(--color-content-default-knockout, #fcfcfc);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
 }
 .esa-badge--warning {
   --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
@@ -1478,11 +613,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
   --_badge-text: var(--color-content-utility-danger, #ce2c31);
   --_badge-border: var(--color-border-utility-danger, #fdbdbe);
 }
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
-}
 .esa-badge--neutral:not(.esa-badge--dot),
 .esa-badge--success:not(.esa-badge--dot),
 .esa-badge--warning:not(.esa-badge--dot),
@@ -1490,38 +620,16 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .esa-badge--info:not(.esa-badge--dot) {
   border: 1px solid var(--_badge-border, transparent);
 }
-.esa-badge--dot {
-  border-radius: var(--radius-pill, 9999px);
-  width: 8px;
-  min-width: 8px;
-  height: 8px;
-  padding: 0;
-}
-.esa-badge--dot.esa-badge--neutral {
-  --_badge-bg: var(--color-content-default-secondary, #646464);
-}
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
-}
-.esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-}
-.esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
-}
 .esa-badge--dot.esa-badge--warning {
   --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
 }
 .esa-badge--dot.esa-badge--danger {
   --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
 }
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  background: canvastext;
-  border: 0;
-  outline: 1px solid canvastext;
+@media (forced-colors: active) {
+  .esa-badge {
+    border: 1px solid canvastext;
+  }
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -1535,57 +643,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
 .esa-button--sm {
   --_btn-pad-y: var(--spacing-250, 0.625rem);
   --_btn-padding-x: var(--spacing-250, 0.625rem);
   --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.esa-button--variant-secondary {
-  --_accent: var(--color-background-brand-muted);
-  --_accent-hover: var(--color-background-brand-muted-hover);
-  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
-  --_accent-text: var(--color-content-brand);
-  --_accent-border: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -1649,10 +710,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -1679,11 +737,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -1700,28 +753,8 @@ summary.esa-button:focus-visible {
   outline-offset: var(--focus-ring-offset, 2px);
   border-radius: var(--_btn-radius);
 }
-summary.esa-button--variant-chrome:focus-visible {
-  outline-color: currentColor;
-}
 .esa-button__label {
   white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
 }
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
@@ -1751,33 +784,12 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-label-md-line-height);
   letter-spacing: var(--typography-label-md-letter-spacing);
 }
-.typography-label-xs-strong {
-  font-family: var(--typography-label-xs-strong-font-family);
-  font-size: var(--typography-label-xs-strong-font-size);
-  font-weight: var(--typography-label-xs-strong-font-weight);
-  line-height: var(--typography-label-xs-strong-line-height);
-  letter-spacing: var(--typography-label-xs-strong-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
   font-weight: var(--typography-microcopy-xs-font-weight);
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
@@ -1819,30 +831,6 @@ summary.esa-button--variant-chrome:focus-visible {
   width: 8px;
   height: 8px;
 }
-.leaflet-container .leaflet-tooltip {
-  font-family: var(--typography-font-family-sans, inherit);
-  font-size: 0.9375rem;
-  font-weight: var(--typography-font-weight-semibold, 600);
-  color: var(--color-content-default, #3d3d3d);
-  background: var(--color-background-elevation-raised, #fff);
-  border: 1px solid var(--color-border-default, #dcdcdc);
-  border-radius: var(--radius-100, 4px);
-  box-shadow: var(--elevation-4, 0 6px 24px -6px #00000012);
-  padding: 6px 12px;
-  line-height: 1.4;
-}
-.leaflet-container .leaflet-tooltip-top:before {
-  border-top-color: var(--color-background-elevation-raised, #fff);
-}
-.leaflet-container .leaflet-tooltip-bottom:before {
-  border-bottom-color: var(--color-background-elevation-raised, #fff);
-}
-.leaflet-container .leaflet-tooltip-left:before {
-  border-left-color: var(--color-background-elevation-raised, #fff);
-}
-.leaflet-container .leaflet-tooltip-right:before {
-  border-right-color: var(--color-background-elevation-raised, #fff);
-}
 .bcn-obsmap {
   border-radius: var(--radius-200);
   border: 1px solid var(--color-border-default);
@@ -1872,20 +860,8 @@ summary.esa-button--variant-chrome:focus-visible {
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -1941,160 +917,111 @@ summary.esa-button--variant-chrome:focus-visible {
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #fcfcfc _(component)_
-- `--badge-border-color`: #dcdcdc _(component)_
-- `--badge-text-color`: #525252 _(component)_
-- `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-200`: #dcdcdc _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-600`: #656565 _(component)_
-- `--bcn-gray-700`: #525252 _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--card-bg`: #fcfcfc _(component)_
-- `--card-border-color`: #dcdcdc _(component)_
-- `--card-header-bg`: transparent _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-danger-muted`: #feebec _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
-- `--color-background-utility-info-subtle`: #fbfdff _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-border-utility-danger`: #fdbdbe _(semantic)_
-- `--color-border-utility-info`: #acd8fc _(semantic)_
-- `--color-border-utility-success`: #adddc0 _(semantic)_
-- `--color-border-utility-warning`: #f3d673 _(semantic)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand`: #fcfcfc _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--elevation-2`: 0 2px 12px 0 #0000000a _(semantic)_
-- `--elevation-4`: 0 6px 24px -6px #00000012 _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--font-weight-medium`: 500 _(component)_
-- `--gap`: 2rem _(component)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--radius-chip`: .25rem _(semantic)_
-- `--radius-full`: 9999px _(primitive)_
-- `--radius-md`: .25rem _(semantic)_
-- `--radius-pill`: 9999px _(semantic)_
-- `--radius-sm`: .25rem _(semantic)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--spacing-700`: 3rem _(primitive)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
-- `--typography-body-md-letter-spacing`: .01em _(semantic)_
-- `--typography-body-md-line-height`: 1.6 _(semantic)_
-- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
-- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-body-sm-line-height`: 1.6 _(semantic)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-font-weight`: 500 _(semantic)_
-- `--typography-label-md-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-line-height`: 1.6 _(semantic)_
-- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
-- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-label-xs-font-weight`: 500 _(semantic)_
-- `--typography-label-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-label-xs-line-height`: 1.6 _(semantic)_
-- `--typography-label-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-label-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-xs-strong-line-height`: 1.6 _(semantic)_
-- `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-meta-font-weight`: 400 _(semantic)_
-- `--typography-meta-letter-spacing`: .01em _(semantic)_
-- `--typography-meta-line-height`: 1.6 _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
-- `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-sm-strong-font-size`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(semantic)_
-- `--typography-title-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-title-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-title-sm-strong-line-height`: 1.6 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--badge-bg` | `#fcfcfc` | component |
+| `--badge-border-color` | `#dcdcdc` | component |
+| `--badge-text-color` | `#525252` | component |
+| `--bcn-gray-100` | `#efefef` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-700` | `#525252` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--card-bg` | `#fcfcfc` | component |
+| `--card-border-color` | `#dcdcdc` | component |
+| `--card-header-bg` | `transparent` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-background-utility-danger-hover` | `#641723` | semantic |
+| `--color-background-utility-danger-muted` | `#feebec` | semantic |
+| `--color-background-utility-info` | `#228be6` | semantic |
+| `--color-background-utility-info-subtle` | `#fbfdff` | semantic |
+| `--color-background-utility-warning-hover` | `#ffba18` | semantic |
+| `--color-background-utility-warning-muted` | `#fff7c2` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-border-utility-danger` | `#fdbdbe` | semantic |
+| `--color-border-utility-warning` | `#f3d673` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-utility-danger` | `#ce2c31` | semantic |
+| `--color-content-utility-warning` | `#ab6400` | semantic |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--gap` | `2rem` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--radius-200` | `.5rem` | primitive |
+| `--radius-chip` | `.25rem` | semantic |
+| `--radius-full` | `9999px` | primitive |
+| `--radius-md` | `.25rem` | semantic |
+| `--radius-sm` | `.25rem` | semantic |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-body-md-font-weight` | `400` | semantic |
+| `--typography-body-md-letter-spacing` | `.01em` | semantic |
+| `--typography-body-md-line-height` | `1.6` | semantic |
+| `--typography-body-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-body-sm-font-weight` | `400` | semantic |
+| `--typography-body-sm-letter-spacing` | `.01em` | semantic |
+| `--typography-body-sm-line-height` | `1.6` | semantic |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
+| `--typography-label-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-md-font-weight` | `500` | semantic |
+| `--typography-label-md-letter-spacing` | `.01em` | semantic |
+| `--typography-label-md-line-height` | `1.6` | semantic |
+| `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-label-xs-font-weight` | `500` | semantic |
+| `--typography-label-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-label-xs-line-height` | `1.6` | semantic |
+| `--typography-meta-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-meta-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-meta-font-weight` | `400` | semantic |
+| `--typography-meta-letter-spacing` | `.01em` | semantic |
+| `--typography-meta-line-height` | `1.6` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |
+| `--typography-microcopy-xs-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-strong-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-strong-font-weight` | `550` | semantic |
+| `--typography-microcopy-xs-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-strong-line-height` | `1` | semantic |
+| `--typography-title-sm-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-title-sm-strong-font-size` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` | semantic |
+| `--typography-title-sm-strong-font-weight` | `550` | semantic |
+| `--typography-title-sm-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-title-sm-strong-line-height` | `1.6` | semantic |

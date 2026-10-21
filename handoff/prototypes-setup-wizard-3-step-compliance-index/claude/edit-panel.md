@@ -1,33 +1,49 @@
 # Edit panel
 
+Step 3: Compliance Index · source prototype: https://esassoc.github.io/beacon-design/prototypes/setup-wizard-3-step/compliance-index/
+
 A draft's edit form in the side panel, as develop's two edit dialogs carry it. The header names it (Edit obligation, or the action's name) with its status badge. An obligation: Title, Class, Audience, Applies when, Monitor signs (type one and press Enter), then its Sources (each requirement's commitment badge and name, and the words it rests on) and Also filed in. An action, in three tabs: Details (Name, Type, Responsible party, Scope, Action text), Timing (Frequency; one time: deadline milestone, offset, period and direction; recurring: every N periods between a start and an end milestone; as needed: the event that triggers it) and Evidence of compliance (Expected evidence), then its Sources. The footer: Approve and Discard (Restore on a discarded draft) at the left; Save and Cancel at the right.
 
 ## Key decisions
+
 - The review's verdicts live in the panel because the row has no record of its own. In develop the subcategory pane holds them; the edit dialog in index mode has only Save and Cancel.
 - Approve saves the form first, so setting a scope and approving is one press.
 - Sources are read only: what a draft rests on changes only by Merge.
 
 ## Done when
+
 - Opening Take Contact Representative Notice shows Reporting, DWR, Project scope and one source, EC-1.
 
+## Components
+
+- `bcn-sw3ee` (spoke) · `src/components/bcn/BcnSw3EntryEdit.astro`
+- `esa-badge` (hub) · `packages/ecology/src/components/esa-badge.astro` → use `ui-badge` in the Beacon app
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-button-toggle` (hub) · `packages/ecology/src/components/esa-button-toggle.ts`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+- `esa-input-tag` (hub) · `packages/ecology/src/components/esa-input-tag.ts`
+- `esa-select` (hub) · `packages/ecology/src/components/esa-select.ts`
+- `esa-side-dialog` (hub) · `packages/ecology/src/components/esa-side-dialog.ts`
+- `esa-tab-layout` (hub) · `packages/ecology/src/components/esa-tab-layout.ts`
+- `esa-text-field` (hub) · `packages/ecology/src/components/esa-text-field.ts`
+- `esa-textarea` (hub) · `packages/ecology/src/components/esa-textarea.ts`
+
 ## Markup
+
 ```html
 <esa-side-dialog heading="Edit" size="md" data-sw3-entry-edit="true" position="right"
   ><div slot="header" class="bcn-sw3ee__head">
     <h2 class="bcn-sw3ee__title typography-title" data-ee-heading=""></h2>
     <span data-ee-status="draft"
-      ><span
-        class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
+      ><span class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
         ><span class="esa-badge__text">Draft</span></span
       ></span
     ><span data-ee-status="approved"
-      ><span
-        class="esa-badge esa-badge--success esa-badge--sm typography-microcopy-xs-strong"
+      ><span class="esa-badge esa-badge--success esa-badge--sm typography-microcopy-xs-strong"
         ><span class="esa-badge__text">Approved</span></span
       ></span
     ><span data-ee-status="discarded"
-      ><span
-        class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
+      ><span class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
         ><span class="esa-badge__text">Discarded</span></span
       ></span
     >
@@ -77,23 +93,14 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
       variant="underline"
       appearance="underline"
       ><div slot="panel-0" class="bcn-sw3ee__fields">
-        <esa-text-field
-          label="Name"
-          size="sm"
-          required=""
-          data-ee-name="true"
-        ></esa-text-field
+        <esa-text-field label="Name" size="sm" required="" data-ee-name="true"></esa-text-field
         ><esa-select
           label="Type"
           size="sm"
           data-ee-type="true"
-          data-options='[{"value":"Analysis","label":"Analysis"},{"value":"Approval &amp; Consultation","label":"Approval &amp; Consultation"},{"value":"Avoidance &amp; BMPs","label":"Avoidance &amp; BMPs"},{"value":"Design","label":"Design"},{"value":"Financial","label":"Financial"},{"value":"Monitoring","label":"Monitoring"},{"value":"Plan","label":"Plan"},{"value":"Reporting","label":"Reporting"},{"value":"Restoration &amp; Mitigation","label":"Restoration &amp; Mitigation"},{"value":"Survey","label":"Survey"},{"value":"Other","label":"Other"}]'
+          data-options='[{"value":"Analysis","label":"Analysis"},{"value":"Approval &amp; Consultation","label":"Approval &amp; Consultation"},{"value":… [505 characters]'
         ></esa-select
-        ><esa-text-field
-          label="Responsible party"
-          size="sm"
-          data-ee-party="true"
-        ></esa-text-field
+        ><esa-text-field label="Responsible party" size="sm" data-ee-party="true"></esa-text-field
         ><esa-button-toggle
           label="Scope"
           size="sm"
@@ -116,11 +123,7 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
           data-options='[{"value":"Onetime","label":"One time"},{"value":"Recurring","label":"Recurring"},{"value":"AsNeeded","label":"As needed"}]'
         ></esa-select>
         <div class="bcn-sw3ee__fields" data-ee-when="Onetime">
-          <esa-select
-            label="Deadline milestone"
-            size="sm"
-            data-ee-milestone="true"
-          ></esa-select>
+          <esa-select label="Deadline milestone" size="sm" data-ee-milestone="true"></esa-select>
           <div class="bcn-sw3ee__row">
             <esa-text-field
               label="Offset"
@@ -225,8 +228,7 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
         </button></span
       ></span
     ><span data-ee-discard=""
-      ><span
-        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
+      ><span class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
         ><button class="esa-button__native typography-microcopy-xs" type="button">
           <span class="esa-icon esa-icon--sm" aria-hidden="true"
             ><svg
@@ -246,8 +248,7 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
         </button></span
       ></span
     ><span data-ee-restore=""
-      ><span
-        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
+      ><span class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
         ><button class="esa-button__native typography-microcopy-xs" type="button">
           <span class="esa-icon esa-icon--sm" aria-hidden="true"
             ><svg
@@ -292,6 +293,7 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
 ```
 
 ## Styles
+
 ```css
 .typography-title {
   font-family: var(--typography-title-font-family);
@@ -307,13 +309,6 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
   font-size: var(--typography-microcopy-xs-strong-font-size);
@@ -321,31 +316,9 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
-.typography-title-strong {
-  font-family: var(--typography-title-strong-font-family);
-  font-size: var(--typography-title-strong-font-size);
-  font-weight: var(--typography-title-strong-font-weight);
-  line-height: var(--typography-title-strong-line-height);
-  letter-spacing: var(--typography-title-strong-letter-spacing);
-}
-.typography-title-sm-strong {
-  font-family: var(--typography-title-sm-strong-font-family);
-  font-size: var(--typography-title-sm-strong-font-size);
-  font-weight: var(--typography-title-sm-strong-font-weight);
-  line-height: var(--typography-title-sm-strong-line-height);
-  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
-}
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -360,6 +333,11 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
 }
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
 }
 .bcn-countchip__num .esa-badge {
   --badge-radius: var(--radius-full);
@@ -381,29 +359,6 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
   color: var(--color-content-default-tertiary);
   flex: none;
 }
-.bcn-cbadge {
-  font-family: var(--typography-font-family-mono);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-  border-radius: var(--radius-100);
-  white-space: nowrap;
-  flex-shrink: 0;
-  display: inline-block;
-}
-.bcn-cbadge--md {
-  font-size: var(--font-size-100);
-  padding: 1px var(--spacing-200);
-}
-.bcn-cbadge--sm {
-  padding: 1px var(--spacing-150);
-  font-size: 0.75rem;
-}
-.bcn-cbadge--neutral {
-  font-family: var(--typography-font-family-sans);
-  color: var(--bcn-gray-700);
-  background: var(--bcn-gray-100);
-}
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -411,24 +366,19 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
 .bcn-ev-attached__mark .esa-badge {
   --badge-bg: var(--color-background-utility-info-subtle);
   --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
   font-weight: var(--typography-font-weight-medium);
 }
 .bcn-ev-row__mark .esa-badge {
   --badge-bg: var(--color-background-utility-info-subtle);
   --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
   font-weight: var(--typography-font-weight-medium);
 }
 .bcn-ev-row__tags .esa-badge {
   --badge-bg: var(--bcn-gray-100);
   --badge-text-color: var(--bcn-gray-700);
   font-weight: var(--typography-font-weight-medium);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -470,6 +420,17 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
 .bcn-aldo-needs__head .esa-badge {
   font-variant-numeric: tabular-nums;
 }
+@container (width<=640px) {
+  .bcn-sw3c__group [data-c-tool] .esa-button__label {
+    display: none;
+  }
+}
+@container (width<=540px) {
+  .bcn-sw3c__group [data-c-pages] .esa-button__label,
+  .bcn-sw3c__rule {
+    display: none;
+  }
+}
 .bcn-console__more .esa-button__native {
   font-family: var(--_mono);
   height: auto;
@@ -482,51 +443,10 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
 .bcn-console__more .esa-button__native:hover {
   color: var(--bcn-console-fg);
 }
-.bcn-sw3ip .bcn-sw3ip__cite:hover .bcn-cbadge,
-.bcn-sw3ip .bcn-sw3ip__stack:hover .bcn-cbadge:first-child {
-  background: color-mix(
-    in srgb,
-    var(--color-commitment) 22%,
-    var(--color-background-elevation-raised)
-  );
-}
-.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge {
-  box-shadow:
-    1.5px 0 0 0 var(--color-background-elevation-raised),
-    0 0 0 1px var(--color-background-elevation-raised);
-  grid-area: 1/1;
-}
-.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge:first-child {
-  z-index: 3;
-}
-.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge:nth-child(2) {
-  z-index: 2;
-  color: #0000;
-  background: color-mix(
-    in srgb,
-    var(--color-commitment) 26%,
-    var(--color-background-elevation-raised)
-  );
-  transform: translate(9px) scaleY(0.84);
-}
-.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge:nth-child(3) {
-  z-index: 1;
-  color: #0000;
-  background: color-mix(
-    in srgb,
-    var(--color-commitment) 40%,
-    var(--color-background-elevation-raised)
-  );
-  transform: translate(18px) scaleY(0.68);
-}
-.bcn-sw3ip .bcn-sw3ip__stack:hover .bcn-cbadge:nth-child(2) {
-  transform: translate(11px) scaleY(0.84);
-}
-.bcn-sw3ip .bcn-sw3ip__stack:hover .bcn-cbadge:nth-child(3) {
-  transform: translate(22px) scaleY(0.68);
-}
-.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge {
-  transition: transform 0.12s ease-out;
+@container (width<=720px) {
+  .bcn-sw3ip__toolkeys :is([data-ip-merge], [data-ip-discard-all]) .esa-button__label {
+    display: none;
+  }
 }
 .bcn-sw3ee {
   gap: var(--spacing-500);
@@ -599,28 +519,6 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
 .bcn-sw3ee__filed {
   gap: var(--spacing-100);
 }
-.bcn-sw3ee__source {
-  gap: var(--spacing-150, 6px);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-sw3ee__source-head {
-  align-items: baseline;
-  gap: var(--spacing-200);
-  font-weight: 500;
-  display: flex;
-}
-.bcn-sw3ee__excerpt {
-  padding-left: var(--spacing-300);
-  font-family: var(--font-decorative, var(--typography-font-family-sans));
-  color: var(--color-content-default);
-  margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.6;
-}
-.bcn-sw3ee__excerpt:empty {
-  display: none;
-}
 .bcn-sw3ee__foot {
   align-items: center;
   gap: var(--spacing-200);
@@ -653,21 +551,9 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
   align-items: center;
   display: inline-flex;
 }
-.esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
-}
 .esa-badge--sm {
   --_badge-padding-y: var(--spacing-100, 0.25rem);
   --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
-}
-.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-  --_badge-text: var(--color-content-default-knockout, #fcfcfc);
 }
 .esa-badge--secondary {
   --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
@@ -678,21 +564,6 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
   --_badge-text: var(--color-content-utility-success, #218358);
   --_badge-border: var(--color-border-utility-success, #adddc0);
 }
-.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
-}
 .esa-badge--neutral:not(.esa-badge--dot),
 .esa-badge--success:not(.esa-badge--dot),
 .esa-badge--warning:not(.esa-badge--dot),
@@ -700,38 +571,16 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
 .esa-badge--info:not(.esa-badge--dot) {
   border: 1px solid var(--_badge-border, transparent);
 }
-.esa-badge--dot {
-  border-radius: var(--radius-pill, 9999px);
-  width: 8px;
-  min-width: 8px;
-  height: 8px;
-  padding: 0;
-}
-.esa-badge--dot.esa-badge--neutral {
-  --_badge-bg: var(--color-content-default-secondary, #646464);
-}
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
-}
 .esa-badge--dot.esa-badge--secondary {
   --_badge-bg: var(--color-background-brand, #46a758);
 }
 .esa-badge--dot.esa-badge--success {
   --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
 }
-.esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
-}
-.esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
-}
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  background: canvastext;
-  border: 0;
-  outline: 1px solid canvastext;
+@media (forced-colors: active) {
+  .esa-badge {
+    border: 1px solid canvastext;
+  }
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -745,20 +594,10 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
 .esa-button--sm {
   --_btn-pad-y: var(--spacing-250, 0.625rem);
   --_btn-padding-x: var(--spacing-250, 0.625rem);
   --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
 }
 .esa-button--variant-primary {
   --_accent-text: var(--color-content-brand);
@@ -769,33 +608,6 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
   --_on: var(--color-content-on-brand-muted, var(--color-content-default));
   --_accent-text: var(--color-content-brand);
   --_accent-border: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -859,10 +671,7 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -889,11 +698,6 @@ A draft's edit form in the side panel, as develop's two edit dialogs carry it. T
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -910,28 +714,8 @@ summary.esa-button:focus-visible {
   outline-offset: var(--focus-ring-offset, 2px);
   border-radius: var(--_btn-radius);
 }
-summary.esa-button--variant-chrome:focus-visible {
-  outline-color: currentColor;
-}
 .esa-button__label {
   white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
 }
 .typography-title {
   font-family: var(--typography-title-font-family);
@@ -947,33 +731,12 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
   font-size: var(--typography-microcopy-xs-strong-font-size);
   font-weight: var(--typography-microcopy-xs-strong-font-weight);
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-title-strong {
-  font-family: var(--typography-title-strong-font-family);
-  font-size: var(--typography-title-strong-font-size);
-  font-weight: var(--typography-title-strong-font-weight);
-  line-height: var(--typography-title-strong-line-height);
-  letter-spacing: var(--typography-title-strong-letter-spacing);
-}
-.typography-title-sm-strong {
-  font-family: var(--typography-title-sm-strong-font-family);
-  font-size: var(--typography-title-sm-strong-font-size);
-  font-weight: var(--typography-title-sm-strong-font-weight);
-  line-height: var(--typography-title-sm-strong-line-height);
-  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -984,20 +747,8 @@ summary.esa-button--variant-chrome:focus-visible {
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -1018,124 +769,75 @@ summary.esa-button--variant-chrome:focus-visible {
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #fcfcfc _(component)_
-- `--badge-border-color`: #dcdcdc _(component)_
-- `--badge-text-color`: #525252 _(component)_
-- `--bcn-aldo-600`: #06736f _(component)_
-- `--bcn-console-fg`: #ffffffed _(component)_
-- `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-700`: #525252 _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-danger-muted`: #feebec _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
-- `--color-background-utility-info-subtle`: #fbfdff _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-utility-danger`: #fdbdbe _(semantic)_
-- `--color-border-utility-info`: #acd8fc _(semantic)_
-- `--color-border-utility-success`: #adddc0 _(semantic)_
-- `--color-border-utility-warning`: #f3d673 _(semantic)_
-- `--color-commitment`: #58508d _(component)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--color-content-warning`: #ab6400 _(component)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-decorative`: "Besley", serif _(component)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-chip`: .25rem _(semantic)_
-- `--radius-full`: 9999px _(primitive)_
-- `--radius-pill`: 9999px _(semantic)_
-- `--radius-sm`: .25rem _(semantic)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
-- `--typography-title-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
-- `--typography-title-font-weight`: 500 _(semantic)_
-- `--typography-title-letter-spacing`: .01em _(semantic)_
-- `--typography-title-line-height`: 1.6 _(semantic)_
-- `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-sm-strong-font-size`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(semantic)_
-- `--typography-title-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-title-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-title-sm-strong-line-height`: 1.6 _(semantic)_
-- `--typography-title-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-strong-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
-- `--typography-title-strong-font-weight`: 550 _(semantic)_
-- `--typography-title-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-title-strong-line-height`: 1.6 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--badge-bg` | `#fcfcfc` | component |
+| `--badge-border-color` | `#dcdcdc` | component |
+| `--badge-text-color` | `#525252` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
+| `--bcn-console-fg` | `#ffffffed` | component |
+| `--bcn-gray-100` | `#efefef` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-700` | `#525252` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
+| `--color-background-brand-muted-hover` | `#b9d6d2` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-background-utility-info` | `#228be6` | semantic |
+| `--color-background-utility-info-subtle` | `#fbfdff` | semantic |
+| `--color-background-utility-success-hover` | `#193b2d` | semantic |
+| `--color-background-utility-success-muted` | `#e6f6eb` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-utility-success` | `#adddc0` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-on-brand-muted` | `#203c25` | semantic |
+| `--color-content-utility-success` | `#218358` | semantic |
+| `--color-content-warning` | `#ab6400` | component |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--radius-chip` | `.25rem` | semantic |
+| `--radius-full` | `9999px` | primitive |
+| `--radius-sm` | `.25rem` | semantic |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |
+| `--typography-microcopy-xs-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-strong-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-strong-font-weight` | `550` | semantic |
+| `--typography-microcopy-xs-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-strong-line-height` | `1` | semantic |
+| `--typography-title-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-title-font-size` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | semantic |
+| `--typography-title-font-weight` | `500` | semantic |
+| `--typography-title-letter-spacing` | `.01em` | semantic |
+| `--typography-title-line-height` | `1.6` | semantic |

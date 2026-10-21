@@ -1,21 +1,43 @@
 # Report preview → PDF
 
+Daily Report Review · source prototype: https://esassoc.github.io/beacon-design/prototypes/monitoring/daily-report-review/
+
+![Report preview → PDF, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-daily-report-review/claude/report-preview-pdf.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-daily-report-review/claude/report-preview-pdf.phone.png
+
 Generate Report opens a preview of the regulator document (letterhead, General Information, Compliance Monitoring Details per location, captioned photos, End of Report) built from the same model as the PDF, so the preview is what gets issued. Generate PDF downloads it and moves the DMR to Report Generated.
 
 ## Key decisions
+
 - PDF, not Word (product decision), generated client-side here with jsPDF + autotable from the shared report model.
 - "Highlight Beacon edits" tints every passage whose text differs from the inspector's Fulcrum original — the reviewer sees exactly what the regulator reads that is not in the field record. The PDF never carries the tints.
 - If corrections are still unpushed, the preview warns and offers "Push to Fulcrum first".
 
 ## Gotchas
+
 - The current prod Word generator prints "[object Object]" for Contractor(s); the model joins the contractor list explicitly.
 - The PDF uses Times (built in) rather than the theme's Besley; embedding the brand font is a production task.
 
 ## Done when
+
 - The preview reflects every edit made on the page; Generate PDF downloads a multi-page PDF with the invented letterhead on every page and "Page X of Y" footers.
 - After generating, the status chip reads Report Generated and the change log records the file name.
 
+## Components
+
+- `bcn-report-doc` (spoke) · `src/components/bcn/BcnReportPreview.astro`
+- `bcn-report-preview` (spoke) · `src/components/bcn/BcnReportPreview.astro`
+- `esa-alert-box` (hub) · `packages/ecology/src/components/esa-alert-box.astro`
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-dialog` (hub) · `packages/ecology/src/components/esa-dialog.ts`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+- `esa-switch-toggle` (hub) · `packages/ecology/src/components/esa-switch-toggle.ts`
+
 ## Markup
+
+_26 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <esa-dialog
   heading="Report preview"
@@ -33,11 +55,7 @@ Generate Report opens a preview of the regulator document (letterhead, General I
         label-position="after"
       ></esa-switch-toggle
       ><span class="bcn-report-preview__legend typography-body-sm"
-        ><span
-          class="bcn-report-preview__swatch"
-          aria-hidden="true"
-          data-rp-swatch=""
-        ></span
+        ><span class="bcn-report-preview__swatch" aria-hidden="true" data-rp-swatch=""></span
         ><span data-rp-count="">2 passages edited in Beacon</span></span
       >
     </div>
@@ -67,8 +85,8 @@ Generate Report opens a preview of the regulator document (letterhead, General I
           <div class="esa-alert-box__message">
             <div class="stack" data-gap="sm">
               <span data-rp-pending-text=""
-                >2 corrections haven't been pushed to Fulcrum. The report will include
-                them, but Fulcrum won't match until you push.</span
+                >2 corrections haven't been pushed to Fulcrum. The report will include them, but
+                Fulcrum won't match until you push.</span
               >
               <div class="cluster" data-gap="xs">
                 <span
@@ -113,7 +131,7 @@ Generate Report opens a preview of the regulator document (letterhead, General I
         <header class="bcn-report-doc__letterhead">
           <div class="bcn-report-doc__org">
             <img
-              src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20120%20120%22%3E%0A%20%20%3Cpath%20d%3D%22M60%204%20L112%2022%20L104%2082%20Q86%20108%2060%20116%20Q34%20108%2016%2082%20L8%2022Z%22%20fill%3D%22%232f4f4f%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M60%2012%20L104%2027%20L97%2079%20Q81%20101%2060%20108%20Q39%20101%2023%2079%20L16%2027Z%22%20fill%3D%22%23e9e2cf%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M20%2070%20L38%2048%20L50%2060%20L66%2038%20L82%2058%20L92%2050%20L102%2066%20L98%2080%20Q82%20100%2060%20106%20Q38%20100%2022%2080Z%22%20fill%3D%22%237a6a4f%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M24%2084%20Q60%2072%2096%2084%20Q82%20100%2060%20106%20Q38%20100%2024%2084Z%22%20fill%3D%22%23b08d57%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2284%22%20cy%3D%2236%22%20r%3D%227%22%20fill%3D%22%23d9822b%22%2F%3E%0A%3C%2Fsvg%3E"
+              src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20120%… [863 characters]"
               alt=""
               width="56"
               height="56"
@@ -123,7 +141,7 @@ Generate Report opens a preview of the regulator document (letterhead, General I
           <div class="bcn-report-doc__org bcn-report-doc__org--end">
             <span>Fieldstone Environmental Monitoring</span>
             <img
-              src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20120%20120%22%3E%0A%20%20%3Cellipse%20cx%3D%2260%22%20cy%3D%2292%22%20rx%3D%2244%22%20ry%3D%2216%22%20fill%3D%22%234d5b3a%22%2F%3E%0A%20%20%3Cellipse%20cx%3D%2258%22%20cy%3D%2264%22%20rx%3D%2232%22%20ry%3D%2213%22%20fill%3D%22%237d8a5a%22%2F%3E%0A%20%20%3Cellipse%20cx%3D%2262%22%20cy%3D%2240%22%20rx%3D%2220%22%20ry%3D%2210%22%20fill%3D%22%23a9b07c%22%2F%3E%0A%3C%2Fsvg%3E"
+              src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20120%… [488 characters]"
               alt=""
               width="56"
               height="56"
@@ -144,32 +162,7 @@ Generate Report opens a preview of the regulator document (letterhead, General I
               <th scope="row">Date</th>
               <td>09/11/2026</td>
             </tr>
-            <tr>
-              <th scope="row">Time In</th>
-              <td>07:00</td>
-            </tr>
-            <tr>
-              <th scope="row">Weather</th>
-              <td>
-                Clear, 74°F (high 98°F, low 61°F); wind 6 mph SW; precipitation 0 inches
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Tailboard(s) Attended and Location(s)</th>
-              <td>ridgeline tailboard 0630 at laydown yard</td>
-            </tr>
-            <tr>
-              <th scope="row">Contractor(s)</th>
-              <td>Ridgeline Electric, Mesa Civil Constructors, Arroyo Pole Delivery</td>
-            </tr>
-            <tr>
-              <th scope="row">Variance Request(s) Reviewed</th>
-              <td>None</td>
-            </tr>
-            <tr>
-              <th scope="row">Report Compliance Summary</th>
-              <td>2 In Compliance, 1 Minor Deviation</td>
-            </tr>
+            <!-- …and 6 more like this (<tr>) -->
           </tbody>
         </table>
         <h4 class="bcn-report-doc__section">Compliance Monitoring Details</h4>
@@ -183,50 +176,7 @@ Generate Report opens a preview of the regulator document (letterhead, General I
               <th scope="row">Time</th>
               <td>09:05</td>
             </tr>
-            <tr>
-              <th scope="row">Compliance Level</th>
-              <td>Level 1 – In Compliance</td>
-            </tr>
-            <tr>
-              <th scope="row">Site/Construction Activities Observed</th>
-              <td>
-                <p>
-                  09:14: Cactus salvage tag removal.
-                  <mark class="bcn-report-doc__edit"
-                    >Fieldstone observed the Ridgeline Electric crew removing salvage tags
-                    from cacti that were not selected for salvage at CW-TS14, marking the
-                    pad as salvage-complete. No live plants were disturbed.</mark
-                  >
-                </p>
-                <p>
-                  10:38: Clear and grub. Mesa Civil crew clearing and grubbing the TS14
-                  pad with a skid steer. Vegetation piled at the pad edge. Biological
-                  monitor present.
-                </p>
-                <p>
-                  10:44: Dust-2347-09112026 (Resolved). Visible dust leaving the TS14 pad
-                  while the skid steer cleared vegetation; wind picked up around 10:30.
-                  Asked the operator to stop until the water truck arrived. Truck on site
-                  at 10:58, dust controlled and work resumed.
-                </p>
-                <p>
-                  10:52: Desert tortoise burrow (inactive). Inactive burrow found 30 ft
-                  north of the pad edge, outside the work limits. Scoped by the biological
-                  monitor — no sign of use. Flagged for avoidance.
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Notes</th>
-              <td>
-                Biological monitor on site for all ground disturbance. No wildlife in work
-                area during clearing.
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Wildlife Observed</th>
-              <td>Common raven, Side-blotched lizard, Black-tailed jackrabbit</td>
-            </tr>
+            <!-- …and 4 more like this (<tr>) -->
           </tbody>
         </table>
         <table class="bcn-report-doc__table">
@@ -239,36 +189,7 @@ Generate Report opens a preview of the regulator document (letterhead, General I
               <th scope="row">Time</th>
               <td>11:20</td>
             </tr>
-            <tr>
-              <th scope="row">Compliance Level</th>
-              <td>Level 2 – Minor Deviation</td>
-            </tr>
-            <tr>
-              <th scope="row">Site/Construction Activities Observed</th>
-              <td>
-                <p>
-                  11:20: Pad grading. Mesa Civil grading the TS22 pad to finish elevation.
-                  Water truck running for dust control.
-                </p>
-                <p>
-                  11:34: Erosion-2331-09092026 (Open). Mesa Civil re-staked part of the
-                  fence this morning but about 15 ft is still down at the wash crossing.
-                  No sediment past the fence line yet. Foreman says it will be finished
-                  today.
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Notes</th>
-              <td>
-                Told Mesa Civil foreman about the silt fence. They said they would fix it
-                today.
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Wildlife Observed</th>
-              <td>Say’s phoebe</td>
-            </tr>
+            <!-- …and 4 more like this (<tr>) -->
           </tbody>
         </table>
         <table class="bcn-report-doc__table">
@@ -281,38 +202,7 @@ Generate Report opens a preview of the regulator document (letterhead, General I
               <th scope="row">Time</th>
               <td>13:04</td>
             </tr>
-            <tr>
-              <th scope="row">Compliance Level</th>
-              <td>Level 1 – In Compliance</td>
-            </tr>
-            <tr>
-              <th scope="row">Site/Construction Activities Observed</th>
-              <td>
-                <p>
-                  13:04: Pole delivery. Arroyo Pole Delivery crew delivering steel poles
-                  to TS31 and staging them on cribbing inside the work limits.
-                </p>
-                <p>
-                  13:40: Verdin nest (active). Active verdin nest with two nestlings in a
-                  creosote bush at the NW corner of the pad. 50 ft buffer staked and
-                  flagged.
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Notes</th>
-              <td>
-                <mark class="bcn-report-doc__edit"
-                  >An active verdin nest was found in a creosote bush at the northwest
-                  corner of the CW-TS31 pad. A 50-foot no-work buffer was staked and
-                  flagged, and no work took place inside it.</mark
-                >
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Wildlife Observed</th>
-              <td>Verdin, Common raven</td>
-            </tr>
+            <!-- …and 4 more like this (<tr>) -->
           </tbody>
         </table>
         <h4 class="bcn-report-doc__section">Photos of Coyote Wash Substation</h4>
@@ -320,7 +210,7 @@ Generate Report opens a preview of the regulator document (letterhead, General I
           <li>
             <figure>
               <img
-                src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20150%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%3Crect%20width%3D%22200%22%20height%3D%22150%22%20fill%3D%22%23cfdde6%22%2F%3E%3Cpath%20d%3D%22M0%2070%20L40%2052%20L75%2062%20L120%2044%20L165%2060%20L200%2050%20L200%2080%20L0%2080Z%22%20fill%3D%22%23b9c3c4%22%2F%3E%3Crect%20y%3D%2278%22%20width%3D%22200%22%20height%3D%2272%22%20fill%3D%22%23d9c7a3%22%2F%3E%3Cellipse%20cx%3D%2230%22%20cy%3D%22110%22%20rx%3D%229%22%20ry%3D%226.3%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%2233.6%22%20cy%3D%22108%22%20rx%3D%225.3999999999999995%22%20ry%3D%224.05%22%20fill%3D%22%235f6b41%22%2F%3E%3Cellipse%20cx%3D%22170%22%20cy%3D%22100%22%20rx%3D%227%22%20ry%3D%224.8999999999999995%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%22172.8%22%20cy%3D%2298%22%20rx%3D%224.2%22%20ry%3D%223.15%22%20fill%3D%22%235f6b41%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%2292%22%20y%3D%2286%22%20width%3D%2216%22%20height%3D%2240%22%20rx%3D%228%22%20fill%3D%22%235f6b41%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%2278%22%20y%3D%2296%22%20width%3D%2210%22%20height%3D%2220%22%20rx%3D%225%22%20fill%3D%22%235f6b41%22%2F%3E%3Crect%20x%3D%2282%22%20y%3D%22110%22%20width%3D%2214%22%20height%3D%226%22%20fill%3D%22%235f6b41%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%22112%22%20y%3D%2292%22%20width%3D%2210%22%20height%3D%2218%22%20rx%3D%225%22%20fill%3D%22%235f6b41%22%2F%3E%3Crect%20x%3D%22104%22%20y%3D%22104%22%20width%3D%2212%22%20height%3D%226%22%20fill%3D%22%235f6b41%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%22108%22%20y%3D%2298%22%20width%3D%229%22%20height%3D%226%22%20fill%3D%22%23d9822b%22%2F%3E%3C%2Fsvg%3E"
+                src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%… [1714 characters]"
                 alt="Salvage tags being removed from a barrel cactus on the CW-TS14 pad"
                 width="400"
                 height="300"
@@ -335,7 +225,7 @@ Generate Report opens a preview of the regulator document (letterhead, General I
           <li>
             <figure>
               <img
-                src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20150%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%3Crect%20width%3D%22200%22%20height%3D%22150%22%20fill%3D%22%23cfdde6%22%2F%3E%3Cpath%20d%3D%22M0%2070%20L40%2052%20L75%2062%20L120%2044%20L165%2060%20L200%2050%20L200%2080%20L0%2080Z%22%20fill%3D%22%23b9c3c4%22%2F%3E%3Crect%20y%3D%2278%22%20width%3D%22200%22%20height%3D%2272%22%20fill%3D%22%23d9c7a3%22%2F%3E%3Cellipse%20cx%3D%2230%22%20cy%3D%22110%22%20rx%3D%229%22%20ry%3D%226.3%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%2233.6%22%20cy%3D%22108%22%20rx%3D%225.3999999999999995%22%20ry%3D%224.05%22%20fill%3D%22%235f6b41%22%2F%3E%3Cellipse%20cx%3D%22170%22%20cy%3D%22100%22%20rx%3D%227%22%20ry%3D%224.8999999999999995%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%22172.8%22%20cy%3D%2298%22%20rx%3D%224.2%22%20ry%3D%223.15%22%20fill%3D%22%235f6b41%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%2292%22%20y%3D%2286%22%20width%3D%2216%22%20height%3D%2240%22%20rx%3D%228%22%20fill%3D%22%235f6b41%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%2278%22%20y%3D%2296%22%20width%3D%2210%22%20height%3D%2220%22%20rx%3D%225%22%20fill%3D%22%235f6b41%22%2F%3E%3Crect%20x%3D%2282%22%20y%3D%22110%22%20width%3D%2214%22%20height%3D%226%22%20fill%3D%22%235f6b41%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%22112%22%20y%3D%2292%22%20width%3D%2210%22%20height%3D%2218%22%20rx%3D%225%22%20fill%3D%22%235f6b41%22%2F%3E%3Crect%20x%3D%22104%22%20y%3D%22104%22%20width%3D%2212%22%20height%3D%226%22%20fill%3D%22%235f6b41%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%22108%22%20y%3D%2298%22%20width%3D%229%22%20height%3D%226%22%20fill%3D%22%23d9822b%22%2F%3E%3C%2Fsvg%3E"
+                src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%… [1714 characters]"
                 alt="Cleared cactus with tag removed, pad marked as salvaged"
                 width="400"
                 height="300"
@@ -347,126 +237,7 @@ Generate Report opens a preview of the regulator document (letterhead, General I
               </figcaption>
             </figure>
           </li>
-          <li>
-            <figure>
-              <img
-                src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20150%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%3Crect%20width%3D%22200%22%20height%3D%22150%22%20fill%3D%22%23cfdde6%22%2F%3E%3Cpath%20d%3D%22M0%2070%20L40%2052%20L75%2062%20L120%2044%20L165%2060%20L200%2050%20L200%2080%20L0%2080Z%22%20fill%3D%22%23b9c3c4%22%2F%3E%3Crect%20y%3D%2278%22%20width%3D%22200%22%20height%3D%2272%22%20fill%3D%22%23d9c7a3%22%2F%3E%3Cpath%20d%3D%22M0%20150%20L70%20100%20L200%20100%20L200%20150Z%22%20fill%3D%22%23bfa77c%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%2296%22%20y%3D%2296%22%20width%3D%2244%22%20height%3D%2222%22%20rx%3D%223%22%20fill%3D%22%23e0a526%22%2F%3E%3Crect%20x%3D%22104%22%20y%3D%2286%22%20width%3D%2222%22%20height%3D%2214%22%20rx%3D%222%22%20fill%3D%22%23e0a526%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%2280%22%20y%3D%22112%22%20width%3D%2220%22%20height%3D%226%22%20fill%3D%22%236b6b6b%22%2F%3E%3Ccircle%20cx%3D%22104%22%20cy%3D%22122%22%20r%3D%227%22%20fill%3D%22%233d3d3d%22%2F%3E%3Ccircle%20cx%3D%22132%22%20cy%3D%22122%22%20r%3D%227%22%20fill%3D%22%233d3d3d%22%2F%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2240%22%20cy%3D%22104%22%20rx%3D%229%22%20ry%3D%226.3%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%2243.6%22%20cy%3D%22102%22%20rx%3D%225.3999999999999995%22%20ry%3D%224.05%22%20fill%3D%22%235f6b41%22%2F%3E%3Cellipse%20cx%3D%2228%22%20cy%3D%22112%22%20rx%3D%227%22%20ry%3D%224.8999999999999995%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%2230.8%22%20cy%3D%22110%22%20rx%3D%224.2%22%20ry%3D%223.15%22%20fill%3D%22%235f6b41%22%2F%3E%3C%2Fsvg%3E"
-                alt="Skid steer clearing vegetation on the CW-TS14 pad"
-                width="400"
-                height="300"
-              />
-              <figcaption>
-                Photo Taken: 09/11/2026 10:41<br /><span class="bcn-report-doc__muted"
-                  >CW-TS14</span
-                >
-              </figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img
-                src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20150%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%3Crect%20width%3D%22200%22%20height%3D%22150%22%20fill%3D%22%23cfdde6%22%2F%3E%3Cpath%20d%3D%22M0%2070%20L40%2052%20L75%2062%20L120%2044%20L165%2060%20L200%2050%20L200%2080%20L0%2080Z%22%20fill%3D%22%23b9c3c4%22%2F%3E%3Crect%20y%3D%2278%22%20width%3D%22200%22%20height%3D%2272%22%20fill%3D%22%23d9c7a3%22%2F%3E%3Cpath%20d%3D%22M0%20150%20L70%20100%20L200%20100%20L200%20150Z%22%20fill%3D%22%23bfa77c%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%2296%22%20y%3D%2296%22%20width%3D%2244%22%20height%3D%2222%22%20rx%3D%223%22%20fill%3D%22%23e0a526%22%2F%3E%3Crect%20x%3D%22104%22%20y%3D%2286%22%20width%3D%2222%22%20height%3D%2214%22%20rx%3D%222%22%20fill%3D%22%23e0a526%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%2280%22%20y%3D%22112%22%20width%3D%2220%22%20height%3D%226%22%20fill%3D%22%236b6b6b%22%2F%3E%3Ccircle%20cx%3D%22104%22%20cy%3D%22122%22%20r%3D%227%22%20fill%3D%22%233d3d3d%22%2F%3E%3Ccircle%20cx%3D%22132%22%20cy%3D%22122%22%20r%3D%227%22%20fill%3D%22%233d3d3d%22%2F%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2240%22%20cy%3D%22104%22%20rx%3D%229%22%20ry%3D%226.3%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%2243.6%22%20cy%3D%22102%22%20rx%3D%225.3999999999999995%22%20ry%3D%224.05%22%20fill%3D%22%235f6b41%22%2F%3E%3Cellipse%20cx%3D%2228%22%20cy%3D%22112%22%20rx%3D%227%22%20ry%3D%224.8999999999999995%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%2230.8%22%20cy%3D%22110%22%20rx%3D%224.2%22%20ry%3D%223.15%22%20fill%3D%22%235f6b41%22%2F%3E%3C%2Fsvg%3E"
-                alt="Dust rising behind the skid steer while clearing the CW-TS14 pad"
-                width="400"
-                height="300"
-              />
-              <figcaption>
-                Photo Taken: 09/11/2026 10:45<br /><span class="bcn-report-doc__muted"
-                  >CW-TS14</span
-                >
-              </figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img
-                src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20150%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%3Crect%20width%3D%22200%22%20height%3D%22150%22%20fill%3D%22%23cfdde6%22%2F%3E%3Cpath%20d%3D%22M0%2070%20L40%2052%20L75%2062%20L120%2044%20L165%2060%20L200%2050%20L200%2080%20L0%2080Z%22%20fill%3D%22%23b9c3c4%22%2F%3E%3Crect%20y%3D%2278%22%20width%3D%22200%22%20height%3D%2272%22%20fill%3D%22%23d9c7a3%22%2F%3E%3Cellipse%20cx%3D%22150%22%20cy%3D%2298%22%20rx%3D%2212%22%20ry%3D%228.399999999999999%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%22154.8%22%20cy%3D%2296%22%20rx%3D%227.199999999999999%22%20ry%3D%225.4%22%20fill%3D%22%235f6b41%22%2F%3E%3Cellipse%20cx%3D%2296%22%20cy%3D%22114%22%20rx%3D%2234%22%20ry%3D%2212%22%20fill%3D%22%23bfa77c%22%2F%3E%0A%20%20%20%20%3Cellipse%20cx%3D%2296%22%20cy%3D%22112%22%20rx%3D%2216%22%20ry%3D%228%22%20fill%3D%22%234a3c28%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%22140%22%20y1%3D%22122%22%20x2%3D%22140%22%20y2%3D%22104%22%20stroke%3D%22%236e5a3a%22%20stroke-width%3D%222%22%2F%3E%3Crect%20x%3D%22140%22%20y%3D%22104%22%20width%3D%228%22%20height%3D%225%22%20fill%3D%22%233f8fd9%22%2F%3E%3C%2Fsvg%3E"
-                alt="Inactive burrow at the north edge of the CW-TS14 work area"
-                width="400"
-                height="300"
-              />
-              <figcaption>
-                Photo Taken: 09/11/2026 10:53<br /><span class="bcn-report-doc__muted"
-                  >CW-TS14</span
-                >
-              </figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img
-                src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20150%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%3Crect%20width%3D%22200%22%20height%3D%22150%22%20fill%3D%22%23cfdde6%22%2F%3E%3Cpath%20d%3D%22M0%2070%20L40%2052%20L75%2062%20L120%2044%20L165%2060%20L200%2050%20L200%2080%20L0%2080Z%22%20fill%3D%22%23b9c3c4%22%2F%3E%3Crect%20y%3D%2278%22%20width%3D%22200%22%20height%3D%2272%22%20fill%3D%22%23d9c7a3%22%2F%3E%3Cellipse%20cx%3D%22170%22%20cy%3D%2296%22%20rx%3D%229%22%20ry%3D%226.3%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%22173.6%22%20cy%3D%2294%22%20rx%3D%225.3999999999999995%22%20ry%3D%224.05%22%20fill%3D%22%235f6b41%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0%20110%20L60%20104%20L80%20112%22%20stroke%3D%22%232f2f2f%22%20stroke-width%3D%223%22%20fill%3D%22none%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M80%20112%20L120%20128%20L150%20124%22%20stroke%3D%22%232f2f2f%22%20stroke-width%3D%223%22%20fill%3D%22none%22%20stroke-dasharray%3D%226%205%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%2210%22%20y1%3D%2296%22%20x2%3D%2210%22%20y2%3D%22112%22%20stroke%3D%22%236e5a3a%22%20stroke-width%3D%223%22%2F%3E%3Cline%20x1%3D%2230%22%20y1%3D%2296%22%20x2%3D%2230%22%20y2%3D%22112%22%20stroke%3D%22%236e5a3a%22%20stroke-width%3D%223%22%2F%3E%3Cline%20x1%3D%2250%22%20y1%3D%2296%22%20x2%3D%2250%22%20y2%3D%22112%22%20stroke%3D%22%236e5a3a%22%20stroke-width%3D%223%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%22118%22%20y1%3D%22112%22%20x2%3D%22126%22%20y2%3D%22132%22%20stroke%3D%22%236e5a3a%22%20stroke-width%3D%223%22%2F%3E%3C%2Fsvg%3E"
-                alt="Section of silt fence down where the access road crosses the wash"
-                width="400"
-                height="300"
-              />
-              <figcaption>
-                Photo Taken: 09/11/2026 11:35<br /><span class="bcn-report-doc__muted"
-                  >CW-TS22</span
-                >
-              </figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img
-                src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20150%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%3Crect%20width%3D%22200%22%20height%3D%22150%22%20fill%3D%22%23cfdde6%22%2F%3E%3Cpath%20d%3D%22M0%2070%20L40%2052%20L75%2062%20L120%2044%20L165%2060%20L200%2050%20L200%2080%20L0%2080Z%22%20fill%3D%22%23b9c3c4%22%2F%3E%3Crect%20y%3D%2278%22%20width%3D%22200%22%20height%3D%2272%22%20fill%3D%22%23d9c7a3%22%2F%3E%3Cpath%20d%3D%22M60%20150%20C80%20120%20110%20110%20130%2078%20L150%2078%20C135%20112%20110%20130%20100%20150Z%22%20fill%3D%22%23bfa77c%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M80%20150%20C95%20125%20118%20110%20138%2080%22%20stroke%3D%22%23a89067%22%20stroke-width%3D%222%22%20fill%3D%22none%22%2F%3E%3Cellipse%20cx%3D%2240%22%20cy%3D%22100%22%20rx%3D%229%22%20ry%3D%226.3%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%2243.6%22%20cy%3D%2298%22%20rx%3D%225.3999999999999995%22%20ry%3D%224.05%22%20fill%3D%22%235f6b41%22%2F%3E%3Cellipse%20cx%3D%22170%22%20cy%3D%22110%22%20rx%3D%2210%22%20ry%3D%227%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%22174%22%20cy%3D%22108%22%20rx%3D%226%22%20ry%3D%224.5%22%20fill%3D%22%235f6b41%22%2F%3E%3C%2Fsvg%3E"
-                alt="Drainage crossing downslope of the CW-TS22 pad"
-                width="400"
-                height="300"
-              />
-              <figcaption>
-                Photo Taken: 09/11/2026 11:37<br /><span class="bcn-report-doc__muted"
-                  >CW-TS22</span
-                >
-              </figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img
-                src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20150%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%3Crect%20width%3D%22200%22%20height%3D%22150%22%20fill%3D%22%23cfdde6%22%2F%3E%3Cpath%20d%3D%22M0%2070%20L40%2052%20L75%2062%20L120%2044%20L165%2060%20L200%2050%20L200%2080%20L0%2080Z%22%20fill%3D%22%23b9c3c4%22%2F%3E%3Crect%20y%3D%2278%22%20width%3D%22200%22%20height%3D%2272%22%20fill%3D%22%23d9c7a3%22%2F%3E%3Cpath%20d%3D%22M20%20150%20L60%2092%20L150%2092%20L190%20150Z%22%20fill%3D%22%23bfa77c%22%2F%3E%3Cellipse%20cx%3D%2215%22%20cy%3D%2296%22%20rx%3D%227%22%20ry%3D%224.8999999999999995%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%2217.8%22%20cy%3D%2294%22%20rx%3D%224.2%22%20ry%3D%223.15%22%20fill%3D%22%235f6b41%22%2F%3E%3Cellipse%20cx%3D%22185%22%20cy%3D%2298%22%20rx%3D%228%22%20ry%3D%225.6%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%22188.2%22%20cy%3D%2296%22%20rx%3D%224.8%22%20ry%3D%223.6%22%20fill%3D%22%235f6b41%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%2260%22%20y1%3D%2292%22%20x2%3D%2260%22%20y2%3D%2284%22%20stroke%3D%22%23d9822b%22%20stroke-width%3D%222%22%2F%3E%3Cline%20x1%3D%22150%22%20y1%3D%2292%22%20x2%3D%22150%22%20y2%3D%2284%22%20stroke%3D%22%23d9822b%22%20stroke-width%3D%222%22%2F%3E%3C%2Fsvg%3E"
-                alt="Graded CW-TS22 pad, looking east"
-                width="400"
-                height="300"
-              />
-              <figcaption>
-                Photo Taken: 09/11/2026 12:02<br /><span class="bcn-report-doc__muted"
-                  >CW-TS22</span
-                >
-              </figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img
-                src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20150%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%3Crect%20width%3D%22200%22%20height%3D%22150%22%20fill%3D%22%23cfdde6%22%2F%3E%3Cpath%20d%3D%22M0%2070%20L40%2052%20L75%2062%20L120%2044%20L165%2060%20L200%2050%20L200%2080%20L0%2080Z%22%20fill%3D%22%23b9c3c4%22%2F%3E%3Crect%20y%3D%2278%22%20width%3D%22200%22%20height%3D%2272%22%20fill%3D%22%23d9c7a3%22%2F%3E%3Cellipse%20cx%3D%2225%22%20cy%3D%22100%22%20rx%3D%229%22%20ry%3D%226.3%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%2228.6%22%20cy%3D%2298%22%20rx%3D%225.3999999999999995%22%20ry%3D%224.05%22%20fill%3D%22%235f6b41%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%2240%22%20y%3D%22104%22%20width%3D%22130%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%238d949a%22%2F%3E%3Crect%20x%3D%2240%22%20y%3D%22113%22%20width%3D%22130%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%238d949a%22%2F%3E%3Crect%20x%3D%2240%22%20y%3D%22122%22%20width%3D%22130%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%238d949a%22%2F%3E%0A%20%20%20%20%3Crect%20x%3D%2252%22%20y%3D%22128%22%20width%3D%2210%22%20height%3D%226%22%20fill%3D%22%236e5a3a%22%2F%3E%3Crect%20x%3D%22146%22%20y%3D%22128%22%20width%3D%2210%22%20height%3D%226%22%20fill%3D%22%236e5a3a%22%2F%3E%3C%2Fsvg%3E"
-                alt="Steel poles staged on cribbing at CW-TS31"
-                width="400"
-                height="300"
-              />
-              <figcaption>
-                Photo Taken: 09/11/2026 13:06<br /><span class="bcn-report-doc__muted"
-                  >CW-TS31</span
-                >
-              </figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img
-                src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20150%22%20preserveAspectRatio%3D%22xMidYMid%20slice%22%3E%3Crect%20width%3D%22200%22%20height%3D%22150%22%20fill%3D%22%23cfdde6%22%2F%3E%3Cpath%20d%3D%22M0%2070%20L40%2052%20L75%2062%20L120%2044%20L165%2060%20L200%2050%20L200%2080%20L0%2080Z%22%20fill%3D%22%23b9c3c4%22%2F%3E%3Crect%20y%3D%2278%22%20width%3D%22200%22%20height%3D%2272%22%20fill%3D%22%23d9c7a3%22%2F%3E%3Cellipse%20cx%3D%22100%22%20cy%3D%22104%22%20rx%3D%2226%22%20ry%3D%2218.2%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%22110.4%22%20cy%3D%22102%22%20rx%3D%2215.6%22%20ry%3D%2211.700000000000001%22%20fill%3D%22%235f6b41%22%2F%3E%3Cellipse%20cx%3D%2270%22%20cy%3D%22112%22%20rx%3D%2212%22%20ry%3D%228.399999999999999%22%20fill%3D%22%237d8a5a%22%2F%3E%3Cellipse%20cx%3D%2274.8%22%20cy%3D%22110%22%20rx%3D%227.199999999999999%22%20ry%3D%225.4%22%20fill%3D%22%235f6b41%22%2F%3E%0A%20%20%20%20%3Ccircle%20cx%3D%22104%22%20cy%3D%22100%22%20r%3D%226%22%20fill%3D%22%238a6d45%22%2F%3E%0A%20%20%20%20%3Cline%20x1%3D%2250%22%20y1%3D%2290%22%20x2%3D%2250%22%20y2%3D%2274%22%20stroke%3D%22%236e5a3a%22%20stroke-width%3D%222%22%2F%3E%3Crect%20x%3D%2250%22%20y%3D%2274%22%20width%3D%228%22%20height%3D%225%22%20fill%3D%22%23d9822b%22%2F%3E%3Cline%20x1%3D%22150%22%20y1%3D%2290%22%20x2%3D%22150%22%20y2%3D%2274%22%20stroke%3D%22%236e5a3a%22%20stroke-width%3D%222%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%2274%22%20width%3D%228%22%20height%3D%225%22%20fill%3D%22%23d9822b%22%2F%3E%3Cline%20x1%3D%2240%22%20y1%3D%22130%22%20x2%3D%2240%22%20y2%3D%22114%22%20stroke%3D%22%236e5a3a%22%20stroke-width%3D%222%22%2F%3E%3Crect%20x%3D%2240%22%20y%3D%22114%22%20width%3D%228%22%20height%3D%225%22%20fill%3D%22%23d9822b%22%2F%3E%3Cline%20x1%3D%22160%22%20y1%3D%22130%22%20x2%3D%22160%22%20y2%3D%22114%22%20stroke%3D%22%236e5a3a%22%20stroke-width%3D%222%22%2F%3E%3Crect%20x%3D%22160%22%20y%3D%22114%22%20width%3D%228%22%20height%3D%225%22%20fill%3D%22%23d9822b%22%2F%3E%3C%2Fsvg%3E"
-                alt="Staked 50-foot buffer around an active verdin nest in a creosote bush"
-                width="400"
-                height="300"
-              />
-              <figcaption>
-                Photo Taken: 09/11/2026 13:42<br /><span class="bcn-report-doc__muted"
-                  >CW-TS31</span
-                >
-              </figcaption>
-            </figure>
-          </li>
+          <!-- …and 8 more like this (<li>) -->
         </ul>
         <h4 class="bcn-report-doc__section">End of Report</h4>
         <table class="bcn-report-doc__table">
@@ -481,8 +252,7 @@ Generate Report opens a preview of the regulator document (letterhead, General I
     </div>
   </div>
   <div slot="footer" class="cluster" data-gap="xs">
-    <span
-      class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
+    <span class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
       ><button
         class="esa-button__native typography-microcopy-md"
         type="button"
@@ -505,8 +275,7 @@ Generate Report opens a preview of the regulator document (letterhead, General I
             <line x1="12" x2="12" y1="15" y2="3"></line></svg></span
         ><span class="esa-button__label">Generate PDF</span>
       </button></span
-    ><span
-      class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--md"
+    ><span class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--md"
       ><button
         class="esa-button__native typography-microcopy-md"
         type="button"
@@ -520,6 +289,7 @@ Generate Report opens a preview of the regulator document (letterhead, General I
 ```
 
 ## Styles
+
 ```css
 .typography-body-sm {
   font-family: var(--typography-body-sm-font-family);
@@ -542,45 +312,9 @@ Generate Report opens a preview of the regulator document (letterhead, General I
   line-height: var(--typography-microcopy-md-line-height);
   letter-spacing: var(--typography-microcopy-md-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
-}
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -596,6 +330,11 @@ Generate Report opens a preview of the regulator document (letterhead, General I
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -603,9 +342,6 @@ Generate Report opens a preview of the regulator document (letterhead, General I
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -789,6 +525,12 @@ Generate Report opens a preview of the regulator document (letterhead, General I
   box-decoration-break: clone;
   padding-inline: 2px;
 }
+@media (forced-colors: active) {
+  .bcn-report-preview .bcn-report-doc__edit {
+    color: marktext;
+    background: mark;
+  }
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -801,20 +543,10 @@ Generate Report opens a preview of the regulator document (letterhead, General I
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
 .esa-button--sm {
   --_btn-pad-y: var(--spacing-250, 0.625rem);
   --_btn-padding-x: var(--spacing-250, 0.625rem);
   --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
 }
 .esa-button--variant-primary {
   --_accent-text: var(--color-content-brand);
@@ -825,33 +557,6 @@ Generate Report opens a preview of the regulator document (letterhead, General I
   --_on: var(--color-content-on-brand-muted, var(--color-content-default));
   --_accent-text: var(--color-content-brand);
   --_accent-border: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -915,10 +620,7 @@ Generate Report opens a preview of the regulator document (letterhead, General I
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -945,11 +647,6 @@ Generate Report opens a preview of the regulator document (letterhead, General I
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -966,28 +663,8 @@ summary.esa-button:focus-visible {
   outline-offset: var(--focus-ring-offset, 2px);
   border-radius: var(--_btn-radius);
 }
-summary.esa-button--variant-chrome:focus-visible {
-  outline-color: currentColor;
-}
 .esa-button__label {
   white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
 }
 .typography-body-sm {
   font-family: var(--typography-body-sm-font-family);
@@ -1010,34 +687,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-md-line-height);
   letter-spacing: var(--typography-microcopy-md-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
-}
 .esa-collapsible__summary .esa-icon {
   color: var(--color-content-default-secondary, #646464);
   flex-shrink: 0;
@@ -1048,10 +697,7 @@ summary.esa-button--variant-chrome:focus-visible {
   --_alert-accent: var(--color-content-utility-info, #0d74ce);
   --_alert-icon-color: var(--_alert-accent);
   --_alert-title-color: var(--_alert-accent);
-  --_alert-text-color: var(
-    --alert-box-text-color,
-    var(--color-content-default-secondary, #646464)
-  );
+  --_alert-text-color: var(--alert-box-text-color, var(--color-content-default-secondary, #646464));
   align-items: flex-start;
   gap: var(--spacing-300, 0.75rem);
   padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
@@ -1060,20 +706,10 @@ summary.esa-button--variant-chrome:focus-visible {
   background: var(--_alert-bg);
   display: flex;
 }
-.esa-alert-box--success {
-  --_alert-bg: var(--color-background-utility-success-subtle, #fbfefc);
-  --_alert-border: var(--color-border-utility-success, #adddc0);
-  --_alert-accent: var(--color-content-utility-success, #218358);
-}
 .esa-alert-box--warning {
   --_alert-bg: var(--color-background-utility-warning-subtle, #fefdfb);
   --_alert-border: var(--color-border-utility-warning, #f3d673);
   --_alert-accent: var(--color-content-utility-warning, #ab6400);
-}
-.esa-alert-box--danger {
-  --_alert-bg: var(--color-background-utility-danger-subtle, #fffcfc);
-  --_alert-border: var(--color-border-utility-danger, #fdbdbe);
-  --_alert-accent: var(--color-content-utility-danger, #ce2c31);
 }
 .esa-alert-box__icon {
   color: var(--_alert-icon-color);
@@ -1084,38 +720,8 @@ summary.esa-button--variant-chrome:focus-visible {
   flex: 1;
   min-width: 0;
 }
-.esa-alert-box__title {
-  color: var(--_alert-title-color);
-  margin-bottom: var(--spacing-050, 0.125rem);
-  display: block;
-}
 .esa-alert-box__message {
   color: var(--_alert-text-color);
-}
-.esa-alert-box__dismiss {
-  border-radius: var(--radius-sm, 0.25rem);
-  width: 24px;
-  height: 24px;
-  color: var(--color-content-default-secondary, #646464);
-  cursor: pointer;
-  transition:
-    color var(--transition-fast, 0.15s ease),
-    background var(--transition-fast, 0.15s ease);
-  background: 0 0;
-  border: none;
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  display: inline-flex;
-}
-.esa-alert-box__dismiss:hover {
-  color: var(--color-content-default, #202020);
-  background: var(--color-background-overlay-strong-hover, #0000000f);
-}
-.esa-alert-box__dismiss:focus-visible {
-  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
-  outline-offset: var(--focus-ring-offset, 2px);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -1126,20 +732,11 @@ summary.esa-button--variant-chrome:focus-visible {
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
 }
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -1175,117 +772,70 @@ summary.esa-button--variant-chrome:focus-visible {
 ```
 
 ## Tokens
-- `--alert-box-text-color`: #525252 _(component)_
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-elevation-floating`: #fcfcfc _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-overlay-strong-hover`: #0000000d _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-danger-subtle`: #fffcfc _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
-- `--color-background-utility-info-subtle`: #fbfdff _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-success-subtle`: #fbfefc _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-background-utility-warning-subtle`: #fefdfb _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-utility-danger`: #fdbdbe _(semantic)_
-- `--color-border-utility-info`: #acd8fc _(semantic)_
-- `--color-border-utility-success`: #adddc0 _(semantic)_
-- `--color-border-utility-warning`: #f3d673 _(semantic)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-decorative`: "Besley", serif _(component)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-md`: .25rem _(semantic)_
-- `--radius-sm`: .25rem _(semantic)_
-- `--radius-xs`: .125rem _(semantic)_
-- `--shadow-200`: 0 4px 20px -4px #0000000f _(component)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
-- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-body-sm-line-height`: 1.6 _(semantic)_
-- `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-md-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-line-height`: 1 _(semantic)_
-- `--typography-microcopy-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--alert-box-text-color` | `#525252` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
+| `--color-background-brand-muted-hover` | `#b9d6d2` | semantic |
+| `--color-background-elevation-floating` | `#fcfcfc` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-background-utility-info-muted` | `#e6f4fe` | semantic |
+| `--color-background-utility-info-subtle` | `#fbfdff` | semantic |
+| `--color-background-utility-warning-subtle` | `#fefdfb` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-utility-info` | `#acd8fc` | semantic |
+| `--color-border-utility-warning` | `#f3d673` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-on-brand-muted` | `#203c25` | semantic |
+| `--color-content-utility-info` | `#0d74ce` | semantic |
+| `--color-content-utility-warning` | `#ab6400` | semantic |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--font-decorative` | `"Besley", serif` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--radius-md` | `.25rem` | semantic |
+| `--radius-sm` | `.25rem` | semantic |
+| `--radius-xs` | `.125rem` | semantic |
+| `--shadow-200` | `0 4px 20px -4px #0000000f` | component |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-body-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-body-sm-font-weight` | `400` | semantic |
+| `--typography-body-sm-letter-spacing` | `.01em` | semantic |
+| `--typography-body-sm-line-height` | `1.6` | semantic |
+| `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-microcopy-md-font-weight` | `500` | semantic |
+| `--typography-microcopy-md-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-md-line-height` | `1` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |

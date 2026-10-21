@@ -1,8 +1,11 @@
 # The pivot — reading a view the other way round
 
+Obligation Tracking · source prototype: https://esassoc.github.io/beacon-design/prototypes/obligation-tracking/
+
 A two-option switch above every view: By event, or By obligation. It transposes the view — the same data with the parent and the child swapped. By event, a pane is a thing that happened and its children are the duties it raised. By obligation, a pane is a duty and its children are the events that reached it.
 
 ## Key decisions
+
 - ON THE READER-DEFINED VIEWS ONLY (Kim, 2026-09-17): Important, whose slice is the reader’s saved subject areas, and Pinned, which is a list they chose. All and To-do are the system’s own cuts — everything that happened, and everything owed — and nobody arrives at them asking "what has become of MY duties", which is what the inverse answers. A view without the pivot renders ONE side and no switch, rather than both with one hidden. WHAT THAT COSTS, recorded rather than argued: To-do is where the transpose paid most (12 rows for 3 duties becomes 3), and that repetition is back. The inverse data for all four views is still built and exported — restoring a switch is one prop.
 - PINNED OPENS ON THE OBLIGATION SIDE, every other view on the event side. A pin IS a duty: opening a list you curated and being shown a list of events instead answers a question nobody asked. That makes Pinned the one view whose by-event direction is the transpose.
 - A PIVOT, NOT A FIFTH TAB. This is a transpose, not another subject. A tab says "here is a different thing"; a switch says "here is the same thing the other way round" — and the page already has two levels of tab, so a fifth inner tab under two outer ones would be the third nesting. Same lego and same wiring as the Registry tab’s By category / By commitment switch, so the two switches on this page read as one control.
@@ -12,18 +15,26 @@ A two-option switch above every view: By event, or By obligation. It transposes 
 - PINNED IS THE ONE VIEW WHOSE BY-OBLIGATION SIDE IS NATIVE. The other three are lists of events that happen to reach duties, so their inverse is DERIVED from the event log and a duty with no events is simply not in them. Pinned is a list of duties that may or may not have been reached, so every pin appears whether or not anything has touched it — and THREE OF THE SIX HAVE NOTHING. Keeping those panes rather than dropping them is the whole value: it renders the missing event sources as something a reader finds by looking.
 
 ## Gotchas
+
 - BOTH DIRECTIONS RENDER AT BUILD TIME and the switch only reveals, like everything else on this page.
 - THE REVEAL SCRIPT IS SCOPED PER SIDE, not per workspace. Both directions put a rail and panes inside the same .bcn-tw; a workspace-wide query lets a click in one rail hide the other side’s pane and silently unselect its row.
 - A DUTY WITH NO EVENTS GETS NO EMPTY-STATE COMPONENT. It is not a failed lookup, it is the answer — the pane’s own "Moved by" and "Events" facts state it in the structured band instead of as prose.
 - THE "Moved by" FACT IS PER CLASS and is a statement about Beacon, not about this page: Notify is moved by a field event, Adhere by a breach, Monitor by evidence arriving, Roster by a change of staff — and only the first of those four is a topic Beacon actually publishes.
 
 ## Done when
+
 - Only Important and Pinned carry a switch; All and To-do render one side and no bar.
 - Important opens By event and Pinned opens By obligation, and switching one leaves the other alone.
 - Row totals agree in both directions for All, Important and To-do.
 - Pinned by obligation shows 6 duties, 3 of them with no events and each naming what would move it.
 
+## Components
+
+- `bcn-tw` (spoke) · `src/components/bcn/BcnTrackingWorkspace.astro`
+- `esa-button-toggle` (hub) · `packages/ecology/src/components/esa-button-toggle.ts`
+
 ## Markup
+
 ```html
 <header class="bcn-tw__bar">
   <esa-button-toggle
@@ -39,6 +50,7 @@ A two-option switch above every view: By event, or By obligation. It transposes 
 ```
 
 ## Styles
+
 ```css
 .bcn-tw__bar {
   justify-content: flex-end;
@@ -48,4 +60,7 @@ A two-option switch above every view: By event, or By obligation. It transposes 
 ```
 
 ## Tokens
-- `--spacing-200`: .5rem _(primitive)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--spacing-200` | `.5rem` | primitive |

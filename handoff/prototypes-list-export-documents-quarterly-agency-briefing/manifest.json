@@ -1,6 +1,9 @@
 {
   "name": "list-export-commitment-pdf",
-  "url": "http://localhost:4399/beacon-design/prototypes/list-export-documents/quarterly-agency-briefing/",
+  "title": "Commitment list PDF",
+  "description": "A commitment list as a PDF on Letter, by permit section in code order: a summary table, then each commitment with its requirements in the permit’s words.",
+  "dir": "prototypes-list-export-documents-quarterly-agency-briefing",
+  "url": "https://esassoc.github.io/beacon-design/prototypes/list-export-documents/quarterly-agency-briefing/",
   "theme": "beacon",
   "generatedFrom": "spec",
   "sections": [
@@ -8,8 +11,8 @@
       "label": "Print route + data",
       "tag": "header",
       "selector": ".bcn-doc__head",
-      "html": "<header class=\"bcn-doc__head\">\n  <img class=\"bcn-doc__logo\" src=\"/beacon-design/images/dcp/dwr-logo.png\" alt=\"DWR\" />\n  <h1 class=\"bcn-doc__title\">Quarterly Agency Briefing</h1>\n  <p class=\"bcn-doc__desc\">\n    Read into the quarterly briefing deck for the resource agencies.\n  </p>\n  <div class=\"bcn-doc__facts\">\n    <dl class=\"bcn-doc-facts bcn-doc-facts--title\">\n      <div class=\"bcn-doc-facts__pair\">\n        <dt>Type</dt>\n        <dd>Commitment List</dd>\n      </div>\n      <div class=\"bcn-doc-facts__pair\">\n        <dt>Project</dt>\n        <dd>Delta Conveyance</dd>\n      </div>\n      <div class=\"bcn-doc-facts__pair\">\n        <dt>Exported</dt>\n        <dd>2026-10-19</dd>\n      </div>\n      <div class=\"bcn-doc-facts__pair\">\n        <dt>Commitments</dt>\n        <dd>12</dd>\n      </div>\n    </dl>\n  </div>\n</header>",
-      "css": ".bcn-doc-facts {\n  flex-wrap: wrap;\n  margin: 0;\n  display: flex;\n}\n.bcn-doc-facts--title {\n  gap: var(--spacing-100) var(--spacing-500);\n  font-size: var(--bcn-print-font-size-body);\n}\n.bcn-doc-facts--entry {\n  gap: var(--spacing-050) var(--spacing-500);\n  font-size: var(--bcn-print-font-size-meta);\n}\n.bcn-doc-facts__pair {\n  gap: var(--spacing-150);\n  min-inline-size: 0;\n  display: flex;\n}\n.bcn-doc-facts dt {\n  white-space: nowrap;\n  color: var(--color-content-default-secondary);\n  flex: none;\n}\n.bcn-doc-facts dd {\n  min-inline-size: 0;\n  font-weight: var(--typography-font-weight-medium);\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-doc__head {\n  border-block-end: 2px solid var(--color-content-default);\n  margin-block-end: var(--spacing-500);\n  padding-block-end: var(--spacing-400);\n}\n.bcn-doc__logo {\n  block-size: var(--bcn-print-logo-height);\n  inline-size: auto;\n  margin-block-end: var(--spacing-500);\n  display: block;\n}\n.bcn-doc__title {\n  font-size: var(--bcn-print-font-size-title);\n  font-weight: var(--typography-font-weight-semibold);\n  line-height: var(--line-height-tight);\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-doc__desc {\n  margin: var(--spacing-200) 0 0;\n  max-inline-size: 42em;\n  font-size: var(--bcn-print-font-size-entry);\n}\n.bcn-doc__facts {\n  margin-block-start: var(--spacing-400);\n}",
+      "html": "<header class=\"bcn-doc__head\">\n  <img class=\"bcn-doc__logo\" src=\"/beacon-design/images/dcp/dwr-logo.png\" alt=\"DWR\" />\n  <h1 class=\"bcn-doc__title\">Quarterly Agency Briefing</h1>\n  <p class=\"bcn-doc__desc\">Read into the quarterly briefing deck for the resource agencies.</p>\n  <div class=\"bcn-doc__facts\">\n    <dl class=\"bcn-doc-facts bcn-doc-facts--title\">\n      <div class=\"bcn-doc-facts__pair\">\n        <dt>Type</dt>\n        <dd>Commitment List</dd>\n      </div>\n      <div class=\"bcn-doc-facts__pair\">\n        <dt>Project</dt>\n        <dd>Delta Conveyance</dd>\n      </div>\n      <!-- …and 2 more like this (<div class=\"bcn-doc-facts__pair\">) -->\n    </dl>\n  </div>\n</header>",
+      "css": ".bcn-doc-facts {\n  flex-wrap: wrap;\n  margin: 0;\n  display: flex;\n}\n.bcn-doc-facts--title {\n  gap: var(--spacing-100) var(--spacing-500);\n  font-size: var(--bcn-print-font-size-body);\n}\n.bcn-doc-facts__pair {\n  gap: var(--spacing-150);\n  min-inline-size: 0;\n  display: flex;\n}\n.bcn-doc-facts dt {\n  white-space: nowrap;\n  color: var(--color-content-default-secondary);\n  flex: none;\n}\n.bcn-doc-facts dd {\n  min-inline-size: 0;\n  font-weight: var(--typography-font-weight-medium);\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-doc__head {\n  border-block-end: 2px solid var(--color-content-default);\n  margin-block-end: var(--spacing-500);\n  padding-block-end: var(--spacing-400);\n}\n.bcn-doc__logo {\n  block-size: var(--bcn-print-logo-height);\n  inline-size: auto;\n  margin-block-end: var(--spacing-500);\n  display: block;\n}\n.bcn-doc__title {\n  font-size: var(--bcn-print-font-size-title);\n  font-weight: var(--typography-font-weight-semibold);\n  line-height: var(--line-height-tight);\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-doc__desc {\n  margin: var(--spacing-200) 0 0;\n  max-inline-size: 42em;\n  font-size: var(--bcn-print-font-size-entry);\n}\n.bcn-doc__facts {\n  margin-block-start: var(--spacing-400);\n}",
       "guide": {
         "intent": "A commitment list as the PDF its Export card downloads: title block, a summary table with one line per commitment, then each commitment with its requirements in the permit's words, from a new page.",
         "decisions": [
@@ -39,11 +42,6 @@
           "tier": "component"
         },
         {
-          "name": "--bcn-print-font-size-meta",
-          "value": "8pt",
-          "tier": "component"
-        },
-        {
           "name": "--bcn-print-font-size-title",
           "value": "20pt",
           "tier": "component"
@@ -66,11 +64,6 @@
         {
           "name": "--line-height-tight",
           "value": "1.3",
-          "tier": "primitive"
-        },
-        {
-          "name": "--spacing-050",
-          "value": ".125rem",
           "tier": "primitive"
         },
         {
@@ -109,15 +102,37 @@
           "tier": "semantic"
         }
       ],
+      "components": [
+        {
+          "name": "bcn-doc",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnDocSheet.astro",
+          "target": null
+        },
+        {
+          "name": "bcn-doc-facts",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnDocFacts.astro",
+          "target": null
+        }
+      ],
       "claudePath": "claude/print-route-data.md",
-      "repoPath": "public/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/print-route-data.md"
+      "repoPath": "public/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/print-route-data.md",
+      "parts": [],
+      "shots": {
+        "desktop": "claude/print-route-data.desktop.png",
+        "phone": "claude/print-route-data.phone.png"
+      },
+      "bytes": 4664,
+      "files": 1,
+      "collapsed": 2
     },
     {
       "label": "Summary table",
       "tag": "table",
       "selector": ".bcn-doc-summary",
-      "html": "<table class=\"bcn-doc-summary\">\n  <colgroup>\n    <col style=\"width: 18%\" />\n    <col />\n    <col style=\"width: 16%\" />\n  </colgroup>\n  <thead>\n    <tr>\n      <th scope=\"col\">Commitment</th>\n      <th scope=\"col\">Title</th>\n      <th scope=\"col\">Requirements</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr class=\"bcn-doc-summary__group\">\n      <th scope=\"colgroup\" colspan=\"3\">COA 7</th>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 7.5</th>\n      <td>Phase 2 Project Operations Report</td>\n      <td>1</td>\n    </tr>\n  </tbody>\n  <tbody>\n    <tr class=\"bcn-doc-summary__group\">\n      <th scope=\"colgroup\" colspan=\"3\">COA 10</th>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 10.3</th>\n      <td>Tracking Habitat Feature Disturbances and GIS Reporting</td>\n      <td>4</td>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 10.5</th>\n      <td>Reporting Approved Habitat Maps</td>\n      <td>1</td>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 10.12</th>\n      <td>Monthly Compliance Report</td>\n      <td>1</td>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 10.13</th>\n      <td>Annual Status Report</td>\n      <td>1</td>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 10.15</th>\n      <td>Final Mitigation Report</td>\n      <td>1</td>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 10.15.1</th>\n      <td>Mitigation Status Report Before ITP Expiration</td>\n      <td>1</td>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 10.18.1</th>\n      <td>Monitoring Plan and Report Review and Finalization Process</td>\n      <td>1</td>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 10.27.3</th>\n      <td>Hydraulic Testing Reports</td>\n      <td>1</td>\n    </tr>\n  </tbody>\n  <tbody>\n    <tr class=\"bcn-doc-summary__group\">\n      <th scope=\"colgroup\" colspan=\"3\">COA 11</th>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 11.3</th>\n      <td>Covered Species Capture, Handling, and Reporting</td>\n      <td>2</td>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 11.52.4</th>\n      <td>Written Incident Report for CTS Take or Injury</td>\n      <td>1</td>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 11.68.4</th>\n      <td>Written Incident Report for GGS Take or Injury</td>\n      <td>1</td>\n    </tr>\n  </tbody>\n</table>",
-      "css": ".bcn-doc-summary {\n  border-collapse: collapse;\n  table-layout: fixed;\n  inline-size: 100%;\n  font-size: var(--bcn-print-font-size-body);\n}\n.bcn-doc-summary thead th {\n  padding: var(--spacing-100) var(--spacing-200) var(--spacing-100) 0;\n  text-align: start;\n  vertical-align: bottom;\n  font-size: var(--bcn-print-font-size-meta);\n  font-weight: var(--typography-font-weight-medium);\n  color: var(--color-content-default-secondary);\n  border-block-end: 1px solid var(--color-content-default);\n}\n.bcn-doc-summary__group th {\n  padding: var(--spacing-400) 0 var(--spacing-100);\n  text-align: start;\n  font-size: var(--bcn-print-font-size-subgroup);\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default);\n  border-block-end: 1px solid var(--color-border-default-strong);\n}\n.bcn-doc-summary__section th {\n  padding: var(--spacing-250) 0 var(--spacing-100);\n  text-align: start;\n  font-size: var(--bcn-print-font-size-entry);\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default);\n}\n.bcn-doc-summary__run th {\n  padding: var(--spacing-150) 0 var(--spacing-050);\n  text-align: start;\n  font-size: var(--bcn-print-font-size-meta);\n  font-weight: var(--typography-font-weight-medium);\n  color: var(--color-content-default-secondary);\n}\n.bcn-doc-summary__group,\n.bcn-doc-summary__section,\n.bcn-doc-summary__run {\n  break-after: avoid;\n}\n.bcn-doc-summary__row > {\n  padding: var(--spacing-100) var(--spacing-200) var(--spacing-100) 0;\n  text-align: start;\n  vertical-align: top;\n  font-weight: var(--typography-font-weight-regular);\n  border-block-start: 1px solid var(--color-border-default-subtle);\n  overflow-wrap: anywhere;\n}\n.bcn-doc-summary__row > th {\n  font-weight: var(--typography-font-weight-semibold);\n}\n.bcn-doc-summary__row {\n  break-inside: avoid;\n}\n.bcn-doc-summary__section + .bcn-doc-summary__row >,\n.bcn-doc-summary__run + .bcn-doc-summary__row >,\n.bcn-doc-summary__group + .bcn-doc-summary__row > {\n  border-block-start: 0;\n}",
+      "html": "<table class=\"bcn-doc-summary\">\n  <colgroup>\n    <col style=\"width: 18%\" />\n    <col />\n    <col style=\"width: 16%\" />\n  </colgroup>\n  <thead>\n    <tr>\n      <th scope=\"col\">Commitment</th>\n      <th scope=\"col\">Title</th>\n      <th scope=\"col\">Requirements</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr class=\"bcn-doc-summary__group\">\n      <th scope=\"colgroup\" colspan=\"3\">COA 7</th>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 7.5</th>\n      <td>Phase 2 Project Operations Report</td>\n      <td>1</td>\n    </tr>\n  </tbody>\n  <tbody>\n    <tr class=\"bcn-doc-summary__group\">\n      <th scope=\"colgroup\" colspan=\"3\">COA 10</th>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 10.3</th>\n      <td>Tracking Habitat Feature Disturbances and GIS Reporting</td>\n      <td>4</td>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 10.5</th>\n      <td>Reporting Approved Habitat Maps</td>\n      <td>1</td>\n    </tr>\n    <!-- …and 6 more like this (<tr class=\"bcn-doc-summary__row\">) -->\n  </tbody>\n  <tbody>\n    <tr class=\"bcn-doc-summary__group\">\n      <th scope=\"colgroup\" colspan=\"3\">COA 11</th>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 11.3</th>\n      <td>Covered Species Capture, Handling, and Reporting</td>\n      <td>2</td>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 11.52.4</th>\n      <td>Written Incident Report for CTS Take or Injury</td>\n      <td>1</td>\n    </tr>\n    <tr class=\"bcn-doc-summary__row\">\n      <th scope=\"row\">COA 11.68.4</th>\n      <td>Written Incident Report for GGS Take or Injury</td>\n      <td>1</td>\n    </tr>\n  </tbody>\n</table>",
+      "css": ".bcn-doc-summary {\n  border-collapse: collapse;\n  table-layout: fixed;\n  inline-size: 100%;\n  font-size: var(--bcn-print-font-size-body);\n}\n.bcn-doc-summary thead th {\n  padding: var(--spacing-100) var(--spacing-200) var(--spacing-100) 0;\n  text-align: start;\n  vertical-align: bottom;\n  font-size: var(--bcn-print-font-size-meta);\n  font-weight: var(--typography-font-weight-medium);\n  color: var(--color-content-default-secondary);\n  border-block-end: 1px solid var(--color-content-default);\n}\n.bcn-doc-summary__group th {\n  padding: var(--spacing-400) 0 var(--spacing-100);\n  text-align: start;\n  font-size: var(--bcn-print-font-size-subgroup);\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default);\n  border-block-end: 1px solid var(--color-border-default-strong);\n}\n.bcn-doc-summary__group,\n.bcn-doc-summary__section,\n.bcn-doc-summary__run {\n  break-after: avoid;\n}\n.bcn-doc-summary__row > {\n  padding: var(--spacing-100) var(--spacing-200) var(--spacing-100) 0;\n  text-align: start;\n  vertical-align: top;\n  font-weight: var(--typography-font-weight-regular);\n  border-block-start: 1px solid var(--color-border-default-subtle);\n  overflow-wrap: anywhere;\n}\n.bcn-doc-summary__row > th {\n  font-weight: var(--typography-font-weight-semibold);\n}\n.bcn-doc-summary__row {\n  break-inside: avoid;\n}\n.bcn-doc-summary__section + .bcn-doc-summary__row >,\n.bcn-doc-summary__run + .bcn-doc-summary__row >,\n.bcn-doc-summary__group + .bcn-doc-summary__row > {\n  border-block-start: 0;\n}",
       "guide": {
         "intent": "One line per commitment: Commitment (its code), Title, and how many requirements it holds, under full-width permit-section rows.",
         "decisions": [
@@ -131,11 +146,6 @@
         {
           "name": "--bcn-print-font-size-body",
           "value": "9pt",
-          "tier": "component"
-        },
-        {
-          "name": "--bcn-print-font-size-entry",
-          "value": "9.5pt",
           "tier": "component"
         },
         {
@@ -169,28 +179,13 @@
           "tier": "semantic"
         },
         {
-          "name": "--spacing-050",
-          "value": ".125rem",
-          "tier": "primitive"
-        },
-        {
           "name": "--spacing-100",
           "value": ".25rem",
           "tier": "primitive"
         },
         {
-          "name": "--spacing-150",
-          "value": ".375rem",
-          "tier": "primitive"
-        },
-        {
           "name": "--spacing-200",
           "value": ".5rem",
-          "tier": "primitive"
-        },
-        {
-          "name": "--spacing-250",
-          "value": ".625rem",
           "tier": "primitive"
         },
         {
@@ -214,15 +209,31 @@
           "tier": "semantic"
         }
       ],
+      "components": [
+        {
+          "name": "bcn-doc-summary",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnDocSummary.astro",
+          "target": null
+        }
+      ],
       "claudePath": "claude/summary-table.md",
-      "repoPath": "public/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/summary-table.md"
+      "repoPath": "public/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/summary-table.md",
+      "parts": [],
+      "shots": {
+        "desktop": "claude/summary-table.desktop.png",
+        "phone": "claude/summary-table.phone.png"
+      },
+      "bytes": 5021,
+      "files": 1,
+      "collapsed": 6
     },
     {
       "label": "Commitment entry",
       "tag": "article",
       "selector": ".bcn-doc-entry[data-doc-entry=\"commitment\"]",
-      "html": "<article class=\"bcn-doc-entry\" data-doc-entry=\"commitment\">\n  <div class=\"bcn-doc-entry__head\">\n    <h3 class=\"bcn-doc-entry__title\">Phase 2 Project Operations Report</h3>\n    <p class=\"bcn-doc-entry__codes\" aria-label=\"Commitments\">COA 7.5</p>\n  </div>\n  <ol class=\"bcn-doc-entry__reqs\">\n    <li class=\"bcn-doc-entry__req\">\n      <p class=\"bcn-doc-entry__req-name\">\n        Submit Phase 2 Project Operations Report to CDFW\n      </p>\n      <p class=\"bcn-doc-entry__req-text\">\n        No more than six months after the initiation of Phase 2 Operations, Permittee\n        shall provide CDFW with a Phase 2 Project Operations Report which shall include,\n        at a minimum: (1) a summary of all Monthly Compliance Reports and all ASRs; and\n        (2) a copy of the table in the MMRP with notes showing when each of the mitigation\n        measures was implemented; (3) all available information about Project-related\n        incidental take of the Covered Species; (4) information about other Project\n        impacts on the Covered…\n      </p>\n    </li>\n  </ol>\n</article>",
-      "css": ".bcn-doc-entry {\n  padding-block: var(--spacing-250);\n  break-inside: avoid;\n}\n.bcn-doc-entry__head {\n  justify-content: space-between;\n  align-items: baseline;\n  gap: var(--spacing-500);\n  display: flex;\n}\n.bcn-doc-entry__title {\n  font-size: var(--bcn-print-font-size-entry);\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-doc-entry__codes {\n  text-align: end;\n  max-inline-size: 40%;\n  font-size: var(--bcn-print-font-size-meta);\n  color: var(--color-content-default-secondary);\n  flex: none;\n  margin: 0;\n}\n.bcn-doc-entry__desc {\n  margin: var(--spacing-100) 0 0;\n  max-inline-size: 46em;\n}\n.bcn-doc-entry__facts {\n  margin-block-start: var(--spacing-150);\n}\n.bcn-doc-entry__reqs {\n  margin: var(--spacing-150) 0 0;\n  padding: 0;\n  list-style: none;\n}\n.bcn-doc-entry__req + .bcn-doc-entry__req {\n  margin-block-start: var(--spacing-150);\n}\n.bcn-doc-entry__req-name {\n  font-weight: var(--typography-font-weight-medium);\n  margin: 0;\n}\n.bcn-doc-entry__req-text {\n  margin: var(--spacing-050) 0 0;\n  max-inline-size: 46em;\n}",
+      "html": "<article class=\"bcn-doc-entry\" data-doc-entry=\"commitment\">\n  <div class=\"bcn-doc-entry__head\">\n    <h3 class=\"bcn-doc-entry__title\">Phase 2 Project Operations Report</h3>\n    <p class=\"bcn-doc-entry__codes\" aria-label=\"Commitments\">COA 7.5</p>\n  </div>\n  <ol class=\"bcn-doc-entry__reqs\">\n    <li class=\"bcn-doc-entry__req\">\n      <p class=\"bcn-doc-entry__req-name\">Submit Phase 2 Project Operations Report to CDFW</p>\n      <p class=\"bcn-doc-entry__req-text\">\n        No more than six months after the initiation of Phase 2 Operations, Permittee shall provide\n        CDFW with a Phase 2 Project Operations Report which shall include, at a minimum: (1) a\n        summary of all Monthly Compliance Reports and all ASRs; and (2) a copy of the table in the\n        MMRP with notes showing when each of the mitigation measures was implemented; (3) all\n        available information about Project-related incidental take of the Covered Species; (4)\n        information about other Project impacts on the Covered…\n      </p>\n    </li>\n  </ol>\n</article>",
+      "css": ".bcn-doc-entry {\n  padding-block: var(--spacing-250);\n  break-inside: avoid;\n}\n.bcn-doc-entry__head {\n  justify-content: space-between;\n  align-items: baseline;\n  gap: var(--spacing-500);\n  display: flex;\n}\n.bcn-doc-entry__title {\n  font-size: var(--bcn-print-font-size-entry);\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-doc-entry__codes {\n  text-align: end;\n  max-inline-size: 40%;\n  font-size: var(--bcn-print-font-size-meta);\n  color: var(--color-content-default-secondary);\n  flex: none;\n  margin: 0;\n}\n.bcn-doc-entry__reqs {\n  margin: var(--spacing-150) 0 0;\n  padding: 0;\n  list-style: none;\n}\n.bcn-doc-entry__req + .bcn-doc-entry__req {\n  margin-block-start: var(--spacing-150);\n}\n.bcn-doc-entry__req-name {\n  font-weight: var(--typography-font-weight-medium);\n  margin: 0;\n}\n.bcn-doc-entry__req-text {\n  margin: var(--spacing-050) 0 0;\n  max-inline-size: 46em;\n}",
       "guide": {
         "intent": "One commitment in the detail: its title with the code at the right margin, then each requirement: its name, then its text.",
         "decisions": [
@@ -256,11 +267,6 @@
           "tier": "primitive"
         },
         {
-          "name": "--spacing-100",
-          "value": ".25rem",
-          "tier": "primitive"
-        },
-        {
           "name": "--spacing-150",
           "value": ".375rem",
           "tier": "primitive"
@@ -286,8 +292,24 @@
           "tier": "semantic"
         }
       ],
+      "components": [
+        {
+          "name": "bcn-doc-entry",
+          "origin": "spoke",
+          "source": "src/components/bcn/BcnDocEntry.astro",
+          "target": null
+        }
+      ],
       "claudePath": "claude/commitment-entry.md",
-      "repoPath": "public/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/commitment-entry.md"
+      "repoPath": "public/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/commitment-entry.md",
+      "parts": [],
+      "shots": {
+        "desktop": "claude/commitment-entry.desktop.png",
+        "phone": "claude/commitment-entry.phone.png"
+      },
+      "bytes": 3408,
+      "files": 1,
+      "collapsed": 0
     }
   ]
 }

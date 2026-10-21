@@ -1,20 +1,30 @@
 # Document viewer
 
+Source Document detail (Data Catalog) · source prototype: https://esassoc.github.io/beacon-design/prototypes/data-catalog-source-document/
+
 The source PDF shown in the family side-dialog (esa-side-dialog, lg / 66vw), opened from the Files list. An iframe renders the PDF with the native viewer chrome stripped (#view=FitH&navpanes=0&pagemode=none).
 
 ## Key decisions
+
 - It is the shared family side-dialog lego (not a bespoke drawer), 66vw with a blurred backdrop.
 - Entry is exclusively the file rows — there is no header "View" action, because the document is multi-file.
 - A single shared drawer instance serves every file row.
 
 ## Gotchas
+
 - The prototype loads the sample PDF for every file; in the app, set the iframe src from the clicked file before opening.
 - Keep the z-stack ordering: viewer (1300) above the edit modal (1200) above the topbar (1100); the delete confirm sits above all (1400).
 
 ## Done when
+
 - Opening a file shows the PDF in a 66vw right side-dialog over a blurred backdrop.
 
+## Components
+
+- `esa-side-dialog` (hub) · `packages/ecology/src/components/esa-side-dialog.ts`
+
 ## Markup
+
 ```html
 <esa-side-dialog
   id="source-drawer"
@@ -37,6 +47,7 @@ The source PDF shown in the family side-dialog (esa-side-dialog, lg / 66vw), ope
 ```
 
 ## Styles
+
 ```css
 .bcn-source-pdf {
   height: 100%;
@@ -53,5 +64,8 @@ The source PDF shown in the family side-dialog (esa-side-dialog, lg / 66vw), ope
 ```
 
 ## Tokens
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--radius-200`: .5rem _(primitive)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--radius-200` | `.5rem` | primitive |

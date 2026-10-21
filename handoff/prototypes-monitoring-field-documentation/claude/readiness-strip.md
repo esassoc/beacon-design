@@ -1,15 +1,31 @@
 # Readiness strip
 
+Notifications & Daily Logs · source prototype: https://esassoc.github.io/beacon-design/prototypes/monitoring/field-documentation/
+
+![Readiness strip, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-field-documentation/claude/readiness-strip.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-field-documentation/claude/readiness-strip.phone.png
+
 Four campaign-wide counts: drill holes with a missing document, missing documents, documents received late, and documents due in the next 5 working days.
 
 ## Key decisions
+
 - Only the two missing counts turn red, and only when above zero.
 - "Next 5 working days" uses the same working-day calendar as the due dates (weekends plus the client holiday list).
 
 ## Done when
+
 - Counts equal the sums of the matrix below with no filters applied.
 
+## Components
+
+- `bcn-fd-readiness` (spoke) · `src/components/bcn/BcnFieldDocReadiness.astro`
+- `esa-stat` (hub) · `packages/ecology/src/components/esa-stat.astro`
+
 ## Markup
+
+_1 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <div class="switcher bcn-fd-readiness" style="--switcher-threshold: 40rem">
   <div class="bcn-fd-readiness__stat is-alert">
@@ -31,36 +47,13 @@ Four campaign-wide counts: drill holes with a missing document, missing document
       <div class="esa-stat__label typography-label-md">Documents received late</div>
     </div>
   </div>
-  <div class="bcn-fd-readiness__stat">
-    <div class="esa-stat">
-      <div class="esa-stat__value typography-display-sm">28</div>
-      <div class="esa-stat__label typography-label-md">
-        Documents due in the next 5 working days
-      </div>
-      <div class="esa-stat__sub typography-body-sm">through Oct 2</div>
-    </div>
-  </div>
+  <!-- …and 1 more like this (<div class="bcn-fd-readiness__stat is-alert">) -->
 </div>
 ```
 
 ## Styles
-```css
-/* Type comes from .typography-body-sm — help and error are one size at every
-       control step, so they name the composite directly rather than mapping. */
-/* Both nodes are ALWAYS in the DOM (see render()), so the gap is opt-IN rather
-       than collapsed away. Deliberately not display:none when empty — that removes
-       the node from the accessibility tree, and a live region that is not in the tree
-       cannot announce anything. An empty <p> with no margin occupies no space.
 
-       .is-shown rather than :empty: Lit's template whitespace leaves a text node
-       inside the element, and browsers still disagree about whether :empty ignores
-       whitespace-only children (Selectors L4 says yes, L3 says no). A class is
-       deterministic; :empty here would silently leave 4px of dead space under every
-       clean field in some engines and not others. */
-.help,
-.error {
-  margin: 0;
-}
+```css
 .typography-display-sm {
   font-family: var(--typography-display-sm-font-family);
   font-size: var(--typography-display-sm-font-size);
@@ -81,13 +74,6 @@ Four campaign-wide counts: drill holes with a missing document, missing document
   font-weight: var(--typography-label-md-font-weight);
   line-height: var(--typography-label-md-line-height);
   letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
 .bcn-fd-readiness__stat {
   padding-inline: var(--spacing-200);
@@ -119,13 +105,6 @@ Four campaign-wide counts: drill holes with a missing document, missing document
   font-weight: var(--typography-label-md-font-weight);
   line-height: var(--typography-label-md-line-height);
   letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
 .esa-stat {
   --_stat-value-color: var(--stat-value-color, var(--color-content-default, #202020));
@@ -199,43 +178,41 @@ Four campaign-wide counts: drill holes with a missing document, missing document
 ```
 
 ## Tokens
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
-- `--font-size-700`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(primitive)_
-- `--gap`: 1rem _(component)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--stat-accent-color`: #005862 _(component)_
-- `--stat-value-color`: #3d3d3d _(component)_
-- `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
-- `--switcher-threshold`: 40rem _(component)_
-- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
-- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-body-sm-line-height`: 1.6 _(semantic)_
-- `--typography-display-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-display-sm-font-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(semantic)_
-- `--typography-display-sm-font-weight`: 650 _(semantic)_
-- `--typography-display-sm-letter-spacing`: -.01em _(semantic)_
-- `--typography-display-sm-line-height`: 1.3 _(semantic)_
-- `--typography-font-family-display`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-font-weight`: 500 _(semantic)_
-- `--typography-label-md-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-line-height`: 1.6 _(semantic)_
-- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-utility-danger` | `#ce2c31` | semantic |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
+| `--font-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
+| `--gap` | `1rem` | component |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--stat-accent-color` | `#005862` | component |
+| `--stat-value-color` | `#3d3d3d` | component |
+| `--stat-value-size` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | component |
+| `--switcher-threshold` | `40rem` | component |
+| `--typography-body-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-body-sm-font-weight` | `400` | semantic |
+| `--typography-body-sm-letter-spacing` | `.01em` | semantic |
+| `--typography-body-sm-line-height` | `1.6` | semantic |
+| `--typography-display-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-display-sm-font-size` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | semantic |
+| `--typography-display-sm-font-weight` | `650` | semantic |
+| `--typography-display-sm-letter-spacing` | `-.01em` | semantic |
+| `--typography-display-sm-line-height` | `1.3` | semantic |
+| `--typography-font-family-display` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-label-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-md-font-weight` | `500` | semantic |
+| `--typography-label-md-letter-spacing` | `.01em` | semantic |
+| `--typography-label-md-line-height` | `1.6` | semantic |

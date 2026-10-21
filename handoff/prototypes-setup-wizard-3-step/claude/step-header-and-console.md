@@ -1,19 +1,40 @@
 # Step header and console
 
+Step 1 — Source Documents · source prototype: https://esassoc.github.io/beacon-design/prototypes/setup-wizard-3-step/
+
+![Step header and console, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step/claude/step-header-and-console.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-setup-wizard-3-step/claude/step-header-and-console.phone.png
+
 One panel: the step's numeral, title and prod's description; under a gray rule, the console for the file in view: a sunken tray across the panel, as steps 2 and 3 carry theirs, with Prev at its left end and Next at its right (a page each, as [ and ] are), and centered between them the transport (Scan or Resume, Pause, Restart), each a neutral key with its icon and name, the page in view of the file's page count as one field (type a page to go to it), and the speed (One at a time, Slow, Fast) in a menu. Nothing beside the console says where the run is: the console's pressed key, the page field and the strip show it. When the run is paused partway, one button sits beside it: Review the N so far, with its one action when it has one (Review the 12 so far). Below, every page of the file in one strip.
 
 ## Key decisions
+
 - Each key is live only when it can act, and the run's state reads as a pressed key: Scan before the run, Resume when it is paused or stopped for the check, Pause while it reads, Restart once it has begun. Restart asks first and clears the file's scan and steers.
 - Speed is how fast the job dispatches page windows: a real control in prod. Every speed change, pause and resume is recorded as a steer.
 - With a source (not a file) selected, the console is dimmed and inert.
 - Prev is off on the first page and Next on the last.
 
 ## Done when
+
 - At the check after the first three commitments, Resume goes on past it at the speed chosen.
 - Type 140 in the page field and press Enter: the page and the scrubber's thumb move to p. 140.
 - Fold the Library and Aldo from their headers: each becomes a rail and the page takes the width; a rail opens it again.
 
+## Components
+
+- `bcn-scrub` (spoke) · `src/components/bcn/BcnPageScrubber.astro`
+- `bcn-sw3bar` (spoke) · `src/components/bcn/BcnSw3Toolbar.astro`
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-button-group` (hub) · `packages/ecology/src/components/esa-button-group.ts`
+- `esa-dropdown-menu` (hub) · `packages/ecology/src/components/esa-dropdown-menu.ts`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+- `esa-text-field` (hub) · `packages/ecology/src/components/esa-text-field.ts`
+
 ## Markup
+
+_57 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <div class="bcn-sw3bar" data-sw3-toolbar="">
   <div class="bcn-sw3bar__console">
@@ -43,10 +64,7 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
         </button></span
       ></span
     ><span class="bcn-sw3bar__keys"
-      ><esa-button-group
-        class="bcn-sw3bar__transport"
-        aria-label="Scan transport"
-        role="group"
+      ><esa-button-group class="bcn-sw3bar__transport" aria-label="Scan transport" role="group"
         ><span
           class="esa-button esa-button--variant-secondary esa-button--appearance-fill esa-button--sm"
           ><button
@@ -71,11 +89,8 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
               >
                 <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
                 <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
-                <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
-                <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
-                <path d="M7 8h8"></path>
-                <path d="M7 12h10"></path>
-                <path d="M7 16h6"></path></svg></span
+                <!-- …and 5 more like this (<path>) -->
+              </svg></span
             ><span class="esa-button__label">Scan</span>
           </button></span
         ><span
@@ -220,12 +235,7 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
     ></span>
   </div>
   <div class="bcn-sw3bar__scrub">
-    <div
-      class="bcn-scrub"
-      data-page-scrubber=""
-      data-size="50"
-      style="--_n: 50; --_view: 30"
-    >
+    <div class="bcn-scrub" data-page-scrubber="" data-size="50" style="--_n: 50; --_view: 30">
       <span data-scrub-prev=""
         ><span
           class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
@@ -267,103 +277,7 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
             ><span class="bcn-scrub__pips" data-sig="101:"></span></span
           ><span class="bcn-scrub__page" data-page="102" data-state="pending"
             ><span class="bcn-scrub__pips" data-sig="102:"></span></span
-          ><span class="bcn-scrub__page" data-page="103" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="103:"></span></span
-          ><span class="bcn-scrub__page" data-page="104" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="104:"></span></span
-          ><span class="bcn-scrub__page" data-page="105" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="105:"></span></span
-          ><span class="bcn-scrub__page" data-page="106" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="106:"></span></span
-          ><span class="bcn-scrub__page" data-page="107" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="107:"></span></span
-          ><span class="bcn-scrub__page" data-page="108" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="108:"></span></span
-          ><span class="bcn-scrub__page" data-page="109" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="109:"></span></span
-          ><span class="bcn-scrub__page" data-page="110" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="110:"></span></span
-          ><span class="bcn-scrub__page" data-page="111" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="111:"></span></span
-          ><span class="bcn-scrub__page" data-page="112" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="112:"></span></span
-          ><span class="bcn-scrub__page" data-page="113" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="113:"></span></span
-          ><span class="bcn-scrub__page" data-page="114" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="114:"></span></span
-          ><span class="bcn-scrub__page" data-page="115" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="115:"></span></span
-          ><span class="bcn-scrub__page" data-page="116" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="116:"></span></span
-          ><span class="bcn-scrub__page" data-page="117" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="117:"></span></span
-          ><span class="bcn-scrub__page" data-page="118" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="118:"></span></span
-          ><span class="bcn-scrub__page" data-page="119" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="119:"></span></span
-          ><span class="bcn-scrub__page" data-page="120" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="120:"></span></span
-          ><span class="bcn-scrub__page" data-page="121" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="121:"></span></span
-          ><span class="bcn-scrub__page" data-page="122" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="122:"></span></span
-          ><span class="bcn-scrub__page" data-page="123" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="123:"></span></span
-          ><span class="bcn-scrub__page" data-page="124" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="124:"></span></span
-          ><span class="bcn-scrub__page" data-page="125" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="125:"></span></span
-          ><span class="bcn-scrub__page" data-page="126" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="126:"></span></span
-          ><span class="bcn-scrub__page" data-page="127" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="127:"></span></span
-          ><span class="bcn-scrub__page" data-page="128" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="128:"></span></span
-          ><span class="bcn-scrub__page" data-page="129" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="129:"></span></span
-          ><span class="bcn-scrub__page" data-page="130" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="130:"></span></span
-          ><span class="bcn-scrub__page" data-page="131" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="131:"></span></span
-          ><span class="bcn-scrub__page" data-page="132" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="132:"></span></span
-          ><span class="bcn-scrub__page" data-page="133" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="133:"></span></span
-          ><span class="bcn-scrub__page" data-page="134" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="134:"></span></span
-          ><span class="bcn-scrub__page" data-page="135" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="135:"></span></span
-          ><span class="bcn-scrub__page" data-page="136" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="136:"></span></span
-          ><span class="bcn-scrub__page" data-page="137" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="137:"></span></span
-          ><span class="bcn-scrub__page" data-page="138" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="138:"></span></span
-          ><span class="bcn-scrub__page" data-page="139" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="139:"></span></span
-          ><span class="bcn-scrub__page" data-page="140" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="140:"></span></span
-          ><span class="bcn-scrub__page" data-page="141" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="141:"></span></span
-          ><span class="bcn-scrub__page" data-page="142" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="142:"></span></span
-          ><span class="bcn-scrub__page" data-page="143" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="143:"></span></span
-          ><span class="bcn-scrub__page" data-page="144" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="144:"></span></span
-          ><span class="bcn-scrub__page" data-page="145" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="145:"></span></span
-          ><span class="bcn-scrub__page" data-page="146" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="146:"></span></span
-          ><span class="bcn-scrub__page" data-page="147" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="147:"></span></span
-          ><span class="bcn-scrub__page" data-page="148" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="148:"></span></span
-          ><span class="bcn-scrub__page" data-page="149" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="149:"></span></span
-          ><span class="bcn-scrub__page" data-page="150" data-state="pending"
-            ><span class="bcn-scrub__pips" data-sig="150:"></span></span
-          ><span
+          ><!-- …and 48 more like this (<span class="bcn-scrub__page">) --><span
             class="bcn-scrub__head"
             data-scrub-head=""
             hidden=""
@@ -379,10 +293,7 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
         >
           <span class="bcn-scrub__tick" style="--_i: 0">101</span
           ><span class="bcn-scrub__tick" style="--_i: 9">110</span
-          ><span class="bcn-scrub__tick" style="--_i: 19">120</span
-          ><span class="bcn-scrub__tick" style="--_i: 29">130</span
-          ><span class="bcn-scrub__tick" style="--_i: 39">140</span
-          ><span class="bcn-scrub__tick" style="--_i: 49">150</span>
+          ><!-- …and 4 more like this (<span class="bcn-scrub__tick">) -->
         </div>
       </div>
       <span data-scrub-next=""
@@ -420,11 +331,8 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
 ```
 
 ## Styles
+
 ```css
-/* No box of its own — the buttons stay direct flex items of the host. */
-.esa-button-group__slot {
-  display: contents;
-}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
@@ -432,31 +340,9 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -472,6 +358,11 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -479,9 +370,6 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -532,23 +420,10 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
 .esa-button--sm {
   --_btn-pad-y: var(--spacing-250, 0.625rem);
   --_btn-padding-x: var(--spacing-250, 0.625rem);
   --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
 }
 .esa-button--variant-secondary {
   --_accent: var(--color-background-brand-muted);
@@ -556,33 +431,6 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
   --_on: var(--color-content-on-brand-muted, var(--color-content-default));
   --_accent-text: var(--color-content-brand);
   --_accent-border: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -646,10 +494,7 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -676,11 +521,6 @@ One panel: the step's numeral, title and prod's description; under a gray rule, 
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -702,23 +542,6 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .esa-button__label {
   white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
 }
 .bcn-scrub {
   --_cell: calc(100% / var(--_n));
@@ -904,6 +727,13 @@ summary.esa-button--variant-chrome:focus-visible {
   position: absolute;
   transform: translate(-50%);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-scrub__track .bcn-scrub__pip,
+  .bcn-scrub__head {
+    transition: none;
+    animation: none;
+  }
+}
 .bcn-sw3bar {
   gap: var(--spacing-300);
   padding: var(--spacing-300) var(--spacing-500) var(--spacing-200);
@@ -960,10 +790,7 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-sw3bar__page {
   --_field-padding-x: 0.4375rem;
-  --typography-microcopy-xs-subtle-font-weight: var(
-    --typography-microcopy-xs-font-weight,
-    500
-  );
+  --typography-microcopy-xs-subtle-font-weight: var(--typography-microcopy-xs-font-weight, 500);
   --form-affix-bg: var(--color-background-elevation-raised);
   --form-affix-color: var(--color-content-default);
   --form-affix-border-color: transparent;
@@ -972,8 +799,7 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-sw3bar [data-tx][aria-pressed="true"] {
   background: var(--color-background-elevation-sunken);
-  box-shadow: inset 0 1px 3px
-    color-mix(in srgb, var(--color-content-default) 22%, transparent);
+  box-shadow: inset 0 1px 3px color-mix(in srgb, var(--color-content-default) 22%, transparent);
 }
 .bcn-sw3bar__console esa-dropdown-menu[data-bar-speed] {
   --spacing-200: 0.25rem;
@@ -1002,26 +828,22 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-sw3tools esa-dropdown-menu {
   flex: none;
 }
+@container (width<=720px) {
+  .bcn-sw3tools [data-tool="follow"] .esa-button__label {
+    display: none;
+  }
+}
+@container (width<=660px) {
+  .bcn-sw3tools [data-tool]:not([data-tool="zoom-fit"]) .esa-button__label {
+    display: none;
+  }
+}
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
   font-size: var(--typography-microcopy-xs-font-size);
   font-weight: var(--typography-microcopy-xs-font-weight);
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
 .esa-collapsible__summary .esa-icon {
   color: var(--color-content-default-secondary, #646464);
@@ -1036,20 +858,8 @@ summary.esa-button--variant-chrome:focus-visible {
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -1066,88 +876,54 @@ summary.esa-button--variant-chrome:focus-visible {
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--bcn-aldo`: #08908b _(component)_
-- `--bcn-aldo-600`: #06736f _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-inverse`: #202020 _(component)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--color-source`: #003f5c _(component)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--shadow-300`: 0 6px 24px -6px #00000012 _(component)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-aldo` | `#08908b` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-brand-muted` | `#fcfcfc` | semantic |
+| `--color-background-brand-muted-hover` | `#efefef` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-inverse` | `#202020` | component |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-on-brand-muted` | `#3d3d3d` | semantic |
+| `--color-source` | `#003f5c` | component |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--radius-100` | `.25rem` | primitive |
+| `--radius-200` | `.5rem` | primitive |
+| `--shadow-300` | `0 6px 24px -6px #00000012` | component |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |

@@ -1,23 +1,47 @@
 # Permit editor (write surface)
 
+Permit Tracking · source prototype: https://esassoc.github.io/beacon-design/prototypes/permit-tracking/
+
+![Permit editor (write surface), desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-permit-tracking/claude/permit-editor-write-surface.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-permit-tracking/claude/permit-editor-write-surface.phone.png
+
 The write surface (esa-side-dialog, 640px): edit a permit's Status, Timing (submitted / estimated / actual approval), and Segment applicability; read its Details (agency / level / type — source-document data); collaborate in a Comments thread (@-mention); and read the Activity log. Saving re-derives status across the entire feature.
 
 ## Key decisions
+
 - Sectioned with icon-led heads: Status (esa-select), Timing (esa-date-picker ×3), Segments (esa-input-tag, strict + tags-below — segments are a fixed vocabulary), then read-only Details (BcnKeyValue), Comments, and Activity.
 - Details are READ-ONLY: agency/level/type are source-document facts; this drawer edits status, timing, and applicability — not the permit's identity.
 - Comments (BCN-1364) is a real collaboration thread DISTINCT from the read-only Activity log: an esa-textarea compose with an @-mention typeahead that feeds notifications; it is rendered live per-permit (so it cannot be the static BcnDiscussion SSR component).
 - Activity is seeded from the permit's own dates so it reads with history on day one, and grows as edits land. Save re-derives everywhere; Cancel discards.
 
 ## Gotchas
+
 - Saving MUST re-derive and repaint every dependent surface (map lines, chips, grids, mileage strip, timeline, insights, exec rollup) from the updated store — the editor is the origin of the whole re-derivation cascade.
 - Segment applicability is strict (fixed vocabulary) — do not allow free-text segment tags.
 - The @-mention menu is a live typeahead over project users; mentions drive the notification rules (see the settings dialog), so keep the user list and the notify path connected.
 - z-stack: editor at --z-modal 1340 so it stacks above the segment drawer (1300) it can be opened from.
 
 ## Done when
+
 - Opening a permit shows editable Status/Timing/Segments, read-only Details, a live Comments thread with @-mention, and a seeded Activity log; Save re-derives status across the map, grids, and rollup; Cancel discards.
 
+## Components
+
+- `bcn-key-value` (spoke) · `src/components/bcn/BcnImplementationDialog.astro`
+- `bcn-status-chip` (spoke) · `src/components/bcn/BcnActionTable.astro`
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-date-picker` (hub) · `packages/ecology/src/components/esa-date-picker.ts`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+- `esa-input-tag` (hub) · `packages/ecology/src/components/esa-input-tag.ts`
+- `esa-select` (hub) · `packages/ecology/src/components/esa-select.ts`
+- `esa-side-dialog` (hub) · `packages/ecology/src/components/esa-side-dialog.ts`
+- `esa-textarea` (hub) · `packages/ecology/src/components/esa-textarea.ts`
+
 ## Markup
+
+_4 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <esa-side-dialog
   id="permit-dialog"
@@ -28,10 +52,7 @@ The write surface (esa-side-dialog, 640px): edit a permit's Status, Timing (subm
   ><div slot="header" class="pd__header">
     <h2 class="pd__title" id="pd-title">County Right-of-Way Permit</h2>
     <span id="pd-chip"
-      ><span
-        class="bcn-status-chip"
-        data-status="submitted"
-        style="--_chip: var(--st-submitted)"
+      ><span class="bcn-status-chip" data-status="submitted" style="--_chip: var(--st-submitted)"
         ><span class="bcn-status-chip__dot"></span
         ><span class="bcn-status-chip__label">Submitted</span></span
       ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
@@ -86,181 +107,19 @@ The write surface (esa-side-dialog, 640px): edit a permit's Status, Timing (subm
       </h3>
       <div class="pd__group">
         <div class="pd__row">
-          <esa-date-picker
-            id="pd-submitted"
-            label="Submitted date"
-            size="md"
-          ></esa-date-picker
+          <esa-date-picker id="pd-submitted" label="Submitted date" size="md"></esa-date-picker
           ><esa-date-picker
             id="pd-estimated"
             label="Estimated approval"
             size="md"
           ></esa-date-picker>
         </div>
-        <esa-date-picker
-          id="pd-actual"
-          label="Actual approval"
-          size="md"
-        ></esa-date-picker>
+        <esa-date-picker id="pd-actual" label="Actual approval" size="md"></esa-date-picker>
       </div>
     </section>
-    <section class="pd__section">
-      <h3 class="pd__section-head">
-        <span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <circle cx="6" cy="19" r="3"></circle>
-            <path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"></path>
-            <circle cx="18" cy="5" r="3"></circle></svg></span
-        >Segments
-      </h3>
-      <div class="pd__group">
-        <!-- Editable applicability — esa-input-tag in strict mode (segments are a
-               fixed vocabulary), selected chips below the search input --><esa-input-tag
-          id="pd-segments"
-          strict="true"
-          tags-below="true"
-          placeholder="Search segments…"
-          size="md"
-        ></esa-input-tag>
-      </div>
-    </section>
-    <!-- Details are READ-ONLY: agency / level / type are source-document data —
-           this drawer edits permit status, timing, and segment applicability. -->
-    <section class="pd__section">
-      <h3 class="pd__section-head">
-        <span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M12 16v-4"></path>
-            <path d="M12 8h.01"></path></svg></span
-        >Details
-      </h3>
-      <div class="pd__group">
-        <div class="bcn-key-value" data-size="md" data-layout="stack">
-          <span class="bcn-key-value__key">Agency</span
-          ><span class="pd__kv-val" id="pd-agency">Umatilla County Public Works</span>
-        </div>
-        <div class="pd__row">
-          <div class="bcn-key-value" data-size="md" data-layout="stack">
-            <span class="bcn-key-value__key">Level</span
-            ><span class="pd__kv-val" id="pd-level">Local</span>
-          </div>
-          <div class="bcn-key-value" data-size="md" data-layout="stack">
-            <span class="bcn-key-value__key">Permit type</span
-            ><span class="pd__kv-val" id="pd-type">Right-of-Way</span>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Comments (BCN-1364) — a collaboration thread, DISTINCT from the read-only
-           Activity log below. @-mention project users (feeds notifications). -->
-    <section class="pd__section">
-      <h3 class="pd__section-head">
-        <span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path
-              d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-            ></path></svg></span
-        >Comments <span id="pd-comment-count"><span class="pd-badge">1</span></span>
-      </h3>
-      <ul class="pd__comments" id="pd-comments">
-        <li class="pd-comment">
-          <span class="pd-comment__avatar" style="--_c: var(--color-source)">MR</span>
-          <div class="pd-comment__body">
-            <div class="pd-comment__meta">
-              <span class="pd-comment__author">Marco Reyes</span
-              ><span class="pd-comment__time">Jun 18, 2026, 4:05 PM</span>
-            </div>
-            <p class="pd-comment__text">
-              Leadership is watching this one — it gates the most mileage.
-              <span class="pd-mention pd-mention--me">@Andy Lovseth</span> keep me posted
-              on any movement.
-            </p>
-          </div>
-        </li>
-      </ul>
-      <div class="pd__compose">
-        <div class="pd__compose-field">
-          <esa-textarea
-            id="pd-comment-input"
-            rows="2"
-            placeholder="Write a comment…  type @ to mention a teammate"
-            size="md"
-          ></esa-textarea>
-          <ul class="pd__mention-menu" id="pd-mention-menu" hidden=""></ul>
-        </div>
-        <div class="pd__compose-foot">
-          <span class="pd__compose-hint">Posting as Andy Lovseth</span
-          ><span id="pd-comment-post"
-            ><span
-              class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
-              ><button class="esa-button__native typography-microcopy-xs" type="button">
-                <span class="esa-button__label">Post comment</span>
-              </button></span
-            ></span
-          >
-        </div>
-      </div>
-    </section>
-    <!-- Change log — seeded from the permit's own dates, grows as edits land -->
-    <section class="pd__section">
-      <h3 class="pd__section-head">
-        <span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-            <path d="M3 3v5h5"></path>
-            <path d="M12 7v5l4 2"></path></svg></span
-        >Activity
-      </h3>
-      <ul class="pd__activity" id="pd-activity">
-        <li class="ins-row">
-          <span class="ins-row__label"
-            >Status → Submitted<span class="ins-row__sub">Ryan Swanson</span></span
-          >
-          <span class="ins-row__val"><span class="ins-row__sub">May 2, 2026</span></span>
-        </li>
-      </ul>
-    </section>
+    <!-- …and 4 more like this (<section class="pd__section">) --><!-- Details are READ-ONLY: agency / level / type are source-document data —
+           this drawer edits permit status, timing, and segment applicability. --><!-- Comments (BCN-1364) — a collaboration thread, DISTINCT from the read-only
+           Activity log below. @-mention project users (feeds notifications). --><!-- Change log — seeded from the permit's own dates, grows as edits land -->
   </div>
   <div slot="footer" class="pd__footer">
     <span id="pd-cancel"
@@ -283,6 +142,7 @@ The write surface (esa-side-dialog, 640px): edit a permit's Status, Timing (subm
 ```
 
 ## Styles
+
 ```css
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -298,45 +158,9 @@ The write surface (esa-side-dialog, 640px): edit a permit's Status, Timing (subm
   line-height: var(--typography-microcopy-md-line-height);
   letter-spacing: var(--typography-microcopy-md-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
-}
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -352,6 +176,11 @@ The write surface (esa-side-dialog, 640px): edit a permit's Status, Timing (subm
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -359,9 +188,6 @@ The write surface (esa-side-dialog, 640px): edit a permit's Status, Timing (subm
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -409,57 +235,13 @@ The write surface (esa-side-dialog, 640px): edit a permit's Status, Timing (subm
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
 .esa-button--sm {
   --_btn-pad-y: var(--spacing-250, 0.625rem);
   --_btn-padding-x: var(--spacing-250, 0.625rem);
   --_btn-radius: var(--button-radius-sm, 4px);
 }
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
-}
 .esa-button--variant-primary {
   --_accent-text: var(--color-content-brand);
-}
-.esa-button--variant-secondary {
-  --_accent: var(--color-background-brand-muted);
-  --_accent-hover: var(--color-background-brand-muted-hover);
-  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
-  --_accent-text: var(--color-content-brand);
-  --_accent-border: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -523,10 +305,7 @@ The write surface (esa-side-dialog, 640px): edit a permit's Status, Timing (subm
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -553,11 +332,6 @@ The write surface (esa-side-dialog, 640px): edit a permit's Status, Timing (subm
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -574,28 +348,8 @@ summary.esa-button:focus-visible {
   outline-offset: var(--focus-ring-offset, 2px);
   border-radius: var(--_btn-radius);
 }
-summary.esa-button--variant-chrome:focus-visible {
-  outline-color: currentColor;
-}
 .esa-button__label {
   white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
 }
 .ins-row {
   align-items: center;
@@ -723,11 +477,6 @@ summary.esa-button--variant-chrome:focus-visible {
   align-items: start;
   display: grid;
 }
-.pd-comment--empty {
-  color: var(--color-content-default-tertiary);
-  font-size: 0.875rem;
-  display: block;
-}
 .pd-comment__avatar {
   background: var(--_c, var(--color-background-brand-muted));
   color: #fff;
@@ -741,11 +490,6 @@ summary.esa-button--variant-chrome:focus-visible {
   justify-content: center;
   align-items: center;
   display: inline-flex;
-}
-.pd-comment__avatar--xs {
-  width: 22px;
-  height: 22px;
-  font-size: 0.625rem;
 }
 .pd-comment__body {
   flex-direction: column;
@@ -832,19 +576,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .pd__mention-menu[hidden] {
   display: none;
 }
-.pd-mention-opt {
-  align-items: center;
-  gap: var(--spacing-200);
-  padding: var(--spacing-200);
-  border-radius: var(--radius-100);
-  color: var(--color-content-default);
-  cursor: pointer;
-  font-size: 0.875rem;
-  display: flex;
-}
-.pd-mention-opt:hover {
-  background: var(--grid-row-bg-hover);
-}
 .pd__compose-foot {
   justify-content: space-between;
   align-items: center;
@@ -869,34 +600,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-md-line-height);
   letter-spacing: var(--typography-microcopy-md-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -906,20 +609,8 @@ summary.esa-button--variant-chrome:focus-visible {
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -941,15 +632,6 @@ summary.esa-button--variant-chrome:focus-visible {
   font-size: var(--typography-label-md-font-size);
   font-weight: var(--typography-font-weight-medium);
   color: var(--form-label-color);
-}
-.bcn-key-value__val {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-}
-.bcn-key-value__hint {
-  color: var(--color-content-default-tertiary);
-  font-size: 0.75rem;
 }
 .bcn-key-value__key {
   align-items: center;
@@ -997,115 +679,69 @@ summary.esa-button--variant-chrome:focus-visible {
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-secondary`: #525252 _(component)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--elevation-5`: 0 8px 32px -8px #00000014 _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--font-size-300`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(primitive)_
-- `--form-label-color`: #525252 _(component)_
-- `--grid-row-bg-hover`: #efefef _(component)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-050`: .125rem _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--radius-full`: 9999px _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--st-cleared`: #1a9850 _(component)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-font-weight`: 500 _(semantic)_
-- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-md-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-line-height`: 1 _(semantic)_
-- `--typography-microcopy-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-secondary` | `#525252` | component |
+| `--elevation-5` | `0 8px 32px -8px #00000014` | semantic |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
+| `--form-label-color` | `#525252` | component |
+| `--grid-row-bg-hover` | `#efefef` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--radius-050` | `.125rem` | primitive |
+| `--radius-200` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--st-cleared` | `#1a9850` | component |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-sm-font-weight` | `500` | semantic |
+| `--typography-label-sm-strong-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-sm-strong-font-weight` | `550` | semantic |
+| `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-microcopy-md-font-weight` | `500` | semantic |
+| `--typography-microcopy-md-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-md-line-height` | `1` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |

@@ -1,8 +1,15 @@
 # Search-first hero
 
+Help & Guidance · source prototype: https://esassoc.github.io/beacon-design/prototypes/help/
+
+![Search-first hero, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-help/claude/search-first-hero.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-help/claude/search-first-hero.phone.png
+
 The front door to the knowledge base: the animated Aldo mark, the page title, a one-line lede, and a LARGE search field that is the page's primary action — plus a quiet "What's new in Beacon" doorway to the release notes. Search is the primary path into help; browsing is the fallback, which is why the field outweighs everything else on the surface.
 
 ## Key decisions
+
 - The search control IS the esa-text-field lego at size="lg", scaled up on the field's own class: font-size cascades into the shadow input (font: inherit), and padding/radius ride the lego's private --_field-* hooks — the public --form-* size surface was removed upstream (2026-08) with no successor, so this is a documented reach-in pending a leading-icon slot on the hub. Localized; nothing leaks globally.
 - The lego's focus tokens default to Radix grass (an off-brand green ring); --form-border-color-focus and --focus-ring-color are re-pointed to --color-content-link, scoped to this one field.
 - The leading magnifier is a decorative esa-icon overlay positioned in the gutter that the enlarged --_field-padding-x opens. The field still owns its own box — the icon is never inside it.
@@ -10,14 +17,26 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 - The "What's new" doorway is a quiet neutral link that only takes the house link color on hover — it is a doorway, not a second call to action.
 
 ## Gotchas
+
 - No esa-* lego is a page hero assembly: esa-page-header is a title/lede/actions row with no mark, search, or results panel; esa-command-palette is a modal overlay, not an in-page search-first hero. Only the FIELD and the ICON are legos — the assembly is bcn-kb-hero.
 - The Aldo mark is a custom SVG, not a Lucide glyph — esa-button / esa-icon-button accept only a registry icon NAME, so any Aldo affordance is bespoke by necessity.
 - The field carries role="combobox" + aria-controls + aria-expanded pointing at the results listbox; aria-expanded must be kept in sync by the controller, not left static.
 
 ## Done when
+
 - The mark, title, lede, search field, and "What's new" link render in one centered column; the field is visibly the largest control on the page and focuses with a house-colored ring, never a green one.
 
+## Components
+
+- `bcn-aldo-mark` (spoke) · `src/components/bcn/aldo/BcnAldoMark.astro`
+- `bcn-kb-hero` (spoke) · `src/components/bcn/BcnKbHero.astro`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+- `esa-text-field` (hub) · `packages/ecology/src/components/esa-text-field.ts`
+
 ## Markup
+
+_28 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <section class="bcn-kb-hero" aria-label="Help &amp; Guidance">
   <div class="center bcn-kb-hero__col">
@@ -35,13 +54,7 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
           <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
           <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
           <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
-          <circle
-            cx="33.2"
-            cy="31.1"
-            r="2"
-            fill="currentColor"
-            stroke="none"
-          ></circle></svg
+          <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg
       ></span>
       <h1 class="typography-heading-lg bcn-kb-hero__title">Help &amp; Guidance</h1>
       <p class="typography-body-md bcn-kb-hero__lede">
@@ -100,8 +113,7 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
             ><span class="bcn-kb-hero__result-title" data-result-title="">Scope</span
             ><span class="bcn-kb-hero__result-cat">General</span></span
           ><span class="bcn-kb-hero__result-summary"
-            >The setting that determines whether work is tracked once, or once per
-            location.</span
+            >The setting that determines whether work is tracked once, or once per location.</span
           ></a
         ><a
           class="bcn-kb-hero__result"
@@ -117,523 +129,24 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
             ><span class="bcn-kb-hero__result-title" data-result-title="">Tenant</span
             ><span class="bcn-kb-hero__result-cat">General</span></span
           ><span class="bcn-kb-hero__result-summary"
-            >The client organization a Beacon workspace, its data, and its configuration
-            are scoped to.</span
+            >The client organization a Beacon workspace, its data, and its configuration are scoped
+            to.</span
           ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-work-area"
-          role="option"
-          aria-selected="false"
-          href="#article-work-area"
-          data-result=""
-          data-title="Work Area"
-          data-summary="The finest scope level — a subdivision of a component for field-level tracking."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title="">Work Area</span
-            ><span class="bcn-kb-hero__result-cat">General</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >The finest scope level — a subdivision of a component for field-level
-            tracking.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-five-minute-tour"
-          role="option"
-          aria-selected="false"
-          href="#article-five-minute-tour"
-          data-result=""
-          data-title="A five-minute tour of Beacon"
-          data-summary="The four zones of the app and how a compliance obligation flows through them."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >A five-minute tour of Beacon</span
-            ><span class="bcn-kb-hero__result-cat">Getting Started</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >The four zones of the app and how a compliance obligation flows through
-            them.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-global-search-tips"
-          role="option"
-          aria-selected="false"
-          href="#article-global-search-tips"
-          data-result=""
-          data-title="Finding anything with search"
-          data-summary="Press / anywhere to search commitments, requirements, actions, and documents."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Finding anything with search</span
-            ><span class="bcn-kb-hero__result-cat">Getting Started</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >Press / anywhere to search commitments, requirements, actions, and
-            documents.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-actions-vs-implementations"
-          role="option"
-          aria-selected="false"
-          href="#article-actions-vs-implementations"
-          data-result=""
-          data-title="Implementation"
-          data-summary="A single execution of a published action — the record teams work day to day."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Implementation</span
-            ><span class="bcn-kb-hero__result-cat">Tracking</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >A single execution of a published action — the record teams work day to
-            day.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-what-is-a-component"
-          role="option"
-          aria-selected="false"
-          href="#article-what-is-a-component"
-          data-result=""
-          data-title="Component"
-          data-summary="A distinct place or package of work within a project, tracked independently."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title="">Component</span
-            ><span class="bcn-kb-hero__result-cat">Tracking</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >A distinct place or package of work within a project, tracked
-            independently.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-permit"
-          role="option"
-          aria-selected="false"
-          href="#article-permit"
-          data-result=""
-          data-title="Permit"
-          data-summary="An agency authorization the project must obtain, tracked through the acquisition pipeline."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title="">Permit</span
-            ><span class="bcn-kb-hero__result-cat">Tracking</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >An agency authorization the project must obtain, tracked through the
-            acquisition pipeline.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-reading-permit-tracking"
-          role="option"
-          aria-selected="false"
-          href="#article-reading-permit-tracking"
-          data-result=""
-          data-title="Reading the Permit Tracking board"
-          data-summary="Where each permit stands, what is blocking it, and what is due next."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Reading the Permit Tracking board</span
-            ><span class="bcn-kb-hero__result-cat">Tracking</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >Where each permit stands, what is blocking it, and what is due next.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-starring-components"
-          role="option"
-          aria-selected="false"
-          href="#article-starring-components"
-          data-result=""
-          data-title="Starring components on your dashboard"
-          data-summary="Pin the three-to-five components you actually work in."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Starring components on your dashboard</span
-            ><span class="bcn-kb-hero__result-cat">Tracking</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >Pin the three-to-five components you actually work in.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-reading-critical-now"
-          role="option"
-          aria-selected="false"
-          href="#article-reading-critical-now"
-          data-result=""
-          data-title="How the dashboard decides what needs attention"
-          data-summary="Urgency comes from action due dates, shown in the zone that owns the work."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >How the dashboard decides what needs attention</span
-            ><span class="bcn-kb-hero__result-cat">Tracking</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >Urgency comes from action due dates, shown in the zone that owns the
-            work.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-reading-project-timeline"
-          role="option"
-          aria-selected="false"
-          href="#article-reading-project-timeline"
-          data-result=""
-          data-title="Reading the project timeline"
-          data-summary="The next 30, 60, or 90 days of due dates, seasons, and milestones."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Reading the project timeline</span
-            ><span class="bcn-kb-hero__result-cat">Tracking</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >The next 30, 60, or 90 days of due dates, seasons, and milestones.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-what-is-a-dmr"
-          role="option"
-          aria-selected="false"
-          href="#article-what-is-a-dmr"
-          data-result=""
-          data-title="Daily Monitoring Report"
-          data-summary="The structured field record of one day on site, and a direct source of evidence."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Daily Monitoring Report</span
-            ><span class="bcn-kb-hero__result-cat">Monitoring</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >The structured field record of one day on site, and a direct source of
-            evidence.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-what-is-an-observation"
-          role="option"
-          aria-selected="false"
-          href="#article-what-is-an-observation"
-          data-result=""
-          data-title="Observation"
-          data-summary="One recorded field event — a species sighting, habitat condition, weather event, or BMP check."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Observation</span
-            ><span class="bcn-kb-hero__result-cat">Monitoring</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >One recorded field event — a species sighting, habitat condition, weather
-            event, or BMP check.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-survey"
-          role="option"
-          aria-selected="false"
-          href="#article-survey"
-          data-result=""
-          data-title="Survey"
-          data-summary="A field data record synced from a collection app, effective only after quality-control approval."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title="">Survey</span
-            ><span class="bcn-kb-hero__result-cat">Monitoring</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >A field data record synced from a collection app, effective only after
-            quality-control approval.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-site-clearance"
-          role="option"
-          aria-selected="false"
-          href="#article-site-clearance"
-          data-result=""
-          data-title="Site Clearance"
-          data-summary="The go/no-go determination of whether a site is clear for ground disturbance."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Site Clearance</span
-            ><span class="bcn-kb-hero__result-cat">Monitoring</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >The go/no-go determination of whether a site is clear for ground
-            disturbance.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-monitoring-portal"
-          role="option"
-          aria-selected="false"
-          href="#article-monitoring-portal"
-          data-result=""
-          data-title="Monitoring Portal"
-          data-summary="The section that reports commitment compliance from field observations."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Monitoring Portal</span
-            ><span class="bcn-kb-hero__result-cat">Monitoring</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >The section that reports commitment compliance from field observations.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-qc-field-surveys"
-          role="option"
-          aria-selected="false"
-          href="#article-qc-field-surveys"
-          data-result=""
-          data-title="Reviewing field surveys before they count"
-          data-summary="Surveys sync from field apps, but only QC-approved records drive compliance."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Reviewing field surveys before they count</span
-            ><span class="bcn-kb-hero__result-cat">Monitoring</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >Surveys sync from field apps, but only QC-approved records drive
-            compliance.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-site-clearance-go-no-go"
-          role="option"
-          aria-selected="false"
-          href="#article-site-clearance-go-no-go"
-          data-result=""
-          data-title="Using Site Clearance go/no-go"
-          data-summary="Check whether a work site is clear for ground disturbance — and what is blocking it."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Using Site Clearance go/no-go</span
-            ><span class="bcn-kb-hero__result-cat">Monitoring</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >Check whether a work site is clear for ground disturbance — and what is
-            blocking it.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-what-is-evidence"
-          role="option"
-          aria-selected="false"
-          href="#article-what-is-evidence"
-          data-result=""
-          data-title="Evidence of Compliance"
-          data-summary="The documented proof that an obligation was met — the artifact an auditor reviews."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Evidence of Compliance</span
-            ><span class="bcn-kb-hero__result-cat">Reporting</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >The documented proof that an obligation was met — the artifact an auditor
-            reviews.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-assembling-compliance-report"
-          role="option"
-          aria-selected="false"
-          href="#article-assembling-compliance-report"
-          data-result=""
-          data-title="Assembling a compliance report"
-          data-summary="Compile evidence of compliance into a report package for an agency."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Assembling a compliance report</span
-            ><span class="bcn-kb-hero__result-cat">Reporting</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >Compile evidence of compliance into a report package for an agency.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-what-is-a-source"
-          role="option"
-          aria-selected="false"
-          href="#article-what-is-a-source"
-          data-result=""
-          data-title="Source Document"
-          data-summary="The regulatory document — permit, EIR, or agreement — that obligations are extracted from."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Source Document</span
-            ><span class="bcn-kb-hero__result-cat">Data Catalog</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >The regulatory document — permit, EIR, or agreement — that obligations are
-            extracted from.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-what-is-a-commitment"
-          role="option"
-          aria-selected="false"
-          href="#article-what-is-a-commitment"
-          data-result=""
-          data-title="Commitment"
-          data-summary="One discrete obligation, recorded in its source document’s original language."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title="">Commitment</span
-            ><span class="bcn-kb-hero__result-cat">Data Catalog</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >One discrete obligation, recorded in its source document’s original
-            language.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-what-is-a-requirement"
-          role="option"
-          aria-selected="false"
-          href="#article-what-is-a-requirement"
-          data-result=""
-          data-title="Requirement"
-          data-summary="A specific, actionable sub-obligation broken out of a commitment."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Requirement</span
-            ><span class="bcn-kb-hero__result-cat">Data Catalog</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >A specific, actionable sub-obligation broken out of a commitment.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-what-is-an-action"
-          role="option"
-          aria-selected="false"
-          href="#article-what-is-an-action"
-          data-result=""
-          data-title="Action"
-          data-summary="One trackable deliverable consolidating requirements that describe the same work."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title="">Action</span
-            ><span class="bcn-kb-hero__result-cat">Data Catalog</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >One trackable deliverable consolidating requirements that describe the same
-            work.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-tracing-lineage"
-          role="option"
-          aria-selected="false"
-          href="#article-tracing-lineage"
-          data-result=""
-          data-title="Tracing a requirement back to its source"
-          data-summary="Follow the lineage from any requirement up to the exact document language."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Tracing a requirement back to its source</span
-            ><span class="bcn-kb-hero__result-cat">Data Catalog</span></span
-          ><span class="bcn-kb-hero__result-summary"
-            >Follow the lineage from any requirement up to the exact document
-            language.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-feature-flag"
-          role="option"
-          aria-selected="false"
-          href="#article-feature-flag"
-          data-result=""
-          data-title="Feature Flag"
-          data-summary="A tenant-level switch that enables or disables a Beacon capability."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Feature Flag</span
-            ><span class="bcn-kb-hero__result-cat"
-              >Settings &amp; Configuration</span
-            ></span
-          ><span class="bcn-kb-hero__result-summary"
-            >A tenant-level switch that enables or disables a Beacon capability.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-managing-tenant-settings"
-          role="option"
-          aria-selected="false"
-          href="#article-managing-tenant-settings"
-          data-result=""
-          data-title="Managing tenant settings"
-          data-summary="Configure the display labels, defaults, and enabled features that apply across a tenant."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Managing tenant settings</span
-            ><span class="bcn-kb-hero__result-cat"
-              >Settings &amp; Configuration</span
-            ></span
-          ><span class="bcn-kb-hero__result-summary"
-            >Configure the display labels, defaults, and enabled features that apply
-            across a tenant.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-managing-users-roles"
-          role="option"
-          aria-selected="false"
-          href="#article-managing-users-roles"
-          data-result=""
-          data-title="Managing users and roles"
-          data-summary="Add users to a tenant and assign the roles that govern their access."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Managing users and roles</span
-            ><span class="bcn-kb-hero__result-cat"
-              >Settings &amp; Configuration</span
-            ></span
-          ><span class="bcn-kb-hero__result-summary"
-            >Add users to a tenant and assign the roles that govern their access.</span
-          ></a
-        ><a
-          class="bcn-kb-hero__result"
-          id="kb-result-configuring-notifications"
-          role="option"
-          aria-selected="false"
-          href="#article-configuring-notifications"
-          data-result=""
-          data-title="Configuring notifications"
-          data-summary="Set which compliance events generate notifications, and how each user receives them."
-          hidden=""
-          ><span class="bcn-kb-hero__result-top"
-            ><span class="bcn-kb-hero__result-title" data-result-title=""
-              >Configuring notifications</span
-            ><span class="bcn-kb-hero__result-cat"
-              >Settings &amp; Configuration</span
-            ></span
-          ><span class="bcn-kb-hero__result-summary"
-            >Set which compliance events generate notifications, and how each user
-            receives them.</span
-          ></a
-        >
+        ><!-- …and 28 more like this (<a class="bcn-kb-hero__result">) -->
         <p class="bcn-kb-hero__no-results" data-kb-no-results="" hidden="">
           No articles match “<span data-kb-query=""></span>”.
         </p>
       </div>
     </div>
     <a class="bcn-kb-hero__whatsnew" href="/beacon-design/prototypes/release-notes"
-      >What's new in Beacon<span class="bcn-kb-hero__whatsnew-arrow" aria-hidden="true"
-        >→</span
-      ></a
+      >What's new in Beacon<span class="bcn-kb-hero__whatsnew-arrow" aria-hidden="true">→</span></a
     >
   </div>
 </section>
 ```
 
 ## Styles
+
 ```css
 .typography-heading-lg {
   font-family: var(--typography-heading-lg-font-family);
@@ -686,13 +199,11 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
   animation: 12s linear infinite bcn-aldo-spin;
 }
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
+@media (prefers-reduced-motion: reduce) {
+  .bcn-aldo-mark[data-animated],
+  .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
+    animation: none;
+  }
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -708,6 +219,11 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -715,9 +231,6 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -924,20 +437,8 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -968,50 +469,46 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 ```
 
 ## Tokens
-- `--bcn-aldo`: #08908b _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-link`: #005862 _(semantic)_
-- `--color-content-link-hover`: #00474f _(semantic)_
-- `--elevation-3`: 0 4px 20px -4px #0000000f _(semantic)_
-- `--gap`: 3rem _(component)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--radius-300`: .5rem _(primitive)_
-- `--radius-full`: 9999px _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
-- `--typography-body-md-letter-spacing`: .01em _(semantic)_
-- `--typography-body-md-line-height`: 1.6 _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-heading-lg-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-heading-lg-font-size`: clamp(1.375rem, 1.2rem + .88vw, 1.875rem) _(semantic)_
-- `--typography-heading-lg-font-weight`: 550 _(semantic)_
-- `--typography-heading-lg-letter-spacing`: -.01em _(semantic)_
-- `--typography-heading-lg-line-height`: 1.3 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-aldo` | `#08908b` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-link` | `#005862` | semantic |
+| `--color-content-link-hover` | `#00474f` | semantic |
+| `--elevation-3` | `0 4px 20px -4px #0000000f` | semantic |
+| `--gap` | `3rem` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--radius-100` | `.25rem` | primitive |
+| `--radius-200` | `.5rem` | primitive |
+| `--radius-300` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-body-md-font-weight` | `400` | semantic |
+| `--typography-body-md-letter-spacing` | `.01em` | semantic |
+| `--typography-body-md-line-height` | `1.6` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-heading-lg-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-heading-lg-font-size` | `clamp(1.375rem, 1.2rem + .88vw, 1.875rem)` | semantic |
+| `--typography-heading-lg-font-weight` | `550` | semantic |
+| `--typography-heading-lg-letter-spacing` | `-.01em` | semantic |
+| `--typography-heading-lg-line-height` | `1.3` | semantic |

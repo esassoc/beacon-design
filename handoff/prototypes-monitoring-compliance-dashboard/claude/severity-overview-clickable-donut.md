@@ -1,24 +1,41 @@
 # Severity overview (clickable donut)
 
+Compliance Dashboard · source prototype: https://esassoc.github.io/beacon-design/prototypes/monitoring/compliance-dashboard/
+
+![Severity overview (clickable donut), desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-compliance-dashboard/claude/severity-overview-clickable-donut.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-compliance-dashboard/claude/severity-overview-clickable-donut.phone.png
+
 BcnOversightHero — the band that answers "how bad is it right now, and in what categories". A severity donut of the CURRENT active observation set on the left, its legend beside it, and two category count lists (Needs Attention, Non-Compliance) on the right. Every severity is a real link: the ring segment and its legend row both route to the Observations list pre-filtered to that severity, and the donut centre routes to the unfiltered active list. It is a navigation surface, not a static readout.
 
 ## Key decisions
+
 - The ring is stacked SVG <circle> strokes (stroke-dasharray as a percentage at r=15.915, so the circumference is ~100), each wrapped in an SVG <a>. The existing house idiom — a flat conic-gradient div, used by BcnMonitoringStats and permit-tracking — was rejected because a conic gradient CANNOT carry one click target per slice, and per-segment routing is the whole point of this widget.
 - The donut and both category lists read the same active-observation set, so the severity totals and the category totals always reconcile. An earlier revision sourced them differently and the numbers disagreed on screen.
 - The category lists are plain label + count rows, deliberately NOT bar charts — a bar track needs a shared max to be honest, and these two lists are scoped to different severities, so a shared scale would be meaningless.
 - Severity colour comes from SEVERITY_META in the fixture (one hex per severity), threaded to both the ring stroke and the legend swatch, so a severity can never be two different colours on one page.
 
 ## Gotchas
+
 - There is no esa-* chart lego anywhere in Ecology — this is bespoke SVG by necessity, not by preference. Third occurrence of the gap; see the improvement ledger before hand-rolling a fourth.
 - SVG <a> needs href set via the SVG namespace semantics Astro already emits — do not swap the segments for <path onclick>, which loses keyboard access and the link affordance.
 - The donut centre total is a link too, and it is easy to lose when restyling the hole — keep it focusable.
 
 ## Done when
+
 - The ring renders one segment per severity, sized to its share of the active set, and the segment colours match the legend swatches exactly.
 - Clicking any ring segment or legend row opens the Observations list filtered to that severity; clicking the centre total opens it unfiltered.
 - The needs-attention and non-compliance category counts sum to the same totals the donut shows for those severities.
 
+## Components
+
+- `bcn-ohero` (spoke) · `src/components/bcn/BcnOversightHero.astro`
+- `esa-card` (hub) · `packages/ecology/src/components/esa-card.astro`
+
 ## Markup
+
+_4 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <div class="esa-card">
   <div class="esa-card__header">
@@ -29,12 +46,7 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
     </div>
   </div>
   <div class="esa-card__body typography-body-md">
-    <div
-      class="bcn-ohero cluster"
-      data-gap="xl"
-      data-align="start"
-      data-justify="between"
-    >
+    <div class="bcn-ohero cluster" data-gap="xl" data-align="start" data-justify="between">
       <!-- ── Clickable severity donut + legend ── -->
       <section class="stack" data-gap="xs">
         <!-- Names the set the donut plots. Must agree with asOfLabel in the donut hole:
@@ -129,8 +141,7 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
                   class="bcn-ohero__dot"
                   style="--_c: var(--color-background-utility-success)"
                 ></span
-                ><span class="bcn-ohero__legend-label typography-body-sm"
-                  >In Compliance</span
+                ><span class="bcn-ohero__legend-label typography-body-sm">In Compliance</span
                 ><span class="bcn-ohero__legend-value typography-label-xs">6</span></a
               >
             </li>
@@ -142,8 +153,7 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
                   class="bcn-ohero__dot"
                   style="--_c: var(--color-background-utility-warning)"
                 ></span
-                ><span class="bcn-ohero__legend-label typography-body-sm"
-                  >Needs Attention</span
+                ><span class="bcn-ohero__legend-label typography-body-sm">Needs Attention</span
                 ><span class="bcn-ohero__legend-value typography-label-xs">7</span></a
               >
             </li>
@@ -155,8 +165,7 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
                   class="bcn-ohero__dot"
                   style="--_c: var(--color-background-utility-danger)"
                 ></span
-                ><span class="bcn-ohero__legend-label typography-body-sm"
-                  >Non-Compliance</span
+                ><span class="bcn-ohero__legend-label typography-body-sm">Non-Compliance</span
                 ><span class="bcn-ohero__legend-value typography-label-xs">3</span></a
               >
             </li>
@@ -166,9 +175,7 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
       <!-- ── Two category count lists, by severity ── -->
       <div class="bcn-ohero__breakdowns cluster" data-gap="xl" data-align="start">
         <section class="stack" data-gap="xs">
-          <h4 class="bcn-ohero__section-title typography-title">
-            Needs Attention by Category
-          </h4>
+          <h4 class="bcn-ohero__section-title typography-title">Needs Attention by Category</h4>
           <ul class="bcn-ohero__counts stack" data-gap="2xs">
             <li class="bcn-ohero__count-row">
               <span class="bcn-ohero__count-label typography-body-sm"
@@ -180,32 +187,11 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
                 >Erosion &amp; Sediment Control</span
               ><span class="bcn-ohero__count-value typography-label-xs">1</span>
             </li>
-            <li class="bcn-ohero__count-row">
-              <span class="bcn-ohero__count-label typography-body-sm"
-                >Waste Management</span
-              ><span class="bcn-ohero__count-value typography-label-xs">1</span>
-            </li>
-            <li class="bcn-ohero__count-row">
-              <span class="bcn-ohero__count-label typography-body-sm"
-                >Vegetation &amp; Habitat Protection</span
-              ><span class="bcn-ohero__count-value typography-label-xs">1</span>
-            </li>
-            <li class="bcn-ohero__count-row">
-              <span class="bcn-ohero__count-label typography-body-sm"
-                >Noise Management</span
-              ><span class="bcn-ohero__count-value typography-label-xs">1</span>
-            </li>
-            <li class="bcn-ohero__count-row">
-              <span class="bcn-ohero__count-label typography-body-sm"
-                >Stormwater / BMP Maintenance</span
-              ><span class="bcn-ohero__count-value typography-label-xs">1</span>
-            </li>
+            <!-- …and 4 more like this (<li class="bcn-ohero__count-row">) -->
           </ul>
         </section>
         <section class="stack" data-gap="xs">
-          <h4 class="bcn-ohero__section-title typography-title">
-            Non-Compliance by Category
-          </h4>
+          <h4 class="bcn-ohero__section-title typography-title">Non-Compliance by Category</h4>
           <ul class="bcn-ohero__counts stack" data-gap="2xs">
             <li class="bcn-ohero__count-row">
               <span class="bcn-ohero__count-label typography-body-sm"
@@ -231,6 +217,7 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
 ```
 
 ## Styles
+
 ```css
 .typography-title {
   font-family: var(--typography-title-font-family);
@@ -259,20 +246,6 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
   font-weight: var(--typography-label-xs-font-weight);
   line-height: var(--typography-label-xs-line-height);
   letter-spacing: var(--typography-label-xs-letter-spacing);
-}
-.typography-label-xs-strong {
-  font-family: var(--typography-label-xs-strong-font-family);
-  font-size: var(--typography-label-xs-strong-font-size);
-  font-weight: var(--typography-label-xs-strong-font-weight);
-  line-height: var(--typography-label-xs-strong-line-height);
-  letter-spacing: var(--typography-label-xs-strong-letter-spacing);
-}
-.typography-title-strong {
-  font-family: var(--typography-title-strong-font-family);
-  font-size: var(--typography-title-strong-font-size);
-  font-weight: var(--typography-title-strong-font-weight);
-  line-height: var(--typography-title-strong-line-height);
-  letter-spacing: var(--typography-title-strong-letter-spacing);
 }
 .typography-title-sm-strong {
   font-family: var(--typography-title-sm-strong-font-family);
@@ -305,32 +278,12 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
   display: block;
   overflow: hidden;
 }
-.esa-card--outlined {
-  --_card-border: var(--color-border-default, #cecece);
-}
-.esa-card--elevated {
-  --_card-border: transparent;
-  box-shadow: var(--elevation-2, 0 2px 12px 0 #0000000a);
-}
-.esa-card--filled {
-  --_card-bg: var(--color-background-elevation-sunken, #f0f0f0);
-  --_card-border: transparent;
-}
 .esa-card--header-primary .esa-card__header {
   --_card-header-bg: var(--color-background-brand, #46a758);
   --_card-header-color: var(--color-content-default-knockout, #fcfcfc);
 }
 .esa-card--header-muted .esa-card__header {
   --_card-header-bg: var(--color-background-elevation-sunken, #f0f0f0);
-}
-.esa-card--padding-none {
-  --_card-padding: 0;
-}
-.esa-card--padding-compact {
-  --_card-padding: var(--spacing-300, 0.75rem);
-}
-.esa-card--padding-spacious {
-  --_card-padding: var(--spacing-700, 3rem);
 }
 .esa-card__header {
   padding: var(--spacing-400, 1rem) var(--_card-padding);
@@ -356,54 +309,8 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
   color: inherit;
   margin: 0;
 }
-.esa-card__subtitle {
-  color: var(--color-content-default-secondary, #646464);
-  margin: 0;
-}
-.esa-card--header-primary .esa-card__subtitle {
-  color: var(--color-content-on-brand, #fffc);
-}
-.esa-card__meta {
-  gap: var(--spacing-100, 0.25rem) var(--spacing-500, 1.5rem);
-  margin: var(--spacing-050, 0.125rem) 0 0;
-  flex-wrap: wrap;
-  display: flex;
-}
-.esa-card__meta-pair {
-  align-items: baseline;
-  gap: var(--spacing-100, 0.25rem);
-  min-width: 0;
-  display: flex;
-}
-.esa-card__meta dt {
-  font-size: var(--_card-meta-label-size);
-  font-weight: var(--font-weight-medium, 500);
-  color: var(--_card-meta-label-color);
-}
-.esa-card__meta dd {
-  font-size: var(--_card-meta-value-size);
-  color: inherit;
-  margin: 0;
-}
-.esa-card--header-primary .esa-card__meta dt {
-  color: #fffc;
-}
-.esa-card__icon {
-  color: inherit;
-  flex-shrink: 0;
-}
-.esa-card__actions {
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
-  display: flex;
-}
 .esa-card__body {
   padding: var(--_card-padding);
-}
-.esa-card__footer {
-  padding: var(--spacing-300, 0.75rem) var(--_card-padding);
-  border-top: var(--border-width-default, 1px) solid var(--_card-header-border);
-  background: var(--color-background-elevation-sunken, #f0f0f0);
 }
 .bcn-ev-staging__item .esa-card {
   overflow: visible;
@@ -582,20 +489,6 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
   line-height: var(--typography-label-xs-line-height);
   letter-spacing: var(--typography-label-xs-letter-spacing);
 }
-.typography-label-xs-strong {
-  font-family: var(--typography-label-xs-strong-font-family);
-  font-size: var(--typography-label-xs-strong-font-size);
-  font-weight: var(--typography-label-xs-strong-font-weight);
-  line-height: var(--typography-label-xs-strong-line-height);
-  letter-spacing: var(--typography-label-xs-strong-letter-spacing);
-}
-.typography-title-strong {
-  font-family: var(--typography-title-strong-font-family);
-  font-size: var(--typography-title-strong-font-size);
-  font-weight: var(--typography-title-strong-font-weight);
-  line-height: var(--typography-title-strong-line-height);
-  letter-spacing: var(--typography-title-strong-letter-spacing);
-}
 .typography-title-sm-strong {
   font-family: var(--typography-title-sm-strong-font-family);
   font-size: var(--typography-title-sm-strong-font-size);
@@ -632,81 +525,70 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
 ```
 
 ## Tokens
-- `--border-width-default`: 1px _(semantic)_
-- `--card-bg`: #fcfcfc _(component)_
-- `--card-border-color`: #dcdcdc _(component)_
-- `--card-header-bg`: transparent _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand`: #fcfcfc _(semantic)_
-- `--elevation-2`: 0 2px 12px 0 #0000000a _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-size-600`: clamp(1.375rem, 1.2rem + .88vw, 1.875rem) _(primitive)_
-- `--font-weight-medium`: 500 _(component)_
-- `--gap`: 2rem _(component)_
-- `--radius-200`: .5rem _(primitive)_
-- `--radius-full`: 9999px _(primitive)_
-- `--radius-md`: .25rem _(semantic)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--spacing-700`: 3rem _(primitive)_
-- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
-- `--typography-body-md-letter-spacing`: .01em _(semantic)_
-- `--typography-body-md-line-height`: 1.6 _(semantic)_
-- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
-- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-body-sm-line-height`: 1.6 _(semantic)_
-- `--typography-font-family-display`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-label-xs-font-weight`: 500 _(semantic)_
-- `--typography-label-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-label-xs-line-height`: 1.6 _(semantic)_
-- `--typography-label-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-label-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-xs-strong-line-height`: 1.6 _(semantic)_
-- `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-meta-font-weight`: 400 _(semantic)_
-- `--typography-meta-letter-spacing`: .01em _(semantic)_
-- `--typography-meta-line-height`: 1.6 _(semantic)_
-- `--typography-title-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
-- `--typography-title-font-weight`: 500 _(semantic)_
-- `--typography-title-letter-spacing`: .01em _(semantic)_
-- `--typography-title-line-height`: 1.6 _(semantic)_
-- `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-sm-strong-font-size`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(semantic)_
-- `--typography-title-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-title-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-title-sm-strong-line-height`: 1.6 _(semantic)_
-- `--typography-title-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-strong-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
-- `--typography-title-strong-font-weight`: 550 _(semantic)_
-- `--typography-title-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-title-strong-line-height`: 1.6 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--border-width-default` | `1px` | semantic |
+| `--card-bg` | `#fcfcfc` | component |
+| `--card-border-color` | `#dcdcdc` | component |
+| `--card-header-bg` | `transparent` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--font-size-600` | `clamp(1.375rem, 1.2rem + .88vw, 1.875rem)` | primitive |
+| `--gap` | `2rem` | component |
+| `--radius-200` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--radius-md` | `.25rem` | semantic |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-body-md-font-weight` | `400` | semantic |
+| `--typography-body-md-letter-spacing` | `.01em` | semantic |
+| `--typography-body-md-line-height` | `1.6` | semantic |
+| `--typography-body-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-body-sm-font-weight` | `400` | semantic |
+| `--typography-body-sm-letter-spacing` | `.01em` | semantic |
+| `--typography-body-sm-line-height` | `1.6` | semantic |
+| `--typography-font-family-display` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-label-xs-font-weight` | `500` | semantic |
+| `--typography-label-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-label-xs-line-height` | `1.6` | semantic |
+| `--typography-meta-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-meta-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-meta-font-weight` | `400` | semantic |
+| `--typography-meta-letter-spacing` | `.01em` | semantic |
+| `--typography-meta-line-height` | `1.6` | semantic |
+| `--typography-title-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-title-font-size` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | semantic |
+| `--typography-title-font-weight` | `500` | semantic |
+| `--typography-title-letter-spacing` | `.01em` | semantic |
+| `--typography-title-line-height` | `1.6` | semantic |
+| `--typography-title-sm-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-title-sm-strong-font-size` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` | semantic |
+| `--typography-title-sm-strong-font-weight` | `550` | semantic |
+| `--typography-title-sm-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-title-sm-strong-line-height` | `1.6` | semantic |

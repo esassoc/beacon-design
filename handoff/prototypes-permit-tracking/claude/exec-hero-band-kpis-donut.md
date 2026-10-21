@@ -1,31 +1,46 @@
 # Exec — hero band (% + KPIs + donut)
 
+Permit Tracking · source prototype: https://esassoc.github.io/beacon-design/prototypes/permit-tracking/
+
+![Exec — hero band (% + KPIs + donut), desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-permit-tracking/claude/exec-hero-band-kpis-donut.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-permit-tracking/claude/exec-hero-band-kpis-donut.phone.png
+
 The leadership rollup hero: a headline "% of the route cleared to construct" with two KPI stats (route-miles cleared in the past 14 days, and the forecast full-route clear date), beside a status donut of route-miles with a centered % and a legend. Read-only; every figure re-derives from the same store as the Map/Data tabs.
 
 ## Key decisions
+
 - The headline number and KPIs are esa-stat inside esa-card — the KPI numbers are legos; only the donut is bespoke micro-viz (the same value-colored class canonicalized in BcnMonitoringStats).
 - Miles-weighted throughout — route-miles cleared, never permit counts, because miles cleared is what lets crews roll.
 - The 14-day trend is computed against the frozen reportHistory (the "since last review" delta); the forecast date is the projected full-route clear if current agency estimates hold (sub-labeled as such — it is a forecast, not a commitment).
 - An "As of {timestamp}" stamp marks when the rollup was opened.
 
 ## Gotchas
+
 - Exec content renders at BOOT (renderExec), but the burn-up sibling redraws at real width only when the tab is revealed (0→real); the recipe activates the tab so the captured state is the revealed one.
 - The trend sign/icon flips with the delta (trending-up vs down) — drive the icon from the value, do not hard-code up.
 - Forecast is conditional ("if agency estimates hold") — keep that caveat; presenting it as a fixed date overstates certainty.
 
 ## Done when
+
 - Hero shows the cleared % headline, a 14-day miles trend KPI (signed, correct icon), a forecast full-route clear date with its caveat, and a status donut whose center % matches the headline.
 
+## Components
+
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+- `esa-stat` (hub) · `packages/ecology/src/components/esa-stat.astro`
+
 ## Markup
+
+_3 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <div class="exec__hero">
   <div class="exec__hero-figures">
     <div class="exec__hero-headline" id="exec-hero-stat">
       <div class="esa-stat">
         <div class="esa-stat__value typography-display-sm">5%</div>
-        <div class="esa-stat__label typography-label-md">
-          of the route cleared to construct
-        </div>
+        <div class="esa-stat__label typography-label-md">of the route cleared to construct</div>
       </div>
     </div>
     <div class="exec__kpis">
@@ -49,9 +64,7 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
         ><span id="exec-trend-stat"
           ><div class="esa-stat">
             <div class="esa-stat__value typography-display-sm">+3.2 mi</div>
-            <div class="esa-stat__label typography-label-md">
-              cleared in the past 14 days
-            </div>
+            <div class="esa-stat__label typography-label-md">cleared in the past 14 days</div>
           </div></span
         >
       </div>
@@ -70,16 +83,12 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
                 stroke-linejoin="round"
                 focusable="false"
               >
-                <path
-                  d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"
-                ></path>
+                <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
                 <line x1="4" y1="22" x2="4" y2="15"></line></svg></span></span></span
         ><span id="exec-forecast-stat"
           ><div class="esa-stat">
             <div class="esa-stat__value typography-display-sm">Nov 1, 2026</div>
-            <div class="esa-stat__label typography-label-md">
-              forecast full-route clear
-            </div>
+            <div class="esa-stat__label typography-label-md">forecast full-route clear</div>
             <div class="esa-stat__sub typography-body-sm">if agency estimates hold</div>
           </div></span
         >
@@ -115,64 +124,20 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
         <span class="exec-legend__pct">21%</span>
       </li>
       <li class="exec-legend__item" data-empty="false">
-        <span
-          class="exec-legend__dot"
-          style="background: var(--st-in-preparation)"
-        ></span>
+        <span class="exec-legend__dot" style="background: var(--st-in-preparation)"></span>
         <span class="exec-legend__label">In Preparation</span>
         <span class="exec-legend__mi">78.1 mi</span>
         <span class="exec-legend__pct">39%</span>
       </li>
-      <li class="exec-legend__item" data-empty="false">
-        <span class="exec-legend__dot" style="background: var(--st-submitted)"></span>
-        <span class="exec-legend__label">Submitted</span>
-        <span class="exec-legend__mi">31.4 mi</span>
-        <span class="exec-legend__pct">16%</span>
-      </li>
-      <li class="exec-legend__item" data-empty="false">
-        <span class="exec-legend__dot" style="background: var(--st-under-review)"></span>
-        <span class="exec-legend__label">Under Review</span>
-        <span class="exec-legend__mi">37.7 mi</span>
-        <span class="exec-legend__pct">19%</span>
-      </li>
-      <li class="exec-legend__item" data-empty="false">
-        <span class="exec-legend__dot" style="background: var(--st-cleared)"></span>
-        <span class="exec-legend__label">Cleared to Construct</span>
-        <span class="exec-legend__mi">10.6 mi</span>
-        <span class="exec-legend__pct">5%</span>
-      </li>
+      <!-- …and 3 more like this (<li class="exec-legend__item">) -->
     </ul>
   </div>
 </div>
 ```
 
 ## Styles
+
 ```css
-/* Type comes from .typography-body-sm on the element.
-
-       Both nodes are always in the DOM (the live region has to pre-exist its content),
-       so the gap is opt-IN via .is-shown rather than collapsed with :empty — Lit's
-       template whitespace defeats :empty in engines that follow Selectors L3. */
-.help,
-.error {
-  margin: 0;
-}
-/* Type comes from .typography-body-sm — help and error are one size at every
-       control step, so they name the composite directly rather than mapping. */
-/* Both nodes are ALWAYS in the DOM (see render()), so the gap is opt-IN rather
-       than collapsed away. Deliberately not display:none when empty — that removes
-       the node from the accessibility tree, and a live region that is not in the tree
-       cannot announce anything. An empty <p> with no margin occupies no space.
-
-       .is-shown rather than :empty: Lit's template whitespace leaves a text node
-       inside the element, and browsers still disagree about whether :empty ignores
-       whitespace-only children (Selectors L4 says yes, L3 says no). A class is
-       deterministic; :empty here would silently leave 4px of dead space under every
-       clean field in some engines and not others. */
-.help,
-.error {
-  margin: 0;
-}
 .typography-display-sm {
   font-family: var(--typography-display-sm-font-family);
   font-size: var(--typography-display-sm-font-size);
@@ -194,24 +159,9 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
   line-height: var(--typography-label-md-line-height);
   letter-spacing: var(--typography-label-md-letter-spacing);
 }
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -227,6 +177,11 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -234,9 +189,6 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -286,6 +238,11 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
   align-items: center;
   display: grid;
 }
+@media (width<=820px) {
+  .exec__hero {
+    grid-template-columns: 1fr;
+  }
+}
 .exec__hero-figures {
   gap: var(--spacing-500);
   flex-direction: column;
@@ -328,14 +285,16 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
   background: color-mix(in srgb, var(--st-cleared) 16%, transparent);
   color: var(--st-cleared);
 }
-.exec__kpi-icon--down {
-  background: color-mix(in srgb, var(--st-not-started) 16%, transparent);
-  color: var(--st-not-started);
-}
 .exec__donut-wrap {
   align-items: center;
   gap: var(--spacing-500);
   display: flex;
+}
+@media (width<=560px) {
+  .exec__donut-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 .exec__donut {
   border-radius: var(--radius-full);
@@ -409,10 +368,12 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
   text-align: right;
   min-width: 34px;
 }
-.exec .esa-card,
-.exec__hero {
-  break-inside: avoid;
-  box-shadow: none;
+@media print {
+  .exec .esa-card,
+  .exec__hero {
+    break-inside: avoid;
+    box-shadow: none;
+  }
 }
 .typography-display-sm {
   font-family: var(--typography-display-sm-font-family);
@@ -435,13 +396,6 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
   line-height: var(--typography-label-md-line-height);
   letter-spacing: var(--typography-label-md-letter-spacing);
 }
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -451,20 +405,8 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -540,66 +482,57 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
 ```
 
 ## Tokens
-- `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
-- `--font-size-500`: clamp(1.125rem, .98rem + .72vw, 1.5rem) _(primitive)_
-- `--font-size-700`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(primitive)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-full`: 9999px _(primitive)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--spacing-600`: 2rem _(primitive)_
-- `--st-cleared`: #1a9850 _(component)_
-- `--st-not-started`: #d73027 _(component)_
-- `--stat-accent-color`: #005862 _(component)_
-- `--stat-value-color`: #3d3d3d _(component)_
-- `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
-- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
-- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-body-sm-line-height`: 1.6 _(semantic)_
-- `--typography-display-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-display-sm-font-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(semantic)_
-- `--typography-display-sm-font-weight`: 650 _(semantic)_
-- `--typography-display-sm-letter-spacing`: -.01em _(semantic)_
-- `--typography-display-sm-line-height`: 1.3 _(semantic)_
-- `--typography-font-family-display`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-font-weight`: 500 _(semantic)_
-- `--typography-label-md-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-line-height`: 1.6 _(semantic)_
-- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-gray-100` | `#efefef` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
+| `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
+| `--font-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--spacing-600` | `2rem` | primitive |
+| `--st-cleared` | `#1a9850` | component |
+| `--stat-accent-color` | `#005862` | component |
+| `--stat-value-color` | `#3d3d3d` | component |
+| `--stat-value-size` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | component |
+| `--typography-body-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-body-sm-font-weight` | `400` | semantic |
+| `--typography-body-sm-letter-spacing` | `.01em` | semantic |
+| `--typography-body-sm-line-height` | `1.6` | semantic |
+| `--typography-display-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-display-sm-font-size` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | semantic |
+| `--typography-display-sm-font-weight` | `650` | semantic |
+| `--typography-display-sm-letter-spacing` | `-.01em` | semantic |
+| `--typography-display-sm-line-height` | `1.3` | semantic |
+| `--typography-font-family-display` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
+| `--typography-label-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-md-font-weight` | `500` | semantic |
+| `--typography-label-md-letter-spacing` | `.01em` | semantic |
+| `--typography-label-md-line-height` | `1.6` | semantic |

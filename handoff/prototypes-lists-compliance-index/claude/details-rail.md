@@ -1,8 +1,23 @@
 # Details rail
 
+Compliance Index on Lists · source prototype: https://esassoc.github.io/beacon-design/prototypes/lists/compliance-index/
+
+![Details rail, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-compliance-index/claude/details-rail.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-lists-compliance-index/claude/details-rail.phone.png
+
 The index as a record: name, description, type (Compliance index list), created, last updated, item count. The same card every list carries.
 
+## Components
+
+- `bcn-key-value` (spoke) · `src/components/bcn/BcnImplementationDialog.astro`
+- `bcn-ldr` (spoke) · `src/components/bcn/BcnListDetailsRail.astro`
+- `esa-card` (hub) · `packages/ecology/src/components/esa-card.astro`
+
 ## Markup
+
+_4 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <div class="bcn-ldr">
   <div class="esa-card esa-card--outlined">
@@ -22,26 +37,10 @@ The index as a record: name, description, type (Compliance index list), created,
         <div class="bcn-key-value" data-size="md" data-layout="stack">
           <span class="bcn-key-value__key">Description</span
           ><span class="bcn-key-value__val"
-            >Every action and obligation on the project, filed by category and
-            subcategory.</span
+            >Every action and obligation on the project, filed by category and subcategory.</span
           >
         </div>
-        <div class="bcn-key-value" data-size="md" data-layout="stack">
-          <span class="bcn-key-value__key">Type</span
-          ><span class="bcn-key-value__val">Compliance index list</span>
-        </div>
-        <div class="bcn-key-value" data-size="md" data-layout="stack">
-          <span class="bcn-key-value__key">Created</span
-          ><span class="bcn-key-value__val">Feb 19, 2026</span>
-        </div>
-        <div class="bcn-key-value" data-size="md" data-layout="stack">
-          <span class="bcn-key-value__key">Last updated</span
-          ><span class="bcn-key-value__val">Oct 15, 2026</span>
-        </div>
-        <div class="bcn-key-value" data-size="md" data-layout="stack">
-          <span class="bcn-key-value__key">Items</span
-          ><span class="bcn-key-value__val">600</span>
-        </div>
+        <!-- …and 4 more like this (<div class="bcn-key-value">) -->
       </div>
     </div>
   </div>
@@ -49,6 +48,7 @@ The index as a record: name, description, type (Compliance index list), created,
 ```
 
 ## Styles
+
 ```css
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
@@ -101,29 +101,12 @@ The index as a record: name, description, type (Compliance index list), created,
 .esa-card--outlined {
   --_card-border: var(--color-border-default, #cecece);
 }
-.esa-card--elevated {
-  --_card-border: transparent;
-  box-shadow: var(--elevation-2, 0 2px 12px 0 #0000000a);
-}
-.esa-card--filled {
-  --_card-bg: var(--color-background-elevation-sunken, #f0f0f0);
-  --_card-border: transparent;
-}
 .esa-card--header-primary .esa-card__header {
   --_card-header-bg: var(--color-background-brand, #46a758);
   --_card-header-color: var(--color-content-default-knockout, #fcfcfc);
 }
 .esa-card--header-muted .esa-card__header {
   --_card-header-bg: var(--color-background-elevation-sunken, #f0f0f0);
-}
-.esa-card--padding-none {
-  --_card-padding: 0;
-}
-.esa-card--padding-compact {
-  --_card-padding: var(--spacing-300, 0.75rem);
-}
-.esa-card--padding-spacious {
-  --_card-padding: var(--spacing-700, 3rem);
 }
 .esa-card__header {
   padding: var(--spacing-400, 1rem) var(--_card-padding);
@@ -149,54 +132,8 @@ The index as a record: name, description, type (Compliance index list), created,
   color: inherit;
   margin: 0;
 }
-.esa-card__subtitle {
-  color: var(--color-content-default-secondary, #646464);
-  margin: 0;
-}
-.esa-card--header-primary .esa-card__subtitle {
-  color: var(--color-content-on-brand, #fffc);
-}
-.esa-card__meta {
-  gap: var(--spacing-100, 0.25rem) var(--spacing-500, 1.5rem);
-  margin: var(--spacing-050, 0.125rem) 0 0;
-  flex-wrap: wrap;
-  display: flex;
-}
-.esa-card__meta-pair {
-  align-items: baseline;
-  gap: var(--spacing-100, 0.25rem);
-  min-width: 0;
-  display: flex;
-}
-.esa-card__meta dt {
-  font-size: var(--_card-meta-label-size);
-  font-weight: var(--font-weight-medium, 500);
-  color: var(--_card-meta-label-color);
-}
-.esa-card__meta dd {
-  font-size: var(--_card-meta-value-size);
-  color: inherit;
-  margin: 0;
-}
-.esa-card--header-primary .esa-card__meta dt {
-  color: #fffc;
-}
-.esa-card__icon {
-  color: inherit;
-  flex-shrink: 0;
-}
-.esa-card__actions {
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
-  display: flex;
-}
 .esa-card__body {
   padding: var(--_card-padding);
-}
-.esa-card__footer {
-  padding: var(--spacing-300, 0.75rem) var(--_card-padding);
-  border-top: var(--border-width-default, 1px) solid var(--_card-header-border);
-  background: var(--color-background-elevation-sunken, #f0f0f0);
 }
 .bcn-ev-staging__item .esa-card {
   overflow: visible;
@@ -246,10 +183,6 @@ The index as a record: name, description, type (Compliance index list), created,
   font-weight: var(--typography-font-weight-semibold);
   color: var(--color-content-default);
 }
-.bcn-key-value__hint {
-  color: var(--color-content-default-tertiary);
-  font-size: 0.75rem;
-}
 .bcn-key-value__key {
   align-items: center;
   gap: var(--spacing-100);
@@ -279,48 +212,46 @@ The index as a record: name, description, type (Compliance index list), created,
 ```
 
 ## Tokens
-- `--border-width-default`: 1px _(semantic)_
-- `--card-bg`: #fcfcfc _(component)_
-- `--card-border-color`: #dcdcdc _(component)_
-- `--card-header-bg`: transparent _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand`: #fcfcfc _(semantic)_
-- `--color-content-secondary`: #525252 _(component)_
-- `--elevation-2`: 0 2px 12px 0 #0000000a _(semantic)_
-- `--font-weight-medium`: 500 _(component)_
-- `--form-label-color`: #525252 _(component)_
-- `--gap`: 1rem _(component)_
-- `--radius-md`: .25rem _(semantic)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--spacing-700`: 3rem _(primitive)_
-- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
-- `--typography-body-md-letter-spacing`: .01em _(semantic)_
-- `--typography-body-md-line-height`: 1.6 _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-font-weight`: 500 _(semantic)_
-- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-sm-strong-font-size`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(semantic)_
-- `--typography-title-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-title-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-title-sm-strong-line-height`: 1.6 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--border-width-default` | `1px` | semantic |
+| `--card-bg` | `#fcfcfc` | component |
+| `--card-border-color` | `#dcdcdc` | component |
+| `--card-header-bg` | `transparent` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-secondary` | `#525252` | component |
+| `--form-label-color` | `#525252` | component |
+| `--gap` | `1rem` | component |
+| `--radius-md` | `.25rem` | semantic |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-body-md-font-weight` | `400` | semantic |
+| `--typography-body-md-letter-spacing` | `.01em` | semantic |
+| `--typography-body-md-line-height` | `1.6` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-sm-font-weight` | `500` | semantic |
+| `--typography-label-sm-strong-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-sm-strong-font-weight` | `550` | semantic |
+| `--typography-title-sm-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-title-sm-strong-font-size` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` | semantic |
+| `--typography-title-sm-strong-font-weight` | `550` | semantic |
+| `--typography-title-sm-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-title-sm-strong-line-height` | `1.6` | semantic |

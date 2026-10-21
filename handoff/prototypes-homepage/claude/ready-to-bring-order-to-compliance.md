@@ -1,14 +1,21 @@
 # Ready to Bring Order to Compliance?
 
-Re-implement this UI section faithfully on your stack. Keep the CSS custom-property
-names (`var(--…)`) so it stays themeable — the values below are the resolved
-`beacon` theme of the **prototypes-homepage** design system (an ESA Ecology spoke).
+Homepage · source prototype: https://esassoc.github.io/beacon-design/prototypes/homepage/
 
-- **Source prototype:** http://localhost:4399/beacon-design/prototypes/homepage/
-- **Section element:** `<section>`
-- **Components:** esa-button (hub), esa-icon (hub)
+![Ready to Bring Order to Compliance?, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-homepage/claude/ready-to-bring-order-to-compliance.desktop.png)
 
-## Markup (de-scoped, framework-free)
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-homepage/claude/ready-to-bring-order-to-compliance.phone.png
+
+## Components
+
+- `bcn-cta-paths` (spoke) · `src/components/bcn/BcnCtaPaths.astro`
+- `bcn-mkt-section` (spoke) · `src/components/bcn/BcnMarketingSection.astro`
+- `bcn-section-intro` (spoke) · `src/components/bcn/BcnSectionIntro.astro`
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+
+## Markup
+
 ```html
 <section class="bcn-mkt-section bcn-mkt-section--light" id="contact">
   <div class="bcn-mkt-section__inner">
@@ -122,8 +129,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 </section>
 ```
 
-## Styles (only what this section uses; tokens resolved for the theme)
+## Styles
+
 ```css
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -138,6 +153,73 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 .esa-button--variant-primary {
   --_accent-text: var(--color-content-brand);
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),
+.esa-button--appearance-fill.esa-button--active .esa-button__native {
+  background: var(--_accent-hover);
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+  background: 0 0;
+}
+.esa-button--appearance-dashed .esa-button__native {
+  border-style: dashed;
+}
+.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),
+.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {
+  background: var(--_btn-tint-hover);
+}
+.esa-button--appearance-outline.esa-button--active .esa-button__native,
+.esa-button--appearance-dashed.esa-button--active .esa-button__native {
+  background: var(--_btn-tint-active);
+}
+.esa-button--appearance-soft .esa-button__native {
+  background: color-mix(
+    in srgb,
+    var(--color-background-elevation-sunken, #f0f0f0) 45%,
+    var(--color-background-elevation-raised, #fcfcfc)
+  );
+  color: var(--_accent-text);
+  border-color: var(--color-border-default-strong, #bbb);
+}
+.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),
+.esa-button--appearance-soft.esa-button--active .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent);
+}
+.esa-button--variant-ghost .esa-button__native {
+  color: var(--color-content-default, #202020);
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border-default, #cecece);
+}
+.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),
+.esa-button--variant-ghost.esa-button--active .esa-button__native {
+  background: var(--color-background-elevation-sunken, #f0f0f0);
+}
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
+.esa-button--variant-chrome.esa-button--active .esa-button__native,
+.esa-button--variant-chrome.esa-button--current .esa-button__native {
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
+}
+.esa-button--variant-chrome .esa-button__native:focus-visible {
+  outline-color: currentColor;
 }
 .esa-button__native {
   justify-content: center;
@@ -157,68 +239,34 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   text-decoration: none;
   display: inline-flex;
 }
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
+.esa-button__native:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+summary.esa-button {
+  cursor: pointer;
+  list-style: none;
+}
+summary.esa-button::-webkit-details-marker {
+  display: none;
+}
+summary.esa-button:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline-offset: var(--focus-ring-offset, 2px);
+  border-radius: var(--_btn-radius);
 }
 .esa-button__label {
   white-space: nowrap;
 }
-.esa-button--appearance-soft .esa-button__native {
-  background: color-mix(
-    in srgb,
-    var(--color-background-elevation-sunken, #f0f0f0) 45%,
-    var(--color-background-elevation-raised, #fcfcfc)
-  );
-  color: var(--_accent-text);
-  border-color: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-ghost .esa-button__native {
-  color: var(--color-content-default, #202020);
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.bcn-mkt-section {
-  --_section-pad: clamp(48px, 8vw, 96px);
-  padding-block: var(--_section-pad);
-}
-.bcn-mkt-section--white {
-  background: var(--color-background-elevation-raised);
-}
-.bcn-mkt-section__inner {
-  max-inline-size: 1100px;
-  padding-inline: var(--spacing-500);
-  margin-inline: auto;
-}
 .bcn-section-intro {
   margin-block-end: var(--spacing-700);
+}
+.bcn-section-intro--center {
+  text-align: center;
 }
 .bcn-section-intro__eyebrow {
   font-size: 12px;
@@ -245,31 +293,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   inline-size: 48px;
   margin-block-end: var(--spacing-400);
 }
-.bcn-section-intro__subtext {
-  font-size: var(--font-size-300);
-  color: var(--color-content-default-secondary);
-  max-inline-size: 820px;
-  line-height: var(--line-height-relaxed, 1.75);
-  text-wrap: balance;
-  margin: 0;
-}
-.bcn-mkt-section--light {
-  background: var(--color-background-elevation-sunken, var(--color-gray-2));
-}
-.bcn-section-intro--center {
-  text-align: center;
-}
 .bcn-section-intro--center .bcn-section-intro__accent {
   margin-inline: auto;
 }
 .bcn-section-intro--center .bcn-section-intro__subtext {
   margin-inline: auto;
-}
-.bcn-mkt-section--forest {
-  color: #fff;
-  background:
-    linear-gradient(160deg, #02140af0 0%, #052312eb 40%, #08321ce6 100%),
-    var(--_forest-image) center / cover no-repeat;
 }
 .bcn-section-intro--on-dark .bcn-section-intro__eyebrow {
   color: #fff9;
@@ -280,8 +308,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .bcn-section-intro--on-dark .bcn-section-intro__accent {
   background: #fff;
 }
-.bcn-section-intro--on-dark .bcn-section-intro__subtext {
-  color: #fffc;
+.bcn-mkt-section {
+  --_section-pad: clamp(48px, 8vw, 96px);
+  padding-block: var(--_section-pad);
+}
+.bcn-mkt-section--light {
+  background: var(--color-background-elevation-sunken, var(--color-gray-2));
+}
+.bcn-mkt-section__inner {
+  max-inline-size: 1100px;
+  padding-inline: var(--spacing-500);
+  margin-inline: auto;
 }
 .bcn-cta-paths {
   gap: var(--spacing-500);
@@ -300,6 +337,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   box-shadow:
     0 1px 2px #0000000f,
     0 2px 4px #0000000a;
+}
+.bcn-cta-paths__card--featured {
+  border-color: var(--color-background-brand);
+  border-width: 2px;
+  position: relative;
+}
+.bcn-cta-paths__card--featured:before {
+  content: "RECOMMENDED";
+  font-size: 10px;
+  font-weight: var(--typography-font-weight-bold);
+  letter-spacing: 1px;
+  color: #fff;
+  background: var(--color-background-brand);
+  padding: var(--spacing-100) var(--spacing-300);
+  border-radius: var(--radius-full, 9999px);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .bcn-cta-paths__medallion {
   border-radius: var(--radius-full, 9999px);
@@ -325,24 +381,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   flex: 1;
   margin-block-end: var(--spacing-500);
 }
-.bcn-cta-paths__card--featured {
-  border-color: var(--color-background-brand);
-  border-width: 2px;
-  position: relative;
-}
-.bcn-cta-paths__card--featured:before {
-  content: "RECOMMENDED";
-  font-size: 10px;
-  font-weight: var(--typography-font-weight-bold);
-  letter-spacing: 1px;
-  color: #fff;
-  background: var(--color-background-brand);
-  padding: var(--spacing-100) var(--spacing-300);
-  border-radius: var(--radius-full, 9999px);
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
+@media (width<=768px) {
+  .bcn-cta-paths {
+    grid-template-columns: 1fr;
+  }
 }
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
@@ -351,12 +393,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   line-height: var(--typography-microcopy-md-line-height);
   letter-spacing: var(--typography-microcopy-md-letter-spacing);
 }
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
 ```
 
 ## Tokens
+
 | Token | Value | Tier |
 |---|---|---|
 | `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
 | `--button-radius-md` | `.25rem` | component |
 | `--color-background-brand` | `#005862` | semantic |
 | `--color-background-brand-hover` | `#00474f` | semantic |
@@ -371,14 +432,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--color-content-default-secondary` | `#525252` | semantic |
 | `--color-content-default-tertiary` | `#656565` | semantic |
 | `--color-gray-2` | `#f9f9f9` | primitive |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
 | `--font-decorative` | `"Besley", serif` | component |
 | `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
-| `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
 | `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
 | `--font-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
-| `--icon-size-lg` | `24px` | primitive |
 | `--icon-size-md` | `20px` | primitive |
-| `--icon-size-sm` | `16px` | primitive |
 | `--icon-size-xl` | `28px` | primitive |
 | `--line-height-relaxed` | `1.8` | primitive |
 | `--line-height-tight` | `1.3` | primitive |
@@ -399,6 +460,3 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--typography-microcopy-md-font-weight` | `500` | semantic |
 | `--typography-microcopy-md-letter-spacing` | `.01em` | semantic |
 | `--typography-microcopy-md-line-height` | `1` | semantic |
-
----
-_Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

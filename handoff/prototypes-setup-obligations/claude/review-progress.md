@@ -1,30 +1,46 @@
 # Review progress
 
+Project setup — Obligations (step 5) · source prototype: https://esassoc.github.io/beacon-design/prototypes/setup-obligations/
+
+![Review progress, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-setup-obligations/claude/review-progress.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-setup-obligations/claude/review-progress.phone.png
+
 The lead band: how much of the registry has been decided, the scale it covers, and the one line that reconciles two counts which otherwise look like a bug.
 
 ## Key decisions
+
 - IT MIRRORS PROD’S OWN SETUP-STEP HEADER, which reads "{total} commitments · {confirmed} confirmed · {pending} pending review". Same three figures, because the unit of work is the DUTY: pending until somebody approves it or marks it not applicable, and progress is how much of the registry has been decided either way.
 - THE RECONCILIATION LINE IS LOAD-BEARING, not editorial. The area counts below sum to 613 while the registry holds 402 duties, because 188 are filed under more than one subject. Unexplained, that reads as a broken count. It is the same discipline the Applicable Commitments drawer applies to its segment counts: a figure and the list under it may never appear to disagree.
 - One instruction line, naming the two gestures the surface supports. It does not explain what an obligation is — the registry below states what it is.
 - No compliance status anywhere. Obligations carry no verdict by decision (2026-09-03), and "applies / does not apply" is scope, not performance.
 
 ## Gotchas
+
 - EVERY FIGURE IS RE-LABELLED OFF THE RENDERED TREE, never from a parallel total, so the headline cannot drift from the list beneath it.
 - esa-badge must be re-labelled through its inner .esa-badge__text span. Writing to the badge root replaces that span with a bare text node — the label still READS correctly, so the breakage is invisible, but the lego’s structure is gone.
 - Every figure counts DISTINCT duties, not rendered rows. Deciding one duty filed under two areas moves the figure by one even though two rows change on screen.
 - esa-progress-bar renders a static value snapshot; live updates mean writing aria-valuenow, the fill width and the printed percentage together, or the bar and its label disagree.
 
 ## Done when
+
 - Loads reading 0 approved, 0 not applicable, 0 of 402 decided, bar at 0%.
 - The reconciliation line states 188, 613 and 402.
 - Approving the 25-duty Air quality area moves Approved to 25 and Decided to "25 of 402".
 
+## Components
+
+- `bcn-rp` (spoke) · `src/components/bcn/BcnRecordPager.astro`
+- `esa-progress-bar` (hub) · `packages/ecology/src/components/esa-progress-bar.astro`
+- `esa-stat` (hub) · `packages/ecology/src/components/esa-stat.astro`
+
 ## Markup
+
 ```html
 <section class="bcn-rp" id="bcn-registry-progress" aria-label="Registry review progress">
   <p class="bcn-rp__instruction typography-body-md">
-    Approve the duties that apply to this project, and mark the ones that do not. Select
-    several to decide them together, or approve a whole subject area at once.
+    Approve the duties that apply to this project, and mark the ones that do not. Select several to
+    decide them together, or approve a whole subject area at once.
   </p>
   <div class="bcn-rp__figures">
     <div class="bcn-rp__figure">
@@ -70,13 +86,14 @@ The lead band: how much of the registry has been decided, the scale it covers, a
     </div>
   </div>
   <p class="bcn-rp__reconcile typography-body-sm">
-    188 duties are filed under more than one subject, so the counts on the areas below add
-    up to 613 rather than 402. Deciding one decides it everywhere it appears.
+    188 duties are filed under more than one subject, so the counts on the areas below add up to 613
+    rather than 402. Deciding one decides it everywhere it appears.
   </p>
 </section>
 ```
 
 ## Styles
+
 ```css
 .typography-display-sm {
   font-family: var(--typography-display-sm-font-family);
@@ -113,13 +130,6 @@ The lead band: how much of the registry has been decided, the scale it covers, a
   line-height: var(--typography-label-md-line-height);
   letter-spacing: var(--typography-label-md-letter-spacing);
 }
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
 .typography-display-sm {
   font-family: var(--typography-display-sm-font-family);
   font-size: var(--typography-display-sm-font-size);
@@ -155,13 +165,6 @@ The lead band: how much of the registry has been decided, the scale it covers, a
   line-height: var(--typography-label-md-line-height);
   letter-spacing: var(--typography-label-md-letter-spacing);
 }
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
 .esa-progress-bar {
   --_progress-height: var(--progress-bar-height-md, 8px);
   --_progress-radius: var(--radius-pill, 9999px);
@@ -175,9 +178,6 @@ The lead band: how much of the registry has been decided, the scale it covers, a
   justify-content: space-between;
   align-items: baseline;
   display: flex;
-}
-.esa-progress-bar__label {
-  color: var(--color-content-default, #202020);
 }
 .esa-progress-bar__value {
   color: var(--color-content-default-secondary, #646464);
@@ -196,34 +196,34 @@ The lead band: how much of the registry has been decided, the scale it covers, a
   height: 100%;
   transition: width 0.3s;
 }
-.esa-progress-bar--xs {
-  --_progress-height: var(--progress-bar-height-xs, 2px);
-}
 .esa-progress-bar--sm {
   --_progress-height: var(--progress-bar-height-sm, 4px);
 }
-.esa-progress-bar--lg {
-  --_progress-height: var(--progress-bar-height-lg, 12px);
-}
-.esa-progress-bar--success {
-  --_progress-fill-bg: var(--color-background-utility-success, #30a46c);
-}
-.esa-progress-bar--warning {
-  --_progress-fill-bg: var(--color-background-utility-warning, #ffc53d);
-}
-.esa-progress-bar--danger {
-  --_progress-fill-bg: var(--color-background-utility-danger, #e5484d);
-}
 .esa-progress-bar--indeterminate .esa-progress-bar__fill {
-  animation: esa-progress-indeterminate
-    var(--animation-indeterminate, 1.5s ease-in-out infinite);
+  animation: esa-progress-indeterminate var(--animation-indeterminate, 1.5s ease-in-out infinite);
   width: 40% !important;
 }
-.esa-progress-bar__fill {
-  transition: none;
+@media (prefers-reduced-motion: reduce) {
+  .esa-progress-bar--indeterminate .esa-progress-bar__fill {
+    animation: 2s ease-in-out infinite esa-progress-pulse;
+    width: 100% !important;
+  }
 }
-.esa-progress-bar__fill {
-  background: highlight;
+@media (prefers-reduced-motion: reduce) {
+  .esa-progress-bar__fill {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  .esa-progress-bar__track {
+    background: canvas;
+    border: 1px solid canvastext;
+  }
+}
+@media (forced-colors: active) {
+  .esa-progress-bar__fill {
+    background: highlight;
+  }
 }
 .bcn-rp {
   gap: var(--spacing-200);
@@ -311,73 +311,62 @@ The lead band: how much of the registry has been decided, the scale it covers, a
   font-weight: var(--_stat-label-weight);
   color: var(--_stat-label-color);
 }
-.esa-stat__sub {
-  font-size: var(--_stat-sub-size);
-  color: var(--_stat-sub-color);
-}
 ```
 
 ## Tokens
-- `--animation-indeterminate`: 1.5s ease-in-out infinite _(semantic)_
-- `--bcn-content-muted`: #7c7c7c _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-subtle`: #efefef _(component)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
-- `--font-size-700`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(primitive)_
-- `--progress-bar-height-lg`: 12px _(component)_
-- `--progress-bar-height-md`: 8px _(component)_
-- `--progress-bar-height-sm`: 4px _(component)_
-- `--progress-bar-height-xs`: 2px _(component)_
-- `--radius-md`: .25rem _(semantic)_
-- `--radius-pill`: 9999px _(semantic)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--stat-accent-color`: #005862 _(component)_
-- `--stat-value-color`: #3d3d3d _(component)_
-- `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
-- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
-- `--typography-body-md-letter-spacing`: .01em _(semantic)_
-- `--typography-body-md-line-height`: 1.6 _(semantic)_
-- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 400 _(semantic)_
-- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-body-sm-line-height`: 1.6 _(semantic)_
-- `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-body-xs-font-weight`: 400 _(semantic)_
-- `--typography-body-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-body-xs-line-height`: 1.6 _(semantic)_
-- `--typography-display-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-display-sm-font-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(semantic)_
-- `--typography-display-sm-font-weight`: 650 _(semantic)_
-- `--typography-display-sm-letter-spacing`: -.01em _(semantic)_
-- `--typography-display-sm-line-height`: 1.3 _(semantic)_
-- `--typography-font-family-display`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-font-weight`: 500 _(semantic)_
-- `--typography-label-md-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-line-height`: 1.6 _(semantic)_
-- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--animation-indeterminate` | `1.5s ease-in-out infinite` | semantic |
+| `--bcn-content-muted` | `#7c7c7c` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-subtle` | `#efefef` | component |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
+| `--font-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
+| `--progress-bar-height-md` | `8px` | component |
+| `--progress-bar-height-sm` | `4px` | component |
+| `--radius-md` | `.25rem` | semantic |
+| `--radius-pill` | `9999px` | semantic |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--stat-accent-color` | `#005862` | component |
+| `--stat-value-color` | `#3d3d3d` | component |
+| `--stat-value-size` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | component |
+| `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-body-md-font-weight` | `400` | semantic |
+| `--typography-body-md-letter-spacing` | `.01em` | semantic |
+| `--typography-body-md-line-height` | `1.6` | semantic |
+| `--typography-body-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-body-sm-font-weight` | `400` | semantic |
+| `--typography-body-sm-letter-spacing` | `.01em` | semantic |
+| `--typography-body-sm-line-height` | `1.6` | semantic |
+| `--typography-body-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-body-xs-font-weight` | `400` | semantic |
+| `--typography-body-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-body-xs-line-height` | `1.6` | semantic |
+| `--typography-display-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-display-sm-font-size` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | semantic |
+| `--typography-display-sm-font-weight` | `650` | semantic |
+| `--typography-display-sm-letter-spacing` | `-.01em` | semantic |
+| `--typography-display-sm-line-height` | `1.3` | semantic |
+| `--typography-font-family-display` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-label-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-md-font-weight` | `500` | semantic |
+| `--typography-label-md-letter-spacing` | `.01em` | semantic |
+| `--typography-label-md-line-height` | `1.6` | semantic |

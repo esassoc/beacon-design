@@ -1,8 +1,15 @@
 # Comment panel
 
+Submission · source prototype: https://esassoc.github.io/beacon-design/prototypes/comments/sub-18/
+
+![Comment panel, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-sub-18/claude/comment-panel.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-comments-sub-18/claude/comment-panel.phone.png
+
 One passage in the standard slide-in side panel (esa-side-dialog), titled with its number: "Comment C-018.001". The passage in its highlight, then two groups of slim read-only cards. Topics: every "Topic › Subtopic" it is filed under, each with a remove; + opens a stacked picker. Responses: every response it is linked to, its state as a glyph (accepted = file-check, draft = file-pen-line), the title linking to the response, each with a remove; + offers Link a Response (the picker) or New Response. Footer: Previous / Next far left, Remove (danger outline) right, behind a confirm, and Confirm (primary) while the passage is still Aldo's proposal.
 
 ## Key decisions
+
 - A proposed passage draws dashed in the panel too: its highlight, its topic cards' edges and dots. Confirm accepts it as is; any edit (topic added or removed) confirms it.
 - Each linked response card shows its stage glyph (draft, final review = file-search, accepted) and who holds it (esa-avatar, dashed ring while that is Aldo's routing).
 - Several topics and several responses per passage (Andy, 2026-10-05). A topic filing is a comment over the same passage, the copy the topic index's Duplicate to makes, so the topic index and burn-down count it there; responses are shared by every filing of the passage.
@@ -13,16 +20,33 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
 - Closing the panel leaves the highlight active, so its end grips stay up for a resize.
 
 ## Gotchas
+
 - esa-side-dialog fires close only on a person's dismissal: restore the parent's inset yourself when Add / Cancel closes the picker.
 - esa-checkbox names itself from aria-label; the row's text is not a <label> for it, so a row click sets checked itself.
 
 ## Done when
+
 - Add two topics in one pass: two cards appear, the outline lists both names, the topic index shows the passage under each.
 - Link a response, then New response: three response cards; remove one: it unlinks from every filing.
 - Remove: confirm, then "Comment removed" with Undo; Undo restores the passage with its topics and responses.
 - Select text: the panel opens as New comment with the helper's topic and response as cards, editable before Add comment.
 
+## Components
+
+- `bcn-cp` (spoke) · `src/components/bcn/BcnCommentPanel.astro`
+- `bcn-hl` (spoke) · `src/components/bcn/BcnSubmissionText.astro`
+- `bcn-topic-dot` (spoke) · `src/components/bcn/BcnSubmissionInbox.astro`
+- `esa-avatar` (hub) · `packages/ecology/src/components/esa-avatar.astro`
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-dropdown-menu` (hub) · `packages/ecology/src/components/esa-dropdown-menu.ts`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+- `esa-side-dialog` (hub) · `packages/ecology/src/components/esa-side-dialog.ts`
+- `esa-tooltip` (hub) · `packages/ecology/src/components/esa-tooltip.ts`
+
 ## Markup
+
+_2 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <esa-side-dialog
   heading="Comment"
@@ -33,14 +57,9 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
   open=""
   ><div class="stack" data-gap="lg" data-cp="record">
     <blockquote class="bcn-cp__quote typography-body-md">
-      <mark
-        class="bcn-hl"
-        data-cp-quote=""
-        data-family="violet"
-        data-shade="2"
-        data-suggested=""
-        >There is a new pattern of planes all night, at about 1:30, 2 and 4 a.m. and then
-        steadily after that, sometimes only seconds apart.</mark
+      <mark class="bcn-hl" data-cp-quote="" data-family="violet" data-shade="2" data-suggested=""
+        >There is a new pattern of planes all night, at about 1:30, 2 and 4 a.m. and then steadily
+        after that, sometimes only seconds apart.</mark
       >
     </blockquote>
     <section class="stack" data-gap="xs" aria-labelledby="bcn-cp-topics">
@@ -74,12 +93,7 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
       </div>
       <ul class="bcn-cp__cards" role="list" data-cp-topics="">
         <li class="bcn-cp__card bcn-proposal" data-suggested="" title="Suggested by Aldo">
-          <span
-            class="bcn-topic-dot"
-            data-family="violet"
-            data-shade="2"
-            data-suggested=""
-          ></span
+          <span class="bcn-topic-dot" data-family="violet" data-shade="2" data-suggested=""></span
           ><span class="bcn-cp__name">Nighttime operations › Overnight flights</span
           ><button
             type="button"
@@ -165,9 +179,7 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
                 ></path>
                 <path d="m9 18-1.5-1.5"></path>
                 <circle cx="5" cy="14" r="3"></circle></svg></span></esa-tooltip
-          ><a
-            class="bcn-cp__name"
-            href="/beacon-design/prototypes/comments/response?id=r-04"
+          ><a class="bcn-cp__name" href="/beacon-design/prototypes/comments/response?id=r-04"
             >Late Night Noise Limitation Program and Overnight Flights</a
           ><span class="bcn-proposal-ring" title="Dana Whitcomb"
             ><span
@@ -204,11 +216,7 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
     <span class="typography-body-md">Comment removed</span
     ><span
       class="esa-button esa-button--variant-secondary esa-button--appearance-soft esa-button--sm"
-      ><button
-        class="esa-button__native typography-microcopy-xs"
-        type="button"
-        data-cp-undo="true"
-      >
+      ><button class="esa-button__native typography-microcopy-xs" type="button" data-cp-undo="true">
         <span class="esa-icon esa-icon--sm" aria-hidden="true"
           ><svg
             width="16"
@@ -327,57 +335,13 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
           </button></span
         ></span
       ></span
-    ><span class="cluster bcn-cp__end" data-gap="xs" data-cp-foot="add" hidden=""
-      ><span
-        class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
-        ><button
-          class="esa-button__native typography-microcopy-xs"
-          type="button"
-          data-cp-add="true"
-        >
-          <span class="esa-icon esa-icon--sm" aria-hidden="true"
-            ><svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="M5 12h14"></path>
-              <path d="M12 5v14"></path></svg></span
-          ><span class="esa-button__label">Add Comment</span>
-        </button></span
-      ><span
-        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
-        ><button
-          class="esa-button__native typography-microcopy-xs"
-          type="button"
-          data-cp-add-cancel="true"
-        >
-          <span class="esa-button__label">Cancel</span>
-        </button></span
-      ></span
-    ><span class="cluster bcn-cp__end" data-gap="xs" data-cp-foot="removed" hidden=""
-      ><span
-        class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
-        ><button
-          class="esa-button__native typography-microcopy-xs"
-          type="button"
-          data-cp-done="true"
-        >
-          <span class="esa-button__label">Close</span>
-        </button></span
-      ></span
-    >
+    ><!-- …and 2 more like this (<span class="cluster">) -->
   </div></esa-side-dialog
 >
 ```
 
 ## Styles
+
 ```css
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
@@ -406,20 +370,6 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
   font-weight: var(--typography-microcopy-xs-font-weight);
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
 .bcn-st__body mark.bcn-hl {
   cursor: pointer;
@@ -511,10 +461,7 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
 }
 .bcn-cp__cards .bcn-cp__x:hover {
   color: var(--color-content-default);
-  background: var(
-    --color-background-default-hover,
-    var(--color-background-elevation-sunken)
-  );
+  background: var(--color-background-default-hover, var(--color-background-elevation-sunken));
 }
 .bcn-cp__cards .bcn-cp__x:focus-visible {
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
@@ -534,14 +481,6 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
   color: var(--color-content-default-tertiary);
   flex: none;
 }
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
-}
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -556,6 +495,11 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -563,9 +507,6 @@ One passage in the standard slide-in side panel (esa-side-dialog), titled with i
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -656,11 +597,7 @@ mark.bcn-hl[data-suggested] {
   outline-offset: 0;
 }
 .bcn-topic-dot[data-suggested] {
-  background: color-mix(
-    in srgb,
-    var(--_ink) 22%,
-    var(--color-background-elevation-raised)
-  );
+  background: color-mix(in srgb, var(--_ink) 22%, var(--color-background-elevation-raised));
   box-shadow: none;
   border: 1.5px dashed var(--_ink);
   box-sizing: border-box;
@@ -779,20 +716,10 @@ mark.bcn-hl[data-family="none"] {
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
 .esa-button--sm {
   --_btn-pad-y: var(--spacing-250, 0.625rem);
   --_btn-padding-x: var(--spacing-250, 0.625rem);
   --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
 }
 .esa-button--variant-primary {
   --_accent-text: var(--color-content-brand);
@@ -808,28 +735,6 @@ mark.bcn-hl[data-family="none"] {
   --_accent: var(--color-background-utility-danger);
   --_accent-hover: var(--color-background-utility-danger-hover);
   --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -893,10 +798,7 @@ mark.bcn-hl[data-family="none"] {
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -923,11 +825,6 @@ mark.bcn-hl[data-family="none"] {
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -944,28 +841,8 @@ summary.esa-button:focus-visible {
   outline-offset: var(--focus-ring-offset, 2px);
   border-radius: var(--_btn-radius);
 }
-summary.esa-button--variant-chrome:focus-visible {
-  outline-color: currentColor;
-}
 .esa-button__label {
   white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
 }
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
@@ -995,20 +872,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
 }
@@ -1021,20 +884,8 @@ summary.esa-button--variant-chrome:focus-visible {
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -1071,28 +922,6 @@ summary.esa-button--variant-chrome:focus-visible {
     var(--typography-label-2xs-strong-font-size, var(--font-size-050, 0.625rem))
   );
 }
-.esa-avatar--sm {
-  --_avatar-size: var(--avatar-size-sm, 28px);
-  --_avatar-font-size: var(
-    --avatar-font-size-sm,
-    var(--typography-label-xs-strong-font-size, var(--font-size-100, 0.75rem))
-  );
-}
-.esa-avatar--lg {
-  --_avatar-size: var(--avatar-size-lg, 56px);
-  --_avatar-font-size: var(
-    --avatar-font-size-lg,
-    var(--typography-title-font-size, var(--font-size-400, 1.25rem))
-  );
-}
-.esa-avatar--square {
-  --_avatar-radius: var(--radius-md, 0.5rem);
-}
-.esa-avatar__image {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -1122,153 +951,112 @@ summary.esa-button--variant-chrome:focus-visible {
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--avatar-bg`: hsl(200 45% 65%) _(component)_
-- `--avatar-font-size-lg`: clamp(1rem, .88rem + .6vw, 1.25rem) _(component)_
-- `--avatar-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
-- `--avatar-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
-- `--avatar-font-size-xs`: clamp(.5rem, .44rem + .3vw, .625rem) _(component)_
-- `--avatar-size-lg`: 56px _(component)_
-- `--avatar-size-md`: 40px _(component)_
-- `--avatar-size-sm`: 28px _(component)_
-- `--avatar-size-xs`: 20px _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--bcn-topic-amber-1`: #ffee9c _(component)_
-- `--bcn-topic-amber-2`: #f3d673 _(component)_
-- `--bcn-topic-amber-3`: #e9c162 _(component)_
-- `--bcn-topic-amber-4`: #e2a336 _(component)_
-- `--bcn-topic-amber-ink`: #ab6400 _(component)_
-- `--bcn-topic-blue-1`: #d5efff _(component)_
-- `--bcn-topic-blue-2`: #acd8fc _(component)_
-- `--bcn-topic-blue-3`: #8ec8f6 _(component)_
-- `--bcn-topic-blue-4`: #5eb1ef _(component)_
-- `--bcn-topic-blue-ink`: #0d74ce _(component)_
-- `--bcn-topic-crimson-1`: #fedce7 _(component)_
-- `--bcn-topic-crimson-2`: #f3bed1 _(component)_
-- `--bcn-topic-crimson-3`: #eaacc3 _(component)_
-- `--bcn-topic-crimson-4`: #e093b2 _(component)_
-- `--bcn-topic-crimson-ink`: #cb1d63 _(component)_
-- `--bcn-topic-grass-1`: #daf1db _(component)_
-- `--bcn-topic-grass-2`: #b2ddb5 _(component)_
-- `--bcn-topic-grass-3`: #94ce9a _(component)_
-- `--bcn-topic-grass-4`: #65ba74 _(component)_
-- `--bcn-topic-grass-ink`: #2a7e3b _(component)_
-- `--bcn-topic-orange-1`: #ffdfb5 _(component)_
-- `--bcn-topic-orange-2`: #ffc182 _(component)_
-- `--bcn-topic-orange-3`: #f5ae73 _(component)_
-- `--bcn-topic-orange-4`: #ec9455 _(component)_
-- `--bcn-topic-orange-ink`: #cc4e00 _(component)_
-- `--bcn-topic-slate-1`: #e0e1e6 _(component)_
-- `--bcn-topic-slate-2`: #d9d9e0 _(component)_
-- `--bcn-topic-slate-3`: #cdced6 _(component)_
-- `--bcn-topic-slate-4`: #b9bbc6 _(component)_
-- `--bcn-topic-slate-ink`: #60646c _(component)_
-- `--bcn-topic-violet-1`: #ebe4ff _(component)_
-- `--bcn-topic-violet-2`: #d4cafe _(component)_
-- `--bcn-topic-violet-3`: #c2b5f5 _(component)_
-- `--bcn-topic-violet-4`: #aa99ec _(component)_
-- `--bcn-topic-violet-ink`: #6550b9 _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-default-hover`: #e8e8e8 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-secondary`: #525252 _(component)_
-- `--color-content-success`: #218358 _(component)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-decorative`: "Besley", serif _(component)_
-- `--font-size-050`: clamp(.5rem, .44rem + .3vw, .625rem) _(primitive)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
-- `--font-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-md`: .25rem _(semantic)_
-- `--radius-pill`: 9999px _(semantic)_
-- `--radius-sm`: .25rem _(semantic)_
-- `--radius-xs`: .125rem _(semantic)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
-- `--typography-body-md-letter-spacing`: .01em _(semantic)_
-- `--typography-body-md-line-height`: 1.6 _(semantic)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-2xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-2xs-strong-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
-- `--typography-label-2xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-2xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-2xs-strong-line-height`: 1.6 _(semantic)_
-- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
-- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
-- `--typography-title-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--avatar-bg` | `hsl(200 45% 65%)` | component |
+| `--avatar-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
+| `--avatar-font-size-xs` | `clamp(.5rem, .44rem + .3vw, .625rem)` | component |
+| `--avatar-size-md` | `40px` | component |
+| `--avatar-size-xs` | `20px` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--bcn-topic-amber-1` | `#ffee9c` | component |
+| `--bcn-topic-amber-2` | `#f3d673` | component |
+| `--bcn-topic-amber-3` | `#e9c162` | component |
+| `--bcn-topic-amber-4` | `#e2a336` | component |
+| `--bcn-topic-amber-ink` | `#ab6400` | component |
+| `--bcn-topic-blue-1` | `#d5efff` | component |
+| `--bcn-topic-blue-2` | `#acd8fc` | component |
+| `--bcn-topic-blue-3` | `#8ec8f6` | component |
+| `--bcn-topic-blue-4` | `#5eb1ef` | component |
+| `--bcn-topic-blue-ink` | `#0d74ce` | component |
+| `--bcn-topic-crimson-1` | `#fedce7` | component |
+| `--bcn-topic-crimson-2` | `#f3bed1` | component |
+| `--bcn-topic-crimson-3` | `#eaacc3` | component |
+| `--bcn-topic-crimson-4` | `#e093b2` | component |
+| `--bcn-topic-crimson-ink` | `#cb1d63` | component |
+| `--bcn-topic-grass-1` | `#daf1db` | component |
+| `--bcn-topic-grass-2` | `#b2ddb5` | component |
+| `--bcn-topic-grass-3` | `#94ce9a` | component |
+| `--bcn-topic-grass-4` | `#65ba74` | component |
+| `--bcn-topic-grass-ink` | `#2a7e3b` | component |
+| `--bcn-topic-orange-1` | `#ffdfb5` | component |
+| `--bcn-topic-orange-2` | `#ffc182` | component |
+| `--bcn-topic-orange-3` | `#f5ae73` | component |
+| `--bcn-topic-orange-4` | `#ec9455` | component |
+| `--bcn-topic-orange-ink` | `#cc4e00` | component |
+| `--bcn-topic-slate-1` | `#e0e1e6` | component |
+| `--bcn-topic-slate-2` | `#d9d9e0` | component |
+| `--bcn-topic-slate-3` | `#cdced6` | component |
+| `--bcn-topic-slate-4` | `#b9bbc6` | component |
+| `--bcn-topic-slate-ink` | `#60646c` | component |
+| `--bcn-topic-violet-1` | `#ebe4ff` | component |
+| `--bcn-topic-violet-2` | `#d4cafe` | component |
+| `--bcn-topic-violet-3` | `#c2b5f5` | component |
+| `--bcn-topic-violet-4` | `#aa99ec` | component |
+| `--bcn-topic-violet-ink` | `#6550b9` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
+| `--color-background-brand-muted-hover` | `#b9d6d2` | semantic |
+| `--color-background-default-hover` | `#e8e8e8` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-background-utility-danger-hover` | `#641723` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-on-brand-muted` | `#203c25` | semantic |
+| `--color-content-secondary` | `#525252` | component |
+| `--color-content-success` | `#218358` | component |
+| `--color-content-utility-danger` | `#ce2c31` | semantic |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--font-decorative` | `"Besley", serif` | component |
+| `--font-size-050` | `clamp(.5rem, .44rem + .3vw, .625rem)` | primitive |
+| `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--radius-pill` | `9999px` | semantic |
+| `--radius-sm` | `.25rem` | semantic |
+| `--radius-xs` | `.125rem` | semantic |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-body-md-font-weight` | `400` | semantic |
+| `--typography-body-md-letter-spacing` | `.01em` | semantic |
+| `--typography-body-md-line-height` | `1.6` | semantic |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-2xs-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-2xs-strong-font-size` | `clamp(.5rem, .44rem + .3vw, .625rem)` | semantic |
+| `--typography-label-2xs-strong-font-weight` | `550` | semantic |
+| `--typography-label-2xs-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-label-2xs-strong-line-height` | `1.6` | semantic |
+| `--typography-label-md-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-md-strong-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-md-strong-font-weight` | `550` | semantic |
+| `--typography-label-md-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-label-md-strong-line-height` | `1.6` | semantic |
+| `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |

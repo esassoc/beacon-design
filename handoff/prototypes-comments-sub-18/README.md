@@ -1,0 +1,12 @@
+# Submission
+
+Source prototype: https://esassoc.github.io/beacon-design/prototypes/comments/sub-18/
+
+One submission with its comments as highlighter passages (topic = hue, subtopic = shade). Click one and a single card opens in the margin beside it: refile it, point it at another response or a new one, or remove it. Drag a passage's end grips to resize it; select text to add a comment, already filed by a quiet helper. J / K step through the highlights.
+
+| Section | What it is | Spec | Screenshots |
+|---|---|---|---|
+| Number and pager | The H1 names the submitter with the submission's number (S-018) trailing as a neutral badge. | [number-and-pager.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-sub-18/claude/number-and-pager.md) 25 KB | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-sub-18/claude/number-and-pager.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-sub-18/claude/number-and-pager.phone.png) |
+| Rail | The submission's rail, right of the text, as the Lists page carries its details rail. | [rail.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-sub-18/claude/rail.md) 40 KB | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-sub-18/claude/rail.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-sub-18/claude/rail.phone.png) |
+| Highlighted text | The submission in Beacon's document voice (Besley, body-lg) with each passage painted as a highlighter stroke: topic = hue family, subtopic = shade (a passage… | [highlighted-text.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-sub-18/claude/highlighted-text.md) 15 KB | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-sub-18/claude/highlighted-text.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-sub-18/claude/highlighted-text.phone.png) |
+| Comment panel | One passage in the standard slide-in side panel (esa-side-dialog), titled with its number: "Comment C-018.001". | [comment-panel.md](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-sub-18/claude/comment-panel.md) 40 KB | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-sub-18/claude/comment-panel.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-comments-sub-18/claude/comment-panel.phone.png) |

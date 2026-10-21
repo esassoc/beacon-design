@@ -1,8 +1,15 @@
 # Action card
 
+Actions · source prototype: https://esassoc.github.io/beacon-design/prototypes/actions/
+
+![Action card, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-actions/claude/action-card.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-actions/claude/action-card.phone.png
+
 One implementation: commitment ids (BcnCommitmentBadge, plus a +N for more) and a flag; the action name on up to two lines; type, phase and occurrence; the workflow status chip on the merged board only; then due date, evidence count, comment count and the assignee avatar.
 
 ## Key decisions
+
 - Type ramp on DM Sans's variable weights: name 15px / 600, meta 13px / 500, due 13px / 550 rising to 650 when overdue or due soon, counts 13px / 500 with tabular figures (Andy, 2026-10-07: "a little thicker, a little smaller").
 - The sizes are fixed, not the viewport-clamped size tokens, so a card lands the same on every monitor.
 - The status chip shows only on the merged board, where the column is the category and the workflow column would otherwise be invisible.
@@ -10,12 +17,46 @@ One implementation: commitment ids (BcnCommitmentBadge, plus a +N for more) and 
 - Every line is a field of ActionImplementationTrackerDto. Lines switch off from Configure board's Cards switches.
 
 ## Gotchas
+
 - A reset (all: unset) on the name button out-ranks a typography class and hands it the inherited 16px / 350. Set the name's type on the button itself.
 
 ## Done when
+
 - Overdue dates read in danger red at 650; completed cards show "Completed <date>" instead of a due date.
 
+## Components
+
+- `bcn-acard` (spoke) · `src/components/bcn/BcnActionCard.astro`
+- `bcn-cbadge` (spoke) · `src/components/bcn/BcnCommitmentBadge.astro`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+
+## Data
+
+- Fixture: `src/data/action-tracking.ts`
+- Client store: `src/lib/action-board.ts`
+- category is prod's ActionImplementationStatusDtoEnum.
+
+| Field | Meaning |
+|---|---|
+| `id` | ActionImplementationID, `<actionId>|<componentId>` |
+| `name` | Action name |
+| `type` | RequirementType; the Type tabs group these into workflows |
+| `codes` | ClientCommitmentIDs, in code order (the card's commitment badges) |
+| `sequence` | SequenceNumber, the occurrence for recurring and as-needed work |
+| `dueDate` | ISO, or null when unscheduled (prod "Not set") |
+| `completedDate` | ISO, Completed only |
+| `columnId` | The workflow column the card sits in |
+| `category` | The status backbone the column maps to |
+| `notApplicable` | IsNotApplicable; the N/A switch hides these |
+| `evidence` | Evidence count on the card |
+| `comments` | Comment count; hidden at zero |
+
+`category`: `NotStarted` · `InProgress` · `Completed`
+
+`frequency`: `Onetime` · `Recurring` · `AsNeeded` · `Ongoing`
+
 ## Markup
+
 ```html
 <article
   class="bcn-acard"
@@ -105,6 +146,7 @@ One implementation: commitment ids (BcnCommitmentBadge, plus a +N for more) and 
 ```
 
 ## Styles
+
 ```css
 .bcn-acard {
   --_ink-meta: var(--color-content-default-secondary);
@@ -227,10 +269,6 @@ One implementation: commitment ids (BcnCommitmentBadge, plus a +N for more) and 
 .bcn-acard__count[data-zero] {
   color: var(--color-content-default-tertiary);
 }
-.bcn-acard__who,
-.bcn-acard__avatar {
-  display: inline-flex;
-}
 .bcn-acard[data-lifted] {
   z-index: 60;
   pointer-events: none;
@@ -243,14 +281,6 @@ One implementation: commitment ids (BcnCommitmentBadge, plus a +N for more) and 
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -266,6 +296,11 @@ One implementation: commitment ids (BcnCommitmentBadge, plus a +N for more) and 
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -280,25 +315,13 @@ One implementation: commitment ids (BcnCommitmentBadge, plus a +N for more) and 
   flex-shrink: 0;
   display: inline-block;
 }
-.bcn-cbadge--md {
-  font-size: var(--font-size-100);
-  padding: 1px var(--spacing-200);
-}
 .bcn-cbadge--sm {
   padding: 1px var(--spacing-150);
   font-size: 0.75rem;
 }
-.bcn-cbadge--neutral {
-  font-family: var(--typography-font-family-sans);
-  color: var(--bcn-gray-700);
-  background: var(--bcn-gray-100);
-}
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -342,10 +365,6 @@ One implementation: commitment ids (BcnCommitmentBadge, plus a +N for more) and 
   color: var(--color-content-default-secondary);
   flex-shrink: 0;
 }
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
 .bcn-disc__actions .esa-icon {
   width: 15px;
   height: 15px;
@@ -357,10 +376,6 @@ One implementation: commitment ids (BcnCommitmentBadge, plus a +N for more) and 
 }
 .bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
   transform: rotate(90deg);
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
 }
 .bcn-evidence-card__actions .esa-icon {
   width: 15px;
@@ -377,18 +392,6 @@ One implementation: commitment ids (BcnCommitmentBadge, plus a +N for more) and 
 }
 .esa-icon--xs {
   --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -412,46 +415,40 @@ One implementation: commitment ids (BcnCommitmentBadge, plus a +N for more) and 
 ```
 
 ## Tokens
-- `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-700`: #525252 _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-commitment`: #58508d _(component)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--elevation-1`: 0 1px 4px 0 #00000008 _(semantic)_
-- `--elevation-4`: 0 6px 24px -6px #00000012 _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-commitment` | `#58508d` | component |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-utility-danger` | `#ce2c31` | semantic |
+| `--elevation-1` | `0 1px 4px 0 #00000008` | semantic |
+| `--elevation-4` | `0 6px 24px -6px #00000012` | semantic |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-xs` | `14px` | primitive |
+| `--radius-100` | `.25rem` | primitive |
+| `--radius-200` | `.5rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` | semantic |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |

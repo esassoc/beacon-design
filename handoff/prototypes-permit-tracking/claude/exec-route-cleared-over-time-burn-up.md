@@ -1,19 +1,31 @@
 # Exec — route cleared over time (burn-up)
 
+Permit Tracking · source prototype: https://esassoc.github.io/beacon-design/prototypes/permit-tracking/
+
+![Exec — route cleared over time (burn-up), desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-permit-tracking/claude/exec-route-cleared-over-time-burn-up.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-permit-tracking/claude/exec-route-cleared-over-time-burn-up.phone.png
+
 A burn-up chart: cumulative route-miles cleared to date (the actual trail from frozen reporting history) plus the projected path to full clearance from current agency estimates, against the full-route target line. Momentum — are we on pace?
 
 ## Key decisions
+
 - Three series, keyed in the legend: actual miles cleared, projected clearance, and the full-route target ({total} miles). Actual is history; projected is the forecast continuation.
 - Drawn as an SVG sized to the container's real pixel width (a ResizeObserver redraws on resize and when the tab first reveals it) so the axis text stays at true size, never CSS-scaled.
 
 ## Gotchas
+
 - On boot the Summary panel is not the active slot, so clientWidth is 0 and the chart first draws at a 760px fallback; it MUST redraw at real width when revealed — wire the ResizeObserver (or an Angular afterViewInit/resize equivalent) or the labels render mis-sized.
 - Projected ≠ committed — it is "if agency estimates hold"; keep it visually distinct (dashed/lighter) from the actual trail.
 
 ## Done when
+
 - A burn-up with an actual-cleared trail, a projected continuation, and a full-route target line, correctly sized to the container on reveal and resize.
 
 ## Markup
+
+_12 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <div class="exec__burnup">
   <div class="exec__burnup-chart" id="exec-burnup">
@@ -36,13 +48,7 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
       <text x="36" y="22.0" class="bu-ylabel">201</text>
       <text x="-66.4" y="272" class="bu-xlabel">Mar</text>
       <text x="51.6" y="272" class="bu-xlabel">Apr</text>
-      <text x="165.8" y="272" class="bu-xlabel">May</text>
-      <text x="283.8" y="272" class="bu-xlabel">Jun</text>
-      <text x="397.9" y="272" class="bu-xlabel">Jul</text>
-      <text x="515.9" y="272" class="bu-xlabel">Aug</text>
-      <text x="633.9" y="272" class="bu-xlabel">Sep</text>
-      <text x="748.0" y="272" class="bu-xlabel">Oct</text>
-      <text x="866.0" y="272" class="bu-xlabel">Nov</text>
+      <!-- …and 7 more like this (<text class="[object SVGAnimatedString]">) -->
       <line x1="44" y1="22.0" x2="866" y2="22.0" class="bu-target"></line>
       <polyline
         points="367.5,238.0 470.2,228.4 588.2,213.0 626.3,185.6 649.1,183.0 668.1,149.9 725.2,70.7 801.3,57.4 866.0,22.0"
@@ -58,11 +64,7 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
       ></polyline>
       <circle cx="44.0" cy="250.0" r="3" class="bu-dot"></circle>
       <circle cx="97.3" cy="250.0" r="3" class="bu-dot"></circle>
-      <circle cx="150.6" cy="250.0" r="3" class="bu-dot"></circle>
-      <circle cx="203.8" cy="250.0" r="3" class="bu-dot"></circle>
-      <circle cx="257.1" cy="246.7" r="3" class="bu-dot"></circle>
-      <circle cx="310.4" cy="241.6" r="3" class="bu-dot"></circle>
-      <circle cx="367.5" cy="238.0" r="3" class="bu-dot"></circle>
+      <!-- …and 5 more like this (<circle class="[object SVGAnimatedString]">) -->
       <line x1="367.5" y1="22" x2="367.5" y2="250" class="bu-today"></line>
       <text x="367.5" y="16" class="bu-todaylabel">Today</text>
       <text x="367.5" y="229.0" class="bu-nowlabel">10.6 mi</text>
@@ -70,17 +72,14 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
   </div>
   <ul class="exec__burnup-legend">
     <li><span class="exec__burnup-key exec__burnup-key--actual"></span>Miles cleared</li>
-    <li>
-      <span class="exec__burnup-key exec__burnup-key--proj"></span>Projected clearance
-    </li>
-    <li>
-      <span class="exec__burnup-key exec__burnup-key--target"></span>Full route (200.7 mi)
-    </li>
+    <li><span class="exec__burnup-key exec__burnup-key--proj"></span>Projected clearance</li>
+    <li><span class="exec__burnup-key exec__burnup-key--target"></span>Full route (200.7 mi)</li>
   </ul>
 </div>
 ```
 
 ## Styles
+
 ```css
 .exec__burnup {
   gap: var(--spacing-300);
@@ -194,13 +193,16 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
 ```
 
 ## Tokens
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--st-cleared`: #1a9850 _(component)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--st-cleared` | `#1a9850` | component |

@@ -1,24 +1,43 @@
 # Detail panel (read-only)
 
+Compliance Dashboard — Observations · source prototype: https://esassoc.github.io/beacon-design/prototypes/monitoring/compliance-observations/
+
+![Detail panel (read-only), desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-compliance-observations/claude/detail-panel-read-only.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-monitoring-compliance-observations/claude/detail-panel-read-only.phone.png
+
 An esa-side-dialog showing one observation in full — header chips for severity and status over a key-value record of the logged detail. Read-only by design: ESA reviews this log, it does not own it.
 
 ## Key decisions
+
 - esa-side-dialog (520px) rather than a route or a modal — it keeps the filtered list and scroll position intact behind it, so you can work through several observations in sequence.
 - Composed from reused bcn-* pieces (BcnKeyValue, BcnStatusChip) with page-composition glue around them, the same pattern as the Permits & Studies detail dialog.
 - NO edit, resolve, or comment affordance. The first-party inspector owns the observation; adding a write control here would misrepresent who is accountable for it.
 - The z-stack lifts the panel and backdrop above the fixed topbar (--z-modal 1200 / backdrop 1150, over the topbar's 1100).
 
 ## Gotchas
+
 - esa-side-dialog is a CUSTOM (non-native) overlay — clearing the topbar requires raising --z-modal / --z-modal-backdrop on the element, not DOM order.
 - --_width must carry a unit. A unitless value is a <number> inside the lego's length calc, which is invalid at computed-value time and silently collapses the panel to width:auto — it grows to fit its content with no console error.
 - ONE shared dialog instance serves every row; openDetail() overwrites its contents. The SSR markup is seeded from the first row purely so the panel has structure before any JS runs — do not mistake that seed for the selected record.
 
 ## Done when
+
 - Clicking a grid row opens a 520px right side-dialog above the topbar showing that observation's severity, status, and full logged detail.
 - The panel exposes no control that would modify the observation.
 - Closing returns to the list with filters and scroll position unchanged.
 
+## Components
+
+- `bcn-detail` (spoke) · `src/components/bcn/BcnNodeDetail.astro`
+- `bcn-key-value` (spoke) · `src/components/bcn/BcnImplementationDialog.astro`
+- `bcn-status-chip` (spoke) · `src/components/bcn/BcnActionTable.astro`
+- `esa-side-dialog` (hub) · `packages/ecology/src/components/esa-side-dialog.ts`
+
 ## Markup
+
+_5 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <esa-side-dialog
   id="ov-detail"
@@ -78,39 +97,14 @@ An esa-side-dialog showing one observation in full — header chips for severity
           <span class="bcn-key-value__key">Area</span
           ><span class="bcn-key-value__val">South Array — Block B</span>
         </div></span
-      ><span id="ov-detail-inspector"
-        ><div class="bcn-key-value" data-size="md" data-layout="stack">
-          <span class="bcn-key-value__key">Inspector</span
-          ><span class="bcn-key-value__val">R. Delgado</span>
-        </div></span
-      ><span id="ov-detail-reported"
-        ><div class="bcn-key-value" data-size="md" data-layout="stack">
-          <span class="bcn-key-value__key">Reported</span
-          ><span class="bcn-key-value__val">Jul 29, 2026</span>
-        </div></span
-      ><span id="ov-detail-resolved"
-        ><div class="bcn-key-value" data-size="md" data-layout="stack">
-          <span class="bcn-key-value__key">Resolved</span
-          ><span class="bcn-key-value__val">—</span>
-        </div></span
-      ><span id="ov-detail-age"
-        ><div class="bcn-key-value" data-size="md" data-layout="stack">
-          <span class="bcn-key-value__key">Days active</span
-          ><span class="bcn-key-value__val">7d</span>
-        </div></span
-      ><span id="ov-detail-reviewed"
-        ><div class="bcn-key-value" data-size="md" data-layout="stack">
-          <span class="bcn-key-value__key">ESA QC reviewed</span
-          ><span class="bcn-key-value__val">Yes</span>
-        </div></span
-      >
+      ><!-- …and 5 more like this (<span>) -->
     </div>
     <span id="ov-detail-description"
       ><div class="bcn-key-value" data-size="md" data-layout="stack">
         <span class="bcn-key-value__key">Description</span
         ><span class="bcn-key-value__val"
-          >Silt fence down for ~40 ft along the Block B swale after last week's wind
-          event; sediment tracking toward the wash crossing.</span
+          >Silt fence down for ~40 ft along the Block B swale after last week's wind event; sediment
+          tracking toward the wash crossing.</span
         >
       </div></span
     >
@@ -119,6 +113,7 @@ An esa-side-dialog showing one observation in full — header chips for severity
 ```
 
 ## Styles
+
 ```css
 .bcn-key-value {
   flex-direction: column;
@@ -140,10 +135,6 @@ An esa-side-dialog showing one observation in full — header chips for severity
   font-size: var(--typography-label-md-font-size);
   font-weight: var(--typography-font-weight-semibold);
   color: var(--color-content-default);
-}
-.bcn-key-value__hint {
-  color: var(--color-content-default-tertiary);
-  font-size: 0.75rem;
 }
 .bcn-key-value__key {
   align-items: center;
@@ -221,24 +212,27 @@ An esa-side-dialog showing one observation in full — header chips for severity
 ```
 
 ## Tokens
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-secondary`: #525252 _(component)_
-- `--font-decorative`: "Besley", serif _(component)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--form-label-color`: #525252 _(component)_
-- `--radius-full`: 9999px _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-font-weight`: 500 _(semantic)_
-- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-secondary` | `#525252` | component |
+| `--font-decorative` | `"Besley", serif` | component |
+| `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
+| `--form-label-color` | `#525252` | component |
+| `--radius-full` | `9999px` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-sm-font-weight` | `500` | semantic |
+| `--typography-label-sm-strong-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-sm-strong-font-weight` | `550` | semantic |

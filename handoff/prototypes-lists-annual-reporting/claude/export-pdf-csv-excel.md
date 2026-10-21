@@ -1,17 +1,32 @@
 # Export — PDF, CSV, Excel
 
+Action list · source prototype: https://esassoc.github.io/beacon-design/prototypes/lists/annual-reporting/
+
+![Export — PDF, CSV, Excel, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-annual-reporting/claude/export-pdf-csv-excel.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-lists-annual-reporting/claude/export-pdf-csv-excel.phone.png
+
 The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, then Word (a later slice, BCN-1764).
 
 ## Key decisions
+
 - Order is prod's card (CSV, then Excel, under those names) with PDF added first.
 - PDF downloads the action list document (see the list-export-action-pdf spec): `GET action-lists/{actionListID}/generate-pdf`. The prototype opens the print route in a new tab instead.
 - LATER SLICE, not this epic: Word is BCN-1764, under epic BCN-1922. The design is settled and the prototype's download works: the SAME document as the PDF, as a .docx from `GET action-lists/{actionListID}/generate-docx`, beside generate-pdf. Same title block, summary, detail and order; Word's own pagination, with the summary table's header row repeating on each page. The prototype builds a .doc from the print route (list-word.ts), so its content cannot drift from the PDF (Andy, 2026-10-20: "show as active").
 - NO JSON/API section on action lists (Andy: "but not the API option"); that endpoint exists for obligation lists only.
 
 ## Done when
+
 - Four rows in order PDF, CSV, Excel, Word; Word's download belongs to the later slice (BCN-1764).
 
+## Components
+
+- `bcn-lxp` (spoke) · `src/components/bcn/BcnListExportPanel.astro`
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-card` (hub) · `packages/ecology/src/components/esa-card.astro`
+
 ## Markup
+
 ```html
 <section class="bcn-lxp" data-list-export-panel="">
   <div class="esa-card esa-card--outlined">
@@ -26,30 +41,14 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
       <div class="stack" data-gap="md">
         <div class="repel" data-gap="sm" data-list-export="pdf">
           <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
-            <svg
-              class="bcn-lxp__mark"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <g
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.6"
-                stroke-linejoin="round"
-              >
+            <svg class="bcn-lxp__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
                 <path
                   d="M14 2.8H6.5A1.7 1.7 0 0 0 4.8 4.5v15a1.7 1.7 0 0 0 1.7 1.7h11a1.7 1.7 0 0 0 1.7-1.7V8Z"
                 ></path>
                 <path d="M13.8 2.8V8h5.4"></path>
               </g>
-              <text
-                x="12"
-                y="18"
-                text-anchor="middle"
-                font-size="6"
-                letter-spacing="-0.3"
-              >
+              <text x="12" y="18" text-anchor="middle" font-size="6" letter-spacing="-0.3">
                 PDF
               </text></svg
             >PDF
@@ -69,30 +68,14 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
         <hr class="bcn-lxp__rule" />
         <div class="repel" data-gap="sm" data-list-export="csv">
           <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
-            <svg
-              class="bcn-lxp__mark"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <g
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.6"
-                stroke-linejoin="round"
-              >
+            <svg class="bcn-lxp__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
                 <path
                   d="M14 2.8H6.5A1.7 1.7 0 0 0 4.8 4.5v15a1.7 1.7 0 0 0 1.7 1.7h11a1.7 1.7 0 0 0 1.7-1.7V8Z"
                 ></path>
                 <path d="M13.8 2.8V8h5.4"></path>
               </g>
-              <text
-                x="12"
-                y="18"
-                text-anchor="middle"
-                font-size="6"
-                letter-spacing="-0.3"
-              >
+              <text x="12" y="18" text-anchor="middle" font-size="6" letter-spacing="-0.3">
                 CSV
               </text></svg
             >CSV
@@ -111,18 +94,8 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
         <hr class="bcn-lxp__rule" />
         <div class="repel" data-gap="sm" data-list-export="excel">
           <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
-            <svg
-              class="bcn-lxp__mark"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <g
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.6"
-                stroke-linejoin="round"
-              >
+            <svg class="bcn-lxp__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
                 <path
                   d="M14 2.8H6.5A1.7 1.7 0 0 0 4.8 4.5v15a1.7 1.7 0 0 0 1.7 1.7h11a1.7 1.7 0 0 0 1.7-1.7V8Z"
                 ></path>
@@ -145,18 +118,8 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
         <hr class="bcn-lxp__rule" />
         <div class="repel" data-gap="sm" data-list-export="word">
           <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
-            <svg
-              class="bcn-lxp__mark"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <g
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.6"
-                stroke-linejoin="round"
-              >
+            <svg class="bcn-lxp__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
                 <path
                   d="M14 2.8H6.5A1.7 1.7 0 0 0 4.8 4.5v15a1.7 1.7 0 0 0 1.7 1.7h11a1.7 1.7 0 0 0 1.7-1.7V8Z"
                 ></path>
@@ -199,6 +162,7 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
 ```
 
 ## Styles
+
 ```css
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
@@ -220,20 +184,6 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
   font-weight: var(--typography-microcopy-xs-font-weight);
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
 .typography-title-sm-strong {
   font-family: var(--typography-title-sm-strong-font-family);
@@ -271,74 +221,8 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
   border-block-start: 1px solid var(--color-border-default-subtle);
   margin: 0;
 }
-.bcn-lxp__field-row {
-  flex-wrap: nowrap;
-}
-.bcn-lxp__field {
-  min-inline-size: 0;
-  padding: var(--spacing-100) var(--spacing-200);
-  background: var(--color-background-elevation-sunken);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-sm);
-  color: var(--color-content-default);
-  font-family: var(--typography-font-family-mono);
-  font-size: 0.75rem;
-  line-height: var(--line-height-normal);
-  overflow-wrap: anywhere;
-  flex: auto;
-}
 .bcn-lxp [data-list-export-copy][data-copied] {
   color: var(--color-content-utility-success);
-}
-.bcn-lxp__preview {
-  padding: var(--spacing-300);
-  background: var(--color-background-elevation-sunken);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-md);
-  color: var(--color-content-default);
-  font-family: var(--typography-font-family-mono);
-  font-size: 0.75rem;
-  line-height: var(--line-height-normal);
-  white-space: pre-wrap;
-  tab-size: 2;
-  max-block-size: 18rem;
-  margin: 0;
-  overflow: auto;
-}
-.bcn-lxp__preview:focus-visible {
-  outline: 2px solid var(--color-background-brand);
-  outline-offset: 2px;
-}
-.bcn-lxp__status {
-  white-space: nowrap;
-  clip-path: inset(50%);
-  border: 0;
-  block-size: 1px;
-  inline-size: 1px;
-  margin: -1px;
-  padding: 0;
-  position: absolute;
-  overflow: hidden;
-}
-.bcn-search-trigger .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex: none;
-}
-.bcn-gd-row .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex: none;
 }
 .esa-card {
   --_card-bg: var(--card-bg, var(--color-background-elevation-raised, #fcfcfc));
@@ -360,29 +244,12 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
 .esa-card--outlined {
   --_card-border: var(--color-border-default, #cecece);
 }
-.esa-card--elevated {
-  --_card-border: transparent;
-  box-shadow: var(--elevation-2, 0 2px 12px 0 #0000000a);
-}
-.esa-card--filled {
-  --_card-bg: var(--color-background-elevation-sunken, #f0f0f0);
-  --_card-border: transparent;
-}
 .esa-card--header-primary .esa-card__header {
   --_card-header-bg: var(--color-background-brand, #46a758);
   --_card-header-color: var(--color-content-default-knockout, #fcfcfc);
 }
 .esa-card--header-muted .esa-card__header {
   --_card-header-bg: var(--color-background-elevation-sunken, #f0f0f0);
-}
-.esa-card--padding-none {
-  --_card-padding: 0;
-}
-.esa-card--padding-compact {
-  --_card-padding: var(--spacing-300, 0.75rem);
-}
-.esa-card--padding-spacious {
-  --_card-padding: var(--spacing-700, 3rem);
 }
 .esa-card__header {
   padding: var(--spacing-400, 1rem) var(--_card-padding);
@@ -408,71 +275,11 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
   color: inherit;
   margin: 0;
 }
-.esa-card__subtitle {
-  color: var(--color-content-default-secondary, #646464);
-  margin: 0;
-}
-.esa-card--header-primary .esa-card__subtitle {
-  color: var(--color-content-on-brand, #fffc);
-}
-.esa-card__meta {
-  gap: var(--spacing-100, 0.25rem) var(--spacing-500, 1.5rem);
-  margin: var(--spacing-050, 0.125rem) 0 0;
-  flex-wrap: wrap;
-  display: flex;
-}
-.esa-card__meta-pair {
-  align-items: baseline;
-  gap: var(--spacing-100, 0.25rem);
-  min-width: 0;
-  display: flex;
-}
-.esa-card__meta dt {
-  font-size: var(--_card-meta-label-size);
-  font-weight: var(--font-weight-medium, 500);
-  color: var(--_card-meta-label-color);
-}
-.esa-card__meta dd {
-  font-size: var(--_card-meta-value-size);
-  color: inherit;
-  margin: 0;
-}
-.esa-card--header-primary .esa-card__meta dt {
-  color: #fffc;
-}
-.esa-card__icon {
-  color: inherit;
-  flex-shrink: 0;
-}
-.esa-card__actions {
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
-  display: flex;
-}
 .esa-card__body {
   padding: var(--_card-padding);
 }
-.esa-card__footer {
-  padding: var(--spacing-300, 0.75rem) var(--_card-padding);
-  border-top: var(--border-width-default, 1px) solid var(--_card-header-border);
-  background: var(--color-background-elevation-sunken, #f0f0f0);
-}
-.bcn-disclosure .esa-icon {
-  transition: transform 0.15s;
-}
-.bcn-disclosure[aria-expanded="false"] .esa-icon {
-  transform: rotate(-90deg);
-}
-.bcn-ev-staging__title .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex: none;
-}
 .bcn-ev-staging__item .esa-card {
   overflow: visible;
-}
-.bcn-ev-targets__title .esa-icon {
-  color: var(--color-content-default-tertiary);
-  flex: none;
 }
 .bcn-ev-targets__item[data-receiving] .esa-card {
   border-color: var(--color-background-brand-muted);
@@ -483,43 +290,6 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
 }
 .bcn-ev-targets__item .esa-card {
   overflow: visible;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
-}
-.user-panel__item .esa-icon {
-  color: var(--bcn-gray-500);
-}
-.user-panel__item--danger .esa-icon {
-  color: var(--color-background-utility-danger);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  color: var(--bcn-gray-500);
-  flex-shrink: 0;
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-background-brand);
-}
-.nav-section__header > .esa-icon:first-child {
-  color: var(--bcn-gray-950);
-  flex-shrink: 0;
-  transition: color 0.15s;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  flex-shrink: 0;
-  transition:
-    transform 0.15s,
-    opacity 0.2s ease-in-out;
-}
-.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
-  transform: rotate(-90deg);
-}
-.side-nav.collapsed .nav-section__title,
-.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
-  display: none;
 }
 .bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
   color: var(--bcn-aldo-600);
@@ -536,57 +306,10 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
 .esa-button--sm {
   --_btn-pad-y: var(--spacing-250, 0.625rem);
   --_btn-padding-x: var(--spacing-250, 0.625rem);
   --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.esa-button--variant-secondary {
-  --_accent: var(--color-background-brand-muted);
-  --_accent-hover: var(--color-background-brand-muted-hover);
-  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
-  --_accent-text: var(--color-content-brand);
-  --_accent-border: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -650,10 +373,7 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -680,11 +400,6 @@ The ways the list leaves Beacon, in the rail: PDF, then prod's CSV and Excel, th
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -701,28 +416,8 @@ summary.esa-button:focus-visible {
   outline-offset: var(--focus-ring-offset, 2px);
   border-radius: var(--_btn-radius);
 }
-summary.esa-button--variant-chrome:focus-visible {
-  outline-color: currentColor;
-}
 .esa-button__label {
   white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
 }
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
@@ -745,65 +440,12 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
 .typography-title-sm-strong {
   font-family: var(--typography-title-sm-strong-font-family);
   font-size: var(--typography-title-sm-strong-font-size);
   font-weight: var(--typography-title-sm-strong-font-weight);
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
-}
-.bcn-key-value__key .esa-icon {
-  color: var(--color-content-default-tertiary);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
-  flex-shrink: 0;
 }
 .stack {
   --gap: var(--spacing-400, 1rem);
@@ -836,113 +478,63 @@ summary.esa-button--variant-chrome:focus-visible {
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--bcn-aldo-600`: #06736f _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--card-bg`: #fcfcfc _(component)_
-- `--card-border-color`: #dcdcdc _(component)_
-- `--card-header-bg`: transparent _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand`: #fcfcfc _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--elevation-2`: 0 2px 12px 0 #0000000a _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-weight-medium`: 500 _(component)_
-- `--gap`: 1rem _(component)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--line-height-normal`: 1.6 _(primitive)_
-- `--radius-md`: .25rem _(semantic)_
-- `--radius-sm`: .25rem _(semantic)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--spacing-700`: 3rem _(primitive)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
-- `--typography-body-md-letter-spacing`: .01em _(semantic)_
-- `--typography-body-md-line-height`: 1.6 _(semantic)_
-- `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
-- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
-- `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-sm-strong-font-size`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(semantic)_
-- `--typography-title-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-title-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-title-sm-strong-line-height`: 1.6 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--card-bg` | `#fcfcfc` | component |
+| `--card-border-color` | `#dcdcdc` | component |
+| `--card-header-bg` | `transparent` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-utility-success` | `#218358` | semantic |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--gap` | `1rem` | component |
+| `--radius-md` | `.25rem` | semantic |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-body-md-font-weight` | `400` | semantic |
+| `--typography-body-md-letter-spacing` | `.01em` | semantic |
+| `--typography-body-md-line-height` | `1.6` | semantic |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-md-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-md-strong-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-md-strong-font-weight` | `550` | semantic |
+| `--typography-label-md-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-label-md-strong-line-height` | `1.6` | semantic |
+| `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |
+| `--typography-title-sm-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-title-sm-strong-font-size` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` | semantic |
+| `--typography-title-sm-strong-font-weight` | `550` | semantic |
+| `--typography-title-sm-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-title-sm-strong-line-height` | `1.6` | semantic |

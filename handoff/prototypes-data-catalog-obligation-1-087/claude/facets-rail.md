@@ -1,8 +1,15 @@
 # Facets rail
 
+Obligation detail (Data Catalog) · source prototype: https://esassoc.github.io/beacon-design/prototypes/data-catalog-obligation/1-087/
+
+![Facets rail, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-obligation-1-087/claude/facets-rail.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-obligation-1-087/claude/facets-rail.phone.png
+
 The rail: Details, nested Subjects, Construction activities, Species, and Related commitments — a stack of esa-collapsible sections, all open, each a small list rather than a wall of badges.
 
 ## Key decisions
+
 - SUBJECTS ARE NESTED major→minors, using the data-catalog lineage treatment rather than a flat pill row. An obligation belongs to every category that fits, so this is a small forest (several majors, each with its minors), not a path.
 - ACTIVITIES ARE A BULLETED LIST and named "Construction activities" to match what the Action side calls them — prod models this as ActionProjectConstructionActivity.
 - COMMITMENTS CARRY THEIR TITLES and group under the SOURCE DOCUMENT that states them. src/data/dcp-commitments.json resolves 1138 of 1270 references (90%) to a title, a category and a real source document. This is where normalization becomes legible: the speed-limit record is stated four times in the USFWS BiOp, four in the EIR, four in the ITP and once in the Amendment.
@@ -11,16 +18,28 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
 - A section whose field is absent renders nothing at all — 44% carry no species, and only the Notify class has a window. An empty heading reads as missing data rather than as inapplicable.
 
 ## Gotchas
+
 - THE RAIL IS NOW TALLER THAN THE MAIN COLUMN on records with many commitments — fourteen titled commitments run roughly ten times the height of fourteen badges. That is the direct cost of showing titles, and it leaves a visible gap above the full-width scope table. If it needs fixing, cap the commitment list with a disclosure rather than reverting to codes.
 - Category PILLS show display names but the record stores category IDS; the lookup is built once in src/data/obligations.ts. Do not denormalize names onto the row or the registry and the record can drift.
 
 ## Done when
+
 - Subjects render as majors with their minors indented beneath a hairline, with no list markers.
 - On the exemplar, Subjects shows Air quality → Fugitive dust, Birds → Burrowing owl, Site conduct → Speed limits.
 - Related commitments shows five groups including "Source not recorded" for the one unresolved id (11.29), and COA 11.11 resolves to "Speed Limits".
 - The Species section is absent on the exemplar, which carries none.
 
+## Components
+
+- `bcn-key-value` (spoke) · `src/components/bcn/BcnImplementationDialog.astro`
+- `bcn-ofacets` (spoke) · `src/components/bcn/BcnObligationFacets.astro`
+- `esa-collapsible` (hub) · `packages/ecology/src/components/esa-collapsible.astro` → use `ui-collapsible` in the Beacon app
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+
 ## Markup
+
+_2 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <div class="stack bcn-ofacets" data-gap="md">
   <details class="esa-collapsible" open="">
@@ -44,11 +63,8 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
     </summary>
     <div class="esa-collapsible__body typography-body-md">
       <div class="bcn-key-value" data-size="md" data-layout="stack">
-        <span class="bcn-key-value__key">Class</span
-        ><span class="bcn-key-value__val">Adhere</span
-        ><span class="bcn-key-value__hint"
-          >A rule the work follows while its conditions apply</span
-        >
+        <span class="bcn-key-value__key">Class</span><span class="bcn-key-value__val">Adhere</span
+        ><span class="bcn-key-value__hint">A rule the work follows while its conditions apply</span>
       </div>
     </div>
   </details>
@@ -95,182 +111,12 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
       </ol>
     </div>
   </details>
-  <details class="esa-collapsible" open="">
-    <summary class="esa-collapsible__summary typography-label-sm-strong">
-      <span class="esa-icon esa-icon--sm" aria-hidden="true"
-        ><svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          focusable="false"
-        >
-          <path d="M10 10V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5"></path>
-          <path d="M4 15v-3a6 6 0 0 1 6-6"></path>
-          <path d="M14 6a6 6 0 0 1 6 6v3"></path>
-          <rect width="20" height="4" x="2" y="15" rx="1"></rect></svg></span
-      ><span class="esa-collapsible__title">Construction activities</span>
-    </summary>
-    <div class="esa-collapsible__body typography-body-md">
-      <ul class="bcn-ofacets__bullets">
-        <li>Night work</li>
-        <li>Vehicle travel on site</li>
-      </ul>
-    </div>
-  </details>
-  <details class="esa-collapsible" open="">
-    <summary class="esa-collapsible__summary typography-label-sm-strong">
-      <span class="esa-icon esa-icon--sm" aria-hidden="true"
-        ><svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          focusable="false"
-        >
-          <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
-          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-          <path d="M10 9H8"></path>
-          <path d="M16 13H8"></path>
-          <path d="M16 17H8"></path></svg></span
-      ><span class="esa-collapsible__title">Related commitments</span>
-    </summary>
-    <div class="esa-collapsible__body typography-body-md">
-      <div class="stack bcn-ofacets__sources" data-gap="sm">
-        <section>
-          <h4 class="bcn-ofacets__source">DCP USFWS BiOp_2024_0029957_S7_001_03092026</h4>
-          <ul class="bcn-ofacets__commits">
-            <li class="bcn-ofacets__commit">
-              <a class="bcn-ofacets__commit-code" href="#data-catalog/commitments"
-                >AMM-17</a
-              ><span class="bcn-ofacets__commit-title"
-                >Avoid and Minimize Impacts on Terrestrial Biological Resources from
-                Maintenance Activities</span
-              >
-            </li>
-            <li class="bcn-ofacets__commit">
-              <a class="bcn-ofacets__commit-code" href="#data-catalog/commitments"
-                >AMM-18</a
-              ><span class="bcn-ofacets__commit-title"
-                >Avoid and Minimize Operational Traffic Impacts on Wildlife</span
-              >
-            </li>
-            <li class="bcn-ofacets__commit">
-              <a class="bcn-ofacets__commit-code" href="#data-catalog/commitments"
-                >AMM-14</a
-              ><span class="bcn-ofacets__commit-title"
-                >Construction Best Management Practices for Biological Resources</span
-              >
-            </li>
-            <li class="bcn-ofacets__commit">
-              <a class="bcn-ofacets__commit-code" href="#data-catalog/commitments"
-                >AMM-11</a
-              ><span class="bcn-ofacets__commit-title">Fugitive Dust Control</span>
-            </li>
-          </ul>
-        </section>
-        <section>
-          <h4 class="bcn-ofacets__source">EIR</h4>
-          <ul class="bcn-ofacets__commits">
-            <li class="bcn-ofacets__commit">
-              <a class="bcn-ofacets__commit-code" href="#data-catalog/commitments"
-                >BIO-2b</a
-              ><span class="bcn-ofacets__commit-title"
-                >Avoid and Minimize Impacts on Terrestrial Biological Resources from
-                Maintenance Activities (FEIR)</span
-              >
-            </li>
-            <li class="bcn-ofacets__commit">
-              <a class="bcn-ofacets__commit-code" href="#data-catalog/commitments"
-                >BIO-22b</a
-              ><span class="bcn-ofacets__commit-title"
-                >Avoid and Minimize Operational Traffic Impacts on Wildlife (FEIR)</span
-              >
-            </li>
-            <li class="bcn-ofacets__commit">
-              <a class="bcn-ofacets__commit-code" href="#data-catalog/commitments"
-                >EC-14</a
-              ><span class="bcn-ofacets__commit-title"
-                >Construction Best Management Practices for Biological Resources
-                (FEIR)</span
-              >
-            </li>
-            <li class="bcn-ofacets__commit">
-              <a class="bcn-ofacets__commit-code" href="#data-catalog/commitments"
-                >EC-11</a
-              ><span class="bcn-ofacets__commit-title">Fugitive Dust Control (FEIR)</span>
-            </li>
-          </ul>
-        </section>
-        <section>
-          <h4 class="bcn-ofacets__source">Incidental Take Permit (ITP)</h4>
-          <ul class="bcn-ofacets__commits">
-            <li class="bcn-ofacets__commit">
-              <a class="bcn-ofacets__commit-code" href="#data-catalog/commitments"
-                >COA 11.39</a
-              ><span class="bcn-ofacets__commit-title">CTS Avoidance</span>
-            </li>
-            <li class="bcn-ofacets__commit">
-              <a class="bcn-ofacets__commit-code" href="#data-catalog/commitments"
-                >COA 11.41</a
-              ><span class="bcn-ofacets__commit-title"
-                >CTS Preconstruction Activities, SCADA and Transmission Line Construction
-                and Maintenance, Access Road Construction and Maintenance Activities</span
-              >
-            </li>
-            <li class="bcn-ofacets__commit">
-              <a class="bcn-ofacets__commit-code" href="#data-catalog/commitments"
-                >COA 11.65</a
-              ><span class="bcn-ofacets__commit-title"
-                >GGS - Restoration of Temporary Impacts</span
-              >
-            </li>
-            <li class="bcn-ofacets__commit">
-              <a class="bcn-ofacets__commit-code" href="#data-catalog/commitments"
-                >COA 11.55</a
-              ><span class="bcn-ofacets__commit-title">GGS Avoidance</span>
-            </li>
-          </ul>
-        </section>
-        <section>
-          <h4 class="bcn-ofacets__source">
-            Incidental Take Permit No. 2081-2024-018-00 (Amendment No. 1)
-          </h4>
-          <ul class="bcn-ofacets__commits">
-            <li class="bcn-ofacets__commit">
-              <a class="bcn-ofacets__commit-code" href="#data-catalog/commitments"
-                >COA 11.11</a
-              ><span class="bcn-ofacets__commit-title">Speed Limits</span>
-            </li>
-          </ul>
-        </section>
-        <section>
-          <h4 class="bcn-ofacets__source">Source not recorded</h4>
-          <ul class="bcn-ofacets__commits">
-            <li class="bcn-ofacets__commit">
-              <a class="bcn-ofacets__commit-code" href="#data-catalog/commitments"
-                >11.29</a
-              ><span class="bcn-ofacets__commit-title"
-                >Title not in the commitment library</span
-              >
-            </li>
-          </ul>
-        </section>
-      </div>
-    </div>
-  </details>
+  <!-- …and 2 more like this (<details class="esa-collapsible">) -->
 </div>
 ```
 
 ## Styles
+
 ```css
 .typography-body-md {
   font-family: var(--typography-body-md-font-family);
@@ -290,14 +136,6 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
   color: var(--color-content-default-tertiary);
   flex: none;
 }
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
-}
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -312,6 +150,11 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -319,9 +162,6 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -443,11 +283,6 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
   border-radius: var(--radius-md, 0.5rem);
   background: var(--color-background-elevation-raised, #fcfcfc);
 }
-.esa-collapsible--flush {
-  background: 0 0;
-  border: none;
-  border-radius: 0;
-}
 .esa-collapsible--flush > .esa-collapsible__summary,
 .esa-collapsible--flush > .esa-collapsible__body {
   padding-inline: 0;
@@ -537,10 +372,6 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
 .bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
   transform: rotate(90deg);
 }
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
 .bcn-evidence-card__actions .esa-icon {
   width: 15px;
   height: 15px;
@@ -554,20 +385,8 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -593,50 +412,47 @@ The rail: Details, nested Subjects, Construction activities, Species, and Relate
 ```
 
 ## Tokens
-- `--bcn-content-muted`: #7c7c7c _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-link`: #005862 _(semantic)_
-- `--color-content-secondary`: #525252 _(component)_
-- `--form-label-color`: #525252 _(component)_
-- `--gap`: 1rem _(component)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-md`: .25rem _(semantic)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 400 _(semantic)_
-- `--typography-body-md-letter-spacing`: .01em _(semantic)_
-- `--typography-body-md-line-height`: 1.6 _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-font-weight`: 500 _(semantic)_
-- `--typography-label-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-sm-strong-line-height`: 1.6 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-content-muted` | `#7c7c7c` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-link` | `#005862` | semantic |
+| `--color-content-secondary` | `#525252` | component |
+| `--form-label-color` | `#525252` | component |
+| `--gap` | `1rem` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--radius-md` | `.25rem` | semantic |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-body-md-font-weight` | `400` | semantic |
+| `--typography-body-md-letter-spacing` | `.01em` | semantic |
+| `--typography-body-md-line-height` | `1.6` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-sm-font-weight` | `500` | semantic |
+| `--typography-label-sm-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-sm-strong-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-sm-strong-font-weight` | `550` | semantic |
+| `--typography-label-sm-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-label-sm-strong-line-height` | `1.6` | semantic |

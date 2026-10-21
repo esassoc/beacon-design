@@ -1,20 +1,41 @@
 # Observation drawer (read-only)
 
+Site Clearance — Biological · source prototype: https://esassoc.github.io/beacon-design/prototypes/site-clearance-bio/
+
+![Observation drawer (read-only), desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-site-clearance-bio/claude/observation-drawer-read-only.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-site-clearance-bio/claude/observation-drawer-read-only.phone.png
+
 The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): an observation's facts (species code, kind, buffer distance, first observed), its latest field log, and — the reason it matters — the counted list of "Work areas within buffer" (each opening that site's write drawer). From a site you see its status; from an observation you see everything its buffer covers.
 
 ## Key decisions
+
 - Read-only by design: an observation is a field FACT (a sighting), not a decision — you review the work area, you do not "edit" the bird.
 - There is NO estimated-end date and no countdown — the observation carries no projection of when it stops mattering; it is active until the Monitoring Portal says otherwise. First observed is the only date, because it happened.
 - The "Work areas within buffer" list reuses the same intersection that powers provisional-block detection and the grid's Work Areas Affected column — one computation, three surfaces.
 
 ## Gotchas
+
 - A tracking-only sighting (buffer 0) still opens this drawer but its impact list is empty and it must never appear as affecting any work area.
 - Impact rows show each covered site's DERIVED status chip — a reviewed site inside the buffer keeps its review color here too (the precedence rule is visible in this list).
 
 ## Done when
+
 - Shows species/kind/buffer/first-observed + latest log (when present) + a counted "Work areas within buffer" list with derived-status chips; each row opens that work area's write drawer; no estimated-end or countdown renders anywhere.
 
+## Components
+
+- `bcn-key-value` (spoke) · `src/components/bcn/BcnImplementationDialog.astro`
+- `bcn-status-chip` (spoke) · `src/components/bcn/BcnActionTable.astro`
+- `esa-badge` (hub) · `packages/ecology/src/components/esa-badge.astro` → use `ui-badge` in the Beacon app
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+- `esa-side-dialog` (hub) · `packages/ecology/src/components/esa-side-dialog.ts`
+
 ## Markup
+
+_25 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <esa-side-dialog
   id="obs-dialog"
@@ -26,10 +47,7 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
     <div class="wa__headmain">
       <h2 class="wa__title" id="obs-title">Swainson's Hawk</h2>
       <span id="obs-chip"
-        ><span
-          class="bcn-status-chip"
-          data-status="neutral"
-          style="--_chip: var(--st-neutral)"
+        ><span class="bcn-status-chip" data-status="neutral" style="--_chip: var(--st-neutral)"
           ><span class="bcn-status-chip__dot"></span
           ><span class="bcn-status-chip__label">Active</span></span
         ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
@@ -55,14 +73,7 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
         <span class="bcn-key-value__key">Kind</span
         ><span class="wa__kv-val" id="obs-kind">Nesting bird</span>
       </div>
-      <div class="bcn-key-value" data-size="md" data-layout="stack">
-        <span class="bcn-key-value__key">Buffer</span
-        ><span class="wa__kv-val" id="obs-buffer">2,640 ft</span>
-      </div>
-      <div class="bcn-key-value" data-size="md" data-layout="stack">
-        <span class="bcn-key-value__key">First observed</span
-        ><span class="wa__kv-val" id="obs-first">May 18, 2026</span>
-      </div>
+      <!-- …and 2 more like this (<div class="bcn-key-value">) -->
     </div>
     <section id="obs-log-wrap">
       <h3 class="wa__section">
@@ -78,21 +89,14 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
             stroke-linejoin="round"
             focusable="false"
           >
-            <path
-              d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4"
-            ></path>
+            <path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4"></path>
             <path d="M2 6h4"></path>
-            <path d="M2 10h4"></path>
-            <path d="M2 14h4"></path>
-            <path d="M2 18h4"></path>
-            <path
-              d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"
-            ></path></svg></span
+            <!-- …and 4 more like this (<path>) -->
+          </svg></span
         >Latest log
       </h3>
       <blockquote class="wa__note wa__note--log" id="obs-log">
-        May 18, 2026, 1:31 PM: Active SWHA nest observed in tree during site clearance
-        visit.
+        May 18, 2026, 1:31 PM: Active SWHA nest observed in tree during site clearance visit.
       </blockquote>
     </section>
     <section>
@@ -112,11 +116,10 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
             <circle cx="12" cy="12" r="10"></circle>
             <line x1="22" x2="18" y1="12" y2="12"></line>
             <line x1="6" x2="2" y1="12" y2="12"></line>
-            <line x1="12" x2="12" y1="6" y2="2"></line>
-            <line x1="12" x2="12" y1="22" y2="18"></line></svg></span
+            <!-- …and 2 more like this (<line>) -->
+          </svg></span
         >Work areas within buffer<span id="obs-impact-count"
-          ><span
-            class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
+          ><span class="esa-badge esa-badge--neutral esa-badge--sm typography-microcopy-xs-strong"
             ><span class="esa-badge__text">19</span></span
           ></span
         >
@@ -176,465 +179,7 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
           </div>
           <span class="entry__meta">702 ft</span>
         </li>
-        <li class="entry entry--card" data-wa="DCTR2-DH-010" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCTR2-DH-010</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">Water Quality Test/Boring</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="blocked"
-                  style="--_chip: var(--st-blocked)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Blocked</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">878 ft</span>
-        </li>
-        <li class="entry entry--card" data-wa="DCTR2-CPT-007" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCTR2-CPT-007</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">CPT</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="provisional-block"
-                  style="--_chip: var(--st-provisional-block)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Provisional Block</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">907 ft</span>
-        </li>
-        <li class="entry entry--card" data-wa="DCTR2-DH-006" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCTR2-DH-006</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">Boring</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="provisional-block"
-                  style="--_chip: var(--st-provisional-block)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Provisional Block</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">925 ft</span>
-        </li>
-        <li class="entry entry--card" data-wa="DCLEV-DH-034" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCLEV-DH-034</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">Boring</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="provisional-block"
-                  style="--_chip: var(--st-provisional-block)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Provisional Block</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">1,006 ft</span>
-        </li>
-        <li class="entry entry--card" data-wa="DCLEV-DH-035" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCLEV-DH-035</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">Boring</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="provisional-block"
-                  style="--_chip: var(--st-provisional-block)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Provisional Block</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">1,067 ft</span>
-        </li>
-        <li class="entry entry--card" data-wa="DCLEV-DH-036" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCLEV-DH-036</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">Boring</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="provisional-block"
-                  style="--_chip: var(--st-provisional-block)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Provisional Block</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">1,197 ft</span>
-        </li>
-        <li class="entry entry--card" data-wa="DCLEV-DH-033" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCLEV-DH-033</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">Boring</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="provisional-block"
-                  style="--_chip: var(--st-provisional-block)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Provisional Block</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">1,199 ft</span>
-        </li>
-        <li class="entry entry--card" data-wa="DCRDS-DH-182" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCRDS-DH-182</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">Boring</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="provisional-block"
-                  style="--_chip: var(--st-provisional-block)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Provisional Block</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">1,445 ft</span>
-        </li>
-        <li class="entry entry--card" data-wa="DCLEV-DH-037" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCLEV-DH-037</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">Boring</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="provisional-block"
-                  style="--_chip: var(--st-provisional-block)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Provisional Block</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">1,531 ft</span>
-        </li>
-        <li class="entry entry--card" data-wa="DCLEV-DH-027" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCLEV-DH-027</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">Boring</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="provisional-block"
-                  style="--_chip: var(--st-provisional-block)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Provisional Block</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">1,657 ft</span>
-        </li>
-        <li class="entry entry--card" data-wa="DCTR2-DH-012" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCTR2-DH-012</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">Boring</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="provisional-block"
-                  style="--_chip: var(--st-provisional-block)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Provisional Block</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">1,875 ft</span>
-        </li>
-        <li class="entry entry--card" data-wa="DCLEV-DH-032" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCLEV-DH-032</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">Boring</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="provisional-block"
-                  style="--_chip: var(--st-provisional-block)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Provisional Block</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">2,026 ft</span>
-        </li>
-        <li class="entry entry--card" data-wa="DCLEV-DH-025" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCLEV-DH-025</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">Boring</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="provisional-block"
-                  style="--_chip: var(--st-provisional-block)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Provisional Block</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">2,120 ft</span>
-        </li>
-        <li class="entry entry--card" data-wa="DCRDS-DH-181" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCRDS-DH-181</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">Boring</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="provisional-block"
-                  style="--_chip: var(--st-provisional-block)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Provisional Block</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">2,189 ft</span>
-        </li>
-        <li class="entry entry--card" data-wa="DCLEV-DH-029" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCLEV-DH-029</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">Boring</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="provisional-block"
-                  style="--_chip: var(--st-provisional-block)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Provisional Block</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">2,482 ft</span>
-        </li>
-        <li class="entry entry--card" data-wa="DCLEV-DH-023" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCLEV-DH-023</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">Boring</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="provisional-block"
-                  style="--_chip: var(--st-provisional-block)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Provisional Block</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">2,598 ft</span>
-        </li>
-        <li class="entry entry--card" data-wa="DCTR2-DH-003" tabindex="0" role="button">
-          <span class="entry__badge entry__badge--wa">DCTR2-DH-003</span>
-          <div class="entry__body">
-            <p class="entry__line">
-              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
-              ><span class="entry__primary">Boring</span>
-              <span class="gate__chipwrap"
-                ><span
-                  class="bcn-status-chip"
-                  data-status="provisional-block"
-                  style="--_chip: var(--st-provisional-block)"
-                  ><span class="bcn-status-chip__dot"></span
-                  ><span class="bcn-status-chip__label">Provisional Block</span></span
-                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --></span
-              >
-            </p>
-          </div>
-          <span class="entry__meta">2,621 ft</span>
-        </li>
+        <!-- …and 17 more like this (<li class="entry entry--card">) -->
       </ul>
     </section>
   </div>
@@ -672,6 +217,7 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
 ```
 
 ## Styles
+
 ```css
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
@@ -680,13 +226,6 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
   line-height: var(--typography-microcopy-md-line-height);
   letter-spacing: var(--typography-microcopy-md-letter-spacing);
 }
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
   font-size: var(--typography-microcopy-xs-strong-font-size);
@@ -694,24 +233,9 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
-}
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -726,6 +250,11 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
 }
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
 }
 .bcn-countchip__num .esa-badge {
   --badge-radius: var(--radius-full);
@@ -754,24 +283,19 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
 .bcn-ev-attached__mark .esa-badge {
   --badge-bg: var(--color-background-utility-info-subtle);
   --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
   font-weight: var(--typography-font-weight-medium);
 }
 .bcn-ev-row__mark .esa-badge {
   --badge-bg: var(--color-background-utility-info-subtle);
   --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
   font-weight: var(--typography-font-weight-medium);
 }
 .bcn-ev-row__tags .esa-badge {
   --badge-bg: var(--bcn-gray-100);
   --badge-text-color: var(--bcn-gray-700);
   font-weight: var(--typography-font-weight-medium);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -825,45 +349,9 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
   align-items: center;
   display: inline-flex;
 }
-.esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
-}
 .esa-badge--sm {
   --_badge-padding-y: var(--spacing-100, 0.25rem);
   --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
-}
-.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-  --_badge-text: var(--color-content-default-knockout, #fcfcfc);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
-}
-.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
 }
 .esa-badge--neutral:not(.esa-badge--dot),
 .esa-badge--success:not(.esa-badge--dot),
@@ -872,38 +360,13 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
 .esa-badge--info:not(.esa-badge--dot) {
   border: 1px solid var(--_badge-border, transparent);
 }
-.esa-badge--dot {
-  border-radius: var(--radius-pill, 9999px);
-  width: 8px;
-  min-width: 8px;
-  height: 8px;
-  padding: 0;
-}
 .esa-badge--dot.esa-badge--neutral {
   --_badge-bg: var(--color-content-default-secondary, #646464);
 }
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
-}
-.esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-}
-.esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
-}
-.esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
-}
-.esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
-}
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  background: canvastext;
-  border: 0;
-  outline: 1px solid canvastext;
+@media (forced-colors: active) {
+  .esa-badge {
+    border: 1px solid canvastext;
+  }
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -916,58 +379,6 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
   --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
-}
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
-.esa-button--sm {
-  --_btn-pad-y: var(--spacing-250, 0.625rem);
-  --_btn-padding-x: var(--spacing-250, 0.625rem);
-  --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.esa-button--variant-secondary {
-  --_accent: var(--color-background-brand-muted);
-  --_accent-hover: var(--color-background-brand-muted-hover);
-  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
-  --_accent-text: var(--color-content-brand);
-  --_accent-border: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -1031,10 +442,7 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -1061,11 +469,6 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -1082,28 +485,8 @@ summary.esa-button:focus-visible {
   outline-offset: var(--focus-ring-offset, 2px);
   border-radius: var(--_btn-radius);
 }
-summary.esa-button--variant-chrome:focus-visible {
-  outline-color: currentColor;
-}
 .esa-button__label {
   white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
 }
 .comp-picker__trigger .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -1127,10 +510,6 @@ summary.esa-button--variant-chrome:focus-visible {
   margin-top: 1px;
   padding: 0.125rem 0.375rem;
   line-height: 1.4;
-}
-.entry__badge--obs {
-  color: var(--obs-color-strong);
-  background: color-mix(in srgb, var(--obs-color) 12%, white);
 }
 .entry__badge--wa {
   color: var(--color-background-brand);
@@ -1161,23 +540,12 @@ summary.esa-button--variant-chrome:focus-visible {
 .entry__line .gate__chipwrap {
   vertical-align: text-bottom;
 }
-.entry__secondary {
-  color: var(--color-content-default-secondary);
-  margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.45;
-}
 .entry__meta {
   color: var(--color-content-default-tertiary);
   white-space: nowrap;
   text-align: right;
   flex-shrink: 0;
   font-size: 0.8125rem;
-}
-.entry--empty {
-  padding: var(--spacing-200) 0;
-  color: var(--color-content-default-tertiary);
-  font-size: 0.875rem;
 }
 .entry--card {
   background: var(--color-background-elevation-raised);
@@ -1229,79 +597,6 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--color-content-default-secondary);
   margin: 0;
   font-size: 0.875rem;
-}
-#wa-read > .wa-comments,
-#wa-read > .wa__more {
-  margin-top: var(--spacing-500);
-  padding-top: var(--spacing-500);
-  border-top: 1px solid var(--color-border-default);
-}
-.wa__comments {
-  margin: 0 0 var(--spacing-400);
-  gap: var(--spacing-400);
-  flex-direction: column;
-  padding: 0;
-  list-style: none;
-  display: flex;
-}
-.wa__comments:empty {
-  display: none;
-}
-.wa__compose {
-  gap: var(--spacing-200);
-  flex-direction: column;
-  display: flex;
-}
-.wa__compose-field {
-  position: relative;
-}
-.wa__compose-field esa-textarea {
-  width: 100%;
-}
-.wa__mention-menu {
-  z-index: 5;
-  padding: var(--spacing-100);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  box-shadow: var(--elevation-5);
-  max-height: 208px;
-  margin: 0;
-  list-style: none;
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  right: 0;
-  overflow-y: auto;
-}
-.wa__mention-menu[hidden] {
-  display: none;
-}
-.wa__compose-foot {
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-300);
-  display: flex;
-}
-.wa__compose-hint {
-  color: var(--color-content-default-secondary);
-  font-size: 0.8125rem;
-}
-.wa__more {
-  flex-direction: column;
-  display: flex;
-}
-.wa__more-item {
-  display: block;
-}
-.wa__more-item[hidden] {
-  display: none;
-}
-.wa__more-item + .wa__more-item {
-  border-top: 1px solid var(--color-border-default-subtle);
-}
-.wa__more-item[hidden] + .wa__more-item {
-  border-top: none;
 }
 .wa__section {
   align-items: center;
@@ -1365,21 +660,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .wa__note[hidden] {
   display: none;
 }
-.wa__notes-added {
-  gap: var(--spacing-300);
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-}
-.wa__activity {
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-}
 .wa__activity .entry:not(.entry--empty) {
   padding: var(--spacing-200) 0;
 }
@@ -1408,26 +688,12 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-md-line-height);
   letter-spacing: var(--typography-microcopy-md-letter-spacing);
 }
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
   font-size: var(--typography-microcopy-xs-strong-font-size);
   font-weight: var(--typography-microcopy-xs-strong-font-weight);
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
 }
 .esa-collapsible__summary .esa-icon {
   color: var(--color-content-default-secondary, #646464);
@@ -1448,15 +714,6 @@ summary.esa-button--variant-chrome:focus-visible {
   font-size: var(--typography-label-md-font-size);
   font-weight: var(--typography-font-weight-medium);
   color: var(--form-label-color);
-}
-.bcn-key-value__val {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-}
-.bcn-key-value__hint {
-  color: var(--color-content-default-tertiary);
-  font-size: 0.75rem;
 }
 .bcn-key-value__key {
   align-items: center;
@@ -1503,20 +760,8 @@ summary.esa-button--variant-chrome:focus-visible {
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -1533,125 +778,74 @@ summary.esa-button--variant-chrome:focus-visible {
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #fcfcfc _(component)_
-- `--badge-border-color`: #dcdcdc _(component)_
-- `--badge-text-color`: #525252 _(component)_
-- `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-700`: #525252 _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-default`: #fafafa _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-danger-muted`: #feebec _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
-- `--color-background-utility-info-subtle`: #fbfdff _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-border-utility-danger`: #fdbdbe _(semantic)_
-- `--color-border-utility-info`: #acd8fc _(semantic)_
-- `--color-border-utility-success`: #adddc0 _(semantic)_
-- `--color-border-utility-warning`: #f3d673 _(semantic)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-secondary`: #525252 _(component)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--elevation-5`: 0 8px 32px -8px #00000014 _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--font-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
-- `--form-label-color`: #525252 _(component)_
-- `--grid-row-bg-hover`: #efefef _(component)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--obs-color`: #7b5ea7 _(component)_
-- `--obs-color-strong`: #5b3f87 _(component)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--radius-300`: .5rem _(primitive)_
-- `--radius-chip`: .25rem _(semantic)_
-- `--radius-full`: 9999px _(primitive)_
-- `--radius-pill`: 9999px _(semantic)_
-- `--radius-sm`: .25rem _(semantic)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--st-provisional-block`: #d73027 _(component)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-font-weight`: 500 _(semantic)_
-- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-md-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-line-height`: 1 _(semantic)_
-- `--typography-microcopy-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--badge-bg` | `#fcfcfc` | component |
+| `--badge-border-color` | `#dcdcdc` | component |
+| `--badge-text-color` | `#525252` | component |
+| `--bcn-gray-100` | `#efefef` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-700` | `#525252` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-default` | `#fafafa` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-background-utility-info` | `#228be6` | semantic |
+| `--color-background-utility-info-subtle` | `#fbfdff` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-secondary` | `#525252` | component |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
+| `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
+| `--form-label-color` | `#525252` | component |
+| `--grid-row-bg-hover` | `#efefef` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--radius-100` | `.25rem` | primitive |
+| `--radius-300` | `.5rem` | primitive |
+| `--radius-chip` | `.25rem` | semantic |
+| `--radius-full` | `9999px` | primitive |
+| `--radius-sm` | `.25rem` | semantic |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--st-provisional-block` | `#d73027` | component |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-sm-font-weight` | `500` | semantic |
+| `--typography-label-sm-strong-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-sm-strong-font-weight` | `550` | semantic |
+| `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-microcopy-md-font-weight` | `500` | semantic |
+| `--typography-microcopy-md-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-md-line-height` | `1` | semantic |
+| `--typography-microcopy-xs-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-strong-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-strong-font-weight` | `550` | semantic |
+| `--typography-microcopy-xs-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-strong-line-height` | `1` | semantic |

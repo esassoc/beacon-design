@@ -1,28 +1,39 @@
 # Status map & legend
 
+Site Clearance — Biological · source prototype: https://esassoc.github.io/beacon-design/prototypes/site-clearance-bio/
+
+![Status map & legend, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-site-clearance-bio/claude/status-map-legend.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-site-clearance-bio/claude/status-map-legend.phone.png
+
 The Leaflet map of the component's work areas (geometry from the client KMZ shapefile import), each marker colored by its DERIVED biological status, plus observation buffer rings and a Map/Satellite base-layer control. The legend (captured here) is the key; the map answers the field question: which sites are cleared to work, and which sit inside an active nesting buffer? Clicking a marker opens the work-area drawer; clicking an observation ring/dot opens the observation drawer.
 
 ## Key decisions
+
 - Marker color = derived status, never a stored field. The LATEST review's outcome is the status; no reviews = Not Surveyed (grey). A work area with NO recorded review that an active observation buffer covers renders PROVISIONAL BLOCK — hollow red. Any recorded review status overrules the provisional display: a reviewed-Cleared site inside a buffer stays green.
 - Provisional-block is the HOLLOW swatch — white fill, red stroke: "blocked, but not solidified" — the exact grammar the map markers use, so a hollow marker and a hollow legend dot tell the same story.
 - The legend also documents the two observation glyphs: a buffer RING (an active observation's own BufferDistanceFt) and a HOLLOW sighting (tracking-only, buffer 0 — informational, never blocks).
 - A Leaflet layers control offers Map / Satellite base tiles — the Component Buffer overlay is a satellite-mode analysis tool, so the imagery base ships with it.
 
 ## Gotchas
+
 - Do NOT persist work-area status. Re-deriving it from the review history + live buffers is the whole architecture — a stored status would drift the moment a review is added or an observation is logged.
 - The provisional check is review-PRESENCE, not review-outcome: one recorded review of ANY outcome removes the site from provisional-block eligibility forever after (until reviews are deleted).
 - Leaflet needs invalidateSize() when its container first becomes visible; "tracking-only" sightings (bufferFt 0) must never escalate a work area.
 
 ## Done when
+
 - Each work-area marker is colored by derived status; a no-review site inside an active buffer renders hollow red and the legend counts it; a reviewed site inside the same buffer keeps its review color; observation buffers render as rings; the base-layer control swaps Map/Satellite.
 
 ## Markup
+
+_5 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <div class="map-legend" aria-label="Clearance status legend">
   <span class="map-legend__title">Work area status</span
   ><span class="map-legend__row"
-    ><span class="map-legend__dot" style="background: var(--st-blocked)"></span
-    >Blocked</span
+    ><span class="map-legend__dot" style="background: var(--st-blocked)"></span>Blocked</span
   ><span class="map-legend__row"
     ><span
       class="map-legend__dot"
@@ -33,24 +44,12 @@ The Leaflet map of the component's work areas (geometry from the client KMZ shap
       "
     ></span
     >Provisional Block</span
-  ><span class="map-legend__row"
-    ><span class="map-legend__dot" style="background: var(--st-inaccessible)"></span
-    >Inaccessible</span
-  ><span class="map-legend__row"
-    ><span class="map-legend__dot" style="background: var(--st-not-surveyed)"></span>Not
-    Surveyed</span
-  ><span class="map-legend__row"
-    ><span class="map-legend__dot" style="background: var(--st-cleared)"></span
-    >Cleared</span
-  ><span class="map-legend__row"
-    ><span class="map-legend__ring"></span>Observation buffer</span
-  ><span class="map-legend__row"
-    ><span class="map-legend__hollow"></span>Tracking-only sighting</span
-  >
+  ><!-- …and 5 more like this (<span class="map-legend__row">) -->
 </div>
 ```
 
 ## Styles
+
 ```css
 .map-legend {
   bottom: var(--spacing-400);
@@ -58,11 +57,7 @@ The Leaflet map of the component's work areas (geometry from the client KMZ shap
   z-index: 500;
   gap: var(--spacing-150);
   padding: var(--spacing-300) var(--spacing-400);
-  background: color-mix(
-    in srgb,
-    var(--color-background-elevation-raised) 94%,
-    transparent
-  );
+  background: color-mix(in srgb, var(--color-background-elevation-raised) 94%, transparent);
   backdrop-filter: blur(4px);
   border: 1px solid var(--color-border-default);
   border-radius: var(--radius-300);
@@ -112,15 +107,18 @@ The Leaflet map of the component's work areas (geometry from the client KMZ shap
 ```
 
 ## Tokens
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--elevation-5`: 0 8px 32px -8px #00000014 _(semantic)_
-- `--obs-color`: #7b5ea7 _(component)_
-- `--radius-300`: .5rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--elevation-5` | `0 8px 32px -8px #00000014` | semantic |
+| `--obs-color` | `#7b5ea7` | component |
+| `--radius-300` | `.5rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--typography-font-weight-semibold` | `550` | semantic |

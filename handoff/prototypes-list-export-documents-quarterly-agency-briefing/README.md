@@ -1,0 +1,11 @@
+# Commitment list PDF
+
+Source prototype: https://esassoc.github.io/beacon-design/prototypes/list-export-documents/quarterly-agency-briefing/
+
+A commitment list as a PDF on Letter, by permit section in code order: a summary table, then each commitment with its requirements in the permit’s words.
+
+| Section | What it is | Spec | Screenshots |
+|---|---|---|---|
+| Print route + data | A commitment list as the PDF its Export card downloads: title block, a summary table with one line per commitment, then each commitment with its requirements i… | [print-route-data.md](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/print-route-data.md) 4.6 KB | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/print-route-data.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/print-route-data.phone.png) |
+| Summary table | One line per commitment: Commitment (its code), Title, and how many requirements it holds, under full-width permit-section rows. | [summary-table.md](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/summary-table.md) 4.9 KB | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/summary-table.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/summary-table.phone.png) |
+| Commitment entry | One commitment in the detail: its title with the code at the right margin, then each requirement: its name, then its text. | [commitment-entry.md](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/commitment-entry.md) 3.3 KB | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/commitment-entry.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-quarterly-agency-briefing/claude/commitment-entry.phone.png) |

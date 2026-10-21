@@ -1,14 +1,29 @@
 # Filter row
 
+Commitment list · source prototype: https://esassoc.github.io/beacon-design/prototypes/lists/quarterly-agency-briefing/
+
+![Filter row, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-quarterly-agency-briefing/claude/filter-row.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-lists-quarterly-agency-briefing/claude/filter-row.phone.png
+
 Search plus a Source picker ("All source documents"). No view tabs: commitment lists are flat, per Andy.
 
 ## Key decisions
+
 - Source filters cards by data-source (ListMemberRow.source). The fixture has one source document (the ITP); the picker stays so the shape holds when a project has several.
 
 ## Done when
+
 - Picking the ITP keeps every card; clearing restores the same set.
 
+## Components
+
+- `bcn-swfr` (spoke) · `src/components/bcn/BcnSwFilterRow.astro`
+- `esa-select` (hub) · `packages/ecology/src/components/esa-select.ts`
+- `esa-text-field` (hub) · `packages/ecology/src/components/esa-text-field.ts`
+
 ## Markup
+
 ```html
 <div class="bcn-swfr bcn-swfr--panel">
   <esa-text-field
@@ -32,6 +47,7 @@ Search plus a Source picker ("All source documents"). No view tabs: commitment l
 ```
 
 ## Styles
+
 ```css
 .bcn-swfr {
   align-items: center;
@@ -42,9 +58,6 @@ Search plus a Source picker ("All source documents"). No view tabs: commitment l
   flex-wrap: wrap;
   font-size: 0.8125rem;
   display: flex;
-}
-.bcn-swfr--inset {
-  border-top: none;
 }
 .bcn-swfr--panel {
   padding: var(--spacing-250) var(--spacing-400);
@@ -76,14 +89,17 @@ Search plus a Source picker ("All source documents"). No view tabs: commitment l
 ```
 
 ## Tokens
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--radius-200`: .5rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--radius-200` | `.5rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |

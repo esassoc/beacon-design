@@ -1,16 +1,29 @@
 # Action card + implementations
 
+Action list · source prototype: https://esassoc.github.io/beacon-design/prototypes/lists/annual-reporting/
+
 One action: type chip, title (opens the action panel), implementation count. Children are its IMPLEMENTATIONS, one per component: status pill, component name, comment count, evidence count.
 
 ## Key decisions
+
 - Actions DO get status pills; obligations do not. Evidence is shown on both.
 - An implementation row fires list:edit-implementation (its upsert dialog, not built here).
 - Requirement codes ride on the card as data-codes / data-index so the mirrors can file it; requirements are not rendered as rows.
 
 ## Done when
+
 - Card badge = number of implementation rows; each row has one status.
 
+## Components
+
+- `bcn-loc` (spoke) · `src/components/bcn/BcnEvidenceTargets.astro`
+- `bcn-status-chip` (spoke) · `src/components/bcn/BcnActionTable.astro`
+- `bcn-swcb` (spoke) · `src/components/bcn/BcnSwCountBadge.astro`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+- `esa-tooltip` (hub) · `packages/ecology/src/components/esa-tooltip.ts`
+
 ## Markup
+
 ```html
 <li
   class="bcn-loc"
@@ -166,29 +179,18 @@ One action: type chip, title (opens the action panel), implementation count. Chi
 ```
 
 ## Styles
+
 ```css
 .bcn-loc[data-class="commitment"] .bcn-loc__req .bcn-cbadge {
   display: none;
 }
 .bcn-lit:not([data-index-editable])
-  esa-tooltip:has(
-    [data-list-remove],
-    [data-list-duplicate],
-    .bcn-loc__verb[data-list-edit]
-  ) {
+  esa-tooltip:has([data-list-remove], [data-list-duplicate], .bcn-loc__verb[data-list-edit]) {
   display: none;
 }
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -203,6 +205,11 @@ One action: type chip, title (opens the action panel), implementation count. Chi
 }
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
 }
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -221,9 +228,6 @@ One action: type chip, title (opens the action panel), implementation count. Chi
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -449,8 +453,7 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-swoc__reqs,
 .bcn-loc__reqs,
 .bcn-ciitem__reqs {
-  padding: 0 var(--spacing-300) var(--spacing-150)
-    calc(var(--spacing-300) + var(--_req-indent));
+  padding: 0 var(--spacing-300) var(--spacing-150) calc(var(--spacing-300) + var(--_req-indent));
   flex-direction: column;
   margin: 0;
   list-style: none;
@@ -480,38 +483,11 @@ details[open] > summary .bcn-loc__chevron {
   min-width: 0;
   overflow: hidden;
 }
-.bcn-swoc__also,
-.bcn-loc__also {
-  color: var(--color-content-default-tertiary);
-  white-space: nowrap;
-  flex-shrink: 0;
-  font-size: 0.6875rem;
-}
 .bcn-loc__title {
   flex: 0 auto;
 }
 .bcn-loc [data-list-count] {
   margin-inline-start: auto;
-}
-.bcn-loc__edited {
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-loc__edited[hidden] {
-  display: none;
-}
-.bcn-loc__dot {
-  place-items: center;
-  block-size: 1rem;
-  inline-size: 1rem;
-  display: inline-grid;
-}
-.bcn-loc__dot:before {
-  content: "";
-  background: var(--color-content-brand);
-  border-radius: 50%;
-  block-size: 6px;
-  inline-size: 6px;
 }
 .bcn-loc__req {
   color: var(--color-content-default-secondary);
@@ -577,15 +553,6 @@ details[open] > summary .bcn-loc__chevron {
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
 }
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
 .esa-icon svg {
   width: var(--_icon-size);
   height: var(--_icon-size);
@@ -626,11 +593,6 @@ details[open] > summary .bcn-loc__chevron {
   line-height: 1;
   display: inline-flex;
 }
-.bcn-swcb--sm {
-  min-width: 18px;
-  padding: 2px var(--spacing-100);
-  font-size: var(--font-size-050);
-}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -641,41 +603,36 @@ details[open] > summary .bcn-loc__chevron {
 ```
 
 ## Tokens
-- `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-action`: #d45087 _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-default`: #fafafa _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-obligation`: #f95d6a _(component)_
-- `--font-size-050`: clamp(.5rem, .44rem + .3vw, .625rem) _(primitive)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-full`: 9999px _(primitive)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-gray-100` | `#efefef` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--color-action` | `#d45087` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-default` | `#fafafa` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-obligation` | `#f95d6a` | component |
+| `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--icon-size-xs` | `14px` | primitive |
+| `--radius-100` | `.25rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |

@@ -1,12 +1,23 @@
 # Suggest subcategories
 
+Step 3: Compliance Index · source prototype: https://esassoc.github.io/beacon-design/prototypes/setup-wizard-3-step/compliance-index/
+
 Homes for what fit no subcategory, in develop's three parts: fits a bin you already have, new bins (named and placed), and better left without a bin of their own (Unfiled › Needs a home). Each suggestion is a card whose header is where its items land, as the index draws it: the category's hue dot, the category, ›, the subcategory. A new bin's header is that placement as two fields, Category then Subcategory, its dot following the category chosen. Under the header, the items as review rows: kind chip, statement, commitment badges. Better left without a bin of their own is one card, Unfiled › Needs a home, each item with its own tick and its reason under it. Unticking fades what Apply will leave out. Apply files them; Draft again makes drafts of them.
 
 ## Key decisions
+
 - A suggestion is accepted whole, one tick a card; the plan already takes a subset, so per-item ticks are a later option.
 - Unfiled actions carry no requirement type yet, so their chip reads Action.
 
+## Components
+
+- `bcn-sw3is` (spoke) · `src/components/bcn/BcnSw3IndexSuggest.astro`
+- `bcn-sw3is-dialog` (spoke) · `src/components/bcn/BcnSw3IndexSuggest.astro`
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-dialog` (hub) · `packages/ecology/src/components/esa-dialog.ts`
+
 ## Markup
+
 ```html
 <esa-dialog
   heading="Suggest subcategories"
@@ -26,9 +37,7 @@ Homes for what fit no subcategory, in develop's three parts: fits a bin you alre
       <ol class="bcn-sw3is__list" data-is-new-list=""></ol>
     </section>
     <section class="bcn-sw3is__sec" data-is-left="" aria-labelledby="sw3-is-left-h">
-      <h3 class="bcn-sw3is__h" id="sw3-is-left-h">
-        Better left without a bin of their own
-      </h3>
+      <h3 class="bcn-sw3is__h" id="sw3-is-left-h">Better left without a bin of their own</h3>
       <div class="bcn-sw3is__card" data-is-left-card="">
         <div class="bcn-sw3is__head">
           <span class="bcn-sw3is__dest"
@@ -43,8 +52,7 @@ Homes for what fit no subcategory, in develop's three parts: fits a bin you alre
     </section>
   </div>
   <div slot="footer" class="bcn-sw3is__foot">
-    <span
-      class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+    <span class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
       ><button
         class="esa-button__native typography-microcopy-xs"
         type="button"
@@ -67,6 +75,7 @@ Homes for what fit no subcategory, in develop's three parts: fits a bin you alre
 ```
 
 ## Styles
+
 ```css
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -75,45 +84,19 @@ Homes for what fit no subcategory, in develop's three parts: fits a bin you alre
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.bcn-cbadge {
-  font-family: var(--typography-font-family-mono);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-  border-radius: var(--radius-100);
-  white-space: nowrap;
-  flex-shrink: 0;
-  display: inline-block;
-}
-.bcn-cbadge--md {
-  font-size: var(--font-size-100);
-  padding: 1px var(--spacing-200);
-}
-.bcn-cbadge--sm {
-  padding: 1px var(--spacing-150);
-  font-size: 0.75rem;
-}
-.bcn-cbadge--neutral {
-  font-family: var(--typography-font-family-sans);
-  color: var(--bcn-gray-700);
-  background: var(--bcn-gray-100);
-}
 .bcn-aldo-msg__tools .esa-button__native:hover:not(:disabled) {
   color: var(--bcn-aldo-600);
+}
+@container (width<=640px) {
+  .bcn-sw3c__group [data-c-tool] .esa-button__label {
+    display: none;
+  }
+}
+@container (width<=540px) {
+  .bcn-sw3c__group [data-c-pages] .esa-button__label,
+  .bcn-sw3c__rule {
+    display: none;
+  }
 }
 .bcn-console__more .esa-button__native {
   font-family: var(--_mono);
@@ -279,14 +262,10 @@ Homes for what fit no subcategory, in develop's three parts: fits a bin you alre
 .bcn-sw3is
   .bcn-sw3is__card:has(> .bcn-sw3is__head > esa-checkbox:not([checked]))
   > :not(.bcn-sw3is__head),
-.bcn-sw3is
-  .bcn-sw3is__item--tick:has(> esa-checkbox:not([checked]))
-  > :not(esa-checkbox) {
+.bcn-sw3is .bcn-sw3is__item--tick:has(> esa-checkbox:not([checked])) > :not(esa-checkbox) {
   opacity: 0.45;
 }
-.bcn-sw3is
-  .bcn-sw3is__card:has(> .bcn-sw3is__head > esa-checkbox:not([checked]))
-  .bcn-sw3is__dest {
+.bcn-sw3is .bcn-sw3is__card:has(> .bcn-sw3is__head > esa-checkbox:not([checked])) .bcn-sw3is__dest {
   opacity: 0.6;
 }
 .bcn-sw3is__foot {
@@ -295,51 +274,10 @@ Homes for what fit no subcategory, in develop's three parts: fits a bin you alre
   width: 100%;
   display: flex;
 }
-.bcn-sw3ip .bcn-sw3ip__cite:hover .bcn-cbadge,
-.bcn-sw3ip .bcn-sw3ip__stack:hover .bcn-cbadge:first-child {
-  background: color-mix(
-    in srgb,
-    var(--color-commitment) 22%,
-    var(--color-background-elevation-raised)
-  );
-}
-.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge {
-  box-shadow:
-    1.5px 0 0 0 var(--color-background-elevation-raised),
-    0 0 0 1px var(--color-background-elevation-raised);
-  grid-area: 1/1;
-}
-.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge:first-child {
-  z-index: 3;
-}
-.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge:nth-child(2) {
-  z-index: 2;
-  color: #0000;
-  background: color-mix(
-    in srgb,
-    var(--color-commitment) 26%,
-    var(--color-background-elevation-raised)
-  );
-  transform: translate(9px) scaleY(0.84);
-}
-.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge:nth-child(3) {
-  z-index: 1;
-  color: #0000;
-  background: color-mix(
-    in srgb,
-    var(--color-commitment) 40%,
-    var(--color-background-elevation-raised)
-  );
-  transform: translate(18px) scaleY(0.68);
-}
-.bcn-sw3ip .bcn-sw3ip__stack:hover .bcn-cbadge:nth-child(2) {
-  transform: translate(11px) scaleY(0.84);
-}
-.bcn-sw3ip .bcn-sw3ip__stack:hover .bcn-cbadge:nth-child(3) {
-  transform: translate(22px) scaleY(0.68);
-}
-.bcn-sw3ip .bcn-sw3ip__stack .bcn-cbadge {
-  transition: transform 0.12s ease-out;
+@container (width<=720px) {
+  .bcn-sw3ip__toolkeys :is([data-ip-merge], [data-ip-discard-all]) .esa-button__label {
+    display: none;
+  }
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -353,20 +291,10 @@ Homes for what fit no subcategory, in develop's three parts: fits a bin you alre
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
 .esa-button--sm {
   --_btn-pad-y: var(--spacing-250, 0.625rem);
   --_btn-padding-x: var(--spacing-250, 0.625rem);
   --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
 }
 .esa-button--variant-primary {
   --_accent-text: var(--color-content-brand);
@@ -377,33 +305,6 @@ Homes for what fit no subcategory, in develop's three parts: fits a bin you alre
   --_on: var(--color-content-on-brand-muted, var(--color-content-default));
   --_accent-text: var(--color-content-brand);
   --_accent-border: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -467,10 +368,7 @@ Homes for what fit no subcategory, in develop's three parts: fits a bin you alre
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -497,11 +395,6 @@ Homes for what fit no subcategory, in develop's three parts: fits a bin you alre
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -518,28 +411,8 @@ summary.esa-button:focus-visible {
   outline-offset: var(--focus-ring-offset, 2px);
   border-radius: var(--_btn-radius);
 }
-summary.esa-button--variant-chrome:focus-visible {
-  outline-color: currentColor;
-}
 .esa-button__label {
   white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -548,99 +421,49 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--bcn-aldo-600`: #06736f _(component)_
-- `--bcn-console-fg`: #ffffffed _(component)_
-- `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-700`: #525252 _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-default`: #fafafa _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-subtle`: #efefef _(component)_
-- `--color-commitment`: #58508d _(component)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
+| `--bcn-console-fg` | `#ffffffed` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
+| `--color-background-brand-muted-hover` | `#b9d6d2` | semantic |
+| `--color-background-default` | `#fafafa` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-subtle` | `#efefef` | component |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-on-brand-muted` | `#203c25` | semantic |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--radius-200` | `.5rem` | primitive |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |

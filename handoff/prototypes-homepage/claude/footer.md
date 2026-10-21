@@ -1,14 +1,17 @@
 # Footer
 
-Re-implement this UI section faithfully on your stack. Keep the CSS custom-property
-names (`var(--…)`) so it stays themeable — the values below are the resolved
-`beacon` theme of the **prototypes-homepage** design system (an ESA Ecology spoke).
+Homepage · source prototype: https://esassoc.github.io/beacon-design/prototypes/homepage/
 
-- **Source prototype:** http://localhost:4399/beacon-design/prototypes/homepage/
-- **Section element:** `<footer>`
-- **Components:** —
+![Footer, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-homepage/claude/footer.desktop.png)
 
-## Markup (de-scoped, framework-free)
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-homepage/claude/footer.phone.png
+
+## Components
+
+- `bcn-mkt-footer` (spoke) · `src/components/bcn/BcnMarketingFooter.astro`
+
+## Markup
+
 ```html
 <footer class="bcn-mkt-footer">
   <div>© 2026 ESA — Beacon Environmental Compliance Platform</div>
@@ -16,7 +19,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 </footer>
 ```
 
-## Styles (only what this section uses; tokens resolved for the theme)
+## Styles
+
 ```css
 .bcn-mkt-footer {
   color: #989898;
@@ -30,14 +34,23 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .bcn-mkt-footer a {
   color: #989898;
 }
+.bcn-mkt-footer a:hover {
+  color: #dcdcdc;
+}
+@media (width<=768px) {
+  .bcn-mkt-footer {
+    gap: var(--spacing-300);
+    text-align: center;
+    flex-direction: column;
+  }
+}
 ```
 
 ## Tokens
+
 | Token | Value | Tier |
 |---|---|---|
 | `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
 | `--spacing-500` | `1.5rem` | primitive |
 | `--spacing-600` | `2rem` | primitive |
-
----
-_Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

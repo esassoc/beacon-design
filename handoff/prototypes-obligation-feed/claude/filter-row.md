@@ -1,15 +1,31 @@
 # Filter row
 
+Obligations (feed) · source prototype: https://esassoc.github.io/beacon-design/prototypes/obligation-feed/
+
+![Filter row, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-feed/claude/filter-row.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-feed/claude/filter-row.phone.png
+
 Search records, Source (which stream a record arrived from), and a 30 days / 90 days / All range. The filters narrow the RECORDS in the rail, never the obligations inside the open record.
 
 ## Key decisions
+
 - No Component picker: the switcher beside the H1 owns component scope.
 - If the open record is filtered out, the first surviving record opens; if none survive, the pane shows an empty state.
 
 ## Done when
+
 - Search, Source and range AND together; empty date groups hide; clearing restores the rail.
 
+## Components
+
+- `bcn-swfr` (spoke) · `src/components/bcn/BcnSwFilterRow.astro`
+- `esa-button-toggle` (hub) · `packages/ecology/src/components/esa-button-toggle.ts`
+- `esa-select` (hub) · `packages/ecology/src/components/esa-select.ts`
+- `esa-text-field` (hub) · `packages/ecology/src/components/esa-text-field.ts`
+
 ## Markup
+
 ```html
 <div class="bcn-swfr bcn-swfr--panel">
   <esa-text-field
@@ -23,7 +39,7 @@ Search records, Source (which stream a record arrived from), and a 30 days / 90 
     class="bcn-swfr__picker"
     size="sm"
     name="feed-all-source"
-    options='[{"label":"All sources","value":""},{"label":"Nesting bird observation","value":"nesting-birds"},{"label":"Compliance concern","value":"compliance-concerns"},{"label":"Biological resource observation","value":"biological-resources"},{"label":"Daily monitoring report","value":"daily-monitoring-reports"},{"label":"Site report","value":"site-reports"},{"label":"Survey","value":"surveys"},{"label":"WEAP training","value":"weap"},{"label":"Uploaded evidence","value":"evidence"}]'
+    options='[{"label":"All sources","value":""},{"label":"Nesting bird observation","value":"nesting-birds"},{"label":"Compliance co… [478 characters]'
     value=""
     placeholder="All sources"
     cue="Filter by source."
@@ -41,6 +57,7 @@ Search records, Source (which stream a record arrived from), and a 30 days / 90 
 ```
 
 ## Styles
+
 ```css
 .bcn-swfr {
   align-items: center;
@@ -51,9 +68,6 @@ Search records, Source (which stream a record arrived from), and a 30 days / 90 
   flex-wrap: wrap;
   font-size: 0.8125rem;
   display: flex;
-}
-.bcn-swfr--inset {
-  border-top: none;
 }
 .bcn-swfr--panel {
   padding: var(--spacing-250) var(--spacing-400);
@@ -85,14 +99,17 @@ Search records, Source (which stream a record arrived from), and a 30 days / 90 
 ```
 
 ## Tokens
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--radius-200`: .5rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--radius-200` | `.5rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |

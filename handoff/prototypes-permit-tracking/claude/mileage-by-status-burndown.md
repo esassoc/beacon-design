@@ -1,20 +1,32 @@
 # Mileage by status (burndown)
 
+Permit Tracking · source prototype: https://esassoc.github.io/beacon-design/prototypes/permit-tracking/
+
+![Mileage by status (burndown), desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-permit-tracking/claude/mileage-by-status-burndown.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-permit-tracking/claude/mileage-by-status-burndown.phone.png
+
 A SECONDARY supporting figure under the map: a single full-width stacked bar of route-miles by derived status, headlined "Cleared to Construct {miles} of {total} total · {pct}%", with a per-status legend (miles + percent each). It quantifies what the map shows in color — how much of the route is actually buildable.
 
 ## Key decisions
+
 - Miles-weighted, never permit counts — route-miles cleared is what lets crews roll. The headline foregrounds the cleared figure; the rest of the ramp is context.
 - The bar is build-time SSR for a clean first paint, then re-derived in the browser after every permit edit (footageByStatus) so it always agrees with the map and the exec rollup.
 - Zero-mileage statuses are dropped from the bar but kept in the legend (data-empty) so the ramp stays legible without empty slivers.
 
 ## Gotchas
+
 - It is deliberately secondary — supporting the map, not competing with it. Keep it visually quieter than the map and the timeline headline.
 - Percentages are of TOTAL route feet, not of the filtered subset, unless the Paths/Status scope is applied — keep the denominator consistent with whatever scope is active.
 
 ## Done when
+
 - A stacked miles-by-status bar with a "Cleared to Construct X of Y · Z%" headline and a miles+percent legend; it moves when a permit edit changes derived status.
 
 ## Markup
+
+_6 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <section class="burndown" aria-label="Mileage by permitting status">
   <div class="burndown__head">
@@ -33,18 +45,7 @@ A SECONDARY supporting figure under the map: a single full-width stacked bar of 
       title="In Preparation: 78.1 mi"
       style="height: 100%; flex: 0 0 38.9205%; background: var(--st-in-preparation)"
     ></div>
-    <div
-      title="Submitted: 31.4 mi"
-      style="height: 100%; flex: 0 0 15.6409%; background: var(--st-submitted)"
-    ></div>
-    <div
-      title="Under Review: 37.7 mi"
-      style="height: 100%; flex: 0 0 18.7949%; background: var(--st-under-review)"
-    ></div>
-    <div
-      title="Cleared to Construct: 10.6 mi"
-      style="height: 100%; flex: 0 0 5.2704%; background: var(--st-cleared)"
-    ></div>
+    <!-- …and 3 more like this (<div>) -->
   </div>
   <ul class="burndown__legend">
     <li class="burndown__legend-item" data-bd-item="not-started" data-empty="false">
@@ -59,29 +60,13 @@ A SECONDARY supporting figure under the map: a single full-width stacked bar of 
       ><span class="burndown__legend-mi" data-bd-mi="in-preparation">78.1 mi</span
       ><span class="burndown__legend-pct" data-bd-pct="in-preparation">39%</span>
     </li>
-    <li class="burndown__legend-item" data-bd-item="submitted" data-empty="false">
-      <span class="burndown__swatch" style="background: var(--st-submitted)"></span
-      ><span class="burndown__legend-label">Submitted</span
-      ><span class="burndown__legend-mi" data-bd-mi="submitted">31.4 mi</span
-      ><span class="burndown__legend-pct" data-bd-pct="submitted">16%</span>
-    </li>
-    <li class="burndown__legend-item" data-bd-item="under-review" data-empty="false">
-      <span class="burndown__swatch" style="background: var(--st-under-review)"></span
-      ><span class="burndown__legend-label">Under Review</span
-      ><span class="burndown__legend-mi" data-bd-mi="under-review">37.7 mi</span
-      ><span class="burndown__legend-pct" data-bd-pct="under-review">19%</span>
-    </li>
-    <li class="burndown__legend-item" data-bd-item="cleared" data-empty="false">
-      <span class="burndown__swatch" style="background: var(--st-cleared)"></span
-      ><span class="burndown__legend-label">Cleared to Construct</span
-      ><span class="burndown__legend-mi" data-bd-mi="cleared">10.6 mi</span
-      ><span class="burndown__legend-pct" data-bd-pct="cleared">5%</span>
-    </li>
+    <!-- …and 3 more like this (<li class="burndown__legend-item">) -->
   </ul>
 </section>
 ```
 
 ## Styles
+
 ```css
 .burndown {
   gap: var(--spacing-200);
@@ -160,20 +145,23 @@ A SECONDARY supporting figure under the map: a single full-width stacked bar of 
 ```
 
 ## Tokens
-- `--bcn-gray-100`: #efefef _(component)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--radius-050`: .125rem _(primitive)_
-- `--radius-300`: .5rem _(primitive)_
-- `--radius-full`: 9999px _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--st-cleared`: #1a9850 _(component)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-gray-100` | `#efefef` | component |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--radius-050` | `.125rem` | primitive |
+| `--radius-300` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--st-cleared` | `#1a9850` | component |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |

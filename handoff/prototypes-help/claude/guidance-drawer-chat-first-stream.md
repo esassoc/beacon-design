@@ -1,8 +1,15 @@
 # Guidance drawer — chat-first stream
 
+Help & Guidance · source prototype: https://esassoc.github.io/beacon-design/prototypes/help/
+
+![Guidance drawer — chat-first stream, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-help/claude/guidance-drawer-chat-first-stream.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-help/claude/guidance-drawer-chat-first-stream.phone.png
+
 The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. The body is ONE continuous scroll stream: Aldo's opening message (the route's "You are here" / "On this page" / "Terms" guidance) leads, and every Q&A exchange appends below it — so the intro scrolls up like any older message. A ChatGPT-style composer is pinned in the footer and the stream scrolls behind it.
 
 ## Key decisions
+
 - The intro is a MESSAGE, not a static header: it sits in the stream and scrolls away as the conversation grows. That is what makes the drawer read as a conversation rather than a panel with a chat bolted on.
 - Ask Aldo is DETERMINISTIC, not generative: the question is tokenized, stopwords are dropped, and each article is scored — title match 4, summary match 2, body match 1 — with the top 3 returned. Ties keep HELP_ARTICLES order via a stable sort. So "what is a component" surfaces the titled article, not one that merely mentions the word.
 - The searchable corpus is read from the pre-rendered article bodies via textContent — article prose never enters the JS bundle. Only the route map and the chat copy are imported.
@@ -11,6 +18,7 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
 - One persistent "Browse all Help & Guidance" link sits above the composer — the escape hatch from conversation to the full knowledge base.
 
 ## Gotchas
+
 - esa-textarea was checked and rejected for the composer: it renders its border/focus/background ON the field itself, offers no slot for an embedded send button, and auto-resizes with overflow:hidden (it clips, with no inner scroll). The embedded composer needs the SHELL to own the border/ring and hold the button, and the field to inner-scroll at max — so the composer input is owned, and that is the one place in this feature where a form primitive is not a lego.
 - The drawer FRAME is the esa-side-dialog lego (its own backdrop, focus trap, Esc/backdrop close, symmetric slide-out) — do not hand-roll a drawer.
 - When re-pointing --side-dialog-inset for the stacked card-stack effect, the value MUST carry a unit. A unitless value silently kills the lego's width calc and the panel collapses.
@@ -18,9 +26,23 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
 - The article row is an owned two-line button — no lego renders one.
 
 ## Done when
+
 - Opening the drawer shows Aldo's intro at the top of the stream; typing a question and pressing Enter appends the question, then Aldo's reply with up to three ranked article links; the intro scrolls up as the exchange grows; the composer grows to 5 rows and then scrolls; Shift+Enter newlines instead of sending.
 
+## Components
+
+- `bcn-aldo-mark` (spoke) · `src/components/bcn/aldo/BcnAldoMark.astro`
+- `bcn-gd` (spoke) · `src/components/bcn/BcnGuidanceDrawer.astro`
+- `bcn-gd-composer` (spoke) · `src/components/bcn/BcnGuidanceDrawer.astro`
+- `bcn-gd-msg` (spoke) · `src/components/bcn/BcnGuidanceDrawer.astro`
+- `bcn-gd-row` (spoke) · `src/components/bcn/BcnGuidanceDrawer.astro`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+- `esa-side-dialog` (hub) · `packages/ecology/src/components/esa-side-dialog.ts`
+
 ## Markup
+
+_27 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <esa-side-dialog
   class="bcn-gd"
@@ -43,13 +65,7 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
         <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
         <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
         <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
-        <circle
-          cx="33.2"
-          cy="31.1"
-          r="2"
-          fill="currentColor"
-          stroke="none"
-        ></circle></svg></span
+        <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg></span
     ><span class="bcn-gd__title">Help &amp; Guidance</span>
   </div>
   <div class="bcn-gd__stream">
@@ -68,13 +84,7 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
             <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
             <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
             <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
-            <circle
-              cx="33.2"
-              cy="31.1"
-              r="2"
-              fill="currentColor"
-              stroke="none"
-            ></circle></svg
+            <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg
         ></span>
       </div>
       <div class="bcn-gd-msg__group">
@@ -102,8 +112,8 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
           <div class="bcn-gd__here">
             <span class="bcn-gd__here-page" data-gd-page="">Beacon</span
             ><span class="bcn-gd__here-purpose" data-gd-purpose=""
-              >Beacon turns a shelf of regulatory documents into a working compliance
-              program — cataloged, planned, executed, and proven.</span
+              >Beacon turns a shelf of regulatory documents into a working compliance program —
+              cataloged, planned, executed, and proven.</span
             >
           </div>
         </section>
@@ -123,11 +133,9 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
               >
                 <line x1="8" x2="21" y1="6" y2="6"></line>
                 <line x1="8" x2="21" y1="12" y2="12"></line>
-                <line x1="8" x2="21" y1="18" y2="18"></line>
-                <line x1="3" x2="3.01" y1="6" y2="6"></line>
-                <line x1="3" x2="3.01" y1="12" y2="12"></line>
-                <line x1="3" x2="3.01" y1="18" y2="18"></line></svg
-            ></span>
+                <!-- …and 4 more like this (<line>) -->
+              </svg></span
+            >
             On this page
           </h2>
           <div class="bcn-gd__rows" data-gd-howtos="">
@@ -222,8 +230,8 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
               <span class="bcn-gd-row__text"
                 ><span class="bcn-gd-row__title">Action</span
                 ><span class="bcn-gd-row__sub"
-                  >One trackable deliverable consolidating requirements that describe the
-                  same work.</span
+                  >One trackable deliverable consolidating requirements that describe the same
+                  work.</span
                 ></span
               ><span class="esa-icon esa-icon--sm" aria-hidden="true"
                 ><svg
@@ -320,30 +328,16 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
               <path d="M47.59 23A18 18 0 1 1 31.37 14.01"></path>
               <path d="M43.05 25.55A12.3 12.3 0 1 1 31.97 19.41"></path>
               <path d="M38.52 28.1A6.6 6.6 0 1 1 32.57 24.8"></path>
-              <circle
-                cx="33.2"
-                cy="31.1"
-                r="2"
-                fill="currentColor"
-                stroke="none"
-              ></circle></svg
+              <circle cx="33.2" cy="31.1" r="2" fill="currentColor" stroke="none"></circle></svg
           ></span>
         </div>
         <div class="bcn-gd-msg__group">
           <div class="bcn-gd-msg__bubble">
             <p class="bcn-gd-msg__text">Here’s what I have on that:</p>
             <div class="bcn-gd-msg__links">
-              <button
-                class="bcn-gd-msg__link"
-                type="button"
-                data-article-id="what-is-a-component"
-              >
+              <button class="bcn-gd-msg__link" type="button" data-article-id="what-is-a-component">
                 Component</button
-              ><button
-                class="bcn-gd-msg__link"
-                type="button"
-                data-article-id="starring-components"
-              >
+              ><button class="bcn-gd-msg__link" type="button" data-article-id="starring-components">
                 Starring components on your dashboard</button
               ><button class="bcn-gd-msg__link" type="button" data-article-id="work-area">
                 Work Area
@@ -367,8 +361,7 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
         <span class="bcn-gd-row__text"
           ><span class="bcn-gd-row__title">Scope</span
           ><span class="bcn-gd-row__sub"
-            >The setting that determines whether work is tracked once, or once per
-            location.</span
+            >The setting that determines whether work is tracked once, or once per location.</span
           ></span
         ><span class="esa-icon esa-icon--sm" aria-hidden="true"
           ><svg
@@ -395,8 +388,8 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
         <span class="bcn-gd-row__text"
           ><span class="bcn-gd-row__title">Tenant</span
           ><span class="bcn-gd-row__sub"
-            >The client organization a Beacon workspace, its data, and its configuration
-            are scoped to.</span
+            >The client organization a Beacon workspace, its data, and its configuration are scoped
+            to.</span
           ></span
         ><span class="esa-icon esa-icon--sm" aria-hidden="true"
           ><svg
@@ -412,644 +405,7 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
           >
             <path d="m9 18 6-6-6-6"></path></svg
         ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="work-area"
-        data-kind="glossary"
-        data-title="Work Area"
-        data-summary="The finest scope level — a subdivision of a component for field-level tracking."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Work Area</span
-          ><span class="bcn-gd-row__sub"
-            >The finest scope level — a subdivision of a component for field-level
-            tracking.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="actions-vs-implementations"
-        data-kind="glossary"
-        data-title="Implementation"
-        data-summary="A single execution of a published action — the record teams work day to day."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Implementation</span
-          ><span class="bcn-gd-row__sub"
-            >A single execution of a published action — the record teams work day to
-            day.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="permit"
-        data-kind="glossary"
-        data-title="Permit"
-        data-summary="An agency authorization the project must obtain, tracked through the acquisition pipeline."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Permit</span
-          ><span class="bcn-gd-row__sub"
-            >An agency authorization the project must obtain, tracked through the
-            acquisition pipeline.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="reading-permit-tracking"
-        data-kind="howto"
-        data-title="Reading the Permit Tracking board"
-        data-summary="Where each permit stands, what is blocking it, and what is due next."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Reading the Permit Tracking board</span
-          ><span class="bcn-gd-row__sub"
-            >Where each permit stands, what is blocking it, and what is due next.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="starring-components"
-        data-kind="howto"
-        data-title="Starring components on your dashboard"
-        data-summary="Pin the three-to-five components you actually work in."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Starring components on your dashboard</span
-          ><span class="bcn-gd-row__sub"
-            >Pin the three-to-five components you actually work in.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="reading-critical-now"
-        data-kind="howto"
-        data-title="How the dashboard decides what needs attention"
-        data-summary="Urgency comes from action due dates, shown in the zone that owns the work."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title"
-            >How the dashboard decides what needs attention</span
-          ><span class="bcn-gd-row__sub"
-            >Urgency comes from action due dates, shown in the zone that owns the
-            work.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="reading-project-timeline"
-        data-kind="howto"
-        data-title="Reading the project timeline"
-        data-summary="The next 30, 60, or 90 days of due dates, seasons, and milestones."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Reading the project timeline</span
-          ><span class="bcn-gd-row__sub"
-            >The next 30, 60, or 90 days of due dates, seasons, and milestones.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="what-is-a-dmr"
-        data-kind="glossary"
-        data-title="Daily Monitoring Report"
-        data-summary="The structured field record of one day on site, and a direct source of evidence."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Daily Monitoring Report</span
-          ><span class="bcn-gd-row__sub"
-            >The structured field record of one day on site, and a direct source of
-            evidence.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="what-is-an-observation"
-        data-kind="glossary"
-        data-title="Observation"
-        data-summary="One recorded field event — a species sighting, habitat condition, weather event, or BMP check."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Observation</span
-          ><span class="bcn-gd-row__sub"
-            >One recorded field event — a species sighting, habitat condition, weather
-            event, or BMP check.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="survey"
-        data-kind="glossary"
-        data-title="Survey"
-        data-summary="A field data record synced from a collection app, effective only after quality-control approval."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Survey</span
-          ><span class="bcn-gd-row__sub"
-            >A field data record synced from a collection app, effective only after
-            quality-control approval.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="site-clearance"
-        data-kind="glossary"
-        data-title="Site Clearance"
-        data-summary="The go/no-go determination of whether a site is clear for ground disturbance."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Site Clearance</span
-          ><span class="bcn-gd-row__sub"
-            >The go/no-go determination of whether a site is clear for ground
-            disturbance.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="monitoring-portal"
-        data-kind="glossary"
-        data-title="Monitoring Portal"
-        data-summary="The section that reports commitment compliance from field observations."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Monitoring Portal</span
-          ><span class="bcn-gd-row__sub"
-            >The section that reports commitment compliance from field observations.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="qc-field-surveys"
-        data-kind="howto"
-        data-title="Reviewing field surveys before they count"
-        data-summary="Surveys sync from field apps, but only QC-approved records drive compliance."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Reviewing field surveys before they count</span
-          ><span class="bcn-gd-row__sub"
-            >Surveys sync from field apps, but only QC-approved records drive
-            compliance.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="site-clearance-go-no-go"
-        data-kind="howto"
-        data-title="Using Site Clearance go/no-go"
-        data-summary="Check whether a work site is clear for ground disturbance — and what is blocking it."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Using Site Clearance go/no-go</span
-          ><span class="bcn-gd-row__sub"
-            >Check whether a work site is clear for ground disturbance — and what is
-            blocking it.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="what-is-evidence"
-        data-kind="glossary"
-        data-title="Evidence of Compliance"
-        data-summary="The documented proof that an obligation was met — the artifact an auditor reviews."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Evidence of Compliance</span
-          ><span class="bcn-gd-row__sub"
-            >The documented proof that an obligation was met — the artifact an auditor
-            reviews.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="assembling-compliance-report"
-        data-kind="howto"
-        data-title="Assembling a compliance report"
-        data-summary="Compile evidence of compliance into a report package for an agency."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Assembling a compliance report</span
-          ><span class="bcn-gd-row__sub"
-            >Compile evidence of compliance into a report package for an agency.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="what-is-a-source"
-        data-kind="glossary"
-        data-title="Source Document"
-        data-summary="The regulatory document — permit, EIR, or agreement — that obligations are extracted from."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Source Document</span
-          ><span class="bcn-gd-row__sub"
-            >The regulatory document — permit, EIR, or agreement — that obligations are
-            extracted from.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="what-is-a-requirement"
-        data-kind="glossary"
-        data-title="Requirement"
-        data-summary="A specific, actionable sub-obligation broken out of a commitment."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Requirement</span
-          ><span class="bcn-gd-row__sub"
-            >A specific, actionable sub-obligation broken out of a commitment.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="tracing-lineage"
-        data-kind="howto"
-        data-title="Tracing a requirement back to its source"
-        data-summary="Follow the lineage from any requirement up to the exact document language."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Tracing a requirement back to its source</span
-          ><span class="bcn-gd-row__sub"
-            >Follow the lineage from any requirement up to the exact document
-            language.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="feature-flag"
-        data-kind="glossary"
-        data-title="Feature Flag"
-        data-summary="A tenant-level switch that enables or disables a Beacon capability."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Feature Flag</span
-          ><span class="bcn-gd-row__sub"
-            >A tenant-level switch that enables or disables a Beacon capability.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="managing-tenant-settings"
-        data-kind="howto"
-        data-title="Managing tenant settings"
-        data-summary="Configure the display labels, defaults, and enabled features that apply across a tenant."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Managing tenant settings</span
-          ><span class="bcn-gd-row__sub"
-            >Configure the display labels, defaults, and enabled features that apply
-            across a tenant.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="managing-users-roles"
-        data-kind="howto"
-        data-title="Managing users and roles"
-        data-summary="Add users to a tenant and assign the roles that govern their access."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Managing users and roles</span
-          ><span class="bcn-gd-row__sub"
-            >Add users to a tenant and assign the roles that govern their access.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span></button
-      ><button
-        type="button"
-        class="bcn-gd-row"
-        data-article-id="configuring-notifications"
-        data-kind="howto"
-        data-title="Configuring notifications"
-        data-summary="Set which compliance events generate notifications, and how each user receives them."
-      >
-        <span class="bcn-gd-row__text"
-          ><span class="bcn-gd-row__title">Configuring notifications</span
-          ><span class="bcn-gd-row__sub"
-            >Set which compliance events generate notifications, and how each user
-            receives them.</span
-          ></span
-        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-          ><svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m9 18 6-6-6-6"></path></svg
-        ></span>
-      </button>
+      ><!-- …and 23 more like this (<button class="bcn-gd-row">) -->
     </div>
   </div>
   <div slot="footer" class="bcn-gd__foot">
@@ -1104,6 +460,7 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
 ```
 
 ## Styles
+
 ```css
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -1142,23 +499,15 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
 .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
   animation: 12s linear infinite bcn-aldo-spin;
 }
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
+@media (prefers-reduced-motion: reduce) {
+  .bcn-aldo-mark[data-animated],
+  .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
+    animation: none;
+  }
 }
 .bcn-gd {
   --z-modal-backdrop: 1300;
   --z-modal: 1301;
-  --side-dialog-width: 460px;
-  --side-dialog-backdrop-filter: blur(2px);
-}
-.bcn-gd-article {
-  --z-modal-backdrop: 1302;
-  --z-modal: 1303;
   --side-dialog-width: 460px;
   --side-dialog-backdrop-filter: blur(2px);
 }
@@ -1338,62 +687,6 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
   color: var(--color-content-default-tertiary);
   cursor: default;
 }
-.bcn-gd-article__head {
-  gap: var(--spacing-200);
-  flex-direction: column;
-  min-width: 0;
-  display: flex;
-}
-.bcn-gd-article__back {
-  align-items: center;
-  gap: var(--spacing-100);
-  font: inherit;
-  font-size: var(--font-size-150);
-  font-weight: var(--typography-font-weight-medium);
-  color: var(--color-content-default-secondary);
-  cursor: pointer;
-  background: 0 0;
-  border: 0;
-  align-self: flex-start;
-  padding: 0;
-  display: inline-flex;
-}
-.bcn-gd-article__back:hover {
-  color: var(--color-content-default);
-}
-.bcn-gd-article__titlerow {
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-  display: flex;
-}
-.bcn-gd-article__title {
-  font-family: var(--font-decorative);
-  font-size: var(--font-size-300);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-  line-height: 1.25;
-}
-.bcn-gd-article__kind {
-  border-radius: var(--radius-100);
-  border: 1px solid var(--color-border-default);
-  background: var(--color-background-elevation-raised);
-  font-size: var(--font-size-100);
-  font-weight: var(--typography-font-weight-medium);
-  color: var(--color-content-default-secondary);
-  white-space: nowrap;
-  flex: none;
-  padding: 1px 6px;
-  line-height: 1.5;
-}
-.bcn-gd-article__kind[data-kind="glossary"] {
-  color: var(--bcn-aldo-600);
-  border-color: var(--bcn-aldo-100);
-  background: var(--bcn-aldo-50);
-}
-.bcn-gd-article__panel[hidden] {
-  display: none;
-}
 .bcn-gd-msg {
   gap: var(--spacing-300);
   align-items: flex-start;
@@ -1453,18 +746,16 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
   padding: 0;
   text-decoration: underline;
 }
-.bcn-gd-msg__browse {
-  font-size: var(--font-size-150);
-  font-weight: var(--typography-font-weight-medium);
-  color: var(--color-background-brand);
-  text-underline-offset: 2px;
-  text-decoration: underline;
-}
 .bcn-disclosure .esa-icon {
   transition: transform 0.15s;
 }
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
 }
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -1473,9 +764,6 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -1520,20 +808,8 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -1550,51 +826,45 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
 ```
 
 ## Tokens
-- `--bcn-aldo`: #08908b _(component)_
-- `--bcn-aldo-100`: #cfeceb _(component)_
-- `--bcn-aldo-50`: #e8f6f5 _(component)_
-- `--bcn-aldo-600`: #06736f _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--font-decorative`: "Besley", serif _(component)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
-- `--font-size-250`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(primitive)_
-- `--font-size-300`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(primitive)_
-- `--font-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--radius-300`: .5rem _(primitive)_
-- `--radius-full`: 9999px _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-regular`: 400 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-aldo` | `#08908b` | component |
+| `--bcn-aldo-100` | `#cfeceb` | component |
+| `--bcn-aldo-50` | `#e8f6f5` | component |
+| `--bcn-aldo-600` | `#06736f` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--font-decorative` | `"Besley", serif` | component |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
+| `--font-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` | primitive |
+| `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--radius-200` | `.5rem` | primitive |
+| `--radius-300` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-regular` | `400` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |

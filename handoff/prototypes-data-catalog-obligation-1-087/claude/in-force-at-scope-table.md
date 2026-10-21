@@ -1,21 +1,37 @@
 # In force at (scope table)
 
+Obligation detail (Data Catalog) · source prototype: https://esassoc.github.io/beacon-design/prototypes/data-catalog-obligation/1-087/
+
+![In force at (scope table), desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-obligation-1-087/claude/in-force-at-scope-table.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-obligation-1-087/claude/in-force-at-scope-table.phone.png
+
 The full-width table of components the obligation applies at — the positional sibling of the Action page's "Tracked Actions" section. Four columns: component, type, the activity that carries it, and an evidence count.
 
 ## Key decisions
+
 - DELIBERATELY NOT CALLED IMPLEMENTATIONS. An Action's implementation is a trackable instance with status, owner, due date and completion — that is ActionImplementation in prod. An obligation's instances are not enumerable (the world generates them: per rain, per encounter, per day of work), so there is nothing to instantiate. A row here is an applicability assertion plus an evidence anchor, and carries none of those four columns.
 - A mini-table, not a second AG Grid. The Action page justifies a grid because its rows carry status and are sortable; four read-only columns inside a detail page do not.
 - Component names come from the project's real fixture (src/data/component-dashboard.ts POPULATED), reused so this table names the same components as every other surface in the spoke.
 
 ## Gotchas
+
 - THE ROWS ARE EXAMPLE SCOPE. The registry carries no scope, and whether obligations get scope rows AT ALL is an open model question. They are derived deterministically from the obligation id (no Math.random, no Date.now) purely so the table's shape can be reviewed — reload twice and diff nothing.
 - The first version of this used a stride of 7 to pick components from a 7-entry fixture, so every row picked the SAME component. Any derivation like this needs a stride of 1, or an explicit distinct check.
 
 ## Done when
+
 - The table lists 2 to 4 distinct components — never the same component twice — each with the activity that carries the obligation.
 - An obligation whose activities resolve to no components renders the esa-empty-state instead of an empty table.
 
+## Components
+
+- `bcn-mt` (spoke) · `src/components/bcn/BcnMiniTable.astro`
+- `bcn-oscope` (spoke) · `src/components/bcn/BcnObligationScope.astro`
+- `esa-badge` (hub) · `packages/ecology/src/components/esa-badge.astro` → use `ui-badge` in the Beacon app
+
 ## Markup
+
 ```html
 <section class="stack bcn-oscope" data-gap="sm" aria-label="In force at">
   <h2 class="type-section-title bcn-oscope__title">
@@ -52,6 +68,7 @@ The full-width table of components the obligation applies at — the positional 
 ```
 
 ## Styles
+
 ```css
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
@@ -79,15 +96,13 @@ The full-width table of components the obligation applies at — the positional 
 .bcn-ev-attached__mark .esa-badge {
   --badge-bg: var(--color-background-utility-info-subtle);
   --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
   font-weight: var(--typography-font-weight-medium);
 }
 .bcn-ev-row__mark .esa-badge {
   --badge-bg: var(--color-background-utility-info-subtle);
   --badge-text-color: var(--color-content-default);
-  border: 1px solid
-    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
   font-weight: var(--typography-font-weight-medium);
 }
 .bcn-ev-row__tags .esa-badge {
@@ -113,85 +128,21 @@ The full-width table of components the obligation applies at — the positional 
   align-items: center;
   display: inline-flex;
 }
-.esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
-}
 .esa-badge--sm {
   --_badge-padding-y: var(--spacing-100, 0.25rem);
   --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
-}
-.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand, #46a758);
-  --_badge-text: var(--color-content-default-knockout, #fcfcfc);
 }
 .esa-badge--secondary {
   --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
   --_badge-text: var(--color-content-on-brand-muted, #203c25);
 }
-.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
-}
-.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
-}
-.esa-badge--neutral:not(.esa-badge--dot),
-.esa-badge--success:not(.esa-badge--dot),
-.esa-badge--warning:not(.esa-badge--dot),
-.esa-badge--danger:not(.esa-badge--dot),
-.esa-badge--info:not(.esa-badge--dot) {
-  border: 1px solid var(--_badge-border, transparent);
-}
-.esa-badge--dot {
-  border-radius: var(--radius-pill, 9999px);
-  width: 8px;
-  min-width: 8px;
-  height: 8px;
-  padding: 0;
-}
-.esa-badge--dot.esa-badge--neutral {
-  --_badge-bg: var(--color-content-default-secondary, #646464);
-}
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
-}
 .esa-badge--dot.esa-badge--secondary {
   --_badge-bg: var(--color-background-brand, #46a758);
 }
-.esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
-}
-.esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
-}
-.esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
-}
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  background: canvastext;
-  border: 0;
-  outline: 1px solid canvastext;
+@media (forced-colors: active) {
+  .esa-badge {
+    border: 1px solid canvastext;
+  }
 }
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
@@ -269,19 +220,6 @@ The full-width table of components the obligation applies at — the positional 
 .bcn-mt td a:hover {
   text-decoration: underline;
 }
-.bcn-mt__dot {
-  border-radius: var(--radius-full);
-  block-size: 7px;
-  inline-size: 7px;
-  vertical-align: 1px;
-  margin-inline-end: var(--spacing-100);
-  display: inline-block;
-}
-.bcn-mt--truncate {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
 .stack {
   --gap: var(--spacing-400, 1rem);
   gap: var(--gap);
@@ -294,59 +232,42 @@ The full-width table of components the obligation applies at — the positional 
 ```
 
 ## Tokens
-- `--badge-bg`: #fcfcfc _(component)_
-- `--badge-border-color`: #dcdcdc _(component)_
-- `--badge-text-color`: #525252 _(component)_
-- `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-700`: #525252 _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-danger-muted`: #feebec _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
-- `--color-background-utility-info-subtle`: #fbfdff _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-utility-danger`: #fdbdbe _(semantic)_
-- `--color-border-utility-info`: #acd8fc _(semantic)_
-- `--color-border-utility-success`: #adddc0 _(semantic)_
-- `--color-border-utility-warning`: #f3d673 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--gap`: .75rem _(component)_
-- `--radius-chip`: .25rem _(semantic)_
-- `--radius-full`: 9999px _(primitive)_
-- `--radius-pill`: 9999px _(semantic)_
-- `--radius-sm`: .25rem _(semantic)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-heading-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-heading-md-font-size`: clamp(1.125rem, .98rem + .72vw, 1.5rem) _(semantic)_
-- `--typography-heading-md-font-weight`: 550 _(semantic)_
-- `--typography-heading-md-letter-spacing`: -.01em _(semantic)_
-- `--typography-heading-md-line-height`: 1.3 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--badge-bg` | `#fcfcfc` | component |
+| `--badge-border-color` | `#dcdcdc` | component |
+| `--badge-text-color` | `#525252` | component |
+| `--bcn-gray-100` | `#efefef` | component |
+| `--bcn-gray-700` | `#525252` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-utility-info` | `#228be6` | semantic |
+| `--color-background-utility-info-subtle` | `#fbfdff` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-on-brand-muted` | `#203c25` | semantic |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--gap` | `.75rem` | component |
+| `--radius-chip` | `.25rem` | semantic |
+| `--radius-full` | `9999px` | primitive |
+| `--radius-sm` | `.25rem` | semantic |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-heading-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-heading-md-font-size` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | semantic |
+| `--typography-heading-md-font-weight` | `550` | semantic |
+| `--typography-heading-md-letter-spacing` | `-.01em` | semantic |
+| `--typography-heading-md-line-height` | `1.3` | semantic |
+| `--typography-microcopy-xs-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-strong-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-strong-font-weight` | `550` | semantic |
+| `--typography-microcopy-xs-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-strong-line-height` | `1` | semantic |

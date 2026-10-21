@@ -1,0 +1,11 @@
+# Action list PDF
+
+Source prototype: https://esassoc.github.io/beacon-design/prototypes/list-export-documents/annual-reporting/
+
+An action list as a PDF on Letter, grouped by type: a summary table, then frequency, timing and commitments per action, and one line per component for where it stands.
+
+| Section | What it is | Spec | Screenshots |
+|---|---|---|---|
+| Print route + data | An action list as the PDF its Export card downloads: title block, a summary table with one line per action, then every action in full from a new page, grouped… | [print-route-data.md](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-annual-reporting/claude/print-route-data.md) 22 KB | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-annual-reporting/claude/print-route-data.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-annual-reporting/claude/print-route-data.phone.png) |
+| Summary table | One line per action: Action, Frequency, Commitments, under full-width type rows. | [summary-table.md](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-annual-reporting/claude/summary-table.md) 4.5 KB | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-annual-reporting/claude/summary-table.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-annual-reporting/claude/summary-table.phone.png) |
+| Action entry + status lines | One action in the detail: title with commitment codes at the right margin, description, a facts row (Frequency, Timing), then one line per component saying whe… | [action-entry-status-lines.md](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-annual-reporting/claude/action-entry-status-lines.md) 6.6 KB | [desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-annual-reporting/claude/action-entry-status-lines.desktop.png) · [phone](https://esassoc.github.io/beacon-design/handoff/prototypes-list-export-documents-annual-reporting/claude/action-entry-status-lines.phone.png) |

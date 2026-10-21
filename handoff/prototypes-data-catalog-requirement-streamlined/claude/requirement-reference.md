@@ -1,27 +1,45 @@
 # Requirement reference
 
+Requirement detail — streamlined (Data Catalog) · source prototype: https://esassoc.github.io/beacon-design/prototypes/data-catalog-requirement-streamlined/
+
+![Requirement reference, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-requirement-streamlined/claude/requirement-reference.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-requirement-streamlined/claude/requirement-reference.phone.png
+
 The full requirement reference block (BcnRequirementReference): the source requirement text in serif, then a metadata grid — Resource Category / Type / Phase / Frequency / Milestone / Species / Season / Construction Activities / Responsible Party / Expected Evidence. It is the single source of truth for the merged record's reference data; the rail carries ONLY what this block does not, so there is zero duplication.
 
 ## Key decisions
+
 - One reusable bcn-* component owns the whole reference read (text + metadata grid + source link) — the page composes it, it does not re-hand-roll a definition list.
 - It carries the FULL conditional trio as first-class rows (Species / Season / Construction Activities) — the MM-BIO-2 nesting-bird survey is the record that exercises all three.
 - The block's own footer "Edit Requirement" button is HIDDEN here (the page header owns Edit); its "View in Source Document" trigger ([data-bcn-source]) opens the shared source drawer.
 - It sits on the page as a white card (surface white against the page background), not inside a dialog.
 
 ## Gotchas
+
 - Do not render an Edit affordance inside this block on the detail page — the page header is the single edit entry point; the block's footer Edit is suppressed with `.bcn-action__main :global([data-bcn-edit]) { display: none }`.
 - Rows with no value are hidden (data-field + hidden), not shown empty; keep that conditional so the trio collapses cleanly for requirements that lack a season or activity.
 
 ## Done when
+
 - Serif requirement text over a metadata grid including the Species / Season / Construction Activities trio; no inline Edit button; "View in Source Document" opens the PDF drawer.
 
+## Components
+
+- `bcn-reqref` (spoke) · `src/components/bcn/BcnRequirementReference.astro`
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+
 ## Markup
+
+_11 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <article class="bcn-reqref">
   <p class="bcn-reqref__text" data-bcn-text="">
-    Prior to ground-disturbing activities, a qualified biologist shall complete
-    pre-construction survey for nesting raptors and other migratory birds during nesting
-    season within the project area and submit findings to the City.
+    Prior to ground-disturbing activities, a qualified biologist shall complete pre-construction
+    survey for nesting raptors and other migratory birds during nesting season within the project
+    area and submit findings to the City.
   </p>
   <dl class="bcn-reqref__meta">
     <div class="bcn-reqref__row" data-field="resourceCategory">
@@ -69,188 +87,13 @@ The full requirement reference block (BcnRequirementReference): the source requi
       </dt>
       <dd class="bcn-reqref__val">Survey</dd>
     </div>
-    <div class="bcn-reqref__row" data-field="phase">
-      <dt class="bcn-reqref__key">
-        <span class="esa-icon esa-icon--xs" aria-hidden="true"
-          ><svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="M8 2v4"></path>
-            <path d="M16 2v4"></path>
-            <rect width="18" height="18" x="3" y="4" rx="2"></rect>
-            <path d="M3 10h18"></path></svg></span
-        >Phase
-      </dt>
-      <dd class="bcn-reqref__val">Pre-Construction</dd>
-    </div>
-    <div class="bcn-reqref__row" data-field="frequency">
-      <dt class="bcn-reqref__key">
-        <span class="esa-icon esa-icon--xs" aria-hidden="true"
-          ><svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="m17 2 4 4-4 4"></path>
-            <path d="M3 11v-1a4 4 0 0 1 4-4h14"></path>
-            <path d="m7 22-4-4 4-4"></path>
-            <path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg></span
-        >Frequency
-      </dt>
-      <dd class="bcn-reqref__val">One-time</dd>
-    </div>
-    <div class="bcn-reqref__row" data-field="milestone">
-      <dt class="bcn-reqref__key">
-        <span class="esa-icon esa-icon--xs" aria-hidden="true"
-          ><svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
-            <line x1="4" x2="4" y1="22" y2="15"></line></svg></span
-        >Milestone
-      </dt>
-      <dd class="bcn-reqref__val">Building Permit</dd>
-    </div>
-    <div class="bcn-reqref__row" data-field="species">
-      <dt class="bcn-reqref__key">
-        <span class="esa-icon esa-icon--xs" aria-hidden="true"
-          ><svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="M16 7h.01"></path>
-            <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"></path>
-            <path d="m20 7 2 .5-2 .5"></path>
-            <path d="M10 18v3"></path>
-            <path d="M14 17.75V21"></path>
-            <path d="M7 18a6 6 0 0 0 3.84-10.61"></path></svg></span
-        >Species
-      </dt>
-      <dd class="bcn-reqref__val">Nesting raptors, Migratory birds</dd>
-    </div>
-    <div class="bcn-reqref__row" data-field="season">
-      <dt class="bcn-reqref__key">
-        <span class="esa-icon esa-icon--xs" aria-hidden="true"
-          ><svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path
-              d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
-            ></path>
-            <path d="M2 21c0-3 1.85-5.36 5.08-6"></path></svg></span
-        >Season
-      </dt>
-      <dd class="bcn-reqref__val">Feb 1 – Aug 31</dd>
-    </div>
-    <div class="bcn-reqref__row" data-field="constructionActivities">
-      <dt class="bcn-reqref__key">
-        <span class="esa-icon esa-icon--xs" aria-hidden="true"
-          ><svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path
-              d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1z"
-            ></path>
-            <path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"></path>
-            <path d="M4 15v-3a6 6 0 0 1 6-6"></path>
-            <path d="M14 6a6 6 0 0 1 6 6v3"></path></svg></span
-        >Construction activity
-      </dt>
-      <dd class="bcn-reqref__val">Ground disturbance, Vegetation removal</dd>
-    </div>
-    <div class="bcn-reqref__row" data-field="responsibleParty">
-      <dt class="bcn-reqref__key">
-        <span class="esa-icon esa-icon--xs" aria-hidden="true"
-          ><svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle></svg></span
-        >Responsible party
-      </dt>
-      <dd class="bcn-reqref__val">Environmental Lead</dd>
-    </div>
-    <div class="bcn-reqref__row" data-field="expectedEvidence">
-      <dt class="bcn-reqref__key">
-        <span class="esa-icon esa-icon--xs" aria-hidden="true"
-          ><svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path
-              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
-            ></path></svg></span
-        >Expected evidence
-      </dt>
-      <dd class="bcn-reqref__val">Survey report (PDF)</dd>
-    </div>
+    <!-- …and 8 more like this (<div class="bcn-reqref__row">) -->
   </dl>
   <footer class="bcn-reqref__footer">
     <!-- Host wires this trigger to its own source-document drawer. --><span
       class="bcn-reqref__action"
       data-bcn-source=""
-      ><span
-        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
+      ><span class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
         ><button class="esa-button__native typography-microcopy-xs" type="button">
           <span class="esa-icon esa-icon--sm" aria-hidden="true"
             ><svg
@@ -266,18 +109,13 @@ The full requirement reference block (BcnRequirementReference): the source requi
             >
               <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
               <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-              <path d="M10 9H8"></path>
-              <path d="M16 13H8"></path>
-              <path d="M16 17H8"></path></svg></span
+              <!-- …and 3 more like this (<path>) -->
+            </svg></span
           ><span class="esa-button__label">View in Source Document</span>
         </button></span
       ></span
-    ><span
-      class="bcn-reqref__action"
-      data-bcn-edit=""
-      data-href="#data-catalog/requirements"
-      ><span
-        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
+    ><span class="bcn-reqref__action" data-bcn-edit="" data-href="#data-catalog/requirements"
+      ><span class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
         ><button class="esa-button__native typography-microcopy-xs" type="button">
           <span class="esa-icon esa-icon--sm" aria-hidden="true"
             ><svg
@@ -321,6 +159,7 @@ The full requirement reference block (BcnRequirementReference): the source requi
 ```
 
 ## Styles
+
 ```css
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -329,31 +168,9 @@ The full requirement reference block (BcnRequirementReference): the source requi
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -369,6 +186,11 @@ The full requirement reference block (BcnRequirementReference): the source requi
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -376,9 +198,6 @@ The full requirement reference block (BcnRequirementReference): the source requi
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -447,57 +266,10 @@ The full requirement reference block (BcnRequirementReference): the source requi
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
 .esa-button--sm {
   --_btn-pad-y: var(--spacing-250, 0.625rem);
   --_btn-padding-x: var(--spacing-250, 0.625rem);
   --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.esa-button--variant-secondary {
-  --_accent: var(--color-background-brand-muted);
-  --_accent-hover: var(--color-background-brand-muted-hover);
-  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
-  --_accent-text: var(--color-content-brand);
-  --_accent-border: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -561,10 +333,7 @@ The full requirement reference block (BcnRequirementReference): the source requi
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -591,11 +360,6 @@ The full requirement reference block (BcnRequirementReference): the source requi
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -612,28 +376,8 @@ summary.esa-button:focus-visible {
   outline-offset: var(--focus-ring-offset, 2px);
   border-radius: var(--_btn-radius);
 }
-summary.esa-button--variant-chrome:focus-visible {
-  outline-color: currentColor;
-}
 .esa-button__label {
   white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -641,20 +385,6 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-microcopy-xs-font-weight);
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -748,8 +478,15 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--color-background-brand-muted-hover);
   background: color-mix(in srgb, var(--color-background-brand-muted) 10%, transparent);
 }
-.bcn-reqref__row {
-  grid-template-columns: 160px 1fr;
+@media (width<=720px) {
+  .bcn-reqref__meta {
+    grid-template-columns: 1fr;
+  }
+}
+@media (width<=720px) {
+  .bcn-reqref__row {
+    grid-template-columns: 160px 1fr;
+  }
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -766,15 +503,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
 }
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
 .esa-icon svg {
   width: var(--_icon-size);
   height: var(--_icon-size);
@@ -790,87 +518,53 @@ summary.esa-button--variant-chrome:focus-visible {
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-default`: #fafafa _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-decorative`: "Besley", serif _(component)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-300`: .5rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--spacing-600`: 2rem _(primitive)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
+| `--color-background-brand-muted-hover` | `#b9d6d2` | semantic |
+| `--color-background-default` | `#fafafa` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--font-decorative` | `"Besley", serif` | component |
+| `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--icon-size-xs` | `14px` | primitive |
+| `--radius-300` | `.5rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--spacing-600` | `2rem` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |

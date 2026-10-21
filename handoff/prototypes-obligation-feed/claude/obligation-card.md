@@ -1,15 +1,31 @@
 # Obligation card
 
+Obligations (feed) · source prototype: https://esassoc.github.io/beacon-design/prototypes/obligation-feed/
+
+![Obligation card, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-feed/claude/obligation-card.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-feed/claude/obligation-card.phone.png
+
 One obligation linked to the record: a flat Lists slim card with the class chip, the title and the relation mark (Triggered in the notify hue, Evidence in grey), and two hover verbs hard right: pin, and x to remove from this record.
 
 ## Key decisions
+
 - Flat: no component/implementation children. The switcher already scopes the page (Andy, 2026-09-23).
 - Pin is per reader and follows every copy of the same obligation on the page. A pinned card keeps its pin showing; an unpinned one shows it on hover.
 
 ## Done when
+
 - Pin and x sit at the right edge of every card; pinning one card pins its twins in the other views.
 
+## Components
+
+- `bcn-foc` (spoke) · `src/components/bcn/BcnFeedLinks.astro`
+- `bcn-loc` (spoke) · `src/components/bcn/BcnEvidenceTargets.astro`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+- `esa-tooltip` (hub) · `packages/ecology/src/components/esa-tooltip.ts`
+
 ## Markup
+
 ```html
 <li
   class="bcn-loc bcn-foc"
@@ -23,13 +39,8 @@ One obligation linked to the record: a flat Lists slim card with the class chip,
     <span class="bcn-loc__class">Notify</span
     ><span class="bcn-loc__title bcn-foc__title"
       >Ongoing demonstration of mitigation performance during the permit term</span
-    ><esa-tooltip
-      text="This record made the obligation owed"
-      position="above"
-      align="center"
-      ><span class="bcn-foc__relation" data-relation="triggered"
-        >Triggered</span
-      ></esa-tooltip
+    ><esa-tooltip text="This record made the obligation owed" position="above" align="center"
+      ><span class="bcn-foc__relation" data-relation="triggered">Triggered</span></esa-tooltip
     ><span class="bcn-foc__verbs"
       ><esa-tooltip text="Pin" align="end" position="above"
         ><button
@@ -84,18 +95,11 @@ One obligation linked to the record: a flat Lists slim card with the class chip,
 ```
 
 ## Styles
+
 ```css
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -110,6 +114,11 @@ One obligation linked to the record: a flat Lists slim card with the class chip,
 }
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
 }
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -128,9 +137,6 @@ One obligation linked to the record: a flat Lists slim card with the class chip,
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -192,10 +198,6 @@ One obligation linked to the record: a flat Lists slim card with the class chip,
 .bcn-loc.is-new {
   animation: 0.9s ease-out bcn-obl-flash;
 }
-.bcn-swoc__node,
-.bcn-loc__node {
-  min-width: 0;
-}
 .bcn-swoc__main,
 .bcn-loc__main {
   align-items: center;
@@ -227,17 +229,6 @@ details[open] > .bcn-swoc__main,
 details[open] > .bcn-loc__main {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
-}
-.bcn-swoc__chevron,
-.bcn-loc__chevron {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  transition: transform 0.12s;
-  display: inline-flex;
-}
-details[open] > summary .bcn-swoc__chevron,
-details[open] > summary .bcn-loc__chevron {
-  transform: rotate(90deg);
 }
 .bcn-swoc__class,
 .bcn-loc__class,
@@ -353,118 +344,11 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-loc__verb--danger:hover {
   color: var(--color-background-utility-danger);
 }
-.bcn-swoc__reqs,
-.bcn-loc__reqs,
-.bcn-ciitem__reqs {
-  padding: 0 var(--spacing-300) var(--spacing-150)
-    calc(var(--spacing-300) + var(--_req-indent));
-  flex-direction: column;
-  margin: 0;
-  list-style: none;
-  display: flex;
-}
-.bcn-swoc__req,
-.bcn-loc__req,
-.bcn-ciitem__req {
-  align-items: center;
-  gap: var(--spacing-200);
-  min-height: 28px;
-  padding: var(--spacing-050) var(--spacing-200);
-  border-top: 1px solid var(--color-border-default-subtle);
-  border-radius: var(--radius-100);
-  display: flex;
-}
-.bcn-swoc__req:hover,
-.bcn-loc__req:hover {
-  background: var(--color-background-default);
-}
-.bcn-swoc__req-name,
-.bcn-loc__req-name,
-.bcn-ciitem__req-name {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-}
-.bcn-swoc__also,
-.bcn-loc__also {
-  color: var(--color-content-default-tertiary);
-  white-space: nowrap;
-  flex-shrink: 0;
-  font-size: 0.6875rem;
-}
 .bcn-loc__title {
   flex: 0 auto;
 }
 .bcn-loc [data-list-count] {
   margin-inline-start: auto;
-}
-.bcn-loc__edited {
-  flex-shrink: 0;
-  display: inline-flex;
-}
-.bcn-loc__edited[hidden] {
-  display: none;
-}
-.bcn-loc__dot {
-  place-items: center;
-  block-size: 1rem;
-  inline-size: 1rem;
-  display: inline-grid;
-}
-.bcn-loc__dot:before {
-  content: "";
-  background: var(--color-content-brand);
-  border-radius: 50%;
-  block-size: 6px;
-  inline-size: 6px;
-}
-.bcn-loc__req {
-  color: var(--color-content-default-secondary);
-  cursor: pointer;
-}
-.bcn-loc__req-name {
-  font: inherit;
-  color: inherit;
-  text-align: start;
-  cursor: pointer;
-  background: 0 0;
-  border: 0;
-  padding: 0;
-}
-.bcn-loc__req:hover .bcn-loc__req-name {
-  color: var(--color-content-default);
-}
-.bcn-loc__req-name:focus-visible {
-  outline: 2px solid var(--color-obligation);
-  outline-offset: 1px;
-  border-radius: 2px;
-}
-.bcn-loc__impl[hidden] {
-  display: none;
-}
-.bcn-loc__impl .bcn-status-chip {
-  flex-shrink: 0;
-}
-.bcn-loc__comments {
-  font-size: var(--font-size-100);
-  color: var(--color-content-default-tertiary);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.bcn-loc__evidence {
-  text-align: end;
-  min-width: 5.5rem;
-  font-size: var(--font-size-100);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default-secondary);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.bcn-loc__evidence[data-none] {
-  color: var(--color-content-default-tertiary);
-  font-weight: 400;
 }
 .bcn-foc__main {
   cursor: default;
@@ -518,18 +402,6 @@ details[open] > summary .bcn-loc__chevron {
 .esa-icon--xs {
   --_icon-size: var(--icon-size-xs, 14px);
 }
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
 .esa-icon svg {
   width: var(--_icon-size);
   height: var(--_icon-size);
@@ -545,37 +417,30 @@ details[open] > summary .bcn-loc__chevron {
 ```
 
 ## Tokens
-- `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-action`: #d45087 _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-default`: #fafafa _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-obligation`: #f95d6a _(component)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-gray-100` | `#efefef` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--color-action` | `#d45087` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-default` | `#fafafa` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-obligation` | `#f95d6a` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-xs` | `14px` | primitive |
+| `--radius-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |

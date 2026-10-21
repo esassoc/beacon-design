@@ -1,19 +1,33 @@
 # Notifications rail
 
+Requirement detail — streamlined (Data Catalog) · source prototype: https://esassoc.github.io/beacon-design/prototypes/data-catalog-requirement-streamlined/
+
+![Notifications rail, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-requirement-streamlined/claude/notifications-rail.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-data-catalog-requirement-streamlined/claude/notifications-rail.phone.png
+
 The Notifications rail module: rule-phrasing trigger rows (Coming up / Due / Past due), each an icon | name | rule. It mirrors the standard Action detail page's trigger list and states only the notification RULES — never any one implementation's calculated dates.
 
 ## Key decisions
+
 - Rules-only: "7 days before due", "On the due date", "1 day after due" — config phrasing, so the module is honest that it is setup, not a live schedule.
 - The full editable notification config (toggles, lead days, additional recipients, and the schedule computed off a due date) lives in the edit modal's Notifications tab; the rail is a read summary.
 
 ## Gotchas
+
 - Do not render per-implementation notification dates in the rail — that is tracking leakage; the computed schedule is only shown inside the modal against a read-only due date.
 - Keep the row anatomy icon | name | rule (rule right-aligned) consistent with the standard Action page so the two read as the same control.
 
 ## Done when
+
 - Three trigger rows (Coming up / Due / Past due) showing rule phrasing only, no concrete dates.
 
+## Components
+
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+
 ## Markup
+
 ```html
 <ul class="bcn-triggers">
   <li class="bcn-trigger-row">
@@ -69,9 +83,7 @@ The Notifications rail module: rule-phrasing trigger rows (Coming up / Due / Pas
         stroke-linejoin="round"
         focusable="false"
       >
-        <path
-          d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
-        ></path>
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path>
         <path d="M12 9v4"></path>
         <path d="M12 17h.01"></path></svg></span
     ><span class="bcn-trigger-row__name">Past due</span
@@ -81,18 +93,11 @@ The Notifications rail module: rule-phrasing trigger rows (Coming up / Due / Pas
 ```
 
 ## Styles
+
 ```css
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -108,6 +113,11 @@ The Notifications rail module: rule-phrasing trigger rows (Coming up / Due / Pas
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -115,9 +125,6 @@ The Notifications rail module: rule-phrasing trigger rows (Coming up / Due / Pas
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -222,20 +229,8 @@ The Notifications rail module: rule-phrasing trigger rows (Coming up / Due / Pas
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -252,24 +247,21 @@ The Notifications rail module: rule-phrasing trigger rows (Coming up / Due / Pas
 ```
 
 ## Tokens
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |

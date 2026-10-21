@@ -1,8 +1,15 @@
 # Views + filter row
 
+Action list · source prototype: https://esassoc.github.io/beacon-design/prototypes/lists/annual-reporting/
+
+![Views + filter row, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-annual-reporting/claude/views-filter-row.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-lists-annual-reporting/claude/views-filter-row.phone.png
+
 Search plus three row pickers — Component, Status, Evidence — under the view tabs (By Compliance Index · By type · By commitment · A–Z). Expand all / Collapse all sit below the gray panel, right-aligned.
 
 ## Key decisions
+
 - NO Type picker (removed 2026-09-23): "By type" is a view, and the picker duplicated it.
 - All three are ROW filters ANDed in one pass (passImpls({component, status, evidence})): failing implementation rows hide, cards with none left drop, empty branches drop.
 - Component matches the implementation id's suffix — an implementation id is `${actionId}|${componentId}`.
@@ -10,13 +17,22 @@ Search plus three row pickers — Component, Status, Evidence — under the view
 - The master tree is By Compliance Index. The other views are clones marked data-list-mirror, rebuilt after every filter pass; verbs on a clone resolve to the master card (cardOf).
 
 ## Gotchas
+
 - Count badges report what the list holds, not what the filter shows.
 - Tree queries must exclude [data-list-mirror] or every card counts twice.
 
 ## Done when
+
 - Component = one DCP component → every visible row is on that component; add Evidence = none → fewer; reset → all cards back.
 
+## Components
+
+- `bcn-swfr` (spoke) · `src/components/bcn/BcnSwFilterRow.astro`
+- `esa-select` (hub) · `packages/ecology/src/components/esa-select.ts`
+- `esa-text-field` (hub) · `packages/ecology/src/components/esa-text-field.ts`
+
 ## Markup
+
 ```html
 <div class="bcn-swfr bcn-swfr--panel">
   <esa-text-field
@@ -30,7 +46,7 @@ Search plus three row pickers — Component, Status, Evidence — under the view
     class="bcn-swfr__picker"
     size="sm"
     name="list-search-component"
-    options='[{"label":"All components","value":""},{"label":"Southern Forebay &amp; Pumping Plant","value":"southern-forebay-pumping-plant"},{"label":"Intake B — North Delta","value":"intake-b-north-delta"},{"label":"Twin Cities Complex","value":"twin-cities-complex"},{"label":"Intake C — North Delta","value":"intake-c-north-delta"},{"label":"Bouldin Island Geotechnical Exploration","value":"bouldin-island-geotechnical-exploration"},{"label":"Bethany Reservoir Aqueduct","value":"bethany-reservoir-aqueduct"},{"label":"Byron Tract Forebay","value":"byron-tract-forebay"}]'
+    options='[{"label":"All components","value":""},{"label":"Southern Forebay &amp; Pumping Plant","value":"southern-forebay-pumping-pla… [559 characters]'
     value=""
     placeholder="All components"
     cue="Filter by component."
@@ -58,6 +74,7 @@ Search plus three row pickers — Component, Status, Evidence — under the view
 ```
 
 ## Styles
+
 ```css
 .bcn-swfr {
   align-items: center;
@@ -68,9 +85,6 @@ Search plus three row pickers — Component, Status, Evidence — under the view
   flex-wrap: wrap;
   font-size: 0.8125rem;
   display: flex;
-}
-.bcn-swfr--inset {
-  border-top: none;
 }
 .bcn-swfr--panel {
   padding: var(--spacing-250) var(--spacing-400);
@@ -102,14 +116,17 @@ Search plus three row pickers — Component, Status, Evidence — under the view
 ```
 
 ## Tokens
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--radius-200`: .5rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--radius-200` | `.5rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |

@@ -1,17 +1,37 @@
 # Item panel
 
+Custom Compliance Index list · source prototype: https://esassoc.github.io/beacon-design/prototypes/lists/contractor-field-index/
+
+![Item panel, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-contractor-field-index/claude/item-panel.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-lists-contractor-field-index/claude/item-panel.phone.png
+
 One member of this version, an action or an obligation: the obligation list's panel for a version. Live: List title, Category and Subcategory (where this version files it), List description. Read only: the type or class chip, where the Compliance Index files it, the index description and the requirements. Footer: Remove from this list and Duplicate left; Save, Cancel right.
 
 ## Key decisions
+
 - The pickers offer the VERSION's outline under this list's names, not the canonical taxonomy: a version files by its own categories. Changing Category refills Subcategory.
 - An empty title or description means the index's wording, so the fields hold only what the list says differently. The index description turns tertiary once the list has its own.
 - Remove goes through the tree's confirm, the same as the card's x; Duplicate files the copy the way the card's copy verb does.
 
 ## Done when
+
 - Clearing both wording fields and saving restores the index title and drops the dot.
 - Saving with another Subcategory moves the member there.
 
+## Components
+
+- `bcn-lob` (spoke) · `src/components/bcn/BcnListIndexItemPanel.astro`
+- `bcn-swo-edit` (spoke) · `src/components/bcn/BcnListActionPanel.astro`
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+- `esa-select` (hub) · `packages/ecology/src/components/esa-select.ts`
+- `esa-side-dialog` (hub) · `packages/ecology/src/components/esa-side-dialog.ts`
+- `esa-text-field` (hub) · `packages/ecology/src/components/esa-text-field.ts`
+- `esa-textarea` (hub) · `packages/ecology/src/components/esa-textarea.ts`
+
 ## Markup
+
 ```html
 <esa-side-dialog
   id="lip-editor"
@@ -21,14 +41,8 @@ One member of this version, an action or an obligation: the obligation list's pa
   style="--_width: min(640px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250"
   size="md"
   open=""
-  ><form
-    class="bcn-swo-edit bcn-lob bcn-lip"
-    data-index-item-panel=""
-    data-class="action"
-  >
-    <div>
-      <span class="bcn-lob__class" data-lip="chip">Training &amp; Education</span>
-    </div>
+  ><form class="bcn-swo-edit bcn-lob bcn-lip" data-index-item-panel="" data-class="action">
+    <div><span class="bcn-lob__class" data-lip="chip">Training &amp; Education</span></div>
     <esa-text-field
       label="List title"
       size="sm"
@@ -47,13 +61,12 @@ One member of this version, an action or an obligation: the obligation list's pa
     <div class="bcn-lob__field">
       <span class="bcn-swo-edit__label">Index description</span>
       <p class="bcn-lob__prose" data-lip="description" data-superseded="true">
-        A Designated Biologist, Fisheries Biologist, or Biological Monitor presents the
-        Condition of Approval 9.4 education program to every person working in the Project
-        Area before that person performs any work, covering Covered Species biology and
-        timing windows, the Conditions of Approval, take-minimization protocols,
-        non-covered listed species, site boundaries and disturbance-free zones, habitat
-        avoidance, fencing and staking, roles, encounter and emergency procedures, and
-        legal status and…
+        A Designated Biologist, Fisheries Biologist, or Biological Monitor presents the Condition of
+        Approval 9.4 education program to every person working in the Project Area before that
+        person performs any work, covering Covered Species biology and timing windows, the
+        Conditions of Approval, take-minimization protocols, non-covered listed species, site
+        boundaries and disturbance-free zones, habitat avoidance, fencing and staking, roles,
+        encounter and emergency procedures, and legal status and…
       </p>
     </div>
     <esa-textarea
@@ -66,8 +79,7 @@ One member of this version, an action or an obligation: the obligation list's pa
     <div class="bcn-swo-edit__section">
       <div class="bcn-swo-edit__label-row">
         <span class="bcn-swo-edit__label"
-          >Requirements
-          <span class="bcn-swo-edit__label-n" data-lip-req-n="">3</span></span
+          >Requirements <span class="bcn-swo-edit__label-n" data-lip-req-n="">3</span></span
         >
       </div>
       <div class="bcn-swo-edit__reqs" data-lip-reqs="">
@@ -93,11 +105,10 @@ One member of this version, an action or an obligation: the obligation list's pa
             >
           </summary>
           <blockquote class="bcn-swo-edit__text">
-            The Designated Biologist(s) shall train Project personnel on the required
-            avoidance procedures, buffer zones, and protocols in the event that a TRBL
-            flies into an active Project construction site (i.e., outside the buffer
-            zone), as part of the education program described in Condition of Approval
-            9.4.
+            The Designated Biologist(s) shall train Project personnel on the required avoidance
+            procedures, buffer zones, and protocols in the event that a TRBL flies into an active
+            Project construction site (i.e., outside the buffer zone), as part of the education
+            program described in Condition of Approval 9.4.
           </blockquote>
         </details>
         <details class="bcn-swo-edit__req">
@@ -122,8 +133,8 @@ One member of this version, an action or an obligation: the obligation list's pa
             >
           </summary>
           <blockquote class="bcn-swo-edit__text">
-            Permittee shall conduct an education program for all persons employed or
-            otherwise working in the Project Area before performing any work.
+            Permittee shall conduct an education program for all persons employed or otherwise
+            working in the Project Area before performing any work.
           </blockquote>
         </details>
         <details class="bcn-swo-edit__req">
@@ -148,8 +159,8 @@ One member of this version, an action or an obligation: the obligation list's pa
             >
           </summary>
           <blockquote class="bcn-swo-edit__text">
-            This training shall be repeated at least once annually for long-term and/or
-            permanent employees that will be conducting work in the Project Area.
+            This training shall be repeated at least once annually for long-term and/or permanent
+            employees that will be conducting work in the Project Area.
           </blockquote>
         </details>
       </div>
@@ -166,8 +177,7 @@ One member of this version, an action or an obligation: the obligation list's pa
         >
           <span class="esa-button__label">Remove from this list</span>
         </button></span
-      ><span
-        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
+      ><span class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
         ><button
           class="esa-button__native typography-microcopy-xs"
           type="button"
@@ -186,8 +196,7 @@ One member of this version, an action or an obligation: the obligation list's pa
         >
           <span class="esa-button__label">Save</span>
         </button></span
-      ><span
-        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
+      ><span class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
         ><button
           class="esa-button__native typography-microcopy-xs"
           type="button"
@@ -201,10 +210,7 @@ One member of this version, an action or an obligation: the obligation list's pa
     ><details class="bcn-swo-edit__req">
       <summary class="bcn-swo-edit__req-row">
         <span class="bcn-swo-edit__chev" aria-hidden="true"
-          ><span
-            class="esa-icon esa-icon--xs"
-            aria-hidden="true"
-            data-astro-cid-wcwfib5m=""
+          ><span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
             ><svg
               width="14"
               height="14"
@@ -218,14 +224,14 @@ One member of this version, an action or an obligation: the obligation list's pa
               data-astro-cid-wcwfib5m=""
             >
               <path d="m9 18 6-6-6-6"></path></svg></span></span
-        ><span class="bcn-swo-edit__code"></span
-        ><span class="bcn-swo-edit__req-name"></span>
+        ><span class="bcn-swo-edit__code"></span><span class="bcn-swo-edit__req-name"></span>
       </summary>
       <blockquote class="bcn-swo-edit__text"></blockquote></details></template
 ></esa-side-dialog>
 ```
 
 ## Styles
+
 ```css
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -234,31 +240,9 @@ One member of this version, an action or an obligation: the obligation list's pa
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -274,6 +258,11 @@ One member of this version, an action or an obligation: the obligation list's pa
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -281,9 +270,6 @@ One member of this version, an action or an obligation: the obligation list's pa
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -377,57 +363,18 @@ One member of this version, an action or an obligation: the obligation list's pa
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
 .esa-button--sm {
   --_btn-pad-y: var(--spacing-250, 0.625rem);
   --_btn-padding-x: var(--spacing-250, 0.625rem);
   --_btn-radius: var(--button-radius-sm, 4px);
 }
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
-}
 .esa-button--variant-primary {
   --_accent-text: var(--color-content-brand);
-}
-.esa-button--variant-secondary {
-  --_accent: var(--color-background-brand-muted);
-  --_accent-hover: var(--color-background-brand-muted-hover);
-  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
-  --_accent-text: var(--color-content-brand);
-  --_accent-border: var(--color-border-default-strong, #bbb);
 }
 .esa-button--variant-danger {
   --_accent: var(--color-background-utility-danger);
   --_accent-hover: var(--color-background-utility-danger-hover);
   --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -491,10 +438,7 @@ One member of this version, an action or an obligation: the obligation list's pa
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -521,11 +465,6 @@ One member of this version, an action or an obligation: the obligation list's pa
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -542,28 +481,8 @@ summary.esa-button:focus-visible {
   outline-offset: var(--focus-ring-offset, 2px);
   border-radius: var(--_btn-radius);
 }
-summary.esa-button--variant-chrome:focus-visible {
-  outline-color: currentColor;
-}
 .esa-button__label {
   white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -571,20 +490,6 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-microcopy-xs-font-weight);
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
 .bcn-key-value__key .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -600,18 +505,6 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .esa-icon--xs {
   --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -651,17 +544,6 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--color-content-default-tertiary);
   margin-left: var(--spacing-100);
   font-weight: 400;
-}
-.bcn-swo-edit__empty {
-  color: var(--color-content-default-tertiary);
-  margin: 0;
-  font-size: 0.75rem;
-  font-style: italic;
-}
-.bcn-swo-edit__verb {
-  align-items: center;
-  gap: var(--spacing-100);
-  display: inline-flex;
 }
 .bcn-swo-edit__reqs {
   border-top: 1px solid var(--color-border-default-subtle);
@@ -719,14 +601,6 @@ summary.esa-button--variant-chrome:focus-visible {
   min-width: 0;
   overflow: hidden;
 }
-.bcn-swo-edit__also {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
-  font-size: 0.6875rem;
-}
-.bcn-swo-edit__also:empty {
-  display: none;
-}
 .bcn-swo-edit__text {
   margin: 0 0 var(--spacing-200) calc(var(--spacing-100) + 20px);
   padding: var(--spacing-200) var(--spacing-300);
@@ -736,38 +610,9 @@ summary.esa-button--variant-chrome:focus-visible {
   font-size: 0.8125rem;
   line-height: 1.5;
 }
-.bcn-swo-edit__req-verbs {
-  opacity: 0;
-  flex-shrink: 0;
-  gap: 2px;
-  transition: opacity 0.12s;
-  display: inline-flex;
-}
 .bcn-swo-edit__req-row:hover .bcn-swo-edit__req-verbs,
 .bcn-swo-edit__req-row:focus-within .bcn-swo-edit__req-verbs {
   opacity: 1;
-}
-.bcn-swo-edit__req-verbs esa-tooltip {
-  display: inline-flex;
-}
-.bcn-swo-edit__x {
-  border-radius: var(--radius-100);
-  width: 22px;
-  height: 22px;
-  color: var(--color-content-default-tertiary);
-  cursor: pointer;
-  background: 0 0;
-  border: none;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.bcn-swo-edit__x:hover {
-  background: var(--bcn-gray-100);
-  color: var(--color-content-default);
-}
-.bcn-swo-edit__x--danger:hover {
-  color: var(--color-background-utility-danger);
 }
 .bcn-swo-edit__foot {
   justify-content: space-between;
@@ -775,9 +620,6 @@ summary.esa-button--variant-chrome:focus-visible {
   gap: var(--spacing-200);
   width: 100%;
   display: flex;
-}
-.bcn-swo-edit__foot--end {
-  justify-content: flex-end;
 }
 .bcn-swo-edit__foot-left,
 .bcn-swo-edit__foot-right {
@@ -817,90 +659,54 @@ summary.esa-button--variant-chrome:focus-visible {
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--bcn-aldo-600`: #06736f _(component)_
-- `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-action`: #d45087 _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-default`: #fafafa _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-commitment`: #58508d _(component)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--color-obligation`: #f95d6a _(component)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--form-label-color`: #525252 _(component)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-aldo-600` | `#06736f` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--color-action` | `#d45087` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-default` | `#fafafa` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-background-utility-danger-hover` | `#641723` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-commitment` | `#58508d` | component |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-utility-danger` | `#ce2c31` | semantic |
+| `--color-obligation` | `#f95d6a` | component |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--form-label-color` | `#525252` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-xs` | `14px` | primitive |
+| `--radius-100` | `.25rem` | primitive |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |

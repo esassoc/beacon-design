@@ -1,8 +1,15 @@
 # Filter bar
 
+Actions · source prototype: https://esassoc.github.io/beacon-design/prototypes/actions/
+
+![Filter bar, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-actions/claude/filter-bar.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-actions/claude/filter-bar.phone.png
+
 One control strip over all three views. Top row: View (Board / Table / Timeline) and Type (All actions plus one tab per workflow). Bottom row: search, then the Type, Phase and List facets, the N/A switch, and Clear all.
 
 ## Key decisions
+
 - Sort, Frequency, Assignee and Due were cut (Andy, 2026-10-07). Every view sorts by due date; undated work sinks to the bottom.
 - The Type tabs are workflows, not single types (Plans covers Plan and Design). They scope every view, not only the board.
 - Every control on both rows is 32px with 14px text. N/A sits on the row's centre line.
@@ -10,14 +17,54 @@ One control strip over all three views. Top row: View (Board / Table / Timeline)
 - The view rides ?view=; Clear all resets search, facets and N/A but leaves the view and Type tabs alone.
 
 ## Gotchas
+
 - The Type tabs are user data: a workflow saved, renamed or deleted in Configure board must re-sync them.
 - The facets hardcode 32px while the toggle, text field and select size by padding, so heights drift unless each is solved for 32px. Match them on one control-height scale.
 
 ## Done when
+
 - All controls on both rows measure the same height.
 - On Plans, the board and the table show the same implementations.
 
+## Components
+
+- `bcn-filterbar` (spoke) · `src/components/bcn/BcnEvidenceTargets.astro`
+- `esa-button` (hub) · `packages/ecology/src/components/esa-button.astro` → use `ui-button` in the Beacon app
+- `esa-button-toggle` (hub) · `packages/ecology/src/components/esa-button-toggle.ts`
+- `esa-filter-clear-button` (hub) · `packages/ecology/src/components/esa-filter-clear-button.astro`
+- `esa-filter-container` (hub) · `packages/ecology/src/components/esa-filter-container.astro`
+- `esa-filter-dropdown` (hub) · `packages/ecology/src/components/esa-filter-dropdown.ts`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+- `esa-switch-toggle` (hub) · `packages/ecology/src/components/esa-switch-toggle.ts`
+- `esa-text-field` (hub) · `packages/ecology/src/components/esa-text-field.ts`
+
+## Data
+
+- Fixture: `src/data/action-tracking.ts`
+- Client store: `src/lib/action-board.ts`
+- category is prod's ActionImplementationStatusDtoEnum.
+
+| Field | Meaning |
+|---|---|
+| `id` | ActionImplementationID, `<actionId>|<componentId>` |
+| `name` | Action name |
+| `type` | RequirementType; the Type tabs group these into workflows |
+| `codes` | ClientCommitmentIDs, in code order (the card's commitment badges) |
+| `sequence` | SequenceNumber, the occurrence for recurring and as-needed work |
+| `dueDate` | ISO, or null when unscheduled (prod "Not set") |
+| `completedDate` | ISO, Completed only |
+| `columnId` | The workflow column the card sits in |
+| `category` | The status backbone the column maps to |
+| `notApplicable` | IsNotApplicable; the N/A switch hides these |
+| `evidence` | Evidence count on the card |
+| `comments` | Comment count; hidden at zero |
+
+`category`: `NotStarted` · `InProgress` · `Completed`
+
+`frequency`: `Onetime` · `Recurring` · `AsNeeded` · `Ongoing`
+
 ## Markup
+
 ```html
 <div data-act-filters="">
   <div class="bcn-filterbar bcn-filterbar--compact">
@@ -30,7 +77,7 @@ One control strip over all three views. Top row: View (Board / Table / Timeline)
           data-icons="true"
           value="board"
           size="md"
-          data-options="[{&quot;value&quot;:&quot;board&quot;,&quot;label&quot;:&quot;Board&quot;,&quot;icon&quot;:&quot;&lt;rect width='18' height='18' x='3' y='3' rx='2'/&gt;&lt;path d='M8 7v7'/&gt;&lt;path d='M12 7v4'/&gt;&lt;path d='M16 7v9'/&gt;&quot;},{&quot;value&quot;:&quot;table&quot;,&quot;label&quot;:&quot;Table&quot;,&quot;icon&quot;:&quot;&lt;path d='M12 3v18'/&gt;&lt;rect width='18' height='18' x='3' y='3' rx='2'/&gt;&lt;path d='M3 9h18'/&gt;&lt;path d='M3 15h18'/&gt;&quot;},{&quot;value&quot;:&quot;timeline&quot;,&quot;label&quot;:&quot;Timeline&quot;,&quot;icon&quot;:&quot;&lt;path d='M10 6h8'/&gt;&lt;path d='M12 16h6'/&gt;&lt;path d='M3 3v16a2 2 0 0 0 2 2h16'/&gt;&lt;path d='M8 11h7'/&gt;&quot;}]"
+          data-options="[{&quot;value&quot;:&quot;board&quot;,&quot;label&quot;:&quot;Board&quot;,&quot;icon&quot;:&quot;&lt;rect width='18' height='18' x='3' y='3' rx='2'/&gt;&lt;path d='M8 7v7'/&gt;&lt;path d='M1… [446 characters]"
         ></esa-button-toggle>
       </div>
       <div class="bcn-filterbar__group bcn-filterbar__scope">
@@ -136,17 +183,8 @@ One control strip over all three views. Top row: View (Board / Table / Timeline)
               <path d="M13.013 3H2l8 9.46V19l4 2v-8.54l.9-1.055"></path>
               <path d="m22 3-5 5"></path>
               <path d="m17 3 5 5"></path></svg
-            ><span class="esa-filter-clear-button__label">Clear all</span>
-          </button>
-          <script type="module">
-            document.addEventListener(`click`, (e) => {
-              let t = e.target.closest?.(`[data-esa-filter-clear]`);
-              t &&
-                t.dispatchEvent(
-                  new CustomEvent(`esa-filter-clear`, { bubbles: !0, composed: !0 }),
-                );
-            });
-          </script></span
+            ><span class="esa-filter-clear-button__label">Clear all</span></button
+          ><!-- script type="module" removed (173 bytes) --></span
         ></span
       >
     </div>
@@ -155,6 +193,7 @@ One control strip over all three views. Top row: View (Board / Table / Timeline)
 ```
 
 ## Styles
+
 ```css
 .typography-label-md {
   font-family: var(--typography-label-md-font-family);
@@ -162,13 +201,6 @@ One control strip over all three views. Top row: View (Board / Table / Timeline)
   font-weight: var(--typography-label-md-font-weight);
   line-height: var(--typography-label-md-line-height);
   letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -184,45 +216,9 @@ One control strip over all three views. Top row: View (Board / Table / Timeline)
   line-height: var(--typography-microcopy-sm-line-height);
   letter-spacing: var(--typography-microcopy-sm-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-sm-subtle {
-  font-family: var(--typography-microcopy-sm-subtle-font-family);
-  font-size: var(--typography-microcopy-sm-subtle-font-size);
-  font-weight: var(--typography-microcopy-sm-subtle-font-weight);
-  line-height: var(--typography-microcopy-sm-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-sm-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
-}
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -238,6 +234,11 @@ One control strip over all three views. Top row: View (Board / Table / Timeline)
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -245,9 +246,6 @@ One control strip over all three views. Top row: View (Board / Table / Timeline)
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -295,57 +293,10 @@ One control strip over all three views. Top row: View (Board / Table / Timeline)
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
 .esa-button--sm {
   --_btn-pad-y: var(--spacing-250, 0.625rem);
   --_btn-padding-x: var(--spacing-250, 0.625rem);
   --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.esa-button--variant-secondary {
-  --_accent: var(--color-background-brand-muted);
-  --_accent-hover: var(--color-background-brand-muted-hover);
-  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
-  --_accent-text: var(--color-content-brand);
-  --_accent-border: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
-}
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
-}
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
-}
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
@@ -409,10 +360,7 @@ One control strip over all three views. Top row: View (Board / Table / Timeline)
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
 .esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
+  background: var(--button-chrome-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
 }
 .esa-button--variant-chrome .esa-button__native:focus-visible {
   outline-color: currentColor;
@@ -439,11 +387,6 @@ One control strip over all three views. Top row: View (Board / Table / Timeline)
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
@@ -463,39 +406,12 @@ summary.esa-button:focus-visible {
 summary.esa-button--variant-chrome:focus-visible {
   outline-color: currentColor;
 }
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button__label--hidden {
-  clip-path: inset(50%);
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  width: 1em;
-  height: 1em;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-  border: 2px solid;
-  border-right-color: #0000;
-  border-radius: 50%;
-  display: inline-block;
-}
 .typography-label-md {
   font-family: var(--typography-label-md-font-family);
   font-size: var(--typography-label-md-font-size);
   font-weight: var(--typography-label-md-font-weight);
   line-height: var(--typography-label-md-line-height);
   letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -511,34 +427,6 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-microcopy-sm-line-height);
   letter-spacing: var(--typography-microcopy-sm-letter-spacing);
 }
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-sm-subtle {
-  font-family: var(--typography-microcopy-sm-subtle-font-family);
-  font-size: var(--typography-microcopy-sm-subtle-font-size);
-  font-weight: var(--typography-microcopy-sm-subtle-font-weight);
-  line-height: var(--typography-microcopy-sm-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-sm-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
-}
 .bcn-component-picker__trigger > .esa-icon {
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
@@ -546,10 +434,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-disc__head .esa-icon {
   color: var(--color-content-default-secondary);
   flex-shrink: 0;
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
 }
 .bcn-disc__actions .esa-icon {
   width: 15px;
@@ -562,10 +446,6 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
   transform: rotate(90deg);
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
 }
 .bcn-evidence-card__actions .esa-icon {
   width: 15px;
@@ -614,10 +494,6 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-filterbar__search esa-text-field {
   flex: 1;
 }
-.bcn-filterbar__search--alone {
-  flex: 1;
-  margin-left: 0;
-}
 .bcn-filterbar__scope {
   margin-left: var(--spacing-600);
 }
@@ -625,14 +501,6 @@ summary.esa-button--variant-chrome:focus-visible {
   width: 20rem;
   min-width: 0;
   margin-left: 0;
-}
-.bcn-filterbar__sort {
-  margin-left: var(--spacing-600);
-  --typography-label-md-font-size: 14px;
-}
-.bcn-filterbar__sort esa-select {
-  --_field-padding-y: calc((32px - 1lh) / 2 - var(--form-border-width, 1px));
-  width: 9rem;
 }
 .bcn-filterbar--compact {
   --typography-microcopy-md-font-size: 14px;
@@ -656,6 +524,12 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-filterbar__clear {
   margin-left: auto;
 }
+@media (width<=40rem) {
+  .bcn-filterbar__search {
+    min-width: 100%;
+    margin-left: 0;
+  }
+}
 .esa-filter-container {
   align-items: center;
   gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
@@ -672,20 +546,8 @@ summary.esa-button--variant-chrome:focus-visible {
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -701,10 +563,7 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .esa-filter-clear-button {
   --_clear-text: var(--color-content-default-secondary, #646464);
-  --_clear-text-hover: var(
-    --color-content-utility-danger,
-    var(--color-content-brand, #2a7e3b)
-  );
+  --_clear-text-hover: var(--color-content-utility-danger, var(--color-content-brand, #2a7e3b));
   --_clear-icon-size: 18px;
   align-items: center;
   gap: var(--spacing-100, 0.25rem);
@@ -747,112 +606,62 @@ summary.esa-button--variant-chrome:focus-visible {
 ```
 
 ## Tokens
-- `--animation-spin`: .75s linear infinite _(semantic)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #fff _(component)_
-- `--button-radius-lg`: .25rem _(component)_
-- `--button-radius-md`: .25rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #699cc6 _(semantic)_
-- `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-overlay-hover`: #00000008 _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-info`: #228be6 _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-success`: #2e7571 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-warning`: #f59e0b _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--filter-container-padding`: 0 _(component)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--form-border-width`: 1px _(component)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--radius-sm`: .25rem _(semantic)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-600`: 2rem _(primitive)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-font-weight`: 500 _(semantic)_
-- `--typography-label-md-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-line-height`: 1.6 _(semantic)_
-- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
-- `--typography-microcopy-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-sm-line-height`: 1 _(semantic)_
-- `--typography-microcopy-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-sm-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-sm-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-sm-subtle-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-sm-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-sm-subtle-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 400 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--border-width-default` | `1px` | semantic |
+| `--button-chrome-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--button-radius-md` | `.25rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-overlay-hover` | `#00000008` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-utility-danger` | `#ce2c31` | semantic |
+| `--filter-container-padding` | `0` | component |
+| `--focus-ring-color` | `#3e9b4f` | component |
+| `--focus-ring-offset` | `2px` | component |
+| `--focus-ring-width` | `2px` | component |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--form-border-width` | `1px` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--radius-200` | `.5rem` | primitive |
+| `--radius-sm` | `.25rem` | semantic |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-600` | `2rem` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
+| `--typography-label-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-md-font-weight` | `500` | semantic |
+| `--typography-label-md-letter-spacing` | `.01em` | semantic |
+| `--typography-label-md-line-height` | `1.6` | semantic |
+| `--typography-microcopy-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-microcopy-sm-font-weight` | `500` | semantic |
+| `--typography-microcopy-sm-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-sm-line-height` | `1` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |

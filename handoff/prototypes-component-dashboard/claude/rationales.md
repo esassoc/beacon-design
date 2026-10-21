@@ -1,8 +1,11 @@
 # Rationales
 
+Component Dashboard · source prototype: https://esassoc.github.io/beacon-design/prototypes/component-dashboard/
+
 Every applicability decision carries one rationale, shown the same way on the drawer row (Applied and Dismissed views), in its preview, and in the setup review, so anyone can later see why a commitment was marked (product meeting 2026-10-20; one-to-one, an applicability and its rationale).
 
 ## Key decisions
+
 - Setup dismissals: setup's reasons ("Not in Giant Garter Snake habitat", "Outside the nesting bird season", "No In-Water Work").
 - Commitments from an unselected source document: "Source document not applicable".
 - Setup applies: the tags that speak for the commitment ("In Valley Elderberry Longhorn Beetle habitat · Ground Disturbance, Equipment Staging"), or "Recommended by setup" when its matching requirement has no tags.
@@ -11,12 +14,20 @@ Every applicability decision carries one rationale, shown the same way on the dr
 - Whenever a reason changes, its decision date changes with it.
 
 ## Gotchas
+
 - Store the rationale with the decision, and store setup's reasons as data alongside it (the prototype keeps reasons[]), because the re-run needs the reasons to decide what reopens.
 
 ## Done when
+
 - No decided row is without a rationale line; the row, the preview and the setup review show the same text.
 
+## Components
+
+- `bcn-key-value` (spoke) · `src/components/bcn/BcnImplementationDialog.astro`
+- `bcn-sw-prev` (spoke) · `src/components/bcn/BcnSetupWorkspace.astro`
+
 ## Markup
+
 ```html
 <section class="bcn-sw-prev__decision" data-sw-prev-decision="" hidden="">
   <div class="bcn-key-value" data-size="md" data-layout="stack">
@@ -32,6 +43,7 @@ Every applicability decision carries one rationale, shown the same way on the dr
 ```
 
 ## Styles
+
 ```css
 .bcn-sw-prev__effect,
 .bcn-sw-prev__rec,
@@ -72,15 +84,6 @@ Every applicability decision carries one rationale, shown the same way on the dr
   font-weight: var(--typography-font-weight-medium);
   color: var(--form-label-color);
 }
-.bcn-key-value__val {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-}
-.bcn-key-value__hint {
-  color: var(--color-content-default-tertiary);
-  font-size: 0.75rem;
-}
 .bcn-key-value__key {
   align-items: center;
   gap: var(--spacing-100);
@@ -101,19 +104,21 @@ Every applicability decision carries one rationale, shown the same way on the dr
 ```
 
 ## Tokens
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-secondary`: #525252 _(component)_
-- `--form-label-color`: #525252 _(component)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-font-weight`: 500 _(semantic)_
-- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-secondary` | `#525252` | component |
+| `--form-label-color` | `#525252` | component |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-sm-font-weight` | `500` | semantic |
+| `--typography-label-sm-strong-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-sm-strong-font-weight` | `550` | semantic |

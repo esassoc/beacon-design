@@ -1,8 +1,15 @@
 # Index tree
 
+Custom Compliance Index list · source prototype: https://esassoc.github.io/beacon-design/prototypes/lists/contractor-field-index/
+
+![Index tree, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-lists-contractor-field-index/claude/index-tree.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-lists-contractor-field-index/claude/index-tree.phone.png
+
 The list's own outline over the index's items: its categories and subcategories, named and ordered for its reader ("Before ground disturbance", "Every day on site"), each subcategory holding the actions and obligations of the canonical subcategories it draws from.
 
 ## Key decisions
+
 - A version arranges SUBCATEGORIES, never single items. Each of its subcategories names one or more canonical subcategories; two names merge them ("Speed, access and parking" is Speed limits plus Access routes and parking). Trimming is leaving canonical subcategories out.
 - Items follow their canonical filing until the version moves them. Refile an action in the setup wizard and it moves in every version that draws from either subcategory, except where that version has moved its member.
 - Prod model: a ComplianceIndexList (Name, Description, ProjectID, IsCanonical) with its own ComplianceIndexListCategory and ComplianceIndexListSubcategory rows (Name, SortOrder), and a join from each list subcategory to the canonical ComplianceIndexSubcategoryIDs it draws from. The canonical index is the list with IsCanonical, whose subcategories map one to one.
@@ -14,12 +21,14 @@ The list's own outline over the index's items: its categories and subcategories,
 - Prod model: ComplianceIndexListMember (ComplianceIndexListMemberID, ComplianceIndexListID, ActionID or ObligationID, ComplianceIndexListSubcategoryID when moved, ListTitle, ListDescription; the last three nullable, null meaning the index's) for a member that differs from the outline's default: moved, reworded or copied. ComplianceIndexListItemExclusion (ComplianceIndexListID, ActionID or ObligationID) for one taken off. Renaming a branch writes the list's own category or subcategory Name.
 
 ## Gotchas
+
 - A subcategory added to the canonical index later is in no version until someone places it. Open: whether a version should show unplaced canonical subcategories in a bin of its own.
 - Open: merging, reordering and adding or removing whole categories and subcategories (the outline editor) is not built, so in this epic a whole subcategory comes off only item by item (Aldo's Keep and Take Out, which do it at once, are the separate Aldo epic). Rename is built, in a side panel.
 - An item removed from a version is excluded by id, so refiling it in the canonical index does not bring it back into that version.
 - Removing or moving the last member of a subcategory drops the subcategory from the page and the PDF; the list keeps its row, so moving a member back restores it under the same name, and the Move picker still offers it.
 
 ## Done when
+
 - Each category's count is the sum of its subcategories' and the title badge is the sum of the categories'.
 - A subcategory that merges two canonical subcategories lists the union of their items, once each.
 - Remove asks first ("It stays in the project's Compliance Index"), then drops the card and every count by one.
@@ -29,7 +38,17 @@ The list's own outline over the index's items: its categories and subcategories,
 - Add items lands each ticked item in the version subcategory that draws on its canonical subcategory, moves every count, and offers the subcategory in the Move picker.
 - The canonical index shows none of these verbs.
 
+## Components
+
+- `bcn-loc` (spoke) · `src/components/bcn/BcnEvidenceTargets.astro`
+- `bcn-lot` (spoke) · `src/components/bcn/BcnListAddIndexItems.astro`
+- `bcn-status-chip` (spoke) · `src/components/bcn/BcnActionTable.astro`
+- `bcn-swcb` (spoke) · `src/components/bcn/BcnSwCountBadge.astro`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+- `esa-tooltip` (hub) · `packages/ecology/src/components/esa-tooltip.ts`
+
 ## Markup
+
 ```html
 <details class="bcn-lot__sub" data-index-sub="worker-awareness-training" open="">
   <summary class="bcn-lot__row bcn-lot__row--sub">
@@ -47,10 +66,7 @@ The list's own outline over the index's items: its categories and subcategories,
           focusable="false"
         >
           <path d="m9 18 6-6-6-6"></path></svg></span></span
-    ><span
-      class="bcn-lot__name"
-      data-list-name=""
-      data-list-text="Worker awareness training"
+    ><span class="bcn-lot__name" data-list-name="" data-list-text="Worker awareness training"
       >Worker awareness training</span
     ><span class="bcn-swcb" aria-label="2 items" data-index-count="true">2</span
     ><span class="bcn-lot__verbs"
@@ -90,7 +106,7 @@ The list's own outline over the index's items: its categories and subcategories,
       data-codes="COA 11.82|COA 9.4"
       data-index="People and qualifications::Worker training|Birds::Nesting birds"
       data-list-description="Everyone who works past the gate attends once, and again each year. Sign the attendance sheet: no sign-in, no site access."
-      data-registry-desc="A Designated Biologist, Fisheries Biologist, or Biological Monitor presents the Condition of Approval 9.4 education program to every person working in the Project Area before that person performs any work, covering Covered Species biology and timing windows, the Conditions of Approval, take-minimization protocols, non-covered listed species, site boundaries and disturbance-free zones, habitat avoidance, fencing and staking, roles, encounter and emergency procedures, and legal status and…"
+      data-registry-desc="A Designated Biologist, Fisheries Biologist, or Biological Monitor presents the Condition of Approval 9.4 education prog… [492 characters]"
     >
       <details class="bcn-loc__node">
         <summary class="bcn-loc__main">
@@ -108,8 +124,7 @@ The list's own outline over the index's items: its categories and subcategories,
                 focusable="false"
               >
                 <path d="m9 18 6-6-6-6"></path></svg></span></span
-          ><span class="bcn-loc__class" data-list-class-tag=""
-            >Training &amp; Education</span
+          ><span class="bcn-loc__class" data-list-class-tag="">Training &amp; Education</span
           ><button
             type="button"
             class="bcn-loc__title"
@@ -128,10 +143,7 @@ The list's own outline over the index's items: its categories and subcategories,
               ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="2 implementations">2</span></span
-          ><esa-tooltip
-            text="Move or retitle for this list"
-            position="above"
-            align="center"
+          ><esa-tooltip text="Move or retitle for this list" position="above" align="center"
             ><button
               type="button"
               class="bcn-loc__verb"
@@ -150,9 +162,7 @@ The list's own outline over the index's items: its categories and subcategories,
                   stroke-linejoin="round"
                   focusable="false"
                 >
-                  <path
-                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
-                  ></path>
+                  <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                   <path
                     d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                   ></path></svg
@@ -177,9 +187,7 @@ The list's own outline over the index's items: its categories and subcategories,
                   focusable="false"
                 >
                   <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
-                  <path
-                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
-                  ></path></svg
+                  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg
               ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
@@ -233,9 +241,7 @@ The list's own outline over the index's items: its categories and subcategories,
             >
               Byron Tract Forebay</button
             ><span class="bcn-loc__comments" hidden="">0 comments</span
-            ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
-              >No evidence</span
-            >
+            ><span class="bcn-loc__evidence" data-list-evidence="" data-none="">No evidence</span>
           </li>
           <li
             class="bcn-loc__req bcn-loc__impl"
@@ -296,8 +302,7 @@ The list's own outline over the index's items: its categories and subcategories,
                 focusable="false"
               >
                 <path d="m9 18 6-6-6-6"></path></svg></span></span
-          ><span class="bcn-loc__class" data-list-class-tag=""
-            >Training &amp; Education</span
+          ><span class="bcn-loc__class" data-list-class-tag="">Training &amp; Education</span
           ><button
             type="button"
             class="bcn-loc__title"
@@ -316,10 +321,7 @@ The list's own outline over the index's items: its categories and subcategories,
               ></span></esa-tooltip></span
           ><span data-list-count="member"
             ><span class="bcn-swcb" aria-label="1 implementations">1</span></span
-          ><esa-tooltip
-            text="Move or retitle for this list"
-            position="above"
-            align="center"
+          ><esa-tooltip text="Move or retitle for this list" position="above" align="center"
             ><button
               type="button"
               class="bcn-loc__verb"
@@ -338,9 +340,7 @@ The list's own outline over the index's items: its categories and subcategories,
                   stroke-linejoin="round"
                   focusable="false"
                 >
-                  <path
-                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
-                  ></path>
+                  <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                   <path
                     d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
                   ></path></svg
@@ -365,9 +365,7 @@ The list's own outline over the index's items: its categories and subcategories,
                   focusable="false"
                 >
                   <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
-                  <path
-                    d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
-                  ></path></svg
+                  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg
               ></span></button></esa-tooltip
           ><esa-tooltip text="Remove from this list" align="end" position="above"
             ><button
@@ -421,9 +419,7 @@ The list's own outline over the index's items: its categories and subcategories,
             >
               Intake B — North Delta</button
             ><span class="bcn-loc__comments" hidden="">0 comments</span
-            ><span class="bcn-loc__evidence" data-list-evidence="" data-none=""
-              >No evidence</span
-            >
+            ><span class="bcn-loc__evidence" data-list-evidence="" data-none="">No evidence</span>
           </li>
         </ul>
       </details>
@@ -433,12 +429,8 @@ The list's own outline over the index's items: its categories and subcategories,
 ```
 
 ## Styles
+
 ```css
-.bcn-lot__verb-label {
-  align-items: center;
-  gap: var(--spacing-100);
-  display: inline-flex;
-}
 .bcn-lot__cat[data-list-empty],
 .bcn-lot__sub[data-list-empty] {
   display: none;
@@ -455,24 +447,12 @@ The list's own outline over the index's items: its categories and subcategories,
   outline-offset: -2px;
 }
 .bcn-lit:not([data-index-editable])
-  esa-tooltip:has(
-    [data-list-remove],
-    [data-list-duplicate],
-    .bcn-loc__verb[data-list-edit]
-  ) {
+  esa-tooltip:has([data-list-remove], [data-list-duplicate], .bcn-loc__verb[data-list-edit]) {
   display: none;
 }
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -487,6 +467,11 @@ The list's own outline over the index's items: its categories and subcategories,
 }
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
 }
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -505,9 +490,6 @@ The list's own outline over the index's items: its categories and subcategories,
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -733,8 +715,7 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-swoc__reqs,
 .bcn-loc__reqs,
 .bcn-ciitem__reqs {
-  padding: 0 var(--spacing-300) var(--spacing-150)
-    calc(var(--spacing-300) + var(--_req-indent));
+  padding: 0 var(--spacing-300) var(--spacing-150) calc(var(--spacing-300) + var(--_req-indent));
   flex-direction: column;
   margin: 0;
   list-style: none;
@@ -763,13 +744,6 @@ details[open] > summary .bcn-loc__chevron {
   flex: 1;
   min-width: 0;
   overflow: hidden;
-}
-.bcn-swoc__also,
-.bcn-loc__also {
-  color: var(--color-content-default-tertiary);
-  white-space: nowrap;
-  flex-shrink: 0;
-  font-size: 0.6875rem;
 }
 .bcn-loc__title {
   flex: 0 auto;
@@ -880,10 +854,6 @@ details[open] > summary .bcn-loc__chevron {
 .bcn-lot__row:hover {
   background: var(--color-background-default);
 }
-.bcn-swot__row--cat,
-.bcn-lot__row--cat {
-  font-weight: 600;
-}
 .bcn-swot__row--sub,
 .bcn-lot__row--sub {
   padding-left: calc(var(--spacing-400) + 22px);
@@ -962,19 +932,9 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   outline: 2px solid var(--color-obligation);
   outline-offset: 1px;
 }
-.bcn-swot__verb--danger:hover,
-.bcn-lot__verb--danger:hover {
-  color: var(--color-background-utility-danger);
-}
-.bcn-swot__subs,
-.bcn-lot__subs {
-  flex-direction: column;
-  display: flex;
-}
 .bcn-swot__cards,
 .bcn-lot__cards {
-  padding: var(--spacing-200) var(--spacing-400) var(--spacing-300)
-    calc(var(--spacing-400) + 44px);
+  padding: var(--spacing-200) var(--spacing-400) var(--spacing-300) calc(var(--spacing-400) + 44px);
   gap: var(--spacing-150);
   flex-direction: column;
   margin: 0;
@@ -1004,15 +964,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
 }
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -1054,11 +1005,6 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
   line-height: 1;
   display: inline-flex;
 }
-.bcn-swcb--sm {
-  min-width: 18px;
-  padding: 2px var(--spacing-100);
-  font-size: var(--font-size-050);
-}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -1069,42 +1015,39 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
 ```
 
 ## Tokens
-- `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-action`: #d45087 _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-default`: #fafafa _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-strong`: #bdbdbd _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-obligation`: #f95d6a _(component)_
-- `--font-size-050`: clamp(.5rem, .44rem + .3vw, .625rem) _(primitive)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-full`: 9999px _(primitive)_
-- `--spacing-050`: .125rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-gray-100` | `#efefef` | component |
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--color-action` | `#d45087` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-default` | `#fafafa` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-obligation` | `#f95d6a` | component |
+| `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--icon-size-xs` | `14px` | primitive |
+| `--radius-100` | `.25rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |

@@ -1,18 +1,34 @@
 # Title + component switcher
 
+Obligations (feed) · source prototype: https://esassoc.github.io/beacon-design/prototypes/obligation-feed/
+
+![Title + component switcher, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-feed/claude/title-component-switcher.desktop.png)
+
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-obligation-feed/claude/title-component-switcher.phone.png
+
 The H1 "Obligations" with the standard project-component switcher inline beside it, the same bcn-component-picker the Monitoring Portal uses.
 
 ## Key decisions
+
 - The switcher is the page's ONLY component scope. The filter row's Component picker and the component/implementation rows under each obligation card were both cut as duplicates of it (Andy, 2026-09-23).
 - The choice is one session-wide value (localStorage beacon.activeComponent), shared with Monitoring and Reporting, not per page.
 
 ## Gotchas
+
 - In the prototype the switcher does not yet filter the records: it offers the geotech register while the feed's records carry the 7 DCP construction components. In prod the records must be keyed to the same component register the switcher offers.
 
 ## Done when
+
 - Changing the component re-scopes every view to records on that component.
 
+## Components
+
+- `bcn-component-picker` (spoke) · `src/components/bcn/BcnComponentPicker.astro`
+- `esa-dropdown-menu` (hub) · `packages/ecology/src/components/esa-dropdown-menu.ts`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+
 ## Markup
+
 ```html
 <section class="page-layout__title">
   <div class="page-layout__title-main">
@@ -42,10 +58,7 @@ The H1 "Obligations" with the standard project-component switcher inline beside 
         data-components='["2024-2029 Geotechnical Activities","2027 Geotechnical Activities - Covered under ITP","AEM Surveys - Fall 2026","Compensatory Mitigation 1 - I-5 Ponds"]'
         data-storage-key="beacon.activeComponent"
         data-default="2024-2029 Geotechnical Activities"
-        ><esa-dropdown-menu
-          position="below-start"
-          data-component-picker-menu="true"
-          width="auto"
+        ><esa-dropdown-menu position="below-start" data-component-picker-menu="true" width="auto"
           ><button
             type="button"
             class="bcn-component-picker__trigger"
@@ -69,30 +82,19 @@ The H1 "Obligations" with the standard project-component switcher inline beside 
                 focusable="false"
               >
                 <path d="m6 9 6 6 6-6"></path></svg
-            ></span></button></esa-dropdown-menu
-      ></span>
-      <script
-        type="module"
-        src="/beacon-design/_astro/BcnComponentPicker.astro_astro_type_script_index_0_lang.B8KqPPxD.js"
-      ></script
-    ></span>
+            ></span></button></esa-dropdown-menu></span
+      ><!-- script type="module" removed (0 bytes) --></span
+    >
   </div>
 </section>
 ```
 
 ## Styles
+
 ```css
 .bcn-search-trigger .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-content-default-tertiary);
@@ -108,6 +110,11 @@ The H1 "Obligations" with the standard project-component switcher inline beside 
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .bcn-disclosure .esa-icon {
+    transition: none;
+  }
+}
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
@@ -115,9 +122,6 @@ The H1 "Obligations" with the standard project-component switcher inline beside 
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
@@ -190,78 +194,6 @@ The H1 "Obligations" with the standard project-component switcher inline beside 
   color: var(--color-content-default-tertiary);
   flex-shrink: 0;
 }
-.bcn-component-picker__pop {
-  --_popover-padding: var(--spacing-150);
-  display: inline-flex;
-}
-.bcn-component-picker__trigger--mark {
-  gap: var(--spacing-200);
-  padding: var(--spacing-100) var(--spacing-200) var(--spacing-100) var(--spacing-100);
-  color: var(--color-content-default);
-  font-size: 0.875rem;
-  font-weight: 550;
-}
-.bcn-component-picker__tmark {
-  display: inline-flex;
-}
-.bcn-component-picker__tmark .bcn-entity-logo {
-  --icon-size-xs: 12px;
-  width: 20px;
-  height: 20px;
-}
-.bcn-component-picker__tmark[hidden] {
-  display: none;
-}
-.bcn-component-picker__panel {
-  flex-direction: column;
-  gap: 2px;
-  max-block-size: min(60vh, 520px);
-  min-inline-size: 340px;
-  display: flex;
-  overflow-y: auto;
-}
-.bcn-component-picker__opt {
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-200) var(--spacing-250) var(--spacing-200) var(--spacing-200);
-  border-radius: var(--radius-200);
-  font: inherit;
-  color: var(--color-content-default);
-  text-align: start;
-  cursor: pointer;
-  background: 0 0;
-  border: 0;
-  grid-template-columns: auto minmax(0, 1fr) 16px;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  line-height: 1.3;
-  display: grid;
-}
-.bcn-component-picker__opt:hover {
-  background: var(--color-background-elevation-sunken);
-}
-.bcn-component-picker__opt:focus-visible {
-  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
-  outline-offset: -2px;
-}
-.bcn-component-picker__opt[aria-selected="true"] {
-  background: color-mix(in srgb, var(--color-background-brand) 8%, transparent);
-  font-weight: 600;
-}
-.bcn-component-picker__optname {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  min-inline-size: 0;
-  overflow: hidden;
-}
-.bcn-component-picker__check {
-  color: var(--color-background-brand);
-  visibility: hidden;
-  display: inline-flex;
-}
-.bcn-component-picker__opt[aria-selected="true"] .bcn-component-picker__check {
-  visibility: visible;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -271,20 +203,11 @@ The H1 "Obligations" with the standard project-component switcher inline beside 
   align-items: center;
   display: inline-flex;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, 16px);
 }
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
 .esa-icon--lg {
   --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
   width: var(--_icon-size);
@@ -325,37 +248,32 @@ The H1 "Obligations" with the standard project-component switcher inline beside 
 ```
 
 ## Tokens
-- `--bcn-gray-1000`: #000 _(component)_
-- `--bcn-gray-200`: #dcdcdc _(component)_
-- `--bcn-gray-400`: #989898 _(component)_
-- `--bcn-gray-500`: #7c7c7c _(component)_
-- `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: #ffffffeb _(component)_
-- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
-- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-default`: #fafafa _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-width`: 2px _(component)_
-- `--font-decorative`: "Besley", serif _(component)_
-- `--font-size-500`: clamp(1.125rem, .98rem + .72vw, 1.5rem) _(primitive)_
-- `--icon-size-lg`: 24px _(primitive)_
-- `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-xl`: 28px _(primitive)_
-- `--icon-size-xs`: 14px _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
-- `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
-- `--spacing-300`: .75rem _(primitive)_
-- `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
+
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-gray-1000` | `#000` | component |
+| `--bcn-gray-200` | `#dcdcdc` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-default` | `#fafafa` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--font-decorative` | `"Besley", serif` | component |
+| `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
+| `--icon-size-lg` | `24px` | primitive |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-sm` | `16px` | primitive |
+| `--radius-200` | `.5rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |

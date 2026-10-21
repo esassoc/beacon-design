@@ -1,14 +1,22 @@
 # Beacon Brings Structure to Compliance
 
-Re-implement this UI section faithfully on your stack. Keep the CSS custom-property
-names (`var(--…)`) so it stays themeable — the values below are the resolved
-`beacon` theme of the **prototypes-homepage** design system (an ESA Ecology spoke).
+Homepage · source prototype: https://esassoc.github.io/beacon-design/prototypes/homepage/
 
-- **Source prototype:** http://localhost:4399/beacon-design/prototypes/homepage/
-- **Section element:** `<section>`
-- **Components:** esa-icon (hub)
+![Beacon Brings Structure to Compliance, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-homepage/claude/beacon-brings-structure-to-compliance.desktop.png)
 
-## Markup (de-scoped, framework-free)
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-homepage/claude/beacon-brings-structure-to-compliance.phone.png
+
+## Components
+
+- `bcn-mkt-section` (spoke) · `src/components/bcn/BcnMarketingSection.astro`
+- `bcn-section-intro` (spoke) · `src/components/bcn/BcnSectionIntro.astro`
+- `bcn-solution` (spoke) · `src/components/bcn/BcnSolutionPhases.astro`
+- `esa-icon` (hub) · `packages/ecology/src/components/esa-icon.astro`
+
+## Markup
+
+_3 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <section class="bcn-mkt-section bcn-mkt-section--white" id="solution">
   <div class="bcn-mkt-section__inner">
@@ -43,10 +51,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"
                 ></path>
                 <path d="M20 3v4"></path>
-                <path d="M22 5h-4"></path>
-                <path d="M4 17v2"></path>
-                <path d="M5 18H3"></path></svg
-            ></span>
+                <!-- …and 3 more like this (<path>) -->
+              </svg></span
+            >
           </div>
           <div class="bcn-solution__title">Catalog</div>
           <div class="bcn-solution__desc">
@@ -111,48 +118,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 </section>
 ```
 
-## Styles (only what this section uses; tokens resolved for the theme)
+## Styles
+
 ```css
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.bcn-mkt-section {
-  --_section-pad: clamp(48px, 8vw, 96px);
-  padding-block: var(--_section-pad);
-}
-.bcn-mkt-section--white {
-  background: var(--color-background-elevation-raised);
-}
-.bcn-mkt-section__inner {
-  max-inline-size: 1100px;
-  padding-inline: var(--spacing-500);
-  margin-inline: auto;
-}
 .bcn-section-intro {
   margin-block-end: var(--spacing-700);
+}
+.bcn-section-intro--center {
+  text-align: center;
 }
 .bcn-section-intro__eyebrow {
   font-size: 12px;
@@ -179,6 +152,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   inline-size: 48px;
   margin-block-end: var(--spacing-400);
 }
+.bcn-section-intro--center .bcn-section-intro__accent {
+  margin-inline: auto;
+}
 .bcn-section-intro__subtext {
   font-size: var(--font-size-300);
   color: var(--color-content-default-secondary);
@@ -187,16 +163,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   text-wrap: balance;
   margin: 0;
 }
-.bcn-mkt-section--light {
-  background: var(--color-background-elevation-sunken, var(--color-gray-2));
-}
-.bcn-section-intro--center {
-  text-align: center;
-}
-.bcn-section-intro--center .bcn-section-intro__accent {
+.bcn-section-intro--center .bcn-section-intro__subtext {
   margin-inline: auto;
 }
-.bcn-section-intro--center .bcn-section-intro__subtext {
+.bcn-section-intro--on-dark .bcn-section-intro__eyebrow {
+  color: #fff9;
+}
+.bcn-section-intro--on-dark .bcn-section-intro__headline {
+  color: #fff;
+}
+.bcn-section-intro--on-dark .bcn-section-intro__accent {
+  background: #fff;
+}
+.bcn-section-intro--on-dark .bcn-section-intro__subtext {
+  color: #fffc;
+}
+.bcn-mkt-section {
+  --_section-pad: clamp(48px, 8vw, 96px);
+  padding-block: var(--_section-pad);
+}
+.bcn-mkt-section--white {
+  background: var(--color-background-elevation-raised);
+}
+.bcn-mkt-section__inner {
+  max-inline-size: 1100px;
+  padding-inline: var(--spacing-500);
   margin-inline: auto;
 }
 .bcn-solution {
@@ -213,6 +204,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   transition:
     transform 0.2s,
     box-shadow 0.2s;
+}
+.bcn-solution__card:hover {
+  box-shadow: var(--elevation-3, 0 0 1.5rem #0000001a);
+  transform: translateY(-2px);
 }
 .bcn-solution__medallion {
   border-radius: var(--radius-full, 9999px);
@@ -235,45 +230,47 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   color: var(--color-content-default-secondary);
   line-height: var(--line-height-relaxed, 1.75);
 }
-.bcn-mkt-section--forest {
-  color: #fff;
-  background:
-    linear-gradient(160deg, #02140af0 0%, #052312eb 40%, #08321ce6 100%),
-    var(--_forest-image) center / cover no-repeat;
+@media (width<=768px) {
+  .bcn-solution {
+    grid-template-columns: 1fr;
+  }
 }
-.bcn-section-intro--on-dark .bcn-section-intro__eyebrow {
-  color: #fff9;
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
 }
-.bcn-section-intro--on-dark .bcn-section-intro__headline {
-  color: #fff;
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
 }
-.bcn-section-intro--on-dark .bcn-section-intro__accent {
-  background: #fff;
-}
-.bcn-section-intro--on-dark .bcn-section-intro__subtext {
-  color: #fffc;
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
 }
 ```
 
 ## Tokens
+
 | Token | Value | Tier |
 |---|---|---|
 | `--color-background-brand` | `#005862` | semantic |
 | `--color-background-elevation-raised` | `#fcfcfc` | semantic |
-| `--color-background-elevation-sunken` | `#efefef` | semantic |
 | `--color-border-default` | `#dcdcdc` | semantic |
 | `--color-content-default` | `#3d3d3d` | semantic |
 | `--color-content-default-secondary` | `#525252` | semantic |
 | `--color-content-default-tertiary` | `#656565` | semantic |
-| `--color-gray-2` | `#f9f9f9` | primitive |
+| `--elevation-3` | `0 4px 20px -4px #0000000f` | semantic |
 | `--font-decorative` | `"Besley", serif` | component |
 | `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
 | `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
 | `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
 | `--font-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
-| `--icon-size-lg` | `24px` | primitive |
 | `--icon-size-md` | `20px` | primitive |
-| `--icon-size-sm` | `16px` | primitive |
 | `--icon-size-xl` | `28px` | primitive |
 | `--line-height-relaxed` | `1.8` | primitive |
 | `--line-height-tight` | `1.3` | primitive |
@@ -287,6 +284,3 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
 | `--typography-font-weight-bold` | `650` | semantic |
 | `--typography-font-weight-semibold` | `550` | semantic |
-
----
-_Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

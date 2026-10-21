@@ -1,14 +1,19 @@
 # Nav
 
-Re-implement this UI section faithfully on your stack. Keep the CSS custom-property
-names (`var(--…)`) so it stays themeable — the values below are the resolved
-`beacon` theme of the **prototypes-homepage** design system (an ESA Ecology spoke).
+Homepage · source prototype: https://esassoc.github.io/beacon-design/prototypes/homepage/
 
-- **Source prototype:** http://localhost:4399/beacon-design/prototypes/homepage/
-- **Section element:** `<nav>`
-- **Components:** —
+![Nav, desktop](https://esassoc.github.io/beacon-design/handoff/prototypes-homepage/claude/nav.desktop.png)
 
-## Markup (de-scoped, framework-free)
+Phone width: https://esassoc.github.io/beacon-design/handoff/prototypes-homepage/claude/nav.phone.png
+
+## Components
+
+- `bcn-mkt-nav` (spoke) · `src/components/bcn/BcnMarketingNav.astro`
+
+## Markup
+
+_3 repeated elements are collapsed in the markup below; the comments say where._
+
 ```html
 <nav class="bcn-mkt-nav">
   <a href="/beacon-design/prototypes/homepage/" class="bcn-mkt-nav__logo" aria-label="Beacon home"
@@ -21,24 +26,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         d="M58 86.8L26.6 74.5H25.9C25.9 74.3 25.9 74.2 25.9 74.2C20.5 71.8 17 66.5 17 60.5V0C13.8 0 11.2 2.6 11.2 5.8V60.4C11.2 69.1 16.4 76.7 24.5 79.8L58.1 92.9C60.9 94 63.9 91.9 63.9 88.9L58.1 86.6L58 86.8Z"
         fill="#ffffff"
       ></path>
-      <path
-        d="M40.1 92C38.9 95 35.5 96.5 32.5 95.3L20.2 90.5C7.9 85.7 0 74.1 0 60.9V16.6C0 13.4 2.6 10.8 5.8 10.8V61C5.8 71.7 12.3 81.2 22.3 85.2L40.1 92.2V92Z"
-        fill="#ffffff"
-      ></path>
-      <path
-        d="M48.1 69.6V74.7L53.9 77V69.6C53.9 56.5 46 44.9 33.8 40L24.1 36.2V42.5L31.7 45.5C41.7 49.4 48.1 58.9 48.1 69.6Z"
-        fill="rgba(255,255,255,0.6)"
-      ></path>
-      <path
-        d="M36.9 70.4L42.8 72.7V71.3C42.8 61.4 36.8 52.6 27.6 49L24.1 47.6V53.9L25.4 54.4C32.1 57 36.5 63.3 36.9 70.4Z"
-        fill="rgba(255,255,255,0.6)"
-      ></path></svg
+      <!-- …and 3 more like this (<path>) --></svg
     ><span class="bcn-mkt-nav__wordmark">Beacon</span></a
   ><a href="#" class="bcn-mkt-nav__login">Log In</a>
 </nav>
 ```
 
-## Styles (only what this section uses; tokens resolved for the theme)
+## Styles
+
 ```css
 .bcn-mkt-nav {
   z-index: 100;
@@ -86,9 +81,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     border-color 0.15s;
   display: inline-flex;
 }
+.bcn-mkt-nav__login:hover {
+  background: #ffffff1a;
+  border-color: #fff;
+}
 ```
 
 ## Tokens
+
 | Token | Value | Tier |
 |---|---|---|
 | `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
@@ -100,6 +100,3 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--spacing-500` | `1.5rem` | primitive |
 | `--typography-font-weight-bold` | `650` | semantic |
 | `--typography-font-weight-medium` | `500` | semantic |
-
----
-_Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._
