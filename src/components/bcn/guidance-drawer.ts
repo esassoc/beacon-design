@@ -132,7 +132,10 @@ export function initGuidanceDrawer(): void {
       if (hiddenHere.has(id)) wrap.dataset.hiddenHere = '';
     }
     const tpl = from ? tplInherited : tplAttached;
-    if (admin && tpl) wrap.append(tpl.content.cloneNode(true));
+    if (admin && tpl) {
+      wrap.append(tpl.content.cloneNode(true));
+      wrap.style.setProperty('--_tools-w', from ? '49px' : '26px'); // the room its tools take
+    }
     return wrap;
   }
 
@@ -157,9 +160,17 @@ export function initGuidanceDrawer(): void {
 
   if (admin) {
     if (addWrap) addWrap.hidden = false;
+    // The + tooltip steps aside while the typeahead is open (its trigger keeps focus).
+    const addTip = addWrap?.querySelector<HTMLElement & { open: boolean; text: string }>('esa-tooltip');
+    const addTipText = addTip?.text ?? '';
+    const setPick = (show: boolean) => {
+      if (!pick) return;
+      pick.hidden = !show;
+      if (addTip) { addTip.open = false; addTip.text = show ? '' : addTipText; }
+    };
     root.querySelector('[data-gd-term-add]')?.addEventListener('click', () => {
       if (!pick) return;
-      pick.hidden = !pick.hidden;
+      setPick(pick.hidden);
       if (!pick.hidden) requestAnimationFrame(() => (combo?.shadowRoot?.querySelector('.input') as HTMLInputElement | null)?.focus());
     });
     combo?.addEventListener('change', (e) => {
@@ -168,11 +179,11 @@ export function initGuidanceDrawer(): void {
       if (!id) return;
       attached.push(id);
       combo.value = null;
-      if (pick) pick.hidden = true;
+      setPick(false);
       paintTerms();
     });
     pick?.addEventListener('keydown', (e) => {
-      if ((e as KeyboardEvent).key === 'Escape') { e.stopPropagation(); pick.hidden = true; }
+      if ((e as KeyboardEvent).key === 'Escape') { e.stopPropagation(); setPick(false); }
     });
     termsEl.addEventListener('click', (e) => {
       const t = e.target as HTMLElement;

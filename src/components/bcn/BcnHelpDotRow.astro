@@ -153,6 +153,10 @@ const from = dot?.draftedFrom ? `Drafted from ${dot.draftedFrom}` : '';
     translate: 0 -50%;
     opacity: 0;
   }
+  /* The tools take their own room: while they show, the text truncates short of them. */
+  .bcn-hdr:has(.bcn-hdr__tools:not([hidden])):is(:hover, :focus-within) .bcn-hdr__main {
+    padding-inline-end: calc(var(--_tools-w, 52px) + var(--spacing-200));
+  }
   .bcn-hdr:hover .bcn-hdr__tools,
   .bcn-hdr:focus-within .bcn-hdr__tools {
     opacity: 1;

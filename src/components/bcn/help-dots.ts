@@ -355,6 +355,8 @@ export function setupHelpDots(): void {
         detach: !claudeDraft,
       };
       Object.entries(acts).forEach(([act, show]) => (q(`[data-hda-act="${act}"]`).hidden = !show));
+      // The room the tools take, which the text truncates short of while they show.
+      row.style.setProperty('--_tools-w', `${Object.values(acts).filter(Boolean).length * 23 + 3}px`);
       if (target) {
         const r = target.getBoundingClientRect();
         placed.push([Math.round(r.top), r.left, row]);
