@@ -7,7 +7,8 @@
 // sections) and as a full BODY (hidden in the reader, toggled one at a time). Those bodies
 // double as the chat's text corpus (read via textContent), so article prose never enters
 // this bundle. Imports stay to the small route map + chat copy.
-import { HELP_ROUTE_CONTEXTS, HELP_GENERAL_CONTEXT, ALDO_CHAT } from '../../data/help-center';
+import { HELP_ROUTE_CONTEXTS, HELP_GENERAL_CONTEXT, ALDO_CHAT, routePurpose } from '../../data/help-center';
+import { CUSTOM_RICH_TEXT } from '../../data/custom-rich-text';
 import { mountComposer } from './aldo/aldo-composer';
 import { aldoParts } from './aldo/aldo-parts';
 
@@ -64,7 +65,37 @@ export function initGuidanceDrawer(): void {
   const path = location.pathname;
   const ctx = HELP_ROUTE_CONTEXTS.find((c) => path.includes(c.pattern)) ?? HELP_GENERAL_CONTEXT;
   pageEl.textContent = ctx.page;
-  purposeEl.textContent = ctx.purpose;
+  purposeEl.textContent = routePurpose(ctx);
+
+  // ── the tenant's intro text: an admin edits it in a side panel (round 13) ──
+  // Everything that shows a key's text carries `data-rich-text="<key>"`, so a save repaints
+  // the card and, on Lists, the empty state together. In memory only, like the dots.
+  const richKey = ctx.richText;
+  const admin = new URLSearchParams(location.search).get('as') === 'admin';
+  const textForm = document.querySelector<HTMLElement & { show(): void; close(): void }>('[data-htf]');
+  if (richKey) purposeEl.dataset.richText = richKey;
+  if (richKey && admin && textForm) {
+    const editWrap = root.querySelector<HTMLElement>('[data-gd-here-edit]');
+    const note = root.querySelector<HTMLElement>('[data-gd-here-note]');
+    const field = textForm.querySelector<HTMLElement & { value: string }>('[data-htf-text]');
+    if (editWrap) editWrap.hidden = false;
+    if (note) note.hidden = false;
+    editWrap?.addEventListener('click', () => {
+      textForm.querySelector('[data-htf-page]')!.textContent = ctx.page;
+      if (field) field.value = CUSTOM_RICH_TEXT[richKey];
+      textForm.show();
+    });
+    textForm.querySelector('[data-htf-cancel]')?.addEventListener('click', () => textForm.close());
+    textForm.querySelector('[data-htf-save]')?.addEventListener('click', () => {
+      const text = field?.value.trim() ?? '';
+      if (!text) return;
+      CUSTOM_RICH_TEXT[richKey] = text;
+      document.querySelectorAll<HTMLElement>(`[data-rich-text="${richKey}"]`).forEach((el) => {
+        el.textContent = text;
+      });
+      textForm.close();
+    });
+  }
   for (const id of ctx.howtos) { const r = rowMap.get(id); if (r) howtosEl.appendChild(r); }
   for (const id of ctx.terms) { const r = rowMap.get(id); if (r) termsEl.appendChild(r); }
   howtosSection.hidden = howtosEl.childElementCount === 0;

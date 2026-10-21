@@ -31,12 +31,20 @@ import BcnAldoComposer from './aldo/BcnAldoComposer.astro';
 import BcnAldoParts from './aldo/BcnAldoParts.astro';
 import '../../styles/bcn-aldo.css';
 import BcnHelpArticle from './BcnHelpArticle.astro';
+import BcnHelpTextForm from './BcnHelpTextForm.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import { HELP_ARTICLES, ALDO_CHAT } from '../../data/help-center';
 import { withBase } from '../../lib/base';
 
 // Section glyphs the registry doesn't ship — verbatim Lucide inner markup (24×24,
 // stroke-based), passed through esa-icon's `paths` fallback. 'map-pin' / 'arrow-up' ARE
 // in the registry.
+interface Props {
+  /** The tenant, for the admin's "Shown to everyone in <tenant>" note. */
+  tenantName?: string;
+}
+const { tenantName = 'your organization' } = Astro.props;
+
 const ICON_LIST =
   '<line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/>';
 // Lucide 'radio': a dot with rings radiating from it, the help dots' own shape.
@@ -60,8 +68,15 @@ const ICON_BOOK =
         <section class="bcn-gd__section">
           <h2 class="bcn-gd__label"><EsaIcon name="map-pin" size="sm" /> You are here</h2>
           <div class="bcn-gd__here">
-            <span class="bcn-gd__here-page" data-gd-page>Beacon</span>
+            <div class="bcn-gd__here-head">
+              <span class="bcn-gd__here-page" data-gd-page>Beacon</span>
+              <!-- Admin view, on a page whose intro is the tenant's rich text (round 13). -->
+              <span data-gd-here-edit hidden>
+                <EsaIconButton icon="pencil" label="Edit" size="sm" />
+              </span>
+            </div>
             <span class="bcn-gd__here-purpose" data-gd-purpose></span>
+            <span class="bcn-gd__here-note typography-body-xs" data-gd-here-note hidden>Shown to everyone in {tenantName}</span>
           </div>
         </section>
         <!-- Dots on This Page — ESA admins only. Empty here: a page that mounts
@@ -144,8 +159,11 @@ const ICON_BOOK =
   </div>
 </esa-side-dialog>
 
+<BcnHelpTextForm tenantName={tenantName} />
+
 <script>
   import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-textarea';
   import { initGuidanceDrawer } from './guidance-drawer';
   initGuidanceDrawer();
 </script>
@@ -222,6 +240,9 @@ const ICON_BOOK =
     border-radius: var(--radius-200);
   }
   .bcn-gd__here-page { font-size: var(--font-size-250); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .bcn-gd__here-head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-200); }
+  .bcn-gd__here-note { color: var(--color-content-default-tertiary); }
+  .bcn-gd__here [hidden] { display: none; }
   .bcn-gd__here-purpose { font-size: var(--font-size-150); color: var(--color-content-default-secondary); line-height: 1.5; }
 
   .bcn-gd__rows { display: flex; flex-direction: column; }

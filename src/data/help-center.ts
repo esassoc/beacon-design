@@ -14,6 +14,8 @@
 // bodies are rendered at build time and searched via the DOM, so the JS bundle
 // never carries the full content.
 
+import { CUSTOM_RICH_TEXT, type CustomRichTextKey } from './custom-rich-text';
+
 /** One renderable chunk of an article body. */
 export type HelpBlock =
   | { kind: 'p'; text: string }
@@ -796,16 +798,26 @@ export interface HelpRouteContext {
   page: string;
   /** One-line purpose of the page, in plain words — "You are here" body text. */
   purpose: string;
+  /**
+   * The tenant's custom rich text that stands in for `purpose` when set: the page's
+   * intro is tenant-editable in prod, so You Are Here reads it (round 13).
+   */
+  richText?: CustomRichTextKey;
   /** Ordered how-to article ids — the “On this page” lead section. */
   howtos: string[];
   /** Glossary ids for “Terms on this page.” */
   terms: string[];
 }
 
+/** What You Are Here says: the tenant's rich text when the route has one, else `purpose`. */
+export const routePurpose = (ctx: HelpRouteContext): string =>
+  ctx.richText ? CUSTOM_RICH_TEXT[ctx.richText] : ctx.purpose;
+
 export const HELP_ROUTE_CONTEXTS: HelpRouteContext[] = [
   {
     pattern: '/prototypes/help-dots',
     page: 'Lists',
+    richText: 'ActionLists',
     purpose: 'Every list on the project, filed by type, to track and report on a set of commitments, actions or obligations together.',
     howtos: ['global-search-tips'],
     terms: ['what-is-a-commitment', 'what-is-an-action'],

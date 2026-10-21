@@ -1,7 +1,7 @@
 ---
 // <BcnListEmpty> — the Lists page for a project with no lists yet. esa-empty-state holds
-// the title, the You Are Here sentence for the route (the same help text the Guidance
-// drawer opens with, read from HELP_ROUTES, not a copy), a primary Create List that opens
+// the title, the You Are Here text for the route (routePurpose: the tenant's rich text on
+// Lists, the same source the Guidance drawer reads, not a copy), a primary Create List that opens
 // BcnListCreateDialog, and Show Me Around in the dark Guidance style with the Aldo rings,
 // which turns the page's help dots on (`data-help-dots-start`, wired in help-dots.ts).
 //
@@ -11,17 +11,18 @@
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnAldoMark from './aldo/BcnAldoMark.astro';
-import { HELP_ROUTE_CONTEXTS } from '../../data/help-center';
+import { HELP_ROUTE_CONTEXTS, routePurpose } from '../../data/help-center';
 
 interface Props {
   /** The route whose You Are Here sentence explains the page. */
   route: string;
 }
 const { route } = Astro.props;
-const purpose = HELP_ROUTE_CONTEXTS.find((c) => route.includes(c.pattern))?.purpose;
+const ctx = HELP_ROUTE_CONTEXTS.find((c) => route.includes(c.pattern));
+const purpose = ctx ? routePurpose(ctx) : undefined;
 ---
 
-<div class="bcn-list-empty" data-list-empty>
+<div class="bcn-list-empty" data-list-empty data-list-empty-text={ctx?.richText}>
   <EsaEmptyState title="No Lists Yet" description={purpose} size="lg">
     <div class="cluster bcn-list-empty__actions">
       <EsaButton data-list-create="commitment" icon="plus">Create List</EsaButton>
@@ -32,6 +33,15 @@ const purpose = HELP_ROUTE_CONTEXTS.find((c) => route.includes(c.pattern))?.purp
     </div>
   </EsaEmptyState>
 </div>
+
+<script>
+  // The description is the tenant's rich text when the route has one; mark it so an
+  // admin's edit in the Guidance drawer repaints it too (guidance-drawer.ts).
+  document.querySelectorAll<HTMLElement>('[data-list-empty-text]').forEach((el) => {
+    const p = el.querySelector<HTMLElement>('.esa-empty-state__description');
+    if (p && el.dataset.listEmptyText) p.dataset.richText = el.dataset.listEmptyText;
+  });
+</script>
 
 <style>
   .bcn-list-empty {
